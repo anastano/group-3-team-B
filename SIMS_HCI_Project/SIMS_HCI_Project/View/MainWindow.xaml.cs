@@ -37,10 +37,10 @@ namespace SIMS_HCI_Project
         {
             lblErrorMessage.Content = "";
 
-            User user = _repository.GetByUsernameAndPassword(Username, Password);
+            User user = _repository.LogIn(Username, Password);
             if (user != null)
             {
-                switch (user.Username[0])
+                switch (user.Id[0])
                 {
                     case 'O':
                         //TODO: Forward to owner view

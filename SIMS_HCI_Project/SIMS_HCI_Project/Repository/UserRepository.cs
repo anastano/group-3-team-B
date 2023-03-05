@@ -23,7 +23,7 @@ namespace SIMS_HCI_Project.Repository
             _users = _serializer.FromCSV(FilePath);
         }
 
-        public User GetByUsernameAndPassword(string username, string password)
+        public User LogIn(string username, string password)
         {
             return _users.FirstOrDefault(u => u.Username == username && u.Password == password);
         }

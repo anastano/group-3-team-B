@@ -3,6 +3,7 @@ using SIMS_HCI_Project.Serializer;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,7 +50,7 @@ namespace SIMS_HCI_Project.Repository
 
         public Location FindByCountryAndCity(string country, string city)
         {
-            return _locations.FirstOrDefault(l => l.City == city && l.Country == country);
+            return _locations.FirstOrDefault(l => l.City.ToLower() == city.ToLower() && l.Country.ToLower() == country.ToLower());
         }
 
         private int GenerateNextId()

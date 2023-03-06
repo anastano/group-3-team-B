@@ -1,27 +1,24 @@
-﻿using SIMS_HCI_Project.Model;
+﻿using SIMS_HCI_Project.FileHandler;
+using SIMS_HCI_Project.Model;
 using SIMS_HCI_Project.Serializer;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SIMS_HCI_Project.Repository
+namespace SIMS_HCI_Project.Controller
 {
-    public class LocationRepository
+    public class LocationController
     {
-        private const string FilePath = "../../../Resources/Database/locations.csv";
-
-        private readonly Serializer<Location> _serializer;
+        private LocationFileHandler _fileHandler;
 
         private List<Location> _locations;
 
-        public LocationRepository()
+        public LocationController()
         {
-            _serializer = new Serializer<Location>();
-            _locations = _serializer.FromCSV(FilePath);
+            _fileHandler = new LocationFileHandler();
+            _locations = _fileHandler.Load();
         }
 
         public List<Location> GetAll()
@@ -29,22 +26,19 @@ namespace SIMS_HCI_Project.Repository
             return _locations;
         }
 
-        /// <summary>
-        /// Saves location and returns location ID so it can be connected to other objects easily
-        /// </summary>
-        public int Save(Location location)
+        public Location Save(Location location)
         {
             Location foundLocation = FindByCountryAndCity(location.Country, location.City);
             if (foundLocation == null)
             {
                 location.Id = GenerateNextId();
                 _locations.Add(location);
-                _serializer.ToCSV(FilePath, _locations);
-                return location.Id;
+                _fileHandler.Save(_locations);
+                return location;
             }
             else
             {
-                return foundLocation.Id;
+                return foundLocation;
             }
         }
 
@@ -58,6 +52,5 @@ namespace SIMS_HCI_Project.Repository
             if (_locations.Count == 0) return 1;
             return _locations[_locations.Count - 1].Id + 1;
         }
-
     }
 }

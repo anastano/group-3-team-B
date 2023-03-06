@@ -1,5 +1,5 @@
-﻿using SIMS_HCI_Project.Model;
-using SIMS_HCI_Project.Repository;
+﻿using SIMS_HCI_Project.Controller;
+using SIMS_HCI_Project.Model;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -23,12 +23,12 @@ namespace SIMS_HCI_Project
         public string? Username { get; set; }
         public string? Password { get; set; }
 
-        private readonly UserRepository _repository;
+        private readonly UserController _userController;
 
         public MainWindow()
         {
             InitializeComponent();
-            _repository = new UserRepository();
+            _userController = new UserController();
 
             DataContext = this;
         }
@@ -37,7 +37,7 @@ namespace SIMS_HCI_Project
         {
             lblErrorMessage.Content = "";
 
-            User user = _repository.LogIn(Username, Password);
+            User user = _userController.LogIn(Username, Password);
             if (user != null)
             {
                 switch (user.Id[0])

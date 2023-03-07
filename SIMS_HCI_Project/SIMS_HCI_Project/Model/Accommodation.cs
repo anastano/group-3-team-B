@@ -14,7 +14,7 @@ namespace SIMS_HCI_Project.Model
     public class Accommodation : ISerializable
     {
         public int Id { get; set; }
-        public int OwnerId { get; set; }
+        public string OwnerId { get; set; }
         public string Name { get; set; }
         public int LocationId { get; set; }
         public Location Location { get; set; }
@@ -33,18 +33,18 @@ namespace SIMS_HCI_Project.Model
 
 
         //ORDER IS IMPORTANT, optional parametar at the end
-       public Accommodation(int id, int ownerId, string name, int locationId, Location location, AccomodationType type, int maxGuests, int cancellationDeadlineInDays, List<string> pictures, int minimumReservationDays = 1)
+       public Accommodation(int id, string ownerId, string name, int locationId, Location location, AccomodationType type, int maxGuests, int cancellationDeadlineInDays, List<string> pictures, int minimumReservationDays = 1)
         {
             Id = id;
             OwnerId = ownerId;
             Name = name;
             LocationId = locationId;
-            Location = location;
+            Location = location; // check if this is needed
             Type = type;
             MaxGuests = maxGuests;
             MinimumReservationDays = minimumReservationDays; // by default --> 1
             CancellationDeadlineInDays = cancellationDeadlineInDays;
-            Pictures = new List<string>(pictures);
+            Pictures = new List<string>(pictures); //check if this is needed here
         }
 
         public Accommodation(Accommodation temp)
@@ -68,7 +68,7 @@ namespace SIMS_HCI_Project.Model
             string[] csvValues =
             {
                 Id.ToString(),
-                OwnerId.ToString(),
+                OwnerId,
                 Name,
                 LocationId.ToString(),
                 ConvertAccommodationTypeToString(Type),
@@ -84,7 +84,7 @@ namespace SIMS_HCI_Project.Model
         public void FromCSV(string[] values)
         {
             Id = int.Parse(values[0]);
-            OwnerId= int.Parse(values[1]);
+            OwnerId= values[1];
             Name = values[2];
             LocationId = int.Parse(values[3]);
             Type = ConvertStringToAccommodatonType(values[4]);

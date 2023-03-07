@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SIMS_HCI_Project.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,8 @@ namespace SIMS_HCI_Project.View
     /// </summary>
     public partial class TourInputWindow : Window
     {
+        public Tour tour { get; set; }
+
         public TourInputWindow()
         {
             InitializeComponent();

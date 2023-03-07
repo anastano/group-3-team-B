@@ -1,5 +1,6 @@
 ﻿using SIMS_HCI_Project.Controller;
 using SIMS_HCI_Project.Model;
+using SIMS_HCI_Project.View;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -44,6 +45,8 @@ namespace SIMS_HCI_Project
                 {
                     case 'O':
                         //TODO: Forward to owner view
+                        Window ownerView = new OwnerView();
+                        ownerView.Show();
                         break;
                     case 'F':
                         //TODO: Forward to guest1 view

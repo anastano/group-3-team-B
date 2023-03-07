@@ -1,5 +1,6 @@
 ﻿using SIMS_HCI_Project.Controller;
 using SIMS_HCI_Project.Model;
+using SIMS_HCI_Project.View;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -52,7 +53,8 @@ namespace SIMS_HCI_Project
                         //TODO: Forward to guest2 view
                         break;
                     case 'G':
-                        //TODO: Forward to guide view
+                        Window guideWindow = new GuideMainWindow();
+                        guideWindow.Show();
                         break;
                 }
             }

@@ -8,5 +8,9 @@ namespace SIMS_HCI_Project.Model
 {
     public class TourKeyPoint
     {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        //public Location Location { get; set; }
+        //
     }
 }

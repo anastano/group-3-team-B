@@ -18,29 +18,33 @@
         <TextBox HorizontalAlignment="Left" Margin="113,127,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="144" Height="85"/>
         <Label Content="Language" HorizontalAlignment="Left" Margin="40,223,0,0" VerticalAlignment="Top"/>
         <TextBox HorizontalAlignment="Left" Margin="113,227,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="144"/>
-        <Label Content="Max number&#xA; of guests" Margin="281,78,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <TextBox HorizontalAlignment="Left" Margin="368,91,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="30" Height="25"/>
-        <Label Content="Start Date" HorizontalAlignment="Left" Margin="295,134,0,0" VerticalAlignment="Top"/>
-        <DatePicker HorizontalAlignment="Left" Margin="367,136,0,0" VerticalAlignment="Top"/>
-        <Label Content="End Date" HorizontalAlignment="Left" Margin="297,174,0,0" VerticalAlignment="Top"/>
-        <DatePicker HorizontalAlignment="Left" Margin="367,176,0,0" VerticalAlignment="Top"/>
-        <Label Content="Duration" HorizontalAlignment="Left" Margin="299,223,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="368,224,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="30" Height="25" RenderTransformOrigin="0.333,0.042"/>
-        <Label Content="h" HorizontalAlignment="Left" Margin="396,222,0,0" VerticalAlignment="Top"/>
-        <Label Content="Images" HorizontalAlignment="Left" Margin="303,304,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="359,308,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="184"/>
-        <Button x:Name="btnAddImage" Content="+" HorizontalAlignment="Left" Margin="553,307,0,0" VerticalAlignment="Top" Click="btnAddImage_Click" Width="18"/>
-        <Label Content="Start Point" HorizontalAlignment="Left" Margin="37,303,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="113,307,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="126"/>
-        <Label Content="End Point" HorizontalAlignment="Left" Margin="37,333,0,0" VerticalAlignment="Top"/>
-        <Label Content="Add More &#xD;&#xA;Key Points" HorizontalAlignment="Left" Margin="33,363,0,0" VerticalAlignment="Top"/>
-        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Margin="359,337,30,129"
+        <Label Content="Max number of guests" Margin="57,259,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <TextBox HorizontalAlignment="Left" Margin="197,259,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="30" Height="25"/>
+        <Label Content="Date" HorizontalAlignment="Left" Margin="325,124,0,0" VerticalAlignment="Top"/>
+        <DatePicker HorizontalAlignment="Left" Margin="327,151,0,0" VerticalAlignment="Top"/>
+        <Label Content="Duration" HorizontalAlignment="Left" Margin="359,73,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="428,74,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="30" Height="25" RenderTransformOrigin="0.333,0.042"/>
+        <Label Content="h" HorizontalAlignment="Left" Margin="456,72,0,0" VerticalAlignment="Top"/>
+        <Label Content="Images" HorizontalAlignment="Left" Margin="303,324,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="359,328,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="184"/>
+        <Button x:Name="btnAddImage" Content="+" HorizontalAlignment="Left" Margin="553,327,0,0" VerticalAlignment="Top" Click="btnAddImage_Click" Width="18"/>
+        <Label Content="Start Point" HorizontalAlignment="Left" Margin="37,323,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="113,327,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="126"/>
+        <Label Content="End Point" HorizontalAlignment="Left" Margin="37,353,0,0" VerticalAlignment="Top"/>
+        <Label Content="Add More &#xD;&#xA;Key Points" HorizontalAlignment="Left" Margin="33,383,0,0" VerticalAlignment="Top"/>
+        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Margin="359,357,30,109"
                  ScrollViewer.VerticalScrollBarVisibility="Visible">
         </ListBox>
-        <Button x:Name="btnAddKeyPoint" Content="+" HorizontalAlignment="Left" Margin="262,368,0,0" VerticalAlignment="Top" Width="18" Click="btnAddKeyPoint_Click"/>
-        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Margin="113,400,320,66"
+        <Button x:Name="btnAddKeyPoint" Content="+" HorizontalAlignment="Left" Margin="262,388,0,0" VerticalAlignment="Top" Width="18" Click="btnAddKeyPoint_Click"/>
+        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Margin="113,420,320,46"
             ScrollViewer.VerticalScrollBarVisibility="Visible"/>
-        <TextBox HorizontalAlignment="Left" Margin="113,337,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="126"/>
-        <TextBox HorizontalAlignment="Left" Margin="113,370,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="126"/>
+        <TextBox HorizontalAlignment="Left" Margin="113,357,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="126"/>
+        <TextBox HorizontalAlignment="Left" Margin="113,390,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="126"/>
+        <Label Content="Departure" HorizontalAlignment="Left" Margin="381,104,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="447,150,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="58" Height="25" RenderTransformOrigin="0.333,0.042"/>
+        <Label Content="Time" HorizontalAlignment="Left" Margin="444,124,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="btnAddImage_Copy" Content="+" HorizontalAlignment="Left" Margin="519,153,0,0" VerticalAlignment="Top" Click="btnAddImage_Click" Width="18"/>
+        <ListBox d:ItemsSource="{d:SampleData ItemCount=5}" Margin="327,185,62,412"
+            ScrollViewer.VerticalScrollBarVisibility="Visible"/>
     </Grid>
 </Window>

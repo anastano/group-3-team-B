@@ -10,7 +10,7 @@ namespace SIMS_HCI_Project.FileHandler
 {
     public class TourKeyPointFileHandler
     {
-        private const string FilePath = "../../../Resources/Database/tourkeypoints.csv";
+        private const string FilePath = "../../../Resources/Database/tourKeyPoints.csv";
 
         private readonly Serializer<TourKeyPoint> _serializer;
 

@@ -27,13 +27,13 @@ namespace SIMS_HCI_Project.Model
 
         public Accommodation() 
         {
-            MinimumReservationDays = 1;
+            CancellationDeadlineInDays = 1;
             Pictures = new List<string>();
         }
 
 
         //ORDER IS IMPORTANT, optional parametar at the end
-       public Accommodation(int id, string ownerId, string name, int locationId, Location location, AccomodationType type, int maxGuests, int cancellationDeadlineInDays, List<string> pictures, int minimumReservationDays = 1)
+       public Accommodation(int id, string ownerId, string name, int locationId, Location location, AccomodationType type, int maxGuests, int minimumReservationDays, /*List<string> pictures,*/  int cancellationDeadlineInDays = 1)
         {
             Id = id;
             OwnerId = ownerId;
@@ -44,7 +44,7 @@ namespace SIMS_HCI_Project.Model
             MaxGuests = maxGuests;
             MinimumReservationDays = minimumReservationDays; // by default --> 1
             CancellationDeadlineInDays = cancellationDeadlineInDays;
-            Pictures = new List<string>(pictures); //check if this is needed here
+          //  Pictures = new List<string>(pictures); //check if this is needed here
         }
 
         public Accommodation(Accommodation temp)
@@ -58,7 +58,7 @@ namespace SIMS_HCI_Project.Model
             MaxGuests = temp.MaxGuests;
             MinimumReservationDays = temp.MinimumReservationDays;
             CancellationDeadlineInDays = temp.CancellationDeadlineInDays;
-            Pictures = new List<string>(temp.Pictures);
+          //  Pictures = new List<string>(temp.Pictures);
 
         }
 

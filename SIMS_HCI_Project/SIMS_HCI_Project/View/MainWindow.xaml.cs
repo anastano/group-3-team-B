@@ -45,7 +45,7 @@ namespace SIMS_HCI_Project
                 {
                     case 'O':
                         //TODO: Forward to owner view
-                        Window ownerView = new OwnerView();
+                        Window ownerView = new OwnerView(_userController.FindByUsername(Username).Id);
                         ownerView.Show();
                         break;
                     case 'F':

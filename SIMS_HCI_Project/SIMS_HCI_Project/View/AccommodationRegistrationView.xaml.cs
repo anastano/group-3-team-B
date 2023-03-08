@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SIMS_HCI_Project.Controller;
+using SIMS_HCI_Project.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,14 +21,50 @@ namespace SIMS_HCI_Project.View
     /// </summary>
     public partial class AccommodationRegistrationView : Window
     {
-        public AccommodationRegistrationView()
+        private string _ownerId;
+        private AccommodationController _accommodationController;
+        private LocationController _locationController = new LocationController(); //should this be passed as parameter???
+        public Accommodation temp { get; set; }
+
+        public AccommodationRegistrationView(AccommodationController accommodationController, string ownerId)
         {
             InitializeComponent();
+            DataContext = this;
+
+            _ownerId = ownerId;
+
+            _accommodationController = accommodationController;
+            temp = new Accommodation();   //check if it is needed to initialize default values
+            
         }
 
         private void btnRegister_Click(object sender, RoutedEventArgs e)
         {
+            //non binded accommodation properties handled in this method: Id, OwnerId, LocationId, Location
 
+            temp.Id = _accommodationController.GenerateId();
+            temp.OwnerId = _ownerId;
+
+            string locationCountry = txtLocationCountry.Text.ToString();
+            string locationCity = txtLocationCity.Text.ToString();
+
+            if (_locationController.LocationExsists(locationCountry, locationCity))
+            {
+                temp.Location = _locationController.FindByCountryAndCity(locationCountry, locationCity);
+                temp.LocationId = _locationController.FindByCountryAndCity(locationCountry, locationCity).Id;
+            }
+            else
+            {
+                Location location = new Location(locationCountry, locationCity);
+                location.Id = _locationController.GenerateNextId();
+                _locationController.Add(location);
+
+                temp.Location = location;
+                temp.LocationId = location.Id;
+            }
+
+            _accommodationController.Add(temp);
+            Close();
         }
     }
 }

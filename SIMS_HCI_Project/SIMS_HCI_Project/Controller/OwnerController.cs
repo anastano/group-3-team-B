@@ -28,18 +28,18 @@ namespace SIMS_HCI_Project.Controller
 
         }
 
-        public List<Owner> GetList()
+        public List<Owner> GetAll()
         {
             return _owners;
         }
 
-        public void LoadList() // load from file
+        public void Load() // load from file
         {
             _owners = _fileHandler.Load();
         }
 
 
-        public void SaveList() //save to file
+        public void Save() //save to file
         {
             _fileHandler.Save(_owners);
         }
@@ -69,6 +69,8 @@ namespace SIMS_HCI_Project.Controller
 
             return null;
         }
+
+
 
         public void NotifyObservers()
         {

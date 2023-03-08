@@ -35,10 +35,12 @@
                     <Label Content="Type: " Grid.Row="2" Grid.Column="0" Height="40" Foreground="Turquoise" FontSize="20"></Label>
                     <Label Content="Maximum number of guests: " Grid.Row="3" Grid.Column="0" Height="40" Foreground="Turquoise" FontSize="20"></Label>
                     <Label Content="Minimum number of days: " Grid.Row="4" Grid.Column="0" Height="40" Foreground="Turquoise" FontSize="20"></Label>
-                    <Label Content="Cancellation policy: " Grid.Row="5" Grid.Column="0" Height="40" Foreground="Turquoise" FontSize="20"></Label>
+                    <Label Content="Cancellation deadline in days: " Grid.Row="5" Grid.Column="0" Height="40" Foreground="Turquoise" FontSize="20"></Label>
                     <Label Content="Pictures: " Grid.Row="6" Grid.Column="0" Height="40" Foreground="Turquoise" FontSize="20"></Label>
 
-                    <TextBox x:Name="txtName"  Grid.Row="0" Grid.Column="1" Height="40" BorderBrush="Turquoise" TextAlignment="Center" FontSize="20">
+                    <TextBox x:Name="txtName"  Grid.Row="0" Grid.Column="1" 
+                             Text="{Binding Path = temp.Name, UpdateSourceTrigger =PropertyChanged}"
+                             Height="40" BorderBrush="Turquoise" TextAlignment="Center" FontSize="20">
                         <TextBox.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="10"></Setter>
@@ -46,15 +48,40 @@
                         </TextBox.Resources>
                     </TextBox>
 
-                    <TextBox x:Name="txtLocation" Grid.Row="1" Grid.Column="1" Height="40"  BorderBrush="Turquoise" TextAlignment="Center" FontSize="20">
-                        <TextBox.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="10"></Setter>
-                            </Style>
-                        </TextBox.Resources>
-                    </TextBox>
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1">
+                        <StackPanel>
+                            <TextBox x:Name="txtLocationCity"  
+                             Height="40" Width="125" Margin="5 0 5 0"  BorderBrush="Turquoise" TextAlignment="Center" FontSize="20">
+                                <TextBox.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="10"></Setter>
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
 
-                    <ComboBox x:Name="txtType" Grid.Row="2" Grid.Column="1" Height="40" BorderThickness="2" HorizontalContentAlignment="Center" FontSize="20">
+                            <TextBlock x:Name="tblCity" Text="City" 
+                       Width="125" Height="20" VerticalAlignment="Center" Foreground="Turquoise" FontSize="13" TextAlignment="Center" Margin="0 0 0 0 ">
+                            </TextBlock> 
+                        </StackPanel>
+                        
+                        <StackPanel>
+                            <TextBox x:Name="txtLocationCountry"  
+                             Height="40" Width="125" Margin="5 0 5 0" BorderBrush="Turquoise" TextAlignment="Center" FontSize="20">
+                                <TextBox.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="10"></Setter>
+                                    </Style>
+                                </TextBox.Resources>
+                            </TextBox>
+
+                            <TextBlock x:Name="tblCountry" Text="Country" 
+                       Width="125" Height="20" VerticalAlignment="Center" Foreground="Turquoise" FontSize="13" TextAlignment="Center" Margin="0 0 0 0 ">
+                            </TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                    <ComboBox x:Name="txtType" Grid.Row="2" Grid.Column="1" 
+                              SelectedValuePath="Content" SelectedValue ="{Binding Path = temp.Type, UpdateSourceTrigger = PropertyChanged}" 
+                              Height="40" BorderThickness="2" HorizontalContentAlignment="Center" FontSize="20">
 
                         <ComboBoxItem Content="APARTMENT"/>
                         <ComboBoxItem Content="HOUSE"/>
@@ -62,7 +89,9 @@
 
                     </ComboBox>
 
-                    <TextBox x:Name="txtMaxGuestNumber" Grid.Row="3" Grid.Column="1" Height="40"  BorderBrush="Turquoise" TextAlignment="Center" FontSize="20">
+                    <TextBox x:Name="txtMaxGuestNumber" Grid.Row="3" Grid.Column="1" 
+                             Text="{Binding Path = temp.MaxGuests, UpdateSourceTrigger = PropertyChanged}"
+                             Height="40"  BorderBrush="Turquoise" TextAlignment="Center" FontSize="20">
                         <TextBox.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="10"></Setter>
@@ -70,7 +99,9 @@
                         </TextBox.Resources>
                     </TextBox>
 
-                    <TextBox x:Name="txtMinDaysNumber" Grid.Row="4" Grid.Column="1" Height="40"  BorderBrush="Turquoise" TextAlignment="Center" FontSize="20">
+                    <TextBox x:Name="txtMinDaysNumber" Grid.Row="4" Grid.Column="1" 
+                             Text="{Binding Path = temp.MinimumReservationDays, UpdateSourceTrigger = PropertyChanged}"
+                             Height="40"  BorderBrush="Turquoise" TextAlignment="Center" FontSize="20">
                         <TextBox.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="10"></Setter>
@@ -78,7 +109,9 @@
                         </TextBox.Resources>
                     </TextBox>
 
-                    <TextBox x:Name="txtCancellationPolicy" Grid.Row="5" Grid.Column="1" Height="40"  BorderBrush="Turquoise" TextAlignment="Center" FontSize="20">
+                    <TextBox x:Name="txtCancellationDeadLineInDays" Grid.Row="5" Grid.Column="1" 
+                             Text="{Binding Path = temp.CancellationDeadlineInDays, UpdateSourceTrigger = PropertyChanged}"
+                             Height="40"  BorderBrush="Turquoise" TextAlignment="Center" FontSize="20">
                         <TextBox.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="10"></Setter>
@@ -86,7 +119,9 @@
                         </TextBox.Resources>
                     </TextBox>
 
-                    <TextBox x:Name="txtPictures" Grid.Row="6" Grid.Column="1" Height="40"  BorderBrush="Turquoise" TextAlignment="Center" FontSize="20">
+                    <TextBox x:Name="txtPictures" Grid.Row="6" Grid.Column="1" 
+                             Text="{Binding Path = temp.Pictures, UpdateSourceTrigger = PropertyChanged}"
+                             Height="40"  BorderBrush="Turquoise" TextAlignment="Center" FontSize="20">
                         <TextBox.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="10"></Setter>
@@ -106,6 +141,7 @@
                 </Button.Resources>
             </Button>
 
+            
         </StackPanel>
 
     </Grid>

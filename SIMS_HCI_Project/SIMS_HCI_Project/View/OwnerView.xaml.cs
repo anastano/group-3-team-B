@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SIMS_HCI_Project.Controller;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,20 +20,36 @@ namespace SIMS_HCI_Project.View
     /// </summary>
     public partial class OwnerView : Window
     {
-        public OwnerView()
+        private string _ownerId;
+
+        AccommodationController accommodationController;
+
+        public OwnerView(string ownerId)
         {
             InitializeComponent();
+
+            _ownerId = ownerId;
+
+            //can be added to special function for loading latter
+            accommodationController = new AccommodationController();
+            accommodationController.Load();
         }
 
         private void btnAccommodationRegistration_Click(object sender, RoutedEventArgs e)
         {
-            Window accommodationRegistration = new AccommodationRegistrationView();
+            Window accommodationRegistration = new AccommodationRegistrationView(accommodationController, _ownerId);
             accommodationRegistration.Show();
         }
 
         private void btnGuestRating_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void btnExistingAccommodations_Click(object sender, RoutedEventArgs e)
+        {
+            Window accommodationView = new AccommodationView(accommodationController, _ownerId);
+            accommodationView.Show();
         }
     }
 }

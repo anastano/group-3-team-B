@@ -21,6 +21,14 @@ namespace SIMS_HCI_Project.Controller
             _locations = _fileHandler.Load();
         }
 
+        public void Add(Location location)
+        {
+            _locations.Add(location);
+            //NotifyObservers();
+            _fileHandler.Save(_locations);
+        }
+
+
         public List<Location> GetAll()
         {
             return _locations;
@@ -47,10 +55,22 @@ namespace SIMS_HCI_Project.Controller
             return _locations.FirstOrDefault(l => l.City.ToLower() == city.ToLower() && l.Country.ToLower() == country.ToLower());
         }
 
-        private int GenerateNextId()
+        public int GenerateNextId()
         {
             if (_locations.Count == 0) return 1;
             return _locations[_locations.Count - 1].Id + 1;
+        }
+
+        public bool LocationExsists(string country, string city)
+        {
+            foreach(Location location in _locations)
+            {
+                if(location.Country == country && location.City==city)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

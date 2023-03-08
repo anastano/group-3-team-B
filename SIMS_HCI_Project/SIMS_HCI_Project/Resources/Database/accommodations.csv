@@ -1,2 +1,6 @@
-0|0|Ime smestaja 0|0|APARTMENT|4|3|4
-1|1|Ime smestaja 1|1|APARTMENT|5|3|5
+0|O1|Ime smestaja 0|0|APARTMENT|4|3|4
+1|O1|Ime smestaja 1|1|APARTMENT|5|3|5
+2|O2|Smestaj 3|2|APARTMENT|5|1|0
+3|O2|Novi smestaj|6|APARTMENT|4|1|4
+4|O1|Novi smestaj owner1|7|APARTMENT|6|1|4
+5|O2|Novi smestaj owner2|8|APARTMENT|6|2|4

@@ -32,6 +32,6 @@ namespace SIMS_HCI_Project.Model
             Password = temp.Password;
             Accommodations = new List<Accommodation>(temp.Accommodations);
         }
-
+        // inherited ToCSV and FromCSV
     }
 }

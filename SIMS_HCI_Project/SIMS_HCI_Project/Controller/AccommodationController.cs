@@ -28,22 +28,37 @@ namespace SIMS_HCI_Project.Controller
         
         }
 
-        public List<Accommodation> GetList()
+        public List<Accommodation> GetAll()
         {
             return _accommodations;
         }
 
-        public void LoadList() // load from file
+        public List<Accommodation> GetAllByOwnerId(string ownerId)
+        {
+            List<Accommodation> ownerAccommodations = new List<Accommodation>();
+
+            foreach(Accommodation accommodation in _accommodations)
+            {
+                if(accommodation.OwnerId == ownerId) 
+                {
+                    ownerAccommodations.Add(accommodation);
+                }
+            }
+
+            return ownerAccommodations;
+        }
+
+        public void Load() // load from file
         {
             _accommodations = _fileHandler.Load();
         }
 
 
-        public void SaveList() //save to file
+        public void Save() //save to file
         {
             _fileHandler.Save(_accommodations);
         }
-        private int GenerateId()
+        public int GenerateId()
         {
             if (_accommodations.Count == 0)
             {
@@ -57,7 +72,9 @@ namespace SIMS_HCI_Project.Controller
 
         public void Add(Accommodation accommodation)
         {
-            //TO DO
+            _accommodations.Add(accommodation);
+            NotifyObservers();
+            _fileHandler.Save(_accommodations);
         }
 
         public void Remove(Accommodation accommodation)

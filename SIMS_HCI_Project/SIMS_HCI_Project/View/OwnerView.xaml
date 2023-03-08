@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.View"
         mc:Ignorable="d"
-        Title="OwnerView" Height="550" Width="700" WindowStartupLocation="CenterScreen">
+        Title="OwnerView" Height="700" Width="700" WindowStartupLocation="CenterScreen">
     <Grid Background="Turquoise">
 
         <StackPanel Margin="20">
@@ -16,6 +16,14 @@
 
             <Border VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="Azure" BorderThickness="2" CornerRadius="15">
                 <StackPanel Margin="10 0 10 10" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <Button x:Name="btnExistingAccommodations" Content="Existing accommodations" Click="btnExistingAccommodations_Click"
+                        Width="350" Height="100" Margin="10 10 10 10" Padding="10" Background="Azure" Foreground="Turquoise" FontSize="20" BorderBrush="Turquoise">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="10"></Setter>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
                     <Button x:Name="btnAccommodationRegistration" Content="Accommodation registration" Click="btnAccommodationRegistration_Click"
                         Width="350" Height="100" Margin="10 20 10 10" Padding="10" Background="Azure" Foreground="Turquoise" FontSize="20" BorderBrush="Turquoise">
                         <Button.Resources>

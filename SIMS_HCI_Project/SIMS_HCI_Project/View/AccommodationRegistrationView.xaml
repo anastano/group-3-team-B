@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.View"
         mc:Ignorable="d"
-        Title="AccommodationRegistrationView" Height="700" Width="700" WindowStartupLocation="CenterScreen">
+        Title="AccommodationRegistrationView" Height="1000" Width="700" WindowStartupLocation="CenterScreen">
     <Grid Background="Azure">
         <StackPanel>
 
@@ -14,20 +14,20 @@
             </TextBlock>
 
             <Border VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="Turquoise" BorderThickness="2" CornerRadius="15">
-                <Grid Width="550" Height="400" Margin="10 10 10 10">
+                <Grid Width="550" Height="700" Margin="10 10 10 10">
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="3*" />
                     </Grid.RowDefinitions>
 
                     <Label Content="Name: " Grid.Row="0" Grid.Column="0" Height="40" Foreground="Turquoise" FontSize="20"></Label>
@@ -60,7 +60,7 @@
                             </TextBox>
 
                             <TextBlock x:Name="tblCity" Text="City" 
-                       Width="125" Height="20" VerticalAlignment="Center" Foreground="Turquoise" FontSize="13" TextAlignment="Center" Margin="0 0 0 0 ">
+                       Width="125" Height="20" VerticalAlignment="Center" Foreground="Turquoise" FontSize="15" TextAlignment="Center" Margin="0 0 0 0 ">
                             </TextBlock> 
                         </StackPanel>
                         
@@ -75,7 +75,7 @@
                             </TextBox>
 
                             <TextBlock x:Name="tblCountry" Text="Country" 
-                       Width="125" Height="20" VerticalAlignment="Center" Foreground="Turquoise" FontSize="13" TextAlignment="Center" Margin="0 0 0 0 ">
+                       Width="125" Height="20" VerticalAlignment="Center" Foreground="Turquoise" FontSize="15" TextAlignment="Center" Margin="0 0 0 0 ">
                             </TextBlock>
                         </StackPanel>
                     </StackPanel>
@@ -121,7 +121,7 @@
 
                     <TextBox x:Name="txtPictures" Grid.Row="6" Grid.Column="1" 
                              Text="{Binding Path = temp.Pictures, UpdateSourceTrigger = PropertyChanged}"
-                             Height="40"  BorderBrush="Turquoise" TextAlignment="Center" FontSize="20">
+                             Height="200"  BorderBrush="Turquoise" TextAlignment="Center" FontSize="20" TextWrapping="Wrap">
                         <TextBox.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="10"></Setter>

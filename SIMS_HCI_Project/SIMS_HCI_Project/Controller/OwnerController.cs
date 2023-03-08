@@ -46,31 +46,60 @@ namespace SIMS_HCI_Project.Controller
 
         public void Add(Accommodation accommodation)
         {
-            //TO DO
+            //TO DO IF NEEDED
         }
 
         public void Remove(Accommodation accommodation)
         {
-            // TO DO
+            //TO DO IF NEEDED
         }
 
         public void Edit(Accommodation accommodation)
         {
-            // TO DO
+            //TO DO IF NEEDED
         }
 
         public Owner FindById(string id)
         {
 
-            foreach (Owner o in _owners)
+            foreach (Owner owner in _owners)
             {
-                if (o.Id == id) return o;
+                if (owner.Id == id) return owner;
             }
 
             return null;
         }
 
+        public void FillOwnerAccommodationList()
+        {
+            AccommodationController accommodationController = new AccommodationController();
 
+            foreach(Owner owner in _owners)
+            {
+                owner.Accommodations.Clear();
+
+                foreach(Accommodation accommodation in accommodationController.GetAll())
+                {
+                    if(accommodation.OwnerId == owner.Id)
+                    {
+                        owner.Accommodations.Add(accommodation);
+                    }
+                }
+            }
+        }
+
+        public void AddAccommodationToOwner(Accommodation accommodation)
+        {
+            AccommodationController accommodationController = new AccommodationController();
+            Owner owner = FindById(accommodation.OwnerId);
+            owner.Accommodations.Add(accommodation);
+        }
+
+        public List<Accommodation> GetAccommodationByOwnerId(string ownerId)
+        {
+            Owner owner = FindById(ownerId);
+            return owner.Accommodations;
+        }
 
         public void NotifyObservers()
         {

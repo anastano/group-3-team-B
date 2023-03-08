@@ -48,20 +48,10 @@ namespace SIMS_HCI_Project.View
             string locationCountry = txtLocationCountry.Text.ToString();
             string locationCity = txtLocationCity.Text.ToString();
 
-            if (_locationController.LocationExsists(locationCountry, locationCity))
-            {
-                temp.Location = _locationController.FindByCountryAndCity(locationCountry, locationCity);
-                temp.LocationId = _locationController.FindByCountryAndCity(locationCountry, locationCity).Id;
-            }
-            else
-            {
-                Location location = new Location(locationCountry, locationCity);
-                location.Id = _locationController.GenerateNextId();
-                _locationController.Add(location);
-
-                temp.Location = location;
-                temp.LocationId = location.Id;
-            }
+            Location tempLocation = new Location(locationCity, locationCountry);
+            Location location = _locationController.Save(tempLocation);
+            temp.Location = location;
+            temp.LocationId = location.Id;
 
             _accommodationController.Add(temp);
             Close();

@@ -34,7 +34,7 @@ namespace SIMS_HCI_Project.Controller
             return _locations;
         }
 
-        public Location Save(Location location)
+        public Location Save(Location location) //checks if location exists and saves it
         {
             Location foundLocation = FindByCountryAndCity(location.Country, location.City);
             if (foundLocation == null)
@@ -61,16 +61,5 @@ namespace SIMS_HCI_Project.Controller
             return _locations[_locations.Count - 1].Id + 1;
         }
 
-        public bool LocationExsists(string country, string city)
-        {
-            foreach(Location location in _locations)
-            {
-                if(location.Country == country && location.City==city)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
     }
 }

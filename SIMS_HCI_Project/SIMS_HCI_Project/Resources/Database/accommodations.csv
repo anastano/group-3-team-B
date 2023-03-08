@@ -1,6 +1,6 @@
-0|O1|Ime smestaja 0|0|APARTMENT|4|3|4
-1|O1|Ime smestaja 1|1|APARTMENT|5|3|5
-2|O2|Smestaj 3|2|APARTMENT|5|1|0
-3|O2|Novi smestaj|6|APARTMENT|4|1|4
-4|O1|Novi smestaj owner1|7|APARTMENT|6|1|4
-5|O2|Novi smestaj owner2|8|APARTMENT|6|2|4
+0|O1|Ime smestaja 0|1|APARTMENT|4|3|4|https://www.zlatiborapartmani.rs/smestaji/
+1|O1|Ime smestaja 1|2|APARTMENT|5|3|5|https://www.zlatiborapartmani.rs/smestaji/
+2|O2|Smestaj 3|3|APARTMENT|2|1|0|https://www.zlatiborapartmani.rs/smestaji/
+3|O2|Novi smestaj|4|APARTMENT|4|1|4|https://www.zlatiborapartmani.rs/smestaji/
+4|O1|Hotel Kragujevac|5|APARTMENT|0|0|1|https://www.booking.com/hotel/rs/kragujevac.sr.html
+5|O1|Hotel Zelengora|5|APARTMENT|0|0|1|https://www.booking.com/hotel/rs/zelengora.sr.html

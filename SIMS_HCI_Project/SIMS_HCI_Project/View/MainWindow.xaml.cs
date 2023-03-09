@@ -45,6 +45,8 @@ namespace SIMS_HCI_Project
                 {
                     case 'O':
                         //TODO: Forward to owner view
+                        Window ownerView = new OwnerView(user.Id);
+                        ownerView.Show();
                         break;
                     case 'F':
                         //TODO: Forward to guest1 view

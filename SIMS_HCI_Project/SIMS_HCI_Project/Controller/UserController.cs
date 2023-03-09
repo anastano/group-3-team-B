@@ -24,5 +24,6 @@ namespace SIMS_HCI_Project.Controller
         {
             return _users.FirstOrDefault(u => u.Username == username && u.Password == password);
         }
+
     }
 }

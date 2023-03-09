@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using System.Xml.Linq;
 using SIMS_HCI_Project.Serializer;
 
@@ -23,16 +24,17 @@ namespace SIMS_HCI_Project.Model
         public int MaxGuests { get; set; }
         public int MinimumReservationDays { get; set; }
         public int CancellationDeadlineInDays { get; set; }
-        public string Pictures { get; set; } //[Maybe] Change to List<string> or List<URI>
+        public List<string> Pictures { get; set; } //[Maybe] Change to List<URI>
 
         public Accommodation() 
         {
             CancellationDeadlineInDays = 1;
+            Pictures = new List<string>();
         }
 
 
         //ORDER IS IMPORTANT, optional parametar at the end
-       public Accommodation(int id, string ownerId, string name, int locationId, Location location, AccomodationType type, int maxGuests, int minimumReservationDays, string pictures,  int cancellationDeadlineInDays = 1)
+       public Accommodation(int id, string ownerId, string name, int locationId, Location location, AccomodationType type, int maxGuests, int minimumReservationDays,  int cancellationDeadlineInDays = 1)
         {
             Id = id;
             OwnerId = ownerId;
@@ -43,7 +45,7 @@ namespace SIMS_HCI_Project.Model
             MaxGuests = maxGuests;
             MinimumReservationDays = minimumReservationDays; // default --> 1
             CancellationDeadlineInDays = cancellationDeadlineInDays;
-            Pictures = pictures; 
+            Pictures = new List<string>();  //change if needed
         }
 
         public Accommodation(Accommodation temp)
@@ -74,7 +76,7 @@ namespace SIMS_HCI_Project.Model
                 MaxGuests.ToString(),
                 MinimumReservationDays.ToString(),
                 CancellationDeadlineInDays.ToString(),
-                Pictures // --> [Maybe] separate CSV file
+                string.Join(",", Pictures) // --> [Maybe] separate CSV file
 
             };
             return csvValues;
@@ -90,7 +92,7 @@ namespace SIMS_HCI_Project.Model
             MaxGuests = int.Parse(values[5]);
             MinimumReservationDays = int.Parse(values[6]);
             CancellationDeadlineInDays = int.Parse(values[7]);
-            Pictures = values[8]; // --> [Maybe] separate CSV file
+            Pictures = new List<string>(values[8].Split(",")); // --> [Maybe] separate CSV file
         }
 
 

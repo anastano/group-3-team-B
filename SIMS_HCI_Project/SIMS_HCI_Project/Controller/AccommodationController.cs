@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace SIMS_HCI_Project.Controller
 {
@@ -17,6 +18,7 @@ namespace SIMS_HCI_Project.Controller
         private static List<Accommodation> _accommodations;
 
         private readonly OwnerController _ownerController;
+        private LocationController _locationController;
 
         public AccommodationController() 
         {
@@ -29,7 +31,8 @@ namespace SIMS_HCI_Project.Controller
             _observers = new List<IObserver>();
 
             _ownerController = new OwnerController();
-        
+            _locationController = new LocationController();
+
         }
 
         public List<Accommodation> GetAll()
@@ -82,6 +85,18 @@ namespace SIMS_HCI_Project.Controller
         public Accommodation FindById(int id) 
         {
             return _accommodations.Find(a => a.Id == id);
+        }
+
+        public void Register(Accommodation accommodation, string ownerId, Location location, List<string> pictures)
+        {
+            accommodation.Id = GenerateId();
+            accommodation.OwnerId = ownerId;
+            accommodation.Pictures = new List<string>(pictures);
+
+            accommodation.Location = _locationController.Save(location);
+            accommodation.LocationId = location.Id;
+
+            Add(accommodation);
         }
 
         public void NotifyObservers()

@@ -25,15 +25,5 @@ namespace SIMS_HCI_Project.Controller
             return _users.FirstOrDefault(u => u.Username == username && u.Password == password);
         }
 
-        public User FindByUsername(string username)
-        {
-
-            foreach (User u in _users)
-            {
-                if (u.Username == username) return u;
-            }
-
-            return null;
-        }
     }
 }

@@ -21,14 +21,6 @@ namespace SIMS_HCI_Project.Controller
             _locations = _fileHandler.Load();
         }
 
-        public void Add(Location location)
-        {
-            _locations.Add(location);
-            //NotifyObservers();
-            _fileHandler.Save(_locations);
-        }
-
-
         public List<Location> GetAll()
         {
             return _locations;

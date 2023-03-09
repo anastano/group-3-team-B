@@ -21,18 +21,18 @@ namespace SIMS_HCI_Project.View
     /// <summary>
     /// Interaction logic for AccommodationView.xaml
     /// </summary>
-    public partial class AccommodationView : Window, IObserver
+    public partial class OwnerAccommodationsView : Window, IObserver
     {
         private string _ownerId;
 
         private AccommodationController _accommodationController;
+        private OwnerController _ownerController;
+
         public ObservableCollection<Accommodation> Accommodations { get; set; }
 
         public Accommodation SelectedAccommodation;
 
-        private OwnerController _ownerController { get; set; }
-
-        public AccommodationView(AccommodationController accommodationController, OwnerController ownerController, string ownerId)
+        public OwnerAccommodationsView(AccommodationController accommodationController, OwnerController ownerController, string ownerId)
         {
             InitializeComponent();
             DataContext = this;

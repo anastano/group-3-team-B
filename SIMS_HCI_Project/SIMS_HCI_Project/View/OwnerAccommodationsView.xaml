@@ -1,4 +1,4 @@
-﻿<Window x:Class="SIMS_HCI_Project.View.AccommodationView"
+﻿<Window x:Class="SIMS_HCI_Project.View.OwnerAccommodationsView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -28,7 +28,7 @@
                                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="2*"></DataGridTextColumn>
                             <DataGridTextColumn Header="Location Id" Binding="{Binding LocationId}" Width="*"></DataGridTextColumn>
                             <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="*"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Max guests" Binding="{Binding MaxGuests}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Max guests" Binding="{Binding MaxGuests}" Width="*"></DataGridTextColumn>
                                 <DataGridTextColumn Header="Min days" Binding="{Binding MinimumReservationDays}" Width="*"></DataGridTextColumn>
                                 <DataGridTextColumn Header="Cancellation dead line" Binding="{Binding CancellationDeadlineInDays}" Width="2*"></DataGridTextColumn>
                             </DataGrid.Columns>

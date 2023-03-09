@@ -22,8 +22,8 @@ namespace SIMS_HCI_Project.View
     {
         private string _ownerId;
 
-        AccommodationController accommodationController;
-        OwnerController ownerController;
+        private AccommodationController _accommodationController;
+        private OwnerController _ownerController;
 
         public OwnerView(string ownerId)
         {
@@ -36,17 +36,18 @@ namespace SIMS_HCI_Project.View
 
         void LoadFromFiles()
         {
-            accommodationController = new AccommodationController();
-            ownerController = new OwnerController();
+            _accommodationController = new AccommodationController();
+            _ownerController = new OwnerController();
 
-            accommodationController.Load();
-            ownerController.Load();
-            ownerController.FillOwnerAccommodationList(); //fills accommodation list for each owner
+            _accommodationController.Load();
+            _ownerController.Load();
+
+            _ownerController.FillOwnerAccommodationList(); //fills accommodation list for each owner
         }
 
         private void btnAccommodationRegistration_Click(object sender, RoutedEventArgs e)
         {
-            Window accommodationRegistration = new AccommodationRegistrationView(accommodationController, _ownerId);
+            Window accommodationRegistration = new AccommodationRegistrationView(_accommodationController, _ownerId);
             accommodationRegistration.Show();
         }
 
@@ -57,7 +58,7 @@ namespace SIMS_HCI_Project.View
 
         private void btnExistingAccommodations_Click(object sender, RoutedEventArgs e)
         {
-            Window accommodationView = new AccommodationView(accommodationController, ownerController, _ownerId);
+            Window accommodationView = new OwnerAccommodationsView(_accommodationController, _ownerController, _ownerId);
             accommodationView.Show();
         }
     }

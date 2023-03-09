@@ -61,13 +61,7 @@ namespace SIMS_HCI_Project.Controller
 
         public Owner FindById(string id)
         {
-
-            foreach (Owner owner in _owners)
-            {
-                if (owner.Id == id) return owner;
-            }
-
-            return null;
+            return _owners.Find(o => o.Id == id);
         }
 
         public void FillOwnerAccommodationList()

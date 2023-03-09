@@ -28,23 +28,24 @@ namespace SIMS_HCI_Project.Controller
 
         public TourKeyPoint Save(TourKeyPoint tourKeyPoint)
         {
-            TourKeyPoint foundTourKeyPoint = FindByTitle(tourKeyPoint.Title);
-            if (foundTourKeyPoint == null)
-            {
-                tourKeyPoint.Id = GenerateNextId();
-                _tourKeyPoints.Add(tourKeyPoint);
-                _fileHandler.Save(_tourKeyPoints);
-                return tourKeyPoint;
-            }
-            else
-            {
-                return foundTourKeyPoint;
-            }
+            tourKeyPoint.Id = GenerateNextId();
+
+            _tourKeyPoints.Add(tourKeyPoint);
+            _fileHandler.Save(_tourKeyPoints);
+
+            return tourKeyPoint;
         }
 
-        public TourKeyPoint FindByTitle(string title)
+        public List<TourKeyPoint> SaveMultiple(List<TourKeyPoint> tourKeyPoints)
         {
-            return _tourKeyPoints.FirstOrDefault(kp => kp.Title.ToLower() == title.ToLower());
+            List<TourKeyPoint> result = new List<TourKeyPoint>();
+
+            foreach(TourKeyPoint tkp in tourKeyPoints)
+            {
+                result.Add(Save(tkp));
+            }
+
+            return result;
         }
 
         private int GenerateNextId()

@@ -29,7 +29,31 @@ namespace SIMS_HCI_Project.Controller
         {
             _tourTimes.Add(tourTime);
             _fileHandler.Save(_tourTimes);
+
             return tourTime;
+        }
+
+        public List<TourTime> SaveMultiple(List<TourTime> tourTimes)
+        {
+            List<TourTime> result = new List<TourTime>();
+
+            foreach (TourTime tt in tourTimes)
+            {
+                result.Add(Save(tt));
+            }
+
+            return result;
+        }
+
+        public List<TourTime> ConvertDateTimesToTourTimes(int tourId, List<DateTime> tourDateTimes)
+        {
+            List<TourTime> departureTimes = new List<TourTime>();
+            foreach(DateTime dt in tourDateTimes)
+            {
+                departureTimes.Add(new TourTime(tourId, dt));
+            }
+
+            return departureTimes;
         }
     }
 }

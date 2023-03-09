@@ -20,8 +20,10 @@ using System.Windows.Shapes;
 
 namespace SIMS_HCI_Project.View
 {
-    public partial class TourInputWindow : Window, INotifyPropertyChanged
+    public partial class TourInputView : Window, INotifyPropertyChanged
     {
+        private Guide _guide;
+
         public Tour Tour { get; set; }
         public Location Location { get; set; }
 
@@ -81,11 +83,13 @@ namespace SIMS_HCI_Project.View
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public TourInputWindow()
+        public TourInputView(TourController tourController, Guide guide)
         {
             InitializeComponent();
 
-            Tour = new Tour();
+            _guide = guide;
+
+            Tour = new Tour(guide);
             Location = new Location();
             DepartureDate = new DateTime(2023, 1, 1);
             DepartureTime = new TimeOnly();
@@ -94,10 +98,9 @@ namespace SIMS_HCI_Project.View
             DepartureTimes = new ObservableCollection<DateTime>();
             KeyPoints = new ObservableCollection<TourKeyPoint>();
 
-            _tourController = new TourController();
+            _tourController = tourController;
 
             DataContext = this;
-
         }
 
         private void btnAddImage_Click(object sender, RoutedEventArgs e)
@@ -132,6 +135,10 @@ namespace SIMS_HCI_Project.View
         {
             KeyPoints.Insert(0, new TourKeyPoint(StartKeyPointTitle));
             KeyPoints.Add(new TourKeyPoint(EndKeyPointTitle));
+
+            _tourController.Save(Tour, Location, new List<TourKeyPoint>(KeyPoints), new List<DateTime>(DepartureTimes), new List<string>(Images));
+
+            //this.Close();
         }
     }
 }

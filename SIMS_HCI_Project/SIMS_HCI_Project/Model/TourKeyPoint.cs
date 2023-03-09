@@ -8,17 +8,20 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Model
 {
+    public enum TourKeyPointStatus { NOT_STARTED, IN_PROGRESS, COMPLETED};
+
     public class TourKeyPoint : ISerializable
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        //public Location Location { get; set; } // [Maybe] TODO: Each Key Point should belong to one location? Make a dropdown + input?
+        public TourKeyPointStatus Status { get; set; }
 
         public TourKeyPoint() { }
 
         public TourKeyPoint(string title)
         {
             Title = title;
+            Status = TourKeyPointStatus.NOT_STARTED;
         }
 
         public override string? ToString()
@@ -28,7 +31,7 @@ namespace SIMS_HCI_Project.Model
 
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), Title };
+            string[] csvValues = { Id.ToString(), Title, Status.ToString() };
             return csvValues;
         }
 
@@ -36,6 +39,7 @@ namespace SIMS_HCI_Project.Model
         {
             Id = Convert.ToInt32(values[0]);
             Title = values[1];
+            Enum.TryParse(values[2], out TourKeyPointStatus Status);
         }
     }
 }

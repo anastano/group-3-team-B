@@ -7,11 +7,14 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Model
 {
+    public enum TourStatus { NOT_STARTED, IN_PROGRESS, COMPLETED, CANCELED };
+
     public class TourTime : ISerializable
     {
         public int TourId { get; set; }
         public Tour Tour { get; set; }
         public DateTime DepartureTime { get; set; }
+        public TourStatus Status { get; set; }
 
         public TourTime() { }
 
@@ -19,11 +22,12 @@ namespace SIMS_HCI_Project.Model
         {
             TourId = tourId;
             DepartureTime = departureTime;
+            Status = TourStatus.NOT_STARTED;
         }
 
         public string[] ToCSV()
         {
-            string[] csvValues = { TourId.ToString(), DepartureTime.ToString() };
+            string[] csvValues = { TourId.ToString(), DepartureTime.ToString(), Status.ToString() };
             return csvValues;
         }
 
@@ -31,6 +35,7 @@ namespace SIMS_HCI_Project.Model
         {
             TourId = Convert.ToInt32(values[0]);
             DepartureTime = Convert.ToDateTime(values[1]);
+            Enum.TryParse(values[2], out TourStatus Status);
         }
     }
 }

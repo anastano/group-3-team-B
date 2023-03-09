@@ -1,5 +1,8 @@
-﻿using System;
+﻿using SIMS_HCI_Project.Controller;
+using SIMS_HCI_Project.Model;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,19 +17,26 @@ using System.Windows.Shapes;
 
 namespace SIMS_HCI_Project.View
 {
-    /// <summary>
-    /// Interaction logic for GuideMainWindow.xaml
-    /// </summary>
-    public partial class GuideMainWindow : Window
+    public partial class GuideMainView : Window
     {
-        public GuideMainWindow()
+        /* TODO Load all data/connections on the start*/
+
+        public Guide Guide { get; set; }
+        private TourController _tourController;
+
+        public GuideMainView(Guide guide)
         {
             InitializeComponent();
+            _tourController = new TourController();
+            Guide = guide;
+            Guide.Tours = new ObservableCollection<Tour>(_tourController.GetAllByGuideId(guide.Id));
+
+            DataContext = this;
         }
 
         private void btnTourInput_Click(object sender, RoutedEventArgs e)
         {
-            Window inputTourWindow = new TourInputWindow();
+            Window inputTourWindow = new TourInputView(_tourController, Guide);
             inputTourWindow.Show();
         }
 

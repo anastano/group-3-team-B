@@ -54,7 +54,6 @@ namespace SIMS_HCI_Project.Controller
                 return _accommodations[_accommodations.Count - 1].Id + 1;
             }
         }
-
         public void Add(Accommodation accommodation)
         {
             //TO DO

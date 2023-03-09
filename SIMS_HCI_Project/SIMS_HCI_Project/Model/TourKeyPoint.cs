@@ -21,6 +21,11 @@ namespace SIMS_HCI_Project.Model
             Title = title;
         }
 
+        public override string? ToString()
+        {
+            return Title;
+        }
+
         public string[] ToCSV()
         {
             string[] csvValues = { Id.ToString(), Title };

@@ -32,6 +32,7 @@ namespace SIMS_HCI_Project.Model
             MaxGuestNumber = maxGuestNumber;
             Duration = duration;
 
+            Location = new Location();
             Images = new List<string>();
             DepartureTimes = new List<DateTime>();
         }

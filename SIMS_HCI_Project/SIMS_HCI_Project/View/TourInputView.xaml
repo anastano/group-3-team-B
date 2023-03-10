@@ -1,0 +1,52 @@
+﻿<Window x:Class="SIMS_HCI_Project.View.TourInputView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_HCI_Project.View" xmlns:cvt="clr-namespace:SIMS_HCI_Project.View.Converters"
+        mc:Ignorable="d"
+        Title="TourInputView" Height="700" Width="600" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Label Content="Title" HorizontalAlignment="Left" Margin="65,23,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="113,27,0,0" TextWrapping="Wrap" Text="{Binding Path=Tour.Title, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="144"/>
+        <Label Content="Location" HorizontalAlignment="Left" Margin="47,73,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="113,77,0,0" TextWrapping="Wrap" Text="{Binding Path=Location.City, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="72"/>
+        <TextBox HorizontalAlignment="Left" Margin="190,77,0,0" TextWrapping="Wrap" Text="{Binding Path=Location.Country, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="62"/>
+        <Label Content="City" HorizontalAlignment="Left" Margin="133,55,0,0" VerticalAlignment="Top"/>
+        <Label Content="Country" HorizontalAlignment="Left" Margin="196,55,0,0" VerticalAlignment="Top"/>
+        <Label Content="Description" HorizontalAlignment="Left" Margin="32,123,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="113,127,0,0" TextWrapping="Wrap" Text="{Binding Path=Tour.Description, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="144" Height="85"/>
+        <Label Content="Language" HorizontalAlignment="Left" Margin="40,223,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="113,227,0,0" TextWrapping="Wrap" Text="{Binding Path=Tour.Language, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="144"/>
+        <Label Content="Max number of guests" Margin="57,259,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <TextBox HorizontalAlignment="Left" Margin="197,259,0,0" TextWrapping="Wrap" Text="{Binding Path=Tour.MaxGuestNumber, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="30" Height="25"/>
+        <Label Content="Date" HorizontalAlignment="Left" Margin="325,124,0,0" VerticalAlignment="Top"/>
+        <DatePicker HorizontalAlignment="Left" Margin="327,151,0,0" VerticalAlignment="Top" SelectedDate="{Binding Path=DepartureDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Content="Duration" HorizontalAlignment="Left" Margin="359,73,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="428,74,0,0" TextWrapping="Wrap" Text="{Binding Path=Tour.Duration, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="30" Height="25" RenderTransformOrigin="0.333,0.042"/>
+        <Label Content="h" HorizontalAlignment="Left" Margin="456,72,0,0" VerticalAlignment="Top"/>
+        <Label Content="Images" HorizontalAlignment="Left" Margin="303,324,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="359,328,0,0" TextWrapping="Wrap" Text="{Binding Path=ImageURL, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="184"/>
+        <Button x:Name="btnAddImage" Content="+" HorizontalAlignment="Left" Margin="553,327,0,0" VerticalAlignment="Top" Click="btnAddImage_Click" Width="18"/>
+        <Label Content="Start Point" HorizontalAlignment="Left" Margin="37,323,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="113,327,0,0" TextWrapping="Wrap" Text="{Binding Path=StartKeyPointTitle, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" VerticalAlignment="Top" Width="126"/>
+        <Label Content="End Point" HorizontalAlignment="Left" Margin="37,353,0,0" VerticalAlignment="Top"/>
+        <Label Content="Add More &#xD;&#xA;Key Points" HorizontalAlignment="Left" Margin="33,383,0,0" VerticalAlignment="Top"/>
+        <ListBox x:Name="lbImages" ItemsSource="{Binding Path=Images, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="359,357,30,109"
+                 ScrollViewer.VerticalScrollBarVisibility="Visible">
+        </ListBox>
+        <Button x:Name="btnAddKeyPoint" Content="+" HorizontalAlignment="Left" Margin="262,388,0,0" VerticalAlignment="Top" Width="18" Click="btnAddKeyPoint_Click"/>
+        <ListBox ItemsSource="{Binding Path=KeyPoints, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="113,420,320,46"
+            ScrollViewer.VerticalScrollBarVisibility="Visible"/>
+        <TextBox HorizontalAlignment="Left" Margin="113,357,0,0" TextWrapping="Wrap" Text="{Binding Path=EndKeyPointTitle, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" VerticalAlignment="Top" Width="126"/>
+        <TextBox HorizontalAlignment="Left" Margin="113,390,0,0" TextWrapping="Wrap" Text="{Binding Path=KeyPointTitle, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" VerticalAlignment="Top" Width="126"/>
+        <Label Content="Departure" HorizontalAlignment="Left" Margin="381,104,0,0" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" Margin="448,150,0,0" TextWrapping="Wrap" Text="{Binding Path=DepartureTime, Mode=TwoWay, UpdateSourceTrigger=LostFocus, Converter={cvt:StringToTimeOnlyConverter}}" VerticalAlignment="Top" Width="64" Height="25" RenderTransformOrigin="0.333,0.042"/>
+        <Label Content="Time" HorizontalAlignment="Left" Margin="444,124,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="btnAddDepartureTime" Content="+" HorizontalAlignment="Left" Margin="517,153,0,0" VerticalAlignment="Top"  Width="18" Click="btnAddDepartureTime_Click"/>
+        <ListBox ItemsSource="{Binding Path=DepartureTimes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="327,185,62,412" ItemStringFormat="yyyy-MM-dd HH:mm"
+            ScrollViewer.VerticalScrollBarVisibility="Visible"/>
+        <Button x:Name="btnSubmit" Content="Submit" HorizontalAlignment="Left" Margin="522,623,0,0" VerticalAlignment="Top" Click="btnSubmit_Click"/>
+
+    </Grid>
+</Window>

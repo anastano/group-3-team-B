@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Threading;
+
 
 namespace SIMS_HCI_Project.Controller
 {
@@ -17,6 +19,9 @@ namespace SIMS_HCI_Project.Controller
 
         private static List<Accommodation> _accommodations;
 
+        private readonly OwnerController _ownerController;
+        private LocationController _locationController;
+
         public AccommodationController() 
         {
             if (_accommodations == null)
@@ -26,24 +31,29 @@ namespace SIMS_HCI_Project.Controller
 
             _fileHandler = new AccommodationFileHandler();
             _observers = new List<IObserver>();
-        
+
+            _ownerController = new OwnerController();
+            _locationController = new LocationController();
+
         }
 
-        public List<Accommodation> GetList()
+        public List<Accommodation> GetAll()
         {
             return _accommodations;
         }
 
-        public void LoadList() // load from file
+
+        public void Load() // load from file
         {
             _accommodations = _fileHandler.Load();
         }
 
 
-        public void SaveList() //save to file
+        public void Save() //save to file
         {
             _fileHandler.Save(_accommodations);
         }
+
 
         public void ConnectAccommodationsWithLocations(LocationController locationController)
         {
@@ -52,7 +62,8 @@ namespace SIMS_HCI_Project.Controller
                 accommodation.Location = locationController.FindById(accommodation.LocationId);
             }
         }
-        private int GenerateId()
+
+        public int GenerateId()
         {
             if (_accommodations.Count == 0)
             {
@@ -63,9 +74,14 @@ namespace SIMS_HCI_Project.Controller
                 return _accommodations[_accommodations.Count - 1].Id + 1;
             }
         }
-        public void Add(Accommodation accommodation)
+
+
+        public void Add(Accommodation accommodation) //adds accommodation to all accommodations list and to corresponding owner list
         {
-            //TO DO
+            _accommodations.Add(accommodation);
+            _ownerController.AddAccommodationToOwner(accommodation);
+            NotifyObservers();
+            Save();
         }
 
         public void Remove(Accommodation accommodation)
@@ -83,6 +99,7 @@ namespace SIMS_HCI_Project.Controller
             return _accommodations.Find(a => a.Id == id);
         }
 
+
         public List<Accommodation> Search(string name, string country, string city, string type, int maxGuests, int reservationDays)
         {
 
@@ -97,6 +114,20 @@ namespace SIMS_HCI_Project.Controller
 
             return filtered.ToList();
         }
+
+        public void Register(Accommodation accommodation, string ownerId, Location location, List<string> pictures)
+        {
+            accommodation.Id = GenerateId();
+            accommodation.OwnerId = ownerId;
+            accommodation.Pictures = new List<string>(pictures);
+
+            accommodation.Location = _locationController.Save(location);
+            accommodation.LocationId = location.Id;
+
+            Add(accommodation);
+        }
+
+
         public void NotifyObservers()
         {
             foreach (var observer in _observers)

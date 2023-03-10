@@ -6,7 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using System.Threading;
+
 
 namespace SIMS_HCI_Project.Controller
 {
@@ -52,6 +54,15 @@ namespace SIMS_HCI_Project.Controller
             _fileHandler.Save(_accommodations);
         }
 
+
+        public void ConnectAccommodationsWithLocations(LocationController locationController)
+        {
+            foreach (Accommodation accommodation in _accommodations)
+            {
+                accommodation.Location = locationController.FindById(accommodation.LocationId);
+            }
+        }
+
         public int GenerateId()
         {
             if (_accommodations.Count == 0)
@@ -63,6 +74,7 @@ namespace SIMS_HCI_Project.Controller
                 return _accommodations[_accommodations.Count - 1].Id + 1;
             }
         }
+
 
         public void Add(Accommodation accommodation) //adds accommodation to all accommodations list and to corresponding owner list
         {
@@ -87,6 +99,22 @@ namespace SIMS_HCI_Project.Controller
             return _accommodations.Find(a => a.Id == id);
         }
 
+
+        public List<Accommodation> Search(string name, string country, string city, string type, int maxGuests, int reservationDays)
+        {
+
+            var filtered = from _accommodation in _accommodations
+                           where (string.IsNullOrEmpty(name) || _accommodation.Name.ToLower().Contains(name.ToLower()))
+                           && (string.IsNullOrEmpty(country) || _accommodation.Location.Country.ToLower().Contains(country))
+                           && (string.IsNullOrEmpty(city) || _accommodation.Location.City.ToLower().Contains(city))
+                           && (string.IsNullOrEmpty(type) || Accommodation.ConvertAccommodationTypeToString(_accommodation.Type).Equals(type))
+                           && (maxGuests == 0 || maxGuests <= _accommodation.MaxGuests)
+                           && (reservationDays == 0 || reservationDays >= _accommodation.MinimumReservationDays)
+                           select _accommodation;
+
+            return filtered.ToList();
+        }
+
         public void Register(Accommodation accommodation, string ownerId, Location location, List<string> pictures)
         {
             accommodation.Id = GenerateId();
@@ -98,6 +126,7 @@ namespace SIMS_HCI_Project.Controller
 
             Add(accommodation);
         }
+
 
         public void NotifyObservers()
         {

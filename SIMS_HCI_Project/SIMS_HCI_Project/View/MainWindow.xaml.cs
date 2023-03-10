@@ -37,7 +37,7 @@ namespace SIMS_HCI_Project
         private void btnLogIn_Click(object sender, RoutedEventArgs e)
         {
             lblErrorMessage.Content = "";
-
+            Window win = null;
             User user = _userController.LogIn(Username, Password);
             if (user != null)
             {
@@ -50,6 +50,9 @@ namespace SIMS_HCI_Project
                         break;
                     case 'F':
                         //TODO: Forward to guest1 view
+                        win = new Gues1View();
+                        win.Show();
+
                         break;
                     case 'S':
                         //TODO: Forward to guest2 view

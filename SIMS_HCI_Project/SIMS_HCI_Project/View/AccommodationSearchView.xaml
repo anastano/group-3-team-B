@@ -1,0 +1,48 @@
+﻿<Window x:Class="SIMS_HCI_Project.View.AccommodationSearchView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_HCI_Project.View"
+        mc:Ignorable="d"
+        Title="AccommodationSearchView" Height="650" Width="850" WindowStartupLocation="CenterScreen">
+    <Grid>
+        
+        <TextBox HorizontalAlignment="Left" Name="txtName" Height="28" Margin="675,136,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="144"/>
+        <TextBox HorizontalAlignment="Left" Name="txtCountry" Height="28" Margin="675,196,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="144"/>
+        <TextBox HorizontalAlignment="Left"  Name="txtCity" Height="28" Margin="675,256,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="144"/>
+        <TextBox HorizontalAlignment="Left" Name="txtReservationDays" Height="28" Margin="675,393,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="144"/>
+        <TextBox HorizontalAlignment="Left" Name="txtGuestNumber" Height="28" Margin="675,466,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="144"/>
+        
+        <TextBlock HorizontalAlignment="Left" Height="19" Margin="675,117,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" Width="144" TextAlignment="Center" />
+        <TextBlock HorizontalAlignment="Left" Height="21" Margin="675,175,0,0" TextWrapping="Wrap" Text="Country" VerticalAlignment="Top" Width="144" TextAlignment="Center" />
+        <TextBlock HorizontalAlignment="Left" Height="21" Margin="675,235,0,0" TextWrapping="Wrap" Text="City" VerticalAlignment="Top" Width="144" TextAlignment="Center" />
+        <TextBlock HorizontalAlignment="Left" Height="20" Margin="675,295,0,0" TextWrapping="Wrap" Text="Type" VerticalAlignment="Top" Width="144" TextAlignment="Center" />
+        <TextBlock HorizontalAlignment="Left" Height="20" Margin="675,441,0,0" TextWrapping="Wrap" Text="Guest Number" VerticalAlignment="Top" Width="144" TextAlignment="Center" />
+        <TextBlock HorizontalAlignment="Left" Height="22" Margin="675,366,0,0" TextWrapping="Wrap" Text="Days for reservation" VerticalAlignment="Top" Width="144" TextAlignment="Center" />
+
+        
+        <DataGrid x:Name="DataGridAccommodation"
+                  ItemsSource="{Binding Path=Accommodations, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding Path=_selectedAccommodation, UpdateSourceTrigger=PropertyChanged}"
+                  AutoGenerateColumns="False" IsReadOnly="True" Margin="10,89,193,21">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="110"></DataGridTextColumn>
+                <DataGridTextColumn Header="Country" Binding="{Binding Location.Country}" Width="110"></DataGridTextColumn>
+                <DataGridTextColumn Header="City" Binding="{Binding Location.City}" Width="110"></DataGridTextColumn>
+                <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="105"></DataGridTextColumn>
+                <DataGridTextColumn Header="Minimum Days" Binding="{Binding MinimumReservationDays}" Width="105"></DataGridTextColumn>
+                <DataGridTextColumn Header="Guest Capacity" Binding="{Binding MaxGuests}" Width="90"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <ComboBox HorizontalAlignment="Left" Name="comboboxType" Margin="675,315,0,0" VerticalAlignment="Top" Width="144" Height="26">
+            <ComboBoxItem>APARTMENT</ComboBoxItem>
+            <ComboBoxItem>HOUSE</ComboBoxItem>
+            <ComboBoxItem>HUT</ComboBoxItem>
+        </ComboBox>
+        <Button Content="Search" Click="SearchAccommodation" HorizontalAlignment="Left" Margin="688,545,0,0" VerticalAlignment="Top" Width="109" Height="30"/>
+        <Button Content="Reserve" HorizontalAlignment="Left" Height="28" Margin="185,35,0,0" VerticalAlignment="Top" Width="100"/>
+        <Button Content="Show Images" HorizontalAlignment="Left" Height="28" Margin="357,35,0,0" VerticalAlignment="Top" Width="100"/>
+        <TextBlock HorizontalAlignment="Left" Height="63" Margin="679,49,0,0" TextWrapping="Wrap" Text="FIND YOUR MAGIC WITH OUR ACCOMMODATION!" VerticalAlignment="Top" Width="140"/>
+    </Grid>
+</Window>

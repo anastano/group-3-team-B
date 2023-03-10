@@ -48,6 +48,12 @@ namespace SIMS_HCI_Project.Controller
             return _locations.FirstOrDefault(l => l.City.ToLower() == city.ToLower() && l.Country.ToLower() == country.ToLower());
         }
 
+
+        public Location FindById(int id)
+        {
+            return _locations.Find(l => l.Id == id);
+        }
+
         public int GenerateNextId()
         {
             if (_locations.Count == 0) return 1;

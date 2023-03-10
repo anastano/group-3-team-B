@@ -27,10 +27,10 @@ namespace SIMS_HCI_Project.View
 
         private readonly LocationController _locationController;
 
-        public ObservableCollection<Accommodation> _accommodations { get; set; }
+        public ObservableCollection<Accommodation> Accommodations { get; set; }
 
-        public ObservableCollection<Location> locations { get; set; }
-        public Accommodation _selectedAccommodation { get; set; }
+        public ObservableCollection<Location> Locations { get; set; }
+        public Accommodation SelectedAccommodation { get; set; }
 
         public AccommodationSearchView()
         {
@@ -41,9 +41,10 @@ namespace SIMS_HCI_Project.View
             _locationController = new LocationController();
             _accommodationController.LoadList();
 
-            _accommodations = new ObservableCollection<Accommodation>(_accommodationController.GetList());
+            Accommodations = new ObservableCollection<Accommodation>(_accommodationController.GetList());
 
-            foreach (Accommodation accommodation in _accommodations) {
+            //move to Accommodation constructor
+            foreach (Accommodation accommodation in Accommodations) {
                 accommodation.Location = _locationController.FindByLocationId(accommodation.LocationId);
             }
         }
@@ -62,7 +63,8 @@ namespace SIMS_HCI_Project.View
                 selectedItemContent = selectedItem.Content.ToString();
             }
 
-            var filtered = from _accommodation in _accommodations
+            //make new function
+            var filtered = from _accommodation in Accommodations
                            where (string.IsNullOrEmpty(txtName.Text) || _accommodation.Name.ToLower().Contains(txtName.Text.ToLower()))
                            && (string.IsNullOrEmpty(txtCountry.Text) || _accommodation.Location.Country.ToLower().Contains(txtCountry.Text))
                            && (string.IsNullOrEmpty(txtCity.Text) || _accommodation.Location.City.ToLower().Contains(txtCity.Text))

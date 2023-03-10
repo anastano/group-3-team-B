@@ -48,7 +48,7 @@ namespace SIMS_HCI_Project
                         break;
                     case 'F':
                         //TODO: Forward to guest1 view
-                        win = new AccommodationSearchView();
+                        win = new Gues1View();
                         win.Show();
 
                         break;

@@ -27,6 +27,7 @@ namespace SIMS_HCI_Project.View
 
         private readonly LocationController _locationController;
 
+        public Accommodation Accommodation { get; set; }
         public ObservableCollection<Accommodation> Accommodations { get; set; }
 
         public ObservableCollection<Location> Locations { get; set; }
@@ -39,6 +40,7 @@ namespace SIMS_HCI_Project.View
 
             _accommodationController = new AccommodationController();
             _locationController = new LocationController();
+            Accommodation = new Accommodation();
             _accommodationController.Load();
 
             Accommodations = new ObservableCollection<Accommodation>(_accommodationController.GetAll());
@@ -81,6 +83,42 @@ namespace SIMS_HCI_Project.View
             public void Update()
         {
             //throw new NotImplementedException();
+        }
+
+        private void btnPlusGuest_Click(object sender, RoutedEventArgs e)
+        {
+            int maxGuests = int.Parse(txtGuestNumber.Text);
+            maxGuests += 1;
+            txtGuestNumber.Text = maxGuests.ToString();
+        }
+
+        private void btnMinusGuest_Click(object sender, RoutedEventArgs e)
+        {
+            int maxGuests = int.Parse(txtGuestNumber.Text);
+
+            if (maxGuests > 1)
+            {
+                maxGuests -= 1;
+            }
+            txtGuestNumber.Text = maxGuests.ToString();
+        }
+
+        private void btnPlusMinDays_Click(object sender, RoutedEventArgs e)
+        {
+            int minDays = int.Parse(txtReservationDays.Text);
+            minDays += 1;
+            txtReservationDays.Text = minDays.ToString();
+        }
+
+        private void btnMinusMinDays_Click(object sender, RoutedEventArgs e)
+        {
+            int minDays = int.Parse(txtReservationDays.Text);
+
+            if (minDays > 1)
+            {
+                minDays -= 1;
+            }
+            txtReservationDays.Text = minDays.ToString();
         }
     }
 }

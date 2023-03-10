@@ -28,10 +28,13 @@ namespace SIMS_HCI_Project.Model
 
         public Accommodation() 
         {
+            MaxGuests = 1;
+            MinimumReservationDays = 1;
             CancellationDeadlineInDays = 1;
             Pictures = new List<string>();
         }
 
+ 
 
         //ORDER IS IMPORTANT, optional parametar at the end
        public Accommodation(int id, string ownerId, string name, int locationId, Location location, AccomodationType type, int maxGuests, int minimumReservationDays,  int cancellationDeadlineInDays = 1)

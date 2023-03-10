@@ -88,7 +88,7 @@ namespace SIMS_HCI_Project.View
         {
             int maxGuests = int.Parse(txtMaxGuestNumber.Text);
 
-            if (maxGuests > 0)
+            if (maxGuests > 1)
             {
                 maxGuests -= 1;
             }
@@ -106,7 +106,7 @@ namespace SIMS_HCI_Project.View
         {
             int minDays = int.Parse(txtMinDaysNumber.Text);
 
-            if (minDays > 0)
+            if (minDays > 1)
             {
                 minDays -= 1;
             }

@@ -1,0 +1,46 @@
+﻿<Window x:Class="SIMS_HCI_Project.View.TourSearchView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_HCI_Project.View"
+        mc:Ignorable="d"
+        Title="TourSearchView" Height="450" Width="703" WindowStartupLocation="CenterScreen">
+
+    <Grid Background="Orange">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0*"/>
+        </Grid.ColumnDefinitions>
+
+        <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,66,172,10"/>
+
+
+
+
+        <Grid>
+            <TextBox x:Name="txtCountry" HorizontalAlignment="Left" Margin="542,65,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145"/>
+            <TextBox x:Name="txtCity" HorizontalAlignment="Left"   Margin="542,124,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145"/>
+            <TextBox x:Name="txtDuration" HorizontalAlignment="Left" Margin="542,184,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145"/>
+            <TextBox x:Name="txtLanguage" HorizontalAlignment="Left" Margin="542,245,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145"/>
+            <TextBox x:Name="txtGuestNumber" HorizontalAlignment="Left" Margin="542,305,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145"/>
+
+
+            <Button Content="Search" HorizontalAlignment="Left" Margin="559,371,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.278,0.553" Click="btnSearch_Click" Width="111" Height="32" FontSize="14"/>
+
+            <TextBlock HorizontalAlignment="Left" Margin="542,49,0,0" TextWrapping="Wrap" Text="Country:" Foreground="Beige" VerticalAlignment="Top"/>
+            <TextBlock HorizontalAlignment="Left" Margin="542,107,0,0" TextWrapping="Wrap" Text="City:" Foreground="Beige" VerticalAlignment="Top"/>
+            <TextBlock HorizontalAlignment="Left" Margin="542,168,0,0" TextWrapping="Wrap" Text="Duration:" Foreground="Beige" VerticalAlignment="Top"/>
+            <TextBlock HorizontalAlignment="Left" Margin="542,229,0,0" TextWrapping="Wrap" Text="Language:" Foreground="Beige" VerticalAlignment="Top"/>
+            <TextBlock HorizontalAlignment="Left" Margin="542,289,0,0" TextWrapping="Wrap" Text="Guest number:" Foreground="Beige" VerticalAlignment="Top"/>
+
+        </Grid>
+
+
+        <Button x:Name="btnReserve" Content="Reserve" HorizontalAlignment="Left" Margin="44,10,0,0" VerticalAlignment="Top" Height="37" Width="139" Click="btnReserve_Click"/>
+        <Button Content="Show images????" HorizontalAlignment="Left" Margin="253,10,0,0" VerticalAlignment="Top" Height="37" Width="139" Click="btnShowImages_Click" />
+
+
+
+    </Grid>
+</Window>

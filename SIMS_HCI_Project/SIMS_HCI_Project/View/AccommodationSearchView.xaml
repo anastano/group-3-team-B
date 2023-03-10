@@ -5,24 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.View"
         mc:Ignorable="d"
-        Title="AccommodationSearchView" Height="650" Width="850">
+        Title="AccommodationSearchView" Height="650" Width="850" WindowStartupLocation="CenterScreen">
     <Grid>
-
+        
         <TextBox HorizontalAlignment="Left" Name="txtName" Height="28" Margin="675,136,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="144"/>
         <TextBox HorizontalAlignment="Left" Name="txtCountry" Height="28" Margin="675,196,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="144"/>
         <TextBox HorizontalAlignment="Left"  Name="txtCity" Height="28" Margin="675,256,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="144"/>
-
+        <TextBox HorizontalAlignment="Left" Name="txtReservationDays" Height="28" Margin="675,393,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="144"/>
         <TextBox HorizontalAlignment="Left" Name="txtGuestNumber" Height="28" Margin="675,466,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="144"/>
+        
         <TextBlock HorizontalAlignment="Left" Height="19" Margin="675,117,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" Width="144" TextAlignment="Center" />
         <TextBlock HorizontalAlignment="Left" Height="21" Margin="675,175,0,0" TextWrapping="Wrap" Text="Country" VerticalAlignment="Top" Width="144" TextAlignment="Center" />
         <TextBlock HorizontalAlignment="Left" Height="21" Margin="675,235,0,0" TextWrapping="Wrap" Text="City" VerticalAlignment="Top" Width="144" TextAlignment="Center" />
         <TextBlock HorizontalAlignment="Left" Height="20" Margin="675,295,0,0" TextWrapping="Wrap" Text="Type" VerticalAlignment="Top" Width="144" TextAlignment="Center" />
         <TextBlock HorizontalAlignment="Left" Height="20" Margin="675,441,0,0" TextWrapping="Wrap" Text="Guest Number" VerticalAlignment="Top" Width="144" TextAlignment="Center" />
-
         <TextBlock HorizontalAlignment="Left" Height="22" Margin="675,366,0,0" TextWrapping="Wrap" Text="Days for reservation" VerticalAlignment="Top" Width="144" TextAlignment="Center" />
-        <TextBox HorizontalAlignment="Left" Name="txtReservationDays" Height="28" Margin="675,393,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="144"/>
+
+        
         <DataGrid x:Name="DataGridAccommodation"
-                  ItemsSource="{Binding Path=_accommodations, UpdateSourceTrigger=PropertyChanged}"
+                  ItemsSource="{Binding Path=Accommodations, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding Path=_selectedAccommodation, UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="False" IsReadOnly="True" Margin="10,89,193,21">
             <DataGrid.Columns>

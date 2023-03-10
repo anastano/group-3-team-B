@@ -43,10 +43,8 @@ namespace SIMS_HCI_Project.View
 
             Accommodations = new ObservableCollection<Accommodation>(_accommodationController.GetList());
 
-            //move to Accommodation constructor
-            foreach (Accommodation accommodation in Accommodations) {
-                accommodation.Location = _locationController.FindByLocationId(accommodation.LocationId);
-            }
+            _accommodationController.ConnectAccommodationsWithLocations(_locationController);
+   
         }
 
         //Accommodation search
@@ -63,7 +61,6 @@ namespace SIMS_HCI_Project.View
                 selectedItemContent = selectedItem.Content.ToString();
             }
 
-            //make new function
             var filtered = from _accommodation in Accommodations
                            where (string.IsNullOrEmpty(txtName.Text) || _accommodation.Name.ToLower().Contains(txtName.Text.ToLower()))
                            && (string.IsNullOrEmpty(txtCountry.Text) || _accommodation.Location.Country.ToLower().Contains(txtCountry.Text))

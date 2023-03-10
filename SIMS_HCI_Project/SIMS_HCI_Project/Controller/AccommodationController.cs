@@ -43,6 +43,14 @@ namespace SIMS_HCI_Project.Controller
         {
             _fileHandler.Save(_accommodations);
         }
+
+        public void ConnectAccommodationsWithLocations(LocationController locationController)
+        {
+            foreach (Accommodation accommodation in _accommodations)
+            {
+                accommodation.Location = locationController.FindByLocationId(accommodation.LocationId);
+            }
+        }
         private int GenerateId()
         {
             if (_accommodations.Count == 0)

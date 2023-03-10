@@ -47,7 +47,7 @@ namespace SIMS_HCI_Project.Controller
             return _locations.FirstOrDefault(l => l.City.ToLower() == city.ToLower() && l.Country.ToLower() == country.ToLower());
         }
 
-        public Location FindByLocationId(int id)
+        public Location FindById(int id)
         {
             return _locations.Find(l => l.Id == id);
         }

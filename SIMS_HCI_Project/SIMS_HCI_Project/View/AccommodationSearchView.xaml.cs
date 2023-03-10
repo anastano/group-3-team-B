@@ -50,28 +50,33 @@ namespace SIMS_HCI_Project.View
         //Accommodation search
         private void  SearchAccommodation(object sender, EventArgs e)
         {
+            List<Accommodation> searchResult = new List<Accommodation>();
+
             int maxGuests;
             bool isValidMaxGuests = int.TryParse(txtGuestNumber.Text, out maxGuests);
             int reservationDays;
             bool isValidReservationDays = int.TryParse(txtReservationDays.Text, out reservationDays);
             ComboBoxItem selectedItem = comboboxType.SelectedItem as ComboBoxItem;
             string selectedItemContent=null;
+
             if (selectedItem != null)
             {
                 selectedItemContent = selectedItem.Content.ToString();
             }
 
-            var filtered = from _accommodation in Accommodations
-                           where (string.IsNullOrEmpty(txtName.Text) || _accommodation.Name.ToLower().Contains(txtName.Text.ToLower()))
-                           && (string.IsNullOrEmpty(txtCountry.Text) || _accommodation.Location.Country.ToLower().Contains(txtCountry.Text))
-                           && (string.IsNullOrEmpty(txtCity.Text) || _accommodation.Location.City.ToLower().Contains(txtCity.Text))
-                           && (string.IsNullOrEmpty(selectedItemContent) || Accommodation.ConvertAccommodationTypeToString(_accommodation.Type).Equals(selectedItem.Content.ToString()))
-                           && (!isValidMaxGuests || maxGuests <= _accommodation.MaxGuests)
-                           && (!isValidReservationDays || reservationDays >= _accommodation.MinimumReservationDays)
-                           select _accommodation;
-           
+            if (!isValidMaxGuests)
+            {
+                maxGuests = 0;
+            }
 
-            DataGridAccommodation.ItemsSource =  filtered.ToList();
+            if (!isValidReservationDays)
+            {
+                reservationDays = 0;
+            }
+
+            searchResult = _accommodationController.Search(txtName.Text, txtCountry.Text, txtCity.Text, selectedItemContent, maxGuests, reservationDays);
+
+            DataGridAccommodation.ItemsSource = searchResult;
         }
             public void Update()
         {

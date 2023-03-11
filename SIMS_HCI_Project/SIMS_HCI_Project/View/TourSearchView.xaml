@@ -13,19 +13,21 @@
             <ColumnDefinition Width="0*"/>
         </Grid.ColumnDefinitions>
 
-        
 
-        <DataGrid x:Name="dgTours" ItemsSource="{Binding Path=Tours, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=_selectedTour, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False"  Margin="10,66,172,10" >
-         
+
+        <DataGrid x:Name="dgTours" 
+                  ItemsSource="{Binding Path=Tours, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding Path=_selectedTour, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False"  Margin="10,66,172,10" >
+
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="110"></DataGridTextColumn>
                 <DataGridTextColumn Header="Country" Binding="{Binding Location.Country}" Width="110"></DataGridTextColumn>
                 <DataGridTextColumn Header="City" Binding="{Binding Location.City}" Width="110"></DataGridTextColumn>
                 <DataGridTextColumn Header="Language" Binding="{Binding Language}" Width="105"></DataGridTextColumn>
                 <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" Width="105"></DataGridTextColumn>
-                <DataGridTextColumn Header="Guest Capacity" Binding="{Binding MaxGuests}" Width="90"></DataGridTextColumn>
-                <DataGridTextColumn Header="Guide"  Width="110"></DataGridTextColumn>
-                
+                <DataGridTextColumn Header="Guest Capacity" Binding="{Binding MaxGuestNumber}" Width="90"></DataGridTextColumn>
+                <DataGridTextColumn Header="Guide" Binding="{Binding GuideId}"  Width="110"></DataGridTextColumn>
+
             </DataGrid.Columns>
         </DataGrid>
 
@@ -41,7 +43,7 @@
 
             <TextBlock HorizontalAlignment="Right" Margin="0,49,111,0" TextWrapping="Wrap" Text="Country:" Foreground="Beige" VerticalAlignment="Top" />
             <TextBlock HorizontalAlignment="Right" Margin="0,107,132,0" TextWrapping="Wrap" Text="City:" Foreground="Beige" VerticalAlignment="Top"/>
-            <TextBlock HorizontalAlignment="Right" Margin="0,168,106,0" TextWrapping="Wrap" Text="Duration:" Foreground="Beige" VerticalAlignment="Top"/>
+            <TextBlock HorizontalAlignment="Right" Margin="0,168,82,0" TextWrapping="Wrap" Text="Max duration:" Foreground="Beige" VerticalAlignment="Top"/>
             <TextBlock HorizontalAlignment="Right" Margin="0,229,100,0" TextWrapping="Wrap" Text="Language:" Foreground="Beige" VerticalAlignment="Top"/>
             <TextBlock HorizontalAlignment="Right" Margin="0,289,77,0" TextWrapping="Wrap" Text="Guest number:" Foreground="Beige" VerticalAlignment="Top"/>
 

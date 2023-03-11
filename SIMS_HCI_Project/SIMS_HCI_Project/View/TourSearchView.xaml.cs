@@ -58,14 +58,14 @@ namespace SIMS_HCI_Project.View
         {
             List<Tour> result = new List<Tour>();
 
-            int maxGuests;
-            bool isValidMaxGuests = int.TryParse(txtGuestNumber.Text, out maxGuests);
-            int duration;
+            int guestsNum;
+            bool isValidGuestsNum = int.TryParse(txtGuestNumber.Text, out guestsNum);
+            int duration; //Assuming that the user enters the maximum duration of the tour. Should discuss whether this is a good way, if so: the name should be changed and a field for the minimum duration added.
             bool isValidDuration = int.TryParse(txtDuration.Text, out duration);
 
-            if (!isValidMaxGuests)
+            if (!isValidGuestsNum)
             {
-                maxGuests = 0;
+                guestsNum = 0;
             }
 
             if (!isValidDuration)
@@ -73,7 +73,7 @@ namespace SIMS_HCI_Project.View
                 duration = 0;
             }
 
-            result = _tourController.Search(txtCountry.Text, txtCity.Text, duration, txtLanguage.Text, maxGuests);
+            result = _tourController.Search(txtCountry.Text, txtCity.Text, duration, txtLanguage.Text, guestsNum);
 
             dgTours.ItemsSource = result;
         }

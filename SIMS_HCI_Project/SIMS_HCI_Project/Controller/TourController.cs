@@ -98,14 +98,14 @@ namespace SIMS_HCI_Project.Controller
             }
         }
 
-        public List<Tour> Search(string country, string city, int duration, string language, int maxGuests)
+        public List<Tour> Search(string country, string city, int duration, string language, int guestsNum)
         {
             var filtered = from _tour in _tours
                            where (string.IsNullOrEmpty(country) || _tour.Location.Country.ToLower().Contains(country))
                            && (string.IsNullOrEmpty(city) || _tour.Location.City.ToLower().Contains(city))
-                           && (duration == 0 )
-                           && (maxGuests == 0 || maxGuests <= _tour.MaxGuestNumber)
-                           && (string.IsNullOrEmpty(language) || _tour.Location.Country.ToLower().Contains(country))
+                           && (duration == 0 || duration >= _tour.Duration)
+                           && (guestsNum == 0 || guestsNum <= _tour.MaxGuestNumber)
+                           && (string.IsNullOrEmpty(language) || _tour.Language.ToLower().Contains(language))
                            select _tour;
 
             return filtered.ToList();

@@ -27,8 +27,8 @@ namespace SIMS_HCI_Project.View
 
         private void btnSearchReserve_Click(object sender, RoutedEventArgs e)
         {
-            Window window = new TourSearchView();
-            window.Show();
+            Window win = new TourSearchView();
+            win.Show();
         }
 
         private void DataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e) 

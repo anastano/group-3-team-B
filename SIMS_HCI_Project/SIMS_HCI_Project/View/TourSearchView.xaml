@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="TourSearchView" Height="450" Width="703" WindowStartupLocation="CenterScreen">
 
-    <Grid Background="Orange">
+    <Grid Background="Orange" >
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="0*"/>
@@ -19,20 +19,20 @@
 
 
         <Grid>
-            <TextBox x:Name="txtCountry" HorizontalAlignment="Left" Margin="542,65,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145"/>
-            <TextBox x:Name="txtCity" HorizontalAlignment="Left"   Margin="542,124,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145"/>
-            <TextBox x:Name="txtDuration" HorizontalAlignment="Left" Margin="542,184,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145"/>
-            <TextBox x:Name="txtLanguage" HorizontalAlignment="Left" Margin="542,245,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145"/>
-            <TextBox x:Name="txtGuestNumber" HorizontalAlignment="Left" Margin="542,305,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145"/>
+            <TextBox x:Name="txtCountry" HorizontalAlignment="Right" Margin="0,65,11,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145" />
+            <TextBox x:Name="txtCity" HorizontalAlignment="Right"   Margin="0,123,11,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145"/>
+            <TextBox x:Name="txtDuration" HorizontalAlignment="Right" Margin="0,184,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145"/>
+            <TextBox x:Name="txtLanguage" HorizontalAlignment="Right" Margin="0,245,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145"/>
+            <TextBox x:Name="txtGuestNumber" HorizontalAlignment="Right" Margin="0,305,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145"/>
 
 
-            <Button Content="Search" HorizontalAlignment="Left" Margin="559,371,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.278,0.553" Click="btnSearch_Click" Width="111" Height="32" FontSize="14"/>
+            <Button Content="Search" HorizontalAlignment="Right" Margin="0,371,22,0" VerticalAlignment="Top" RenderTransformOrigin="0.278,0.553" Click="btnSearch_Click" Width="111" Height="32" FontSize="14"/>
 
-            <TextBlock HorizontalAlignment="Left" Margin="542,49,0,0" TextWrapping="Wrap" Text="Country:" Foreground="Beige" VerticalAlignment="Top"/>
-            <TextBlock HorizontalAlignment="Left" Margin="542,107,0,0" TextWrapping="Wrap" Text="City:" Foreground="Beige" VerticalAlignment="Top"/>
-            <TextBlock HorizontalAlignment="Left" Margin="542,168,0,0" TextWrapping="Wrap" Text="Duration:" Foreground="Beige" VerticalAlignment="Top"/>
-            <TextBlock HorizontalAlignment="Left" Margin="542,229,0,0" TextWrapping="Wrap" Text="Language:" Foreground="Beige" VerticalAlignment="Top"/>
-            <TextBlock HorizontalAlignment="Left" Margin="542,289,0,0" TextWrapping="Wrap" Text="Guest number:" Foreground="Beige" VerticalAlignment="Top"/>
+            <TextBlock HorizontalAlignment="Right" Margin="0,49,111,0" TextWrapping="Wrap" Text="Country:" Foreground="Beige" VerticalAlignment="Top" />
+            <TextBlock HorizontalAlignment="Right" Margin="0,107,132,0" TextWrapping="Wrap" Text="City:" Foreground="Beige" VerticalAlignment="Top"/>
+            <TextBlock HorizontalAlignment="Right" Margin="0,168,106,0" TextWrapping="Wrap" Text="Duration:" Foreground="Beige" VerticalAlignment="Top"/>
+            <TextBlock HorizontalAlignment="Right" Margin="0,229,100,0" TextWrapping="Wrap" Text="Language:" Foreground="Beige" VerticalAlignment="Top"/>
+            <TextBlock HorizontalAlignment="Right" Margin="0,289,77,0" TextWrapping="Wrap" Text="Guest number:" Foreground="Beige" VerticalAlignment="Top"/>
 
         </Grid>
 

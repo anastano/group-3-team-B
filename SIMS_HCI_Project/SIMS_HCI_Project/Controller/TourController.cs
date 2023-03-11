@@ -16,7 +16,7 @@ namespace SIMS_HCI_Project.Controller
         private LocationController _locationController;
         private TourTimeController _tourTimeController;
 
-        private readonly List<Tour> _tours;
+        private static List<Tour> _tours;
 
         public TourController()
         {
@@ -26,7 +26,7 @@ namespace SIMS_HCI_Project.Controller
             _locationController = new LocationController();
             _tourTimeController = new TourTimeController();
 
-            _tours = _fileHandler.Load();
+            _tours = _fileHandler.Load(); //anastaNOTE to VuJe: pretpostavljam da ovde treba pozvati metodu Load() koju sam ispod implementirala
         }
 
         public List<Tour> GetAll()
@@ -62,15 +62,38 @@ namespace SIMS_HCI_Project.Controller
             return _tours.FindAll(t => t.GuideId == id);
         }
 
-        private int GenerateNextId()
+        private int GenerateNextId() //anastaNOTE to VuJe: maybe "next" is not needed?
         {
             if (_tours.Count == 0) return 1;
             return _tours[_tours.Count - 1].Id + 1;
         }
 
-        public void LoadConnections()
+        public void LoadConnections() //anastaNOTE to VuJe: mozda si ovde htela da napises ono sto sam ja u ConnectToursLocations ispod
         {
             /* TODO */
+        }
+
+        public void Load()
+        {
+            _tours = _fileHandler.Load();
+        }
+
+        public void Save()
+        {
+            _fileHandler.Save(_tours);
+        }
+
+        public Tour FindById(int id)
+        {
+            return _tours.Find(t => t.Id == id);
+        }
+
+        public void ConnectToursLocations(LocationController locationController)
+        {
+            foreach(Tour tour in _tours)
+            {
+                tour.Location = locationController.FindById(tour.LocationId);
+            }
         }
     }
 }

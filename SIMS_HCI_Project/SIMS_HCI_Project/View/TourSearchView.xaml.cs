@@ -38,6 +38,10 @@ namespace SIMS_HCI_Project.View
             _tourController = new TourController();
             _locationController = new LocationController();
             _tourController.Load();
+
+            _tourController.ConnectToursLocations(_locationController);
+
+            Tours = new ObservableCollection<Tour>(_tourController.GetAll());
         }
 
         private void btnReserve_Click(object sender, RoutedEventArgs e)
@@ -52,7 +56,26 @@ namespace SIMS_HCI_Project.View
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
+            List<Tour> result = new List<Tour>();
 
+            int maxGuests;
+            bool isValidMaxGuests = int.TryParse(txtGuestNumber.Text, out maxGuests);
+            int duration;
+            bool isValidDuration = int.TryParse(txtDuration.Text, out duration);
+
+            if (!isValidMaxGuests)
+            {
+                maxGuests = 0;
+            }
+
+            if (!isValidDuration)
+            {
+                duration = 0;
+            }
+
+            result = _tourController.Search(txtCountry.Text, txtCity.Text, duration, txtLanguage.Text, maxGuests);
+
+            dgTours.ItemsSource = result;
         }
 
         public void Update()

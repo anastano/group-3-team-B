@@ -13,10 +13,20 @@
             <ColumnDefinition Width="0*"/>
         </Grid.ColumnDefinitions>
 
-        <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Margin="10,66,172,10"/>
+        
 
-
-
+        <DataGrid x:Name="dgTours" d:ItemsSource="{Binding Path=Tours, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=_selectedTour, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False"  Margin="10,66,172,10" >
+            <ScrollViewer HorizontalScrollBarVisibility="Visible" />
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="110"></DataGridTextColumn>
+                <DataGridTextColumn Header="Country" Binding="{Binding Location.Country}" Width="110"></DataGridTextColumn>
+                <DataGridTextColumn Header="City" Binding="{Binding Location.City}" Width="110"></DataGridTextColumn>
+                <DataGridTextColumn Header="Language" Binding="{Binding Language}" Width="105"></DataGridTextColumn>
+                <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" Width="105"></DataGridTextColumn>
+                <DataGridTextColumn Header="Guest Capacity" Binding="{Binding MaxGuests}" Width="90"></DataGridTextColumn>
+                <DataGridTextColumn Header="Guide"  Width="110"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
 
         <Grid>
             <TextBox x:Name="txtCountry" HorizontalAlignment="Right" Margin="0,65,11,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145" />

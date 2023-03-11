@@ -57,6 +57,8 @@ namespace SIMS_HCI_Project.Controller
             return tour;
         }
 
+       
+
         public List<Tour> GetAllByGuideId(string id)
         {
             return _tours.FindAll(t => t.GuideId == id);
@@ -94,6 +96,19 @@ namespace SIMS_HCI_Project.Controller
             {
                 tour.Location = locationController.FindById(tour.LocationId);
             }
+        }
+
+        public List<Tour> Search(string country, string city, int duration, string language, int maxGuests)
+        {
+            var filtered = from _tour in _tours
+                           where (string.IsNullOrEmpty(country) || _tour.Location.Country.ToLower().Contains(country))
+                           && (string.IsNullOrEmpty(city) || _tour.Location.City.ToLower().Contains(city))
+                           && (duration == 0 )
+                           && (maxGuests == 0 || maxGuests <= _tour.MaxGuestNumber)
+                           && (string.IsNullOrEmpty(language) || _tour.Location.Country.ToLower().Contains(country))
+                           select _tour;
+
+            return filtered.ToList();
         }
     }
 }

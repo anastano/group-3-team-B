@@ -55,7 +55,8 @@ namespace SIMS_HCI_Project
 
                         break;
                     case 'S':
-                        //TODO: Forward to guest2 view
+                        Window guest2View = new Guest2View();
+                        guest2View.Show();
                         break;
                     case 'G':
                         Window guideWindow = new GuideMainView(new Guide(user.Id, user.Username, user.Password));

@@ -16,7 +16,7 @@ namespace SIMS_HCI_Project.Controller
         private LocationController _locationController;
         private TourTimeController _tourTimeController;
 
-        private readonly List<Tour> _tours;
+        private static List<Tour> _tours;
 
         public TourController()
         {
@@ -57,20 +57,54 @@ namespace SIMS_HCI_Project.Controller
             return tour;
         }
 
+       
+
         public List<Tour> GetAllByGuideId(string id)
         {
             return _tours.FindAll(t => t.GuideId == id);
         }
 
-        private int GenerateNextId()
+        private int GenerateNextId() //anastaNOTE to VuJe: maybe "next" is not needed?
         {
             if (_tours.Count == 0) return 1;
             return _tours[_tours.Count - 1].Id + 1;
         }
 
-        public void LoadConnections()
+        public void LoadConnections() //anastaNOTE to VuJe: mozda si ovde htela da napises ono sto sam ja u ConnectToursLocations ispod
         {
             /* TODO */
+        }
+
+        public void Load()
+        {
+            _tours = _fileHandler.Load();
+        }
+
+
+        public Tour FindById(int id)
+        {
+            return _tours.Find(t => t.Id == id);
+        }
+
+        public void ConnectToursLocations(LocationController locationController)
+        {
+            foreach(Tour tour in _tours)
+            {
+                tour.Location = locationController.FindById(tour.LocationId);
+            }
+        }
+
+        public List<Tour> Search(string country, string city, int duration, string language, int guestsNum)
+        {
+            var filtered = from _tour in _tours
+                           where (string.IsNullOrEmpty(country) || _tour.Location.Country.ToLower().Contains(country.ToLower()))
+                           && (string.IsNullOrEmpty(city) || _tour.Location.City.ToLower().Contains(city.ToLower()))
+                           && (duration == 0 || duration >= _tour.Duration)
+                           && (guestsNum == 0 || guestsNum <= _tour.MaxGuestNumber)
+                           && (string.IsNullOrEmpty(language) || _tour.Language.ToLower().Contains(language.ToLower()))
+                           select _tour;
+
+            return filtered.ToList();
         }
     }
 }

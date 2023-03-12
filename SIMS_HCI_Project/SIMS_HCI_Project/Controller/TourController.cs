@@ -26,7 +26,7 @@ namespace SIMS_HCI_Project.Controller
             _locationController = new LocationController();
             _tourTimeController = new TourTimeController();
 
-            _tours = _fileHandler.Load(); //anastaNOTE to VuJe: pretpostavljam da ovde treba pozvati metodu Load() koju sam ispod implementirala
+            _tours = _fileHandler.Load();
         }
 
         public List<Tour> GetAll()
@@ -80,10 +80,6 @@ namespace SIMS_HCI_Project.Controller
             _tours = _fileHandler.Load();
         }
 
-        public void Save()
-        {
-            _fileHandler.Save(_tours);
-        }
 
         public Tour FindById(int id)
         {
@@ -101,11 +97,11 @@ namespace SIMS_HCI_Project.Controller
         public List<Tour> Search(string country, string city, int duration, string language, int guestsNum)
         {
             var filtered = from _tour in _tours
-                           where (string.IsNullOrEmpty(country) || _tour.Location.Country.ToLower().Contains(country))
-                           && (string.IsNullOrEmpty(city) || _tour.Location.City.ToLower().Contains(city))
+                           where (string.IsNullOrEmpty(country) || _tour.Location.Country.ToLower().Contains(country.ToLower()))
+                           && (string.IsNullOrEmpty(city) || _tour.Location.City.ToLower().Contains(city.ToLower()))
                            && (duration == 0 || duration >= _tour.Duration)
                            && (guestsNum == 0 || guestsNum <= _tour.MaxGuestNumber)
-                           && (string.IsNullOrEmpty(language) || _tour.Language.ToLower().Contains(language))
+                           && (string.IsNullOrEmpty(language) || _tour.Language.ToLower().Contains(language.ToLower()))
                            select _tour;
 
             return filtered.ToList();

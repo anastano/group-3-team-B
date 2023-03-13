@@ -120,5 +120,15 @@ namespace SIMS_HCI_Project.View
             }
             txtReservationDays.Text = minDays.ToString();
         }
+
+        private void btnDisplayImages_Click(object sender, RoutedEventArgs e)
+        {
+          
+        }
+
+        private void btnReserve_Click(object sender, RoutedEventArgs e)
+        {
+           
+        }
     }
 }

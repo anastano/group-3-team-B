@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.View"
         mc:Ignorable="d"
-        Title="AccommodationSearchView" Height="650" Width="880" WindowStartupLocation="CenterScreen">
+        Title="AccommodationSearchView" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
     <Grid>
         <StackPanel Orientation="Horizontal">
             
@@ -27,6 +27,20 @@
                         <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="105"></DataGridTextColumn>
                         <DataGridTextColumn Header="Minimum Days" Binding="{Binding MinimumReservationDays}" Width="95"></DataGridTextColumn>
                         <DataGridTextColumn Header="Guest Capacity" Binding="{Binding MaxGuests}" Width="90"></DataGridTextColumn>
+                        <DataGridTemplateColumn Header="Images">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Images" Click="btnDisplayImages_Click"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Reserve">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Reserve" Click="btnReserve_Click"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>
@@ -54,7 +68,7 @@
                 <TextBlock HorizontalAlignment="Left" Height="20" Margin="30,1,10,10" TextWrapping="Wrap" Text="Guest Number" VerticalAlignment="Top" Width="144" TextAlignment="Center" />
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="btnMinusGuest" Click="btnMinusGuest_Click" Content="-" Margin="1,1,10,10" FontSize="18" Width="20"/>
-                    <TextBox HorizontalAlignment="Left" Text="{Binding Path = Accommodation.MaxGuests, UpdateSourceTrigger = PropertyChanged}" Name="txtGuestNumber" Height="28" Margin="0,1,0, 0" TextWrapping="Wrap" VerticalAlignment="Top" Width="144"/>
+                    <TextBox HorizontalAlignment="Left" IsReadOnly="True" Text="{Binding Path = Accommodation.MaxGuests, UpdateSourceTrigger = PropertyChanged}" Name="txtGuestNumber" Height="28" Margin="0,1,0, 0" TextWrapping="Wrap" VerticalAlignment="Top" Width="144"/>
                     <Button x:Name="btnPlusGuest" Click="btnPlusGuest_Click" Content="+"  FontSize="18" Margin="10,1,10,10" Width="20"/>
                 </StackPanel>
 

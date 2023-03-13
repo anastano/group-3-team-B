@@ -105,8 +105,8 @@ namespace SIMS_HCI_Project.Controller
 
             var filtered = from _accommodation in _accommodations
                            where (string.IsNullOrEmpty(name) || _accommodation.Name.ToLower().Contains(name.ToLower()))
-                           && (string.IsNullOrEmpty(country) || _accommodation.Location.Country.ToLower().Contains(country))
-                           && (string.IsNullOrEmpty(city) || _accommodation.Location.City.ToLower().Contains(city))
+                           && (string.IsNullOrEmpty(country) || _accommodation.Location.Country.ToLower().Contains(country.ToLower()))
+                           && (string.IsNullOrEmpty(city) || _accommodation.Location.City.ToLower().Contains(city.ToLower()))
                            && (string.IsNullOrEmpty(type) || Accommodation.ConvertAccommodationTypeToString(_accommodation.Type).Equals(type))
                            && (maxGuests == 0 || maxGuests <= _accommodation.MaxGuests)
                            && (reservationDays == 0 || reservationDays >= _accommodation.MinimumReservationDays)

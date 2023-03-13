@@ -8,18 +8,13 @@
         Title="AccommodationSearchView" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
     <Grid>
         <StackPanel Orientation="Horizontal">
-            
+
             <StackPanel>
-                
-                <StackPanel Orientation="Horizontal">
-                    <Button Content="Reserve" HorizontalAlignment="Left" Height="28" Margin="100,30,10,20" VerticalAlignment="Top" Width="100"/>
-                    <Button Content="Show Images" HorizontalAlignment="Left" Height="28" Margin="100,30,0,20" VerticalAlignment="Top" Width="100"/>
-                </StackPanel>
 
                 <DataGrid x:Name="DataGridAccommodation"
                   ItemsSource="{Binding Path=Accommodations, UpdateSourceTrigger=PropertyChanged}"
-                  SelectedItem="{Binding Path=_selectedAccommodation, UpdateSourceTrigger=PropertyChanged}"
-                  AutoGenerateColumns="False" IsReadOnly="True" Margin="20, 0, 10, 10">
+                  SelectedItem="{Binding Path=SelectedAccommodation, UpdateSourceTrigger=PropertyChanged}"
+                  AutoGenerateColumns="False" IsReadOnly="True" Margin="20, 80, 10, 10">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="110"></DataGridTextColumn>
                         <DataGridTextColumn Header="Country" Binding="{Binding Location.Country}" Width="110"></DataGridTextColumn>

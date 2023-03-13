@@ -123,7 +123,8 @@ namespace SIMS_HCI_Project.View
 
         private void btnDisplayImages_Click(object sender, RoutedEventArgs e)
         {
-          
+            Window window = new AccommodationImagesView(_accommodationController, SelectedAccommodation);
+            window.Show();
         }
 
         private void btnReserve_Click(object sender, RoutedEventArgs e)

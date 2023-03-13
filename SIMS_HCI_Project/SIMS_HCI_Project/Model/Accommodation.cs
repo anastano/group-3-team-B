@@ -24,14 +24,14 @@ namespace SIMS_HCI_Project.Model
         public int MaxGuests { get; set; }
         public int MinimumReservationDays { get; set; }
         public int CancellationDeadlineInDays { get; set; }
-        public List<string> Pictures { get; set; } //[Maybe] Change to List<URI>
+        public List<string> Images { get; set; } //[Maybe] Change to List<URI>
 
         public Accommodation() 
         {
             MaxGuests = 1;
             MinimumReservationDays = 1;
             CancellationDeadlineInDays = 1;
-            Pictures = new List<string>();
+            Images = new List<string>();
         }
 
  
@@ -48,7 +48,7 @@ namespace SIMS_HCI_Project.Model
             MaxGuests = maxGuests;
             MinimumReservationDays = minimumReservationDays; // default --> 1
             CancellationDeadlineInDays = cancellationDeadlineInDays;
-            Pictures = new List<string>();  //change if needed
+            Images = new List<string>();  //change if needed
         }
 
         public Accommodation(Accommodation temp)
@@ -62,7 +62,7 @@ namespace SIMS_HCI_Project.Model
             MaxGuests = temp.MaxGuests;
             MinimumReservationDays = temp.MinimumReservationDays;
             CancellationDeadlineInDays = temp.CancellationDeadlineInDays;
-            Pictures = temp.Pictures;
+            Images = temp.Images;
 
         }
 
@@ -79,7 +79,7 @@ namespace SIMS_HCI_Project.Model
                 MaxGuests.ToString(),
                 MinimumReservationDays.ToString(),
                 CancellationDeadlineInDays.ToString(),
-                string.Join(",", Pictures) // --> [Maybe] separate CSV file
+                string.Join(",", Images) // --> [Maybe] separate CSV file
 
             };
             return csvValues;
@@ -95,7 +95,7 @@ namespace SIMS_HCI_Project.Model
             MaxGuests = int.Parse(values[5]);
             MinimumReservationDays = int.Parse(values[6]);
             CancellationDeadlineInDays = int.Parse(values[7]);
-            Pictures = new List<string>(values[8].Split(",")); // --> [Maybe] separate CSV file
+            Images = new List<string>(values[8].Split(",")); // --> [Maybe] separate CSV file
         }
 
 

@@ -1,14 +1,18 @@
 ﻿using SIMS_HCI_Project.Serializer;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Diagnostics.Metrics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Model
 {
-    public class Tour : ISerializable
+    public class Tour : ISerializable, IDataErrorInfo, INotifyPropertyChanged, INotifyCollectionChanged 
     {
         public int Id { get; set; }
         public string GuideId { get; set; }
@@ -25,12 +29,24 @@ namespace SIMS_HCI_Project.Model
         public int Duration { get; set; }
         public List<string> Images { get; set; } // [Maybe] TODO: Change to URI type
 
-        public Tour() { }
+        public Tour() {
+
+            Location = new Location();
+            Images = new List<string>();
+            DepartureTimes = new List<TourTime>();
+            KeyPoints = new List<TourKeyPoint>();
+        }
 
         public Tour(Guide guide)
         {
             Guide = guide;
             GuideId = guide.Id;
+
+
+            Location = new Location();
+            Images = new List<string>();
+            DepartureTimes = new List<TourTime>();
+            KeyPoints = new List<TourKeyPoint>();
         }
 
         public Tour(string title, int locationId, string description, string language, int maxGuestNumber, int duration)
@@ -45,6 +61,7 @@ namespace SIMS_HCI_Project.Model
             Location = new Location();
             Images = new List<string>();
             DepartureTimes = new List<TourTime>();
+            KeyPoints = new List<TourKeyPoint>();
         }
 
         public string[] ToCSV()
@@ -66,5 +83,75 @@ namespace SIMS_HCI_Project.Model
             Duration = Convert.ToInt32(values[8]);
             Images = new List<string>(values[9].Split(","));
         }
+
+        public string Error => null;
+
+        public string this[string columnName]
+        {
+            get
+            {
+                switch(columnName)
+                {
+                    case "Title":
+                        if (string.IsNullOrEmpty(Title))
+                            return "Title is required";
+                        break;
+                    case "Description":
+                        if (string.IsNullOrEmpty(Description))
+                            return "Description is required";
+                        break;
+                    case "Language":
+                        if (string.IsNullOrEmpty(Language))
+                            return "Language is required";
+                        break;
+                    case "MaxGuestNumber":
+                        if (MaxGuestNumber < 1)
+                            return "MaxGuestNumber is required and cannot be less than 1";
+                        break;
+                    case "Duration":
+                        if (Duration < 1)
+                            return "Duration is required and cannot be less than 1h";
+                        break;
+                    case "DepartureTimes":
+                        if (DepartureTimes.Count < 1)
+                            return "Tour must have at least one Departure Time";
+                        break;
+                    case "KeyPoints":
+                        if (KeyPoints.Count < 2)
+                            return "Tour must have at least two Key Points";
+                        break;
+                }
+                return null;
+            }
+
+        }
+
+        private readonly string[] _validatedProperties = { "Title", "Description", "Language", "MaxGuestNumber", "Duration", "DepartureTimes", "KeyPoints" };
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        public event NotifyCollectionChangedEventHandler? CollectionChanged;
+
+        protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        {
+            if (CollectionChanged != null)
+            {
+                CollectionChanged(this, e);
+            }
+        }
+
+        public bool IsValid
+        {
+            get
+            {
+                foreach (var property in _validatedProperties)
+                {
+                    if (this[property] != null)
+                        return false;
+                }
+
+                return true;
+            }
+        }
+
     }
 }

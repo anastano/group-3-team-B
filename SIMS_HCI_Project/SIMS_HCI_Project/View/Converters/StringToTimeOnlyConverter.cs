@@ -16,7 +16,6 @@ namespace SIMS_HCI_Project.View.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Trace.WriteLine("Convert");
             var v = (TimeOnly)value;
             
             return String.Format("{0:00}:{1:00}", v.Hour, v.Minute);
@@ -24,9 +23,6 @@ namespace SIMS_HCI_Project.View.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Trace.WriteLine("ConvertBack");
-            //var v = new TimeOnly();
-            //return String.Format("{00:00}", v);
             var v = value as string;
             TimeOnly ret = new TimeOnly();
             if (TimeOnly.TryParse(v, out ret))

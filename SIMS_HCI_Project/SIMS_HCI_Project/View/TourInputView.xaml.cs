@@ -59,8 +59,6 @@ namespace SIMS_HCI_Project.View
                 OnPropertyChanged();
             }
         }
-        public string StartKeyPointTitle { get; set; }
-        public string EndKeyPointTitle { get; set; }
         public ObservableCollection<TourKeyPoint> KeyPoints { get; set; }
 
         private string _imageURL;
@@ -100,6 +98,9 @@ namespace SIMS_HCI_Project.View
 
             _tourController = tourController;
 
+            lblDepartureTimesErrorMessage.Content = Tour["DepartureTimes"];
+            lblKeyPointsErrorMessage.Content = Tour["KeyPoints"];
+
             DataContext = this;
         }
 
@@ -110,6 +111,7 @@ namespace SIMS_HCI_Project.View
                 Images.Add(ImageURL);
                 ImageURL = "";
             }
+            UpdateSubmitButtonStatus();
         }
 
         private void btnAddKeyPoint_Click(object sender, RoutedEventArgs e)
@@ -117,28 +119,74 @@ namespace SIMS_HCI_Project.View
             if(KeyPointTitle != "")
             {
                 KeyPoints.Add(new TourKeyPoint(KeyPointTitle));
+                Tour.KeyPoints.Add(new TourKeyPoint(KeyPointTitle));
+                lblKeyPointsErrorMessage.Content = Tour["KeyPoints"]; // TODO: Try to do this with binding only
                 KeyPointTitle = "";
             }
+            UpdateSubmitButtonStatus();
         }
 
         private void btnAddDepartureTime_Click(object sender, RoutedEventArgs e)
         {
             DateTime element = DepartureDate;
             element += DepartureTime.ToTimeSpan();
+
             DepartureTimes.Add(element);
+            Tour.DepartureTimes.Add(new TourTime(8, element));
+            lblDepartureTimesErrorMessage.Content = Tour["DepartureTimes"]; // TODO: Try to do this with binding only
 
             DepartureDate = new DateTime(2023, 1, 1);
             DepartureTime = new TimeOnly(0, 0);
+            UpdateSubmitButtonStatus();
         }
 
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
-            KeyPoints.Insert(0, new TourKeyPoint(StartKeyPointTitle));
-            KeyPoints.Add(new TourKeyPoint(EndKeyPointTitle));
-
             _tourController.Save(Tour, Location, new List<TourKeyPoint>(KeyPoints), new List<DateTime>(DepartureTimes), new List<string>(Images));
 
             //this.Close();
+        }
+
+        private void ButtonAvailableCheck(object sender, RoutedEventArgs e)
+        {
+            UpdateSubmitButtonStatus();
+        }
+
+        private void btnRemoveDepartureTime_Click(object sender, RoutedEventArgs e)
+        {
+            if (lbDepartureTimes.SelectedItem != null)
+            {
+                Tour.DepartureTimes.RemoveAt(lbDepartureTimes.SelectedIndex);
+                DepartureTimes.RemoveAt(lbDepartureTimes.SelectedIndex);
+                lblDepartureTimesErrorMessage.Content = Tour["DepartureTimes"];
+            }
+            UpdateSubmitButtonStatus();
+        }
+
+        private void btnRemoveKeyPoint_Click(object sender, RoutedEventArgs e)
+        {
+            if (lbKeyPoints.SelectedItem != null)
+            {
+                Tour.KeyPoints.RemoveAt(lbKeyPoints.SelectedIndex);
+                KeyPoints.RemoveAt(lbKeyPoints.SelectedIndex);
+                lblKeyPointsErrorMessage.Content = Tour["KeyPoints"];
+            }
+            UpdateSubmitButtonStatus();
+        }
+
+        private void btnRemoveImage_Click(object sender, RoutedEventArgs e)
+        {
+            if (lbImages.SelectedItem != null)
+            {
+                Images.RemoveAt(lbImages.SelectedIndex);
+            }
+            UpdateSubmitButtonStatus();
+        }
+
+        private void UpdateSubmitButtonStatus()
+        {
+            if (Tour.IsValid && Location.IsValid) btnSubmit.IsEnabled = true;
+            else btnSubmit.IsEnabled = false;
         }
     }
 }

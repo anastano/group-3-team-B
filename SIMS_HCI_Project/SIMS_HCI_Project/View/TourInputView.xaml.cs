@@ -25,8 +25,8 @@ namespace SIMS_HCI_Project.View
         private Guide _guide;
 
         public Tour Tour { get; set; }
-        public Location Location { get; set; }
 
+        #region newDepartureDate
         private DateTime _departureDate;
         public DateTime DepartureDate
         {
@@ -47,8 +47,10 @@ namespace SIMS_HCI_Project.View
                 OnPropertyChanged();
             }
         }
+        #endregion
         public ObservableCollection<DateTime> DepartureTimes { get; set; }
 
+        #region newKeyPoint
         private string _keyPointTitle;
         public string KeyPointTitle
         {
@@ -59,8 +61,10 @@ namespace SIMS_HCI_Project.View
                 OnPropertyChanged();
             }
         }
+        #endregion
         public ObservableCollection<TourKeyPoint> KeyPoints { get; set; }
 
+        #region newImage
         private string _imageURL;
         public string ImageURL
         {
@@ -71,15 +75,18 @@ namespace SIMS_HCI_Project.View
                 OnPropertyChanged();
             }
         }
+        #endregion
         public ObservableCollection<string> Images { get; set; }
 
         private readonly TourController _tourController;
 
+        #region PropertyChanged
         public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion
 
         public TourInputView(TourController tourController, Guide guide)
         {
@@ -88,7 +95,6 @@ namespace SIMS_HCI_Project.View
             _guide = guide;
 
             Tour = new Tour(guide);
-            Location = new Location();
             DepartureDate = new DateTime(2023, 1, 1);
             DepartureTime = new TimeOnly();
 
@@ -128,28 +134,25 @@ namespace SIMS_HCI_Project.View
 
         private void btnAddDepartureTime_Click(object sender, RoutedEventArgs e)
         {
-            DateTime element = DepartureDate;
-            element += DepartureTime.ToTimeSpan();
+            DateTime newDepartureTime = DepartureDate;
+            newDepartureTime += DepartureTime.ToTimeSpan();
 
-            DepartureTimes.Add(element);
-            Tour.DepartureTimes.Add(new TourTime(8, element));
+            DepartureTimes.Add(newDepartureTime);
+            Tour.DepartureTimes.Add(new TourTime(newDepartureTime));
             lblDepartureTimesErrorMessage.Content = Tour["DepartureTimes"]; // TODO: Try to do this with binding only
 
             DepartureDate = new DateTime(2023, 1, 1);
             DepartureTime = new TimeOnly(0, 0);
+
             UpdateSubmitButtonStatus();
         }
 
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
-            _tourController.Save(Tour, Location, new List<TourKeyPoint>(KeyPoints), new List<DateTime>(DepartureTimes), new List<string>(Images));
+            Tour.Images.AddRange(Images);
+            _tourController.Save(Tour);
 
-            //this.Close();
-        }
-
-        private void ButtonAvailableCheck(object sender, RoutedEventArgs e)
-        {
-            UpdateSubmitButtonStatus();
+            this.Close();
         }
 
         private void btnRemoveDepartureTime_Click(object sender, RoutedEventArgs e)
@@ -183,9 +186,14 @@ namespace SIMS_HCI_Project.View
             UpdateSubmitButtonStatus();
         }
 
+        private void ButtonAvailableCheck(object sender, RoutedEventArgs e)
+        {
+            UpdateSubmitButtonStatus();
+        }
+
         private void UpdateSubmitButtonStatus()
         {
-            if (Tour.IsValid && Location.IsValid) btnSubmit.IsEnabled = true;
+            if (Tour.IsValid && Tour.Location.IsValid) btnSubmit.IsEnabled = true;
             else btnSubmit.IsEnabled = false;
         }
     }

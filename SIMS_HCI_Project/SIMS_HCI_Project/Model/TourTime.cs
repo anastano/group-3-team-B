@@ -18,6 +18,12 @@ namespace SIMS_HCI_Project.Model
 
         public TourTime() { }
 
+        public TourTime(DateTime departureTime)
+        {
+            DepartureTime = departureTime;
+            Status = TourStatus.NOT_STARTED;
+        }
+
         public TourTime(int tourId, DateTime departureTime)
         {
             TourId = tourId;

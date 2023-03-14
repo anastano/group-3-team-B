@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Model
 {
-    public enum TourStatus { A, NOT_STARTED, IN_PROGRESS, COMPLETED, CANCELED };
+    public enum TourStatus { NOT_STARTED, IN_PROGRESS, COMPLETED, CANCELED };
 
     public class TourTime : ISerializable
     {
@@ -24,14 +24,14 @@ namespace SIMS_HCI_Project.Model
         public TourTime(DateTime departureTime)
         {
             DepartureTime = departureTime;
-            //Status = TourStatus.NOT_STARTED;
+            Status = TourStatus.NOT_STARTED;
         }
 
         public TourTime(int tourId, DateTime departureTime)
         {
             TourId = tourId;
             DepartureTime = departureTime;
-            //Status = TourStatus.NOT_STARTED;
+            Status = TourStatus.NOT_STARTED;
         }
 
         public string[] ToCSV()

@@ -84,7 +84,6 @@ namespace SIMS_HCI_Project.Controller
 
         public void AddAccommodationToOwner(Accommodation accommodation)
         {
-            AccommodationController accommodationController = new AccommodationController();
             Owner owner = FindById(accommodation.OwnerId);
             owner.Accommodations.Add(accommodation);
         }

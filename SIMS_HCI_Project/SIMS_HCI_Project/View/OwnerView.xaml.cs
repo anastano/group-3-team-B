@@ -24,6 +24,7 @@ namespace SIMS_HCI_Project.View
 
         private AccommodationController _accommodationController;
         private OwnerController _ownerController;
+        private LocationController _locationController;
 
         public OwnerView(string ownerId)
         {
@@ -38,11 +39,13 @@ namespace SIMS_HCI_Project.View
         {
             _accommodationController = new AccommodationController();
             _ownerController = new OwnerController();
+            _locationController = new LocationController();
 
             _accommodationController.Load();
             _ownerController.Load();
 
             _ownerController.FillOwnerAccommodationList(); //fills accommodation list for each owner
+            _accommodationController.ConnectAccommodationsWithLocations(_locationController);
         }
 
         private void btnAccommodationRegistration_Click(object sender, RoutedEventArgs e)

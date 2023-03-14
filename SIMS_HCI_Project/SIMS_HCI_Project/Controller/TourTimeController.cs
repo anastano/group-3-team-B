@@ -12,12 +12,15 @@ namespace SIMS_HCI_Project.Controller
     {
         private TourTimeFileHandler _fileHandler;
 
-        private readonly List<TourTime> _tourTimes;
+        private static List<TourTime> _tourTimes;
 
         public TourTimeController()
         {
-            _fileHandler = new TourTimeFileHandler();
-            _tourTimes = _fileHandler.Load();
+            if (_tourTimes == null)
+            {
+                _fileHandler = new TourTimeFileHandler();
+                _tourTimes = _fileHandler.Load();
+            }
         }
 
         public List<TourTime> GetAll()
@@ -50,11 +53,16 @@ namespace SIMS_HCI_Project.Controller
 
         public void AssignTourToTourTimes(Tour tour, List<TourTime> tourTimes)
         {
-            foreach(TourTime tourTime in tourTimes)
+            foreach (TourTime tourTime in tourTimes)
             {
                 tourTime.TourId = tour.Id;
                 tourTime.Tour = tour;
             }
+        }
+
+        public List<TourTime> GetAllByGuideId(string id)
+        {
+            return _tourTimes.FindAll(tt => tt.Tour.GuideId == id);
         }
 
         private int GenerateId()

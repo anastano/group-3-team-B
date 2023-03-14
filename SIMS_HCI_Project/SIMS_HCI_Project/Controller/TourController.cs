@@ -26,7 +26,7 @@ namespace SIMS_HCI_Project.Controller
             _locationController = new LocationController();
             _tourTimeController = new TourTimeController();
 
-            _tours = _fileHandler.Load();
+            Load();
         }
 
         public List<Tour> GetAll()
@@ -47,7 +47,7 @@ namespace SIMS_HCI_Project.Controller
             _tourTimeController.AssignTourToTourTimes(tour, tour.DepartureTimes);
             tour.DepartureTimes = _tourTimeController.SaveMultiple(tour.DepartureTimes);
 
-            tour.Guide.AddTour(tour);
+            tour.Guide.AddTourTimes(tour.DepartureTimes);
             _tours.Add(tour);
             _fileHandler.Save(_tours);
 
@@ -81,6 +81,16 @@ namespace SIMS_HCI_Project.Controller
             foreach(Tour tour in _tours)
             {
                 tour.Location = locationController.FindById(tour.LocationId);
+            }
+        }
+
+        public void ConnectDepartureTimes()
+        {
+            /* TODO: Organize startup load better */
+            foreach(TourTime tourTime in _tourTimeController.GetAll())
+            {
+                tourTime.Tour = FindById(tourTime.TourId);
+                tourTime.Tour.DepartureTimes.Add(tourTime);
             }
         }
 

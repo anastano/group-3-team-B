@@ -9,7 +9,17 @@
     <Grid>
         <Button x:Name="btnTourInput" Content="Create new tour" HorizontalAlignment="Left" Margin="93,48,0,0" VerticalAlignment="Top" Height="80" Width="128" Click="btnTourInput_Click"/>
         <Button x:Name="btnTodayTours" Content="See todays tours" HorizontalAlignment="Left" Margin="231,48,0,0" VerticalAlignment="Top" Height="80" Width="128" Click="btnTodayTours_Click"/>
-        <DataGrid ItemsSource="{Binding Path=Guide.Tours, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="27,146,26,31" AutoGenerateColumns="True"/>
+        <DataGrid ItemsSource="{Binding Path=Guide.Tours, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="27,146,26,31" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Tour Id" Binding="{Binding TourId}" Width="110"></DataGridTextColumn>
+                <DataGridTextColumn Header="Tour Title" Binding="{Binding Tour.Title}" Width="110"></DataGridTextColumn>
+                <DataGridTextColumn Header="Location Id" Binding="{Binding Tour.LocationId}" Width="110"></DataGridTextColumn>
+                <DataGridTextColumn Header="DepartureTime" Binding="{Binding DepartureTime}" Width="105"></DataGridTextColumn>
+                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="105"></DataGridTextColumn>
+
+            </DataGrid.Columns>
+
+        </DataGrid>
 
     </Grid>
 </Window>

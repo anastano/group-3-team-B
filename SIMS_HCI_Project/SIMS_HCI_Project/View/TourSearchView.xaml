@@ -25,7 +25,7 @@
                 <DataGridTextColumn Header="City" Binding="{Binding Location.City}" Width="110"></DataGridTextColumn>
                 <DataGridTextColumn Header="Language" Binding="{Binding Language}" Width="105"></DataGridTextColumn>
                 <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" Width="105"></DataGridTextColumn>
-                <DataGridTextColumn Header="Guest Capacity" Binding="{Binding MaxGuestNumber}" Width="90"></DataGridTextColumn>
+                <DataGridTextColumn Header="Guest Capacity" Binding="{Binding MaxGuests}" Width="90"></DataGridTextColumn>
                 <DataGridTextColumn Header="Guide" Binding="{Binding GuideId}"  Width="110"></DataGridTextColumn>
 
             </DataGrid.Columns>

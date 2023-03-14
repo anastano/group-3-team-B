@@ -1,0 +1,43 @@
+﻿<Window x:Class="SIMS_HCI_Project.View.OwnerAccommodationsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_HCI_Project.View"
+        mc:Ignorable="d"
+        Title="AccommodationView" Height="500" Width="900" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid Background="Turquoise">
+
+            <StackPanel Margin="20">
+
+                <TextBlock x:Name="tblAccommodations" Text="Registered accommodations:" 
+                       Width="400" Height="50" VerticalAlignment="Center" Foreground="Azure" FontSize="30" TextAlignment="Center">
+                </TextBlock>
+
+                
+                    <Grid Height="350">
+                    
+                        <DataGrid x:Name = "dgAccommodation" AutoGenerateColumns="False" ItemsSource="{Binding Path=Accommodations, UpdateSourceTrigger=PropertyChanged}" 
+                                  SelectedItem="{Binding Path=SelectedAccommodation, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"
+                                  Background="Azure">
+
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Owner Id" Binding="{Binding OwnerId}" Width="*"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="2*"></DataGridTextColumn>
+                            <DataGridTextColumn Header="City" Binding="{Binding Location.City}" Width="*"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Country" Binding="{Binding Location.Country}" Width="*"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Max guests" Binding="{Binding MaxGuests}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Min days" Binding="{Binding MinimumReservationDays}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Cancellation dead line" Binding="{Binding CancellationDeadlineInDays}" Width="2*"></DataGridTextColumn>
+                            </DataGrid.Columns>
+             
+                        </DataGrid>
+                    </Grid>
+                
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

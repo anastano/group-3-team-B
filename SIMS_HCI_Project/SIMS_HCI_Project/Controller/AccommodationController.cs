@@ -20,7 +20,7 @@ namespace SIMS_HCI_Project.Controller
         private static List<Accommodation> _accommodations;
 
         private readonly OwnerController _ownerController;
-        private LocationController _locationController;
+        private readonly LocationController _locationController;
 
         public AccommodationController() 
         {

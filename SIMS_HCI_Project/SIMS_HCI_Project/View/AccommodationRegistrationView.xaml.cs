@@ -33,18 +33,18 @@ namespace SIMS_HCI_Project.View
         private AccommodationController _accommodationController;
         private LocationController _locationController = new LocationController(); //should this be passed as parameter???
 
-        private string _pictureURL;
-        public string PictureURL
+        private string _imageURL;
+        public string ImageURL
         {
-            get { return _pictureURL; }
+            get { return _imageURL; }
             set
             {
-                _pictureURL = value;
+                _imageURL = value;
                 OnPropertyChanged();
             }
         }
 
-        public ObservableCollection<string> Pictures { get; set; }
+        public ObservableCollection<string> Images { get; set; }
 
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -63,7 +63,7 @@ namespace SIMS_HCI_Project.View
             
             Accommodation = new Accommodation();   //check if it is needed to initialize default values
             Location = new Location();
-            Pictures = new ObservableCollection<string>();
+            Images = new ObservableCollection<string>();
 
             _accommodationController = accommodationController;
 
@@ -72,7 +72,7 @@ namespace SIMS_HCI_Project.View
         private void btnRegister_Click(object sender, RoutedEventArgs e)
         {
  
-            _accommodationController.Register(Accommodation, _ownerId, Location, new List<string>(Pictures));
+            _accommodationController.Register(Accommodation, _ownerId, Location, new List<string>(Images));
 
             Close();
         }
@@ -132,12 +132,12 @@ namespace SIMS_HCI_Project.View
             txtCancellationDeadLineInDays.Text = cancellationDays.ToString();
         }
 
-        private void btnAddPicture_Click(object sender, RoutedEventArgs e)
+        private void btnAddImage_Click(object sender, RoutedEventArgs e)
         {
-            if (PictureURL != "")
+            if (ImageURL != "")
             {
-                Pictures.Add(PictureURL);
-                PictureURL = "";
+                Images.Add(ImageURL);
+                ImageURL = "";
             }
         }
     }

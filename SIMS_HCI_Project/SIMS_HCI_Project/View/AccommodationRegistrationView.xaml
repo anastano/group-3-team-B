@@ -36,7 +36,7 @@
                     <Label Content="Maximum number of guests: " Grid.Row="3" Grid.Column="0" Height="40" Foreground="Turquoise" FontSize="20"></Label>
                     <Label Content="Minimum number of days: " Grid.Row="4" Grid.Column="0" Height="40" Foreground="Turquoise" FontSize="20"></Label>
                     <Label Content="Cancellation deadline in days: " Grid.Row="5" Grid.Column="0" Height="40" Foreground="Turquoise" FontSize="20"></Label>
-                    <Label Content="Pictures: " Grid.Row="6" Grid.Column="0" Height="40" Foreground="Turquoise" FontSize="20"></Label>
+                    <Label Content="Images: " Grid.Row="6" Grid.Column="0" Height="40" Foreground="Turquoise" FontSize="20"></Label>
 
                     <TextBox x:Name="txtName"  Grid.Row="0" Grid.Column="1" 
                              Text="{Binding Path = Accommodation.Name, UpdateSourceTrigger =PropertyChanged}"
@@ -180,7 +180,7 @@
                     <StackPanel Grid.Row="6" Grid.Column="1">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <TextBox x:Name="txtPictureURL"  
-                                    Text="{Binding Path = PictureURL, UpdateSourceTrigger = PropertyChanged}"
+                                    Text="{Binding Path = ImageURL, UpdateSourceTrigger = PropertyChanged}"
                                      Width="250" Height="60" HorizontalAlignment="Left" BorderBrush="Turquoise" TextAlignment="Center" FontSize="20" TextWrapping="Wrap" Margin="0 10 0 0 ">
                                 <TextBox.Resources>
                                     <Style TargetType="Border">
@@ -188,7 +188,7 @@
                                     </Style>
                                 </TextBox.Resources>
                             </TextBox>
-                            <Button x:Name="btnAddPicture" Click="btnAddPicture_Click" Content="+" Width="50" Height="50" 
+                            <Button x:Name="btnAddImage" Click="btnAddImage_Click" Content="+" Width="50" Height="50" 
                                     Margin="20 10 0 0" Background="Turquoise" Foreground="Azure" FontSize="30">
                                 <Button.Resources>
                                     <Style TargetType="Border">
@@ -198,7 +198,7 @@
                             </Button>
                         </StackPanel>
                         <ListBox x:Name="lbImages" Height="150" BorderBrush="Turquoise" FontSize="15"
-                                 ItemsSource="{Binding Path=Pictures, UpdateSourceTrigger=PropertyChanged}" 
+                                 ItemsSource="{Binding Path=Images, UpdateSourceTrigger=PropertyChanged}" 
                                  Margin="0 10 0 0" ScrollViewer.VerticalScrollBarVisibility="Visible">
                         </ListBox>
                     </StackPanel>

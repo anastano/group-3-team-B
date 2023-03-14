@@ -27,6 +27,9 @@ namespace SIMS_HCI_Project.Controller
 
         public TourTime Save(TourTime tourTime)
         {
+            tourTime.Id = GenerateId();
+            tourTime.CurrentKeyPoint = tourTime.Tour.KeyPoints.First();
+
             _tourTimes.Add(tourTime);
             _fileHandler.Save(_tourTimes);
 
@@ -52,6 +55,12 @@ namespace SIMS_HCI_Project.Controller
                 tourTime.TourId = tour.Id;
                 tourTime.Tour = tour;
             }
+        }
+
+        private int GenerateId()
+        {
+            if (_tourTimes.Count == 0) return 1;
+            return _tourTimes[_tourTimes.Count - 1].Id + 1;
         }
 
         public List<TourTime> ConvertDateTimesToTourTimes(int tourId, List<DateTime> tourDateTimes)

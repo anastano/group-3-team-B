@@ -36,7 +36,7 @@ namespace SIMS_HCI_Project.Controller
 
         public Tour Save(Tour tour)
         {
-            tour.Id = GenerateNextId();
+            tour.Id = GenerateId();
 
             tour.Location = _locationController.Save(tour.Location);
             tour.LocationId = tour.Location.Id;
@@ -59,15 +59,10 @@ namespace SIMS_HCI_Project.Controller
             return _tours.FindAll(t => t.GuideId == id);
         }
 
-        private int GenerateNextId() //anastaNOTE to VuJe: maybe "next" is not needed?
+        private int GenerateId()
         {
             if (_tours.Count == 0) return 1;
             return _tours[_tours.Count - 1].Id + 1;
-        }
-
-        public void LoadConnections() //anastaNOTE to VuJe: mozda si ovde htela da napises ono sto sam ja u ConnectToursLocations ispod
-        {
-            /* TODO */
         }
 
         public void Load()
@@ -95,7 +90,7 @@ namespace SIMS_HCI_Project.Controller
                            where (string.IsNullOrEmpty(country) || _tour.Location.Country.ToLower().Contains(country.ToLower()))
                            && (string.IsNullOrEmpty(city) || _tour.Location.City.ToLower().Contains(city.ToLower()))
                            && (duration == 0 || duration >= _tour.Duration)
-                           && (guestsNum == 0 || guestsNum <= _tour.MaxGuestNumber)
+                           && (guestsNum == 0 || guestsNum <= _tour.MaxGuests)
                            && (string.IsNullOrEmpty(language) || _tour.Language.ToLower().Contains(language.ToLower()))
                            select _tour;
 

@@ -23,13 +23,17 @@ namespace SIMS_HCI_Project.View
 
         public Guide Guide { get; set; }
         private TourController _tourController;
+        private TourTimeController _tourTimeController;
 
         public GuideMainView(Guide guide)
         {
             InitializeComponent();
             _tourController = new TourController();
+            _tourTimeController = new TourTimeController();
+            _tourController.ConnectDepartureTimes();
+
             Guide = guide;
-            Guide.Tours = new ObservableCollection<Tour>(_tourController.GetAllByGuideId(guide.Id));
+            Guide.Tours = new ObservableCollection<TourTime>(_tourTimeController.GetAllByGuideId(guide.Id));
 
             DataContext = this;
         }

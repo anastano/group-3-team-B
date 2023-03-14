@@ -11,10 +11,13 @@ namespace SIMS_HCI_Project.Model
 
     public class TourTime : ISerializable
     {
+        public int Id { get; set; }
         public int TourId { get; set; }
         public Tour Tour { get; set; }
         public DateTime DepartureTime { get; set; }
         public TourStatus Status { get; set; }
+        public TourKeyPoint CurrentKeyPoint { get; set; }
+        public int CurrentKeyPointId { get; set; }
 
         public TourTime() { }
 
@@ -33,15 +36,17 @@ namespace SIMS_HCI_Project.Model
 
         public string[] ToCSV()
         {
-            string[] csvValues = { TourId.ToString(), DepartureTime.ToString(), Status.ToString() };
+            string[] csvValues = { Id.ToString(), TourId.ToString(), DepartureTime.ToString(), Status.ToString(), CurrentKeyPointId.ToString() };
             return csvValues;
         }
 
         public void FromCSV(string[] values)
         {
-            TourId = Convert.ToInt32(values[0]);
-            DepartureTime = Convert.ToDateTime(values[1]);
-            Enum.TryParse(values[2], out TourStatus Status);
+            Id = Convert.ToInt32(values[0]);
+            TourId = Convert.ToInt32(values[1]);
+            DepartureTime = Convert.ToDateTime(values[2]);
+            Enum.TryParse(values[3], out TourStatus Status);
+            CurrentKeyPointId = Convert.ToInt32(values[4]);
         }
     }
 }

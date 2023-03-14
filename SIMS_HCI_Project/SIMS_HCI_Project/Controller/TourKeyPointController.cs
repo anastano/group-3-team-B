@@ -28,7 +28,7 @@ namespace SIMS_HCI_Project.Controller
 
         public TourKeyPoint Save(TourKeyPoint tourKeyPoint)
         {
-            tourKeyPoint.Id = GenerateNextId();
+            tourKeyPoint.Id = GenerateId();
 
             _tourKeyPoints.Add(tourKeyPoint);
             _fileHandler.Save(_tourKeyPoints);
@@ -40,15 +40,15 @@ namespace SIMS_HCI_Project.Controller
         {
             List<TourKeyPoint> result = new List<TourKeyPoint>();
 
-            foreach(TourKeyPoint tkp in tourKeyPoints)
+            foreach(TourKeyPoint tourKeyPoint in tourKeyPoints)
             {
-                result.Add(Save(tkp));
+                result.Add(Save(tourKeyPoint));
             }
 
             return result;
         }
 
-        private int GenerateNextId()
+        private int GenerateId()
         {
             if (_tourKeyPoints.Count == 0) return 1;
             return _tourKeyPoints[_tourKeyPoints.Count - 1].Id + 1;

@@ -10,11 +10,11 @@ namespace SIMS_HCI_Project.Model
     // Yes, this class is probably wrong for the pattern
     public class Guide : User
     {
-        public ObservableCollection<Tour> Tours { get; set; } // this feels illegal
+        public ObservableCollection<TourTime> Tours { get; set; } // this feels illegal
 
         public Guide()
         {
-            Tours = new ObservableCollection<Tour>();
+            Tours = new ObservableCollection<TourTime>();
         }
 
         public Guide(string id, string username, string password)
@@ -22,12 +22,15 @@ namespace SIMS_HCI_Project.Model
             Id = id;
             Username = username;
             Password = password;
-            Tours = new ObservableCollection<Tour>();
+            Tours = new ObservableCollection<TourTime>();
         }
 
-        public void AddTour(Tour tour) // This should probably be in controller?
+        public void AddTourTimes(List<TourTime> tourTimes) // This should probably be in controller?
         {
-            Tours.Add(tour);
+            foreach(TourTime tourTime in tourTimes)
+            {
+                Tours.Add(tourTime);
+            }
         }
     }
 }

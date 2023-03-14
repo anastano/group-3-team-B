@@ -3,6 +3,7 @@ using SIMS_HCI_Project.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace SIMS_HCI_Project.View
         public Guide Guide { get; set; }
         private TourController _tourController;
         private TourTimeController _tourTimeController;
+        public TourTime SelectedTourTime { get; set; }
 
         public GuideMainView(Guide guide)
         {
@@ -31,6 +33,8 @@ namespace SIMS_HCI_Project.View
             _tourController = new TourController();
             _tourTimeController = new TourTimeController();
             _tourController.ConnectDepartureTimes();
+            _tourController.ConnectToursLocations();
+            SelectedTourTime = new TourTime();
 
             Guide = guide;
             Guide.Tours = new ObservableCollection<TourTime>(_tourTimeController.GetAllByGuideId(guide.Id));
@@ -47,6 +51,13 @@ namespace SIMS_HCI_Project.View
         private void btnTodayTours_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void btnTourInfo_Click(object sender, RoutedEventArgs e)
+        {
+            Window tourInformation = new TourInformationView(SelectedTourTime.Tour, SelectedTourTime);
+            tourInformation.Owner = this;
+            tourInformation.Show();
         }
     }
 }

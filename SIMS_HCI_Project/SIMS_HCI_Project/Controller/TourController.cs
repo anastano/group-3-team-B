@@ -76,11 +76,11 @@ namespace SIMS_HCI_Project.Controller
             return _tours.Find(t => t.Id == id);
         }
 
-        public void ConnectToursLocations(LocationController locationController)
+        public void ConnectToursLocations()
         {
             foreach(Tour tour in _tours)
             {
-                tour.Location = locationController.FindById(tour.LocationId);
+                tour.Location = _locationController.FindById(tour.LocationId);
             }
         }
 

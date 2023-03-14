@@ -34,21 +34,18 @@ namespace SIMS_HCI_Project.Controller
             return _tours;
         }
 
-        public Tour Save(Tour tour, Location location, List<TourKeyPoint> keyPoints, List<DateTime> tourTimes, List<string> images)
+        public Tour Save(Tour tour)
         {
-            //TODO: Simplify logic. Location setter to set LocationId too and similar
             tour.Id = GenerateNextId();
 
-            tour.Location = _locationController.Save(location);
+            tour.Location = _locationController.Save(tour.Location);
             tour.LocationId = tour.Location.Id;
 
-            tour.KeyPoints = _tourKeyPointController.SaveMultiple(keyPoints);
+            tour.KeyPoints = _tourKeyPointController.SaveMultiple(tour.KeyPoints);
             tour.KeyPointsIds = tour.KeyPoints.Select(c => c.Id).ToList();
 
-            tour.Images = images;
-
-            List<TourTime> departureTimes = _tourTimeController.ConvertDateTimesToTourTimes(tour.Id, tourTimes);
-            tour.DepartureTimes = _tourTimeController.SaveMultiple(departureTimes);
+            _tourTimeController.AssignTourToTourTimes(tour, tour.DepartureTimes);
+            tour.DepartureTimes = _tourTimeController.SaveMultiple(tour.DepartureTimes);
 
             tour.Guide.AddTour(tour);
             _tours.Add(tour);
@@ -56,8 +53,6 @@ namespace SIMS_HCI_Project.Controller
 
             return tour;
         }
-
-       
 
         public List<Tour> GetAllByGuideId(string id)
         {

@@ -45,6 +45,15 @@ namespace SIMS_HCI_Project.Controller
             return result;
         }
 
+        public void AssignTourToTourTimes(Tour tour, List<TourTime> tourTimes)
+        {
+            foreach(TourTime tourTime in tourTimes)
+            {
+                tourTime.TourId = tour.Id;
+                tourTime.Tour = tour;
+            }
+        }
+
         public List<TourTime> ConvertDateTimesToTourTimes(int tourId, List<DateTime> tourDateTimes)
         {
             List<TourTime> departureTimes = new List<TourTime>();

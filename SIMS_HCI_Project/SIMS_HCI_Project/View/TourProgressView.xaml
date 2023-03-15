@@ -5,6 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.View"
         mc:Ignorable="d"
-        Title="TourProgressView" Height="450" Width="800">
-    <Grid/>
+        Title="TourProgressView" Height="450" Width="800" WindowStartupLocation="CenterOwner">
+    <Grid>
+        <Button x:Name="btnNextKeyPoint" Content="Go to next key point" HorizontalAlignment="Left" Margin="53,59,0,0" VerticalAlignment="Top" Click="btnNextKeyPoint_Click"/>
+        <ListBox ItemsSource="{Binding Path=TourTime.Tour.KeyPoints}" Margin="33,94,615,116"/>
+        <DataGrid ItemsSource="{Binding Path=TourTime.GuestAttendances}" Margin="255,93,250,116" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Guest" Binding="{Binding GuestId}" Width="100"></DataGridTextColumn>
+                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100"></DataGridTextColumn>
+                <DataGridTemplateColumn Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Mark as present"></Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="btnCancelTour"  Content="Emergency Cancel Tour AAAA Panic" HorizontalAlignment="Left" Margin="358,54,0,0" VerticalAlignment="Top" Click="btnCancelTour_Click"/>
+        <Label Content="Current Key Point: " HorizontalAlignment="Left" Margin="30,24,0,0" VerticalAlignment="Top"/>
+        <Label Content="{Binding Path=TourTime.CurrentKeyPoint}" HorizontalAlignment="Left" Margin="144,33,0,0" VerticalAlignment="Top"/>
+    </Grid>
 </Window>

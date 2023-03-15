@@ -18,13 +18,19 @@ namespace SIMS_HCI_Project.Model
         public TourStatus Status { get; set; }
         public TourKeyPoint CurrentKeyPoint { get; set; }
         public int CurrentKeyPointId { get; set; }
+        public List<GuestTourAttendance> GuestAttendances { get; set; }
 
-        public TourTime() { }
+        public TourTime()
+        {
+            GuestAttendances = new List<GuestTourAttendance>();
+        }
 
         public TourTime(DateTime departureTime)
         {
             DepartureTime = departureTime;
             Status = TourStatus.NOT_STARTED;
+
+            GuestAttendances = new List<GuestTourAttendance>();
         }
 
         public TourTime(int tourId, DateTime departureTime)
@@ -32,6 +38,8 @@ namespace SIMS_HCI_Project.Model
             TourId = tourId;
             DepartureTime = departureTime;
             Status = TourStatus.NOT_STARTED;
+
+            GuestAttendances = new List<GuestTourAttendance>();
         }
 
         public string[] ToCSV()

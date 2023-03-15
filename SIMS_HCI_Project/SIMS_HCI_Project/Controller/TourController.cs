@@ -84,6 +84,14 @@ namespace SIMS_HCI_Project.Controller
             }
         }
 
+        public void ConnectKeyPoints()
+        {
+            foreach (Tour tour in _tours)
+            {
+                tour.KeyPoints = _tourKeyPointController.GetByIds(tour.KeyPointsIds);
+            }
+        }
+
         public void ConnectDepartureTimes()
         {
             /* TODO: Organize startup load better */

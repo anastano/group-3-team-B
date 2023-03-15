@@ -48,6 +48,22 @@ namespace SIMS_HCI_Project.Controller
             return result;
         }
 
+        public TourKeyPoint GetById(int id)
+        {
+            return _tourKeyPoints.Find(tkp => tkp.Id == id);
+        }
+
+        public List<TourKeyPoint> GetByIds(List<int> ids) /* TODO: Try to simplify with LINQ */
+        {
+            List<TourKeyPoint> tourKeyPoints = new List<TourKeyPoint>();
+            foreach(int id in ids)
+            {
+                tourKeyPoints.Add(GetById(id));
+            }
+
+            return tourKeyPoints;
+        }
+
         private int GenerateId()
         {
             if (_tourKeyPoints.Count == 0) return 1;

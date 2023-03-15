@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SIMS_HCI_Project.Controller;
+using SIMS_HCI_Project.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,26 @@ namespace SIMS_HCI_Project.View
     /// </summary>
     public partial class TourProgressView : Window
     {
-        public TourProgressView()
+        public TourTime TourTime { get; set; }
+        private TourTimeController _tourTimeController;
+
+        public TourProgressView(TourTimeController tourTimeController, TourTime tourTime)
         {
             InitializeComponent();
+            TourTime = tourTime;
+            _tourTimeController = tourTimeController;
+
+            DataContext = this;
+        }
+
+        private void btnNextKeyPoint_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnCancelTour_Click(object sender, RoutedEventArgs e)
+        {
+            _tourTimeController.EndTour(TourTime);
         }
     }
 }

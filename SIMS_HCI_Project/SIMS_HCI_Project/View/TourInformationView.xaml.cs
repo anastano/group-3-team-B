@@ -47,6 +47,7 @@ namespace SIMS_HCI_Project.View
             DataContext = this;
 
             _tourTimeController = tourTimeController;
+            _tourTimeController.ConnectGuestAttendances();
 
             UpdateButtons();
         }
@@ -55,6 +56,10 @@ namespace SIMS_HCI_Project.View
         {
             _tourTimeController.StartTour(SelectedTourTime);
             UpdateButtons();
+
+            Window tourProgress = new TourProgressView(_tourTimeController, SelectedTourTime);
+            tourProgress.Owner = this;
+            tourProgress.Show();
         }
 
         private void btnCancelTour_Click(object sender, RoutedEventArgs e)

@@ -34,6 +34,7 @@ namespace SIMS_HCI_Project.View
             _tourTimeController = new TourTimeController();
             _tourController.ConnectDepartureTimes();
             _tourController.ConnectToursLocations();
+            _tourController.ConnectKeyPoints();
             SelectedTourTime = new TourTime();
 
             Guide = guide;

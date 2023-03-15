@@ -63,6 +63,14 @@ namespace SIMS_HCI_Project.Controller
             }
         }
 
+        public void ConnectGuestAttendances()
+        {
+            foreach (TourTime tourTime in _tourTimes)
+            {
+                tourTime.GuestAttendances = _guestTourAttendanceController.GetByTourId(tourTime.Id);
+            }
+        }
+
         public List<TourTime> GetAllByGuideId(string id)
         {
             return _tourTimes.FindAll(tt => tt.Tour.GuideId == id);
@@ -87,8 +95,20 @@ namespace SIMS_HCI_Project.Controller
 
         public void StartTour(TourTime tourTime)
         {
-            tourTime.Status = TourStatus.IN_PROGRESS;
-            _guestTourAttendanceController.GenerateByTour(tourTime);
+            if (tourTime.Status != TourStatus.IN_PROGRESS)
+            {
+                tourTime.Status = TourStatus.IN_PROGRESS;
+                _guestTourAttendanceController.GenerateByTour(tourTime);
+                _fileHandler.Save(_tourTimes);
+            }
+
+            ConnectGuestAttendances();
+        }
+
+        public void EndTour(TourTime tourTime)
+        {
+            tourTime.Status = TourStatus.COMPLETED;
+            _guestTourAttendanceController.UpdateAfterTourEnd(tourTime);
             _fileHandler.Save(_tourTimes);
         }
     }

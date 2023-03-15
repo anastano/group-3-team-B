@@ -32,6 +32,17 @@ namespace SIMS_HCI_Project.Controller
             _fileHandler.Save(_guestTourAttendances);
         }
 
+        public List<GuestTourAttendance> GetByTourId(int id)
+        {
+            return _guestTourAttendances.FindAll(gta => gta.TourTimeId == id);
+        }
+
+        public int GenerateId()
+        {
+            if (_guestTourAttendances.Count == 0) return 1;
+            return _guestTourAttendances[_guestTourAttendances.Count - 1].Id + 1;
+        }
+
         public void GenerateByTour(TourTime tourTime) /* TODO: After Tour Reservation is done, refactor this and maybe move to Reservation Controller */
         {
             //Temporary, here we should load all Guests that reserved the Tour 
@@ -47,11 +58,16 @@ namespace SIMS_HCI_Project.Controller
             }
         }
 
-        public int GenerateId()
+        public void UpdateAfterTourEnd(TourTime tourTime)
         {
-            if (_guestTourAttendances.Count == 0) return 1;
-            return _guestTourAttendances[_guestTourAttendances.Count - 1].Id + 1;
+            foreach (GuestTourAttendance guestTourAttendance in tourTime.GuestAttendances)
+            {
+                if (guestTourAttendance.Status == AttendanceStatus.CONFIRMATION_REQUESTED)
+                {
+                    guestTourAttendance.Status = AttendanceStatus.NEVER_SHOWED_UP;
+                }
+            }
+            _fileHandler.Save(_guestTourAttendances);
         }
-
     }
 }

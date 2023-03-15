@@ -16,8 +16,6 @@ namespace SIMS_HCI_Project.Controller
 
         private static List<AccommodationReservation> _reservations;
 
-
-
         public AccommodationReservationController()
         {
             if (_reservations == null)
@@ -78,6 +76,10 @@ namespace SIMS_HCI_Project.Controller
         public AccommodationReservation FindById(int id)
         {
             return _reservations.Find(r => r.Id == id);
+        }
+        public List<AccommodationReservation> GetAllByGuestId(string id)
+        {
+            return _reservations.FindAll(t => t.GuestId == id);
         }
         public void NotifyObservers()
         {

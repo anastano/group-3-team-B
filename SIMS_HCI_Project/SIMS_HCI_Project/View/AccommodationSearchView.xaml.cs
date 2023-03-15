@@ -32,8 +32,8 @@ namespace SIMS_HCI_Project.View
 
         public ObservableCollection<Location> Locations { get; set; }
         public Accommodation SelectedAccommodation { get; set; }
-
-        public AccommodationSearchView()
+        public Guest1 Guest { get; set; }
+        public AccommodationSearchView(Guest1 guest)
         {
             InitializeComponent();
             DataContext = this;
@@ -41,6 +41,7 @@ namespace SIMS_HCI_Project.View
             _accommodationController = new AccommodationController();
             _locationController = new LocationController();
             Accommodation = new Accommodation();
+            Guest = guest;
             _accommodationController.Load();
 
             Accommodations = new ObservableCollection<Accommodation>(_accommodationController.GetAll());
@@ -129,7 +130,8 @@ namespace SIMS_HCI_Project.View
 
         private void btnReserve_Click(object sender, RoutedEventArgs e)
         {
-           
+            Window win = new AccommodationReservationView(SelectedAccommodation, Guest);
+            win.Show();
         }
     }
 }

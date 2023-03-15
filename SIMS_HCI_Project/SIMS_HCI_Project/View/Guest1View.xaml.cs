@@ -23,22 +23,27 @@ namespace SIMS_HCI_Project.View
     /// </summary>
     public partial class Guest1View : Window, IObserver
     {
-        private string _guest1Id;
+        public Guest1 Guest { get; set; }
 
         private AccommodationReservationController _accommodationReservationController;
-        //private Guest1Controller _guestController;
-
-        public ObservableCollection<Accommodation> Reservations { get; set; }
+        public ObservableCollection<AccommodationReservation> Reservations { get; set; }
 
         public AccommodationReservation SelectedReservation;
         public Guest1View(Guest1 guest)
         {
             InitializeComponent();
+            this.DataContext = this;
+            _accommodationReservationController = new AccommodationReservationController();
+            _accommodationReservationController.Load();
+
+            Guest = guest;
+            Guest.Reservations = new ObservableCollection<AccommodationReservation>(_accommodationReservationController.GetAllByGuestId(guest.Id));
+;
         }
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
-            Window win = new AccommodationSearchView();
+            Window win = new AccommodationSearchView(Guest);
             win.Show();
         }
         public void Update()

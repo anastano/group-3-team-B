@@ -7,8 +7,22 @@
         mc:Ignorable="d"
         Title="Gues1View" Height="450" Width="800" WindowStartupLocation="CenterScreen">
     <Grid>
-        <TextBlock HorizontalAlignment="Left" Height="35" Margin="180,65,0,0" TextWrapping="Wrap" Text="My reservations" VerticalAlignment="Top" Width="113" FontSize="16"/>
-        <Button Content="Search and Reserve" HorizontalAlignment="Left" Height="37" Margin="602,180,0,0" VerticalAlignment="Top" Width="157" Click="btnSearch_Click" FontSize="14"/>
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,331">
+            <TextBlock HorizontalAlignment="Left" Height="35" Margin="300,40,90,0" TextWrapping="Wrap" Text="My reservations" VerticalAlignment="Top" Width="113" FontSize="16"/>
+            <Button Content="Search and Reserve" Height="37" Width="156" Click="btnSearch_Click" FontSize="14"/>
+        </StackPanel>
+        
+            <DataGrid ItemsSource="{Binding Path=Guest.Reservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="64,108,44,0" AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid.Columns>
+                <DataGridTextColumn Header="Reservation Id" Binding="{Binding Id}" Width="110"></DataGridTextColumn>
+                <DataGridTextColumn Header="Accommodation Id" Binding="{Binding AccommodationId}" Width="110"></DataGridTextColumn>
+                <DataGridTextColumn Header="Start" Binding="{Binding Start , StringFormat='{}{0:dd/MM/yyyy}'}" Width="2*"></DataGridTextColumn>
+                <DataGridTextColumn Header="End" Binding="{Binding End, StringFormat='{}{0:dd/MM/yyyy}'}" Width="2*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Number of guests" Binding="{Binding GuestNumber}" Width="105"></DataGridTextColumn>
+                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="105"></DataGridTextColumn>
 
+                </DataGrid.Columns>
+
+            </DataGrid>
     </Grid>
 </Window>

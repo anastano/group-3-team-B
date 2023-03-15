@@ -41,7 +41,7 @@ namespace SIMS_HCI_Project.Controller
             List<User> allGuests = userController.GetAll().FindAll(u => u.Id[0] == 'S');
             foreach (User user in allGuests)
             {
-                GuestTourAttendance newGuestTourAttendance = new GuestTourAttendance(tourTime.Id);
+                GuestTourAttendance newGuestTourAttendance = new GuestTourAttendance(user.Id, tourTime.Id);
                 newGuestTourAttendance.TourTime = tourTime;
                 Save(newGuestTourAttendance);
             }

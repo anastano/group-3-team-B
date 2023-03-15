@@ -13,6 +13,8 @@ namespace SIMS_HCI_Project.Model
     public class GuestTourAttendance : ISerializable
     {
         public int Id { get; set; }
+        public string GuestId { get; set; }
+        //public Guest2 Guest { get; set; }
         public int TourTimeId { get; set; }
         public TourTime TourTime { get; set; }
         public AttendanceStatus Status { get; set; }
@@ -21,22 +23,24 @@ namespace SIMS_HCI_Project.Model
 
         public GuestTourAttendance() { }
 
-        public GuestTourAttendance(int tourTimeId)
+        public GuestTourAttendance(string guestId, int tourTimeId)
         {
+            GuestId = guestId;
             TourTimeId = tourTimeId;
             Status = AttendanceStatus.NOT_PRESENT;
         }
 
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), TourTimeId.ToString(), Status.ToString(), KeyPointJoinedId.ToString()};
+            string[] csvValues = { Id.ToString(), GuestId, TourTimeId.ToString(), Status.ToString(), KeyPointJoinedId.ToString()};
             return csvValues;
         }
 
         public void FromCSV(string[] values)
         {
             Id = Convert.ToInt32(values[0]);
-            TourTimeId = Convert.ToInt32(values[1]);
+            GuestId = values[1];
+            TourTimeId = Convert.ToInt32(values[2]);
             Enum.TryParse(values[3], out AttendanceStatus status);
             Status = status;
             KeyPointJoinedId = Convert.ToInt32(values[4]);

@@ -55,7 +55,7 @@ namespace SIMS_HCI_Project.View
 
         private void btnTourInfo_Click(object sender, RoutedEventArgs e)
         {
-            Window tourInformation = new TourInformationView(SelectedTourTime.Tour, SelectedTourTime);
+            Window tourInformation = new TourInformationView(SelectedTourTime.Tour, _tourTimeController, SelectedTourTime);
             tourInformation.Owner = this;
             tourInformation.Show();
         }

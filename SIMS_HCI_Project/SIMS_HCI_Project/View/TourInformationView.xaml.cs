@@ -1,4 +1,5 @@
-﻿using SIMS_HCI_Project.Model;
+﻿using SIMS_HCI_Project.Controller;
+using SIMS_HCI_Project.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,9 @@ namespace SIMS_HCI_Project.View
             }
         }
 
-        public TourInformationView(Tour tour, TourTime tourTime = null)
+        private TourTimeController _tourTimeController;
+
+        public TourInformationView(Tour tour, TourTimeController tourTimeController, TourTime tourTime = null)
         {
             InitializeComponent();
             Tour = tour;
@@ -43,12 +46,15 @@ namespace SIMS_HCI_Project.View
             }
             DataContext = this;
 
+            _tourTimeController = tourTimeController;
+
             UpdateButtons();
         }
 
         private void btnStartTour_Click(object sender, RoutedEventArgs e)
         {
-
+            _tourTimeController.StartTour(SelectedTourTime);
+            UpdateButtons();
         }
 
         private void btnCancelTour_Click(object sender, RoutedEventArgs e)

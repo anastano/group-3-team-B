@@ -13,12 +13,15 @@ namespace SIMS_HCI_Project.Controller
         private TourTimeFileHandler _fileHandler;
 
         private static List<TourTime> _tourTimes;
+        private GuestTourAttendanceController _guestTourAttendanceController;
 
         public TourTimeController()
         {
+            _fileHandler = new TourTimeFileHandler();
+            _guestTourAttendanceController = new GuestTourAttendanceController();
+
             if (_tourTimes == null)
             {
-                _fileHandler = new TourTimeFileHandler();
                 _tourTimes = _fileHandler.Load();
             }
         }
@@ -80,6 +83,13 @@ namespace SIMS_HCI_Project.Controller
             }
 
             return departureTimes;
+        }
+
+        public void StartTour(TourTime tourTime)
+        {
+            tourTime.Status = TourStatus.IN_PROGRESS;
+            _guestTourAttendanceController.GenerateByTour(tourTime);
+            _fileHandler.Save(_tourTimes);
         }
     }
 }

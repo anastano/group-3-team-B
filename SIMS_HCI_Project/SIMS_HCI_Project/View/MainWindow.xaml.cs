@@ -50,7 +50,7 @@ namespace SIMS_HCI_Project
                         break;
                     case 'F':
                         //TODO: Forward to guest1 view
-                        win = new Gues1View();
+                        win = new Guest1View(new Guest1(user.Id, user.Username, user.Password));
                         win.Show();
 
                         break;

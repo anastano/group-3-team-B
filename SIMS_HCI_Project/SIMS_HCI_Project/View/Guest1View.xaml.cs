@@ -1,5 +1,9 @@
-﻿using System;
+﻿using SIMS_HCI_Project.Controller;
+using SIMS_HCI_Project.Model;
+using SIMS_HCI_Project.Observer;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,9 +21,17 @@ namespace SIMS_HCI_Project.View
     /// <summary>
     /// Interaction logic for Gues1View.xaml
     /// </summary>
-    public partial class Gues1View : Window
+    public partial class Guest1View : Window, IObserver
     {
-        public Gues1View()
+        private string _guest1Id;
+
+        private AccommodationReservationController _accommodationReservationController;
+        //private Guest1Controller _guestController;
+
+        public ObservableCollection<Accommodation> Reservations { get; set; }
+
+        public AccommodationReservation SelectedReservation;
+        public Guest1View(Guest1 guest)
         {
             InitializeComponent();
         }
@@ -28,6 +40,10 @@ namespace SIMS_HCI_Project.View
         {
             Window win = new AccommodationSearchView();
             win.Show();
+        }
+        public void Update()
+        {
+
         }
     }
 }

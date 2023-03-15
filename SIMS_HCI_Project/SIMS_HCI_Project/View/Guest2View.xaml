@@ -19,7 +19,7 @@
                 <DataGridTextColumn Header="Language" Binding="{Binding Language}" Width="105"></DataGridTextColumn>
                 <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" Width="105"></DataGridTextColumn>
                 <DataGridTextColumn Header="Guest Capacity" Binding="{Binding MaxGuests}" Width="90"></DataGridTextColumn>
-                <DataGridTextColumn Header="Guide" Binding="{Binding Guide.Id}" Width="110"></DataGridTextColumn>
+                <DataGridTextColumn Header="Guide" Binding="{Binding Guide.Id}" Width="*"></DataGridTextColumn>
 
             </DataGrid.Columns>
 

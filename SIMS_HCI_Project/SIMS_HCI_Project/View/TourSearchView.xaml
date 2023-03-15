@@ -26,7 +26,21 @@
                 <DataGridTextColumn Header="Language" Binding="{Binding Language}" Width="105"></DataGridTextColumn>
                 <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" Width="105"></DataGridTextColumn>
                 <DataGridTextColumn Header="Guest Capacity" Binding="{Binding MaxGuests}" Width="90"></DataGridTextColumn>
-                <DataGridTextColumn Header="Guide" Binding="{Binding GuideId}"  Width="110"></DataGridTextColumn>
+                <DataGridTextColumn Header="Guide" Binding="{Binding GuideId}"  Width="*"></DataGridTextColumn>
+                <DataGridTemplateColumn Header="Images">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Images" Click="btnShowImages_Click"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Reserve">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Reserve" Click="btnReserve_Click"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
             </DataGrid.Columns>
         </DataGrid>
@@ -48,12 +62,6 @@
             <TextBlock HorizontalAlignment="Right" Margin="0,289,77,0" TextWrapping="Wrap" Text="Guest number:" Foreground="Beige" VerticalAlignment="Top"/>
 
         </Grid>
-
-
-        <Button x:Name="btnReserve" Content="Reserve" HorizontalAlignment="Left" Margin="44,10,0,0" VerticalAlignment="Top" Height="37" Width="139" Click="btnReserve_Click"/>
-        <Button Content="Show images????" HorizontalAlignment="Left" Margin="253,10,0,0" VerticalAlignment="Top" Height="37" Width="139" Click="btnShowImages_Click" />
-
-
 
     </Grid>
 </Window>

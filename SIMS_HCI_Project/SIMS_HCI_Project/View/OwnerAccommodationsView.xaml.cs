@@ -30,7 +30,7 @@ namespace SIMS_HCI_Project.View
 
         public ObservableCollection<Accommodation> Accommodations { get; set; }
 
-        public Accommodation SelectedAccommodation;
+        public Accommodation SelectedAccommodation { get; set; }
 
         public OwnerAccommodationsView(AccommodationController accommodationController, OwnerController ownerController, string ownerId)
         {

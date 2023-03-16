@@ -29,12 +29,13 @@ namespace SIMS_HCI_Project.View
 
         private AccommodationReservationController _accommodationReservationController;
         private OwnerController _ownerController;
+        private OwnerGuestRatingController _ownerGuestRatingController;
 
         public ObservableCollection<AccommodationReservation> Reservations { get; set; }
 
-        public AccommodationReservation SelectedReservation;
+        public AccommodationReservation SelectedReservation { get; set; }
 
-        public OwnerUnratedReservationsView(AccommodationReservationController accommodationReservationController, OwnerController ownerController, string ownerId)
+        public OwnerUnratedReservationsView(AccommodationReservationController accommodationReservationController, OwnerController ownerController, OwnerGuestRatingController ownerGuestRatingController, string ownerId)
         {
             InitializeComponent();
             DataContext = this;
@@ -43,6 +44,7 @@ namespace SIMS_HCI_Project.View
 
             _accommodationReservationController = accommodationReservationController;
             _ownerController = ownerController;
+            _ownerGuestRatingController = ownerGuestRatingController;
 
             Reservations = new ObservableCollection<AccommodationReservation>(_ownerController.GetReservationsByOwnerId(_ownerId));
 
@@ -59,7 +61,7 @@ namespace SIMS_HCI_Project.View
         {
             if (e.Key == Key.Enter && dgReservations.SelectedItem != null)
             {
-                Window ratingWindow = new GuestRatingView();
+                Window ratingWindow = new GuestRatingView(_ownerGuestRatingController, SelectedReservation, _ownerId);
                 ratingWindow.Show();
             }
         }

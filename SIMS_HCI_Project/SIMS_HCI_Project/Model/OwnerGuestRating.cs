@@ -19,7 +19,10 @@ namespace SIMS_HCI_Project.Model
         public int RuleCompliance { get; set; }
         public string AdditionalComment { get; set; }
 
-        public OwnerGuestRating() { }
+        public OwnerGuestRating() {
+            Cleanliness = 5;
+            RuleCompliance = 5;
+        }
 
         public OwnerGuestRating(int id, string ownerId, string guestId, int reservationId, int cleanliness, int ruleCompliance, string additionalComment)
         {

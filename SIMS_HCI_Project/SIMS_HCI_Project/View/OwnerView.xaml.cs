@@ -26,6 +26,7 @@ namespace SIMS_HCI_Project.View
         private OwnerController _ownerController;
         private LocationController _locationController;
         private AccommodationReservationController _reservationController;
+        private OwnerGuestRatingController _ownerGuestRatingController;
 
         public OwnerView(string ownerId)
         {
@@ -42,10 +43,12 @@ namespace SIMS_HCI_Project.View
             _ownerController = new OwnerController();
             _locationController = new LocationController();
             _reservationController = new AccommodationReservationController();
+            _ownerGuestRatingController = new OwnerGuestRatingController();
 
             _accommodationController.Load();
             _ownerController.Load();
             _reservationController.Load();
+            _ownerGuestRatingController.Load();
 
             _ownerController.FillOwnerAccommodationList(); //fills accommodation list for each owner
             _ownerController.FillOwnerReservationList(); 
@@ -60,7 +63,7 @@ namespace SIMS_HCI_Project.View
 
         private void btnGuestRating_Click(object sender, RoutedEventArgs e)
         {
-            Window reservationsView = new OwnerUnratedReservationsView(_reservationController, _ownerController, _ownerId);
+            Window reservationsView = new OwnerUnratedReservationsView(_reservationController, _ownerController, _ownerGuestRatingController, _ownerId);
             reservationsView.Show();
         }
 

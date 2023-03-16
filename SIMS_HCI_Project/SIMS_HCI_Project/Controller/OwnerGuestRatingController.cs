@@ -60,7 +60,10 @@ namespace SIMS_HCI_Project.Controller
 
         public void Add(OwnerGuestRating rating)
         {
-            // TO DO
+            rating.Id = GenerateId();
+            _ratings.Add(rating);
+            NotifyObservers();
+            Save();
         }
 
         public void Remove(OwnerGuestRating rating)

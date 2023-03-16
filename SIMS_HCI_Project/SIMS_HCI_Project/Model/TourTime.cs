@@ -1,7 +1,9 @@
 ﻿using SIMS_HCI_Project.Serializer;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,7 +11,7 @@ namespace SIMS_HCI_Project.Model
 {
     public enum TourStatus { NOT_STARTED, IN_PROGRESS, COMPLETED, CANCELED };
 
-    public class TourTime : ISerializable
+    public class TourTime : ISerializable, INotifyPropertyChanged
     {
         public int Id { get; set; }
         public int TourId { get; set; }
@@ -17,8 +19,23 @@ namespace SIMS_HCI_Project.Model
         public DateTime DepartureTime { get; set; }
         public TourStatus Status { get; set; }
         public TourKeyPoint CurrentKeyPoint { get; set; }
-        public int CurrentKeyPointId { get; set; }
+        public int _currentKeyPointIndex;
+        public int CurrentKeyPointIndex
+        {
+            get { return _currentKeyPointIndex; }
+            set
+            {
+                _currentKeyPointIndex = value;
+                OnPropertyChanged();
+            }
+        }
         public List<GuestTourAttendance> GuestAttendances { get; set; }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public TourTime()
         {
@@ -44,7 +61,7 @@ namespace SIMS_HCI_Project.Model
 
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), TourId.ToString(), DepartureTime.ToString(), Status.ToString(), CurrentKeyPointId.ToString() };
+            string[] csvValues = { Id.ToString(), TourId.ToString(), DepartureTime.ToString(), Status.ToString(), CurrentKeyPointIndex.ToString() };
             return csvValues;
         }
 
@@ -55,7 +72,7 @@ namespace SIMS_HCI_Project.Model
             DepartureTime = Convert.ToDateTime(values[2]);
             Enum.TryParse(values[3], out TourStatus status);
             Status = status;
-            CurrentKeyPointId = Convert.ToInt32(values[4]);
+            CurrentKeyPointIndex = Convert.ToInt32(values[4]);
         }
     }
 }

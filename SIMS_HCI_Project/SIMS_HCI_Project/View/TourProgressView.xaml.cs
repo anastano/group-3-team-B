@@ -22,25 +22,34 @@ namespace SIMS_HCI_Project.View
     public partial class TourProgressView : Window
     {
         public TourTime TourTime { get; set; }
+        public GuestTourAttendance SelectedGuest { get; set; }
         private TourTimeController _tourTimeController;
+        private GuestTourAttendanceController _guestTourAttendanceController;
 
         public TourProgressView(TourTimeController tourTimeController, TourTime tourTime)
         {
             InitializeComponent();
             TourTime = tourTime;
             _tourTimeController = tourTimeController;
+            _guestTourAttendanceController = new GuestTourAttendanceController();
+            SelectedGuest = new GuestTourAttendance();
 
             DataContext = this;
         }
 
         private void btnNextKeyPoint_Click(object sender, RoutedEventArgs e)
         {
-
+            _tourTimeController.MoveToNextKeyPoint(TourTime);
         }
 
         private void btnCancelTour_Click(object sender, RoutedEventArgs e)
         {
             _tourTimeController.EndTour(TourTime);
+        }
+
+        private void MarkGuestAsPresent_Click(object sender, RoutedEventArgs e)
+        {
+            _guestTourAttendanceController.MarkGuestAsPresent(SelectedGuest);
         }
     }
 }

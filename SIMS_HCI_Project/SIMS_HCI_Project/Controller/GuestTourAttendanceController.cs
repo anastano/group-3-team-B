@@ -37,6 +37,11 @@ namespace SIMS_HCI_Project.Controller
             return _guestTourAttendances.FindAll(gta => gta.TourTimeId == id);
         }
 
+        public GuestTourAttendance FindById(int id)
+        {
+            return _guestTourAttendances.Find(gta => gta.Id == id);
+        }
+
         public int GenerateId()
         {
             if (_guestTourAttendances.Count == 0) return 1;
@@ -67,6 +72,12 @@ namespace SIMS_HCI_Project.Controller
                     guestTourAttendance.Status = AttendanceStatus.NEVER_SHOWED_UP;
                 }
             }
+            _fileHandler.Save(_guestTourAttendances);
+        }
+
+        public void MarkGuestAsPresent(GuestTourAttendance guestTourAttendance)
+        {
+            FindById(guestTourAttendance.Id).Status = AttendanceStatus.CONFIRMATION_REQUESTED;
             _fileHandler.Save(_guestTourAttendances);
         }
     }

@@ -35,6 +35,7 @@ namespace SIMS_HCI_Project.Controller
         {
             tourTime.Id = GenerateId();
             tourTime.CurrentKeyPoint = tourTime.Tour.KeyPoints.First();
+            tourTime.CurrentKeyPointIndex = 0;
 
             _tourTimes.Add(tourTime);
             _fileHandler.Save(_tourTimes);
@@ -103,6 +104,20 @@ namespace SIMS_HCI_Project.Controller
             }
 
             ConnectGuestAttendances();
+        }
+
+        public void MoveToNextKeyPoint(TourTime tourTime)
+        {
+            if (tourTime.CurrentKeyPointIndex >= tourTime.Tour.KeyPoints.Count - 1)
+            {
+                EndTour(tourTime);
+            }
+            else
+            {
+                tourTime.CurrentKeyPointIndex++;
+                tourTime.CurrentKeyPoint = tourTime.Tour.KeyPoints[tourTime.CurrentKeyPointIndex];
+                _fileHandler.Save(_tourTimes);
+            }
         }
 
         public void EndTour(TourTime tourTime)

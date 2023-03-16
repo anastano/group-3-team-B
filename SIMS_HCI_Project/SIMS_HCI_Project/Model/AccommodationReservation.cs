@@ -32,6 +32,17 @@ namespace SIMS_HCI_Project.Model
             Status = status;
         }
 
+        public AccommodationReservation(int accommodationId, string guestId, DateTime start, DateTime end, int guestNumber, ReservationStatus status)
+        {
+            Id = -1;
+            AccommodationId = accommodationId;
+            GuestId = guestId;
+            Start = start;
+            End = end;
+            GuestNumber = guestNumber;
+            Status = status;
+        }
+
         public AccommodationReservation(AccommodationReservation temp)
         {
             Id = temp.Id;

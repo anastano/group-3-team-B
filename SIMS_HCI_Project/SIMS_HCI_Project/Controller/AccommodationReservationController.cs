@@ -79,7 +79,15 @@ namespace SIMS_HCI_Project.Controller
         }
         public List<AccommodationReservation> GetAllByGuestId(string id)
         {
-            return _reservations.FindAll(t => t.GuestId == id);
+            return _reservations.FindAll(g => g.GuestId == id);
+        }
+        public List<AccommodationReservation> GetAllByStatusAndGuestId(string id, ReservationStatus status)
+        {
+            return _reservations.FindAll(g => g.GuestId == id && g.Status==status);
+        }
+        public static List<AccommodationReservation> GetAllByAccommodationId(int id)
+        {
+            return _reservations.FindAll(a => a.AccommodationId == id);
         }
         public void NotifyObservers()
         {

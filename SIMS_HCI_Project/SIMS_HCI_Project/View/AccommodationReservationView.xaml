@@ -20,7 +20,7 @@
                 <TextBlock Text="Guest Number" TextAlignment="Center" Margin="1, 10, 0, 0" Width="222"></TextBlock>
                 <StackPanel Orientation="Horizontal" Height="25" Width="299">
                     <Button x:Name="btnMinusGuest" Click="btnMinusGuest_Click" Content="-" Margin="40,0,10,0" FontSize="18" Width="20" Height="25"/>
-                    <TextBox HorizontalAlignment="Left" IsReadOnly="True" Text="{Binding Path = Accommodation.MaxGuests, UpdateSourceTrigger = PropertyChanged}" TextAlignment="Center" Name="txtGuestNumber" Width="150" Margin="0, 0, 0, 0" Height="25" TextWrapping="Wrap" VerticalAlignment="Top" />
+                    <TextBox x:Name="txtGuestNumber" HorizontalAlignment="Left" IsReadOnly="True" Text="{Binding Path = Accommodation.MaxGuests, UpdateSourceTrigger = PropertyChanged}" TextAlignment="Center" Width="150" Margin="0, 0, 0, 0" Height="25" TextWrapping="Wrap" VerticalAlignment="Top" />
                     <Button x:Name="btnPlusGuest" Click="btnPlusGuest_Click" Content="+"  FontSize="18" Margin="10,0,0,0" Width="20" Height="25"/>
                 </StackPanel>
             </StackPanel>
@@ -29,30 +29,30 @@
             
             <StackPanel>
                 <TextBlock Text="Start" TextAlignment="Center" Margin="50, 5, 0, 0"></TextBlock>
-                <DatePicker Margin="50, 0, 0, 60" Width="200" Height="25"/>
+                <DatePicker x:Name="datePickerStart" SelectedDate="{Binding MyDate, StringFormat='{}{0:dd/MM/yyyy}'}" SelectedDateFormat="Short"  Margin="50, 0, 0, 60" Width="200" Height="25"/>
             </StackPanel>
             
             <StackPanel>
                 <TextBlock Text="End" TextAlignment="Center" Margin="50, 5, 0, 0"></TextBlock>
-                <DatePicker Margin="50, 0, 0, 0" Width="200" Height="25"/>
+                <DatePicker x:Name="datePickerEnd" SelectedDate="{Binding MyDate, StringFormat='{}{0:dd/MM/yyyy}'}" SelectedDateFormat="Short" Margin="50, 0, 0, 0" Width="200" Height="25"/>
                 <TextBlock Text="Available " TextAlignment="Center" Margin="50, 5, 0, 0" Height="22"/>
             </StackPanel>
             
             <StackPanel Height="93" Width="298" >
                 <TextBlock Text="How many Days?" TextAlignment="Center" Margin="50, 5, 50, 0"></TextBlock>
-                <TextBox Width="200" Margin="0, 0, 0, 0" Height="25" TextAlignment="Center"/>
+                <TextBox x:Name="txtDays" Width="200" Margin="0, 0, 0, 0" Height="25" TextAlignment="Center"/>
                 <Button Content="Find Available" Width="80" Margin="0, 5, 0, 0" Height="25" Click="btnFindAvailable_Click"/>
             </StackPanel>
             
             
         </StackPanel>
         <DataGrid x:Name="DataGridAvailableReservations"
-                  ItemsSource="{Binding Path=Reservations, UpdateSourceTrigger=PropertyChanged}"
+                  ItemsSource="{Binding Path=AvailableReservations, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="False" IsReadOnly="True" Margin="108,176,92,0">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Start" Binding="{Binding Start}" Width="1.5*"></DataGridTextColumn>
-                <DataGridTextColumn Header="End" Binding="{Binding End}" Width="1.5*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Start" Binding="{Binding Start, StringFormat='{}{0:dd/MM/yyyy}'}" Width="1.5*"></DataGridTextColumn>
+                <DataGridTextColumn Header="End" Binding="{Binding End, StringFormat='{}{0:dd/MM/yyyy}'}" Width="1.5*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Guest Number" Binding="{Binding GuestNumber}" Width="90"></DataGridTextColumn>
                 <DataGridTemplateColumn Header="Reserve">
                     <DataGridTemplateColumn.CellTemplate>

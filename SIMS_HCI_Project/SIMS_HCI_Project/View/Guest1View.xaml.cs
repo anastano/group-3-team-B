@@ -26,8 +26,8 @@ namespace SIMS_HCI_Project.View
         public Guest1 Guest { get; set; }
 
         private AccommodationReservationController _accommodationReservationController;
-        public ObservableCollection<AccommodationReservation> Reservations { get; set; }
-
+        public ObservableCollection<AccommodationReservation> UpcomingReservations { get; set; }
+        public ObservableCollection<AccommodationReservation> CompletedReservations { get; set; }
         public AccommodationReservation SelectedReservation;
         public Guest1View(Guest1 guest)
         {
@@ -38,7 +38,8 @@ namespace SIMS_HCI_Project.View
 
             Guest = guest;
             Guest.Reservations = new ObservableCollection<AccommodationReservation>(_accommodationReservationController.GetAllByGuestId(guest.Id));
-;
+;           UpcomingReservations = new ObservableCollection<AccommodationReservation>(_accommodationReservationController.GetAllByStatusAndGuestId(guest.Id, ReservationStatus.RESERVED));
+;           CompletedReservations = new ObservableCollection<AccommodationReservation>(_accommodationReservationController.GetAllByStatusAndGuestId(guest.Id, ReservationStatus.COMPLETED));
         }
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)

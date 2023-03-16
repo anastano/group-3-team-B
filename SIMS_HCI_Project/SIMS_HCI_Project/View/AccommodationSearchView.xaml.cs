@@ -45,6 +45,7 @@ namespace SIMS_HCI_Project.View
             _accommodationController.Load();
 
             Accommodations = new ObservableCollection<Accommodation>(_accommodationController.GetAll());
+            _accommodationController.FillReservations();
 
             _accommodationController.ConnectAccommodationsWithLocations(_locationController);
    

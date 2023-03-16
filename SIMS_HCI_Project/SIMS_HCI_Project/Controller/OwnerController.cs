@@ -82,16 +82,50 @@ namespace SIMS_HCI_Project.Controller
             }
         }
 
+        public void FillOwnerReservationList()
+        {
+            AccommodationController accommodationController = new AccommodationController();
+            AccommodationReservationController reservationController = new AccommodationReservationController();
+
+            foreach (Owner owner in _owners)
+            {
+                owner.Reservations.Clear();
+
+                foreach (AccommodationReservation reservation in reservationController.GetAll())
+                {
+                    if (accommodationController.FindById(reservation.AccommodationId).OwnerId == owner.Id)
+                    {
+                        owner.Reservations.Add(reservation);
+                    }
+                }
+            }
+        }
+
+
         public void AddAccommodationToOwner(Accommodation accommodation)
         {
             Owner owner = FindById(accommodation.OwnerId);
             owner.Accommodations.Add(accommodation);
         }
 
-        public List<Accommodation> GetAccommodationByOwnerId(string ownerId)
+        public void AddReservationToOwner(AccommodationReservation reservation)   /// be sure to add this when making new reservations (CHECK THIS when Miljana finishes adding reservations)
+        {
+            AccommodationController accommodationController = new AccommodationController();
+
+            Owner owner = FindById(accommodationController.FindById(reservation.AccommodationId).OwnerId);
+            owner.Reservations.Add(reservation);
+        }
+
+        public List<Accommodation> GetAccommodationsByOwnerId(string ownerId)
         {
             Owner owner = FindById(ownerId);
             return owner.Accommodations;
+        }
+
+        public List<AccommodationReservation> GetReservationsByOwnerId(string ownerId)
+        {
+            Owner owner = FindById(ownerId);
+            return owner.Reservations;
         }
 
         public void NotifyObservers()

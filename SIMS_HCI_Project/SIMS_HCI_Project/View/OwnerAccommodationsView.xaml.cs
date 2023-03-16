@@ -42,7 +42,7 @@ namespace SIMS_HCI_Project.View
             _accommodationController = accommodationController;
             _ownerController = ownerController;
 
-            Accommodations = new ObservableCollection<Accommodation>(_ownerController.GetAccommodationsByOwnerId(_ownerId));
+            Accommodations = new ObservableCollection<Accommodation>(_ownerController.GetAccommodations(_ownerId));
 
             _accommodationController.Subscribe(this); //its method Add contains adding accommodation to owner accommodation list
         }

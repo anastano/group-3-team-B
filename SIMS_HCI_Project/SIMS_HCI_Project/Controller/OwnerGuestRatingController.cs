@@ -62,8 +62,9 @@ namespace SIMS_HCI_Project.Controller
         {
             rating.Id = GenerateId();
             _ratings.Add(rating);
-            NotifyObservers();
             Save();
+            NotifyObservers();
+
         }
 
         public void Remove(OwnerGuestRating rating)

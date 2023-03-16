@@ -35,6 +35,11 @@ namespace SIMS_HCI_Project.View
             _ownerId = ownerId;
 
             LoadFromFiles();
+
+            if(_ownerController.GetUnratedReservations(_ownerId).Count != 0)
+            {
+                MessageBox.Show("You have unrated guests! Rate them!");
+            }
         }
 
         void LoadFromFiles()

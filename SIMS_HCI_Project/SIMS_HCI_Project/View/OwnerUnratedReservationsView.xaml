@@ -18,9 +18,9 @@
 
                 <Grid Height="350" >
 
-                    <DataGrid x:Name = "dgReservations" AutoGenerateColumns="False" ItemsSource="{Binding Path=Reservations, UpdateSourceTrigger=PropertyChanged}" 
+                    <DataGrid x:Name = "dgReservations" AutoGenerateColumns="False" ItemsSource="{Binding Path=UnratedReservations, UpdateSourceTrigger=PropertyChanged}" 
                                   SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" 
-                                  Background="Azure" PreviewKeyDown="dgReservations_PreviewKeyDown">
+                                  Background="Azure">
                         <DataGrid.CellStyle>
                             <Style TargetType="DataGridCell">
                                 <Style.Triggers>
@@ -40,6 +40,20 @@
                             <DataGridTextColumn Header="End" Binding="{Binding End, StringFormat='{}{0:MM/dd/yyyy}' }" Width="*"></DataGridTextColumn>
                             <DataGridTextColumn Header="Guest number" Binding="{Binding GuestNumber}" Width="*"></DataGridTextColumn>
                             <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*"></DataGridTextColumn>
+                            <DataGridTemplateColumn Header="Rate" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button x:Name="btnRate" Click="btnRate_Click"  Content="Rate"
+                                         Background="Turquoise" Foreground="Azure" FontSize="15">
+                                            <Button.Resources>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="CornerRadius" Value="10"></Setter>
+                                                </Style>
+                                            </Button.Resources>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                         </DataGrid.Columns>
 
                     </DataGrid>

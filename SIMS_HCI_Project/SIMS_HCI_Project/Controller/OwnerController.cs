@@ -116,16 +116,58 @@ namespace SIMS_HCI_Project.Controller
             owner.Reservations.Add(reservation);
         }
 
-        public List<Accommodation> GetAccommodationsByOwnerId(string ownerId)
+        public List<Accommodation> GetAccommodations(string ownerId)
         {
             Owner owner = FindById(ownerId);
             return owner.Accommodations;
         }
 
-        public List<AccommodationReservation> GetReservationsByOwnerId(string ownerId)
+        public List<AccommodationReservation> GetReservations(string ownerId)
         {
             Owner owner = FindById(ownerId);
             return owner.Reservations;
+        }
+
+        public List<AccommodationReservation> GetUnratedReservations(string ownerId)
+        {
+            List<AccommodationReservation> unratedReservations = new List<AccommodationReservation>();
+
+            foreach (AccommodationReservation reservation in GetReservations(ownerId))
+            {
+                if(IsCompleted(reservation) && IsWithinFiveDaysAfterCheckout(reservation) &&  !IsRated(reservation))
+                {
+                    unratedReservations.Add(reservation);
+                }
+            }
+            return unratedReservations;
+        }
+
+        public bool IsCompleted(AccommodationReservation reservation)
+        {
+            return reservation.Status == ReservationStatus.COMPLETED;
+        }
+
+        public bool IsWithinFiveDaysAfterCheckout(AccommodationReservation reservation)
+        {
+            if(DateTime.Today > reservation.End.AddDays(5))
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool IsRated(AccommodationReservation reservation)
+        {
+            OwnerGuestRatingController ratingController = new OwnerGuestRatingController();
+
+            foreach  (OwnerGuestRating rating in ratingController.GetAll())
+            {
+                if(rating.ReservationId == reservation.Id)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void NotifyObservers()

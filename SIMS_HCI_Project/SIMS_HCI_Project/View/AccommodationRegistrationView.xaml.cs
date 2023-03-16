@@ -71,10 +71,17 @@ namespace SIMS_HCI_Project.View
 
         private void btnRegister_Click(object sender, RoutedEventArgs e)
         {
- 
-            _accommodationController.Register(Accommodation, _ownerId, Location, new List<string>(Images));
+            if (Accommodation.IsValid && Location.IsValid) 
+            {
+                _accommodationController.Register(Accommodation, _ownerId, Location, new List<string>(Images));
 
-            Close();
+                Close();
+            }
+            else 
+            {
+                MessageBox.Show("Not all fields are filled in correctly!");
+            }
+                
         }
 
         private void btnPlusGuest_Click(object sender, RoutedEventArgs e)
@@ -138,6 +145,14 @@ namespace SIMS_HCI_Project.View
             {
                 Images.Add(ImageURL);
                 ImageURL = "";
+            }
+        }
+
+        private void btnRemoveImage_Click(object sender, RoutedEventArgs e)
+        {
+            if (lbImages.SelectedItem != null)
+            {
+                Images.RemoveAt(lbImages.SelectedIndex);
             }
         }
     }

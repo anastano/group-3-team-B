@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Xml.Linq;
@@ -12,7 +14,7 @@ namespace SIMS_HCI_Project.Model
 {
     public enum AccomodationType { APARTMENT, HOUSE, HUT };
 
-    public class Accommodation : ISerializable
+    public class Accommodation : ISerializable, IDataErrorInfo
     {
         public int Id { get; set; }
         public string OwnerId { get; set; }
@@ -130,6 +132,38 @@ namespace SIMS_HCI_Project.Model
         }
 
 
+        public string Error => null;
 
+
+        public string this[string columnName]
+        {
+            get
+            {
+
+                if (columnName == "Name")
+                {
+                    if (string.IsNullOrEmpty(Name))
+                        return "The name field is required";
+                }
+
+                return null;
+            }
+        }
+
+        private readonly string[] _validatedProperties = { "Name" };
+
+        public bool IsValid
+        {
+            get
+            {
+                foreach (var property in _validatedProperties)
+                {
+                    if (this[property] != null)
+                        return false;
+                }
+
+                return true;
+            }
+        }
     }
 }

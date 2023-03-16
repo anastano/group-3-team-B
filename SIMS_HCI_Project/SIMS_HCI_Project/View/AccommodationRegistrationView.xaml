@@ -5,7 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.View"
         mc:Ignorable="d"
-        Title="AccommodationRegistrationView" Height="1000" Width="800" WindowStartupLocation="CenterScreen">
+        Title="AccommodationRegistrationView" Height="1000" Width="900" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ControlTemplate x:Key="ValidationTemplate">
+            <StackPanel>
+                <AdornedElementPlaceholder x:Name="textBox" />
+                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" FontSize="15px" HorizontalAlignment="Center" />
+            </StackPanel>
+        </ControlTemplate>
+    </Window.Resources>
     <Grid Background="Azure">
         <StackPanel>
 
@@ -14,7 +22,7 @@
             </TextBlock>
 
             <Border VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="Turquoise" BorderThickness="2" CornerRadius="15">
-                <Grid Width="700" Height="700" Margin="10 10 10 10">
+                <Grid Width="800" Height="700" Margin="10 10 10 10">
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -39,7 +47,8 @@
                     <Label Content="Images: " Grid.Row="6" Grid.Column="0" Height="40" Foreground="Turquoise" FontSize="20"></Label>
 
                     <TextBox x:Name="txtName"  Grid.Row="0" Grid.Column="1" 
-                             Text="{Binding Path = Accommodation.Name, UpdateSourceTrigger =PropertyChanged}"
+                             Text="{Binding Path = Accommodation.Name, UpdateSourceTrigger =PropertyChanged, ValidatesOnDataErrors=True}"
+                             Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
                              Height="40" BorderBrush="Turquoise" TextAlignment="Center" FontSize="20">
                         <TextBox.Resources>
                             <Style TargetType="Border">
@@ -51,7 +60,8 @@
                     <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
                         <StackPanel>
                             <TextBox x:Name="txtLocationCity"  
-                                     Text="{Binding Path=Location.City, UpdateSourceTrigger=PropertyChanged}"
+                                     Text="{Binding Path=Location.City, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                     Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
                                      Width="160" Height="40" Margin="15 0 5 0"  BorderBrush="Turquoise" TextAlignment="Center" FontSize="20">
                                 <TextBox.Resources>
                                     <Style TargetType="Border">
@@ -61,13 +71,14 @@
                             </TextBox>
 
                             <TextBlock x:Name="tblCity" Text="City" 
-                                       Width="125" Height="20" VerticalAlignment="Center" Foreground="Turquoise" FontSize="15" TextAlignment="Center" Margin="0 0 0 0 ">
+                                       Width="125" Height="20" VerticalAlignment="Center" Foreground="Turquoise" FontSize="15" TextAlignment="Center" Margin="0 15 0 0 ">
                             </TextBlock> 
                         </StackPanel>
                         
                         <StackPanel>
                             <TextBox x:Name="txtLocationCountry"  
-                                     Text="{Binding Path=Location.Country, UpdateSourceTrigger=PropertyChanged}"
+                                     Text="{Binding Path=Location.Country, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                     Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
                                      Width="160" Height="40" Margin="15 0 15 0" BorderBrush="Turquoise" TextAlignment="Center" FontSize="20">
                                 <TextBox.Resources>
                                     <Style TargetType="Border">
@@ -77,7 +88,7 @@
                             </TextBox>
 
                             <TextBlock x:Name="tblCountry" Text="Country" 
-                                        Width="125" Height="20" VerticalAlignment="Center" Foreground="Turquoise" FontSize="15" TextAlignment="Center" Margin="0 0 0 0 ">
+                                        Width="125" Height="20" VerticalAlignment="Center" Foreground="Turquoise" FontSize="15" TextAlignment="Center" Margin="0 15 0 0 ">
                             </TextBlock>
                         </StackPanel>
                     </StackPanel>
@@ -189,6 +200,14 @@
                                 </TextBox.Resources>
                             </TextBox>
                             <Button x:Name="btnAddImage" Click="btnAddImage_Click" Content="+" Width="50" Height="50" 
+                                    Margin="20 10 0 0" Background="Turquoise" Foreground="Azure" FontSize="30">
+                                <Button.Resources>
+                                    <Style TargetType="Border">
+                                        <Setter Property="CornerRadius" Value="10"></Setter>
+                                    </Style>
+                                </Button.Resources>
+                            </Button>
+                            <Button x:Name="btnRemoveImage" Click="btnRemoveImage_Click"  Content="-" Width="50" Height="50" 
                                     Margin="20 10 0 0" Background="Turquoise" Foreground="Azure" FontSize="30">
                                 <Button.Resources>
                                     <Style TargetType="Border">

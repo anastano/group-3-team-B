@@ -4,6 +4,7 @@ using SIMS_HCI_Project.Observer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,7 +32,7 @@ namespace SIMS_HCI_Project.View
         private OwnerController _ownerController;
         private OwnerGuestRatingController _ownerGuestRatingController;
 
-        public ObservableCollection<AccommodationReservation> Reservations { get; set; }
+        public ObservableCollection<AccommodationReservation> UnratedReservations { get; set; }
 
         public AccommodationReservation SelectedReservation { get; set; }
 
@@ -46,24 +47,32 @@ namespace SIMS_HCI_Project.View
             _ownerController = ownerController;
             _ownerGuestRatingController = ownerGuestRatingController;
 
-            Reservations = new ObservableCollection<AccommodationReservation>(_ownerController.GetReservationsByOwnerId(_ownerId));
+            UnratedReservations = new ObservableCollection<AccommodationReservation>(_ownerController.GetUnratedReservations(_ownerId));
 
-            _accommodationReservationController.Subscribe(this);
+            _ownerGuestRatingController.Subscribe(this);
 
         }
 
         public void Update()
         {
+            UpdateUnratedReservations();
+        }
+
+        public void UpdateUnratedReservations()
+        {
+            UnratedReservations.Clear();
+            foreach (AccommodationReservation reservation in _ownerController.GetUnratedReservations(_ownerId))
+            {
+                UnratedReservations.Add(reservation);
+            }
 
         }
 
-        private void dgReservations_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void btnRate_Click(object sender, RoutedEventArgs e)
         {
-            if (e.Key == Key.Enter && dgReservations.SelectedItem != null)
-            {
-                Window ratingWindow = new GuestRatingView(_ownerGuestRatingController, SelectedReservation, _ownerId);
-                ratingWindow.Show();
-            }
+             Window ratingWindow = new GuestRatingView(_ownerGuestRatingController, SelectedReservation, _ownerId);
+             ratingWindow.Show();
+
         }
     }
 }

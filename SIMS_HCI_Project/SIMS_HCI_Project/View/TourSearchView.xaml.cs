@@ -43,14 +43,15 @@ namespace SIMS_HCI_Project.View
             Tours = new ObservableCollection<Tour>(_tourController.GetAll());
         }
 
-        private void btnReserve_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void btnShowImages_Click(object sender, RoutedEventArgs e)
         {
+            //TODO: add images and window for display
+        }
 
+        private void btnReserve_Click(object sender, RoutedEventArgs e)
+        {
+            Window window = new TourReservationView();
+            window.Show();
         }
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)

@@ -9,43 +9,38 @@
         Title="TourReservationView" Height="700" Width="650" WindowStartupLocation="CenterScreen">
     <Grid Background="Orange" HorizontalAlignment="Center" Width="650">
         <Label Content="Title" HorizontalAlignment="Left" Margin="65,23,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="113,27,0,0" TextWrapping="Wrap" 
-                 Text="{Binding Path=Tour.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                 
-                  VerticalAlignment="Top" Width="144"/>
+        <Label HorizontalAlignment="Left" Margin="113,27,0,0" 
+                 Content="{Binding Path=Tour.Title}" 
+                  VerticalAlignment="Top" Width="144" Height="22"/>
         <Label Content="Location" HorizontalAlignment="Left" Margin="47,73,0,0" VerticalAlignment="Top"/>
-        <TextBox  HorizontalAlignment="Left" Margin="113,77,0,0" TextWrapping="Wrap" 
-                 Text="{Binding Path=Tour.Location.City, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                  IsReadOnly="True"
-                 VerticalAlignment="Top" Width="72"/>
-        <TextBox  HorizontalAlignment="Left" Margin="190,77,0,0" TextWrapping="Wrap" 
-                 Text="{Binding Path=Tour.Location.Country, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                  IsReadOnly="True"
-                 VerticalAlignment="Top" Width="67"/>
-        <Label Content="City" HorizontalAlignment="Left" Margin="133,55,0,0" VerticalAlignment="Top"/>
-        <Label Content="Country" HorizontalAlignment="Left" Margin="196,55,0,0" VerticalAlignment="Top"/>
+        <Label  HorizontalAlignment="Left" Margin="112,77,0,0" 
+                 Content="{Binding Path =Tour.Location.City}"
+                  
+                 VerticalAlignment="Top" Width="72" Height="22"/>
+        <Label  HorizontalAlignment="Left" Margin="190,77,0,0" 
+                 Content="{Binding Path=Tour.Location.Country}"
+                 VerticalAlignment="Top" Width="67" Height="22"/>
+        <Label Content="City" HorizontalAlignment="Left" Margin="133,51,0,0" VerticalAlignment="Top"/>
+        <Label Content="Country" HorizontalAlignment="Left" Margin="196,51,0,0" VerticalAlignment="Top"/>
         <Label Content="Description" HorizontalAlignment="Left" Margin="32,123,0,0" VerticalAlignment="Top"/>
-        <TextBox  HorizontalAlignment="Left" Margin="113,127,0,0" TextWrapping="Wrap"
-                 Text="{Binding Path=Tour.Description, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
-                  IsReadOnly="True"
+        <TextBlock  HorizontalAlignment="Left" Margin="113,127,0,0" TextWrapping="Wrap"
+                 Text="{Binding Path=Tour.Description}" 
+              
                  VerticalAlignment="Top" Width="144" Height="85"/>
         <Label Content="Language" HorizontalAlignment="Left" Margin="40,223,0,0" VerticalAlignment="Top"/>
-        <TextBox  HorizontalAlignment="Left" Margin="113,227,0,0" TextWrapping="Wrap"
-                 Text="{Binding Path=Tour.Language, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
-                  IsReadOnly="True"
+        <TextBlock  HorizontalAlignment="Left" Margin="113,227,0,0" TextWrapping="Wrap"
+                 Text="{Binding Path=Tour.Language}" 
+                  
                  VerticalAlignment="Top" Width="144"/>
-        <Label Content="Max number&#xD;&#xA; of guests" Margin="20,259,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <TextBox  HorizontalAlignment="Left" Margin="113,267,0,0" TextWrapping="Wrap" 
-                 Text="{Binding Path=Tour.MaxGuests, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                  IsReadOnly="True"
+        <Label Content="Max number of guests" Margin="20,259,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <TextBlock  HorizontalAlignment="Left" Margin="155,260,0,0" TextWrapping="Wrap" 
+                 Text="{Binding Path=Tour.MaxGuests}"
                  VerticalAlignment="Top" Width="30" Height="25"/>
-        <Label Content="Date" HorizontalAlignment="Left" Margin="44,392,0,0" VerticalAlignment="Top"/>
-        <DatePicker HorizontalAlignment="Left" Margin="41,431,0,0" VerticalAlignment="Top" 
-                    SelectedDate="{Binding Path=DepartureDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        
+        
         <Label Content="Duration" HorizontalAlignment="Left" Margin="377,254,0,0" VerticalAlignment="Top"/>
-        <TextBox HorizontalAlignment="Left" Margin="444,254,0,0" TextWrapping="Wrap" 
-                 Text="{Binding Path=Tour.Duration, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
-                 IsReadOnly="True"
+        <TextBlock HorizontalAlignment="Left" Margin="440,259,0,0" TextWrapping="Wrap" 
+                 Text="{Binding Path=Tour.Duration}" 
                  VerticalAlignment="Top" Width="30" Height="25" RenderTransformOrigin="0.333,0.042"/>
         <Label Content="h" HorizontalAlignment="Left" Margin="479,255,0,0" VerticalAlignment="Top"/>
 
@@ -55,25 +50,21 @@
 
 
         <ListBox x:Name="lbKeyPoints" 
-                 ItemsSource="{Binding Path=KeyPoints, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" 
+                 ItemsSource="{Binding Path=KeyPoints}" 
                   Margin="361,31,78,435"
             ScrollViewer.VerticalScrollBarVisibility="Visible"/>
 
-        <Label Content="Departure" HorizontalAlignment="Left" Margin="116,366,0,0" VerticalAlignment="Top"/>
-        <TextBox  HorizontalAlignment="Left" Margin="174,431,0,0" TextWrapping="Wrap" 
-                 Text="{Binding Path=DepartureTime, Mode=TwoWay, UpdateSourceTrigger=LostFocus, Converter={cvt:StringToTimeOnlyConverter}}"
-                 VerticalAlignment="Top" Width="64" Height="25" RenderTransformOrigin="0.333,0.042"/>
-        <Label Content="Time" HorizontalAlignment="Left" Margin="188,400,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.424,7.263"/>
-
-        <ListBox x:Name="lbDepartureTimes" 
-                 ItemsSource="{Binding Path=DepartureTimes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                 Margin="40,476,402,120" ItemStringFormat="yyyy-MM-dd HH:mm"
-            ScrollViewer.VerticalScrollBarVisibility="Visible"/>
+        <DataGrid x:Name="dbDepartureTimes" ItemsSource="{Binding Path=Tour.DepartureTimes}" SelectedItem="{Binding SelectedTourTime}" Margin="40,302,361,120" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Departure Time" Binding="{Binding DepartureTime}" CanUserResize="False" Width="*"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        
         <Button Content="Confirm reservation" Name="btnConfirmReservation" Click="btnConfirmReservation_Click" HorizontalAlignment="Left" Margin="351,613,0,0" VerticalAlignment="Top" Height="35"/>
         <Button Content="Show recomendations" Name="btnShowRecomendations" HorizontalAlignment="Left" Margin="116,613,0,0" VerticalAlignment="Top" Height="35"/>
         <Label Content="Available" HorizontalAlignment="Left" Margin="377,400,0,0" VerticalAlignment="Top"/>
-        <TextBox Text="{Binding Path=Tour.Available, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
-                 IsReadOnly="True"
+        <TextBlock Text="{Binding Path=Tour.Available, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}"
                  HorizontalAlignment="Left" Margin="444,404,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="52" Height="22"/>
         <Label Content="Enter number of pople:" HorizontalAlignment="Left" Margin="355,476,0,0" VerticalAlignment="Top"/>
         <TextBox Name="txtGuestsNumber" HorizontalAlignment="Left" Margin="361,507,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="142" Height="37"/>

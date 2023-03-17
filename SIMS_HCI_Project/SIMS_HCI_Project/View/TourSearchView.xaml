@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.View"
         mc:Ignorable="d"
-        Title="TourSearchView" Height="450" Width="703" WindowStartupLocation="CenterScreen">
+        Title="TourSearchView" Height="450" Width="800" WindowStartupLocation="CenterScreen">
 
     <Grid Background="Orange" >
         <Grid.ColumnDefinitions>
@@ -17,7 +17,7 @@
 
         <DataGrid x:Name="dgTours" 
                   ItemsSource="{Binding Path=Tours, UpdateSourceTrigger=PropertyChanged}"
-                  SelectedItem="{Binding Path=_selectedTour, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False"  Margin="10,66,172,10" >
+                  SelectedItem="{Binding Path=SelectedTour, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False"  Margin="10,66,172,10" >
 
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="110"></DataGridTextColumn>

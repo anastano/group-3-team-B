@@ -30,6 +30,7 @@ namespace SIMS_HCI_Project.View
         public ObservableCollection<Tour> Tours { get; set; }
         public ObservableCollection<Location> Locations { get; set; }
         public Tour SelectedTour { get; set; }
+        public Guest2 Guest2 { get; set; }
 
         public TourSearchView()
         {
@@ -50,7 +51,7 @@ namespace SIMS_HCI_Project.View
 
         private void btnReserve_Click(object sender, RoutedEventArgs e)
         {
-            Window window = new TourReservationView();
+            Window window = new TourReservationView(SelectedTour, Guest2);
             window.Show();
         }
 

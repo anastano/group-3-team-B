@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SIMS_HCI_Project.Controller;
+using SIMS_HCI_Project.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,11 +19,21 @@ namespace SIMS_HCI_Project.View
     /// <summary>
     /// Interaction logic for TourReservationView.xaml
     /// </summary>
-    public partial class TourReservationView : Window
+    public partial class TourReservationView : Window        
     {
-        public TourReservationView()
+        public Tour Tour { get; set; }
+        public Guest2 Guest2 { get; set; }
+
+        
+        public TourTime SelectedTourTime { get; set; }
+       
+        public TourReservationView(Tour tour, Guest2 guest)
         {
             InitializeComponent();
+            
+            Tour = tour;
+            Guest2 = guest;
+            this.DataContext = this;
         }
 
         

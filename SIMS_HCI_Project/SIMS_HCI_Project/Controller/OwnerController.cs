@@ -33,13 +33,13 @@ namespace SIMS_HCI_Project.Controller
             return _owners;
         }
 
-        public void Load() // load from file
+        public void Load()
         {
             _owners = _fileHandler.Load();
         }
 
 
-        public void Save() //save to file
+        public void Save() 
         {
             _fileHandler.Save(_owners);
         }
@@ -93,7 +93,9 @@ namespace SIMS_HCI_Project.Controller
 
                 foreach (AccommodationReservation reservation in reservationController.GetAll())
                 {
-                    if (accommodationController.FindById(reservation.AccommodationId).OwnerId == owner.Id)
+                    string accommodationOwnerId = accommodationController.FindById(reservation.AccommodationId).OwnerId;
+
+                    if ( accommodationOwnerId == owner.Id)
                     {
                         owner.Reservations.Add(reservation);
                     }
@@ -149,11 +151,11 @@ namespace SIMS_HCI_Project.Controller
 
         public bool IsWithinFiveDaysAfterCheckout(AccommodationReservation reservation)
         {
-            if(DateTime.Today > reservation.End.AddDays(5))
+            if(DateTime.Today <= reservation.End.AddDays(5))
             {
-                return false;
+                return true;
             }
-            return true;
+            return false;
         }
 
         public bool IsRated(AccommodationReservation reservation)

@@ -28,7 +28,6 @@ namespace SIMS_HCI_Project.View
     {
         private string _ownerId;
 
-        private AccommodationReservationController _accommodationReservationController;
         private OwnerController _ownerController;
         private OwnerGuestRatingController _ownerGuestRatingController;
 
@@ -36,14 +35,13 @@ namespace SIMS_HCI_Project.View
 
         public AccommodationReservation SelectedReservation { get; set; }
 
-        public OwnerUnratedReservationsView(AccommodationReservationController accommodationReservationController, OwnerController ownerController, OwnerGuestRatingController ownerGuestRatingController, string ownerId)
+        public OwnerUnratedReservationsView(OwnerController ownerController, OwnerGuestRatingController ownerGuestRatingController, string ownerId)
         {
             InitializeComponent();
             DataContext = this;
 
             _ownerId = ownerId;
 
-            _accommodationReservationController = accommodationReservationController;
             _ownerController = ownerController;
             _ownerGuestRatingController = ownerGuestRatingController;
 

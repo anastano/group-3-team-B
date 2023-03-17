@@ -38,7 +38,7 @@ namespace SIMS_HCI_Project.View
 
             if(_ownerController.GetUnratedReservations(_ownerId).Count != 0)
             {
-                MessageBox.Show("You have unrated guests! Rate them!");
+                MessageBox.Show("You have unrated guests, please rate them.");
             }
         }
 
@@ -68,7 +68,7 @@ namespace SIMS_HCI_Project.View
 
         private void btnGuestRating_Click(object sender, RoutedEventArgs e)
         {
-            Window reservationsView = new OwnerUnratedReservationsView(_reservationController, _ownerController, _ownerGuestRatingController, _ownerId);
+            Window reservationsView = new OwnerUnratedReservationsView(_ownerController, _ownerGuestRatingController, _ownerId);
             reservationsView.Show();
         }
 

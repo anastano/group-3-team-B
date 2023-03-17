@@ -77,7 +77,8 @@ namespace SIMS_HCI_Project.Model
                 OwnerId,
                 Name,
                 LocationId.ToString(),
-                ConvertAccommodationTypeToString(Type),
+
+                Type.ToString(),
                 MaxGuests.ToString(),
                 MinimumReservationDays.ToString(),
                 CancellationDeadlineInDays.ToString(),
@@ -93,7 +94,8 @@ namespace SIMS_HCI_Project.Model
             OwnerId= values[1];
             Name = values[2];
             LocationId = int.Parse(values[3]);
-            Type = ConvertStringToAccommodatonType(values[4]);
+            Enum.TryParse(values[4], out AccomodationType type);
+            Type = type;
             MaxGuests = int.Parse(values[5]);
             MinimumReservationDays = int.Parse(values[6]);
             CancellationDeadlineInDays = int.Parse(values[7]);
@@ -114,23 +116,6 @@ namespace SIMS_HCI_Project.Model
                 return "HUT";
             }
         }
-
-        public static AccomodationType ConvertStringToAccommodatonType(string type) 
-        {
-            if (type.ToLower() == "apartment")
-            {
-                return AccomodationType.APARTMENT;
-            }
-            else if (type.ToLower() == "house")
-            {
-                return AccomodationType.HOUSE;
-            }
-            else
-            {
-                return AccomodationType.HUT;
-            }
-        }
-
 
         public string Error => null;
 

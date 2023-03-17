@@ -34,13 +34,13 @@ namespace SIMS_HCI_Project.Controller
         }
 
 
-        public void Load() // load from file
+        public void Load()
         {
             _ratings = _fileHandler.Load();
         }
 
 
-        public void Save() //save to file
+        public void Save()
         {
             _fileHandler.Save(_ratings);
         }
@@ -51,10 +51,8 @@ namespace SIMS_HCI_Project.Controller
             {
                 return 1;
             }
-            else
-            {
-                return _ratings[_ratings.Count - 1].Id + 1;
-            }
+            return _ratings[_ratings.Count - 1].Id + 1;
+
         }
 
 

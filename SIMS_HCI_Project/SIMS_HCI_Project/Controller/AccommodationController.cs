@@ -43,13 +43,13 @@ namespace SIMS_HCI_Project.Controller
         }
 
 
-        public void Load() // load from file
+        public void Load()
         {
             _accommodations = _fileHandler.Load();
         }
 
 
-        public void Save() //save to file
+        public void Save()
         {
             _fileHandler.Save(_accommodations);
         }
@@ -69,14 +69,10 @@ namespace SIMS_HCI_Project.Controller
             {
                 return 1;
             }
-            else 
-            {
-                return _accommodations[_accommodations.Count - 1].Id + 1;
-            }
+            return _accommodations[_accommodations.Count - 1].Id + 1;
         }
 
-
-        public void Add(Accommodation accommodation) //adds accommodation to all accommodations list and to corresponding owner list
+        public void Add(Accommodation accommodation) //adds accommodation to accommodation list and to corresponding owner list
         {
             _accommodations.Add(accommodation);
             _ownerController.AddAccommodationToOwner(accommodation);
@@ -115,11 +111,9 @@ namespace SIMS_HCI_Project.Controller
             return filtered.ToList();
         }
 
-        public void Register(Accommodation accommodation, string ownerId, Location location, List<string> pictures)
+        public void Register(Accommodation accommodation, Location location)
         {
             accommodation.Id = GenerateId();
-            accommodation.OwnerId = ownerId;
-            accommodation.Images = new List<string>(pictures);
 
             accommodation.Location = _locationController.Save(location);
             accommodation.LocationId = location.Id;

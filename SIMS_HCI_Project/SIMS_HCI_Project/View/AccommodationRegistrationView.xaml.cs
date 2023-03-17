@@ -31,7 +31,6 @@ namespace SIMS_HCI_Project.View
         public Location Location { get; set; }
 
         private AccommodationController _accommodationController;
-        private LocationController _locationController = new LocationController(); //should this be passed as parameter???
 
         private string _imageURL;
         public string ImageURL
@@ -61,7 +60,7 @@ namespace SIMS_HCI_Project.View
 
             _ownerId = ownerId;
             
-            Accommodation = new Accommodation();   //check if it is needed to initialize default values
+            Accommodation = new Accommodation();
             Location = new Location();
             Images = new ObservableCollection<string>();
 
@@ -73,7 +72,10 @@ namespace SIMS_HCI_Project.View
         {
             if (Accommodation.IsValid && Location.IsValid) 
             {
-                _accommodationController.Register(Accommodation, _ownerId, Location, new List<string>(Images));
+                Accommodation.OwnerId = _ownerId;
+                Accommodation.Images = new List<string>(Images);
+
+                _accommodationController.Register(Accommodation, Location);
 
                 Close();
             }
@@ -86,9 +88,9 @@ namespace SIMS_HCI_Project.View
 
         private void btnPlusGuest_Click(object sender, RoutedEventArgs e)
         {
-            int maxGuests = int.Parse(txtMaxGuestNumber.Text);
-            maxGuests += 1;
-            txtMaxGuestNumber.Text = maxGuests.ToString();
+             int maxGuests = int.Parse(txtMaxGuestNumber.Text);
+             maxGuests += 1;
+             txtMaxGuestNumber.Text = maxGuests.ToString();
         }
 
         private void btnMinusGuest_Click(object sender, RoutedEventArgs e)

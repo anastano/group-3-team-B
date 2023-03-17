@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using static System.Net.Mime.MediaTypeNames;
+using static System.Net.WebRequestMethods;
 using Image = System.Windows.Controls.Image;
 
 namespace SIMS_HCI_Project.View
@@ -36,22 +37,35 @@ namespace SIMS_HCI_Project.View
 
         private void LoadImage()
         {
-            if (_currentIndex < 0)
+            if(Images.Count == 1 && Images[0].Equals(""))
             {
-                _currentIndex = Images.Count - 1;
-            }
-            else if(_currentIndex >= Images.Count)
-            {
-                _currentIndex = 0;
-            }
-  
-            var fullFilePath = Images[_currentIndex];
-            BitmapImage bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.UriSource = new Uri(fullFilePath, UriKind.Absolute);
-            bitmap.EndInit();
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri("https://thumbs.dreamstime.com/z/no-image-available-icon-photo-camera-flat-vector-illustration-132483141.jpg");
+                bitmap.EndInit();
 
-            Image.Source = bitmap;
+                Image.Source = bitmap;
+            }
+            else
+            {
+                if (_currentIndex < 0)
+                {
+                    _currentIndex = Images.Count - 1;
+                }
+                else if (_currentIndex >= Images.Count)
+                {
+                    _currentIndex = 0;
+                }
+
+                var fullFilePath = Images[_currentIndex];
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri(fullFilePath, UriKind.Absolute);
+                bitmap.EndInit();
+
+                Image.Source = bitmap;
+            }
+            
         }
 
         private void btnPreviousImage_Click(object sender, RoutedEventArgs e)

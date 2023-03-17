@@ -32,7 +32,7 @@ namespace SIMS_HCI_Project.Model
             Status = status;
         }
 
-        public AccommodationReservation(int accommodationId, string guestId, DateTime start, DateTime end, int guestNumber, ReservationStatus status)
+        public AccommodationReservation(int accommodationId, string guestId, DateTime start, DateTime end, int guestNumber)
         {
             Id = -1;
             AccommodationId = accommodationId;
@@ -40,7 +40,7 @@ namespace SIMS_HCI_Project.Model
             Start = start;
             End = end;
             GuestNumber = guestNumber;
-            Status = status;
+            Status = ReservationStatus.RESERVED;
         }
 
         public AccommodationReservation(AccommodationReservation temp)

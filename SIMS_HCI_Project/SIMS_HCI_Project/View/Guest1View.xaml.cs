@@ -35,6 +35,7 @@ namespace SIMS_HCI_Project.View
             this.DataContext = this;
             _accommodationReservationController = new AccommodationReservationController();
             _accommodationReservationController.Load();
+            _accommodationReservationController.Subscribe(this);
 
             Guest = guest;
             Guest.Reservations = new ObservableCollection<AccommodationReservation>(_accommodationReservationController.GetAllByGuestId(guest.Id));
@@ -44,12 +45,21 @@ namespace SIMS_HCI_Project.View
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
-            Window win = new AccommodationSearchView(Guest);
+            Window win = new AccommodationSearchView(_accommodationReservationController, Guest);
             win.Show();
         }
         public void Update()
         {
-
+            CompletedReservations.Clear();
+            foreach (var completedReservation in _accommodationReservationController.GetAllByStatusAndGuestId(Guest.Id, ReservationStatus.COMPLETED))
+            {
+                CompletedReservations.Add(completedReservation);
+            }
+            UpcomingReservations.Clear();
+            foreach (var upcomingReservation in _accommodationReservationController.GetAllByStatusAndGuestId(Guest.Id, ReservationStatus.RESERVED))
+            {
+                UpcomingReservations.Add(upcomingReservation);
+            }
         }
     }
 }

@@ -58,9 +58,14 @@ namespace SIMS_HCI_Project.Controller
         }
 
 
-        public void Add(AccommodationReservation reservation)
+        public void Add(AccommodationReservation reservation, Guest1 guest)
         {
-            // TO DO
+            reservation.Id = GenerateId();
+            AccommodationReservation accommodationReservation = reservation;
+            _reservations.Add(reservation);
+            guest.Reservations.Add(reservation);
+            Save();
+            NotifyObservers();
         }
 
         public void Remove(AccommodationReservation reservation)

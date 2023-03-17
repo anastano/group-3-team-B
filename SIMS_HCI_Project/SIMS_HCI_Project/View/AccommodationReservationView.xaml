@@ -4,64 +4,110 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.View"
-        mc:Ignorable="d"
-        Title="AccommodationReservationView" Height="500" Width="800">
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        Title="AccommodationReservationView" Height="500" Width="850">
+    <Window.Resources>
+        <ControlTemplate x:Key="ValidationTemplate">
+            <StackPanel>
+                <!-- Placeholder for the TextBox itself -->
+                <AdornedElementPlaceholder x:Name="textBox" />
+                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" />
+            </StackPanel>
+
+        </ControlTemplate>
+    </Window.Resources>
+    
     <Grid>
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,325">
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,319">
             <StackPanel>
                 <TextBlock Text="Accommodation Name" TextAlignment="Center" Margin="50, 10, 0, 0"></TextBlock>
-                <TextBox Text="{Binding Path=Accommodation.Name, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center" Width="200" Margin="50, 0, 0, 0" Height="25"/>
+                <TextBox Text="{Binding Path=Accommodation.Name, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" TextAlignment="Center" Width="200" Margin="50, 0, 0, 0" Height="25"/>
             </StackPanel>
             <StackPanel>
                 <TextBlock Text="Guest Username" TextAlignment="Center" Margin="50, 10, 0, 0"></TextBlock>
-                <TextBox Text="{Binding Path=Guest.Username, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center" Width="200" Margin="50, 0, 0, 0" Height="25"/>
+                <TextBox Text="{Binding Path=Guest.Username, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" TextAlignment="Center" Width="200" Margin="50, 0, 0, 0" Height="25"/>
             </StackPanel>
             <StackPanel>
                 <TextBlock Text="Guest Number" TextAlignment="Center" Margin="1, 10, 0, 0" Width="222"></TextBlock>
                 <StackPanel Orientation="Horizontal" Height="25" Width="299">
                     <Button x:Name="btnMinusGuest" Click="btnMinusGuest_Click" Content="-" Margin="40,0,10,0" FontSize="18" Width="20" Height="25"/>
-                    <TextBox x:Name="txtGuestNumber" HorizontalAlignment="Left" IsReadOnly="True" Text="{Binding Path = Accommodation.MaxGuests, UpdateSourceTrigger = PropertyChanged}" TextAlignment="Center" Width="150" Margin="0, 0, 0, 0" Height="25" TextWrapping="Wrap" VerticalAlignment="Top" />
+                    <TextBox x:Name="txtGuestNumber" HorizontalAlignment="Left" IsReadOnly="True" Text="{Binding Path = GuestsNumber, UpdateSourceTrigger = PropertyChanged}" TextAlignment="Center" Width="150" Margin="0, 0, 0, 0" Height="25" TextWrapping="Wrap" VerticalAlignment="Top" />
                     <Button x:Name="btnPlusGuest" Click="btnPlusGuest_Click" Content="+"  FontSize="18" Margin="10,0,0,0" Width="20" Height="25"/>
                 </StackPanel>
             </StackPanel>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="0,66,0,325">
+        <StackPanel Orientation="Horizontal" Margin="0,66,0,319">
             
             <StackPanel>
                 <TextBlock Text="Start" TextAlignment="Center" Margin="50, 5, 0, 0"></TextBlock>
-                <DatePicker x:Name="datePickerStart" SelectedDate="{Binding MyDate, StringFormat='{}{0:dd/MM/yyyy}'}" SelectedDateFormat="Short"  Margin="50, 0, 0, 60" Width="200" Height="25"/>
+                <DatePicker x:Name="datePickerStart"  PreviewKeyDown="DatePicker_PreviewKeyDown" SelectedDateChanged="DatePickerStart_SelectedDateChanged" SelectedDate="{Binding Start, StringFormat='{}{0:dd/MM/yyyy}', ValidatesOnDataErrors = True, NotifyOnValidationError = True}" 
+                            SelectedDateFormat="Short"  Margin="50, 0, 0, 60" Width="200" Height="25">
+                    <DatePicker.Resources>
+                        <Style TargetType="DatePickerTextBox">
+                            <Setter Property="IsReadOnly" Value="True"/>
+                        </Style>
+                    </DatePicker.Resources>
+                    <Validation.ErrorTemplate>
+                        <ControlTemplate>
+                            <StackPanel>
+                                <AdornedElementPlaceholder x:Name="textBox"/>
+                                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Validation.ErrorTemplate>
+                </DatePicker>
             </StackPanel>
             
             <StackPanel>
                 <TextBlock Text="End" TextAlignment="Center" Margin="50, 5, 0, 0"></TextBlock>
-                <DatePicker x:Name="datePickerEnd" SelectedDate="{Binding MyDate, StringFormat='{}{0:dd/MM/yyyy}'}" SelectedDateFormat="Short" Margin="50, 0, 0, 0" Width="200" Height="25"/>
-                <TextBlock Text="Available " TextAlignment="Center" Margin="50, 5, 0, 0" Height="22"/>
+                <DatePicker x:Name="datePickerEnd" SelectedDateChanged="DatePickerEnd_SelectedDateChanged" SelectedDate="{Binding End, StringFormat='{}{0:dd/MM/yyyy}', ValidatesOnDataErrors = True, NotifyOnValidationError = True}" SelectedDateFormat="Short" Margin="50, 0, 0, 0" Width="200" Height="25">
+                    <Validation.ErrorTemplate>
+                        <ControlTemplate>
+                            <StackPanel>
+                                <AdornedElementPlaceholder x:Name="textBox"/>
+                                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Validation.ErrorTemplate>
+                </DatePicker>
             </StackPanel>
             
             <StackPanel Height="93" Width="298" >
                 <TextBlock Text="How many Days?" TextAlignment="Center" Margin="50, 5, 50, 0"></TextBlock>
-                <TextBox x:Name="txtDays" Width="200" Margin="0, 0, 0, 0" Height="25" TextAlignment="Center"/>
-                <Button Content="Find Available" Width="80" Margin="0, 5, 0, 0" Height="25" Click="btnFindAvailable_Click"/>
+                <TextBox x:Name="txtDays" Width="200" Margin="0, 0, 0, 0" Height="25" Text="{Binding Path = DaysNumber, UpdateSourceTrigger = PropertyChanged, ValidatesOnDataErrors = True}" TextAlignment="Center">
+                    <Validation.ErrorTemplate>
+                        <ControlTemplate>
+                            <StackPanel>
+                                <AdornedElementPlaceholder x:Name="textBox"/>
+                                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
+                            </StackPanel>
+                        </ControlTemplate>
+                    </Validation.ErrorTemplate>
+                </TextBox>
+                <Button Content="Find Available" Width="80" Margin="0, 25, 0, 0" Height="20" Click="btnFindAvailable_Click"/>
             </StackPanel>
             
             
         </StackPanel>
-        <DataGrid x:Name="DataGridAvailableReservations"
+        <StackPanel Margin="0,170,0,0">
+            <TextBlock Text="" TextAlignment="Center" Margin="0, 0, 0, 0" Height="30"/>
+            <DataGrid x:Name="DataGridAvailableReservations"
                   ItemsSource="{Binding Path=AvailableReservations, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}"
-                  AutoGenerateColumns="False" IsReadOnly="True" Margin="108,176,92,0">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Start" Binding="{Binding Start, StringFormat='{}{0:dd/MM/yyyy}'}" Width="1.5*"></DataGridTextColumn>
-                <DataGridTextColumn Header="End" Binding="{Binding End, StringFormat='{}{0:dd/MM/yyyy}'}" Width="1.5*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Guest Number" Binding="{Binding GuestNumber}" Width="90"></DataGridTextColumn>
-                <DataGridTemplateColumn Header="Reserve">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="Reserve" Click="btnReserve_Click"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
+                  AutoGenerateColumns="False" IsReadOnly="True" Margin="40,0,40,0">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Start" Binding="{Binding Start, StringFormat='{}{0:dd/MM/yyyy}'}" Width="1.5*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="End" Binding="{Binding End, StringFormat='{}{0:dd/MM/yyyy}'}" Width="1.5*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Guest Number" Binding="{Binding GuestNumber}" Width="90"></DataGridTextColumn>
+                    <DataGridTemplateColumn Header="Reserve">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Reserve" Click="btnReserve_Click"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </StackPanel>
     </Grid>
 </Window>

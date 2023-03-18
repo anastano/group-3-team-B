@@ -32,7 +32,8 @@ namespace SIMS_HCI_Project.View
             TourTime = tourTime;
             _tourTimeController = tourTimeController;
             _guestTourAttendanceController = new GuestTourAttendanceController();
-            SelectedGuest = new GuestTourAttendance();
+            //SelectedGuest = new GuestTourAttendance();
+            UpdateButtons();
 
             DataContext = this;
         }
@@ -40,6 +41,7 @@ namespace SIMS_HCI_Project.View
         private void btnNextKeyPoint_Click(object sender, RoutedEventArgs e)
         {
             _tourTimeController.MoveToNextKeyPoint(TourTime);
+            UpdateButtons();
         }
 
         private void btnCancelTour_Click(object sender, RoutedEventArgs e)
@@ -50,6 +52,15 @@ namespace SIMS_HCI_Project.View
         private void MarkGuestAsPresent_Click(object sender, RoutedEventArgs e)
         {
             _guestTourAttendanceController.MarkGuestAsPresent(SelectedGuest);
+        }
+
+        private void UpdateButtons()
+        {
+            if (TourTime.CurrentKeyPointIndex == TourTime.Tour.KeyPoints.Count - 1)
+            {
+                btnNextKeyPoint.Content = "End Tour";
+                btnCancelTour.IsEnabled = false;
+            }
         }
     }
 }

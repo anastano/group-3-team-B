@@ -48,6 +48,7 @@ namespace SIMS_HCI_Project.View
 
             _tourTimeController = tourTimeController;
             _tourTimeController.ConnectGuestAttendances();
+            _tourTimeController.ConnectCurrentKeyPoints();
 
             UpdateButtons();
         }
@@ -73,7 +74,7 @@ namespace SIMS_HCI_Project.View
             {
                 case TourStatus.NOT_STARTED:
                     btnStartTour.Content = "Start Tour";
-                    if(SelectedTourTime.DepartureTime < DateTime.Now.AddDays(-1))
+                    if(SelectedTourTime.DepartureTime.Date != DateTime.Today)
                     {
                         btnStartTour.IsEnabled = false;
                     }
@@ -84,10 +85,12 @@ namespace SIMS_HCI_Project.View
                     break;
                 case TourStatus.IN_PROGRESS:
                     btnStartTour.Content = "See Progress";
+                    btnStartTour.IsEnabled = true;
                     break;
                 case TourStatus.COMPLETED:
                 case TourStatus.CANCELED:
-                    btnStartTour.IsEnabled = false;
+                    btnStartTour.Content = "See History";
+                    btnStartTour.IsEnabled = true;
                     break;
             }
         }

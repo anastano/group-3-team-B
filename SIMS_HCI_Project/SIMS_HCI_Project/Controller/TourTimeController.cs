@@ -72,6 +72,14 @@ namespace SIMS_HCI_Project.Controller
             }
         }
 
+        public void ConnectCurrentKeyPoints()
+        {
+            foreach (TourTime tourTime in _tourTimes)
+            {
+                tourTime.CurrentKeyPoint = tourTime.Tour.KeyPoints[tourTime.CurrentKeyPointIndex];
+            }
+        }
+
         public List<TourTime> GetAllByGuideId(string id)
         {
             return _tourTimes.FindAll(tt => tt.Tour.GuideId == id);
@@ -96,7 +104,7 @@ namespace SIMS_HCI_Project.Controller
 
         public void StartTour(TourTime tourTime)
         {
-            if (tourTime.Status != TourStatus.IN_PROGRESS)
+            if (tourTime.Status == TourStatus.NOT_STARTED)
             {
                 tourTime.Status = TourStatus.IN_PROGRESS;
                 _guestTourAttendanceController.GenerateByTour(tourTime);

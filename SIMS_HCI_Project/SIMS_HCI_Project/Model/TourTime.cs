@@ -17,8 +17,26 @@ namespace SIMS_HCI_Project.Model
         public int TourId { get; set; }
         public Tour Tour { get; set; }
         public DateTime DepartureTime { get; set; }
-        public TourStatus Status { get; set; }
-        public TourKeyPoint CurrentKeyPoint { get; set; }
+        private TourStatus _status;
+        public TourStatus Status
+        {
+            get { return _status; }
+            set
+            {
+                _status = value;
+                OnPropertyChanged();
+            }
+        }
+        private TourKeyPoint _currentKeyPoint;
+        public TourKeyPoint CurrentKeyPoint
+        {
+            get { return _currentKeyPoint; }
+            set
+            {
+                _currentKeyPoint = value;
+                OnPropertyChanged();
+            }
+        }
         public int _currentKeyPointIndex;
         public int CurrentKeyPointIndex
         {

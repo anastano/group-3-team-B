@@ -38,7 +38,9 @@ namespace SIMS_HCI_Project.View
             SelectedTourTime = new TourTime();
 
             Guide = guide;
-            Guide.Tours = new ObservableCollection<TourTime>(_tourTimeController.GetAllByGuideId(guide.Id));
+            //Guide.Tours = new ObservableCollection<TourTime>(_tourTimeController.GetAllByGuideId(guide.Id));
+
+            foreach (var t in _tourTimeController.GetAllByGuideId(guide.Id)) Guide.Tours.Add(t);
 
             DataContext = this;
         }
@@ -51,7 +53,6 @@ namespace SIMS_HCI_Project.View
 
         private void btnTodayTours_Click(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void btnTourInfo_Click(object sender, RoutedEventArgs e)

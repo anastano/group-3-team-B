@@ -12,12 +12,15 @@ namespace SIMS_HCI_Project.Controller
     {
         private GuestTourAttendanceFileHandler _fileHandler;
 
-        private List<GuestTourAttendance> _guestTourAttendances;
+        private static List<GuestTourAttendance> _guestTourAttendances;
 
         public GuestTourAttendanceController()
         {
             _fileHandler = new GuestTourAttendanceFileHandler();
-            _guestTourAttendances = _fileHandler.Load();
+            if(_guestTourAttendances == null)
+            {
+                _guestTourAttendances = _fileHandler.Load();
+            }
         }
 
         public List<GuestTourAttendance> GetAll()
@@ -67,7 +70,7 @@ namespace SIMS_HCI_Project.Controller
         {
             foreach (GuestTourAttendance guestTourAttendance in tourTime.GuestAttendances)
             {
-                if (guestTourAttendance.Status == AttendanceStatus.CONFIRMATION_REQUESTED)
+                if (guestTourAttendance.Status == AttendanceStatus.CONFIRMATION_REQUESTED || guestTourAttendance.Status == AttendanceStatus.NOT_PRESENT)
                 {
                     guestTourAttendance.Status = AttendanceStatus.NEVER_SHOWED_UP;
                 }
@@ -77,7 +80,7 @@ namespace SIMS_HCI_Project.Controller
 
         public void MarkGuestAsPresent(GuestTourAttendance guestTourAttendance)
         {
-            FindById(guestTourAttendance.Id).Status = AttendanceStatus.CONFIRMATION_REQUESTED;
+            guestTourAttendance.Status = AttendanceStatus.CONFIRMATION_REQUESTED;
             _fileHandler.Save(_guestTourAttendances);
         }
     }

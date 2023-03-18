@@ -1,7 +1,9 @@
 ﻿using SIMS_HCI_Project.Serializer;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -10,16 +12,31 @@ namespace SIMS_HCI_Project.Model
 {
     public enum AttendanceStatus { NOT_PRESENT, CONFIRMATION_REQUESTED, PRESENT, NEVER_SHOWED_UP}
 
-    public class GuestTourAttendance : ISerializable
+    public class GuestTourAttendance : ISerializable, INotifyPropertyChanged
     {
         public int Id { get; set; }
         public string GuestId { get; set; }
         //public Guest2 Guest { get; set; }
         public int TourTimeId { get; set; }
         public TourTime TourTime { get; set; }
-        public AttendanceStatus Status { get; set; }
+        private AttendanceStatus _status;
+        public AttendanceStatus Status
+        {
+            get { return _status; }
+            set
+            {
+                _status = value;
+                OnPropertyChanged();
+            }
+        }
         public int KeyPointJoinedId { get; set; }
         public TourKeyPoint KeyPointJoined { get; set; }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public GuestTourAttendance() { }
 

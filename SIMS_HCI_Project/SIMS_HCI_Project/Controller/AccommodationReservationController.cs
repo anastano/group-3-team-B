@@ -41,13 +41,13 @@ namespace SIMS_HCI_Project.Controller
         }
 
 
-        public void Load() // load from file
+        public void Load()
         {
             _reservations = _fileHandler.Load();
         }
 
 
-        public void Save() //save to file
+        public void Save()
         {
             _fileHandler.Save(_reservations);
         }
@@ -58,10 +58,8 @@ namespace SIMS_HCI_Project.Controller
             {
                 return 1;
             }
-            else
-            {
-                return _reservations[_reservations.Count - 1].Id + 1;
-            }
+            return _reservations[_reservations.Count - 1].Id + 1;
+
         }
 
 

@@ -65,7 +65,7 @@ namespace SIMS_HCI_Project.Model
                 Start.ToString("MM/dd/yyyy"),
                 End.ToString("MM/dd/yyyy"),
                 GuestNumber.ToString(),
-                ConvertReservationStatusToString(Status)
+                Status.ToString()
                 
             };
             return csvValues;
@@ -79,49 +79,10 @@ namespace SIMS_HCI_Project.Model
             Start = DateTime.ParseExact(values[3], "MM/dd/yyyy", null);
             End = DateTime.ParseExact(values[4], "MM/dd/yyyy", null);
             GuestNumber = int.Parse(values[5]);
-            Status = ConvertStringToReservationStatus(values[6]);
+            Enum.TryParse(values[6], out ReservationStatus status);
+            Status = status;
 
         }
 
-
-        public static string ConvertReservationStatusToString(ReservationStatus status)
-        {
-            if (status == ReservationStatus.CANCELLED)
-            {
-                return "CANCELLED";
-            }
-            else if (status == ReservationStatus.RESCHEDULED)
-            {
-                return "RESCHEDULED";
-            }
-            else if (status == ReservationStatus.RESERVED)
-            {
-                return "RESERVED";
-            }
-            else
-            {
-                return "COMPLETED";
-            }
-        }
-
-        public static ReservationStatus ConvertStringToReservationStatus(string status)
-        {
-            if (status.ToLower() == "cancelled")
-            {
-                return ReservationStatus.CANCELLED;
-            }
-            else if (status.ToLower() == "rescheduled")
-            {
-                return ReservationStatus.RESCHEDULED;
-            }
-            else if (status.ToLower() == "reserved")
-            {
-                return ReservationStatus.RESERVED;
-            }
-            else
-            {
-                return ReservationStatus.COMPLETED;
-            }
-        }
     }
 }

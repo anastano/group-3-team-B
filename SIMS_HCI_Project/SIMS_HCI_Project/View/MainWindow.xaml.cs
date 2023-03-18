@@ -68,6 +68,5 @@ namespace SIMS_HCI_Project
                 lblErrorMessage.Content = "Inccorect username or password";
             }
         }
-
     }
 }

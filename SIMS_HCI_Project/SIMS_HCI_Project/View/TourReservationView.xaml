@@ -8,41 +8,41 @@
         mc:Ignorable="d"
         Title="TourReservationView" Height="700" Width="650" WindowStartupLocation="CenterScreen">
     <Grid Background="Orange" HorizontalAlignment="Center" Width="650">
-        <Label Content="Title" HorizontalAlignment="Left" Margin="65,23,0,0" VerticalAlignment="Top"/>
-        <Label HorizontalAlignment="Left" Margin="113,27,0,0" 
-                 Content="{Binding Path=Tour.Title}" 
-                  VerticalAlignment="Top" Width="144" Height="22"/>
-        <Label Content="Location" HorizontalAlignment="Left" Margin="47,73,0,0" VerticalAlignment="Top"/>
-        <Label  HorizontalAlignment="Left" Margin="112,77,0,0" 
+        <Label Content="Title" HorizontalAlignment="Left" Margin="67,10,0,0" VerticalAlignment="Top"/>
+        <Label HorizontalAlignment="Left" Margin="113,10,0,0" 
+                 Content="{Binding Path=Tour.Title}" Foreground="#FF0A0A08"
+                  VerticalAlignment="Top" Width="159" Height="31" Background="#FFF5F0F0"/>
+        <Label Content="Location" HorizontalAlignment="Left" Margin="20,73,0,0" VerticalAlignment="Top"/>
+        <Label  HorizontalAlignment="Left" Margin="81,72,0,0" 
                  Content="{Binding Path =Tour.Location.City}"
-                  
-                 VerticalAlignment="Top" Width="72" Height="22"/>
-        <Label  HorizontalAlignment="Left" Margin="190,77,0,0" 
+                  Foreground="#FF0A0A08"
+                 VerticalAlignment="Top" Width="97" Height="31" Background="#FFF1EDED"/>
+        <Label  HorizontalAlignment="Left" Margin="190,72,0,0" 
                  Content="{Binding Path=Tour.Location.Country}"
-                 VerticalAlignment="Top" Width="67" Height="22"/>
-        <Label Content="City" HorizontalAlignment="Left" Margin="133,51,0,0" VerticalAlignment="Top"/>
-        <Label Content="Country" HorizontalAlignment="Left" Margin="196,51,0,0" VerticalAlignment="Top"/>
-        <Label Content="Description" HorizontalAlignment="Left" Margin="32,123,0,0" VerticalAlignment="Top"/>
-        <TextBlock  HorizontalAlignment="Left" Margin="113,127,0,0" TextWrapping="Wrap"
+                 VerticalAlignment="Top" Width="135" Height="32" Foreground="Black" Background="#FFF1EDED"/>
+        <Label Content="City" HorizontalAlignment="Left" Margin="134,46,0,0" VerticalAlignment="Top"/>
+        <Label Content="Country" HorizontalAlignment="Left" Margin="197,46,0,0" VerticalAlignment="Top"/>
+        <Label Content="Description" HorizontalAlignment="Left" Margin="12,122,0,0" VerticalAlignment="Top"/>
+        <TextBlock  HorizontalAlignment="Left" Margin="83,122,0,0" TextWrapping="Wrap" Foreground="Black" Background="#FFF1EDED"
                  Text="{Binding Path=Tour.Description}" 
               
-                 VerticalAlignment="Top" Width="144" Height="85"/>
-        <Label Content="Language" HorizontalAlignment="Left" Margin="40,223,0,0" VerticalAlignment="Top"/>
-        <TextBlock  HorizontalAlignment="Left" Margin="113,227,0,0" TextWrapping="Wrap"
+                 VerticalAlignment="Top" Width="242" Height="90"/>
+        <Label Content="Language" HorizontalAlignment="Left" Margin="20,217,0,0" VerticalAlignment="Top"/>
+        <TextBlock  HorizontalAlignment="Left" Margin="83,223,0,0" TextWrapping="Wrap" Foreground="Black"
                  Text="{Binding Path=Tour.Language}" 
-                  
-                 VerticalAlignment="Top" Width="144"/>
+                  Background="#FFF1EDED" 
+                 VerticalAlignment="Top" Width="242" Height="26"/>
         <Label Content="Max number of guests" Margin="20,259,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <TextBlock  HorizontalAlignment="Left" Margin="155,260,0,0" TextWrapping="Wrap" 
+        <TextBlock  HorizontalAlignment="Left" Margin="164,259,0,0" TextWrapping="Wrap" Foreground="Beige"
                  Text="{Binding Path=Tour.MaxGuests}"
-                 VerticalAlignment="Top" Width="30" Height="25"/>
-        
-        
-        <Label Content="Duration" HorizontalAlignment="Left" Margin="377,254,0,0" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="440,259,0,0" TextWrapping="Wrap" 
+                 VerticalAlignment="Top" Width="46" Height="31"/>
+
+
+        <Label Content="Duration [hours]" HorizontalAlignment="Left" Margin="361,266,0,0" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="470,264,0,0" TextWrapping="Wrap" Foreground="Beige"
                  Text="{Binding Path=Tour.Duration}" 
-                 VerticalAlignment="Top" Width="30" Height="25" RenderTransformOrigin="0.333,0.042"/>
-        <Label Content="h" HorizontalAlignment="Left" Margin="479,255,0,0" VerticalAlignment="Top"/>
+                 VerticalAlignment="Top" Width="71" Height="30" RenderTransformOrigin="0.333,0.042"/>
+
 
 
 
@@ -59,17 +59,17 @@
                 <DataGridTextColumn Header="Departure Time" Binding="{Binding DepartureTime}" CanUserResize="False" IsReadOnly="True" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        
-        
+
+
         <Button Content="CONFIRM RESERVATION" Name="btnConfirmReservation" Click="btnConfirmReservation_Click" HorizontalAlignment="Left" Margin="351,613,0,0" VerticalAlignment="Top" Height="35"/>
-        <Button Content="SHOW SUGGESTIONS" Name="btnShowSuggestions" HorizontalAlignment="Left" Margin="116,613,0,0" VerticalAlignment="Top" Height="35"/>
-        <Label Content="Available" HorizontalAlignment="Left" Margin="377,400,0,0" VerticalAlignment="Top"/>
+        <Button Content="SHOW SUGGESTIONS" Name="btnShowSuggestions" HorizontalAlignment="Left" Margin="116,613,0,0" VerticalAlignment="Top" Height="35" Click="btnShowSuggestions_Click"/>
+        <Label Content="Available" HorizontalAlignment="Left" Margin="374,359,0,0" VerticalAlignment="Top"/>
 
         <TextBlock x:Name="tblAvailable" Text="{Binding SelectedTourTime.Available, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                 HorizontalAlignment="Left" Margin="444,404,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="52" Height="22"/>
+                 HorizontalAlignment="Left" Margin="437,354,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="77" Height="35" Foreground="Beige" FontSize="14"/>
 
-        <Label Content="Enter number of pople:" HorizontalAlignment="Left" Margin="355,476,0,0" VerticalAlignment="Top"/>
-        <TextBox Name="txtRequestedPartySize"  HorizontalAlignment="Left" Margin="361,507,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="142" Height="37"/>
+        <Label Content="Enter number of pople:" HorizontalAlignment="Left" Margin="352,451,0,0" VerticalAlignment="Top"/>
+        <TextBox Name="txtRequestedPartySize"  HorizontalAlignment="Left" Margin="352,477,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="142" Height="37"/>
 
     </Grid>
 </Window>

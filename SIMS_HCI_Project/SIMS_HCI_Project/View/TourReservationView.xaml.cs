@@ -116,14 +116,12 @@ namespace SIMS_HCI_Project.View
             _reservations = Reservations; //legal?
         }
 
-
-/*        private void dgDeparatureTimes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void btnShowSuggestions_Click(object sender, RoutedEventArgs e)
         {
-            var SelectedTourTime = dgDepartureTimes.SelectedItem as TourTime;
-            if (SelectedTourTime != null)
-            {
-                tblAvailable.Text = SelectedTourTime.Available.ToString();
-            }
-        }*/
+            Window window = new TourSuggestionsView(Tour.Location, Guest2);
+            window.Show();
+            this.Close();
+        }
+
     }
 }

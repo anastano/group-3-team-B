@@ -9,11 +9,11 @@ namespace SIMS_HCI_Project.Model
 {
     public class Guest2 : User
     {
-        public ObservableCollection<Tour> Tours { get; set; }
+        public ObservableCollection<TourReservation> Reservations { get; set; }
 
         public Guest2()
         {
-            Tours = new ObservableCollection<Tour>();
+            Reservations = new ObservableCollection<TourReservation>();
         }
 
         public Guest2(string id, string username, string password)
@@ -21,7 +21,7 @@ namespace SIMS_HCI_Project.Model
             Id = id;
             Username = username;
             Password = password;
-            Tours = new ObservableCollection<Tour>();
+            Reservations = new ObservableCollection<TourReservation>();
         }
     }
 }

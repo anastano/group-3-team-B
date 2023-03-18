@@ -23,6 +23,11 @@ namespace SIMS_HCI_Project.Controller
             }
         }
 
+        public void ReduceAvailable(TourTime tourTime, int requestedPartySize)
+        {
+            tourTime.Available -= requestedPartySize;
+        }
+
         public List<TourTime> GetAll()
         {
             return _tourTimes;

@@ -18,6 +18,7 @@ namespace SIMS_HCI_Project.Model
         public TourStatus Status { get; set; }
         public TourKeyPoint CurrentKeyPoint { get; set; }
         public int CurrentKeyPointId { get; set; }
+        public int Available { get; set; }
 
         public TourTime() { }
 
@@ -25,6 +26,7 @@ namespace SIMS_HCI_Project.Model
         {
             DepartureTime = departureTime;
             Status = TourStatus.NOT_STARTED;
+            Available = Tour.MaxGuests;
         }
 
         public TourTime(int tourId, DateTime departureTime)

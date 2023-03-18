@@ -21,6 +21,20 @@ namespace SIMS_HCI_Project.Controller
             _tourKeyPoints = _fileHandler.Load();
         }
 
+        public TourKeyPoint GetById(int id) //DELETE WHEN MERGE
+        {
+            return _tourKeyPoints.Find(tkp => tkp.Id == id);
+        }
+        public List<TourKeyPoint> GetByIds(List<int> ids) /* DELETE WHEN MERGE */
+        {
+            List<TourKeyPoint> tourKeyPoints = new List<TourKeyPoint>();
+            foreach (int id in ids)
+            {
+                tourKeyPoints.Add(GetById(id));
+            }
+
+            return tourKeyPoints;
+        }
         public List<TourKeyPoint> GetAll()
         {
             return _tourKeyPoints;

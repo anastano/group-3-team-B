@@ -25,6 +25,18 @@ namespace SIMS_HCI_Project.Controller
             _observers = new List<IObserver>();
         }
 
+        /*
+         public List<TourTime> GetAllByGuideId(string id)
+        {
+            return _tourTimes.FindAll(tt => tt.Tour.GuideId == id);
+        }
+         */
+
+
+        public List<TourReservation> GetAllByGuestId(string id)
+        {
+            return _reservations.FindAll(r => r.Guest2Id == id);
+        }
         public void Load()
         {
             _reservations = _fileHandler.Load();

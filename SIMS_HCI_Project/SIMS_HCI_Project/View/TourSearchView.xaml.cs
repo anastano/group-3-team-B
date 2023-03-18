@@ -39,7 +39,9 @@ namespace SIMS_HCI_Project.View
             _tourController = new TourController();
             _locationController = new LocationController();
 
-            _tourController.ConnectToursLocations(_locationController);
+            _tourController.ConnectDepartureTimes();
+            _tourController.ConnectToursLocations();
+            _tourController.ConnectKeyPoints();
 
             Tours = new ObservableCollection<Tour>(_tourController.GetAll());
         }

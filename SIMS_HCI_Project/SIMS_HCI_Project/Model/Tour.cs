@@ -27,7 +27,7 @@ namespace SIMS_HCI_Project.Model
         public List<TourKeyPoint> KeyPoints { get; set; }
         public List<TourTime> DepartureTimes { get; set; }
         public int Duration { get; set; }
-        public int Available { get; set; }
+       
         public List<string> Images { get; set; } // [Maybe] TODO: Change to URI type
 
         public Tour() {
@@ -58,7 +58,7 @@ namespace SIMS_HCI_Project.Model
             Language = language;
             MaxGuests = maxGuestNumber;
             Duration = duration;
-            Available = maxGuestNumber;
+            //Available = maxGuestNumber;
 
             Location = new Location();
             Images = new List<string>();

@@ -31,28 +31,56 @@ namespace SIMS_HCI_Project.Controller
             return _tourTimes;
         }
 
-        public TourTime Save(TourTime tourTime)
+        public void Load()
+        {
+            _tourTimes = _fileHandler.Load();
+        }
+
+        public void Save()
+        {
+            _fileHandler.Save(_tourTimes);
+        }
+
+        public void Add(TourTime tourTime)
         {
             tourTime.Id = GenerateId();
+
             tourTime.CurrentKeyPoint = tourTime.Tour.KeyPoints.First();
             tourTime.CurrentKeyPointIndex = 0;
 
             _tourTimes.Add(tourTime);
-            _fileHandler.Save(_tourTimes);
 
-            return tourTime;
+            Save();
         }
 
-        public List<TourTime> SaveMultiple(List<TourTime> tourTimes)
+        public void AddMultiple(List<TourTime> tourTimes)
         {
-            List<TourTime> result = new List<TourTime>();
-
-            foreach (TourTime tt in tourTimes)
+            foreach (TourTime tourTime in tourTimes)
             {
-                result.Add(Save(tt));
-            }
+                tourTime.Id = GenerateId();
 
-            return result;
+                tourTime.CurrentKeyPoint = tourTime.Tour.KeyPoints.First();
+                tourTime.CurrentKeyPointIndex = 0;
+
+                _tourTimes.Add(tourTime);
+            }
+            Save();
+        }
+
+        private int GenerateId()
+        {
+            if (_tourTimes.Count == 0) return 1;
+            return _tourTimes[_tourTimes.Count - 1].Id + 1;
+        }
+
+        public List<TourTime> GetAllByGuideId(string id)
+        {
+            return _tourTimes.FindAll(tt => tt.Tour.GuideId == id);
+        }
+
+        public List<TourTime> GetTodaysByGuideId(string id)
+        {
+            return _tourTimes.FindAll(tt => tt.Tour.GuideId == id && tt.DepartureTime.Date == DateTime.Today);
         }
 
         public void AssignTourToTourTimes(Tour tour, List<TourTime> tourTimes)
@@ -68,7 +96,7 @@ namespace SIMS_HCI_Project.Controller
         {
             foreach (TourTime tourTime in _tourTimes)
             {
-                tourTime.GuestAttendances = _guestTourAttendanceController.GetByTourId(tourTime.Id);
+                tourTime.GuestAttendances = _guestTourAttendanceController.GetAllByTourId(tourTime.Id);
             }
         }
 
@@ -86,30 +114,14 @@ namespace SIMS_HCI_Project.Controller
             ConnectCurrentKeyPoints();
         }
 
-        public List<TourTime> GetAllByGuideId(string id)
-        {
-            return _tourTimes.FindAll(tt => tt.Tour.GuideId == id);
-        }
-
-        public List<TourTime> GetTodaysByGuideId(string id)
-        {
-            return _tourTimes.FindAll(tt => tt.Tour.GuideId == id && tt.DepartureTime.Date == DateTime.Today);
-        }
-
-        private int GenerateId()
-        {
-            if (_tourTimes.Count == 0) return 1;
-            return _tourTimes[_tourTimes.Count - 1].Id + 1;
-        }
-
         public void StartTour(TourTime tourTime)
         {
             if (tourTime.Status == TourStatus.NOT_STARTED && !HasTourInProgress(tourTime.Tour.GuideId))
             {
                 tourTime.Status = TourStatus.IN_PROGRESS;
-                _guestTourAttendanceController.GenerateByTour(tourTime);
+                _guestTourAttendanceController.GenerateAttendancesByTour(tourTime);
                 ConnectGuestAttendances();
-                _fileHandler.Save(_tourTimes);
+                Save();
             }
         }
 
@@ -128,7 +140,7 @@ namespace SIMS_HCI_Project.Controller
             {
                 tourTime.CurrentKeyPointIndex++;
                 tourTime.CurrentKeyPoint = tourTime.Tour.KeyPoints[tourTime.CurrentKeyPointIndex];
-                _fileHandler.Save(_tourTimes);
+                Save();
             }
         }
 
@@ -140,8 +152,8 @@ namespace SIMS_HCI_Project.Controller
         public void EndTour(TourTime tourTime)
         {
             tourTime.Status = TourStatus.COMPLETED;
-            _guestTourAttendanceController.UpdateAfterTourEnd(tourTime);
-            _fileHandler.Save(_tourTimes);
+            _guestTourAttendanceController.UpdateGuestStatusesAfterTourEnd(tourTime);
+            Save();
         }
     }
 }

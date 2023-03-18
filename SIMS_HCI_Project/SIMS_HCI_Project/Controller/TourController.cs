@@ -26,7 +26,10 @@ namespace SIMS_HCI_Project.Controller
             _locationController = new LocationController();
             _tourTimeController = new TourTimeController();
 
-            Load();
+            if(_tours == null)
+            {
+                Load();
+            }
         }
 
         public List<Tour> GetAll()
@@ -34,30 +37,35 @@ namespace SIMS_HCI_Project.Controller
             return _tours;
         }
 
-        public Tour Save(Tour tour)
+        public void Load()
+        {
+            _tours = _fileHandler.Load();
+        }
+
+        public void Save()
+        {
+            _fileHandler.Save(_tours);
+        }
+
+        public void Add(Tour tour)
         {
             tour.Id = GenerateId();
 
             tour.Location = _locationController.Save(tour.Location);
             tour.LocationId = tour.Location.Id;
 
-            tour.KeyPoints = _tourKeyPointController.SaveMultiple(tour.KeyPoints);
+            _tourKeyPointController.AddMultiple(tour.KeyPoints);
             tour.KeyPointsIds = tour.KeyPoints.Select(c => c.Id).ToList();
 
             _tourTimeController.AssignTourToTourTimes(tour, tour.DepartureTimes);
-            tour.DepartureTimes = _tourTimeController.SaveMultiple(tour.DepartureTimes);
+            _tourTimeController.AddMultiple(tour.DepartureTimes);
 
             tour.Guide.Tours.Add(tour);
             tour.Guide.AddTodaysTourTimes(tour.DepartureTimes);
+
             _tours.Add(tour);
-            _fileHandler.Save(_tours);
 
-            return tour;
-        }
-
-        public List<Tour> GetAllByGuideId(string id)
-        {
-            return _tours.FindAll(t => t.GuideId == id);
+            Save();
         }
 
         private int GenerateId()
@@ -66,18 +74,17 @@ namespace SIMS_HCI_Project.Controller
             return _tours[_tours.Count - 1].Id + 1;
         }
 
-        public void Load()
-        {
-            _tours = _fileHandler.Load();
-        }
-
-
         public Tour FindById(int id)
         {
             return _tours.Find(t => t.Id == id);
         }
 
-        public void ConnectToursLocations()
+        public List<Tour> GetAllByGuideId(string id)
+        {
+            return _tours.FindAll(t => t.GuideId == id);
+        }
+
+        public void ConnectLocations()
         {
             foreach(Tour tour in _tours)
             {
@@ -89,7 +96,7 @@ namespace SIMS_HCI_Project.Controller
         {
             foreach (Tour tour in _tours)
             {
-                tour.KeyPoints = _tourKeyPointController.GetByIds(tour.KeyPointsIds);
+                tour.KeyPoints = _tourKeyPointController.FindByIds(tour.KeyPointsIds);
             }
         }
 
@@ -104,7 +111,7 @@ namespace SIMS_HCI_Project.Controller
 
         public void LoadConnections()
         {
-            ConnectToursLocations();
+            ConnectLocations();
             ConnectKeyPoints();
             ConnectDepartureTimes();
         }

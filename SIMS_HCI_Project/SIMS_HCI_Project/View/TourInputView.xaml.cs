@@ -150,7 +150,7 @@ namespace SIMS_HCI_Project.View
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
             Tour.Images.AddRange(Images);
-            _tourController.Save(Tour);
+            _tourController.Add(Tour);
 
             this.Close();
         }

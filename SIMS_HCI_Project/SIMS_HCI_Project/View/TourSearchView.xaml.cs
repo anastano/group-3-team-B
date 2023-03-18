@@ -36,7 +36,7 @@ namespace SIMS_HCI_Project.View
             DataContext = this;
             _tourController = new TourController();
 
-            _tourController.ConnectToursLocations();
+            _tourController.ConnectLocations();
 
             Tours = new ObservableCollection<Tour>(_tourController.GetAll());
         }

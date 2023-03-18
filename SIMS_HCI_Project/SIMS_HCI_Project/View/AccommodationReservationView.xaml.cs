@@ -111,7 +111,6 @@ namespace SIMS_HCI_Project.View
         }
 
         private Regex _DaysNumberRegex = new Regex("[1-9][0-9]*");
-        private Regex _DateRegex = new Regex("^(0?[1-9]|1[0-2])\\/(0?[1-9]|[1-2][0-9]|3[0-1])\\/\\d{4}$");
         public string Error => null;
 
         public string this[string columnName]
@@ -133,12 +132,9 @@ namespace SIMS_HCI_Project.View
                     }
                 }
                 else if(columnName == "Start")
-                {
-                    Match match = _DaysNumberRegex.Match(DaysNumber.ToString());
+                {      
                     if (Start == null)
                         result = "Start date is required";
-                    else if (!match.Success)
-                        result = "It must be in MM/dd/yyyy format";
                     else if (Start <= DateTime.Now)
                     {
                         result = "Start cannot be a day that has already passed";
@@ -146,11 +142,8 @@ namespace SIMS_HCI_Project.View
                 }
                 else if(columnName == "End")
                 {
-                    Match match = _DaysNumberRegex.Match(DaysNumber.ToString());
                     if (End == null)
                         result = "End date is required";
-                    else if (!match.Success)
-                        result = "It must be in MM/dd/yyyy format";
                     else if (End <= DateTime.Now)
                     {
                         result = "End cannot be a day that has already passed";
@@ -231,65 +224,61 @@ namespace SIMS_HCI_Project.View
             List<AccommodationReservation> availableReservations = new List<AccommodationReservation>();
             if (IsValid)
             {
-                FindAvailableReservations(availableReservations, (DateTime)datePickerStart.SelectedDate, (DateTime)datePickerEnd.SelectedDate);
+                availableReservations = FindAvailableReservations((DateTime)datePickerStart.SelectedDate, (DateTime)datePickerEnd.SelectedDate);
+                CheckIfSuggestionIsNeeded(availableReservations);
             }
             else
             {
                 MessageBox.Show("Fields are not validly filled in");
             }
 
-            CheckAvaiableReservations(availableReservations);
-
         }
 
-        private void FindAvailableReservations(List<AccommodationReservation> availableReservations, DateTime start, DateTime end)
+        private List<AccommodationReservation> FindAvailableReservations(DateTime start, DateTime end)
         {
-            DateTime currentDate = start;
+            List<AccommodationReservation> availableReservations = new List<AccommodationReservation>();
+            DateTime potentialStart = start;
             DateTime endDate = end;
-            while (currentDate <= endDate)
+            while (potentialStart <= endDate)
             {
-                DateTime nextDate = currentDate.AddDays(int.Parse(txtDays.Text) - 1);
+                DateTime potentialEnd = potentialStart.AddDays(int.Parse(txtDays.Text) - 1);
 
-                if (nextDate > endDate)
+                if (potentialEnd > endDate)
                 {
                     break;
                 }
 
-                bool pairExists = false;
+                bool dateRangeOverlaps = false;
 
                 foreach (AccommodationReservation reservation in Accommodation.Reservations)
                 {
-                    if (IsDateRangeOverlaps(currentDate, nextDate, reservation))
+                    if (IsDateRangeOverlapping(potentialStart, potentialEnd, reservation))
                     {
-                        pairExists = true;
+                        dateRangeOverlaps = true;
                         break;
                     }
                 }
 
-                if (!pairExists)
+                if (!dateRangeOverlaps)
                 {
-                    availableReservations.Add(new AccommodationReservation(Accommodation.Id, Guest.Id, currentDate, nextDate, GuestsNumber));
+                    availableReservations.Add(new AccommodationReservation(Accommodation.Id, Guest.Id, potentialStart, potentialEnd, GuestsNumber));
                 }
 
-                currentDate = currentDate.AddDays(1);
+                potentialStart = potentialStart.AddDays(1);
 
             }
+            return availableReservations;
         }
 
-        private void CheckAvaiableReservations(List<AccommodationReservation> availableReservations)
+        private void CheckIfSuggestionIsNeeded(List<AccommodationReservation> availableReservations)
         {
             if (availableReservations.Count == 0)
             {
-                List<AccommodationReservation> suggestedReservations = new List<AccommodationReservation>();
                 txtSuggestion.Text = "There are no available reservations for the selected dates, here are a few recommendations for dates close to the selected ones";
-                //15 days before start date
-                FindAvailableReservations(availableReservations, ((DateTime)datePickerStart.SelectedDate).AddDays(-15), (DateTime)datePickerStart.SelectedDate);
-                suggestedReservations.AddRange(availableReservations);
                 //15 days after end date
-                FindAvailableReservations(availableReservations, (DateTime)datePickerEnd.SelectedDate, ((DateTime)datePickerEnd.SelectedDate).AddDays(15));
-                suggestedReservations.AddRange(availableReservations);
-
-                AvailableReservations = suggestedReservations;
+                int lastElementIndex = Accommodation.Reservations.Count - 1;
+                AvailableReservations = FindAvailableReservations(Accommodation.Reservations[lastElementIndex].End.AddDays(1), ((DateTime)datePickerEnd.SelectedDate).AddDays(15)); ;
+                //(DateTime)datePickerEnd.SelectedDate
             }
             else
             {
@@ -297,21 +286,12 @@ namespace SIMS_HCI_Project.View
                 AvailableReservations = availableReservations;
             }
         }
-
-        private static bool IsDateRangeOverlaps(DateTime currentDate, DateTime nextDate, AccommodationReservation reservation)
+        private static bool IsDateRangeOverlapping(DateTime potentialStart, DateTime potentialEnd, AccommodationReservation reservation)
         {
-            return (currentDate >= reservation.Start && currentDate <= reservation.End) ||
-                                        (nextDate >= reservation.Start && nextDate <= reservation.End) ||
-                                        (currentDate <= reservation.Start && nextDate >= reservation.End);
-        }
-
-        private void DatePicker_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            // If the key pressed is not a digit or a separator character, suppress the input
-            if (!char.IsDigit((char)e.Key) && e.Key != Key.OemPeriod && e.Key != Key.Divide && e.Key != Key.Subtract)
-            {
-                e.Handled = true;
-            }
+            bool isPotentialStartOverlap = potentialStart >= reservation.Start && potentialStart <= reservation.End;
+            bool isPotentialEndOverlap = potentialEnd >= reservation.Start && potentialEnd <= reservation.End;
+            bool isPotentialRangeOverlap = potentialStart <= reservation.Start && potentialEnd >= reservation.End;
+            return isPotentialStartOverlap || isPotentialEndOverlap || isPotentialRangeOverlap;
         }
         private void DatePickerStart_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {

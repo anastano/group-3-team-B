@@ -94,12 +94,18 @@ namespace SIMS_HCI_Project.Controller
 
         public void ConnectDepartureTimes()
         {
-            /* TODO: Organize startup load better */
             foreach(TourTime tourTime in _tourTimeController.GetAll())
             {
                 tourTime.Tour = FindById(tourTime.TourId);
                 tourTime.Tour.DepartureTimes.Add(tourTime);
             }
+        }
+
+        public void LoadConnections()
+        {
+            ConnectToursLocations();
+            ConnectKeyPoints();
+            ConnectDepartureTimes();
         }
 
         public List<Tour> Search(string country, string city, int duration, string language, int guestsNum)

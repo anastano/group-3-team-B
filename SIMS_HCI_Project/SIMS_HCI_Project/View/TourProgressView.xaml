@@ -37,7 +37,7 @@
         <ListBox ItemsSource="{Binding Path=TourTime.Tour.KeyPoints}" Margin="33,94,295,116"/>
         <DataGrid ItemsSource="{Binding Path=TourTime.GuestAttendances, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=SelectedGuest}" Margin="255,93,152,116" AutoGenerateColumns="False" IsReadOnly="True" Grid.ColumnSpan="2">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Guest" Binding="{Binding GuestId}" Width="100"></DataGridTextColumn>
+                <DataGridTextColumn Header="Guest" Binding="{Binding GuestId}" Width="50"></DataGridTextColumn>
                 <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="200"></DataGridTextColumn>
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.CellTemplate>

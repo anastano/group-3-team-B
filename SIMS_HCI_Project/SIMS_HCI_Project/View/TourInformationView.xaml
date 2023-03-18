@@ -24,7 +24,7 @@
         <Label Content="{Binding Tour.MaxGuests}" HorizontalAlignment="Left" Margin="15,190,0,0" VerticalAlignment="Top" FontSize="10"/>
         <Button x:Name="btnStartTour" Content="Start Tour" HorizontalAlignment="Left" Margin="271,315,0,0" VerticalAlignment="Top" Click="btnStartTour_Click"/>
         <Button x:Name="btnCancelTour" Content="Cancel Tour" HorizontalAlignment="Left" Margin="271,348,0,0" VerticalAlignment="Top" Click="btnCancelTour_Click"/>
-        <DataGrid x:Name="dbDepartureTimes" ItemsSource="{Binding Tour.DepartureTimes}" SelectedItem="{Binding SelectedTourTime}" Margin="23,268,210,12" AutoGenerateColumns="False">
+        <DataGrid x:Name="dbDepartureTimes" ItemsSource="{Binding Tour.DepartureTimes}" SelectedItem="{Binding SelectedTourTime}" Margin="23,268,210,12" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Departure Time" Binding="{Binding DepartureTime}" CanUserResize="False" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>

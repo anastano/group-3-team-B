@@ -29,10 +29,11 @@ namespace SIMS_HCI_Project.View
         public TourProgressView(TourTimeController tourTimeController, TourTime tourTime)
         {
             InitializeComponent();
+
             TourTime = tourTime;
             _tourTimeController = tourTimeController;
             _guestTourAttendanceController = new GuestTourAttendanceController();
-            //SelectedGuest = new GuestTourAttendance();
+
             UpdateButtons();
 
             DataContext = this;

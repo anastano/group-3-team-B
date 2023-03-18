@@ -30,17 +30,15 @@ namespace SIMS_HCI_Project.View
         public GuideMainView(Guide guide)
         {
             InitializeComponent();
+
             _tourController = new TourController();
             _tourTimeController = new TourTimeController();
-            _tourController.ConnectDepartureTimes();
-            _tourController.ConnectToursLocations();
-            _tourController.ConnectKeyPoints();
-            SelectedTourTime = new TourTime();
+
+            _tourController.LoadConnections();
+            _tourTimeController.LoadConnections();
 
             Guide = guide;
-            //Guide.Tours = new ObservableCollection<TourTime>(_tourTimeController.GetAllByGuideId(guide.Id));
-
-            foreach (var t in _tourTimeController.GetAllByGuideId(guide.Id)) Guide.Tours.Add(t);
+            Guide.Tours = new ObservableCollection<TourTime>(_tourTimeController.GetAllByGuideId(guide.Id));
 
             DataContext = this;
         }
@@ -48,6 +46,7 @@ namespace SIMS_HCI_Project.View
         private void btnTourInput_Click(object sender, RoutedEventArgs e)
         {
             Window inputTourWindow = new TourInputView(_tourController, Guide);
+            inputTourWindow.Owner = this;
             inputTourWindow.Show();
         }
 

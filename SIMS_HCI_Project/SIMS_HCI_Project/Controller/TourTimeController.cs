@@ -80,6 +80,12 @@ namespace SIMS_HCI_Project.Controller
             }
         }
 
+        public void LoadConnections()
+        {
+            ConnectGuestAttendances();
+            ConnectCurrentKeyPoints();
+        }
+
         public List<TourTime> GetAllByGuideId(string id)
         {
             return _tourTimes.FindAll(tt => tt.Tour.GuideId == id);
@@ -91,20 +97,9 @@ namespace SIMS_HCI_Project.Controller
             return _tourTimes[_tourTimes.Count - 1].Id + 1;
         }
 
-        public List<TourTime> ConvertDateTimesToTourTimes(int tourId, List<DateTime> tourDateTimes)
-        {
-            List<TourTime> departureTimes = new List<TourTime>();
-            foreach(DateTime dt in tourDateTimes)
-            {
-                departureTimes.Add(new TourTime(tourId, dt));
-            }
-
-            return departureTimes;
-        }
-
         public void StartTour(TourTime tourTime)
         {
-            if (tourTime.Status == TourStatus.NOT_STARTED)
+            if (tourTime.Status == TourStatus.NOT_STARTED && !HasTourInProgress(tourTime.Tour.GuideId))
             {
                 tourTime.Status = TourStatus.IN_PROGRESS;
                 _guestTourAttendanceController.GenerateByTour(tourTime);
@@ -114,9 +109,14 @@ namespace SIMS_HCI_Project.Controller
             ConnectGuestAttendances();
         }
 
+        public bool HasTourInProgress(string guideId)
+        {
+            return _tourTimes.Any(tt => tt.Tour.GuideId.Equals(guideId) && tt.Status == TourStatus.IN_PROGRESS);
+        }
+
         public void MoveToNextKeyPoint(TourTime tourTime)
         {
-            if (tourTime.CurrentKeyPointIndex >= tourTime.Tour.KeyPoints.Count - 1)
+            if (IsAtLastKeyPoint(tourTime))
             {
                 EndTour(tourTime);
             }
@@ -126,6 +126,11 @@ namespace SIMS_HCI_Project.Controller
                 tourTime.CurrentKeyPoint = tourTime.Tour.KeyPoints[tourTime.CurrentKeyPointIndex];
                 _fileHandler.Save(_tourTimes);
             }
+        }
+
+        public bool IsAtLastKeyPoint(TourTime tourTime)
+        {
+            return tourTime.CurrentKeyPointIndex >= tourTime.Tour.KeyPoints.Count - 1;
         }
 
         public void EndTour(TourTime tourTime)

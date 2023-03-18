@@ -19,6 +19,7 @@ namespace SIMS_HCI_Project.View
     public partial class TourInformationView : Window
     {
         public Tour Tour { get; set; }
+
         private TourTime _selectedTourTime;
         public TourTime SelectedTourTime
         {
@@ -35,22 +36,14 @@ namespace SIMS_HCI_Project.View
         public TourInformationView(Tour tour, TourTimeController tourTimeController, TourTime tourTime = null)
         {
             InitializeComponent();
+
             Tour = tour;
-            if (tourTime != null)
-            {
-                SelectedTourTime = tourTime;
-            }
-            else
-            {
-                SelectedTourTime = tour.DepartureTimes[0];
-            }
-            DataContext = this;
-
             _tourTimeController = tourTimeController;
-            _tourTimeController.ConnectGuestAttendances();
-            _tourTimeController.ConnectCurrentKeyPoints();
 
+            SetSelectedTourTime(tourTime);
             UpdateButtons();
+
+            DataContext = this;
         }
 
         private void btnStartTour_Click(object sender, RoutedEventArgs e)
@@ -68,13 +61,25 @@ namespace SIMS_HCI_Project.View
 
         }
 
+        private void SetSelectedTourTime(TourTime tourTime)
+        {
+            if (tourTime != null)
+            {
+                SelectedTourTime = tourTime;
+            }
+            else
+            {
+                SelectedTourTime = Tour.DepartureTimes[0];
+            }
+        }
+
         private void UpdateButtons()
         {
             switch(SelectedTourTime.Status)
             {
                 case TourStatus.NOT_STARTED:
                     btnStartTour.Content = "Start Tour";
-                    if(SelectedTourTime.DepartureTime.Date != DateTime.Today)
+                    if(SelectedTourTime.DepartureTime.Date != DateTime.Today || _tourTimeController.HasTourInProgress(SelectedTourTime.Tour.GuideId))
                     {
                         btnStartTour.IsEnabled = false;
                     }

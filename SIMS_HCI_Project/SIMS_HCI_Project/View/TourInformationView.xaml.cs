@@ -27,7 +27,7 @@ namespace SIMS_HCI_Project.View
             set
             {
                 _selectedTourTime = value;
-                UpdateButtons();
+                UpdateButtonStatus();
             }
         }
 
@@ -41,7 +41,7 @@ namespace SIMS_HCI_Project.View
             _tourTimeController = tourTimeController;
 
             SetSelectedTourTime(tourTime);
-            UpdateButtons();
+            UpdateButtonStatus();
 
             DataContext = this;
         }
@@ -49,7 +49,7 @@ namespace SIMS_HCI_Project.View
         private void btnStartTour_Click(object sender, RoutedEventArgs e)
         {
             _tourTimeController.StartTour(SelectedTourTime);
-            UpdateButtons();
+            UpdateButtonStatus();
 
             Window tourProgress = new TourProgressView(_tourTimeController, SelectedTourTime);
             tourProgress.Owner = this;
@@ -73,7 +73,7 @@ namespace SIMS_HCI_Project.View
             }
         }
 
-        private void UpdateButtons()
+        private void UpdateButtonStatus()
         {
             switch(SelectedTourTime.Status)
             {

@@ -7,21 +7,21 @@
         mc:Ignorable="d"
         Title="TourInformationView" Height="450" Width="400" WindowStartupLocation="CenterOwner">
     <Grid>
-        <Label Content="{Binding Tour.Title}" HorizontalAlignment="Left" Margin="15,10,0,0" VerticalAlignment="Top" FontSize="18"/>
+        <TextBlock Text="{Binding Tour.Title}" HorizontalAlignment="Left" Margin="15,10,0,0" VerticalAlignment="Top" FontSize="20"/>
         <TextBlock HorizontalAlignment="Left" Margin="15,36,0,0" VerticalAlignment="Top">
             <TextBlock.Text>
-                <MultiBinding StringFormat="{} {0} ({1})">
+                <MultiBinding StringFormat="{}{0} ({1})">
                     <Binding Path="Tour.Location.City"></Binding>
                     <Binding Path="Tour.Location.Country"></Binding>
                 </MultiBinding>
             </TextBlock.Text>
         </TextBlock>
-        <TextBlock Text="{Binding Tour.Description}" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="15,54,0,0" VerticalAlignment="Top" FontSize="10" Width="175" Height="129"/>
+        <TextBlock Text="{Binding Tour.Description}" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="15,54,0,0" VerticalAlignment="Top" FontSize="12" Width="175" Height="129"/>
         <ListBox ItemsSource="{Binding Tour.Images}" Margin="224,10,43,251"/>
 
-        <Label Content="{Binding Tour.Language}" HorizontalAlignment="Left" Margin="15,148,0,0" VerticalAlignment="Top" FontSize="10"/>
-        <Label Content="{Binding Tour.Duration}" HorizontalAlignment="Left" Margin="15,169,0,0" VerticalAlignment="Top" FontSize="10"/>
-        <Label Content="{Binding Tour.MaxGuests}" HorizontalAlignment="Left" Margin="15,190,0,0" VerticalAlignment="Top" FontSize="10"/>
+        <TextBlock Text="{Binding Tour.Language, StringFormat=Language: {0}}" HorizontalAlignment="Left" Margin="15,180,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <TextBlock Text="{Binding Tour.Duration, StringFormat=Duration: {0}}" HorizontalAlignment="Left" Margin="15,200,0,0" VerticalAlignment="Top" FontSize="16"/>
+        <TextBlock Text="{Binding Tour.MaxGuests, StringFormat=Max Guests: {0}}" HorizontalAlignment="Left" Margin="15,220,0,0" VerticalAlignment="Top" FontSize="16"/>
         <Button x:Name="btnStartTour" Content="Start Tour" HorizontalAlignment="Left" Margin="271,315,0,0" VerticalAlignment="Top" Click="btnStartTour_Click"/>
         <Button x:Name="btnCancelTour" Content="Cancel Tour" HorizontalAlignment="Left" Margin="271,348,0,0" VerticalAlignment="Top" Click="btnCancelTour_Click"/>
         <DataGrid x:Name="dbDepartureTimes" ItemsSource="{Binding Tour.DepartureTimes}" SelectedItem="{Binding SelectedTourTime}" Margin="23,268,210,12" AutoGenerateColumns="False" IsReadOnly="True">

@@ -9,36 +9,35 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Model
 {
-    // Yes, this class is probably wrong for the pattern
     public class Guide : User
     {
-        public ObservableCollection<TourTime> Tours {get; set;}
+        public ObservableCollection<TourTime> TodaysTours {get; set; }
+        public ObservableCollection<Tour> Tours { get; set; }
 
         public Guide()
         {
-            Tours = new ObservableCollection<TourTime>();
+            TodaysTours = new ObservableCollection<TourTime>();
+            Tours = new ObservableCollection<Tour>();
         }
 
-        public Guide(string id, string username, string password)
+        public Guide(User user)
         {
-            Id = id;
-            Username = username;
-            Password = password;
-            Tours = new ObservableCollection<TourTime>();
+            Id = user.Id;
+            Password = user.Password;
+            Username = user.Username;
+            TodaysTours = new ObservableCollection<TourTime>();
+            Tours = new ObservableCollection<Tour>();
         }
 
-        public void AddTourTimes(List<TourTime> tourTimes) // This should probably be in controller?
+        public void AddTodaysTourTimes(List<TourTime> tourTimes)
         {
             foreach(TourTime tourTime in tourTimes)
             {
-                Tours.Add(tourTime);
+                if(tourTime.DepartureTime.Date == DateTime.Today)
+                {
+                    TodaysTours.Add(tourTime);
+                }
             }
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

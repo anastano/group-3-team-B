@@ -91,6 +91,11 @@ namespace SIMS_HCI_Project.Controller
             return _tourTimes.FindAll(tt => tt.Tour.GuideId == id);
         }
 
+        public List<TourTime> GetTodaysByGuideId(string id)
+        {
+            return _tourTimes.FindAll(tt => tt.Tour.GuideId == id && tt.DepartureTime.Date == DateTime.Today);
+        }
+
         private int GenerateId()
         {
             if (_tourTimes.Count == 0) return 1;
@@ -103,10 +108,9 @@ namespace SIMS_HCI_Project.Controller
             {
                 tourTime.Status = TourStatus.IN_PROGRESS;
                 _guestTourAttendanceController.GenerateByTour(tourTime);
+                ConnectGuestAttendances();
                 _fileHandler.Save(_tourTimes);
             }
-
-            ConnectGuestAttendances();
         }
 
         public bool HasTourInProgress(string guideId)

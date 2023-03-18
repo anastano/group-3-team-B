@@ -47,7 +47,8 @@ namespace SIMS_HCI_Project.Controller
             _tourTimeController.AssignTourToTourTimes(tour, tour.DepartureTimes);
             tour.DepartureTimes = _tourTimeController.SaveMultiple(tour.DepartureTimes);
 
-            tour.Guide.AddTourTimes(tour.DepartureTimes);
+            tour.Guide.Tours.Add(tour);
+            tour.Guide.AddTodaysTourTimes(tour.DepartureTimes);
             _tours.Add(tour);
             _fileHandler.Save(_tours);
 

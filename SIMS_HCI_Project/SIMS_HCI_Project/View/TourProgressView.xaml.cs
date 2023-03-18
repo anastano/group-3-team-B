@@ -16,13 +16,11 @@ using System.Windows.Shapes;
 
 namespace SIMS_HCI_Project.View
 {
-    /// <summary>
-    /// Interaction logic for TourProgressView.xaml
-    /// </summary>
     public partial class TourProgressView : Window
     {
         public TourTime TourTime { get; set; }
         public GuestTourAttendance SelectedGuest { get; set; }
+
         private TourTimeController _tourTimeController;
         private GuestTourAttendanceController _guestTourAttendanceController;
 
@@ -57,7 +55,7 @@ namespace SIMS_HCI_Project.View
 
         private void UpdateButtons()
         {
-            if (TourTime.CurrentKeyPointIndex == TourTime.Tour.KeyPoints.Count - 1)
+            if (_tourTimeController.IsAtLastKeyPoint(TourTime))
             {
                 btnNextKeyPoint.Content = "End Tour";
                 btnCancelTour.IsEnabled = false;

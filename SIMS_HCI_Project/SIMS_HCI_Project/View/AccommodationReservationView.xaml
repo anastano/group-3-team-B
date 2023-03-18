@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.View"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="AccommodationReservationView" Height="500" Width="850">
+        Title="AccommodationReservationView" Height="500" Width="850" Background="Azure">
     <Window.Resources>
         <ControlTemplate x:Key="ValidationTemplate">
             <StackPanel>
@@ -18,8 +18,8 @@
     </Window.Resources>
     
     <Grid>
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,319">
-            <StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,314">
+            <StackPanel Height="168">
                 <TextBlock Text="Accommodation Name" TextAlignment="Center" Margin="50, 10, 0, 0"></TextBlock>
                 <TextBox Text="{Binding Path=Accommodation.Name, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" TextAlignment="Center" Width="200" Margin="50, 0, 0, 0" Height="25"/>
             </StackPanel>
@@ -27,15 +27,16 @@
                 <TextBlock Text="Guest Username" TextAlignment="Center" Margin="50, 10, 0, 0"></TextBlock>
                 <TextBox Text="{Binding Path=Guest.Username, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" TextAlignment="Center" Width="200" Margin="50, 0, 0, 0" Height="25"/>
             </StackPanel>
-            <StackPanel>
-                <TextBlock Text="Guest Number" TextAlignment="Center" Margin="1, 10, 0, 0" Width="222"></TextBlock>
+            <StackPanel Height="172">
+                <TextBlock Text="Guest Number" TextAlignment="Center" Margin="1, 10, 0, 0" Width="222"/>
                 <StackPanel Orientation="Horizontal" Height="25" Width="299">
                     <Button x:Name="btnMinusGuest" Click="btnMinusGuest_Click" Content="-" Margin="40,0,10,0" FontSize="18" Width="20" Height="25"/>
-                    <TextBox x:Name="txtGuestNumber" HorizontalAlignment="Left" IsReadOnly="True" Text="{Binding Path = GuestsNumber, UpdateSourceTrigger = PropertyChanged}" TextAlignment="Center" Width="150" Margin="0, 0, 0, 0" Height="25" TextWrapping="Wrap" VerticalAlignment="Top" />
+                    <TextBox x:Name="txtGuestNumber" HorizontalAlignment="Left" IsReadOnly="True" Text="{Binding GuestsNumber, UpdateSourceTrigger=PropertyChanged}" TextAlignment="Center" Width="150" Margin="0, 0, 0, 0" Height="25" TextWrapping="Wrap" VerticalAlignment="Top" />
                     <Button x:Name="btnPlusGuest" Click="btnPlusGuest_Click" Content="+"  FontSize="18" Margin="10,0,0,0" Width="20" Height="25"/>
                 </StackPanel>
             </StackPanel>
         </StackPanel>
+        
         <StackPanel Orientation="Horizontal" Margin="0,66,0,319">
             
             <StackPanel>
@@ -84,13 +85,22 @@
                         </ControlTemplate>
                     </Validation.ErrorTemplate>
                 </TextBox>
-                <Button Content="Find Available" Width="80" Margin="0, 25, 0, 0" Height="20" Click="btnFindAvailable_Click"/>
             </StackPanel>
             
             
         </StackPanel>
-        <StackPanel Margin="0,170,0,0">
-            <TextBlock Text="" TextAlignment="Center" Margin="0, 0, 0, 0" Height="30"/>
+        <StackPanel Margin="0,136,0,0">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock x:Name="txtSuggestion" Text="" TextAlignment="Center" FontWeight="Bold" Margin="0, 0, 0, 0" Height="35" Width="736"/>
+                <Button Content="Find Available" Width="83" Margin="0, 5, 10, 25" Height="25" Click="btnFindAvailable_Click"
+                        BorderBrush="Blue" Background="CornflowerBlue">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"></Setter>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+            </StackPanel>
             <DataGrid x:Name="DataGridAvailableReservations"
                   ItemsSource="{Binding Path=AvailableReservations, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}"
@@ -102,7 +112,7 @@
                     <DataGridTemplateColumn Header="Reserve">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="Reserve" Click="btnReserve_Click"/>
+                                <Button Content="Reserve" Click="btnReserve_Click" Margin="3, 3, 3, 3"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

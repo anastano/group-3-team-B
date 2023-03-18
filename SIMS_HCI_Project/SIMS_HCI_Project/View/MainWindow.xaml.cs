@@ -30,7 +30,6 @@ namespace SIMS_HCI_Project
         {
             InitializeComponent();
             _userController = new UserController();
-
             DataContext = this;
         }
 

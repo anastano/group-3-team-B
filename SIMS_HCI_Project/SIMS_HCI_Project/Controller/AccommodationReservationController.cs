@@ -18,16 +18,23 @@ namespace SIMS_HCI_Project.Controller
 
         public AccommodationReservationController()
         {
-            if (_reservations == null)
-            {
-                _reservations = new List<AccommodationReservation>();
-            }
-
             _fileHandler = new AccommodationReservationFileHandler();
+            Load();
             _observers = new List<IObserver>();
+            ConvertReservedAccommodationsIntoCompleted(DateTime.Now);
 
         }
-
+        public void ConvertReservedAccommodationsIntoCompleted(DateTime currentDate)
+        {
+            foreach(var reservation in _reservations)
+            {
+                if(reservation.End < currentDate && reservation.Status == ReservationStatus.RESERVED)
+                {
+                    reservation.Status = ReservationStatus.COMPLETED;
+                }
+            }
+            Save();
+        }
         public List<AccommodationReservation> GetAll()
         {
             return _reservations;

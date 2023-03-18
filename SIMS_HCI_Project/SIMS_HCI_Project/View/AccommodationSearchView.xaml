@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.View"
         mc:Ignorable="d"
-        Title="AccommodationSearchView" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
+        Title="AccommodationSearchView" Height="650" Width="1000" WindowStartupLocation="CenterScreen" Background="LightYellow">
     <Grid>
         <StackPanel Orientation="Horizontal">
 
@@ -25,14 +25,14 @@
                         <DataGridTemplateColumn Header="Images">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="Images" Click="btnDisplayImages_Click"/>
+                                    <Button Content="Images" Click="btnDisplayImages_Click" Margin="3, 3, 3, 3"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTemplateColumn Header="Reserve">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="Reserve" Click="btnReserve_Click"/>
+                                    <Button Content="Reserve" Click="btnReserve_Click" Margin="3, 3, 3, 3"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

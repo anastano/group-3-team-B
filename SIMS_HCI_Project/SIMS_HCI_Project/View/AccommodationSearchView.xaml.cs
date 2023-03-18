@@ -79,7 +79,7 @@ namespace SIMS_HCI_Project.View
             {
                 reservationDays = 0;
             }
-
+            
             searchResult = _accommodationController.Search(txtName.Text, txtCountry.Text, txtCity.Text, selectedItemContent, maxGuests, reservationDays);
 
             DataGridAccommodation.ItemsSource = searchResult;

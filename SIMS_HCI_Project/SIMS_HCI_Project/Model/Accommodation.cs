@@ -28,6 +28,7 @@ namespace SIMS_HCI_Project.Model
         public int CancellationDeadlineInDays { get; set; }
         public List<string> Images { get; set; } //[Maybe] Change to List<URI>
 
+        public List<AccommodationReservation> Reservations { get; set; }
         public Accommodation() 
         {
             MaxGuests = 1;

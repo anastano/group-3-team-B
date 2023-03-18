@@ -63,6 +63,14 @@ namespace SIMS_HCI_Project.Controller
             }
         }
 
+        public void FillReservations()
+        {
+            foreach (Accommodation accommodation in _accommodations)
+            {
+                accommodation.Reservations = AccommodationReservationController.GetAllByAccommodationId(accommodation.Id);
+                accommodation.Reservations.Sort((r1, r2) => r1.Start.CompareTo(r2.Start));
+            }
+        }
         public int GenerateId()
         {
             if (_accommodations.Count == 0)

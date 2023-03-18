@@ -27,23 +27,27 @@ namespace SIMS_HCI_Project.View
 
         private readonly LocationController _locationController;
 
+        private readonly AccommodationReservationController _accommodationReservationController;
         public Accommodation Accommodation { get; set; }
         public ObservableCollection<Accommodation> Accommodations { get; set; }
 
         public ObservableCollection<Location> Locations { get; set; }
         public Accommodation SelectedAccommodation { get; set; }
-
-        public AccommodationSearchView()
+        public Guest1 Guest { get; set; }
+        public AccommodationSearchView(AccommodationReservationController accommodationReservationController, Guest1 guest)
         {
             InitializeComponent();
             DataContext = this;
 
             _accommodationController = new AccommodationController();
             _locationController = new LocationController();
+            _accommodationReservationController = accommodationReservationController;
             Accommodation = new Accommodation();
+            Guest = guest;
             _accommodationController.Load();
 
             Accommodations = new ObservableCollection<Accommodation>(_accommodationController.GetAll());
+            _accommodationController.FillReservations();
 
             _accommodationController.ConnectAccommodationsWithLocations(_locationController);
    
@@ -75,7 +79,7 @@ namespace SIMS_HCI_Project.View
             {
                 reservationDays = 0;
             }
-
+            
             searchResult = _accommodationController.Search(txtName.Text, txtCountry.Text, txtCity.Text, selectedItemContent, maxGuests, reservationDays);
 
             DataGridAccommodation.ItemsSource = searchResult;
@@ -129,7 +133,8 @@ namespace SIMS_HCI_Project.View
 
         private void btnReserve_Click(object sender, RoutedEventArgs e)
         {
-           
+            Window win = new AccommodationReservationView(_accommodationReservationController, SelectedAccommodation, Guest);
+            win.Show();
         }
     }
 }

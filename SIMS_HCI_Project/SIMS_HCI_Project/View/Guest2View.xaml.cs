@@ -38,7 +38,7 @@ namespace SIMS_HCI_Project.View
 
         private void btnSearchReserve_Click(object sender, RoutedEventArgs e)
         {
-            Window win = new TourSearchView();
+            Window win = new TourSearchView(Guest);
             win.Show();
         }
 

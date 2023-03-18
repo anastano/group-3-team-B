@@ -13,6 +13,9 @@ namespace SIMS_HCI_Project.Controller
         private TourTimeFileHandler _fileHandler;
 
         private static List<TourTime> _tourTimes;
+        private TourReservationController _tourReservationController = new TourReservationController();
+        private static List<TourReservation> _reservations = new List<TourReservation>();
+
 
         public TourTimeController()
         {
@@ -25,9 +28,37 @@ namespace SIMS_HCI_Project.Controller
 
         public void ReduceAvailable(TourTime tourTime, int requestedPartySize)
         {
-            tourTime.Available -= requestedPartySize;
+            TourTime tt = FindById(tourTime.Id);
+
+            tt.Available -= requestedPartySize; 
         }
 
+        public void ConnectAvailablePlaces()
+        {
+            foreach (TourTime tt in _tourTimes)
+            {
+                _reservations = _tourReservationController.GetReservationsByTourTime(tt.Id);
+                tt.Available = tt.Tour.MaxGuests;
+                 
+                if(_reservations == null)
+                {
+                    tt.Available = tt.Tour.MaxGuests;
+
+                }
+                else
+                {
+                    foreach(TourReservation tr in _reservations)
+                    {
+                        tt.Available -= tr.PartySize;
+                    }
+                }
+            }
+        }
+
+        public TourTime FindById(int id)
+        {
+            return _tourTimes.Find(tt => tt.Id == id);
+        }
         public List<TourTime> GetAll()
         {
             return _tourTimes;

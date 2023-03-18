@@ -54,7 +54,7 @@
                   Margin="361,31,78,435"
             ScrollViewer.VerticalScrollBarVisibility="Visible"/>
 
-        <DataGrid x:Name="dbDepartureTimes" ItemsSource="{Binding Path=TourDeparatureTimes}" SelectedItem="{Binding SelectedTourTime}" Margin="40,302,361,120" AutoGenerateColumns="False">
+        <DataGrid x:Name="dgDepartureTimes" ItemsSource="{Binding Path=Tour.DepartureTimes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding SelectedTourTime}"  Margin="40,302,361,120" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Departure Time" Binding="{Binding DepartureTime}" CanUserResize="False" IsReadOnly="True" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
@@ -64,8 +64,10 @@
         <Button Content="CONFIRM RESERVATION" Name="btnConfirmReservation" Click="btnConfirmReservation_Click" HorizontalAlignment="Left" Margin="351,613,0,0" VerticalAlignment="Top" Height="35"/>
         <Button Content="SHOW SUGGESTIONS" Name="btnShowSuggestions" HorizontalAlignment="Left" Margin="116,613,0,0" VerticalAlignment="Top" Height="35"/>
         <Label Content="Available" HorizontalAlignment="Left" Margin="377,400,0,0" VerticalAlignment="Top"/>
-        <TextBlock Text="{Binding Path=Tour.TourTime.Available}"
+
+        <TextBlock x:Name="tblAvailable" Text="{Binding SelectedTourTime.Available, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                  HorizontalAlignment="Left" Margin="444,404,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="52" Height="22"/>
+
         <Label Content="Enter number of pople:" HorizontalAlignment="Left" Margin="355,476,0,0" VerticalAlignment="Top"/>
         <TextBox Name="txtRequestedPartySize"  HorizontalAlignment="Left" Margin="361,507,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="142" Height="37"/>
 

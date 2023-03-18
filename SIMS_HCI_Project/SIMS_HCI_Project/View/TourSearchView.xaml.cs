@@ -32,10 +32,10 @@ namespace SIMS_HCI_Project.View
         public Tour SelectedTour { get; set; }
         public Guest2 Guest2 { get; set; }
 
-        public TourSearchView()
+        public TourSearchView(Guest2 guest)
         {
             InitializeComponent();
-            DataContext = this;
+            Guest2 = guest;
             _tourController = new TourController();
             _locationController = new LocationController();
 
@@ -44,6 +44,8 @@ namespace SIMS_HCI_Project.View
             _tourController.ConnectKeyPoints();
 
             Tours = new ObservableCollection<Tour>(_tourController.GetAll());
+
+            DataContext = this;
         }
 
         private void btnShowImages_Click(object sender, RoutedEventArgs e)

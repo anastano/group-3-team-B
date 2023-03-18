@@ -17,21 +17,19 @@ namespace SIMS_HCI_Project.Controller
 
         public TourReservationController()
         {
-            if( _reservations == null)
-            {
-                _reservations = new List<TourReservation>();
-            }
             _fileHandler = new TourReservationFileHandler();
+            if (_reservations == null)
+            {
+                _reservations = _fileHandler.Load();
+            }
+
             _observers = new List<IObserver>();
         }
 
-        /*
-         public List<TourTime> GetAllByGuideId(string id)
+        public TourReservation FindById(int id)
         {
-            return _tourTimes.FindAll(tt => tt.Tour.GuideId == id);
+            return _reservations.Find(r => r.Id == id);
         }
-         */
-
 
         public List<TourReservation> GetAllByGuestId(string id)
         {
@@ -41,9 +39,19 @@ namespace SIMS_HCI_Project.Controller
         {
             _reservations = _fileHandler.Load();
         }
-        public void Save()
+        public void Save(TourReservation tourReservation)
         {
+            tourReservation.Id = GenerateId();
+
+            _reservations.Add(tourReservation);
             _fileHandler.Save(_reservations);
+        }
+
+
+
+        public List<TourReservation> GetReservationsByTourTime(int id)
+        {
+            return _reservations.FindAll(r => r.TourTimeId == id);
         }
 
         public List<TourReservation> GetAll()
@@ -58,11 +66,6 @@ namespace SIMS_HCI_Project.Controller
                 return 1;
             }
             return _reservations[_reservations.Count - 1].Id + 1;
-        }
-
-        public TourReservation FindById(int id)
-        {
-            return _reservations.Find(x => x.Id == id);
         }
 
         public void Add(TourReservation reservation)

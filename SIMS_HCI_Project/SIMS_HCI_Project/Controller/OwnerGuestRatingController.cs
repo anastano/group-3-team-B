@@ -9,74 +9,77 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Controller
 {
-    public class AccommodationReservationController : ISubject
+    public class OwnerGuestRatingController : ISubject
     {
         private readonly List<IObserver> _observers;
-        private readonly AccommodationReservationFileHandler _fileHandler;
+        private readonly OwnerGuestRatingFileHandler _fileHandler;
 
-        private static List<AccommodationReservation> _reservations;
+        private static List<OwnerGuestRating> _ratings;
 
-
-
-        public AccommodationReservationController()
+        public OwnerGuestRatingController()
         {
-            if (_reservations == null)
+            if (_ratings == null)
             {
-                _reservations = new List<AccommodationReservation>();
+                _ratings = new List<OwnerGuestRating>();
             }
 
-            _fileHandler = new AccommodationReservationFileHandler();
+            _fileHandler = new OwnerGuestRatingFileHandler();
             _observers = new List<IObserver>();
 
         }
 
-        public List<AccommodationReservation> GetAll()
+        public List<OwnerGuestRating> GetAll()
         {
-            return _reservations;
+            return _ratings;
         }
 
 
         public void Load()
         {
-            _reservations = _fileHandler.Load();
+            _ratings = _fileHandler.Load();
         }
 
 
         public void Save()
         {
-            _fileHandler.Save(_reservations);
+            _fileHandler.Save(_ratings);
         }
 
         public int GenerateId()
         {
-            if (_reservations.Count == 0)
+            if (_ratings.Count == 0)
             {
                 return 1;
             }
-            return _reservations[_reservations.Count - 1].Id + 1;
+            return _ratings[_ratings.Count - 1].Id + 1;
 
         }
 
 
-        public void Add(AccommodationReservation reservation)
+        public void Add(OwnerGuestRating rating)
+        {
+            rating.Id = GenerateId();
+            _ratings.Add(rating);
+            Save();
+            NotifyObservers();
+
+        }
+
+        public void Remove(OwnerGuestRating rating)
         {
             // TO DO
         }
 
-        public void Remove(AccommodationReservation reservation)
+        public void Edit(OwnerGuestRating rating)
         {
             // TO DO
         }
 
-        public void Edit(AccommodationReservation reservation)
+        public OwnerGuestRating FindById(int id)
         {
-            // TO DO
+            return _ratings.Find(r => r.Id == id);
         }
 
-        public AccommodationReservation FindById(int id)
-        {
-            return _reservations.Find(r => r.Id == id);
-        }
         public void NotifyObservers()
         {
             foreach (var observer in _observers)

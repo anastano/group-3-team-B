@@ -1,11 +1,7 @@
 ﻿using SIMS_HCI_Project.FileHandler;
 using SIMS_HCI_Project.Model;
 using SIMS_HCI_Project.Observer;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Controller
 {
@@ -47,10 +43,11 @@ namespace SIMS_HCI_Project.Controller
             _fileHandler.Save(_reservations);
         }
 
-        public List<TourReservation> GetReservationsByTourTime(int id)
+        public List<TourReservation> GetByTourTimeId(int id)
         {
             return _reservations.FindAll(r => r.TourTimeId == id);
         }
+
 
         public List<TourReservation> GetAll()
         {

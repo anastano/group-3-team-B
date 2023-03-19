@@ -58,7 +58,7 @@ namespace SIMS_HCI_Project
                         guest2View.Show();
                         break;
                     case 'G':
-                        Window guideWindow = new GuideMainView(new Guide(user.Id, user.Username, user.Password));
+                        Window guideWindow = new GuideMainView(new Guide(user));
                         guideWindow.Show();
                         break;
                 }

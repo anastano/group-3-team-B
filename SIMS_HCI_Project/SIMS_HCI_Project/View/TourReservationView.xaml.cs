@@ -71,11 +71,9 @@ namespace SIMS_HCI_Project.View
             InitializeComponent();
             
             Tour = tour;
-            Guest2 = guest;                               
+            Guest2 = guest;
             //_tourController = new TourController();
-            _tourController.ConnectDepartureTimes();
-            _tourController.ConnectToursLocations();
-            _tourController.ConnectKeyPoints();
+            _tourController.LoadConnections();
             _tourTimeController.ConnectAvailablePlaces();
             SelectedTourTime = Tour.DepartureTimes[0];
 

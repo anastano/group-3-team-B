@@ -32,7 +32,7 @@ namespace SIMS_HCI_Project.Controller
             Location foundLocation = FindByCountryAndCity(location.Country, location.City);
             if (foundLocation == null)
             {
-                location.Id = GenerateNextId();
+                location.Id = GenerateId();
                 _locations.Add(location);
                 _fileHandler.Save(_locations);
                 return location;
@@ -54,7 +54,7 @@ namespace SIMS_HCI_Project.Controller
             return _locations.Find(l => l.Id == id);
         }
 
-        public int GenerateNextId()
+        public int GenerateId()
         {
             if (_locations.Count == 0) return 1;
             return _locations[_locations.Count - 1].Id + 1;

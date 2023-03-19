@@ -13,45 +13,18 @@ namespace SIMS_HCI_Project.Controller
         private TourTimeFileHandler _fileHandler;
 
         private static List<TourTime> _tourTimes;
+        private GuestTourAttendanceController _guestTourAttendanceController;
         private TourReservationController _tourReservationController = new TourReservationController();
         private static List<TourReservation> _reservations = new List<TourReservation>();
 
-
         public TourTimeController()
         {
+            _fileHandler = new TourTimeFileHandler();
+            _guestTourAttendanceController = new GuestTourAttendanceController();
+
             if (_tourTimes == null)
             {
-                _fileHandler = new TourTimeFileHandler();
                 _tourTimes = _fileHandler.Load();
-            }
-        }
-
-        public void ReduceAvailable(TourTime tourTime, int requestedPartySize)
-        {
-            TourTime tt = FindById(tourTime.Id);
-
-            tt.Available -= requestedPartySize; 
-        }
-
-        public void ConnectAvailablePlaces()
-        {
-            foreach (TourTime tt in _tourTimes)
-            {
-                _reservations = _tourReservationController.GetReservationsByTourTime(tt.Id);
-                tt.Available = tt.Tour.MaxGuests;
-                 
-                if(_reservations == null)
-                {
-                    tt.Available = tt.Tour.MaxGuests;
-
-                }
-                else
-                {
-                    foreach(TourReservation tr in _reservations)
-                    {
-                        tt.Available -= tr.PartySize;
-                    }
-                }
             }
         }
 
@@ -64,27 +37,56 @@ namespace SIMS_HCI_Project.Controller
             return _tourTimes;
         }
 
-        public TourTime Save(TourTime tourTime)
+        public void Load()
         {
-            tourTime.Id = GenerateId();
-            tourTime.CurrentKeyPoint = tourTime.Tour.KeyPoints.First();
-
-            _tourTimes.Add(tourTime);
-            _fileHandler.Save(_tourTimes);
-
-            return tourTime;
+            _tourTimes = _fileHandler.Load();
         }
 
-        public List<TourTime> SaveMultiple(List<TourTime> tourTimes)
+        public void Save()
         {
-            List<TourTime> result = new List<TourTime>();
+            _fileHandler.Save(_tourTimes);
+        }
 
-            foreach (TourTime tt in tourTimes)
+        public void Add(TourTime tourTime)
+        {
+            tourTime.Id = GenerateId();
+
+            tourTime.CurrentKeyPoint = tourTime.Tour.KeyPoints.First();
+            tourTime.CurrentKeyPointIndex = 0;
+
+            _tourTimes.Add(tourTime);
+
+            Save();
+        }
+
+        public void AddMultiple(List<TourTime> tourTimes)
+        {
+            foreach (TourTime tourTime in tourTimes)
             {
-                result.Add(Save(tt));
-            }
+                tourTime.Id = GenerateId();
 
-            return result;
+                tourTime.CurrentKeyPoint = tourTime.Tour.KeyPoints.First();
+                tourTime.CurrentKeyPointIndex = 0;
+
+                _tourTimes.Add(tourTime);
+            }
+            Save();
+        }
+
+        private int GenerateId()
+        {
+            if (_tourTimes.Count == 0) return 1;
+            return _tourTimes[_tourTimes.Count - 1].Id + 1;
+        }
+
+        public List<TourTime> GetAllByGuideId(string id)
+        {
+            return _tourTimes.FindAll(tt => tt.Tour.GuideId == id);
+        }
+
+        public List<TourTime> GetTodaysByGuideId(string id)
+        {
+            return _tourTimes.FindAll(tt => tt.Tour.GuideId == id && tt.DepartureTime.Date == DateTime.Today);
         }
 
         public void AssignTourToTourTimes(Tour tour, List<TourTime> tourTimes)
@@ -96,26 +98,97 @@ namespace SIMS_HCI_Project.Controller
             }
         }
 
-        public List<TourTime> GetAllByGuideId(string id)
+        public void ConnectGuestAttendances()
         {
-            return _tourTimes.FindAll(tt => tt.Tour.GuideId == id);
-        }
-
-        private int GenerateId()
-        {
-            if (_tourTimes.Count == 0) return 1;
-            return _tourTimes[_tourTimes.Count - 1].Id + 1;
-        }
-
-        public List<TourTime> ConvertDateTimesToTourTimes(int tourId, List<DateTime> tourDateTimes)
-        {
-            List<TourTime> departureTimes = new List<TourTime>();
-            foreach(DateTime dt in tourDateTimes)
+            foreach (TourTime tourTime in _tourTimes)
             {
-                departureTimes.Add(new TourTime(tourId, dt));
+                tourTime.GuestAttendances = _guestTourAttendanceController.GetAllByTourId(tourTime.Id);
             }
+        }
 
-            return departureTimes;
+        public void ConnectCurrentKeyPoints()
+        {
+            foreach (TourTime tourTime in _tourTimes)
+            {
+                tourTime.CurrentKeyPoint = tourTime.Tour.KeyPoints[tourTime.CurrentKeyPointIndex];
+            }
+        }
+
+        public void LoadConnections()
+        {
+            ConnectGuestAttendances();
+            ConnectCurrentKeyPoints();
+        }
+
+        public void ReduceAvailable(TourTime tourTime, int requestedPartySize)
+        {
+            TourTime tt = FindById(tourTime.Id);
+
+            tt.Available -= requestedPartySize;
+        }
+
+        public void ConnectAvailablePlaces()
+        {
+            foreach (TourTime tt in _tourTimes)
+            {
+                _reservations = _tourReservationController.GetByTourTimeId(tt.Id);
+                tt.Available = tt.Tour.MaxGuests;
+
+                if (_reservations == null)
+                {
+                    tt.Available = tt.Tour.MaxGuests;
+
+                }
+                else
+                {
+                    foreach (TourReservation tr in _reservations)
+                    {
+                        tt.Available -= tr.PartySize;
+                    }
+                }
+            }
+        }
+
+        public void StartTour(TourTime tourTime)
+        {
+            if (tourTime.Status == TourStatus.NOT_STARTED && !HasTourInProgress(tourTime.Tour.GuideId))
+            {
+                tourTime.Status = TourStatus.IN_PROGRESS;
+                _guestTourAttendanceController.GenerateAttendancesByTour(tourTime);
+                ConnectGuestAttendances();
+                Save();
+            }
+        }
+
+        public bool HasTourInProgress(string guideId)
+        {
+            return _tourTimes.Any(tt => tt.Tour.GuideId.Equals(guideId) && tt.Status == TourStatus.IN_PROGRESS);
+        }
+
+        public void MoveToNextKeyPoint(TourTime tourTime)
+        {
+            if (IsAtLastKeyPoint(tourTime))
+            {
+                EndTour(tourTime);
+            }
+            else
+            {
+                tourTime.CurrentKeyPointIndex++;
+                tourTime.CurrentKeyPoint = tourTime.Tour.KeyPoints[tourTime.CurrentKeyPointIndex];
+                Save();
+            }
+        }
+
+        public bool IsAtLastKeyPoint(TourTime tourTime)
+        {
+            return tourTime.CurrentKeyPointIndex >= tourTime.Tour.KeyPoints.Count - 1;
+        }
+
+        public void EndTour(TourTime tourTime)
+        {
+            tourTime.Status = TourStatus.COMPLETED;
+            _guestTourAttendanceController.UpdateGuestStatusesAfterTourEnd(tourTime);
+            Save();
         }
     }
 }

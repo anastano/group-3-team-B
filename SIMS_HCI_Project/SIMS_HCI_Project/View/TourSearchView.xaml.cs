@@ -25,7 +25,6 @@ namespace SIMS_HCI_Project.View
     {
 
         private readonly TourController _tourController;
-       // private readonly LocationController _locationController;
 
         public ObservableCollection<Tour> Tours { get; set; }
         public ObservableCollection<Location> Locations { get; set; }
@@ -37,10 +36,9 @@ namespace SIMS_HCI_Project.View
             InitializeComponent();
             Guest2 = guest;
             _tourController = new TourController();
-          //  _locationController = new LocationController();
-
+            
             _tourController.ConnectDepartureTimes();
-            _tourController.ConnectToursLocations();
+            _tourController.ConnectLocations();
             _tourController.ConnectKeyPoints();
 
             Tours = new ObservableCollection<Tour>(_tourController.GetAll());

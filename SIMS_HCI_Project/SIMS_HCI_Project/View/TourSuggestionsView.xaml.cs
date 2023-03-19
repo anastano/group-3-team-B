@@ -36,9 +36,7 @@ namespace SIMS_HCI_Project.View
             Location = location;
             Guest2 = guest;
 
-            _tourController.ConnectDepartureTimes();
-            _tourController.ConnectToursLocations();
-            _tourController.ConnectKeyPoints();
+            _tourController.LoadConnections();
 
             Tours = new List<Tour>(_tourController.Search(Location.City, Location.Country));
 

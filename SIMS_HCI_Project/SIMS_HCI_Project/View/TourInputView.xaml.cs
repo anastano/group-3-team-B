@@ -95,7 +95,7 @@ namespace SIMS_HCI_Project.View
             _guide = guide;
 
             Tour = new Tour(guide);
-            DepartureDate = new DateTime(2023, 1, 1);
+            DepartureDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
             DepartureTime = new TimeOnly();
 
             Images = new ObservableCollection<string>();
@@ -141,8 +141,8 @@ namespace SIMS_HCI_Project.View
             Tour.DepartureTimes.Add(new TourTime(newDepartureTime));
             lblDepartureTimesErrorMessage.Content = Tour["DepartureTimes"]; // TODO: Try to do this with binding only
 
-            DepartureDate = new DateTime(2023, 1, 1);
-            DepartureTime = new TimeOnly(0, 0);
+            DepartureDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
+            DepartureTime = new TimeOnly();
 
             UpdateSubmitButtonStatus();
         }
@@ -150,7 +150,7 @@ namespace SIMS_HCI_Project.View
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
             Tour.Images.AddRange(Images);
-            _tourController.Save(Tour);
+            _tourController.Add(Tour);
 
             this.Close();
         }
@@ -193,8 +193,14 @@ namespace SIMS_HCI_Project.View
 
         private void UpdateSubmitButtonStatus()
         {
-            if (Tour.IsValid && Tour.Location.IsValid) btnSubmit.IsEnabled = true;
-            else btnSubmit.IsEnabled = false;
+            if (Tour.IsValid && Tour.Location.IsValid)
+            {
+                btnSubmit.IsEnabled = true;
+            }
+            else
+            {
+                btnSubmit.IsEnabled = false;
+            }
         }
     }
 }

@@ -1,0 +1,31 @@
+﻿<Window x:Class="SIMS_HCI_Project.View.GuideAllToursView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_HCI_Project.View"
+        mc:Ignorable="d"
+        Title="GuideAllToursView" Height="600" Width="1000">
+    <Grid>
+        <DataGrid x:Name="dgTours" ItemsSource="{Binding Guide.Tours, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedTour, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="26,20,27,37" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Tour Id" Binding="{Binding Id}" Width="50"/>
+                <DataGridTextColumn Header="Tour Title" Binding="{Binding Title}" Width="*"/>
+                <DataGridTextColumn Header="Language" Binding="{Binding Language}" Width="*"/>
+                <DataGridTextColumn Header="Max guests" Binding="{Binding MaxGuests}" Width="*"/>
+                <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" Width="*"/>
+                <DataGridTextColumn Header="City" Binding="{Binding Location.City}" Width="100"/>
+                <DataGridTextColumn Header="Country" Binding="{Binding Location.Country}" Width="100"/>
+                <DataGridTemplateColumn Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Info" Click="btnTourInfo_Click"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+
+        </DataGrid>
+
+    </Grid>
+</Window>

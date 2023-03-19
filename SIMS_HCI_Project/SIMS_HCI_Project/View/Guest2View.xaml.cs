@@ -37,9 +37,7 @@ namespace SIMS_HCI_Project.View
             InitializeComponent();
             Guest = guest;
 
-            _tourController.ConnectDepartureTimes();
-            _tourController.ConnectToursLocations();
-            _tourController.ConnectKeyPoints();
+            _tourController.LoadConnections();
             _tourTimeController.ConnectAvailablePlaces();
             _tourReservationController.LoadConnections();
             //TourTime = _tourTimeController.FindById(Guest.Reservations.TourTimeId); vrv ne treba

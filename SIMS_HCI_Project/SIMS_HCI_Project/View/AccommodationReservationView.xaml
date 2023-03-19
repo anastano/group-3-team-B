@@ -41,7 +41,7 @@
             
             <StackPanel>
                 <TextBlock Text="Start" TextAlignment="Center" Margin="50, 5, 0, 0"></TextBlock>
-                <DatePicker x:Name="datePickerStart" SelectedDateChanged="DatePickerStart_SelectedDateChanged" SelectedDate="{Binding Start, StringFormat='{}{0:dd/MM/yyyy}', ValidatesOnDataErrors = True, NotifyOnValidationError = True}" 
+                <DatePicker x:Name="datePickerStart" SelectedDateChanged="DatePickerStart_SelectedDateChanged" SelectedDate="{Binding Start, StringFormat='{}{0:MM/dd/yyyy}', ValidatesOnDataErrors = True, NotifyOnValidationError = True}" 
                             SelectedDateFormat="Short"  Margin="50, 0, 0, 60" Width="200" Height="25">
                     <DatePicker.Resources>
                         <Style TargetType="DatePickerTextBox">

@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,7 +24,7 @@ namespace SIMS_HCI_Project.View
     /// <summary>
     /// Interaction logic for AccommodationRegistrationView.xaml
     /// </summary>
-    public partial class AccommodationRegistrationView : Window, INotifyPropertyChanged
+    public partial class AccommodationRegistrationView : Window, INotifyPropertyChanged, IDataErrorInfo
     {
         private string _ownerId;
 
@@ -63,6 +64,7 @@ namespace SIMS_HCI_Project.View
             Accommodation = new Accommodation();
             Location = new Location();
             Images = new ObservableCollection<string>();
+            ImageURL = "";
 
             _accommodationController = accommodationController;
 
@@ -143,7 +145,7 @@ namespace SIMS_HCI_Project.View
 
         private void btnAddImage_Click(object sender, RoutedEventArgs e)
         {
-            if (ImageURL != "")
+            if (IsImageURLValid)
             {
                 Images.Add(ImageURL);
                 ImageURL = "";
@@ -155,6 +157,46 @@ namespace SIMS_HCI_Project.View
             if (lbImages.SelectedItem != null)
             {
                 Images.RemoveAt(lbImages.SelectedIndex);
+            }
+        }
+
+        //ImageURl validation
+        private Regex urlRegex = new Regex("(http(s?)://.)([/|.|\\w|\\s|-])*\\.(?:jpg|gif|png)|(^$)");
+
+        public string Error => null;
+
+
+        public string this[string propertyName]
+        {
+            get
+            {
+
+                if (propertyName == "ImageURL")
+                {
+                    Match match = urlRegex.Match(ImageURL);
+                    if (!match.Success)
+                    {
+                        return "URL is not in valid format.";
+                    }
+                }
+
+                return null;
+            }
+        }
+
+        private readonly string[] _validatedProperties = { "ImageURL" };
+
+        public bool IsImageURLValid
+        {
+            get
+            {
+                foreach (var property in _validatedProperties)
+                {
+                    if (this[property] != null)
+                        return false;
+                }
+
+                return true;
             }
         }
     }

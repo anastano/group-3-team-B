@@ -1,5 +1,6 @@
 ﻿using SIMS_HCI_Project.Controller;
 using SIMS_HCI_Project.Model;
+using SIMS_HCI_Project.Observer;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +15,7 @@ namespace SIMS_HCI_Project.View
     /// <summary>
     /// Interaction logic for AccommodationReservationView.xaml
     /// </summary>
-    public partial class AccommodationReservationView : Window, INotifyPropertyChanged, IDataErrorInfo
+    public partial class AccommodationReservationView : Window, INotifyPropertyChanged, IDataErrorInfo, IObserver
     {
         private AccommodationReservationController _accommodationReservationController;
         public AccommodationReservation Reservation { get; set; }
@@ -201,7 +202,7 @@ namespace SIMS_HCI_Project.View
             MessageBoxResult result = ConfirmReservation();
             if ( result == MessageBoxResult.Yes)
             {
-                _accommodationReservationController.Add(SelectedReservation, Guest);
+                _accommodationReservationController.Add(Accommodation, SelectedReservation, Guest);
                 Close();
             }
             
@@ -310,6 +311,10 @@ namespace SIMS_HCI_Project.View
             {
                 datePickerEnd.SelectedDate = datePickerStart.SelectedDate;
             }
+        }
+        public void Update()
+        {
+
         }
     }
 }

@@ -79,6 +79,8 @@ namespace SIMS_HCI_Project.View
 
             Reservations = new ObservableCollection<TourReservation>(_tourReservationController.GetAll());
 
+            Closing += TourReservationView_Closing;
+
             this.DataContext = this;
         }
 
@@ -113,6 +115,9 @@ namespace SIMS_HCI_Project.View
                     Reservations.Add(new TourReservation(SelectedTourTime.Id, Guest2.Id, requestedPartySize));
                     _tourReservationController.Save(new TourReservation(SelectedTourTime.Id, Guest2.Id, requestedPartySize));
                     _tourTimeController.ReduceAvailable(TourTime, requestedPartySize);
+
+                    
+
                     //  AddReservationToGuide??? NOTE:mby add later
                     MessageBox.Show("Reservation successfully completed.");
 
@@ -132,5 +137,10 @@ namespace SIMS_HCI_Project.View
             this.Close();
         }
 
+        private void TourReservationView_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Window guest2View = new Guest2View(Guest2);
+            guest2View.Show();
+        }
     }
 }

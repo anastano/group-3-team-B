@@ -5,26 +5,44 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.View"
         mc:Ignorable="d"
-        Title="Guest2View" Height="450" Width="950" WindowStartupLocation="CenterScreen">
+        Title="Guest2View" Height="600" Width="1000" WindowStartupLocation="CenterScreen">
 
     <Grid Background="Orange">
         <Button x:Name="btnSearch" Content="Search and reserve" HorizontalAlignment="Left" Margin="47,31,0,0" VerticalAlignment="Top" Height="44" Width="153" Click="btnSearchReserve_Click"/>
-        
+
         <DataGrid x:Name="dgReservedTours" 
-                  ItemsSource="{Binding Path=Guest.Reservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                  IsReadOnly="True" AutoGenerateColumns="False" SelectionChanged="DataGrid_SelectionChanged" Margin="10,103,10,10">
+                  ItemsSource="{Binding Path=Guest.Reservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=SelectedTourReservation, UpdateSourceTrigger=PropertyChanged}"
+                  IsReadOnly="True" AutoGenerateColumns="False" Margin="10,103,10,10">
             <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="40"></DataGridTextColumn>
                 <DataGridTextColumn Header="Title" Binding="{Binding TourTime.Tour.Title}" Width="110"></DataGridTextColumn>
                 <DataGridTextColumn Header="Country" Binding="{Binding TourTime.Tour.Location.Country}" Width="110"></DataGridTextColumn>
                 <DataGridTextColumn Header="City" Binding="{Binding TourTime.Tour.Location.City}" Width="110"></DataGridTextColumn>
                 <DataGridTextColumn Header="Language" Binding="{Binding TourTime.Tour.Language}" Width="105"></DataGridTextColumn>
                 <DataGridTextColumn Header="Duration" Binding="{Binding TourTime.Tour.Duration}" Width="105"></DataGridTextColumn>
+                <DataGridTextColumn Header="Party size" Binding="{Binding PartySize}" Width="70"></DataGridTextColumn>
+                <DataGridTextColumn Header="Tour status" Binding="{Binding TourTime.Status}" Width="80"></DataGridTextColumn>
+                <DataGridTextColumn Header="Reservation status" Binding="{Binding Status}" Width="80"></DataGridTextColumn>
                 <DataGridTextColumn Header="Guide" Binding="{Binding TourTime.Tour.GuideId}" Width="*"></DataGridTextColumn>
+                <DataGridTemplateColumn Header="Images">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Images" Click="btnShowImages_Click"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Cancel">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Cancel" Click="btnCancelReservation_Click"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
 
             </DataGrid.Columns>
 
         </DataGrid>
-        <TextBlock x:Name="tblMyReservedTours" Text="My reserved tours:" Foreground="Beige" HorizontalAlignment="Center" Margin="0,78,0,0" TextWrapping="Wrap" FontSize="15" VerticalAlignment="Top" Height="20" Width="126"/>
+        <TextBlock x:Name="tblMyReservedTours" Text="My reserved tours:" Foreground="Beige" HorizontalAlignment="Center" Margin="0,72,0,0" TextWrapping="Wrap" FontSize="18" VerticalAlignment="Top" Height="26" Width="158" RenderTransformOrigin="0.452,-0.398"/>
 
 
     </Grid>

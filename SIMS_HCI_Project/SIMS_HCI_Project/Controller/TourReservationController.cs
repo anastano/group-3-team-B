@@ -47,8 +47,6 @@ namespace SIMS_HCI_Project.Controller
             _fileHandler.Save(_reservations);
         }
 
-
-
         public List<TourReservation> GetReservationsByTourTime(int id)
         {
             return _reservations.FindAll(r => r.TourTimeId == id);
@@ -66,6 +64,20 @@ namespace SIMS_HCI_Project.Controller
                 return 1;
             }
             return _reservations[_reservations.Count - 1].Id + 1;
+        }
+
+        public void ConnectTourTimes()
+        {
+            TourTimeController tourTimeController = new TourTimeController();
+            foreach(TourReservation tourReservation in _reservations)
+            {
+                tourReservation.TourTime = tourTimeController.FindById(tourReservation.TourTimeId);
+            }
+        }
+
+        public void LoadConnections()
+        {
+            ConnectTourTimes();
         }
 
         public void Add(TourReservation reservation)

@@ -54,7 +54,8 @@ namespace SIMS_HCI_Project.Model
             TourTimeId = Convert.ToInt32(values[1]);
             Guest2Id = values[2];
             PartySize = Convert.ToInt32(values[3]);
-            Enum.TryParse(values[4], out TourReservationStatus Status);
+            Enum.TryParse(values[4], out TourReservationStatus status);
+            Status = status;
             //VoucherUsedId= Convert.ToInt32(values[5]);
         }
     }

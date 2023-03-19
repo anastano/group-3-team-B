@@ -54,7 +54,7 @@
                   Margin="361,31,78,435"
             ScrollViewer.VerticalScrollBarVisibility="Visible"/>
 
-        <DataGrid x:Name="dgDepartureTimes" ItemsSource="{Binding Path=Tour.DepartureTimes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding SelectedTourTime}"  Margin="40,302,361,120" AutoGenerateColumns="False">
+        <DataGrid x:Name="dgDepartureTimes" ItemsSource="{Binding Path=Tour.DepartureTimes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding SelectedTourTime}"  Margin="40,302,361,120" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Departure Time" Binding="{Binding DepartureTime}" CanUserResize="False" IsReadOnly="True" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
@@ -65,7 +65,7 @@
         <Button Content="SHOW SUGGESTIONS" Name="btnShowSuggestions" HorizontalAlignment="Left" Margin="116,613,0,0" VerticalAlignment="Top" Height="35" Click="btnShowSuggestions_Click"/>
         <Label Content="Available" HorizontalAlignment="Left" Margin="374,359,0,0" VerticalAlignment="Top"/>
 
-        <TextBlock x:Name="tblAvailable" Text="{Binding SelectedTourTime.Available, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+        <TextBlock x:Name="tblAvailable" Text="{Binding Path=SelectedTourTime.Available, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  HorizontalAlignment="Left" Margin="437,354,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="77" Height="35" Foreground="Beige" FontSize="14"/>
 
         <Label Content="Enter number of pople:" HorizontalAlignment="Left" Margin="352,451,0,0" VerticalAlignment="Top"/>

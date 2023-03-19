@@ -31,7 +31,16 @@ namespace SIMS_HCI_Project.View
 
         public Tour Tour { get; set; }
         public Guest2 Guest2 { get; set; }
-        public TourTime SelectedTourTime { get; set; }
+        private TourTime _selectedTourTime;
+        public TourTime SelectedTourTime
+        {
+            get { return _selectedTourTime; }
+            set
+            {
+                _selectedTourTime = value;
+                OnPropertyChanged();
+            }
+        }
         public TourTime TourTime { get; set; }
 
         private ObservableCollection<TourReservation> _reservations { get; set; }
@@ -68,6 +77,7 @@ namespace SIMS_HCI_Project.View
             _tourController.ConnectToursLocations();
             _tourController.ConnectKeyPoints();
             _tourTimeController.ConnectAvailablePlaces();
+            SelectedTourTime = Tour.DepartureTimes[0];
 
             Reservations = new ObservableCollection<TourReservation>(_tourReservationController.GetAll());
 

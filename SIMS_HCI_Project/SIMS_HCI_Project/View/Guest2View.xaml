@@ -11,7 +11,7 @@
         <Button x:Name="btnSearch" Content="Search and reserve" HorizontalAlignment="Left" Margin="47,31,0,0" VerticalAlignment="Top" Height="44" Width="153" Click="btnSearchReserve_Click"/>
         
         <DataGrid x:Name="dgReservedTours" 
-                  ItemsSource="{Binding Path=Guest.Reservations, UpdateSourceTrigger=PropertyChanged}"
+                  ItemsSource="{Binding Path=Guest.Reservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                   IsReadOnly="True" AutoGenerateColumns="False" SelectionChanged="DataGrid_SelectionChanged" Margin="10,103,10,10">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title" Binding="{Binding TourTime.Tour.Title}" Width="110"></DataGridTextColumn>
@@ -19,8 +19,7 @@
                 <DataGridTextColumn Header="City" Binding="{Binding TourTime.Tour.Location.City}" Width="110"></DataGridTextColumn>
                 <DataGridTextColumn Header="Language" Binding="{Binding TourTime.Tour.Language}" Width="105"></DataGridTextColumn>
                 <DataGridTextColumn Header="Duration" Binding="{Binding TourTime.Tour.Duration}" Width="105"></DataGridTextColumn>
-                <DataGridTextColumn Header="Guest Capacity"  Width="90"></DataGridTextColumn>
-                <DataGridTextColumn Header="Guide" Binding="{Binding TourTime.Tour.Guide.Id}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Guide" Binding="{Binding TourTime.Tour.GuideId}" Width="*"></DataGridTextColumn>
 
             </DataGrid.Columns>
 

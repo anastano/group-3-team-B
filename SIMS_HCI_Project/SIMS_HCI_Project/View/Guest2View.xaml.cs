@@ -41,10 +41,10 @@ namespace SIMS_HCI_Project.View
             _tourController.ConnectToursLocations();
             _tourController.ConnectKeyPoints();
             _tourTimeController.ConnectAvailablePlaces();
-
+            _tourReservationController.LoadConnections();
             //TourTime = _tourTimeController.FindById(Guest.Reservations.TourTimeId); vrv ne treba
 
-            
+
 
             Guest.Reservations = new ObservableCollection<TourReservation> (_tourReservationController.GetAllByGuestId(guest.Id));
 

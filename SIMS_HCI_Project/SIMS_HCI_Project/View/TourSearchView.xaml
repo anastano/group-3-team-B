@@ -61,6 +61,8 @@
             <TextBlock HorizontalAlignment="Right" Margin="0,229,100,0" TextWrapping="Wrap" Text="Language:" Foreground="Beige" VerticalAlignment="Top"/>
             <TextBlock HorizontalAlignment="Right" Margin="0,289,77,0" TextWrapping="Wrap" Text="Guest number:" Foreground="Beige" VerticalAlignment="Top"/>
 
+            <TextBlock  Text="Search and reserve tour:" Foreground="Beige" HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" FontSize="18" VerticalAlignment="Top" Height="28" Width="206"/>
+
         </Grid>
 
     </Grid>

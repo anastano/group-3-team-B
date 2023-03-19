@@ -28,7 +28,6 @@ namespace SIMS_HCI_Project.View
         private TourTimeController _tourTimeController = new TourTimeController();
         private TourReservationController _tourReservationController = new TourReservationController();
 
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         public Tour Tour { get; set; }
         public Guest2 Guest2 { get; set; }
@@ -51,6 +50,7 @@ namespace SIMS_HCI_Project.View
                 }
             }
         }
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -105,6 +105,7 @@ namespace SIMS_HCI_Project.View
                     Reservations.Add(new TourReservation(SelectedTourTime.Id, Guest2.Id, requestedPartySize));
                     _tourReservationController.Save(new TourReservation(SelectedTourTime.Id, Guest2.Id, requestedPartySize));
                     _tourTimeController.ReduceAvailable(TourTime, requestedPartySize);
+                    //  AddReservationToGuide??? NOTE:mby add later
                     MessageBox.Show("Reservation successfully completed.");
 
                 }

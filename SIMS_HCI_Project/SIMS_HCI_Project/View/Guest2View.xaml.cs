@@ -23,14 +23,41 @@ namespace SIMS_HCI_Project.View
     public partial class Guest2View : Window
     {
         public Guest2 Guest { get; set; }
+        public TourTime TourTime { get; set; }
         private TourReservationController _tourReservationController= new TourReservationController();
+        private TourController _tourController = new TourController();
+        private TourTimeController _tourTimeController = new TourTimeController();
+
+        public List<TourReservation> TourReservations { get; set; }
         public Guest2View(Guest2 guest)
         {
+
+            //TODO: Implement linking TourTime with Reservations.
+
             InitializeComponent();
             Guest = guest;
-            Guest.Reservations = new ObservableCollection<TourReservation> (_tourReservationController.GetAllByGuestId(guest.Id)); 
 
-            DataContext = this;
+            _tourController.ConnectDepartureTimes();
+            _tourController.ConnectToursLocations();
+            _tourController.ConnectKeyPoints();
+            _tourTimeController.ConnectAvailablePlaces();
+
+            //TourTime = _tourTimeController.FindById(Guest.Reservations.TourTimeId); vrv ne treba
+
+            
+
+            Guest.Reservations = new ObservableCollection<TourReservation> (_tourReservationController.GetAllByGuestId(guest.Id));
+
+           
+/*
+           foreach (TourReservation reservation in Guest.Reservations)
+            {
+                TourTime = _tourTimeController.FindById(reservation.TourTimeId);
+            }
+*/
+
+
+            this.DataContext = this;
         }
 
 

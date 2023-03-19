@@ -33,6 +33,15 @@ namespace SIMS_HCI_Project.Model
             
         }
 
+        public TourReservation(TourReservation temp)
+        {
+            TourTimeId = temp.TourTimeId;
+            Guest2Id = temp.Guest2Id;
+            PartySize = temp.PartySize;
+            Status = temp.Status;
+
+        }
+
         public string[] ToCSV()
         {
             string[] csvValues = { Id.ToString(), TourTimeId.ToString(), Guest2Id.ToString(), PartySize.ToString(), Status.ToString() };

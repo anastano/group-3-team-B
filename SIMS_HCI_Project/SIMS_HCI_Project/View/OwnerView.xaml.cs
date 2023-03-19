@@ -25,6 +25,8 @@ namespace SIMS_HCI_Project.View
         private AccommodationController _accommodationController;
         private OwnerController _ownerController;
         private LocationController _locationController;
+        private AccommodationReservationController _reservationController;
+        private OwnerGuestRatingController _ownerGuestRatingController;
 
         public OwnerView(string ownerId)
         {
@@ -33,6 +35,11 @@ namespace SIMS_HCI_Project.View
             _ownerId = ownerId;
 
             LoadFromFiles();
+
+            if(_ownerController.GetUnratedReservations(_ownerId).Count != 0)
+            {
+                MessageBox.Show("You have unrated guests, please rate them.");
+            }
         }
 
         void LoadFromFiles()
@@ -40,11 +47,16 @@ namespace SIMS_HCI_Project.View
             _accommodationController = new AccommodationController();
             _ownerController = new OwnerController();
             _locationController = new LocationController();
+            _reservationController = new AccommodationReservationController();
+            _ownerGuestRatingController = new OwnerGuestRatingController();
 
             _accommodationController.Load();
             _ownerController.Load();
+            _reservationController.Load();
+            _ownerGuestRatingController.Load();
 
             _ownerController.FillOwnerAccommodationList(); //fills accommodation list for each owner
+            _ownerController.FillOwnerReservationList(); 
             _accommodationController.ConnectAccommodationsWithLocations(_locationController);
         }
 
@@ -56,13 +68,14 @@ namespace SIMS_HCI_Project.View
 
         private void btnGuestRating_Click(object sender, RoutedEventArgs e)
         {
-
+            Window reservationsView = new OwnerUnratedReservationsView(_ownerController, _ownerGuestRatingController, _ownerId);
+            reservationsView.Show();
         }
 
         private void btnExistingAccommodations_Click(object sender, RoutedEventArgs e)
         {
-            Window accommodationView = new OwnerAccommodationsView(_accommodationController, _ownerController, _ownerId);
-            accommodationView.Show();
+            Window accommodationsView = new OwnerAccommodationsView(_accommodationController, _ownerController, _ownerId);
+            accommodationsView.Show();
         }
     }
 }

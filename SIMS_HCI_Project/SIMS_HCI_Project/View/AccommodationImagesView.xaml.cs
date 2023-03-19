@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using static System.Net.Mime.MediaTypeNames;
+using static System.Net.WebRequestMethods;
 using Image = System.Windows.Controls.Image;
 
 namespace SIMS_HCI_Project.View
@@ -25,7 +26,7 @@ namespace SIMS_HCI_Project.View
     {
         private readonly AccommodationController _accommodationController;
         public List<string> Images { get; set; }
-        private int _currentIndex = 0;
+        private int _currentImageIndex = 0;
         public AccommodationImagesView(AccommodationController accommodationController, Accommodation accommodation)
         {
             InitializeComponent();
@@ -36,33 +37,66 @@ namespace SIMS_HCI_Project.View
 
         private void LoadImage()
         {
-            if (_currentIndex < 0)
+            if (IsImagesEmpty())
             {
-                _currentIndex = Images.Count - 1;
+                AccommodationImage.Source = LoadDefaultImage();
             }
-            else if(_currentIndex >= Images.Count)
+            else
             {
-                _currentIndex = 0;
-            }
-  
-            var fullFilePath = Images[_currentIndex];
-            BitmapImage bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.UriSource = new Uri(fullFilePath, UriKind.Absolute);
-            bitmap.EndInit();
+                ChangeOutrangeCurrentImageIndex();
 
-            Image.Source = bitmap;
+                AccommodationImage.Source = ConvertUrlToImage();
+            }
+
+        }
+
+        private void ChangeOutrangeCurrentImageIndex()
+        {
+            if (_currentImageIndex < 0)
+            {
+                _currentImageIndex = Images.Count - 1;
+            }
+            else if (_currentImageIndex >= Images.Count)
+            {
+                _currentImageIndex = 0;
+            }
+        }
+
+        private bool IsImagesEmpty()
+        {
+            return Images.Count == 1 && Images[0].Equals("");
+        }
+
+        private BitmapImage LoadDefaultImage()
+        {
+            BitmapImage defaultImage = new BitmapImage();
+            defaultImage.BeginInit();
+            defaultImage.UriSource = new Uri("https://thumbs.dreamstime.com/z/no-image-available-icon-photo-camera-flat-vector-illustration-132483141.jpg");
+            defaultImage.EndInit();
+
+            return defaultImage;
+        }
+
+        private BitmapImage ConvertUrlToImage()
+        {
+            var fullImagePath = Images[_currentImageIndex];
+            BitmapImage image = new BitmapImage();
+            image.BeginInit();
+            image.UriSource = new Uri(fullImagePath, UriKind.Absolute);
+            image.EndInit();
+
+            return image;
         }
 
         private void btnPreviousImage_Click(object sender, RoutedEventArgs e)
         {
-            _currentIndex--;
+            _currentImageIndex--;
             LoadImage();
         }
 
         private void btnNextImage_Click(object sender, RoutedEventArgs e)
         {
-            _currentIndex++;
+            _currentImageIndex++;
             LoadImage();
         }
     }

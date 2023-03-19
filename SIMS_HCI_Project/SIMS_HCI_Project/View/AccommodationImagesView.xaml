@@ -4,10 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.View"
-        mc:Ignorable="d"
-        Title="Pictures" Height="450" Width="800">
+        mc:Ignorable="d" WindowStartupLocation="CenterScreen"
+        Title="Pictures" Height="450" Width="800" Background="LightGreen">
     <Grid>
-        <Image x:Name="Image" Stretch="Uniform" Margin="153,22,151,111" />
+        <Image x:Name="AccommodationImage" Stretch="Uniform" Margin="153,22,151,111" />
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,342,0,0" Height="51">
             <Button Content="Previous" Click="btnPreviousImage_Click" Margin="10,10,0,10" Width="60"/>
             <Button Content="Next" Click="btnNextImage_Click" Margin="150,10,10,10" Width="60"/>

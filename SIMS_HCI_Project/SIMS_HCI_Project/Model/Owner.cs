@@ -11,10 +11,12 @@ namespace SIMS_HCI_Project.Model
     {
         //inherited Id, Username and Password
         public List<Accommodation> Accommodations { get; set; }
+        public List<AccommodationReservation> Reservations { get; set; }
 
         public Owner() 
         { 
             Accommodations= new List<Accommodation>();
+            Reservations= new List<AccommodationReservation>();
         }
 
         public Owner(string id, string username, string password)
@@ -23,6 +25,7 @@ namespace SIMS_HCI_Project.Model
             Username = username;
             Password = password;
             Accommodations = new List<Accommodation>();
+            Reservations= new List<AccommodationReservation>();
         }
 
         public Owner(Owner temp)
@@ -31,6 +34,7 @@ namespace SIMS_HCI_Project.Model
             Username = temp.Username;    
             Password = temp.Password;
             Accommodations = new List<Accommodation>(temp.Accommodations);
+            Reservations = new List<AccommodationReservation>(temp.Reservations);
         }
         // inherited ToCSV and FromCSV
     }

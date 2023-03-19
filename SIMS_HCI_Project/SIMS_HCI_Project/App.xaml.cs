@@ -17,7 +17,7 @@ namespace SIMS_HCI_Project
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            //Set the culture for the entire application
+            // Set the culture for the entire application
             CultureInfo culture = new CultureInfo("en-US");
             Thread.CurrentThread.CurrentCulture = culture;
             Thread.CurrentThread.CurrentUICulture = culture;

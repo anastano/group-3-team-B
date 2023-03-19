@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Xml.Linq;
@@ -12,7 +14,7 @@ namespace SIMS_HCI_Project.Model
 {
     public enum AccomodationType { APARTMENT, HOUSE, HUT };
 
-    public class Accommodation : ISerializable
+    public class Accommodation : ISerializable, IDataErrorInfo
     {
         public int Id { get; set; }
         public string OwnerId { get; set; }
@@ -26,6 +28,7 @@ namespace SIMS_HCI_Project.Model
         public int CancellationDeadlineInDays { get; set; }
         public List<string> Images { get; set; } //[Maybe] Change to List<URI>
 
+        public List<AccommodationReservation> Reservations { get; set; }
         public Accommodation() 
         {
             MaxGuests = 1;
@@ -75,7 +78,8 @@ namespace SIMS_HCI_Project.Model
                 OwnerId,
                 Name,
                 LocationId.ToString(),
-                ConvertAccommodationTypeToString(Type),
+
+                Type.ToString(),
                 MaxGuests.ToString(),
                 MinimumReservationDays.ToString(),
                 CancellationDeadlineInDays.ToString(),
@@ -91,7 +95,8 @@ namespace SIMS_HCI_Project.Model
             OwnerId= values[1];
             Name = values[2];
             LocationId = int.Parse(values[3]);
-            Type = ConvertStringToAccommodatonType(values[4]);
+            Enum.TryParse(values[4], out AccomodationType type);
+            Type = type;
             MaxGuests = int.Parse(values[5]);
             MinimumReservationDays = int.Parse(values[6]);
             CancellationDeadlineInDays = int.Parse(values[7]);
@@ -113,23 +118,38 @@ namespace SIMS_HCI_Project.Model
             }
         }
 
-        public static AccomodationType ConvertStringToAccommodatonType(string type) 
+        public string Error => null;
+
+
+        public string this[string columnName]
         {
-            if (type.ToLower() == "apartment")
+            get
             {
-                return AccomodationType.APARTMENT;
-            }
-            else if (type.ToLower() == "house")
-            {
-                return AccomodationType.HOUSE;
-            }
-            else
-            {
-                return AccomodationType.HUT;
+
+                if (columnName == "Name")
+                {
+                    if (string.IsNullOrEmpty(Name))
+                        return "The name field is required";
+                }
+
+                return null;
             }
         }
 
+        private readonly string[] _validatedProperties = { "Name" };
 
+        public bool IsValid
+        {
+            get
+            {
+                foreach (var property in _validatedProperties)
+                {
+                    if (this[property] != null)
+                        return false;
+                }
 
+                return true;
+            }
+        }
     }
 }

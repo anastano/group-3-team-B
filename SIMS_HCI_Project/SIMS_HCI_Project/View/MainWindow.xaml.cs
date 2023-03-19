@@ -54,7 +54,7 @@ namespace SIMS_HCI_Project
 
                         break;
                     case 'S':
-                        Window guest2View = new Guest2View();
+                        Window guest2View = new Guest2View(new Guest2(user.Id, user.Username, user.Password));
                         guest2View.Show();
                         break;
                     case 'G':

@@ -1,7 +1,10 @@
-﻿using SIMS_HCI_Project.Serializer;
+﻿using SIMS_HCI_Project.Controller;
+using SIMS_HCI_Project.Serializer;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,7 +12,7 @@ namespace SIMS_HCI_Project.Model
 {
     public enum TourStatus { NOT_STARTED, IN_PROGRESS, COMPLETED, CANCELED };
 
-    public class TourTime : ISerializable
+    public class TourTime : ISerializable, INotifyPropertyChanged
     {
         public int Id { get; set; }
         public int TourId { get; set; }
@@ -18,6 +21,28 @@ namespace SIMS_HCI_Project.Model
         public TourStatus Status { get; set; }
         public TourKeyPoint CurrentKeyPoint { get; set; }
         public int CurrentKeyPointId { get; set; }
+        private int _available;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public int Available {
+            get { return _available; }
+            set
+            {
+                _available = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /*        private void OnPropertyChanged()
+                {
+                    throw new NotImplementedException();
+                }*/
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public TourTime() { }
 
@@ -25,6 +50,7 @@ namespace SIMS_HCI_Project.Model
         {
             DepartureTime = departureTime;
             Status = TourStatus.NOT_STARTED;
+            Available = Tour.MaxGuests;
         }
 
         public TourTime(int tourId, DateTime departureTime)

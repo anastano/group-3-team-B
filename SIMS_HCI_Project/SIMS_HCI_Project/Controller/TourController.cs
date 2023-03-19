@@ -76,11 +76,19 @@ namespace SIMS_HCI_Project.Controller
             return _tours.Find(t => t.Id == id);
         }
 
-        public void ConnectToursLocations(LocationController locationController)
+        public void ConnectToursLocations()
         {
             foreach(Tour tour in _tours)
             {
-                tour.Location = locationController.FindById(tour.LocationId);
+                tour.Location =_locationController.FindById(tour.LocationId); 
+            }
+        }
+
+        public void ConnectKeyPoints() //DELETE WHEN MERGE
+        {
+            foreach (Tour tour in _tours)
+            {
+                tour.KeyPoints = _tourKeyPointController.GetByIds(tour.KeyPointsIds);
             }
         }
 
@@ -105,6 +113,15 @@ namespace SIMS_HCI_Project.Controller
                            select _tour;
 
             return filtered.ToList();
+        }
+
+        public List<Tour> Search(string city, string country)
+        {
+            var result = from _tour in _tours
+                         where (_tour.Location.Country.ToLower().Contains(country.ToLower()))
+                         && (_tour.Location.City.ToLower().Contains(city.ToLower()))
+                         select _tour;
+            return result.ToList();
         }
     }
 }

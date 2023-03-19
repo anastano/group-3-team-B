@@ -27,6 +27,7 @@ namespace SIMS_HCI_Project.Model
         public List<TourKeyPoint> KeyPoints { get; set; }
         public List<TourTime> DepartureTimes { get; set; }
         public int Duration { get; set; }
+       
         public List<string> Images { get; set; } // [Maybe] TODO: Change to URI type
 
         public Tour() {
@@ -57,6 +58,7 @@ namespace SIMS_HCI_Project.Model
             Language = language;
             MaxGuests = maxGuestNumber;
             Duration = duration;
+            //Available = maxGuestNumber;
 
             Location = new Location();
             Images = new List<string>();
@@ -64,7 +66,7 @@ namespace SIMS_HCI_Project.Model
             KeyPoints = new List<TourKeyPoint>();
         }
 
-        public string[] ToCSV()
+        public string[] ToCSV()     //anastaNOTE: add Available in csv or not?
         {
             string[] csvValues = { Id.ToString(), GuideId, Title, LocationId.ToString(), Description, Language, MaxGuests.ToString(), string.Join(",", KeyPointsIds), Duration.ToString(), string.Join(",", Images)};
             return csvValues;

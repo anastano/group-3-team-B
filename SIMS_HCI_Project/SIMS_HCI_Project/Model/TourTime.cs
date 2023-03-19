@@ -1,4 +1,5 @@
-﻿using SIMS_HCI_Project.Serializer;
+﻿using SIMS_HCI_Project.Controller;
+using SIMS_HCI_Project.Serializer;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -49,6 +50,16 @@ namespace SIMS_HCI_Project.Model
         }
         public List<GuestTourAttendance> GuestAttendances { get; set; }
 
+        private int _available;
+        public int Available {
+            get { return _available; }
+            set
+            {
+                _available = value;
+                OnPropertyChanged();
+            }
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -64,8 +75,8 @@ namespace SIMS_HCI_Project.Model
         {
             DepartureTime = departureTime;
             Status = TourStatus.NOT_STARTED;
-
             GuestAttendances = new List<GuestTourAttendance>();
+            Available = Tour.MaxGuests;
         }
 
         public TourTime(int tourId, DateTime departureTime)

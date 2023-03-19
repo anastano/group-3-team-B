@@ -128,5 +128,14 @@ namespace SIMS_HCI_Project.Controller
 
             return filtered.ToList();
         }
+
+        public List<Tour> Search(string city, string country)
+        {
+            var result = from _tour in _tours
+                         where (_tour.Location.Country.ToLower().Contains(country.ToLower()))
+                         && (_tour.Location.City.ToLower().Contains(city.ToLower()))
+                         select _tour;
+            return result.ToList();
+        }
     }
 }

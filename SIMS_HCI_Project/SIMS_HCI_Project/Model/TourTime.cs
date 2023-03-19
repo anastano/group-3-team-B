@@ -76,7 +76,6 @@ namespace SIMS_HCI_Project.Model
             DepartureTime = departureTime;
             Status = TourStatus.NOT_STARTED;
             GuestAttendances = new List<GuestTourAttendance>();
-            Available = Tour.MaxGuests;
         }
 
         public TourTime(int tourId, DateTime departureTime)

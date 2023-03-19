@@ -12,13 +12,15 @@ namespace SIMS_HCI_Project.Controller
     {
         private GuestTourAttendanceFileHandler _fileHandler;
 
+        private TourReservationController _tourReservationController;
         private static List<GuestTourAttendance> _guestTourAttendances;
 
         public GuestTourAttendanceController()
         {
             _fileHandler = new GuestTourAttendanceFileHandler();
+            _tourReservationController = new TourReservationController();
 
-            if(_guestTourAttendances == null)
+            if (_guestTourAttendances == null)
             {
                 Load();
             }
@@ -62,16 +64,15 @@ namespace SIMS_HCI_Project.Controller
             return _guestTourAttendances.FindAll(gta => gta.TourTimeId == id);
         }
 
-        public void GenerateAttendancesByTour(TourTime tourTime) /* TODO: After Tour Reservation is done, refactor this and maybe move to Reservation Controller */
+        public void GenerateAttendancesByTour(TourTime tourTime)
         {
-            //Temporary, here we should load all Guests that reserved the Tour 
-            //And we will have class guest to iterate through it
+            List<string> guestIds = _tourReservationController.GetByTourTimeId(tourTime.Id).Select(c => c.Guest2Id).ToList();
 
-            UserController userController = new UserController();
-            List<User> allGuests = userController.GetAll().FindAll(u => u.Id[0] == 'S');
-            foreach (User user in allGuests)
+            //UserController userController = new UserController();
+            //List<User> allGuests = userController.GetAll().FindAll(u => u.Id[0] == 'S');
+            foreach (string guestId in guestIds)
             {
-                GuestTourAttendance newGuestTourAttendance = new GuestTourAttendance(user.Id, tourTime.Id);
+                GuestTourAttendance newGuestTourAttendance = new GuestTourAttendance(guestId, tourTime.Id);
                 newGuestTourAttendance.TourTime = tourTime;
                 Add(newGuestTourAttendance);
             }

@@ -28,35 +28,6 @@ namespace SIMS_HCI_Project.Controller
             }
         }
 
-        public void ReduceAvailable(TourTime tourTime, int requestedPartySize)
-        {
-            TourTime tt = FindById(tourTime.Id);
-
-            tt.Available -= requestedPartySize; 
-        }
-
-        public void ConnectAvailablePlaces()
-        {
-            foreach (TourTime tt in _tourTimes)
-            {
-                _reservations = _tourReservationController.GetReservationsByTourTime(tt.Id);
-                tt.Available = tt.Tour.MaxGuests;
-                 
-                if(_reservations == null)
-                {
-                    tt.Available = tt.Tour.MaxGuests;
-
-                }
-                else
-                {
-                    foreach(TourReservation tr in _reservations)
-                    {
-                        tt.Available -= tr.PartySize;
-                    }
-                }
-            }
-        }
-
         public TourTime FindById(int id)
         {
             return _tourTimes.Find(tt => tt.Id == id);
@@ -147,6 +118,35 @@ namespace SIMS_HCI_Project.Controller
         {
             ConnectGuestAttendances();
             ConnectCurrentKeyPoints();
+        }
+
+        public void ReduceAvailable(TourTime tourTime, int requestedPartySize)
+        {
+            TourTime tt = FindById(tourTime.Id);
+
+            tt.Available -= requestedPartySize;
+        }
+
+        public void ConnectAvailablePlaces()
+        {
+            foreach (TourTime tt in _tourTimes)
+            {
+                _reservations = _tourReservationController.GetByTourTimeId(tt.Id);
+                tt.Available = tt.Tour.MaxGuests;
+
+                if (_reservations == null)
+                {
+                    tt.Available = tt.Tour.MaxGuests;
+
+                }
+                else
+                {
+                    foreach (TourReservation tr in _reservations)
+                    {
+                        tt.Available -= tr.PartySize;
+                    }
+                }
+            }
         }
 
         public void StartTour(TourTime tourTime)

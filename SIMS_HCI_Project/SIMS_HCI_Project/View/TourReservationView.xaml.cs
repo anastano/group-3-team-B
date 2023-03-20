@@ -96,12 +96,7 @@ namespace SIMS_HCI_Project.View
             bool isValidrequestedPartySize = int.TryParse(txtRequestedPartySize.Text, out requestedPartySize);
 
             TourTime = _tourTimeController.FindById(SelectedTourTime.Id);
-
-            /*if (!isValidrequestedPartySize)
-            {
-                requestedPartySize = 0;
-            }*/
-            
+            TourReservation tourReservation = new TourReservation(SelectedTourTime.Id, Guest2.Id, requestedPartySize);
 
             if (IsValid)
             {
@@ -113,10 +108,9 @@ namespace SIMS_HCI_Project.View
                 {
                     if (requestedPartySize <= TourTime.Available)
                     {
-                        Reservations.Add(new TourReservation(SelectedTourTime.Id, Guest2.Id, requestedPartySize));
-                        _tourReservationController.Save(new TourReservation(SelectedTourTime.Id, Guest2.Id, requestedPartySize));
+                        Reservations.Add(tourReservation);
+                        _tourReservationController.Save(tourReservation);
                         _tourTimeController.ReduceAvailable(TourTime, requestedPartySize);
-
 
                         MessageBox.Show("Reservation successfully completed.");
 
@@ -131,8 +125,6 @@ namespace SIMS_HCI_Project.View
             {
                 MessageBox.Show("Field is not validly filled in");
             }
-
-           
             _reservations = Reservations; 
         }
 

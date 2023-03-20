@@ -77,20 +77,6 @@ namespace SIMS_HCI_Project.Controller
             ConnectTourTimes();
         }
 
-        public void Add(TourReservation reservation)
-        {
-            //TODO
-        }
-
-        public void Remove(TourReservation reservation)
-        {
-            //TODO
-        }
-
-        public void Edit(TourReservation reservation)
-        {
-            //TODO
-        }
 
         public void NotifyObservers()
         {

@@ -37,11 +37,6 @@ namespace SIMS_HCI_Project.Controller
             return _tours;
         }
 
-        public List<string> GetImages(int id)
-        {
-            return _tours.Find(t => t.Id == id).Images;
-        }
-
         public void Load()
         {
             _tours = _fileHandler.Load();
@@ -141,6 +136,11 @@ namespace SIMS_HCI_Project.Controller
                          && (_tour.Location.City.ToLower().Contains(city.ToLower()))
                          select _tour;
             return result.ToList();
+        }
+
+        public List<string> GetImages(int id)
+        {
+            return _tours.Find(t => t.Id == id).Images;
         }
     }
 }

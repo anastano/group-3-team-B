@@ -28,10 +28,6 @@ namespace SIMS_HCI_Project.Controller
             }
         }
 
-        public TourTime FindById(int id)
-        {
-            return _tourTimes.Find(tt => tt.Id == id);
-        }
         public List<TourTime> GetAll()
         {
             return _tourTimes;
@@ -79,6 +75,11 @@ namespace SIMS_HCI_Project.Controller
             return _tourTimes[_tourTimes.Count - 1].Id + 1;
         }
 
+        public TourTime FindById(int id)
+        {
+            return _tourTimes.Find(tt => tt.Id == id);
+        }
+
         public List<TourTime> GetAllByGuideId(string id)
         {
             return _tourTimes.FindAll(tt => tt.Tour.GuideId == id);
@@ -120,7 +121,7 @@ namespace SIMS_HCI_Project.Controller
             ConnectCurrentKeyPoints();
         }
 
-        public void ReduceAvailable(TourTime tourTime, int requestedPartySize)
+        public void ReduceAvailablePlaces(TourTime tourTime, int requestedPartySize)
         {
             TourTime tt = FindById(tourTime.Id);
 
@@ -131,7 +132,7 @@ namespace SIMS_HCI_Project.Controller
         {
             foreach (TourTime tt in _tourTimes)
             {
-                _reservations = _tourReservationController.GetByTourTimeId(tt.Id);
+                _reservations = _tourReservationController.GetAllByTourTimeId(tt.Id);
                 tt.Available = tt.Tour.MaxGuests;
 
                 if (_reservations == null)

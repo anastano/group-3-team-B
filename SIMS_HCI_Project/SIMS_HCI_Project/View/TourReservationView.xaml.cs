@@ -109,8 +109,8 @@ namespace SIMS_HCI_Project.View
                     if (requestedPartySize <= TourTime.Available)
                     {
                         Reservations.Add(tourReservation);
-                        _tourReservationController.Save(tourReservation);
-                        _tourTimeController.ReduceAvailable(TourTime, requestedPartySize);
+                        _tourReservationController.Add(tourReservation);
+                        _tourTimeController.ReduceAvailablePlaces(TourTime, requestedPartySize);
 
                         MessageBox.Show("Reservation successfully completed.");
 

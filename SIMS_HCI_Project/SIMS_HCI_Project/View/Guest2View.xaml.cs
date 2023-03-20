@@ -54,7 +54,6 @@ namespace SIMS_HCI_Project.View
 
         private void btnShowImages_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: add images and window for display
             ConnectTourByReservation();
             Window window = new TourImagesView(_tourController, Tour);
             window.Show();

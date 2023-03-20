@@ -16,12 +16,33 @@ namespace SIMS_HCI_Project.Controller
             _fileHandler = new TourReservationFileHandler();
             if (_reservations == null)
             {
-                _reservations = _fileHandler.Load();
+                Load();
             }
 
             _observers = new List<IObserver>();
         }
 
+        public List<TourReservation> GetAll()
+        {
+            return _reservations;
+        }
+
+        public void Load()
+        {
+            _reservations = _fileHandler.Load();
+        }
+
+        public void Save()
+        {
+            _fileHandler.Save(_reservations);
+        }
+        public void Add(TourReservation tourReservation)
+        {
+            tourReservation.Id = GenerateId();
+
+            _reservations.Add(tourReservation);
+            Save();
+        }
         public TourReservation FindById(int id)
         {
             return _reservations.Find(r => r.Id == id);
@@ -31,27 +52,10 @@ namespace SIMS_HCI_Project.Controller
         {
             return _reservations.FindAll(r => r.Guest2Id == id);
         }
-        public void Load()
-        {
-            _reservations = _fileHandler.Load();
-        }
-        public void Save(TourReservation tourReservation)
-        {
-            tourReservation.Id = GenerateId();
 
-            _reservations.Add(tourReservation);
-            _fileHandler.Save(_reservations);
-        }
-
-        public List<TourReservation> GetByTourTimeId(int id)
+        public List<TourReservation> GetAllByTourTimeId(int id)
         {
             return _reservations.FindAll(r => r.TourTimeId == id);
-        }
-
-
-        public List<TourReservation> GetAll()
-        {
-            return _reservations;
         }
 
         public int GenerateId()
@@ -77,20 +81,6 @@ namespace SIMS_HCI_Project.Controller
             ConnectTourTimes();
         }
 
-        public void Add(TourReservation reservation)
-        {
-            //TODO
-        }
-
-        public void Remove(TourReservation reservation)
-        {
-            //TODO
-        }
-
-        public void Edit(TourReservation reservation)
-        {
-            //TODO
-        }
 
         public void NotifyObservers()
         {

@@ -137,5 +137,10 @@ namespace SIMS_HCI_Project.Controller
                          select _tour;
             return result.ToList();
         }
+
+        public List<string> GetImages(int id)
+        {
+            return _tours.Find(t => t.Id == id).Images;
+        }
     }
 }

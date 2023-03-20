@@ -48,7 +48,8 @@ namespace SIMS_HCI_Project.View
 
         private void btnShowImages_Click(object sender, RoutedEventArgs e)
         {
-            //TODO: add images and window for display
+            Window window = new TourImagesView(_tourController, SelectedTour);
+            window.Show();
         }
 
         private void btnReserve_Click(object sender, RoutedEventArgs e)

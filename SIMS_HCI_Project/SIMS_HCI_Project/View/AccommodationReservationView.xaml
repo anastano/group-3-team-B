@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.View"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
-        Title="AccommodationReservationView" Height="500" Width="850" Background="Azure">
+        Title="AccommodationReservationView" Height="500" Width="880" Background="Azure">
     <Window.Resources>
         <ControlTemplate x:Key="ValidationTemplate">
             <StackPanel>
@@ -41,7 +41,8 @@
             
             <StackPanel>
                 <TextBlock Text="Start" TextAlignment="Center" Margin="50, 5, 0, 0"></TextBlock>
-                <DatePicker x:Name="datePickerStart" SelectedDateChanged="DatePickerStart_SelectedDateChanged" SelectedDate="{Binding Start, StringFormat='{}{0:MM/dd/yyyy}', ValidatesOnDataErrors = True, NotifyOnValidationError = True}" 
+                <DatePicker x:Name="datePickerStart" SelectedDateChanged="DatePickerStart_SelectedDateChanged"
+                            SelectedDate="{Binding Start, StringFormat='{}{0:MM/dd/yyyy}', ValidatesOnDataErrors = True, NotifyOnValidationError = True}" 
                             SelectedDateFormat="Short"  Margin="50, 0, 0, 60" Width="200" Height="25">
                     <DatePicker.Resources>
                         <Style TargetType="DatePickerTextBox">
@@ -82,7 +83,7 @@
             
             <StackPanel Height="93" Width="298" >
                 <TextBlock Text="How many Days?" TextAlignment="Center" Margin="50, 5, 50, 0"></TextBlock>
-                <TextBox x:Name="txtDays" Width="200" Margin="0, 0, 0, 0" Height="25" Text="{Binding Path = DaysNumber, UpdateSourceTrigger = PropertyChanged, ValidatesOnDataErrors = True}" TextAlignment="Center">
+                <TextBox x:Name="txtDays"  Width="120" Margin="25, 0, 0, 0" Height="25" Text="{Binding Path = DaysNumber, UpdateSourceTrigger = PropertyChanged, ValidatesOnDataErrors = True}" TextAlignment="Center">
                     <Validation.ErrorTemplate>
                         <ControlTemplate>
                             <StackPanel>

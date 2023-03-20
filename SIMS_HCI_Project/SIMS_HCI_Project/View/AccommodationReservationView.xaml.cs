@@ -108,7 +108,7 @@ namespace SIMS_HCI_Project.View
             GuestsNumber = accommodation.MaxGuests;
             DaysNumber = accommodation.MinimumReservationDays.ToString();
             Start = DateTime.Now.AddDays(1);
-            End = DateTime.Now.AddDays(1);
+            End = DateTime.Now.AddDays(accommodation.MinimumReservationDays);
         }
 
         private Regex _DaysNumberRegex = new Regex("[1-9][0-9]*");
@@ -129,8 +129,12 @@ namespace SIMS_HCI_Project.View
                         result = "Only positive numbers that are greater than 0";
                     else if (int.Parse(DaysNumber) < Accommodation.MinimumReservationDays)
                     {
-                        result = "Days number must be greater than "+Accommodation.MinimumReservationDays;
+                        result = "Days number must be greater than " + Accommodation.MinimumReservationDays;
                     }
+                    /*else if ((End - Start).TotalDays < int.Parse(DaysNumber) - 1)
+                    {
+                        result = "Date range should be bigger";
+                    }*/
                 }
                 else if(columnName == "Start")
                 {      
@@ -139,6 +143,14 @@ namespace SIMS_HCI_Project.View
                     else if (Start <= DateTime.Now)
                     {
                         result = "Start cannot be a day that has already passed";
+                    }
+                    else if (End < Start)
+                    {
+                        result = "End cannot be before the start";
+                    }
+                    else if ((End - Start).TotalDays < int.Parse(DaysNumber) - 1)
+                    {
+                        result = "Date range should be bigger, because of days for reseration";
                     }
                 }
                 else if(columnName == "End")
@@ -152,6 +164,10 @@ namespace SIMS_HCI_Project.View
                     else if(End < Start)
                     {
                         result = "End cannot be before the start";
+                    }
+                    else if ((End - Start).TotalDays < int.Parse(DaysNumber) - 1)
+                    {
+                        result = "Date range should be bigger, because of days for reseration";
                     }
                 }
 
@@ -278,8 +294,14 @@ namespace SIMS_HCI_Project.View
                 txtSuggestion.Text = "There are no available reservations for the selected dates, here are a few recommendations for dates close to the selected ones";
                 //15 days after end date
                 int lastElementIndex = Accommodation.Reservations.Count - 1;
-                AvailableReservations = FindAvailableReservations(Accommodation.Reservations[lastElementIndex].End.AddDays(1), ((DateTime)datePickerEnd.SelectedDate).AddDays(15)); ;
-                //(DateTime)datePickerEnd.SelectedDate
+                if (Accommodation.Reservations[lastElementIndex].End < DateTime.Now.AddDays(1))
+                {
+                    AvailableReservations = FindAvailableReservations(DateTime.Now.AddDays(1), ((DateTime)datePickerEnd.SelectedDate).AddDays(15+ int.Parse(DaysNumber)));
+                }
+                else
+                {
+                    AvailableReservations = FindAvailableReservations(Accommodation.Reservations[lastElementIndex].End.AddDays(1), ((DateTime)datePickerEnd.SelectedDate).AddDays(15));
+                }
             }
             else
             {
@@ -293,24 +315,6 @@ namespace SIMS_HCI_Project.View
             bool isPotentialEndOverlap = potentialEnd >= reservation.Start && potentialEnd <= reservation.End;
             bool isPotentialRangeOverlap = potentialStart <= reservation.Start && potentialEnd >= reservation.End;
             return isPotentialStartOverlap || isPotentialEndOverlap || isPotentialRangeOverlap;
-        }
-        private void DatePickerStart_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (datePickerEnd.SelectedDate.HasValue && datePickerEnd.SelectedDate.Value < datePickerStart.SelectedDate.Value)
-            {
-                datePickerEnd.SelectedDate = datePickerStart.SelectedDate;
-            }
-        }
-        private void DatePickerEnd_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (datePickerStart.SelectedDate == null)
-            {
-                datePickerStart.SelectedDate = datePickerEnd.SelectedDate;
-            }
-            else if (datePickerEnd.SelectedDate.HasValue && datePickerEnd.SelectedDate.Value < datePickerStart.SelectedDate.Value)
-            {
-                datePickerEnd.SelectedDate = datePickerStart.SelectedDate;
-            }
         }
         public void Update()
         {

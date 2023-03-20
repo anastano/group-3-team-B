@@ -144,6 +144,14 @@ namespace SIMS_HCI_Project.View
                     {
                         result = "Start cannot be a day that has already passed";
                     }
+                    else if (End < Start)
+                    {
+                        result = "End cannot be before the start";
+                    }
+                    else if ((End - Start).TotalDays < int.Parse(DaysNumber) - 1)
+                    {
+                        result = "Date range should be bigger, because of days for reseration";
+                    }
                 }
                 else if(columnName == "End")
                 {
@@ -288,7 +296,7 @@ namespace SIMS_HCI_Project.View
                 int lastElementIndex = Accommodation.Reservations.Count - 1;
                 if (Accommodation.Reservations[lastElementIndex].End < DateTime.Now.AddDays(1))
                 {
-                    AvailableReservations = FindAvailableReservations(DateTime.Now.AddDays(1), ((DateTime)datePickerEnd.SelectedDate).AddDays(15));
+                    AvailableReservations = FindAvailableReservations(DateTime.Now.AddDays(1), ((DateTime)datePickerEnd.SelectedDate).AddDays(15+ int.Parse(DaysNumber)));
                 }
                 else
                 {
@@ -307,24 +315,6 @@ namespace SIMS_HCI_Project.View
             bool isPotentialEndOverlap = potentialEnd >= reservation.Start && potentialEnd <= reservation.End;
             bool isPotentialRangeOverlap = potentialStart <= reservation.Start && potentialEnd >= reservation.End;
             return isPotentialStartOverlap || isPotentialEndOverlap || isPotentialRangeOverlap;
-        }
-        private void DatePickerStart_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (datePickerEnd.SelectedDate.HasValue && datePickerEnd.SelectedDate.Value < datePickerStart.SelectedDate.Value)
-            {
-                datePickerEnd.SelectedDate = datePickerStart.SelectedDate;
-            }
-        }
-        private void DatePickerEnd_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (datePickerStart.SelectedDate == null)
-            {
-                datePickerStart.SelectedDate = datePickerEnd.SelectedDate;
-            }
-            else if (datePickerEnd.SelectedDate.HasValue && datePickerEnd.SelectedDate.Value < datePickerStart.SelectedDate.Value)
-            {
-                datePickerEnd.SelectedDate = datePickerStart.SelectedDate;
-            }
         }
         public void Update()
         {

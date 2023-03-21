@@ -25,33 +25,37 @@ namespace SIMS_HCI_Project.View
     {
 
         private readonly TourController _tourController;
-        private readonly LocationController _locationController;
 
         public ObservableCollection<Tour> Tours { get; set; }
         public ObservableCollection<Location> Locations { get; set; }
         public Tour SelectedTour { get; set; }
+        public Guest2 Guest2 { get; set; }
 
-        public TourSearchView()
+        public TourSearchView(Guest2 guest)
         {
             InitializeComponent();
-            DataContext = this;
+            Guest2 = guest;
             _tourController = new TourController();
-            _locationController = new LocationController();
-            _tourController.Load();
-
-            _tourController.ConnectToursLocations(_locationController);
+            
+            _tourController.ConnectDepartureTimes();
+            _tourController.ConnectLocations();
+            _tourController.ConnectKeyPoints();
 
             Tours = new ObservableCollection<Tour>(_tourController.GetAll());
-        }
 
-        private void btnReserve_Click(object sender, RoutedEventArgs e)
-        {
-
+            DataContext = this;
         }
 
         private void btnShowImages_Click(object sender, RoutedEventArgs e)
         {
+            Window window = new TourImagesView(_tourController, SelectedTour);
+            window.Show();
+        }
 
+        private void btnReserve_Click(object sender, RoutedEventArgs e)
+        {
+            Window window = new TourReservationView(SelectedTour, Guest2);
+            window.Show();
         }
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)

@@ -30,7 +30,7 @@ namespace SIMS_HCI_Project.View
 
         public ObservableCollection<Accommodation> Accommodations { get; set; }
 
-        public Accommodation SelectedAccommodation;
+        public Accommodation SelectedAccommodation { get; set; }
 
         public OwnerAccommodationsView(AccommodationController accommodationController, OwnerController ownerController, string ownerId)
         {
@@ -42,10 +42,9 @@ namespace SIMS_HCI_Project.View
             _accommodationController = accommodationController;
             _ownerController = ownerController;
 
-            Accommodations = new ObservableCollection<Accommodation>(_ownerController.GetAccommodationByOwnerId(_ownerId));
+            Accommodations = new ObservableCollection<Accommodation>(_ownerController.GetAccommodations(_ownerId));
 
             _accommodationController.Subscribe(this); //its method Add contains adding accommodation to owner accommodation list
-            _ownerId = ownerId;
         }
 
         public void Update()

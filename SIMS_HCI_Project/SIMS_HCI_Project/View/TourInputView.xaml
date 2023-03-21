@@ -43,7 +43,7 @@
                  VerticalAlignment="Top" Width="144"/>
         <Label Content="Max number&#xD;&#xA; of guests" Margin="20,259,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <TextBox TextChanged="ButtonAvailableCheck" HorizontalAlignment="Left" Margin="113,267,0,0" TextWrapping="Wrap" 
-                 Text="{Binding Path=Tour.MaxGuestNumber, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                 Text="{Binding Path=Tour.MaxGuests, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                  Validation.ErrorTemplate="{StaticResource ValidationTemplate}" 
                  VerticalAlignment="Top" Width="30" Height="25"/>
         <Label Content="Date" HorizontalAlignment="Left" Margin="361,85,0,0" VerticalAlignment="Top"/>

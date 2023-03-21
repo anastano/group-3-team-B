@@ -22,11 +22,12 @@ namespace SIMS_HCI_Project.Model
         public Location Location { get; set; }
         public string Description { get; set; }
         public string Language { get; set; }
-        public int MaxGuestNumber { get; set; }
+        public int MaxGuests { get; set; }
         public List<int> KeyPointsIds { get; set; }
         public List<TourKeyPoint> KeyPoints { get; set; }
         public List<TourTime> DepartureTimes { get; set; }
         public int Duration { get; set; }
+       
         public List<string> Images { get; set; } // [Maybe] TODO: Change to URI type
 
         public Tour() {
@@ -55,8 +56,9 @@ namespace SIMS_HCI_Project.Model
             LocationId = locationId;
             Description = description;
             Language = language;
-            MaxGuestNumber = maxGuestNumber;
+            MaxGuests = maxGuestNumber;
             Duration = duration;
+            //Available = maxGuestNumber;
 
             Location = new Location();
             Images = new List<string>();
@@ -64,9 +66,9 @@ namespace SIMS_HCI_Project.Model
             KeyPoints = new List<TourKeyPoint>();
         }
 
-        public string[] ToCSV()
+        public string[] ToCSV()     //anastaNOTE: add Available in csv or not?
         {
-            string[] csvValues = { Id.ToString(), GuideId, Title, LocationId.ToString(), Description, Language, MaxGuestNumber.ToString(), string.Join(",", KeyPointsIds), Duration.ToString(), string.Join(",", Images)};
+            string[] csvValues = { Id.ToString(), GuideId, Title, LocationId.ToString(), Description, Language, MaxGuests.ToString(), string.Join(",", KeyPointsIds), Duration.ToString(), string.Join(",", Images)};
             return csvValues;
         }
 
@@ -78,7 +80,7 @@ namespace SIMS_HCI_Project.Model
             LocationId = Convert.ToInt32(values[3]);
             Description = values[4];
             Language = values[5];
-            MaxGuestNumber = Convert.ToInt32(values[6]);
+            MaxGuests = Convert.ToInt32(values[6]);
             KeyPointsIds = new List<int>(Array.ConvertAll(values[7].Split(","), Convert.ToInt32));
             Duration = Convert.ToInt32(values[8]);
             Images = new List<string>(values[9].Split(","));
@@ -105,7 +107,7 @@ namespace SIMS_HCI_Project.Model
                             return "Language is required";
                         break;
                     case "MaxGuestNumber":
-                        if (MaxGuestNumber < 1)
+                        if (MaxGuests < 1)
                             return "MaxGuestNumber is required and cannot be less than 1";
                         break;
                     case "Duration":

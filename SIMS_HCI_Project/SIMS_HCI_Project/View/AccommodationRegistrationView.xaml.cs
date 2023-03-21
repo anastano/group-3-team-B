@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,7 +24,7 @@ namespace SIMS_HCI_Project.View
     /// <summary>
     /// Interaction logic for AccommodationRegistrationView.xaml
     /// </summary>
-    public partial class AccommodationRegistrationView : Window, INotifyPropertyChanged
+    public partial class AccommodationRegistrationView : Window, INotifyPropertyChanged, IDataErrorInfo
     {
         private string _ownerId;
 
@@ -31,7 +32,6 @@ namespace SIMS_HCI_Project.View
         public Location Location { get; set; }
 
         private AccommodationController _accommodationController;
-        private LocationController _locationController = new LocationController(); //should this be passed as parameter???
 
         private string _imageURL;
         public string ImageURL
@@ -61,9 +61,10 @@ namespace SIMS_HCI_Project.View
 
             _ownerId = ownerId;
             
-            Accommodation = new Accommodation();   //check if it is needed to initialize default values
+            Accommodation = new Accommodation();
             Location = new Location();
             Images = new ObservableCollection<string>();
+            ImageURL = "";
 
             _accommodationController = accommodationController;
 
@@ -71,17 +72,27 @@ namespace SIMS_HCI_Project.View
 
         private void btnRegister_Click(object sender, RoutedEventArgs e)
         {
- 
-            _accommodationController.Register(Accommodation, _ownerId, Location, new List<string>(Images));
+            if (Accommodation.IsValid && Location.IsValid) 
+            {
+                Accommodation.OwnerId = _ownerId;
+                Accommodation.Images = new List<string>(Images);
 
-            Close();
+                _accommodationController.Register(Accommodation, Location);
+
+                Close();
+            }
+            else 
+            {
+                MessageBox.Show("Not all fields are filled in correctly!");
+            }
+                
         }
 
         private void btnPlusGuest_Click(object sender, RoutedEventArgs e)
         {
-            int maxGuests = int.Parse(txtMaxGuestNumber.Text);
-            maxGuests += 1;
-            txtMaxGuestNumber.Text = maxGuests.ToString();
+             int maxGuests = int.Parse(txtMaxGuestNumber.Text);
+             maxGuests += 1;
+             txtMaxGuestNumber.Text = maxGuests.ToString();
         }
 
         private void btnMinusGuest_Click(object sender, RoutedEventArgs e)
@@ -134,10 +145,58 @@ namespace SIMS_HCI_Project.View
 
         private void btnAddImage_Click(object sender, RoutedEventArgs e)
         {
-            if (ImageURL != "")
+            if (IsImageURLValid)
             {
                 Images.Add(ImageURL);
                 ImageURL = "";
+            }
+        }
+
+        private void btnRemoveImage_Click(object sender, RoutedEventArgs e)
+        {
+            if (lbImages.SelectedItem != null)
+            {
+                Images.RemoveAt(lbImages.SelectedIndex);
+            }
+        }
+
+        //ImageURl validation
+        private Regex urlRegex = new Regex("(http(s?)://.)([/|.|\\w|\\s|-])*\\.(?:jpg|gif|png)|(^$)");
+
+        public string Error => null;
+
+
+        public string this[string propertyName]
+        {
+            get
+            {
+
+                if (propertyName == "ImageURL")
+                {
+                    Match match = urlRegex.Match(ImageURL);
+                    if (!match.Success)
+                    {
+                        return "URL is not in valid format.";
+                    }
+                }
+
+                return null;
+            }
+        }
+
+        private readonly string[] _validatedProperties = { "ImageURL" };
+
+        public bool IsImageURLValid
+        {
+            get
+            {
+                foreach (var property in _validatedProperties)
+                {
+                    if (this[property] != null)
+                        return false;
+                }
+
+                return true;
             }
         }
     }

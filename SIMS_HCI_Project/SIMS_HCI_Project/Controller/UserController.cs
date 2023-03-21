@@ -20,6 +20,11 @@ namespace SIMS_HCI_Project.Controller
             _users = _fileHandler.Load();
         }
 
+        public List<User> GetAll() /* Temporary */
+        {
+            return _users; 
+        }
+
         public User LogIn(string username, string password)
         {
             return _users.FirstOrDefault(u => u.Username == username && u.Password == password);

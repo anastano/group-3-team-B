@@ -1,33 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Model
 {
-    // Yes, this class is probably wrong for the pattern
     public class Guide : User
     {
-        public ObservableCollection<Tour> Tours { get; set; } // this feels illegal
+        public ObservableCollection<TourTime> TodaysTours {get; set; }
+        public ObservableCollection<Tour> Tours { get; set; }
 
         public Guide()
         {
+            TodaysTours = new ObservableCollection<TourTime>();
             Tours = new ObservableCollection<Tour>();
         }
 
-        public Guide(string id, string username, string password)
+        public Guide(User user)
         {
-            Id = id;
-            Username = username;
-            Password = password;
+            Id = user.Id;
+            Password = user.Password;
+            Username = user.Username;
+            TodaysTours = new ObservableCollection<TourTime>();
             Tours = new ObservableCollection<Tour>();
         }
 
-        public void AddTour(Tour tour) // This should probably be in controller?
+        public void AddTodaysTourTimes(List<TourTime> tourTimes)
         {
-            Tours.Add(tour);
+            foreach(TourTime tourTime in tourTimes)
+            {
+                if(tourTime.DepartureTime.Date == DateTime.Today)
+                {
+                    TodaysTours.Add(tourTime);
+                }
+            }
         }
     }
 }

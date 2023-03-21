@@ -30,7 +30,6 @@ namespace SIMS_HCI_Project
         {
             InitializeComponent();
             _userController = new UserController();
-
             DataContext = this;
         }
 
@@ -50,16 +49,16 @@ namespace SIMS_HCI_Project
                         break;
                     case 'F':
                         //TODO: Forward to guest1 view
-                        win = new Gues1View();
+                        win = new Guest1View(new Guest1(user.Id, user.Username, user.Password));
                         win.Show();
 
                         break;
                     case 'S':
-                        Window guest2View = new Guest2View();
+                        Window guest2View = new Guest2View(new Guest2(user.Id, user.Username, user.Password));
                         guest2View.Show();
                         break;
                     case 'G':
-                        Window guideWindow = new GuideMainView(new Guide(user.Id, user.Username, user.Password));
+                        Window guideWindow = new GuideMainView(new Guide(user));
                         guideWindow.Show();
                         break;
                 }
@@ -69,6 +68,5 @@ namespace SIMS_HCI_Project
                 lblErrorMessage.Content = "Inccorect username or password";
             }
         }
-
     }
 }

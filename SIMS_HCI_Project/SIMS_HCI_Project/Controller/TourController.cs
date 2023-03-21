@@ -26,7 +26,10 @@ namespace SIMS_HCI_Project.Controller
             _locationController = new LocationController();
             _tourTimeController = new TourTimeController();
 
-            _tours = _fileHandler.Load();
+            if(_tours == null)
+            {
+                Load();
+            }
         }
 
         public List<Tour> GetAll()
@@ -34,24 +37,46 @@ namespace SIMS_HCI_Project.Controller
             return _tours;
         }
 
-        public Tour Save(Tour tour)
+        public void Load()
         {
-            tour.Id = GenerateNextId();
+            _tours = _fileHandler.Load();
+        }
+
+        public void Save()
+        {
+            _fileHandler.Save(_tours);
+        }
+
+        public void Add(Tour tour)
+        {
+            tour.Id = GenerateId();
 
             tour.Location = _locationController.Save(tour.Location);
             tour.LocationId = tour.Location.Id;
 
-            tour.KeyPoints = _tourKeyPointController.SaveMultiple(tour.KeyPoints);
+            _tourKeyPointController.AddMultiple(tour.KeyPoints);
             tour.KeyPointsIds = tour.KeyPoints.Select(c => c.Id).ToList();
 
             _tourTimeController.AssignTourToTourTimes(tour, tour.DepartureTimes);
-            tour.DepartureTimes = _tourTimeController.SaveMultiple(tour.DepartureTimes);
+            _tourTimeController.AddMultiple(tour.DepartureTimes);
 
-            tour.Guide.AddTour(tour);
+            tour.Guide.Tours.Add(tour);
+            tour.Guide.AddTodaysTourTimes(tour.DepartureTimes);
+
             _tours.Add(tour);
-            _fileHandler.Save(_tours);
 
-            return tour;
+            Save();
+        }
+
+        private int GenerateId()
+        {
+            if (_tours.Count == 0) return 1;
+            return _tours[_tours.Count - 1].Id + 1;
+        }
+
+        public Tour FindById(int id)
+        {
+            return _tours.Find(t => t.Id == id);
         }
 
         public List<Tour> GetAllByGuideId(string id)
@@ -59,34 +84,36 @@ namespace SIMS_HCI_Project.Controller
             return _tours.FindAll(t => t.GuideId == id);
         }
 
-        private int GenerateNextId() //anastaNOTE to VuJe: maybe "next" is not needed?
-        {
-            if (_tours.Count == 0) return 1;
-            return _tours[_tours.Count - 1].Id + 1;
-        }
-
-        public void LoadConnections() //anastaNOTE to VuJe: mozda si ovde htela da napises ono sto sam ja u ConnectToursLocations ispod
-        {
-            /* TODO */
-        }
-
-        public void Load()
-        {
-            _tours = _fileHandler.Load();
-        }
-
-
-        public Tour FindById(int id)
-        {
-            return _tours.Find(t => t.Id == id);
-        }
-
-        public void ConnectToursLocations(LocationController locationController)
+        public void ConnectLocations()
         {
             foreach(Tour tour in _tours)
             {
-                tour.Location = locationController.FindById(tour.LocationId);
+                tour.Location = _locationController.FindById(tour.LocationId);
             }
+        }
+
+        public void ConnectKeyPoints()
+        {
+            foreach (Tour tour in _tours)
+            {
+                tour.KeyPoints = _tourKeyPointController.FindByIds(tour.KeyPointsIds);
+            }
+        }
+
+        public void ConnectDepartureTimes()
+        {
+            foreach(TourTime tourTime in _tourTimeController.GetAll())
+            {
+                tourTime.Tour = FindById(tourTime.TourId);
+                tourTime.Tour.DepartureTimes.Add(tourTime);
+            }
+        }
+
+        public void LoadConnections()
+        {
+            ConnectLocations();
+            ConnectKeyPoints();
+            ConnectDepartureTimes();
         }
 
         public List<Tour> Search(string country, string city, int duration, string language, int guestsNum)
@@ -95,11 +122,25 @@ namespace SIMS_HCI_Project.Controller
                            where (string.IsNullOrEmpty(country) || _tour.Location.Country.ToLower().Contains(country.ToLower()))
                            && (string.IsNullOrEmpty(city) || _tour.Location.City.ToLower().Contains(city.ToLower()))
                            && (duration == 0 || duration >= _tour.Duration)
-                           && (guestsNum == 0 || guestsNum <= _tour.MaxGuestNumber)
+                           && (guestsNum == 0 || guestsNum <= _tour.MaxGuests)
                            && (string.IsNullOrEmpty(language) || _tour.Language.ToLower().Contains(language.ToLower()))
                            select _tour;
 
             return filtered.ToList();
+        }
+
+        public List<Tour> Search(string city, string country)
+        {
+            var result = from _tour in _tours
+                         where (_tour.Location.Country.ToLower().Contains(country.ToLower()))
+                         && (_tour.Location.City.ToLower().Contains(city.ToLower()))
+                         select _tour;
+            return result.ToList();
+        }
+
+        public List<string> GetImages(int id)
+        {
+            return _tours.Find(t => t.Id == id).Images;
         }
     }
 }

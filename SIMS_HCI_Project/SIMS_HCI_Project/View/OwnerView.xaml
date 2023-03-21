@@ -16,7 +16,7 @@
 
             <Border VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="Azure" BorderThickness="2" CornerRadius="15">
                 <StackPanel Margin="10 0 10 10" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <Button x:Name="btnExistingAccommodations" Content="Existing accommodations" Click="btnExistingAccommodations_Click"
+                    <Button x:Name="btnExistingAccommodations" Content="Your Accommodations" Click="btnExistingAccommodations_Click"
                         Width="350" Height="100" Margin="10 10 10 10" Padding="10" Background="Azure" Foreground="Turquoise" FontSize="20" BorderBrush="Turquoise">
                         <Button.Resources>
                             <Style TargetType="Border">
@@ -24,7 +24,7 @@
                             </Style>
                         </Button.Resources>
                     </Button>
-                    <Button x:Name="btnAccommodationRegistration" Content="Accommodation registration" Click="btnAccommodationRegistration_Click"
+                    <Button x:Name="btnAccommodationRegistration" Content="Register New Accommodation" Click="btnAccommodationRegistration_Click"
                         Width="350" Height="100" Margin="10 20 10 10" Padding="10" Background="Azure" Foreground="Turquoise" FontSize="20" BorderBrush="Turquoise">
                         <Button.Resources>
                             <Style TargetType="Border">
@@ -32,7 +32,7 @@
                             </Style>
                         </Button.Resources>
                     </Button>
-                    <Button x:Name="btnGuestRating" Content="Guest rating" Click="btnGuestRating_Click"
+                    <Button x:Name="btnGuestRating" Content="Rate Your Guests" Click="btnGuestRating_Click"
                         Width="350" Height="100" Margin="10 10 10 10" Padding="10" Background="Azure" Foreground="Turquoise" FontSize="20" BorderBrush="Turquoise">
                         <Button.Resources>
                             <Style TargetType="Border">

@@ -199,6 +199,8 @@ namespace SIMS_HCI_Project.Controller
             tourTime.Status = TourStatus.CANCELED;
             List<TourReservation> tourReservations = _tourReservationController.GetAllByTourTimeId(tourTime.Id);
             _tourVoucherController.GiveVouchersToGuestsWithReservation(tourReservations);
+
+            _tourReservationController.Save();
             Save();
         }
     }

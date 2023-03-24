@@ -27,6 +27,22 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="ShowCancelMessage" TargetType="Label">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding TourTime.Status}" Value="COMPLETED">
+                    <Setter Property="Visibility" Value="Hidden"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding TourTime.Status}" Value="IN_PROGRESS">
+                    <Setter Property="Visibility" Value="Hidden"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding TourTime.Status}" Value="PENDING">
+                    <Setter Property="Visibility" Value="Hidden"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding TourTime.Status}" Value="CANCELED">
+                    <Setter Property="Visibility" Value="Visible"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -52,5 +68,6 @@
         <Button x:Name="btnCancelTour"  Content="Finish tour before last key point" HorizontalAlignment="Left" Margin="358,54,0,0" VerticalAlignment="Top" Click="btnCancelTour_Click" Style="{StaticResource DisableButton}" Grid.ColumnSpan="2"/>
         <Label Content="Current Key Point: " HorizontalAlignment="Left" Margin="30,24,0,0" VerticalAlignment="Top"/>
         <Label Content="{Binding Path=TourTime.CurrentKeyPoint}" HorizontalAlignment="Left" Margin="134,24,0,0" VerticalAlignment="Top"/>
+        <Label Content="This tour was cancelled. Vouchers were given to all guests with reservation." Style="{StaticResource ShowCancelMessage}"  HorizontalAlignment="Left" Margin="358,24,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Width="397"/>
     </Grid>
 </Window>

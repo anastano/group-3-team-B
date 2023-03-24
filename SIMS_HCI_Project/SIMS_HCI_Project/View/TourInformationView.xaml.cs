@@ -27,7 +27,7 @@ namespace SIMS_HCI_Project.View
             set
             {
                 _selectedTourTime = value;
-                UpdateButtonStatus();
+                UpdateButtons();
             }
         }
 
@@ -41,7 +41,7 @@ namespace SIMS_HCI_Project.View
             _tourTimeController = tourTimeController;
 
             SetSelectedTourTime(tourTime);
-            UpdateButtonStatus();
+            UpdateButtons();
 
             DataContext = this;
         }
@@ -49,7 +49,7 @@ namespace SIMS_HCI_Project.View
         private void btnStartTour_Click(object sender, RoutedEventArgs e)
         {
             _tourTimeController.StartTour(SelectedTourTime);
-            UpdateButtonStatus();
+            UpdateButtons();
 
             Window tourProgress = new TourProgressView(_tourTimeController, SelectedTourTime);
             tourProgress.Owner = this;
@@ -59,7 +59,7 @@ namespace SIMS_HCI_Project.View
         private void btnCancelTour_Click(object sender, RoutedEventArgs e)
         {
             _tourTimeController.CancelTour(SelectedTourTime);
-            UpdateButtonStatus();
+            UpdateButtons();
         }
 
         private void SetSelectedTourTime(TourTime tourTime)
@@ -74,13 +74,19 @@ namespace SIMS_HCI_Project.View
             }
         }
 
-        private void UpdateButtonStatus()
+        private void UpdateButtons()
         {
-            switch(SelectedTourTime.Status)
+            UpdateStartButton();
+            UpdateCancelButton();
+        }
+
+        private void UpdateStartButton()
+        {
+            switch (SelectedTourTime.Status)
             {
                 case TourStatus.NOT_STARTED:
                     btnStartTour.Content = "Start Tour";
-                    if(SelectedTourTime.DepartureTime.Date != DateTime.Today || _tourTimeController.HasTourInProgress(SelectedTourTime.Tour.GuideId))
+                    if (SelectedTourTime.DepartureTime.Date != DateTime.Today || _tourTimeController.HasTourInProgress(SelectedTourTime.Tour.GuideId))
                     {
                         btnStartTour.IsEnabled = false;
                     }
@@ -98,6 +104,18 @@ namespace SIMS_HCI_Project.View
                     btnStartTour.Content = "See History";
                     btnStartTour.IsEnabled = true;
                     break;
+            }
+        }
+
+        private void UpdateCancelButton()
+        {
+            if (DateTime.Now.AddDays(2) < SelectedTourTime.DepartureTime && SelectedTourTime.Status != TourStatus.CANCELED)
+            {
+                btnCancelTour.IsEnabled = true;
+            }
+            else
+            {
+                btnCancelTour.IsEnabled = false;
             }
         }
     }

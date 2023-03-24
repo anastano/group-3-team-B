@@ -14,6 +14,7 @@ namespace SIMS_HCI_Project.Controller
 
         private static List<TourTime> _tourTimes;
         private GuestTourAttendanceController _guestTourAttendanceController;
+        private TourVoucherController _tourVoucherController;
         private TourReservationController _tourReservationController = new TourReservationController();
         private static List<TourReservation> _reservations = new List<TourReservation>();
 
@@ -21,6 +22,7 @@ namespace SIMS_HCI_Project.Controller
         {
             _fileHandler = new TourTimeFileHandler();
             _guestTourAttendanceController = new GuestTourAttendanceController();
+            _tourVoucherController = new TourVoucherController();
 
             if (_tourTimes == null)
             {
@@ -189,6 +191,14 @@ namespace SIMS_HCI_Project.Controller
         {
             tourTime.Status = TourStatus.COMPLETED;
             _guestTourAttendanceController.UpdateGuestStatusesAfterTourEnd(tourTime);
+            Save();
+        }
+
+        public void CancelTour(TourTime tourTime)
+        {
+            tourTime.Status = TourStatus.CANCELED;
+            List<TourReservation> tourReservations = _tourReservationController.GetAllByTourTimeId(tourTime.Id);
+            _tourVoucherController.GiveVouchersToGuestsWithReservation(tourReservations);
             Save();
         }
     }

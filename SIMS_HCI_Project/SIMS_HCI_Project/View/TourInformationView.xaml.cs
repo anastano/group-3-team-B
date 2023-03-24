@@ -58,7 +58,8 @@ namespace SIMS_HCI_Project.View
 
         private void btnCancelTour_Click(object sender, RoutedEventArgs e)
         {
-
+            _tourTimeController.CancelTour(SelectedTourTime);
+            UpdateButtonStatus();
         }
 
         private void SetSelectedTourTime(TourTime tourTime)

@@ -106,9 +106,9 @@ namespace SIMS_HCI_Project.Model
                         if (string.IsNullOrEmpty(Language))
                             return "Language is required";
                         break;
-                    case "MaxGuestNumber":
+                    case "MaxGuests":
                         if (MaxGuests < 1)
-                            return "MaxGuestNumber is required and cannot be less than 1";
+                            return "MaxGuests is required and cannot be less than 1";
                         break;
                     case "Duration":
                         if (Duration < 1)
@@ -128,7 +128,7 @@ namespace SIMS_HCI_Project.Model
 
         }
 
-        private readonly string[] _validatedProperties = { "Title", "Description", "Language", "MaxGuestNumber", "Duration", "DepartureTimes", "KeyPoints" };
+        private readonly string[] _validatedProperties = { "Title", "Description", "Language", "MaxGuests", "Duration", "DepartureTimes", "KeyPoints" };
 
         public event PropertyChangedEventHandler? PropertyChanged;
         public event NotifyCollectionChangedEventHandler? CollectionChanged;

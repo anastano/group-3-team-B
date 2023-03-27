@@ -59,7 +59,7 @@ namespace SIMS_HCI_Project.Controller
             //TO DO IF NEEDED
         }
 
-        public Guest1 FindById(string id)
+        public Guest1 FindById(int id)
         {
             return _guests.Find(g => g.Id == id);
         }

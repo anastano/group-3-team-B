@@ -44,7 +44,7 @@ namespace SIMS_HCI_Project.Model
             Reservations = new ObservableCollection<TourReservation>();
         }
 
-        public Guest2(string id, string username, string password)
+        public Guest2(int id, string username, string password)
         {
             Id = id;
             Username = username;

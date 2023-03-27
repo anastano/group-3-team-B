@@ -82,12 +82,12 @@ namespace SIMS_HCI_Project.Controller
             return _tourTimes.Find(tt => tt.Id == id);
         }
 
-        public List<TourTime> GetAllByGuideId(string id)
+        public List<TourTime> GetAllByGuideId(int id)
         {
             return _tourTimes.FindAll(tt => tt.Tour.GuideId == id);
         }
 
-        public List<TourTime> GetTodaysByGuideId(string id)
+        public List<TourTime> GetTodaysByGuideId(int id)
         {
             return _tourTimes.FindAll(tt => tt.Tour.GuideId == id && tt.DepartureTime.Date == DateTime.Today);
         }
@@ -163,7 +163,7 @@ namespace SIMS_HCI_Project.Controller
             }
         }
 
-        public bool HasTourInProgress(string guideId)
+        public bool HasTourInProgress(int guideId)
         {
             return _tourTimes.Any(tt => tt.Tour.GuideId.Equals(guideId) && tt.Status == TourStatus.IN_PROGRESS);
         }

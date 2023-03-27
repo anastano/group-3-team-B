@@ -66,9 +66,9 @@ namespace SIMS_HCI_Project.Controller
 
         public void GenerateAttendancesByTour(TourTime tourTime)
         {
-            List<string> guestIds = GetGuestsWithReservation(tourTime);
+            List<int> guestIds = GetGuestsWithReservation(tourTime);
 
-            foreach (string guestId in guestIds)
+            foreach (int guestId in guestIds)
             {
                 GuestTourAttendance newGuestTourAttendance = new GuestTourAttendance(guestId, tourTime.Id);
                 newGuestTourAttendance.TourTime = tourTime;
@@ -76,7 +76,7 @@ namespace SIMS_HCI_Project.Controller
             }
         }
 
-        public List<string> GetGuestsWithReservation(TourTime tourTime)
+        public List<int> GetGuestsWithReservation(TourTime tourTime)
         {
             return _tourReservationController.GetAllByTourTimeId(tourTime.Id).Select(c => c.Guest2Id).ToList();
         }

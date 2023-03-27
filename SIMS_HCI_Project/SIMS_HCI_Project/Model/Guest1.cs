@@ -16,7 +16,7 @@ namespace SIMS_HCI_Project.Model
             Reservations = new ObservableCollection<AccommodationReservation>();
         }
 
-        public Guest1(string id, string username, string password)
+        public Guest1(int id, string username, string password)
         {
             Id = id;
             Username = username;

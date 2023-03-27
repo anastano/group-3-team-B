@@ -23,7 +23,7 @@ namespace SIMS_HCI_Project.View
     /// </summary>
     public partial class OwnerAccommodationsView : Window, IObserver
     {
-        private string _ownerId;
+        private int _ownerId;
 
         private AccommodationController _accommodationController;
         private OwnerController _ownerController;
@@ -32,7 +32,7 @@ namespace SIMS_HCI_Project.View
 
         public Accommodation SelectedAccommodation { get; set; }
 
-        public OwnerAccommodationsView(AccommodationController accommodationController, OwnerController ownerController, string ownerId)
+        public OwnerAccommodationsView(AccommodationController accommodationController, OwnerController ownerController, int ownerId)
         {
             InitializeComponent();
             DataContext = this;

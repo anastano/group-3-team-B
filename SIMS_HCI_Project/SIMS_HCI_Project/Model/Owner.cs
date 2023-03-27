@@ -19,7 +19,7 @@ namespace SIMS_HCI_Project.Model
             Reservations= new List<AccommodationReservation>();
         }
 
-        public Owner(string id, string username, string password)
+        public Owner(int id, string username, string password)
         {
             Id = id;
             Username = username;

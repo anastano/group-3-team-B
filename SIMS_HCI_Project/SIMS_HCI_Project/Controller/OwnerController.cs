@@ -59,7 +59,7 @@ namespace SIMS_HCI_Project.Controller
             //TO DO IF NEEDED
         }
 
-        public Owner FindById(string id)
+        public Owner FindById(int id)
         {
             return _owners.Find(o => o.Id == id);
         }
@@ -93,7 +93,7 @@ namespace SIMS_HCI_Project.Controller
 
                 foreach (AccommodationReservation reservation in reservationController.GetAll())
                 {
-                    string accommodationOwnerId = accommodationController.FindById(reservation.AccommodationId).OwnerId;
+                    int accommodationOwnerId = accommodationController.FindById(reservation.AccommodationId).OwnerId;
 
                     if ( accommodationOwnerId == owner.Id)
                     {
@@ -118,19 +118,19 @@ namespace SIMS_HCI_Project.Controller
             owner.Reservations.Add(reservation);
         }
 
-        public List<Accommodation> GetAccommodations(string ownerId)
+        public List<Accommodation> GetAccommodations(int ownerId)
         {
             Owner owner = FindById(ownerId);
             return owner.Accommodations;
         }
 
-        public List<AccommodationReservation> GetReservations(string ownerId)
+        public List<AccommodationReservation> GetReservations(int ownerId)
         {
             Owner owner = FindById(ownerId);
             return owner.Reservations;
         }
 
-        public List<AccommodationReservation> GetUnratedReservations(string ownerId)
+        public List<AccommodationReservation> GetUnratedReservations(int ownerId)
         {
             List<AccommodationReservation> unratedReservations = new List<AccommodationReservation>();
 

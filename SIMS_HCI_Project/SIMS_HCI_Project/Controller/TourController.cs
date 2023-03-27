@@ -79,7 +79,7 @@ namespace SIMS_HCI_Project.Controller
             return _tours.Find(t => t.Id == id);
         }
 
-        public List<Tour> GetAllByGuideId(string id)
+        public List<Tour> GetAllByGuideId(int id)
         {
             return _tours.FindAll(t => t.GuideId == id);
         }

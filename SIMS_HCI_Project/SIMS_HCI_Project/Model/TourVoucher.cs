@@ -10,7 +10,7 @@ namespace SIMS_HCI_Project.Model
     public class TourVoucher : ISerializable
     {
         public int Id { get; set; }
-        public string GuestId { get; set; }
+        public int GuestId { get; set; }
         public Guest2 Guest { get; set; }
         //public string GuideId { get; set; } // specification unclear. This is optional? Guide Resign part unclear, mentiones Guide specific vouchers that aren't mentioned anywhere else
         //public Guide Guide { get; set; }
@@ -19,7 +19,7 @@ namespace SIMS_HCI_Project.Model
 
         public TourVoucher() { }
 
-        public TourVoucher(string guestId, DateTime aquiredDate, DateTime expirationDate)
+        public TourVoucher(int guestId, DateTime aquiredDate, DateTime expirationDate)
         {
             GuestId = guestId;
             AquiredDate = aquiredDate;
@@ -28,14 +28,14 @@ namespace SIMS_HCI_Project.Model
 
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), GuestId, AquiredDate.ToString(), ExpirationDate.ToString()};
+            string[] csvValues = { Id.ToString(), GuestId.ToString(), AquiredDate.ToString(), ExpirationDate.ToString()};
             return csvValues;
         }
 
         public void FromCSV(string[] values)
         {
             Id = Convert.ToInt32(values[0]);
-            GuestId = values[1];
+            GuestId = Convert.ToInt32(values[1]);
             AquiredDate = Convert.ToDateTime(values[2]);
             ExpirationDate = Convert.ToDateTime(values[3]);
         }

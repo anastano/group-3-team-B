@@ -26,7 +26,7 @@ namespace SIMS_HCI_Project.View
     /// </summary>
     public partial class OwnerUnratedReservationsView : Window, IObserver
     {
-        private string _ownerId;
+        private int _ownerId;
 
         private OwnerController _ownerController;
         private OwnerGuestRatingController _ownerGuestRatingController;
@@ -35,7 +35,7 @@ namespace SIMS_HCI_Project.View
 
         public AccommodationReservation SelectedReservation { get; set; }
 
-        public OwnerUnratedReservationsView(OwnerController ownerController, OwnerGuestRatingController ownerGuestRatingController, string ownerId)
+        public OwnerUnratedReservationsView(OwnerController ownerController, OwnerGuestRatingController ownerGuestRatingController, int ownerId)
         {
             InitializeComponent();
             DataContext = this;

@@ -25,6 +25,9 @@ namespace SIMS_HCI_Project.Model
             Id = user.Id;
             Password = user.Password;
             Username = user.Username;
+            Name = user.Name;
+            Surname = user.Surname;
+            Age = user.Age;
             TodaysTours = new ObservableCollection<TourTime>();
             Tours = new ObservableCollection<Tour>();
         }

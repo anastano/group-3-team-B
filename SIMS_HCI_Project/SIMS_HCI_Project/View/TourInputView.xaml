@@ -43,7 +43,7 @@
                  VerticalAlignment="Top" Width="144"/>
         <Label Content="Max number&#xD;&#xA; of guests" Margin="20,259,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
         <TextBox TextChanged="ButtonAvailableCheck" HorizontalAlignment="Left" Margin="113,267,0,0" TextWrapping="Wrap" 
-                 Text="{Binding Path=Tour.MaxGuests, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                 Text="{Binding Path=Tour.MaxGuests, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, Converter={cvt:StringToIntConverter}, ValidatesOnDataErrors=True}"
                  Validation.ErrorTemplate="{StaticResource ValidationTemplate}" 
                  VerticalAlignment="Top" Width="30" Height="25"/>
         <Label Content="Date" HorizontalAlignment="Left" Margin="361,85,0,0" VerticalAlignment="Top"/>
@@ -52,7 +52,7 @@
                     Validation.ErrorTemplate="{StaticResource ValidationTemplate}"/>
         <Label Content="Duration" HorizontalAlignment="Left" Margin="395,34,0,0" VerticalAlignment="Top"/>
         <TextBox TextChanged="ButtonAvailableCheck" HorizontalAlignment="Left" Margin="464,35,0,0" TextWrapping="Wrap" 
-                 Text="{Binding Path=Tour.Duration, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                 Text="{Binding Path=Tour.Duration, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged, Converter={cvt:StringToIntConverter}, ValidatesOnDataErrors=True}" 
                  Validation.ErrorTemplate="{StaticResource ValidationTemplate}" 
                  VerticalAlignment="Top" Width="30" Height="25" RenderTransformOrigin="0.333,0.042"/>
         <Label Content="h" HorizontalAlignment="Left" Margin="492,33,0,0" VerticalAlignment="Top"/>

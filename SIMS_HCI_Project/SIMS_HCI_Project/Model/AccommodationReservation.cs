@@ -13,7 +13,7 @@ namespace SIMS_HCI_Project.Model
     {
         public int Id { get; set; }
         public int AccommodationId { get; set; }
-        public string GuestId { get; set; }
+        public int GuestId { get; set; }
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
         public int GuestNumber { get; set; }
@@ -21,7 +21,7 @@ namespace SIMS_HCI_Project.Model
         
 
         public AccommodationReservation(){ }
-        public AccommodationReservation(int id, int accommodationId, string guestId, DateTime start, DateTime end, int guestNumber, ReservationStatus status)
+        public AccommodationReservation(int id, int accommodationId, int guestId, DateTime start, DateTime end, int guestNumber, ReservationStatus status)
         {
             Id = id;
             AccommodationId = accommodationId;
@@ -32,7 +32,7 @@ namespace SIMS_HCI_Project.Model
             Status = status;
         }
 
-        public AccommodationReservation(int accommodationId, string guestId, DateTime start, DateTime end, int guestNumber)
+        public AccommodationReservation(int accommodationId, int guestId, DateTime start, DateTime end, int guestNumber)
         {
             Id = -1;
             AccommodationId = accommodationId;
@@ -61,7 +61,7 @@ namespace SIMS_HCI_Project.Model
             {
                 Id.ToString(),
                 AccommodationId.ToString(),
-                GuestId,
+                GuestId.ToString(),
                 Start.ToString("MM/dd/yyyy"),
                 End.ToString("MM/dd/yyyy"),
                 GuestNumber.ToString(),
@@ -75,7 +75,7 @@ namespace SIMS_HCI_Project.Model
         {
             Id = int.Parse(values[0]);
             AccommodationId = int.Parse(values[1]);
-            GuestId = values[2];
+            GuestId = int.Parse(values[2]);
             Start = DateTime.ParseExact(values[3], "MM/dd/yyyy", null);
             End = DateTime.ParseExact(values[4], "MM/dd/yyyy", null);
             GuestNumber = int.Parse(values[5]);

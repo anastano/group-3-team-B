@@ -15,7 +15,7 @@ namespace SIMS_HCI_Project.Model
     public class Tour : ISerializable, IDataErrorInfo, INotifyPropertyChanged, INotifyCollectionChanged 
     {
         public int Id { get; set; }
-        public string GuideId { get; set; }
+        public int GuideId { get; set; }
         public Guide Guide { get; set; }
         public string Title { get; set; }
         public int LocationId { get; set; }
@@ -68,14 +68,14 @@ namespace SIMS_HCI_Project.Model
 
         public string[] ToCSV()     //anastaNOTE: add Available in csv or not?
         {
-            string[] csvValues = { Id.ToString(), GuideId, Title, LocationId.ToString(), Description, Language, MaxGuests.ToString(), string.Join(",", KeyPointsIds), Duration.ToString(), string.Join(",", Images)};
+            string[] csvValues = { Id.ToString(), GuideId.ToString(), Title, LocationId.ToString(), Description, Language, MaxGuests.ToString(), string.Join(",", KeyPointsIds), Duration.ToString(), string.Join(",", Images)};
             return csvValues;
         }
 
         public void FromCSV(string[] values)
         {
             Id = Convert.ToInt32(values[0]);
-            GuideId = values[1];
+            GuideId = Convert.ToInt32(values[1]);
             Title = values[2];
             LocationId = Convert.ToInt32(values[3]);
             Description = values[4];

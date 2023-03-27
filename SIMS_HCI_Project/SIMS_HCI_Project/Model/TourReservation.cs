@@ -14,7 +14,7 @@ namespace SIMS_HCI_Project.Model
         public TourTime TourTime { get; set; }
         public int TourTimeId { get; set; }
         public Guest2 Guest2 { get; set; }
-        public string Guest2Id { get; set; }
+        public int Guest2Id { get; set; }
         public int PartySize { get; set; }
         public TourReservationStatus Status { get; set; }
  //       public int VoucherUsedId { get; set; } // TODO: Connect with Voucher class later
@@ -23,7 +23,7 @@ namespace SIMS_HCI_Project.Model
         {
         }
 
-        public TourReservation(int tourTimeId, string guest2Id, int partySize)
+        public TourReservation(int tourTimeId, int guest2Id, int partySize)
         {
             TourTimeId = tourTimeId;
             Guest2Id = guest2Id;
@@ -52,7 +52,7 @@ namespace SIMS_HCI_Project.Model
         {
             Id = Convert.ToInt32(values[0]);
             TourTimeId = Convert.ToInt32(values[1]);
-            Guest2Id = values[2];
+            Guest2Id = Convert.ToInt32(values[2]);
             PartySize = Convert.ToInt32(values[3]);
             Enum.TryParse(values[4], out TourReservationStatus status);
             Status = status;

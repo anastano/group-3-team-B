@@ -89,7 +89,7 @@ namespace SIMS_HCI_Project.Model
 
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), TourId.ToString(), DepartureTime.ToString(), Status.ToString(), CurrentKeyPointIndex.ToString() };
+            string[] csvValues = { Id.ToString(), TourId.ToString(), DepartureTime.ToString("M/d/yyyy h:mm:ss tt"), Status.ToString(), CurrentKeyPointIndex.ToString() };
             return csvValues;
         }
 
@@ -97,7 +97,8 @@ namespace SIMS_HCI_Project.Model
         {
             Id = Convert.ToInt32(values[0]);
             TourId = Convert.ToInt32(values[1]);
-            DepartureTime = Convert.ToDateTime(values[2]);
+            //DepartureTime = Convert.ToDateTime(values[2]);
+            DepartureTime = DateTime.ParseExact(values[2], "M/d/yyyy h:mm:ss tt", null);
             Enum.TryParse(values[3], out TourStatus status);
             Status = status;
             CurrentKeyPointIndex = Convert.ToInt32(values[4]);

@@ -20,7 +20,7 @@ namespace SIMS_HCI_Project.View
     /// </summary>
     public partial class OwnerView : Window
     {
-        private string _ownerId;
+        private int _ownerId;
 
         private AccommodationController _accommodationController;
         private OwnerController _ownerController;
@@ -28,7 +28,7 @@ namespace SIMS_HCI_Project.View
         private AccommodationReservationController _reservationController;
         private OwnerGuestRatingController _ownerGuestRatingController;
 
-        public OwnerView(string ownerId)
+        public OwnerView(int ownerId)
         {
             InitializeComponent();
 

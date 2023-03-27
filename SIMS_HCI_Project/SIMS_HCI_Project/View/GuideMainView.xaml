@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.View"
         mc:Ignorable="d"
-        Title="GuideMainView" Height="600" Width="1000" WindowStartupLocation="CenterScreen">
+        Title="GuideMainView" Height="720" Width="1280" WindowStartupLocation="CenterScreen">
     <Grid>
         <Button x:Name="btnTourInput" Content="Create new tour" HorizontalAlignment="Left" Margin="93,22,0,0" VerticalAlignment="Top" Height="80" Width="128" Click="btnTourInput_Click"/>
         <Button x:Name="btnAllTours" Content="See all tours" HorizontalAlignment="Left" Margin="231,22,0,0" VerticalAlignment="Top" Height="80" Width="128" Click="btnAllTours_Click"/>
@@ -28,6 +28,7 @@
 
         </DataGrid>
         <Label Content="Today's tours" HorizontalAlignment="Left" Margin="23,120,0,0" VerticalAlignment="Top"/>
+        <Calendar HorizontalAlignment="Left" Margin="503,49,0,0" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

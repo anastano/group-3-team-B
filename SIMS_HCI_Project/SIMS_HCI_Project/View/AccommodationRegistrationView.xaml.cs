@@ -26,7 +26,7 @@ namespace SIMS_HCI_Project.View
     /// </summary>
     public partial class AccommodationRegistrationView : Window, INotifyPropertyChanged, IDataErrorInfo
     {
-        private string _ownerId;
+        private int _ownerId;
 
         public Accommodation Accommodation { get; set; }
         public Location Location { get; set; }
@@ -54,7 +54,7 @@ namespace SIMS_HCI_Project.View
         }
 
 
-        public AccommodationRegistrationView(AccommodationController accommodationController, string ownerId)
+        public AccommodationRegistrationView(AccommodationController accommodationController, int ownerId)
         {
             InitializeComponent();
             DataContext = this;

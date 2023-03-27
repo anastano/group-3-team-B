@@ -15,7 +15,7 @@ namespace SIMS_HCI_Project.Model
     public class GuestTourAttendance : ISerializable, INotifyPropertyChanged
     {
         public int Id { get; set; }
-        public string GuestId { get; set; }
+        public int GuestId { get; set; }
         //public Guest2 Guest { get; set; }
         public int TourTimeId { get; set; }
         public TourTime TourTime { get; set; }
@@ -40,7 +40,7 @@ namespace SIMS_HCI_Project.Model
 
         public GuestTourAttendance() { }
 
-        public GuestTourAttendance(string guestId, int tourTimeId)
+        public GuestTourAttendance(int guestId, int tourTimeId)
         {
             GuestId = guestId;
             TourTimeId = tourTimeId;
@@ -49,14 +49,14 @@ namespace SIMS_HCI_Project.Model
 
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), GuestId, TourTimeId.ToString(), Status.ToString(), KeyPointJoinedId.ToString()};
+            string[] csvValues = { Id.ToString(), GuestId.ToString(), TourTimeId.ToString(), Status.ToString(), KeyPointJoinedId.ToString()};
             return csvValues;
         }
 
         public void FromCSV(string[] values)
         {
             Id = Convert.ToInt32(values[0]);
-            GuestId = values[1];
+            GuestId = Convert.ToInt32(values[1]);
             TourTimeId = Convert.ToInt32(values[2]);
             Enum.TryParse(values[3], out AttendanceStatus status);
             Status = status;

@@ -31,7 +31,7 @@ namespace SIMS_HCI_Project.View
         private OwnerGuestRatingController _ratingController;
         
 
-        public GuestRatingView(OwnerGuestRatingController ratingController, AccommodationReservation reservation, string ownerId)
+        public GuestRatingView(OwnerGuestRatingController ratingController, AccommodationReservation reservation, int ownerId)
         {
             InitializeComponent();
             DataContext = this;

@@ -11,8 +11,8 @@ namespace SIMS_HCI_Project.Model
     public class OwnerGuestRating : ISerializable
     {
         public int Id { get; set; }
-        public string OwnerId { get; set; }
-        public string GuestId { get; set; }
+        public int OwnerId { get; set; }
+        public int GuestId { get; set; }
         public int ReservationId { get; set; }
 
         public int Cleanliness { get; set; }
@@ -24,7 +24,7 @@ namespace SIMS_HCI_Project.Model
             RuleCompliance = 5;
         }
 
-        public OwnerGuestRating(int id, string ownerId, string guestId, int reservationId, int cleanliness, int ruleCompliance, string additionalComment)
+        public OwnerGuestRating(int id, int ownerId, int guestId, int reservationId, int cleanliness, int ruleCompliance, string additionalComment)
         {
             Id = id;
             OwnerId = ownerId;
@@ -51,8 +51,8 @@ namespace SIMS_HCI_Project.Model
             string[] csvValues =
             {
                 Id.ToString(),
-                OwnerId,
-                GuestId,
+                OwnerId.ToString(),
+                GuestId.ToString(),
                 ReservationId.ToString(),
                 Cleanliness.ToString(),
                 RuleCompliance.ToString(),
@@ -65,8 +65,8 @@ namespace SIMS_HCI_Project.Model
         public void FromCSV(string[] values)
         {
             Id = int.Parse(values[0]);
-            OwnerId = values[1];
-            GuestId = values[2];
+            OwnerId = int.Parse(values[1]);
+            GuestId = int.Parse(values[2]);
             ReservationId = int.Parse(values[3]);
             Cleanliness = int.Parse(values[4]);
             RuleCompliance = int.Parse(values[5]);

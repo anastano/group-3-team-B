@@ -40,24 +40,22 @@ namespace SIMS_HCI_Project
             User user = _userController.LogIn(Username, Password);
             if (user != null)
             {
-                switch (user.Id[0])
+                switch (user.Role)
                 {
-                    case 'O':
-                        //TODO: Forward to owner view
+                    case UserRole.OWNER:
                         Window ownerView = new OwnerView(user.Id);
                         ownerView.Show();
                         break;
-                    case 'F':
-                        //TODO: Forward to guest1 view
+                    case UserRole.GUEST1:
                         win = new Guest1View(new Guest1(user.Id, user.Username, user.Password));
                         win.Show();
 
                         break;
-                    case 'S':
+                    case UserRole.GUEST2:
                         Window guest2View = new Guest2View(new Guest2(user.Id, user.Username, user.Password));
                         guest2View.Show();
                         break;
-                    case 'G':
+                    case UserRole.GUIDE:
                         Window guideWindow = new GuideMainView(new Guide(user));
                         guideWindow.Show();
                         break;

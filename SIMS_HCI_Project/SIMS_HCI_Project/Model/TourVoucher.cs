@@ -28,7 +28,7 @@ namespace SIMS_HCI_Project.Model
 
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), GuestId.ToString(), AquiredDate.ToString(), ExpirationDate.ToString()};
+            string[] csvValues = { Id.ToString(), GuestId.ToString(), AquiredDate.ToString("M/d/yyyy h:mm:ss tt"), ExpirationDate.ToString("M/d/yyyy h:mm:ss tt") };
             return csvValues;
         }
 
@@ -36,8 +36,9 @@ namespace SIMS_HCI_Project.Model
         {
             Id = Convert.ToInt32(values[0]);
             GuestId = Convert.ToInt32(values[1]);
-            AquiredDate = Convert.ToDateTime(values[2]);
-            ExpirationDate = Convert.ToDateTime(values[3]);
+            AquiredDate = DateTime.ParseExact(values[2], "M/d/yyyy h:mm:ss tt", null);
+            ExpirationDate = DateTime.ParseExact(values[3], "M/d/yyyy h:mm:ss tt", null);
+
         }
     }
 }

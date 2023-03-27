@@ -76,10 +76,8 @@ namespace SIMS_HCI_Project.Model
             Id = int.Parse(values[0]);
             AccommodationId = int.Parse(values[1]);
             GuestId = int.Parse(values[2]);
-            //Start = DateTime.ParseExact(values[3], "MM/dd/yyyy", null);
-            //End = DateTime.ParseExact(values[4], "MM/dd/yyyy", null);
-            Start = DateTime.Parse(values[3]);
-            End = DateTime.Parse(values[4]);
+            Start = DateTime.ParseExact(values[3], "MM/dd/yyyy", null);
+            End = DateTime.ParseExact(values[4], "MM/dd/yyyy", null);
             GuestNumber = int.Parse(values[5]);
             Enum.TryParse(values[6], out ReservationStatus status);
             Status = status;

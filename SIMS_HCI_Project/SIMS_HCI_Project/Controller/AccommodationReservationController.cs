@@ -85,9 +85,12 @@ namespace SIMS_HCI_Project.Controller
             // TO DO
         }
 
-        public void Edit(AccommodationReservation reservation)
+        public void EditStatus(int id, ReservationStatus status)
         {
-            // TO DO
+            AccommodationReservation reservation = _reservations.Find(r => r.Id == id);
+            reservation.Status = status;
+            Save();
+            NotifyObservers();
         }
 
         public AccommodationReservation FindById(int id)

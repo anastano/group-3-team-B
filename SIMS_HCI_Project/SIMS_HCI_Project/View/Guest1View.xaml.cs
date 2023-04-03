@@ -28,8 +28,7 @@ namespace SIMS_HCI_Project.View
         private AccommodationReservationController _accommodationReservationController;
         public ObservableCollection<AccommodationReservation> UpcomingReservations { get; set; }
         public ObservableCollection<AccommodationReservation> CompletedReservations { get; set; }
-        public AccommodationReservation SelectedReservation;
-        public ICommand MyCommand { get; }
+        public AccommodationReservation SelectedReservation { get; set; }
         public Guest1View(Guest1 guest)
         {
             InitializeComponent();
@@ -51,14 +50,24 @@ namespace SIMS_HCI_Project.View
             Window win = new AccommodationSearchView(_accommodationReservationController, Guest);
             win.Show();
         }
-        private void btnCancelation_Click(object sender, RoutedEventArgs e)
+        private void btnCancellation_Click(object sender, RoutedEventArgs e)
         {
-            
+            MessageBoxResult result = ConfirmCancellation();
+            if (result == MessageBoxResult.Yes)
+            {
+                _accommodationReservationController.EditStatus(SelectedReservation.Id, ReservationStatus.CANCELLED);
+            }
         }
-        public bool CanExecuteMyCommand()
+        private MessageBoxResult ConfirmCancellation()
         {
-            // Add your logic here to determine whether the button should be enabled
-            return true;
+            string sMessageBoxText = $"This reservation will be cancelled, are you sure?";
+            string sCaption = "Cancellation Confirm";
+
+            MessageBoxButton btnMessageBox = MessageBoxButton.YesNo;
+            MessageBoxImage icnMessageBox = MessageBoxImage.Warning;
+
+            MessageBoxResult result = MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox, icnMessageBox);
+            return result;
         }
         public void Update()
         {

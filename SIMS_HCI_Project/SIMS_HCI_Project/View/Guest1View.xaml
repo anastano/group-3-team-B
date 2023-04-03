@@ -5,15 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.View" xmlns:local1="clr-namespace:SIMS_HCI_Project.View.Converters"
         mc:Ignorable="d"
-        Title="Gues1View" Height="450" Width="850" WindowStartupLocation="CenterScreen" Background="LightPink">
+        Title="Gues1View" Height="768" Width="1024" WindowStartupLocation="CenterScreen" Background="LightPink">
     <Grid>
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,360">
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,678">
             <TextBlock HorizontalAlignment="Left" Height="35" Margin="300,20,90,0" TextWrapping="Wrap" Text="My reservations" VerticalAlignment="Top" Width="113" FontSize="16"/>
-            <Button Content="Search and Reserve" Height="35" Width="150" Click="btnSearch_Click" FontSize="14" Margin="0, 0, 0, 0"/>
+            <Button Content="Search and Reserve" Height="35" Width="150" Click="btnSearch_Click" FontSize="14" Margin="30, 0, 0,0"/>
         </StackPanel>
-        <StackPanel Orientation="Vertical" Margin="0,79,425,0">
+        <StackPanel Orientation="Vertical" Margin="0,79,485,0">
             <TextBlock Text="Upcoming Reservations" TextAlignment="Center" Margin="0,0,0,0"/>
-            <DataGrid ItemsSource="{Binding Path=UpcomingReservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,0" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid ItemsSource="{Binding Path=UpcomingReservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,0" AutoGenerateColumns="False" IsReadOnly="True"
+                      SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Accommodation" Binding="{Binding AccommodationId}" Width="SizeToHeader"></DataGridTextColumn>
                     <DataGridTextColumn Header="Start" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="SizeToCells"></DataGridTextColumn>
@@ -23,7 +24,7 @@
                     <DataGridTemplateColumn Header="Cancellation" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="Cancellation">
+                                <Button Content="Cancellation" Click="btnCancellation_Click">
                                     <Button.Visibility>
                                         <MultiBinding Converter="{local1:ButtonToEnabledConverter}">
                                             <Binding Path="Accommodation.CancellationDeadlineInDays" />
@@ -37,7 +38,7 @@
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
-        <StackPanel Orientation="Vertical" Margin="425,79,0,0">
+        <StackPanel Orientation="Vertical" Margin="539,79,0,0">
             <TextBlock Text="Completed Reservations" TextAlignment="Center" Margin="0,0,0,0"/>
             <DataGrid ItemsSource="{Binding Path=CompletedReservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,0" AutoGenerateColumns="False" IsReadOnly="True">
                 <DataGrid.Columns>

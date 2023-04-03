@@ -26,6 +26,7 @@ namespace SIMS_HCI_Project.View
         public Guest1 Guest { get; set; }
         private AccommodationController _accommodationController;
         private AccommodationReservationController _accommodationReservationController;
+        private NotificationController _notificationController;
         public ObservableCollection<AccommodationReservation> UpcomingReservations { get; set; }
         public ObservableCollection<AccommodationReservation> CompletedReservations { get; set; }
         public AccommodationReservation SelectedReservation { get; set; }
@@ -37,6 +38,8 @@ namespace SIMS_HCI_Project.View
             _accommodationController.Load();
             _accommodationReservationController = new AccommodationReservationController();
             _accommodationReservationController.Load();
+            _notificationController = new NotificationController();
+            _notificationController.Load();
             _accommodationReservationController.ConnectAccommodationsWithReservations(_accommodationController);
             _accommodationReservationController.Subscribe(this);
 
@@ -55,7 +58,9 @@ namespace SIMS_HCI_Project.View
             MessageBoxResult result = ConfirmCancellation();
             if (result == MessageBoxResult.Yes)
             {
-                _accommodationReservationController.EditStatus(SelectedReservation.Id, ReservationStatus.CANCELLED);
+                String Message = "Reservation for " + SelectedReservation.Accommodation.Name + " with id: " + SelectedReservation.Id + " has been cancelled";
+                _notificationController.Add(new Notification(Message, SelectedReservation.Accommodation.OwnerId, false));
+                _accommodationReservationController.EditStatus(SelectedReservation.Id, ReservationStatus.CANCELLED);  
             }
         }
         private MessageBoxResult ConfirmCancellation()

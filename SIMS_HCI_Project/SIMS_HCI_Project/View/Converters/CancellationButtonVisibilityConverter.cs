@@ -11,9 +11,9 @@ using System.Windows.Markup;
 
 namespace SIMS_HCI_Project.View.Converters
 {
-    public class ButtonToEnabledConverter : MarkupExtension, IMultiValueConverter
+    public class CancellationButtonVisibilityConverter : MarkupExtension, IMultiValueConverter
     {
-        public ButtonToEnabledConverter() { }
+        public CancellationButtonVisibilityConverter() { }
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             int deadline = (int)values[0];

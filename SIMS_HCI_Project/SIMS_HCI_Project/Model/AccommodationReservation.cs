@@ -8,7 +8,7 @@ using SIMS_HCI_Project.Serializer;
 
 namespace SIMS_HCI_Project.Model
 {
-    public enum ReservationStatus { RESERVED, CANCELLED, RESCHEDULED, COMPLETED };
+    public enum AccommodationReservationStatus { RESERVED, CANCELLED, RESCHEDULED, COMPLETED };
     public class AccommodationReservation : ISerializable
     {
         public int Id { get; set; }
@@ -19,11 +19,11 @@ namespace SIMS_HCI_Project.Model
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
         public int GuestNumber { get; set; }
-        public ReservationStatus Status { get; set; }
+        public AccommodationReservationStatus Status { get; set; }
         
 
         public AccommodationReservation(){ }
-        public AccommodationReservation(int id, int accommodationId, int guestId, DateTime start, DateTime end, int guestNumber, ReservationStatus status)
+        public AccommodationReservation(int id, int accommodationId, int guestId, DateTime start, DateTime end, int guestNumber, AccommodationReservationStatus status)
         {
             Id = id;
             AccommodationId = accommodationId;
@@ -42,7 +42,7 @@ namespace SIMS_HCI_Project.Model
             Start = start;
             End = end;
             GuestNumber = guestNumber;
-            Status = ReservationStatus.RESERVED;
+            Status = AccommodationReservationStatus.RESERVED;
         }
 
         public AccommodationReservation(AccommodationReservation temp)
@@ -81,7 +81,7 @@ namespace SIMS_HCI_Project.Model
             Start = DateTime.ParseExact(values[3], "MM/dd/yyyy", null);
             End = DateTime.ParseExact(values[4], "MM/dd/yyyy", null);
             GuestNumber = int.Parse(values[5]);
-            Enum.TryParse(values[6], out ReservationStatus status);
+            Enum.TryParse(values[6], out AccommodationReservationStatus status);
             Status = status;
 
         }

@@ -45,8 +45,8 @@ namespace SIMS_HCI_Project.View
 
             Guest = guest;
             Guest.Reservations = new ObservableCollection<AccommodationReservation>(_accommodationReservationController.GetAllByGuestId(guest.Id));
-;           UpcomingReservations = new ObservableCollection<AccommodationReservation>(_accommodationReservationController.GetAllByStatusAndGuestId(guest.Id, ReservationStatus.RESERVED));
-;           CompletedReservations = new ObservableCollection<AccommodationReservation>(_accommodationReservationController.GetAllByStatusAndGuestId(guest.Id, ReservationStatus.COMPLETED));
+;           UpcomingReservations = new ObservableCollection<AccommodationReservation>(_accommodationReservationController.GetAllByStatusAndGuestId(guest.Id, AccommodationReservationStatus.RESERVED));
+;           CompletedReservations = new ObservableCollection<AccommodationReservation>(_accommodationReservationController.GetAllByStatusAndGuestId(guest.Id, AccommodationReservationStatus.COMPLETED));
         }
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
@@ -60,8 +60,13 @@ namespace SIMS_HCI_Project.View
             {
                 String Message = "Reservation for " + SelectedReservation.Accommodation.Name + " with id: " + SelectedReservation.Id + " has been cancelled";
                 _notificationController.Add(new Notification(Message, SelectedReservation.Accommodation.OwnerId, false));
-                _accommodationReservationController.EditStatus(SelectedReservation.Id, ReservationStatus.CANCELLED);  
+                _accommodationReservationController.EditStatus(SelectedReservation.Id, AccommodationReservationStatus.CANCELLED);  
             }
+        }
+        private void btnReschedule_Click(object sender, RoutedEventArgs e)
+        {
+            Window win = new ReservationRescheduleView(_accommodationReservationController, SelectedReservation, Guest);
+            win.Show();
         }
         private MessageBoxResult ConfirmCancellation()
         {
@@ -77,12 +82,12 @@ namespace SIMS_HCI_Project.View
         public void Update()
         {
             CompletedReservations.Clear();
-            foreach (var completedReservation in _accommodationReservationController.GetAllByStatusAndGuestId(Guest.Id, ReservationStatus.COMPLETED))
+            foreach (var completedReservation in _accommodationReservationController.GetAllByStatusAndGuestId(Guest.Id, AccommodationReservationStatus.COMPLETED))
             {
                 CompletedReservations.Add(completedReservation);
             }
             UpcomingReservations.Clear();
-            foreach (var upcomingReservation in _accommodationReservationController.GetAllByStatusAndGuestId(Guest.Id, ReservationStatus.RESERVED))
+            foreach (var upcomingReservation in _accommodationReservationController.GetAllByStatusAndGuestId(Guest.Id, AccommodationReservationStatus.RESERVED))
             {
                 UpcomingReservations.Add(upcomingReservation);
             }

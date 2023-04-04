@@ -35,9 +35,9 @@ namespace SIMS_HCI_Project.Controller
         {
             foreach(var reservation in _reservations)
             {
-                if(reservation.End < currentDate && reservation.Status == ReservationStatus.RESERVED)
+                if(reservation.End < currentDate && reservation.Status == AccommodationReservationStatus.RESERVED)
                 {
-                    reservation.Status = ReservationStatus.COMPLETED;
+                    reservation.Status = AccommodationReservationStatus.COMPLETED;
                 }
             }
             Save();
@@ -46,19 +46,14 @@ namespace SIMS_HCI_Project.Controller
         {
             return _reservations;
         }
-
-
         public void Load()
         {
             _reservations = _fileHandler.Load();
         }
-
-
         public void Save()
         {
             _fileHandler.Save(_reservations);
         }
-
         public int GenerateId()
         {
             if (_reservations.Count == 0)
@@ -66,10 +61,7 @@ namespace SIMS_HCI_Project.Controller
                 return 1;
             }
             return _reservations[_reservations.Count - 1].Id + 1;
-
         }
-
-
         public void Add(Accommodation accommodation, AccommodationReservation reservation, Guest1 guest)
         {
             reservation.Id = GenerateId();
@@ -79,20 +71,17 @@ namespace SIMS_HCI_Project.Controller
             Save();
             NotifyObservers();
         }
-
         public void Remove(AccommodationReservation reservation)
         {
             // TO DO
         }
-
-        public void EditStatus(int id, ReservationStatus status)
+        public void EditStatus(int id, AccommodationReservationStatus status)
         {
             AccommodationReservation reservation = _reservations.Find(r => r.Id == id);
             reservation.Status = status;
             Save();
             NotifyObservers();
         }
-
         public AccommodationReservation FindById(int id)
         {
             return _reservations.Find(r => r.Id == id);
@@ -101,7 +90,7 @@ namespace SIMS_HCI_Project.Controller
         {
             return _reservations.FindAll(g => g.GuestId == id);
         }
-        public List<AccommodationReservation> GetAllByStatusAndGuestId(int id, ReservationStatus status)
+        public List<AccommodationReservation> GetAllByStatusAndGuestId(int id, AccommodationReservationStatus status)
         {
             return _reservations.FindAll(g => g.GuestId == id && g.Status==status);
         }
@@ -116,7 +105,6 @@ namespace SIMS_HCI_Project.Controller
                 observer.Update();
             }
         }
-
         public void Subscribe(IObserver observer)
         {
             _observers.Add(observer);

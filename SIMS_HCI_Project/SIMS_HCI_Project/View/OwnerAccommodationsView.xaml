@@ -5,50 +5,149 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.View"
         mc:Ignorable="d"
-        Title="OwnerAccommodationsView" Height="500" Width="900" WindowStartupLocation="CenterScreen">
-    <Grid>
-        <Grid Background="Turquoise">
+        Title="OwnerAccommodationsView" Height="700" Width="1000" WindowStartupLocation="CenterScreen"
+        KeyDown="Window_KeyDown">
+    <Window.Resources>
+        <Style x:Key="fancyButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="220"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="Margin" Value="5 5 5 5"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Foreground" Value="Azure"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="15"
+                                    Background="Turquoise"
+                                    BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"></ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Style.Triggers>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect Color="LightBlue" Opacity="50" ShadowDepth="10"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="fancyTitle" TargetType="TextBlock">
+            <Setter Property="Height" Value="40"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="FontSize" Value="30"></Setter>
+            <Setter Property="Foreground" Value="Turquoise"></Setter>
+            <Setter Property="TextAlignment" Value="Center"></Setter>
+            <Setter Property="Margin" Value="0 0 0 5"></Setter>
+        </Style>
 
-            <StackPanel Margin="20">
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="Azure"/>
+            <Setter Property="ColumnHeaderHeight" Value="30"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+        
+        <Style TargetType="DataGridCell">
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="Azure" />
+                    <Setter Property="Background" Value="Turquoise" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
 
-                <TextBlock x:Name="tblAccommodations" Text="Your accommodations:" 
-                       Width="400" Height="50" VerticalAlignment="Center" Foreground="Azure" FontSize="30" TextAlignment="Center">
+        <Style x:Key="fencyBorder" TargetType="Border">
+            <Setter Property="BorderBrush" Value="Turquoise"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="CornerRadius" Value="15"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid Background="Azure">
+        <!-- GLAVNI STACK PANEL-->
+        <StackPanel Orientation="Vertical" Margin="10 5 10 5">
+            <!--GORNJI STACK PANEL - Options-->
+            <StackPanel Margin="5 5 5 5">
+                <TextBlock x:Name="tblOptions" Text="Options" 
+                       Style="{StaticResource ResourceKey=fancyTitle}">
                 </TextBlock>
+                <Border Style="{StaticResource ResourceKey=fencyBorder}">
+                    <!-- Buttons STACK PANEL-->
+                    <StackPanel  Margin="5 5 5 5" Orientation="Horizontal">
+                        <Button x:Name="btnAddAccommodation"  Content="         Add New &#xa;Accommodation (Ctrl+A)" Click="btnAddAccommodation_Click"
+                            Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                        </Button>
+                        <Button x:Name="btnDeleteAccommodation"  Content="    Delete Selected &#xa;Accommodation (Ctrl+D)" Click="btnDeleteAccommodation_Click"
+                            Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                        </Button>
+                        <Button x:Name="btnShowImages"  Content="Show Images (Ctrl+S)" Click="btnShowImages_Click"
+                            Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                        </Button>
+                        <Button x:Name="btnClose"  Content="Close (Esc)" Click="btnClose_Click"
+                            Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                        </Button>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+            <!-- SREDNJI STACK PANEL-->
+            <StackPanel Margin="5 0 5 0">
 
-                
-                    <Grid Height="350">
-                    
+                <TextBlock x:Name="tblAccommodations" Text="My accommodations" 
+                           Style="{StaticResource ResourceKey=fancyTitle}">
+                </TextBlock>
+                <Border Style="{StaticResource ResourceKey=fencyBorder}">
+                    <!-- DataGrid STACKPANEL-->
+                    <StackPanel Margin="0 0 0 0">
                         <DataGrid x:Name = "dgAccommodation" AutoGenerateColumns="False" ItemsSource="{Binding Path=Accommodations, UpdateSourceTrigger=PropertyChanged}" 
-                                  SelectedItem="{Binding Path=SelectedAccommodation, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"
-                                  Background="Azure">
-                            
-                        <DataGrid.CellStyle>
-                            <Style TargetType="DataGridCell">
-                                <Style.Triggers>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter Property="Foreground" Value="White" />
-                                        <Setter Property="Background" Value="Turquoise" />
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </DataGrid.CellStyle>
-                            
-                        <DataGrid.Columns>
+                                      SelectedItem="{Binding Path=SelectedAccommodation, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Focusable="True"
+                                      Background="Azure" Width="930" Height="380" Margin="10 10 10 10" CanUserSortColumns="True" SelectionMode="Single" IsTabStop="False">
+
+                            <DataGrid.Columns>
                                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="*"></DataGridTextColumn>
                                 <DataGridTextColumn Header="Owner Id" Binding="{Binding OwnerId}" Width="*"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="2*"></DataGridTextColumn>
-                            <DataGridTextColumn Header="City" Binding="{Binding Location.City}" Width="*"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Country" Binding="{Binding Location.Country}" Width="*"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="2*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="City" Binding="{Binding Location.City}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Country" Binding="{Binding Location.Country}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="*"></DataGridTextColumn>
                                 <DataGridTextColumn Header="Max guests" Binding="{Binding MaxGuests}" Width="*"></DataGridTextColumn>
                                 <DataGridTextColumn Header="Min days" Binding="{Binding MinimumReservationDays}" Width="*"></DataGridTextColumn>
                                 <DataGridTextColumn Header="Cancellation dead line" Binding="{Binding CancellationDeadlineInDays}" Width="2*"></DataGridTextColumn>
                             </DataGrid.Columns>
-             
+
                         </DataGrid>
-                    </Grid>
-                
+                    </StackPanel>
+                </Border>
             </StackPanel>
-        </Grid>
+            <!--DONJI STACK PANEL-->
+            <StackPanel  Margin="5 0 5 0" HorizontalAlignment="Right">
+                <TextBlock x:Name="tblSort" Text=" Sort by selected column" FontSize="16" Foreground="Turquoise" Margin="0 0 0 0">
+                </TextBlock>
+
+                <Border Style="{StaticResource ResourceKey=fencyBorder}">
+                    <!-- Sort STACK PANEL-->
+                    <StackPanel  Margin="5 5 5 5" Orientation="Horizontal">
+
+                        <Button x:Name="btnDescening"  Content="DESCENDING (Ctrl+Down)" 
+                            Style="{StaticResource ResourceKey=fancyButtonStyle}" Width="200" Height="35">
+                        </Button>
+                        <Button x:Name="btnAscending"  Content="ASCENDING (Ctrl+Up)" 
+                            Style="{StaticResource ResourceKey=fancyButtonStyle}" Width="200" Height="35">
+                        </Button>
+
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+        </StackPanel>
     </Grid>
 </Window>

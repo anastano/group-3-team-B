@@ -16,6 +16,8 @@ namespace SIMS_HCI_Project.Controller
 
         private static List<OwnerGuestRating> _ratings;
 
+        private readonly OwnerController _ownerController;
+
         public OwnerGuestRatingController()
         {
             if (_ratings == null)
@@ -26,6 +28,8 @@ namespace SIMS_HCI_Project.Controller
             _fileHandler = new OwnerGuestRatingFileHandler();
             _observers = new List<IObserver>();
 
+            _ownerController = new OwnerController();
+
         }
 
         public List<OwnerGuestRating> GetAll()
@@ -33,12 +37,10 @@ namespace SIMS_HCI_Project.Controller
             return _ratings;
         }
 
-
         public void Load()
         {
             _ratings = _fileHandler.Load();
         }
-
 
         public void Save()
         {
@@ -55,7 +57,6 @@ namespace SIMS_HCI_Project.Controller
 
         }
 
-
         public void Add(OwnerGuestRating rating)
         {
             rating.Id = GenerateId();
@@ -65,19 +66,42 @@ namespace SIMS_HCI_Project.Controller
 
         }
 
-        public void Remove(OwnerGuestRating rating)
-        {
-            // TO DO
-        }
-
-        public void Edit(OwnerGuestRating rating)
-        {
-            // TO DO
-        }
-
         public OwnerGuestRating FindById(int id)
         {
             return _ratings.Find(r => r.Id == id);
+        }
+
+        public List<AccommodationReservation> GetUnratedReservations(int ownerId)
+        {
+            List<AccommodationReservation> unratedReservations = new List<AccommodationReservation>();
+
+            foreach (AccommodationReservation reservation in _ownerController.FindById(ownerId).Reservations)
+            {
+                if (IsCompleted(reservation) && IsWithinFiveDaysAfterCheckout(reservation) && !IsRated(reservation))
+                {
+                    unratedReservations.Add(reservation);
+                }
+            }
+            return unratedReservations;
+        }
+
+        public bool IsCompleted(AccommodationReservation reservation)
+        {
+            return reservation.Status == ReservationStatus.COMPLETED;
+        }
+
+        public bool IsWithinFiveDaysAfterCheckout(AccommodationReservation reservation)
+        {
+            return DateTime.Today <= reservation.End.AddDays(5);
+        }
+
+        public bool IsRated(AccommodationReservation reservation)
+        {
+            if (_ratings.Find(r => r.ReservationId == reservation.Id) != null)
+            {
+                return true;
+            }
+            return false;
         }
 
         public void NotifyObservers()

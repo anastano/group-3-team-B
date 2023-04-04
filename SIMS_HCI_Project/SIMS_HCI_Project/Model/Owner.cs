@@ -28,13 +28,16 @@ namespace SIMS_HCI_Project.Model
             Reservations= new List<AccommodationReservation>();
         }
 
-        public Owner(Owner temp)
+        public Owner(User user)
         {
-            Id = temp.Id;
-            Username = temp.Username;    
-            Password = temp.Password;
-            Accommodations = new List<Accommodation>(temp.Accommodations);
-            Reservations = new List<AccommodationReservation>(temp.Reservations);
+            Id = user.Id;
+            Password = user.Password;
+            Username = user.Username;
+            Name = user.Name;
+            Surname = user.Surname;
+            Age = user.Age;
+            Accommodations = new List<Accommodation>();
+            Reservations = new List<AccommodationReservation>();
         }
         // inherited ToCSV and FromCSV
     }

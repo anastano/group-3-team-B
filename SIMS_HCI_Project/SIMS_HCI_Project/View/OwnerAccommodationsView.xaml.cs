@@ -23,33 +23,100 @@ namespace SIMS_HCI_Project.View
     /// </summary>
     public partial class OwnerAccommodationsView : Window, IObserver
     {
-        private int _ownerId;
+        public Owner Owner { get; set; }
 
         private AccommodationController _accommodationController;
         private OwnerController _ownerController;
 
         public ObservableCollection<Accommodation> Accommodations { get; set; }
-
         public Accommodation SelectedAccommodation { get; set; }
 
-        public OwnerAccommodationsView(AccommodationController accommodationController, OwnerController ownerController, int ownerId)
+        public OwnerAccommodationsView(AccommodationController accommodationController, OwnerController ownerController, Owner owner)
         {
             InitializeComponent();
             DataContext = this;
 
-            _ownerId = ownerId;
+            Owner = owner;
 
             _accommodationController = accommodationController;
             _ownerController = ownerController;
 
-            Accommodations = new ObservableCollection<Accommodation>(_ownerController.GetAccommodations(_ownerId));
+            Accommodations = new ObservableCollection<Accommodation>(_ownerController.FindById(Owner.Id).Accommodations);
 
-            _accommodationController.Subscribe(this); //its method Add contains adding accommodation to owner accommodation list
+            _accommodationController.Subscribe(this);
         }
 
         public void Update()
         {
-
+            UpdateAccommodations();
         }
+
+        public void UpdateAccommodations()
+        {          
+            Accommodations.Clear();
+            foreach (Accommodation accommodation in _ownerController.FindById(Owner.Id).Accommodations)
+            {
+                Accommodations.Add(accommodation);
+            }
+        }
+
+        private void btnAddAccommodation_Click(object sender, RoutedEventArgs e)
+        {
+            Window accommodationRegistration = new AccommodationRegistrationView(_accommodationController, Owner);
+            accommodationRegistration.Show();
+        }
+
+        private void btnDeleteAccommodation_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedAccommodation != null)
+            {
+                MessageBoxResult confirmationResult = ConfirmAccommodationDeletion();
+
+                if (confirmationResult == MessageBoxResult.Yes)
+                {
+                    _accommodationController.Remove(SelectedAccommodation);
+                }
+            }
+        }
+
+        private MessageBoxResult ConfirmAccommodationDeletion() { 
+        
+            string sMessageBoxText = $"Are you sure you want to delete accommodation '{SelectedAccommodation.Name}'?";
+            string sCaption = "Confirmation";
+
+            MessageBoxButton btnMessageBox = MessageBoxButton.YesNo;
+            MessageBoxImage icnMessageBox = MessageBoxImage.Question;
+
+            MessageBoxResult result = MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox, icnMessageBox);
+            return result;
+        }
+
+        private void btnShowImages_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedAccommodation != null)
+            {
+                Window accommodationImages = new OwnerAccommodationImagesView(_accommodationController, SelectedAccommodation);
+                accommodationImages.Show();
+            }
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.A))
+                btnAddAccommodation_Click(sender, e);
+            else if (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.D))
+                btnDeleteAccommodation_Click(sender, e);
+            else if (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.S))
+                btnShowImages_Click(sender, e);
+            else if (Keyboard.IsKeyDown(Key.Escape))
+                btnClose_Click(sender, e);
+        }
+
+
     }
 }

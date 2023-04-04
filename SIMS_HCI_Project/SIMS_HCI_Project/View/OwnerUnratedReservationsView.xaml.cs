@@ -45,7 +45,7 @@ namespace SIMS_HCI_Project.View
             _ownerController = ownerController;
             _ownerGuestRatingController = ownerGuestRatingController;
 
-            UnratedReservations = new ObservableCollection<AccommodationReservation>(_ownerController.GetUnratedReservations(_ownerId));
+            UnratedReservations = new ObservableCollection<AccommodationReservation>(_ownerGuestRatingController.GetUnratedReservations(_ownerId));
 
             _ownerGuestRatingController.Subscribe(this);
 
@@ -59,18 +59,35 @@ namespace SIMS_HCI_Project.View
         public void UpdateUnratedReservations()
         {
             UnratedReservations.Clear();
-            foreach (AccommodationReservation reservation in _ownerController.GetUnratedReservations(_ownerId))
+            foreach (AccommodationReservation reservation in _ownerGuestRatingController.GetUnratedReservations(_ownerId))
             {
                 UnratedReservations.Add(reservation);
             }
 
         }
 
-        private void btnRate_Click(object sender, RoutedEventArgs e)
+        private void btnRateSelectedGuest_Click(object sender, RoutedEventArgs e)
         {
-             Window ratingWindow = new GuestRatingView(_ownerGuestRatingController, SelectedReservation, _ownerId);
-             ratingWindow.Show();
-
+            if (SelectedReservation != null)
+            {
+                Window ratingWindow = new GuestRatingView(_ownerGuestRatingController, SelectedReservation, _ownerId);
+                ratingWindow.Show();
+            }
         }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.R))
+                btnRateSelectedGuest_Click(sender, e);
+            else if (Keyboard.IsKeyDown(Key.Escape))
+                btnClose_Click(sender, e);
+        }
+
+ 
     }
 }

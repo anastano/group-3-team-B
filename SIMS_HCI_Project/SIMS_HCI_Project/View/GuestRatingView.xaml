@@ -5,112 +5,137 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.View"
         mc:Ignorable="d"
-        Title="GuestRatingView" Height="600" Width="650" WindowStartupLocation="CenterScreen">
+        Title="GuestRatingView" Height="450" Width="600" WindowStartupLocation="CenterScreen"
+        KeyDown="Window_KeyDown">
+    <Window.Resources>
+        
+        <Style x:Key="fansyTitle" TargetType="TextBlock">
+            <Setter Property="Height" Value="40"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="FontSize" Value="30"></Setter>
+            <Setter Property="Foreground" Value="Turquoise"></Setter>
+            <Setter Property="TextAlignment" Value="Center"></Setter>
+            <Setter Property="Margin" Value="0 0 0 5"></Setter>
+        </Style>
+
+        <Style x:Key="fancyButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="Margin" Value="10 10 10 10"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Foreground" Value="Azure"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="15"
+                                Background="Turquoise"
+                                BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"></ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Style.Triggers>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect Color="LightBlue" Opacity="50" ShadowDepth="10"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="BorderBrush" Value="Turquoise"/>
+            <Setter Property="TextAlignment" Value ="Center"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="0 0 0 0"/>
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="16"></Setter>
+            <Setter Property="Foreground" Value="Turquoise"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Margin" Value="10 0 0 0"/>
+        </Style>
+
+        <Style x:Key="fencyBorder" TargetType="Border">
+            <Setter Property="BorderBrush" Value="Turquoise"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="CornerRadius" Value="15"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
+    </Window.Resources>
     <Grid Background="Azure">
         <StackPanel>
 
-            <TextBlock x:Name="tblWelcome" Text="Rate your guest!" 
-                       Width="400" Height="50" VerticalAlignment="Center" Foreground="Turquoise" FontSize="35" TextAlignment="Center" Margin="0 30 0 30 ">
+            <TextBlock x:Name="tblWelcome" Text="Rate Guest" 
+                       Style="{StaticResource ResourceKey=fansyTitle}">
             </TextBlock>
 
-            <Border VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="Turquoise" BorderThickness="2" CornerRadius="15">
-                <Grid Width="550" Height="300" Margin="10 10 10 10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="2*" />
-                    </Grid.RowDefinitions>
+            <Border Style="{StaticResource ResourceKey=fencyBorder}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 
-                    <Label Content="Cleanliness: " Grid.Row="0" Grid.Column="0" Height="40" Foreground="Turquoise" FontSize="20"></Label>
-                    <Label Content="Rules following : " Grid.Row="1" Grid.Column="0" Height="40" Foreground="Turquoise" FontSize="20"></Label>
-                    <Label Content="Additional comment: " Grid.Row="2" Grid.Column="0" Height="40" Foreground="Turquoise" FontSize="20"></Label>
+                        <Label Content="Guest: " Grid.Row="0" Grid.Column="0" FontSize="20" FontWeight="Bold"></Label>
 
-
-
-                    <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center">
-                        <TextBox x:Name="txtCleanliness"  IsReadOnly="True"
-                             Text="{Binding Path = Rating.Cleanliness, UpdateSourceTrigger = PropertyChanged}"
-                             Width="100" Height="40" HorizontalAlignment="Left" Margin="15 0 0 0" BorderBrush="Turquoise" TextAlignment="Center" FontSize="20">
-                            <TextBox.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="10"></Setter>
-                                </Style>
-                            </TextBox.Resources>
-                        </TextBox>
-                        <Button x:Name="btnPlusCleanliness" Click="btnPlusCleanliness_Click"  Content="+" Width="50" Height="50" 
-                                    Margin="20 0 0 0" Background="Turquoise" Foreground="Azure" FontSize="30">
-                            <Button.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="10"></Setter>
-                                </Style>
-                            </Button.Resources>
-                        </Button>
-
-                        <Button x:Name="btnMinusCleanliness" Click="btnMinusCleanliness_Click"  Content="-" Width="50" Height="50" 
-                                    Margin="20 0 0 0" Background="Turquoise" Foreground="Azure" FontSize="30">
-                            <Button.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="10"></Setter>
-                                </Style>
-                            </Button.Resources>
-                        </Button>
-
+                        <TextBlock x:Name="tblGuestFullName" Grid.Row="0" Grid.Column="1"
+                             Text="{Binding Path = Rating.GuestId, UpdateSourceTrigger = PropertyChanged}"
+                             FontSize="20" FontWeight="Bold" Foreground="Turquoise" Height="35" Margin="10 10 0 0">
+                        </TextBlock>
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
-                        <TextBox x:Name="txtRuleCompliance"  IsReadOnly="True"
-                             Text="{Binding Path = Rating.RuleCompliance, UpdateSourceTrigger = PropertyChanged}"
-                             Width="100" Height="40" HorizontalAlignment="Left" Margin="15 0 0 0" BorderBrush="Turquoise" TextAlignment="Center" FontSize="20">
-                            <TextBox.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="10"></Setter>
-                                </Style>
-                            </TextBox.Resources>
+                    <Grid Width="500" Height="220" Margin="10 10 10 10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="1.5*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="2*" />
+                        </Grid.RowDefinitions>
+
+                        <Label Content="Cleanliness (1-5): " Grid.Row="0" Grid.Column="0"></Label>
+                        <Label Content="Rules following (1-5): " Grid.Row="1" Grid.Column="0"></Label>
+                        <Label Content="Additional comment: " Grid.Row="2" Grid.Column="0" ></Label>
+
+                        <TextBox x:Name="txtCleanliness" Grid.Row="0" Grid.Column="1"
+                             Text="{Binding Path = Rating.Cleanliness, UpdateSourceTrigger = PropertyChanged}">
                         </TextBox>
-                        <Button x:Name="btnPlusRuleCompliance" Click="btnPlusRuleCompliance_Click"  Content="+" Width="50" Height="50" 
-                                    Margin="20 0 0 0" Background="Turquoise" Foreground="Azure" FontSize="30">
-                            <Button.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="10"></Setter>
-                                </Style>
-                            </Button.Resources>
-                        </Button>
 
-                        <Button x:Name="btnMinusRuleCompliance" Click="btnMinusRuleCompliance_Click"  Content="-" Width="50" Height="50" 
-                                    Margin="20 0 0 0" Background="Turquoise" Foreground="Azure" FontSize="30">
-                            <Button.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="10"></Setter>
-                                </Style>
-                            </Button.Resources>
-                        </Button>
+                        <TextBox x:Name="txtRuleCompliance"  Grid.Row="1" Grid.Column="1"
+                             Text="{Binding Path = Rating.RuleCompliance, UpdateSourceTrigger = PropertyChanged}">
+                        </TextBox>
 
-                    </StackPanel>
+                        <TextBox x:Name="txtAdditionalComment"  Grid.Row="2" Grid.Column="1"
+                             Text="{Binding Path= Rating.AdditionalComment, UpdateSourceTrigger=PropertyChanged}"
+                             Height="100" Width="280">
+                        </TextBox>
 
-                    <TextBox x:Name="txtAdditionalComment"  Grid.Row="2" Grid.Column="1"
-                                     Text="{Binding Path= Rating.AdditionalComment, UpdateSourceTrigger=PropertyChanged}"
-                                     Height="140" BorderBrush="Turquoise" TextAlignment="Center" FontSize="20">
-                        <TextBox.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="10"></Setter>
-                            </Style>
-                        </TextBox.Resources>
-                    </TextBox>
-                </Grid>
+                    </Grid>
+                </StackPanel>
             </Border>
 
-            <Button x:Name="btnSubmit" Content="Submit" Click="btnSubmit_Click"
-                    Width="300" Height="70" Margin="10 40 10 40" Padding="10" Background="Turquoise" Foreground="Azure" FontSize="30">
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="10"></Setter>
-                    </Style>
-                </Button.Resources>
-            </Button>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="btnRate" Content="Rate (Ctrl+R)" Click="btnRate_Click"
+                Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                </Button>
+
+                <Button x:Name="btnCancel" Content="Cancel (Esc)" Click="btnCancel_Click"
+                Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                </Button>
+            </StackPanel>
 
         </StackPanel>
     </Grid>

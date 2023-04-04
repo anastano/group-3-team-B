@@ -44,54 +44,23 @@ namespace SIMS_HCI_Project.View
             _ratingController = ratingController;
         }
 
-        private void btnSubmit_Click(object sender, RoutedEventArgs e)
+        private void btnRate_Click(object sender, RoutedEventArgs e)
         {
             _ratingController.Add(Rating);
             Close();
         }
 
-        private void btnPlusCleanliness_Click(object sender, RoutedEventArgs e)
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            int cleanliness = int.Parse(txtCleanliness.Text);
-
-            if (cleanliness < 5)
-            {
-                cleanliness += 1;
-            }
-            txtCleanliness.Text = cleanliness.ToString();
+            Close();
         }
 
-        private void btnMinusCleanliness_Click(object sender, RoutedEventArgs e)
+        private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            int cleanliness = int.Parse(txtCleanliness.Text);
-
-            if (cleanliness > 1)
-            {
-                cleanliness -= 1;
-            }
-            txtCleanliness.Text = cleanliness.ToString();
-        }
-
-        private void btnPlusRuleCompliance_Click(object sender, RoutedEventArgs e)
-        {
-            int ruleCompliance = int.Parse(txtRuleCompliance.Text);
-
-            if (ruleCompliance < 5)
-            {
-                ruleCompliance += 1;
-            }
-            txtRuleCompliance.Text = ruleCompliance.ToString();
-        }
-
-        private void btnMinusRuleCompliance_Click(object sender, RoutedEventArgs e)
-        {
-            int ruleCompliance = int.Parse(txtRuleCompliance.Text);
-
-            if (ruleCompliance > 1)
-            {
-                ruleCompliance -= 1;
-            }
-            txtRuleCompliance.Text = ruleCompliance.ToString();
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.R))
+                btnRate_Click(sender, e);
+            else if (Keyboard.IsKeyDown(Key.Escape))
+                btnCancel_Click(sender, e);
         }
     }
 }

@@ -5,43 +5,251 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.View"
         mc:Ignorable="d"
-        Title="OwnerView" Height="700" Width="700" WindowStartupLocation="CenterScreen">
-    <Grid Background="Turquoise">
+        Title="OwnerView" Height="720" Width="1280" WindowStartupLocation="CenterScreen"
+        KeyDown="Window_KeyDown">
+    <Window.Resources>
+        <SolidColorBrush x:Key="clrPrimary" Color="Azure" />
+        <SolidColorBrush x:Key="clrSecondary" Color="Turquoise"/>
 
-        <StackPanel Margin="20">
+        <Style x:Key="fancyButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="250"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="Margin" Value="0 5 0 5"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Foreground" Value="Azure"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="15"
+                            Background="Turquoise"
+                            BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"></ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Style.Triggers>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect Color="LightBlue" Opacity="50" ShadowDepth="10"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+        <Style x:Key="fansyTitle" TargetType="TextBlock">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="Foreground" Value="Turquoise"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0 0 0 5"/>
+        </Style>
+        
+        <Style x:Key="fensyNotifications" TargetType="TextBox">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Width" Value="400"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="BorderThickness" Value="3"/>
+            <Setter Property="Background" Value="Azure"/>
+            <Setter Property="BorderBrush" Value="Coral"/>
+            <Setter Property="Foreground" Value="Coral"/>
+            <Setter Property="Margin" Value="10 10 10 10"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="Focusable" Value="False"/>
+        </Style>
 
-            <TextBlock x:Name="tblWelcome" Text="Welcome!" 
-                       Width="300" Height="100" VerticalAlignment="Center" Foreground="Azure" FontSize="50" TextAlignment="Center">
-            </TextBlock>
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="Azure"/>
+            <Setter Property="ColumnHeaderHeight" Value="30"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
 
-            <Border VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="Azure" BorderThickness="2" CornerRadius="15">
-                <StackPanel Margin="10 0 10 10" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <Button x:Name="btnExistingAccommodations" Content="Your Accommodations" Click="btnExistingAccommodations_Click"
-                        Width="350" Height="100" Margin="10 10 10 10" Padding="10" Background="Azure" Foreground="Turquoise" FontSize="20" BorderBrush="Turquoise">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="10"></Setter>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
-                    <Button x:Name="btnAccommodationRegistration" Content="Register New Accommodation" Click="btnAccommodationRegistration_Click"
-                        Width="350" Height="100" Margin="10 20 10 10" Padding="10" Background="Azure" Foreground="Turquoise" FontSize="20" BorderBrush="Turquoise">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="10"></Setter>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
-                    <Button x:Name="btnGuestRating" Content="Rate Your Guests" Click="btnGuestRating_Click"
-                        Width="350" Height="100" Margin="10 10 10 10" Padding="10" Background="Azure" Foreground="Turquoise" FontSize="20" BorderBrush="Turquoise">
-                        <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="10"></Setter>
-                            </Style>
-                        </Button.Resources>
-                    </Button>
+        <Style TargetType="DataGridCell">
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="Azure" />
+                    <Setter Property="Background" Value="Turquoise" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="fencyBorder" TargetType="Border">
+            <Setter Property="BorderBrush" Value="Turquoise"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="CornerRadius" Value="15"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+    
+    <Grid Background="Azure">
+
+        <!-- GLAVNI STACK PANEL-->
+        <StackPanel Orientation="Horizontal" Height="700">
+            <!-- GLAVNI LEVI STACK PANEL - My Options-->
+            <StackPanel Margin="20 20 0 20" Width="280" HorizontalAlignment="Left">
+                <TextBlock x:Name="tblMyOptions" Text="My Options" 
+                       Style="{StaticResource ResourceKey=fansyTitle}">
+                </TextBlock>
+
+                <Border Style="{StaticResource ResourceKey=fencyBorder}">
+                    <StackPanel Margin="10 10 10 10" VerticalAlignment="Center" HorizontalAlignment="Center">
+
+                        <Button x:Name="btnAccommodations" Content="My Accommodations         (1)" Click="btnAccommodations_Click"
+                        Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                        </Button>
+
+                        <Button x:Name="btnReservations" Content="Guest Reservations            (2)" Click="btnReservations_Click"
+                        Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                        </Button>
+
+                        <Button x:Name="btnRenovations" Content="Renovations                       (3)" 
+                        Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                        </Button>
+
+                        <Button x:Name="btnGuestRequests" Content="Guest Requests                 (4)" 
+                        Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                        </Button>
+
+                        <Button x:Name="btnGuestReviews" Content="Guest Reviews                  (5)" 
+                        Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                        </Button>
+
+                        <Button x:Name="btnRateGuests" Content="Rate Guests                     (6)" Click="btnRateGuests_Click"
+                        Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                        </Button>
+
+                        <Button x:Name="btnStatistics" Content="Statistics                         (7)"
+                       Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                        </Button>
+
+                        <Button x:Name="btnForums" Content="Forums                           (8)"
+                       Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                        </Button>
+
+                        <Button x:Name="btnSuggestions" Content="Suggestions                    (9)"
+                       Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                        </Button>
+
+                        <Button x:Name="btnDemo" Content="Demo                    (Ctrl+D)"
+                       Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                        </Button>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <!-- GLAVNI DESNI STACK PANEL-->
+            <StackPanel Margin="0 20 0 0" Width="980" HorizontalAlignment="Right" Orientation="Vertical">
+                <!-- DESNI GORNJI STACK PANEL - Reservations In Progress-->
+                <StackPanel Margin="0 0 0 0">
+                    <TextBlock x:Name="tblreservationsInProgress" Text="Reservations In Progress" 
+                           Style="{StaticResource ResourceKey=fansyTitle}">
+                    </TextBlock>
+
+                    <Border Style="{StaticResource ResourceKey=fencyBorder}">
+                        <!-- DataGrid STACKPANEL-->
+                        <StackPanel Margin="0 0 0 0">
+                            <DataGrid x:Name = "dgReservations" AutoGenerateColumns="False" ItemsSource="{Binding Path=Reservations, UpdateSourceTrigger=PropertyChanged}" 
+                                      IsReadOnly="True" Focusable="False" Width="900" Height="290" Margin="10 10 10 10">
+
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="*"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Accommodation Id" Binding="{Binding AccommodationId}" Width="*"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Guest Id" Binding="{Binding GuestId}" Width="*"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Type" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Start" Binding="{Binding End , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="End" Binding="{Binding GuestNumber}" Width="*"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*"></DataGridTextColumn>
+                                </DataGrid.Columns>
+
+                            </DataGrid>
+                        </StackPanel>
+                    </Border>
+
                 </StackPanel>
-            </Border>
+
+                <!-- DESNI DONJI STACK PANEL-->
+                <StackPanel Margin="20 0 0 0" Width="960" Orientation="Horizontal">
+                    <!-- My Profile STACK PANEL-->
+                    <StackPanel Margin="0 0 0 0" Width="470">
+                        <TextBlock x:Name="tblMyProfile" Text="My Profile" 
+                           Style="{StaticResource ResourceKey=fansyTitle}">
+                        </TextBlock>
+                        <Border Style="{StaticResource ResourceKey=fencyBorder}">
+                            <StackPanel Width="430" Height="210" Orientation="Horizontal">
+                                <TextBlock Width="100" Height="140" Margin="35 10 10 10" HorizontalAlignment="Left" Background="Gray"></TextBlock>
+
+                                <StackPanel Orientation="Vertical" Width="290">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Name:     " FontSize="20" HorizontalAlignment="Left" Margin="10 10 0 0"
+                                        Style="{StaticResource ResourceKey=fansyTitle}">
+                                        </TextBlock>
+                                        <TextBlock  Text="{Binding Path = Owner.Name, UpdateSourceTrigger = PropertyChanged}" 
+                                                    FontSize="20" HorizontalAlignment="Left" Margin="10 10 0 0"
+                                                    Style="{StaticResource ResourceKey=fansyTitle}">
+                                        </TextBlock>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Surname: " FontSize="20" HorizontalAlignment="Left" Margin="10 10 0 0"
+                                        Style="{StaticResource ResourceKey=fansyTitle}">
+                                        </TextBlock>
+                                        <TextBlock  Text="{Binding Path = Owner.Surname, UpdateSourceTrigger = PropertyChanged}" 
+                                                    FontSize="20" HorizontalAlignment="Left" Margin="10 10 0 0"
+                                                    Style="{StaticResource ResourceKey=fansyTitle}">
+                                        </TextBlock>
+                                    </StackPanel>
+
+
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Rating: " FontSize="20" HorizontalAlignment="Left" Margin="10 10 0 0"
+                                        Style="{StaticResource ResourceKey=fansyTitle}">
+                                        </TextBlock>
+                                        <TextBlock  Text="(Add Rating)" 
+                                                    FontSize="25" FontWeight="Bold" HorizontalAlignment="Left" Margin="10 5 0 0"
+                                                    Style="{StaticResource ResourceKey=fansyTitle}">
+                                        </TextBlock>
+                                    </StackPanel>
+
+                                    <Button x:Name="btnLogout" Content="Log out (Esc)" Click="btnLogout_Click"
+                                            HorizontalAlignment="Left" Margin="10 10 10 10"
+                                            Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                                    </Button>
+
+
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                    <!-- Notifications STACK PANEL-->
+                    <StackPanel Margin="0 0 0 0" Width="470">
+                        <TextBlock x:Name="tblNotifications" Text="Notifications" 
+                           Style="{StaticResource ResourceKey=fansyTitle}">
+                        </TextBlock>
+                        <Border Style="{StaticResource ResourceKey=fencyBorder}" >
+                            <StackPanel Width="430" Height="210">
+
+                                <TextBox x:Name ="txtUnratedGuestsNotifications" Text="You have unrated guests, please rate them."
+                                           Style="{StaticResource ResourceKey=fensyNotifications}">
+                                </TextBox>
+
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                </StackPanel>
+
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>

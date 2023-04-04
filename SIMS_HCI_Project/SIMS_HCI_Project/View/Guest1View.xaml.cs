@@ -24,17 +24,23 @@ namespace SIMS_HCI_Project.View
     public partial class Guest1View : Window, IObserver
     {
         public Guest1 Guest { get; set; }
-
+        private AccommodationController _accommodationController;
         private AccommodationReservationController _accommodationReservationController;
+        private NotificationController _notificationController;
         public ObservableCollection<AccommodationReservation> UpcomingReservations { get; set; }
         public ObservableCollection<AccommodationReservation> CompletedReservations { get; set; }
-        public AccommodationReservation SelectedReservation;
+        public AccommodationReservation SelectedReservation { get; set; }
         public Guest1View(Guest1 guest)
         {
             InitializeComponent();
             this.DataContext = this;
+            _accommodationController = new AccommodationController();
+            _accommodationController.Load();
             _accommodationReservationController = new AccommodationReservationController();
             _accommodationReservationController.Load();
+            _notificationController = new NotificationController();
+            _notificationController.Load();
+            _accommodationReservationController.ConnectAccommodationsWithReservations(_accommodationController);
             _accommodationReservationController.Subscribe(this);
 
             Guest = guest;
@@ -42,11 +48,31 @@ namespace SIMS_HCI_Project.View
 ;           UpcomingReservations = new ObservableCollection<AccommodationReservation>(_accommodationReservationController.GetAllByStatusAndGuestId(guest.Id, ReservationStatus.RESERVED));
 ;           CompletedReservations = new ObservableCollection<AccommodationReservation>(_accommodationReservationController.GetAllByStatusAndGuestId(guest.Id, ReservationStatus.COMPLETED));
         }
-
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
             Window win = new AccommodationSearchView(_accommodationReservationController, Guest);
             win.Show();
+        }
+        private void btnCancellation_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = ConfirmCancellation();
+            if (result == MessageBoxResult.Yes)
+            {
+                String Message = "Reservation for " + SelectedReservation.Accommodation.Name + " with id: " + SelectedReservation.Id + " has been cancelled";
+                _notificationController.Add(new Notification(Message, SelectedReservation.Accommodation.OwnerId, false));
+                _accommodationReservationController.EditStatus(SelectedReservation.Id, ReservationStatus.CANCELLED);  
+            }
+        }
+        private MessageBoxResult ConfirmCancellation()
+        {
+            string sMessageBoxText = $"This reservation will be cancelled, are you sure?";
+            string sCaption = "Cancellation Confirm";
+
+            MessageBoxButton btnMessageBox = MessageBoxButton.YesNo;
+            MessageBoxImage icnMessageBox = MessageBoxImage.Warning;
+
+            MessageBoxResult result = MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox, icnMessageBox);
+            return result;
         }
         public void Update()
         {

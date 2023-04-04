@@ -13,7 +13,9 @@ namespace SIMS_HCI_Project.Model
     {
         public int Id { get; set; }
         public int AccommodationId { get; set; }
+        public Accommodation Accommodation { get; set; }
         public int GuestId { get; set; }
+        public Guest1 Guest { get; set; }
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
         public int GuestNumber { get; set; }

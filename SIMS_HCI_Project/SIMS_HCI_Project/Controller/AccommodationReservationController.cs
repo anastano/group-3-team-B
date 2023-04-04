@@ -24,6 +24,13 @@ namespace SIMS_HCI_Project.Controller
             ConvertReservedAccommodationsIntoCompleted(DateTime.Now);
 
         }
+        public void ConnectAccommodationsWithReservations(AccommodationController accommodationController)
+        {
+            foreach (AccommodationReservation reservation in _reservations)
+            {
+                reservation.Accommodation = accommodationController.FindById(reservation.AccommodationId);
+            }
+        }
         public void ConvertReservedAccommodationsIntoCompleted(DateTime currentDate)
         {
             foreach(var reservation in _reservations)
@@ -78,9 +85,12 @@ namespace SIMS_HCI_Project.Controller
             // TO DO
         }
 
-        public void Edit(AccommodationReservation reservation)
+        public void EditStatus(int id, ReservationStatus status)
         {
-            // TO DO
+            AccommodationReservation reservation = _reservations.Find(r => r.Id == id);
+            reservation.Status = status;
+            Save();
+            NotifyObservers();
         }
 
         public AccommodationReservation FindById(int id)

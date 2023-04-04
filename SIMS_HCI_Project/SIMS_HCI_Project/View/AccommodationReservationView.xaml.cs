@@ -220,8 +220,7 @@ namespace SIMS_HCI_Project.View
             {
                 _accommodationReservationController.Add(Accommodation, SelectedReservation, Guest);
                 Close();
-            }
-            
+            }    
         }
 
         private MessageBoxResult ConfirmReservation()

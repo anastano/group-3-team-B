@@ -29,7 +29,10 @@ namespace SIMS_HCI_Project.View
         private TourController _tourController = new TourController();
         private TourTimeController _tourTimeController = new TourTimeController();
         private TourReservationController _tourReservationController = new TourReservationController();
+        private TourVoucherController _tourVoucherController = new TourVoucherController();
 
+        public TourVoucher SelectedVoucher { get; set; }
+        public TourVoucher TourVoucher { get; set; }
 
         public Tour Tour { get; set; }
         public Guest2 Guest2 { get; set; }
@@ -61,7 +64,22 @@ namespace SIMS_HCI_Project.View
                 }
             }
         }
-
+        private ObservableCollection<TourVoucher> _vouchers { get; set; }
+        public ObservableCollection<TourVoucher > Vouchers
+        {
+            get
+            {
+                return _vouchers;
+            }
+            set
+            {
+                if (value != _vouchers)
+                {
+                    _vouchers = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
        
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -82,6 +100,7 @@ namespace SIMS_HCI_Project.View
             SelectedTourTime = Tour.DepartureTimes[0];
 
             Reservations = new ObservableCollection<TourReservation>(_tourReservationController.GetAll());
+            Vouchers = new ObservableCollection<TourVoucher>(_tourVoucherController.GetValidVouchersByGuestId(guest.Id));
 
             Closing += TourReservationView_Closing;
 
@@ -140,6 +159,14 @@ namespace SIMS_HCI_Project.View
             Window guest2View = new Guest2View(Guest2);
             guest2View.Show();
         }
+        public void UseVoucher()
+        {
+            if (SelectedVoucher != null)
+            {
+                TourVoucher = _tourVoucherController.FindById(SelectedVoucher.Id);
+                TourVoucher.Status = VoucherStatus.USED;
+            }
+        }
 
         private string _requestedPartySize;
         public string RequestedPartySize
@@ -187,5 +214,6 @@ namespace SIMS_HCI_Project.View
                 return true;
             }
         }
+        
     }
 }

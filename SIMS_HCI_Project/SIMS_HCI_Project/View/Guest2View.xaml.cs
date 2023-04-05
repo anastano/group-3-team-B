@@ -29,18 +29,22 @@ namespace SIMS_HCI_Project.View
         private TourReservationController _tourReservationController= new TourReservationController();
         private TourController _tourController = new TourController();
         private TourTimeController _tourTimeController = new TourTimeController();
+        private TourVoucherController _tourVoucherController = new TourVoucherController();
 
-        public List<TourReservation> TourReservations { get; set; }
+        public List<TourReservation> TourReservations { get; set; } //ne treba?
         public Guest2View(Guest2 guest)
         {
             InitializeComponent();
             Guest = guest;
+            
 
             _tourController.LoadConnections();
             _tourTimeController.ConnectAvailablePlaces();
             _tourReservationController.LoadConnections();
+            //_tourVoucherController.LoadConnections(); implement if needed
      
             Guest.Reservations = new ObservableCollection<TourReservation> (_tourReservationController.GetAllByGuestId(guest.Id));
+            Guest.Vouchers = new ObservableCollection<TourVoucher> (_tourVoucherController.GetValidVouchersByGuestId(guest.Id));
 
             this.DataContext = this;
         }

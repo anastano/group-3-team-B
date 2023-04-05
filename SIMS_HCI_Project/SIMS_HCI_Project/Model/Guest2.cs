@@ -14,6 +14,21 @@ namespace SIMS_HCI_Project.Model
         //public ObservableCollection<TourReservation> Reservations { get; set; }
 
         //
+
+        private ObservableCollection<TourVoucher> _vouchers { get; set; }
+        public ObservableCollection<TourVoucher> Vouchers
+        {
+            get { return _vouchers; }
+            set
+            {
+                if(value != _vouchers)
+                {
+                    _vouchers = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         private ObservableCollection<TourReservation> _reservations { get; set; }
         public ObservableCollection<TourReservation> Reservations
         {
@@ -42,14 +57,17 @@ namespace SIMS_HCI_Project.Model
         public Guest2()
         {
             Reservations = new ObservableCollection<TourReservation>();
+            Vouchers = new ObservableCollection<TourVoucher>();
         }
 
-        public Guest2(int id, string username, string password)
+        public Guest2(int id, string username, string password, UserRole role)
         {
             Id = id;
             Username = username;
             Password = password;
+            Role = role;
             Reservations = new ObservableCollection<TourReservation>();
+            Vouchers= new ObservableCollection<TourVoucher>();
         }
     }
 }

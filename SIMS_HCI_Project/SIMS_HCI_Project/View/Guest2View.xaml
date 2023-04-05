@@ -12,7 +12,7 @@
 
         <DataGrid x:Name="dgReservedTours" 
                   ItemsSource="{Binding Path=Guest.Reservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=SelectedTourReservation, UpdateSourceTrigger=PropertyChanged}"
-                  IsReadOnly="True" AutoGenerateColumns="False" Margin="10,103,10,10">
+                  IsReadOnly="True" AutoGenerateColumns="False" Margin="10,199,10,10">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="40"></DataGridTextColumn>
                 <DataGridTextColumn Header="Title" Binding="{Binding TourTime.Tour.Title}" Width="110"></DataGridTextColumn>
@@ -42,7 +42,15 @@
             </DataGrid.Columns>
 
         </DataGrid>
-        <TextBlock x:Name="tblMyReservedTours" Text="My reserved tours:" Foreground="Beige" HorizontalAlignment="Center" Margin="0,72,0,0" TextWrapping="Wrap" FontSize="18" VerticalAlignment="Top" Height="26" Width="158" RenderTransformOrigin="0.452,-0.398"/>
+        <TextBlock x:Name="tblMyReservedTours" Text="My reserved tours:" Foreground="Beige" HorizontalAlignment="Left" Margin="42,168,0,0" TextWrapping="Wrap" FontSize="18" VerticalAlignment="Top" Height="26" Width="158" RenderTransformOrigin="0.452,-0.398"/>
+        <TextBlock x:Name="tblVouchers" Text="My vouchers:" Foreground="Beige" HorizontalAlignment="Left" Margin="618,22,0,0" TextWrapping="Wrap" FontSize="18" VerticalAlignment="Top" Height="26" Width="158" RenderTransformOrigin="0.452,-0.398"/>
+        <DataGrid Name="dgVouchers" 
+           ItemsSource="{Binding Path=Guest.Vouchers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" Margin="598,56,50,403">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="VoucherID" Binding="{Binding Title}" CanUserResize="False" IsReadOnly="True" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Expiration date" Binding="{Binding ExpirationDate}" Width="*"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
 
 
     </Grid>

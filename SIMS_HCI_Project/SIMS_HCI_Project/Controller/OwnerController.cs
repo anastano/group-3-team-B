@@ -1,4 +1,4 @@
-﻿using SIMS_HCI_Project.FileHandler;
+using SIMS_HCI_Project.FileHandler;
 using SIMS_HCI_Project.Model;
 using SIMS_HCI_Project.Observer;
 using System;

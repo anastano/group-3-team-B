@@ -146,7 +146,7 @@ namespace SIMS_HCI_Project.Controller
 
         public bool IsCompleted(AccommodationReservation reservation)
         {
-            return reservation.Status == ReservationStatus.COMPLETED;
+            return reservation.Status == AccommodationReservationStatus.COMPLETED;
         }
 
         public bool IsWithinFiveDaysAfterCheckout(AccommodationReservation reservation)

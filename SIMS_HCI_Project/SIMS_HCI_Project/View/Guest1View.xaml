@@ -21,17 +21,26 @@
                     <DataGridTextColumn Header="End" Binding="{Binding End, StringFormat='{}{0:MM/dd/yyyy}'}" Width="SizeToCells"></DataGridTextColumn>
                     <DataGridTextColumn Header="Guest Number" Binding="{Binding GuestNumber}" Width="SizeToHeader"></DataGridTextColumn>
                     <DataGridTextColumn Header="Status" Binding="{Binding Status}"></DataGridTextColumn>
-                    <DataGridTemplateColumn Header="Cancellation" Width="*">
+                    <DataGridTemplateColumn Header="Cancellation">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <Button Content="Cancellation" Click="btnCancellation_Click">
                                     <Button.Visibility>
-                                        <MultiBinding Converter="{local1:ButtonToEnabledConverter}">
+                                        <MultiBinding Converter="{local1:CancellationButtonVisibilityConverter}">
                                             <Binding Path="Accommodation.CancellationDeadlineInDays" />
                                             <Binding Path="Start" />
                                         </MultiBinding>
                                     </Button.Visibility>
                                 </Button> 
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Reschedule" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Reschedule" Click="btnReschedule_Click"
+                                        Visibility ="{Binding Start, Converter={local1:RescheduleButtonVisibilityConverter}}">
+                                </Button>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

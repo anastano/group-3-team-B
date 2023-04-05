@@ -40,6 +40,7 @@ namespace SIMS_HCI_Project.View
             Rating.OwnerId = ownerId;
             Rating.ReservationId = reservation.Id;
             Rating.GuestId = reservation.GuestId;
+            Rating.AccommodationReservation = reservation;
             
             _ratingController = ratingController;
         }

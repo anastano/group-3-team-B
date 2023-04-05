@@ -117,12 +117,13 @@
                             </DataGrid.CellStyle>
 
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Guest Id" Binding="{Binding GuestId}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Reservation Id" Binding="{Binding Id}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Accommodation Id" Binding="{Binding AccommodationId}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Guest Id" Binding="{Binding GuestId}" Width="0.5*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Guest Name" Binding="{Binding Guest.Name}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Guest Surname" Binding="{Binding Guest.Surname}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Reservation Id" Binding="{Binding Id}" Width="0.8*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Accommodation Name" Binding="{Binding Accommodation.Name}" Width="2*"></DataGridTextColumn>
                                 <DataGridTextColumn Header="Start" Binding="{Binding Start, StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
                                 <DataGridTextColumn Header="End" Binding="{Binding End, StringFormat='{}{0:MM/dd/yyyy}' }" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*"></DataGridTextColumn>
                             </DataGrid.Columns>
 
                         </DataGrid>

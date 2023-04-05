@@ -86,11 +86,15 @@
             <Border Style="{StaticResource ResourceKey=fencyBorder}">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-
                         <Label Content="Guest: " Grid.Row="0" Grid.Column="0" FontSize="20" FontWeight="Bold"></Label>
 
-                        <TextBlock x:Name="tblGuestFullName" Grid.Row="0" Grid.Column="1"
-                             Text="{Binding Path = Rating.GuestId, UpdateSourceTrigger = PropertyChanged}"
+                        <TextBlock x:Name="tblGuestName" Grid.Row="0" Grid.Column="1"
+                             Text="{Binding Path = Rating.AccommodationReservation.Guest.Name, UpdateSourceTrigger = PropertyChanged}"
+                             FontSize="20" FontWeight="Bold" Foreground="Turquoise" Height="35" Margin="10 10 0 0">
+                        </TextBlock>
+
+                        <TextBlock x:Name="tblGuestSurname" Grid.Row="0" Grid.Column="1"
+                             Text="{Binding Path = Rating.AccommodationReservation.Guest.Surname, UpdateSourceTrigger = PropertyChanged}"
                              FontSize="20" FontWeight="Bold" Foreground="Turquoise" Height="35" Margin="10 10 0 0">
                         </TextBlock>
                     </StackPanel>

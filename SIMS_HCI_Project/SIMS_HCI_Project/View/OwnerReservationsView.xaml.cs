@@ -53,7 +53,7 @@ namespace SIMS_HCI_Project.View
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
-            List<AccommodationReservation> searchResult = _reservationController.Search(txtAccommodationName.Text, txtGuestName.Text, Owner.Id);
+            List<AccommodationReservation> searchResult = _reservationController.Search(txtAccommodationName.Text, txtGuestName.Text, txtGuestSurname.Text, Owner.Id);
             dgReservations.ItemsSource = searchResult;
         }
 

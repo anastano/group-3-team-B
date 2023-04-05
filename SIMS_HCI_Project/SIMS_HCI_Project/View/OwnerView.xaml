@@ -116,7 +116,7 @@
                         Style="{StaticResource ResourceKey=fancyButtonStyle}">
                         </Button>
 
-                        <Button x:Name="btnGuestRequests" Content="Guest Requests                 (4)" 
+                        <Button x:Name="btnGuestRequests" Content="Guest Requests                 (4)" Click="btnGuestRequests_Click"
                         Style="{StaticResource ResourceKey=fancyButtonStyle}">
                         </Button>
 
@@ -162,15 +162,16 @@
                                       IsReadOnly="True" Focusable="False" Width="900" Height="290" Margin="10 10 10 10">
 
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="*"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="Accommodation Id" Binding="{Binding AccommodationId}" Width="*"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="Guest Id" Binding="{Binding GuestId}" Width="*"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="Type" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="Start" Binding="{Binding End , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="End" Binding="{Binding GuestNumber}" Width="*"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="0.3*"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Accommodation Name" Binding="{Binding Accommodation.Name}" Width="2*"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Guest Name" Binding="{Binding Guest.Name}" Width="*"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Guest Surname" Binding="{Binding Guest.Surname}" Width="*"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Start" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="End" Binding="{Binding End , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Guests Number" Binding="{Binding GuestNumber}" Width="*"></DataGridTextColumn>
                                     <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*"></DataGridTextColumn>
                                 </DataGrid.Columns>
-
+                                
                             </DataGrid>
                         </StackPanel>
                     </Border>

@@ -42,18 +42,15 @@ namespace SIMS_HCI_Project.Controller
             return _accommodations;
         }
 
-
         public void Load()
         {
             _accommodations = _fileHandler.Load();
         }
 
-
         public void Save()
         {
             _fileHandler.Save(_accommodations);
         }
-
 
         public void ConnectAccommodationsWithLocations(LocationController locationController)
         {

@@ -26,10 +26,12 @@ namespace SIMS_HCI_Project.View
         public Owner Owner { get; set; }
 
         private OwnerController _ownerController;
+        private Guest1Controller _guestController;
         private AccommodationController _accommodationController;
         private LocationController _locationController;
         private AccommodationReservationController _reservationController;
         private OwnerGuestRatingController _ownerGuestRatingController;
+        private RescheduleRequestController _requestController;
 
         public ObservableCollection<AccommodationReservation> Reservations { get; set; }
 
@@ -51,20 +53,28 @@ namespace SIMS_HCI_Project.View
         void LoadFromFiles()
         {
             _ownerController = new OwnerController();
+            _guestController = new Guest1Controller();
             _accommodationController = new AccommodationController();           
             _locationController = new LocationController();
             _reservationController = new AccommodationReservationController();
             _ownerGuestRatingController = new OwnerGuestRatingController();
+            _requestController = new RescheduleRequestController();
 
             _ownerController.Load();
+            _guestController.Load();
             _accommodationController.Load();          
             _reservationController.Load();
             _ownerGuestRatingController.Load();
+            _requestController.Load();
 
             _accommodationController.ConnectAccommodationsWithLocations(_locationController);
+            _reservationController.ConnectAccommodationsWithReservations(_accommodationController);
+            _reservationController.ConnectGuestsWithReservations(_guestController);
+            _requestController.ConnectRequestsWithReservations(_reservationController);
+
             _accommodationController.FillOwnerAccommodationList(Owner.Id);
-            _reservationController.FillOwnerReservationList(Owner.Id); 
-            
+            _reservationController.FillOwnerReservationList(Owner.Id);
+
         }
 
         private void ShowNotifications()
@@ -91,6 +101,14 @@ namespace SIMS_HCI_Project.View
             Window reservationsView = new OwnerReservationsView(_reservationController, _ownerController, Owner);
             reservationsView.Show();
         }
+
+        private void btnGuestRequests_Click(object sender, RoutedEventArgs e)
+        {
+            Window requestsView = new OwnerRescheduleRequestsView(_requestController, _ownerController, _reservationController, Owner);
+            requestsView.Show();
+        }
+
+
         private void btnRateGuests_Click(object sender, RoutedEventArgs e)
         {
             Window reservationsView = new OwnerUnratedReservationsView(_ownerController, _ownerGuestRatingController, Owner.Id);
@@ -130,13 +148,13 @@ namespace SIMS_HCI_Project.View
                 btnAccommodations_Click(sender, e);
             else if (Keyboard.IsKeyDown(Key.D2))
                 btnReservations_Click(sender, e);
+            else if (Keyboard.IsKeyDown(Key.D4))
+                btnGuestRequests_Click(sender, e);
             else if (Keyboard.IsKeyDown(Key.D6))
                 btnRateGuests_Click(sender, e);
             else if (Keyboard.IsKeyDown(Key.Escape))
                 btnLogout_Click(sender, e);
 
         }
-
-
     }
 }

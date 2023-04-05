@@ -1,0 +1,199 @@
+﻿<Window x:Class="SIMS_HCI_Project.View.RequestHandlerView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_HCI_Project.View"
+        mc:Ignorable="d"
+        Title="RequestHandlerView" Height="600" Width="600">
+
+    <Window.Resources>
+
+        <Style x:Key="fancyTitle" TargetType="TextBlock">
+            <Setter Property="Height" Value="40"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="FontSize" Value="30"></Setter>
+            <Setter Property="Foreground" Value="Turquoise"></Setter>
+            <Setter Property="TextAlignment" Value="Center"></Setter>
+            <Setter Property="Margin" Value="0 0 0 5"></Setter>
+        </Style>
+
+        <Style x:Key="fancyButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="Margin" Value="10 10 10 10"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Foreground" Value="Azure"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="15"
+                                Background="Turquoise"
+                                BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"></ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Style.Triggers>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect Color="LightBlue" Opacity="50" ShadowDepth="10"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="16"></Setter>
+            <Setter Property="Foreground" Value="Turquoise"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Margin" Value="10 0 0 0"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
+
+        <Style x:Key="fancyTextBlock" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Foreground" Value="Turquoise"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Margin" Value="10 5 0 0"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+
+        </Style>
+
+        <Style x:Key="fencyBorder" TargetType="Border">
+            <Setter Property="BorderBrush" Value="Turquoise"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="CornerRadius" Value="15"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="DataGrid">
+            <Setter Property="Background" Value="Azure"/>
+            <Setter Property="ColumnHeaderHeight" Value="30"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+
+        <Style TargetType="DataGridCell">
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="Azure" />
+                    <Setter Property="Background" Value="Turquoise" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </Window.Resources>
+    <Grid Background="Azure">
+
+        <StackPanel>
+            <StackPanel Margin="5 5 5 5">
+                <TextBlock x:Name="tblRequest" Text="Guest Request" 
+                       Style="{StaticResource ResourceKey=fancyTitle}">
+                </TextBlock>
+
+                <Border Style="{StaticResource ResourceKey=fencyBorder}">
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Label Content="Accommodation: "></Label>
+
+                            <TextBlock x:Name="tblAccommodationName" Grid.Row="0" Grid.Column="1"
+                             Text="{Binding Path = Request.AccommodationReservation.Accommodation.Name, UpdateSourceTrigger = PropertyChanged}"
+                             Style="{StaticResource ResourceKey=fancyTextBlock}">
+                            </TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            
+                            <Label Content="Guest: " ></Label>
+                            
+                            <TextBlock x:Name="tblGuestName"
+                             Text="{Binding Path = Request.AccommodationReservation.Guest.Name, UpdateSourceTrigger = PropertyChanged}"
+                             Style="{StaticResource ResourceKey=fancyTextBlock}">
+                            </TextBlock>
+                            <TextBlock x:Name="tblGuestSurname"
+                             Text="{Binding Path = Request.AccommodationReservation.Guest.Surname, UpdateSourceTrigger = PropertyChanged}"
+                             Style="{StaticResource ResourceKey=fancyTextBlock}">
+                            </TextBlock>
+                        </StackPanel>
+
+                        <Grid Width="500" Height="120" Margin="10 10 10 10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <Label Content="Initial Start: " Grid.Row="0" Grid.Column="0"></Label>
+                            <TextBlock x:Name="tblInitialStart" Grid.Row="0" Grid.Column="1"
+                             Text="{Binding Path = Request.AccommodationReservation.Start, StringFormat='{}{0:MM/dd/yyyy}', UpdateSourceTrigger = PropertyChanged}"
+                             Style="{StaticResource ResourceKey=fancyTextBlock}">
+                            </TextBlock>
+
+                            <Label Content="Initial End:   " Grid.Row="1" Grid.Column="0"></Label>
+                            <TextBlock x:Name="tblInitialEnd" Grid.Row="1" Grid.Column="1"
+                             Text="{Binding Path = Request.AccommodationReservation.End, StringFormat='{}{0:MM/dd/yyyy}', UpdateSourceTrigger = PropertyChanged}"
+                             Style="{StaticResource ResourceKey=fancyTextBlock}">
+                            </TextBlock>
+
+                            <Label Content="Wanted Start: " Grid.Row="0" Grid.Column="2"></Label>
+                            <TextBlock x:Name="tblWantedStart" Grid.Row="0" Grid.Column="3"
+                             Text="{Binding Path = Request.WantedStart, StringFormat='{}{0:MM/dd/yyyy}', UpdateSourceTrigger = PropertyChanged}"
+                             Style="{StaticResource ResourceKey=fancyTextBlock}">
+                            </TextBlock>
+
+                            <Label Content="Wanted End:   " Grid.Row="1" Grid.Column="2"></Label>
+                            <TextBlock x:Name="tblWantedEnd" Grid.Row="1" Grid.Column="3"
+                             Text="{Binding Path = Request.WantedEnd, StringFormat='{}{0:MM/dd/yyyy}', UpdateSourceTrigger = PropertyChanged}"
+                             Style="{StaticResource ResourceKey=fancyTextBlock}">
+                            </TextBlock>
+                         
+                        </Grid>
+
+                        <DataGrid x:Name = "dgReservations" AutoGenerateColumns="False" ItemsSource="{Binding Path=Reservations, UpdateSourceTrigger=PropertyChanged}" 
+                                  IsReadOnly="True" Background="Azure" Width="470" Height="200" Margin="10 10 10 10">
+
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="0.4*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Guest Name" Binding="{Binding Guest.Name}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Guest Surname" Binding="{Binding Guest.Surname}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Start" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="End" Binding="{Binding End , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*"></DataGridTextColumn>
+                            </DataGrid.Columns>
+
+                        </DataGrid>
+
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <StackPanel  Margin="5 5 5 5" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="btnAcceptRequest"  Content="Accept (Ctrl+A)" 
+                            Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                </Button>
+                <Button x:Name="bttDeclineRequest"  Content="Decline (Ctrl+D)" 
+                            Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                </Button>
+
+                <Button x:Name="btnClose"  Content="Close (Esc)"
+                            Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                </Button>
+            </StackPanel>
+
+        </StackPanel>
+    </Grid>
+</Window>

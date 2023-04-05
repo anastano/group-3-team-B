@@ -63,6 +63,11 @@ namespace SIMS_HCI_Project.Controller
             }
         }
 
+        public void FillOwnerAccommodationList(int ownerId)
+        {
+            _ownerController.FindById(ownerId).Accommodations = _accommodations.FindAll(a => a.OwnerId == ownerId);
+        }
+
         public void FillReservations()
         {
             foreach (Accommodation accommodation in _accommodations)
@@ -80,22 +85,32 @@ namespace SIMS_HCI_Project.Controller
             return _accommodations[_accommodations.Count - 1].Id + 1;
         }
 
-        public void Add(Accommodation accommodation) //adds accommodation to accommodation list and to corresponding owner list
+        public void Add(Accommodation accommodation)
         {
             _accommodations.Add(accommodation);
-            _ownerController.AddAccommodationToOwner(accommodation);
+            AddAccommodationToOwner(accommodation);
             NotifyObservers();
             Save();
         }
 
-        public void Remove(Accommodation accommodation)
+        public void AddAccommodationToOwner(Accommodation accommodation)
         {
-            // TO DO
+            Owner owner = _ownerController.FindById(accommodation.OwnerId);
+            owner.Accommodations.Add(accommodation);
         }
 
-        public void Edit(Accommodation accommodation) 
+        public void Remove(Accommodation accommodation)
         {
-            // TO DO
+            _accommodations.Remove(accommodation);
+            RemoveAccommodationFromOwner(accommodation);
+            NotifyObservers();
+            Save();
+        }
+
+        public void RemoveAccommodationFromOwner(Accommodation accommodation)
+        {
+            Owner owner = _ownerController.FindById(accommodation.OwnerId);
+            owner.Accommodations.Remove(accommodation);
         }
 
         public Accommodation FindById(int id) 

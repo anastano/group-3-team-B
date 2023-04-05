@@ -14,7 +14,7 @@ namespace SIMS_HCI_Project.Model
 {
     public enum AccomodationType { APARTMENT, HOUSE, HUT };
 
-    public class Accommodation : ISerializable, IDataErrorInfo
+    public class Accommodation : ISerializable
     {
         public int Id { get; set; }
         public int OwnerId { get; set; }
@@ -115,40 +115,6 @@ namespace SIMS_HCI_Project.Model
             else 
             {
                 return "HUT";
-            }
-        }
-
-        public string Error => null;
-
-
-        public string this[string columnName]
-        {
-            get
-            {
-
-                if (columnName == "Name")
-                {
-                    if (string.IsNullOrEmpty(Name))
-                        return "The name field is required";
-                }
-
-                return null;
-            }
-        }
-
-        private readonly string[] _validatedProperties = { "Name" };
-
-        public bool IsValid
-        {
-            get
-            {
-                foreach (var property in _validatedProperties)
-                {
-                    if (this[property] != null)
-                        return false;
-                }
-
-                return true;
             }
         }
     }

@@ -24,9 +24,9 @@ namespace SIMS_HCI_Project.View
     /// <summary>
     /// Interaction logic for AccommodationRegistrationView.xaml
     /// </summary>
-    public partial class AccommodationRegistrationView : Window, INotifyPropertyChanged, IDataErrorInfo
+    public partial class AccommodationRegistrationView : Window, INotifyPropertyChanged
     {
-        private int _ownerId;
+        public Owner Owner { get; set; }
 
         public Accommodation Accommodation { get; set; }
         public Location Location { get; set; }
@@ -54,12 +54,12 @@ namespace SIMS_HCI_Project.View
         }
 
 
-        public AccommodationRegistrationView(AccommodationController accommodationController, int ownerId)
+        public AccommodationRegistrationView(AccommodationController accommodationController, Owner owner)
         {
             InitializeComponent();
             DataContext = this;
 
-            _ownerId = ownerId;
+            Owner = owner;
             
             Accommodation = new Accommodation();
             Location = new Location();
@@ -67,89 +67,25 @@ namespace SIMS_HCI_Project.View
             ImageURL = "";
 
             _accommodationController = accommodationController;
-
         }
 
         private void btnRegister_Click(object sender, RoutedEventArgs e)
         {
-            if (Accommodation.IsValid && Location.IsValid) 
-            {
-                Accommodation.OwnerId = _ownerId;
-                Accommodation.Images = new List<string>(Images);
+             Accommodation.OwnerId = Owner.Id;
+             Accommodation.Images = new List<string>(Images);
 
-                _accommodationController.Register(Accommodation, Location);
+             _accommodationController.Register(Accommodation, Location);
 
-                Close();
-            }
-            else 
-            {
-                MessageBox.Show("Not all fields are filled in correctly!");
-            }
-                
-        }
-
-        private void btnPlusGuest_Click(object sender, RoutedEventArgs e)
-        {
-             int maxGuests = int.Parse(txtMaxGuestNumber.Text);
-             maxGuests += 1;
-             txtMaxGuestNumber.Text = maxGuests.ToString();
-        }
-
-        private void btnMinusGuest_Click(object sender, RoutedEventArgs e)
-        {
-            int maxGuests = int.Parse(txtMaxGuestNumber.Text);
-
-            if (maxGuests > 1)
-            {
-                maxGuests -= 1;
-            }
-                txtMaxGuestNumber.Text = maxGuests.ToString();
-        }
-
-        private void btnPlusMinDays_Click(object sender, RoutedEventArgs e)
-        {
-            int minDays = int.Parse(txtMinDaysNumber.Text);
-            minDays += 1;
-            txtMinDaysNumber.Text = minDays.ToString();
-        }
-
-        private void btnMinusMinDays_Click(object sender, RoutedEventArgs e)
-        {
-            int minDays = int.Parse(txtMinDaysNumber.Text);
-
-            if (minDays > 1)
-            {
-                minDays -= 1;
-            }
-            txtMinDaysNumber.Text = minDays.ToString();
-        }
-
-        private void btnPlusCancellationDays_Click(object sender, RoutedEventArgs e)
-        {
-            int cancellationDays = int.Parse(txtCancellationDeadLineInDays.Text);
-            cancellationDays += 1;
-            txtCancellationDeadLineInDays.Text = cancellationDays.ToString();
-
-        }
-
-        private void btnMinusCancellationDays_Click(object sender, RoutedEventArgs e)
-        {
-            int cancellationDays = int.Parse(txtCancellationDeadLineInDays.Text);
-
-            if (cancellationDays > 0)
-            {
-                cancellationDays -= 1;
-            }
-            txtCancellationDeadLineInDays.Text = cancellationDays.ToString();
+             Close();            
         }
 
         private void btnAddImage_Click(object sender, RoutedEventArgs e)
         {
-            if (IsImageURLValid)
-            {
-                Images.Add(ImageURL);
-                ImageURL = "";
-            }
+              if (!ImageURL.Equals(""))
+              {
+                   Images.Add(ImageURL);
+                   ImageURL = "";
+              }
         }
 
         private void btnRemoveImage_Click(object sender, RoutedEventArgs e)
@@ -160,44 +96,22 @@ namespace SIMS_HCI_Project.View
             }
         }
 
-        //ImageURl validation
-        private Regex urlRegex = new Regex("(http(s?)://.)([/|.|\\w|\\s|-])*\\.(?:jpg|gif|png)|(^$)");
-
-        public string Error => null;
-
-
-        public string this[string propertyName]
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
-            get
-            {
-
-                if (propertyName == "ImageURL")
-                {
-                    Match match = urlRegex.Match(ImageURL);
-                    if (!match.Success)
-                    {
-                        return "URL is not in valid format.";
-                    }
-                }
-
-                return null;
-            }
+            Close();
         }
 
-        private readonly string[] _validatedProperties = { "ImageURL" };
-
-        public bool IsImageURLValid
+        private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            get
-            {
-                foreach (var property in _validatedProperties)
-                {
-                    if (this[property] != null)
-                        return false;
-                }
-
-                return true;
-            }
+            if (Keyboard.IsKeyDown(Key.Insert))
+                btnAddImage_Click(sender, e);
+            else if (Keyboard.IsKeyDown(Key.Delete))
+                btnRemoveImage_Click(sender, e);
+            else if (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.R))
+                btnRegister_Click(sender, e);
+            else if (Keyboard.IsKeyDown(Key.Escape))
+                btnCancel_Click(sender, e);
         }
+
     }
 }

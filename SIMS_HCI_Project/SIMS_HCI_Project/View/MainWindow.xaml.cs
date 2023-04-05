@@ -43,7 +43,7 @@ namespace SIMS_HCI_Project
                 switch (user.Role)
                 {
                     case UserRole.OWNER:
-                        Window ownerView = new OwnerView(user.Id);
+                        Window ownerView = new OwnerView(new Owner(user));
                         ownerView.Show();
                         break;
                     case UserRole.GUEST1:

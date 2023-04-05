@@ -5,236 +5,235 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.View"
         mc:Ignorable="d"
-        Title="AccommodationRegistrationView" Height="700" Width="900" WindowStartupLocation="CenterScreen">
+        Title="AccommodationRegistrationView" Height="690" Width="700" WindowStartupLocation="CenterScreen"
+        KeyDown="Window_KeyDown">
     <Window.Resources>
+
+        <Style x:Key="fansyTitle" TargetType="TextBlock">
+            <Setter Property="Height" Value="40"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="FontSize" Value="30"></Setter>
+            <Setter Property="Foreground" Value="Turquoise"></Setter>
+            <Setter Property="TextAlignment" Value="Center"></Setter>
+            <Setter Property="Margin" Value="0 0 0 5"></Setter>
+        </Style>
+
+        <Style x:Key="fancyButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="250"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="Margin" Value="10 10 10 10"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Foreground" Value="Azure"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="15"
+                            Background="Turquoise"
+                            BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"></ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Style.Triggers>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect Color="LightBlue" Opacity="50" ShadowDepth="10"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="circleButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Margin" Value="5 0 0 0"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Foreground" Value="Azure"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="15"
+                            Background="Turquoise"
+                            BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"></ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Style.Triggers>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect Color="LightBlue" Opacity="50" ShadowDepth="10"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="BorderBrush" Value="Turquoise"/>
+            <Setter Property="TextAlignment" Value ="Center"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="320"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="0 0 0 0"/>
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="16"></Setter>
+            <Setter Property="Foreground" Value="Turquoise"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Margin" Value="0 0 0 0"/>
+        </Style>
+
+        <Style x:Key="fencyBorder" TargetType="Border">
+            <Setter Property="BorderBrush" Value="Turquoise"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="CornerRadius" Value="15"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
         <ControlTemplate x:Key="ValidationTemplate">
             <StackPanel>
                 <AdornedElementPlaceholder x:Name="textBox" />
-                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" FontSize="15px" HorizontalAlignment="Center" />
+                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" FontSize="12" HorizontalAlignment="Center"/>
             </StackPanel>
         </ControlTemplate>
     </Window.Resources>
+    
     <Grid Background="Azure">
+        <!-- MAIN STACK PANEL-->
         <StackPanel Margin="0 10 0 0">
-            <!--
-            <TextBlock x:Name="tblWelcome" Text="Register your accommodation!" 
-                       Width="500" Height="50" VerticalAlignment="Center" Foreground="Turquoise" FontSize="35" TextAlignment="Center" Margin="0 20 0 20 ">
+            
+            <TextBlock x:Name="tblWelcome" Text="Register New Accommodation" 
+                       Style="{StaticResource ResourceKey=fansyTitle}">
             </TextBlock>
-            -->
-            <Border VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="Turquoise" BorderThickness="2" CornerRadius="15">
-                <Grid Width="800" Height="535" Margin="10 10 10 10">
+           
+            <Border Style="{StaticResource ResourceKey=fencyBorder}">
+                <Grid Width="550" Height="500" Margin="10 10 10 10">
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2.5*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="1.5*" />
-                        <RowDefinition Height="1.5*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="3*" />
                     </Grid.RowDefinitions>
+                    
+                    <!-- LABEL -->
+                    <Label Content="Name: " Grid.Row="0" Grid.Column="0"></Label>
+                    <Label Content="Country: " Grid.Row="1" Grid.Column="0"></Label>
+                    <Label Content="City: " Grid.Row="2" Grid.Column="0"></Label>
+                    <Label Content="Type: " Grid.Row="3" Grid.Column="0"></Label>
+                    <Label Content="Maximum guests: " Grid.Row="4" Grid.Column="0"></Label>
+                    <Label Content="Minimum days: " Grid.Row="5" Grid.Column="0"></Label>
+                    <Label Content="Cancellation days: " Grid.Row="6" Grid.Column="0"></Label>
+                    <Label Content="Image URLs: " Grid.Row="7" Grid.Column="0" VerticalAlignment="Top"></Label>
 
-                    <Label Content="Name: " Grid.Row="0" Grid.Column="0" Height="40" Foreground="Turquoise" FontSize="20"></Label>
-                    <Label Content="Location: " Grid.Row="1" Grid.Column="0" Height="40" Foreground="Turquoise" FontSize="20"></Label>
-                    <Label Content="Type: " Grid.Row="2" Grid.Column="0" Height="40" Foreground="Turquoise" FontSize="20"></Label>
-                    <Label Content="Maximum number of guests: " Grid.Row="3" Grid.Column="0" Height="40" Foreground="Turquoise" FontSize="20"></Label>
-                    <Label Content="Minimum number of days: " Grid.Row="4" Grid.Column="0" Height="40" Foreground="Turquoise" FontSize="20"></Label>
-                    <Label Content="Cancellation deadline in days: " Grid.Row="5" Grid.Column="0" Height="40" Foreground="Turquoise" FontSize="20"></Label>
-                    <Label Content="Images: " Grid.Row="6" Grid.Column="0" Height="40" Foreground="Turquoise" FontSize="20"></Label>
-
-                    <TextBox x:Name="txtName"  Grid.Row="0" Grid.Column="1" 
+                    <!-- TEXTBOX-->
+                    <TextBox x:Name="txtName" Grid.Row="0" Grid.Column="1" 
                              Text="{Binding Path = Accommodation.Name, UpdateSourceTrigger =PropertyChanged, ValidatesOnDataErrors=True}"
-                             Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
-                             Height="40" BorderBrush="Turquoise" TextAlignment="Center" FontSize="20">
-                        <TextBox.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="10"></Setter>
-                            </Style>
-                        </TextBox.Resources>
+                             Validation.ErrorTemplate="{StaticResource ValidationTemplate}">
                     </TextBox>
 
-                    <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
-                        <StackPanel>
-                            <TextBox x:Name="txtLocationCity"  
-                                     Text="{Binding Path=Location.City, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                     Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
-                                     Width="190" Height="40" Margin="15 0 5 0"  BorderBrush="Turquoise" TextAlignment="Center" FontSize="20">
-                                <TextBox.Resources>
-                                    <Style TargetType="Border">
-                                        <Setter Property="CornerRadius" Value="10"></Setter>
-                                    </Style>
-                                </TextBox.Resources>
-                            </TextBox>
+                    <TextBox x:Name="txtLocationCountry" Grid.Row="1" Grid.Column="1"
+                             Text="{Binding Path=Location.Country, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                             Validation.ErrorTemplate="{StaticResource ValidationTemplate}">
+                    </TextBox>
 
-                            <TextBlock x:Name="tblCity" Text="City" 
-                                       Width="125" Height="20" VerticalAlignment="Center" Foreground="Turquoise" FontSize="15" TextAlignment="Center" Margin="0 15 0 0 ">
-                            </TextBlock> 
-                        </StackPanel>
-                        
-                        <StackPanel>
-                            <TextBox x:Name="txtLocationCountry"  
-                                     Text="{Binding Path=Location.Country, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                     Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
-                                     Width="190" Height="40" Margin="15 0 15 0" BorderBrush="Turquoise" TextAlignment="Center" FontSize="20">
-                                <TextBox.Resources>
-                                    <Style TargetType="Border">
-                                        <Setter Property="CornerRadius" Value="10"></Setter>
-                                    </Style>
-                                </TextBox.Resources>
-                            </TextBox>
+                    <TextBox x:Name="txtLocationCity" Grid.Row="2" Grid.Column="1" 
+                             Text="{Binding Path=Location.City, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                             Validation.ErrorTemplate="{StaticResource ValidationTemplate}">
+                    </TextBox>
 
-                            <TextBlock x:Name="tblCountry" Text="Country" 
-                                        Width="125" Height="20" VerticalAlignment="Center" Foreground="Turquoise" FontSize="15" TextAlignment="Center" Margin="0 15 0 0 ">
-                            </TextBlock>
-                        </StackPanel>
-                    </StackPanel>
-                    <ComboBox x:Name="txtType" Grid.Row="2" Grid.Column="1" 
+                    <ComboBox x:Name="txtType" Grid.Row="3" Grid.Column="1" 
                               SelectedValuePath="Content" SelectedValue ="{Binding Path = Accommodation.Type, UpdateSourceTrigger = PropertyChanged}" 
-                              Height="40" BorderThickness="2" HorizontalContentAlignment="Center" FontSize="20">
+                              Width="320" Height="30" BorderThickness="2" FontSize="16" HorizontalAlignment="Left" Margin="0 0 0 0" HorizontalContentAlignment="Center">
 
                         <ComboBoxItem Content="APARTMENT"/>
                         <ComboBoxItem Content="HOUSE"/>
                         <ComboBoxItem Content="HUT"/>
 
                     </ComboBox>
-                    <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Center">
-                        <TextBox x:Name="txtMaxGuestNumber"  IsReadOnly="True"
+
+                    <TextBox x:Name="txtMaxGuestNumber" Grid.Row="4" Grid.Column="1" 
                              Text="{Binding Path = Accommodation.MaxGuests, Mode=TwoWay ,UpdateSourceTrigger = PropertyChanged}"
-                             Width="100" Height="40" HorizontalAlignment="Left" Margin="15 0 0 0" BorderBrush="Turquoise" TextAlignment="Center" FontSize="20">
-                            <TextBox.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="10"></Setter>
-                                </Style>
-                            </TextBox.Resources>
-                        </TextBox>
-                        <Button x:Name="btnPlusGuest" Click="btnPlusGuest_Click" Content="+" Width="40" Height="40" 
-                                    Margin="20 0 0 0" Background="Turquoise" Foreground="Azure" FontSize="30">
-                            <Button.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="10"></Setter>
-                                </Style>
-                            </Button.Resources>
-                        </Button>
+                             Width="150">
+                    </TextBox>
 
-                        <Button x:Name="btnMinusGuest" Click="btnMinusGuest_Click" Content="-" Width="40" Height="40" 
-                                    Margin="20 0 0 0" Background="Turquoise" Foreground="Azure" FontSize="30">
-                            <Button.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="10"></Setter>
-                                </Style>
-                            </Button.Resources>
-                        </Button>
 
-                    </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1" HorizontalAlignment="Center">
-                        <TextBox x:Name="txtMinDaysNumber" IsReadOnly="True" 
+                    <TextBox x:Name="txtMinDaysNumber" Grid.Row="5" Grid.Column="1" 
                              Text="{Binding Path = Accommodation.MinimumReservationDays, UpdateSourceTrigger = PropertyChanged}"
-                             Width="100" Height="40" HorizontalAlignment="Left" Margin="15 0 0 0"  BorderBrush="Turquoise" TextAlignment="Center" FontSize="20">
-                            <TextBox.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="10"></Setter>
-                                </Style>
-                            </TextBox.Resources>
-                        </TextBox>
-                        <Button x:Name="btnPlusMinDays" Click="btnPlusMinDays_Click"  Content="+" Width="40" Height="40" 
-                                    Margin="20 0 0 0" Background="Turquoise" Foreground="Azure" FontSize="30">
-                            <Button.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="10"></Setter>
-                                </Style>
-                            </Button.Resources>
-                        </Button>
+                             Width="150">
+                    </TextBox>
 
-                        <Button x:Name="btnMinusMinDays" Click="btnMinusMinDays_Click"  Content="-" Width="40" Height="40" 
-                                    Margin="20 0 0 0" Background="Turquoise" Foreground="Azure" FontSize="30">
-                            <Button.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="10"></Setter>
-                                </Style>
-                            </Button.Resources>
-                        </Button>
-                    </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" Grid.Row="5" Grid.Column="1" HorizontalAlignment="Center">
-                        <TextBox x:Name="txtCancellationDeadLineInDays" IsReadOnly="True" 
+
+                    <TextBox x:Name="txtCancellationDeadLineInDays" Grid.Row="6" Grid.Column="1"  
                              Text="{Binding Path = Accommodation.CancellationDeadlineInDays, UpdateSourceTrigger = PropertyChanged}"
-                             Width="100" Height="40" HorizontalAlignment="Left" Margin="15 0 0 0"  BorderBrush="Turquoise" TextAlignment="Center" FontSize="20">
-                            <TextBox.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="10"></Setter>
-                                </Style>
-                            </TextBox.Resources>
-                        </TextBox>
-                        <Button x:Name="btnPlusCancellationDays" Click="btnPlusCancellationDays_Click"  Content="+" Width="40" Height="40" 
-                                    Margin="20 0 0 0" Background="Turquoise" Foreground="Azure" FontSize="30">
-                            <Button.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="10"></Setter>
-                                </Style>
-                            </Button.Resources>
-                        </Button>
+                             Width="150">
+                    </TextBox>
 
-                        <Button x:Name="btnMinusCancellationDays" Click="btnMinusCancellationDays_Click"  Content="-" Width="40" Height="40" 
-                                    Margin="20 0 0 0" Background="Turquoise" Foreground="Azure" FontSize="30">
-                            <Button.Resources>
-                                <Style TargetType="Border">
-                                    <Setter Property="CornerRadius" Value="10"></Setter>
-                                </Style>
-                            </Button.Resources>
-                        </Button>
-                    </StackPanel>
-                    <StackPanel Grid.Row="6" Grid.Column="1">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <!-- Image TextBox and ListView STACK PANEL-->
+                    <StackPanel Grid.Row="7" Grid.Column="1">
+                        
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  >
+                            
                             <TextBox x:Name="txtPictureURL"  
                                     Text="{Binding Path = ImageURL, UpdateSourceTrigger = PropertyChanged, ValidatesOnDataErrors=True}"
-                             Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
-                                     Width="250" Height="50" HorizontalAlignment="Left" BorderBrush="Turquoise" TextAlignment="Center" FontSize="15" TextWrapping="Wrap" Margin="0 10 0 10 ">
-                                <TextBox.Resources>
-                                    <Style TargetType="Border">
-                                        <Setter Property="CornerRadius" Value="10"></Setter>
-                                    </Style>
-                                </TextBox.Resources>
+                                    Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
+                                     Width="320" TextWrapping="Wrap">
                             </TextBox>
-                            <Button x:Name="btnAddImage" Click="btnAddImage_Click" Content="+" Width="40" Height="40" 
-                                    Margin="20 10 0 0" Background="Turquoise" Foreground="Azure" FontSize="30">
-                                <Button.Resources>
-                                    <Style TargetType="Border">
-                                        <Setter Property="CornerRadius" Value="10"></Setter>
-                                    </Style>
-                                </Button.Resources>
+
+                            <Button x:Name="btnAddImage" Click="btnAddImage_Click" Content="(Ins)" 
+                                     Style="{StaticResource ResourceKey=circleButtonStyle}">
                             </Button>
-                            <Button x:Name="btnRemoveImage" Click="btnRemoveImage_Click"  Content="-" Width="40" Height="40" 
-                                    Margin="20 10 0 0" Background="Turquoise" Foreground="Azure" FontSize="30">
-                                <Button.Resources>
-                                    <Style TargetType="Border">
-                                        <Setter Property="CornerRadius" Value="10"></Setter>
-                                    </Style>
-                                </Button.Resources>
+                            
+                        </StackPanel>
+                        
+                        <StackPanel Orientation="Horizontal" Margin="0 5 0 5 ">
+                            <ListBox x:Name="lbImages" ItemsSource="{Binding Path=Images, UpdateSourceTrigger=PropertyChanged}" 
+                                  Height="100" Width="320" BorderBrush="Turquoise" FontSize="16" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                            </ListBox>
+
+                            <Button x:Name="btnRemoveImage" Click="btnRemoveImage_Click"  Content="(Del)" 
+                                     Style="{StaticResource ResourceKey=circleButtonStyle}">
                             </Button>
                         </StackPanel>
-                        <ListBox x:Name="lbImages" Height="80" BorderBrush="Turquoise" FontSize="15"
-                                 ItemsSource="{Binding Path=Images, UpdateSourceTrigger=PropertyChanged}" 
-                                 Margin="0 10 0 10" ScrollViewer.VerticalScrollBarVisibility="Visible">
-                        </ListBox>
                     </StackPanel>
                 </Grid>
             </Border>
+            <!-- Buttons STACK PANEL-->
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 0" Width="550">
+                <Button x:Name="btnRegister" Content="Register (Ctrl+R)" Click="btnRegister_Click" 
+                    Style ="{StaticResource ResourceKey=fancyButtonStyle}">
+                </Button>
+                <Button x:Name="btnCancel" Content="Cancel (Esc)" Click="btnCancel_Click"
+                    Style ="{StaticResource ResourceKey=fancyButtonStyle}">
+                </Button>
+            </StackPanel>
 
-            <Button x:Name="btnRegister" Content="Register" Click="btnRegister_Click" 
-                    Width="300" Height="60" Margin="10 20 10 20" Padding="10" Background="Turquoise" Foreground="Azure" FontSize="28">
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="10"></Setter>
-                    </Style>
-                </Button.Resources>
-            </Button>
-
-            
         </StackPanel>
 
     </Grid>

@@ -37,6 +37,20 @@ namespace SIMS_HCI_Project.Controller
             return _notifications;
         }
 
+        public List<Notification> GetUnreadById(int id)
+        {
+            return _notifications.FindAll(n => n.Id == id && n.IsRead == false);
+        }
+
+        public void MarkAsRead(int id)
+        {
+            foreach (Notification notification in GetUnreadById(id))
+            {
+                notification.IsRead = true;
+                Save();
+                NotifyObservers();
+            }
+        }
 
         public void Load()
         {
@@ -50,11 +64,7 @@ namespace SIMS_HCI_Project.Controller
         }
         public int GenerateId()
         {
-            if (_notifications.Count == 0)
-            {
-                return 1;
-            }
-            return _notifications[_notifications.Count - 1].Id + 1;
+            return _notifications.Count == 0 ? 1 : _notifications[_notifications.Count - 1].Id + 1;
         }
 
         public void Add(Notification notification)

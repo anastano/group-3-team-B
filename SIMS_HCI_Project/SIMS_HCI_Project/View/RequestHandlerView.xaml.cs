@@ -26,9 +26,10 @@ namespace SIMS_HCI_Project.View
 
         private RescheduleRequestController _requestController;
         private AccommodationReservationController _reservationController;
+        private NotificationController _notificationController;
         public ObservableCollection<AccommodationReservation> Reservations { get; set; }
 
-        public RequestHandlerView(RescheduleRequestController requestController, AccommodationReservationController reservationController, RescheduleRequest request, int ownerId)
+        public RequestHandlerView(RescheduleRequestController requestController, AccommodationReservationController reservationController, NotificationController notificationController, RescheduleRequest request, int ownerId)
         {
             InitializeComponent();
             DataContext = this;
@@ -37,9 +38,76 @@ namespace SIMS_HCI_Project.View
 
             _requestController = requestController;
             _reservationController = reservationController;
+            _notificationController = notificationController;
 
-            Reservations = new ObservableCollection<AccommodationReservation>(_reservationController.GetAll()); //CHANGE THIS, FIND BY ACCOMMODATION AND DATE
+            Reservations = new ObservableCollection<AccommodationReservation>(_reservationController.GetOverlappingReservations(request));
 
+            ShowDataGrid();
+        }
+
+        public void ShowDataGrid() 
+        {
+            int overlappingReservations = _reservationController.GetOverlappingReservations(Request).Count;
+            if (overlappingReservations != 0)
+            {
+                txtOverlappingReservations.Text = "There are reservations on those days: ";
+            }
+            else
+            {
+                dgReservations.Visibility= Visibility.Collapsed;
+                txtOverlappingReservations.Text = "There are not any reservations on those days.";
+            }
+
+        }
+
+        private void btnAcceptRequest_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult confirmationResult = ConfirmRequestAcceptance();
+
+            if (confirmationResult == MessageBoxResult.Yes)
+            {
+                _reservationController.Reschedule(Request, _requestController, Reservations.ToList());
+
+                String Message = "Request to reschedule the reservation for '" + Request.AccommodationReservation.Accommodation.Name + "' has been ACCEPTED";
+                _notificationController.Add(new Notification(Message, Request.AccommodationReservation.GuestId, false));
+
+                Close();
+            }
+
+        }
+
+        private MessageBoxResult ConfirmRequestAcceptance()
+        {
+
+            string sMessageBoxText = $"Are you sure you want to accept this request?";
+            string sCaption = "Confirmation";
+
+            MessageBoxButton btnMessageBox = MessageBoxButton.YesNo;
+            MessageBoxImage icnMessageBox = MessageBoxImage.Question;
+
+            MessageBoxResult result = MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox, icnMessageBox);
+            return result;
+        }
+
+        private void btnDeclineRequest_Click(object sender, RoutedEventArgs e)
+        {
+            Window requestDenialView = new RequestDenialView(Request, _requestController, _notificationController, this);
+            requestDenialView.Show();
+        }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.A))
+                btnAcceptRequest_Click(sender, e);
+            else if (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.D))
+                btnDeclineRequest_Click(sender, e);
+            else if (Keyboard.IsKeyDown(Key.Escape))
+                btnCancel_Click(sender, e);
         }
     }
 }

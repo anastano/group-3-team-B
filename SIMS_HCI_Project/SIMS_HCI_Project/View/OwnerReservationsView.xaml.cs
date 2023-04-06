@@ -61,5 +61,13 @@ namespace SIMS_HCI_Project.View
         {
             Close();
         }
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.S))
+                btnSearch_Click(sender, e);
+            else if (Keyboard.IsKeyDown(Key.Escape))
+                btnClose_Click(sender, e);
+        }
     }
 }

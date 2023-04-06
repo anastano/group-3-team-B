@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Model
 {
-    public enum RescheduleRequestStatus { ACCEPTED, REJECTED, PENDING};
+    public enum RescheduleRequestStatus { ACCEPTED, DENIED, PENDING};
     public class RescheduleRequest : ISerializable
     {
         public int Id { get; set; }
@@ -59,6 +59,7 @@ namespace SIMS_HCI_Project.Model
             WantedStart = DateTime.ParseExact(values[2], "MM/dd/yyyy", null);
             WantedEnd = DateTime.ParseExact(values[3], "MM/dd/yyyy", null);
             Enum.TryParse(values[4], out RescheduleRequestStatus status);
+            Status = status;
             OwnerComment = values[5];
         }
     }

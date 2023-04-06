@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.View"
         mc:Ignorable="d"
-        Title="RequestHandlerView" Height="600" Width="600">
+        Title="RequestHandlerView" Height="620" Width="600" WindowStartupLocation="CenterScreen"
+        PreviewKeyDown="Window_PreviewKeyDown">
 
     <Window.Resources>
 
@@ -163,8 +164,12 @@
                          
                         </Grid>
 
+                        <TextBlock x:Name ="txtOverlappingReservations" TextAlignment="Center" HorizontalAlignment="Center"
+                                           Style="{StaticResource ResourceKey=fancyTextBlock}">
+                        </TextBlock>
+
                         <DataGrid x:Name = "dgReservations" AutoGenerateColumns="False" ItemsSource="{Binding Path=Reservations, UpdateSourceTrigger=PropertyChanged}" 
-                                  IsReadOnly="True" Background="Azure" Width="470" Height="200" Margin="10 10 10 10">
+                                  IsReadOnly="True" Focusable="False" IsTabStop="False"  FocusVisualStyle="{x:Null}" Background="Azure" Width="500" Height="150" Margin="10 10 10 10">
 
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="0.4*"></DataGridTextColumn>
@@ -182,14 +187,14 @@
             </StackPanel>
 
             <StackPanel  Margin="5 5 5 5" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="btnAcceptRequest"  Content="Accept (Ctrl+A)" 
+                <Button x:Name="btnAcceptRequest"  Content="Accept (Ctrl+A)" Click="btnAcceptRequest_Click"
                             Style="{StaticResource ResourceKey=fancyButtonStyle}">
                 </Button>
-                <Button x:Name="bttDeclineRequest"  Content="Decline (Ctrl+D)" 
+                <Button x:Name="btnDeclineRequest"  Content="Decline (Ctrl+D)" Click="btnDeclineRequest_Click"
                             Style="{StaticResource ResourceKey=fancyButtonStyle}">
                 </Button>
 
-                <Button x:Name="btnClose"  Content="Close (Esc)"
+                <Button x:Name="btnCancel"  Content="Cancel (Esc)" Click="btnCancel_Click"
                             Style="{StaticResource ResourceKey=fancyButtonStyle}">
                 </Button>
             </StackPanel>

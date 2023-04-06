@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.View"
         mc:Ignorable="d"
-        Title="OwnerRescheduleRequestsView" Height="700" Width="1000">
+        Title="OwnerRescheduleRequestsView" Height="700" Width="1000" WindowStartupLocation="CenterScreen"
+        PreviewKeyDown="Window_PreviewKeyDown">
     <Window.Resources>
         <Style x:Key="fancyButtonStyle" TargetType="Button">
             <Setter Property="Width" Value="400"/>
@@ -83,10 +84,10 @@
                 <Border Style="{StaticResource ResourceKey=fencyBorder}">
                     <!-- Buttons STACK PANEL-->
                     <StackPanel  Margin="5 5 5 5" Orientation="Horizontal">
-                        <Button x:Name="btnAcceptDeclineRequest"  Content="    Accept/Decline Selected &#xa;         Request (Ctrl+A)" Click="btnAcceptDeclineRequest_Click"
+                        <Button x:Name="btnAcceptDeclineRequest"  Content="    Accept/Decline Selected &#xa;         Request (Ctrl+S)" Click="btnAcceptDeclineRequest_Click"
                             Style="{StaticResource ResourceKey=fancyButtonStyle}">
                         </Button>
-                        <Button x:Name="btnDeleteAccommodation"  Content="Close (Esc)" 
+                        <Button x:Name="btnClose"  Content="Close (Esc)" Click="btnClose_Click"
                             Style="{StaticResource ResourceKey=fancyButtonStyle}">
                         </Button>
                     </StackPanel>
@@ -114,6 +115,8 @@
                                 <DataGridTextColumn Header="Inital End" Binding="{Binding AccommodationReservation.End , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
                                 <DataGridTextColumn Header="Wanted Start" Binding="{Binding WantedStart , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
                                 <DataGridTextColumn Header="Wanted End" Binding="{Binding WantedEnd , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
+                               <!-- Does it make sense to show accepted, denied and panding requests or just pending??? -->
+                                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*"></DataGridTextColumn>
                             </DataGrid.Columns>
 
                         </DataGrid>

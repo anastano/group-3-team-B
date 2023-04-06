@@ -122,7 +122,7 @@ namespace SIMS_HCI_Project.Controller
 
             foreach (AccommodationReservation reservation in _ownerController.FindById(ownerId).Reservations)
             {
-                if (IsInProgress(reservation))
+                if (IsInProgress(reservation) && IsReservedOrRescheduled(reservation))
                 {
                     reservationsInProgress.Add(reservation);
                 }
@@ -134,6 +134,58 @@ namespace SIMS_HCI_Project.Controller
         {
             return DateTime.Today >= reservation.Start && DateTime.Today <= reservation.End;
         }
+
+        public bool IsReservedOrRescheduled(AccommodationReservation reservation)
+        {
+            return reservation.Status == AccommodationReservationStatus.RESERVED || reservation.Status == AccommodationReservationStatus.RESCHEDULED;
+        }
+
+        public List<AccommodationReservation> GetOverlappingReservations(RescheduleRequest request)
+        {
+            List<AccommodationReservation> overlappingReservations = new List<AccommodationReservation>();
+
+            foreach (AccommodationReservation reservation in _reservations)
+            {
+                if (reservation.AccommodationId == request.AccommodationReservation.AccommodationId && reservation.Id != request.AccommodationReservationId)
+                {
+                    if (IsDateRangeOverlapping(reservation, request) && IsReservedOrRescheduled(reservation))
+                    {
+                        overlappingReservations.Add(reservation);
+                    }
+                }
+            }
+            return overlappingReservations;
+        }
+
+        public bool IsDateRangeOverlapping(AccommodationReservation reservation, RescheduleRequest request)
+        {
+            bool startOverlaps = reservation.Start >= request.WantedStart && reservation.Start <= request.WantedEnd;
+            bool endOverlaps = reservation.End >= request.WantedStart && reservation.End <= request.WantedEnd;
+
+            return startOverlaps || endOverlaps;
+        }
+
+        public void Reschedule(RescheduleRequest request, RescheduleRequestController requestController, List<AccommodationReservation> reservations) 
+        {
+            if (reservations != null)
+            {
+                foreach (AccommodationReservation reservation in reservations)
+                {
+                    EditStatus(reservation.Id, AccommodationReservationStatus.CANCELLED);
+                }
+            }
+
+            AccommodationReservation newReservation = _reservations.Find(r => r.Id == request.AccommodationReservationId);
+            newReservation.Start = request.WantedStart;
+            newReservation.End = request.WantedEnd;
+            newReservation.Status = AccommodationReservationStatus.RESCHEDULED;          
+            Save();
+            NotifyObservers();
+
+            requestController.EditStatus(request, RescheduleRequestStatus.ACCEPTED);            
+
+        }
+
 
         public List<AccommodationReservation> Search(string accommodationName, string guestName, string guestSurname, int ownerId) //CHANGE ID TO NAME HERE WHEN YOU GET ACCOMMODATION OBJECT
         {

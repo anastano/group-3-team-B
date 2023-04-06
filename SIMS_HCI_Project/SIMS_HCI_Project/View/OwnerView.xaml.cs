@@ -32,8 +32,10 @@ namespace SIMS_HCI_Project.View
         private AccommodationReservationController _reservationController;
         private OwnerGuestRatingController _ownerGuestRatingController;
         private RescheduleRequestController _requestController;
+        private NotificationController _notificationController;
 
         public ObservableCollection<AccommodationReservation> Reservations { get; set; }
+        public ObservableCollection<Notification> Notifications { get; set; }
 
         public OwnerView(Owner owner)
         {
@@ -42,10 +44,12 @@ namespace SIMS_HCI_Project.View
 
             Owner = owner;
 
-            LoadFromFiles();
-            ShowNotifications();
+            LoadFromFiles();            
 
             Reservations = new ObservableCollection<AccommodationReservation>(_reservationController.GetReservationsInProgress(Owner.Id));
+            Notifications = new ObservableCollection<Notification>(_notificationController.GetUnreadById(Owner.Id));
+
+            ShowNotifications();
 
             _ownerGuestRatingController.Subscribe(this);
         }
@@ -59,6 +63,7 @@ namespace SIMS_HCI_Project.View
             _reservationController = new AccommodationReservationController();
             _ownerGuestRatingController = new OwnerGuestRatingController();
             _requestController = new RescheduleRequestController();
+            _notificationController = new NotificationController();
 
             _ownerController.Load();
             _guestController.Load();
@@ -66,6 +71,7 @@ namespace SIMS_HCI_Project.View
             _reservationController.Load();
             _ownerGuestRatingController.Load();
             _requestController.Load();
+            _notificationController.Load();
 
             _accommodationController.ConnectAccommodationsWithLocations(_locationController);
             _reservationController.ConnectAccommodationsWithReservations(_accommodationController);
@@ -79,14 +85,14 @@ namespace SIMS_HCI_Project.View
 
         private void ShowNotifications()
         {
-            if (_ownerGuestRatingController.GetUnratedReservations(Owner.Id).Count != 0)
-            {
-                 txtUnratedGuestsNotifications.Visibility= Visibility.Visible;
-            }
-            else
-            {
-                txtUnratedGuestsNotifications.Visibility= Visibility.Collapsed;
-            }
+            int unratedGuestsNumber = _ownerGuestRatingController.GetUnratedReservations(Owner.Id).Count;
+            txtUnratedGuestsNotifications.Visibility = unratedGuestsNumber  != 0 ? Visibility.Visible : Visibility.Collapsed;
+
+            int guestRequestsNumber = _requestController.GetPendingRequestsByOwnerId(Owner.Id).Count;
+            txtGuestsRequestsNotifications.Visibility = guestRequestsNumber  != 0 ? Visibility.Visible : Visibility.Collapsed;
+
+            int otherNotificationsNumber = Notifications.Count;
+            lvNotifications.Visibility = otherNotificationsNumber != 0 ? Visibility.Visible : Visibility.Collapsed;
 
         }
 
@@ -104,7 +110,7 @@ namespace SIMS_HCI_Project.View
 
         private void btnGuestRequests_Click(object sender, RoutedEventArgs e)
         {
-            Window requestsView = new OwnerRescheduleRequestsView(_requestController, _ownerController, _reservationController, Owner);
+            Window requestsView = new OwnerRescheduleRequestsView(_requestController, _notificationController, _reservationController, Owner);
             requestsView.Show();
         }
 
@@ -120,7 +126,10 @@ namespace SIMS_HCI_Project.View
             MessageBoxResult confirmationResult = ConfirmLogout();
             if (confirmationResult == MessageBoxResult.Yes)
             {
+                _notificationController.MarkAsRead(Owner.Id);
+                
                 Close();
+
             }         
         }
 
@@ -142,7 +151,7 @@ namespace SIMS_HCI_Project.View
             ShowNotifications();
         }
 
-        private void Window_KeyDown(object sender, KeyEventArgs e)
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (Keyboard.IsKeyDown(Key.D1))
                 btnAccommodations_Click(sender, e);
@@ -154,7 +163,6 @@ namespace SIMS_HCI_Project.View
                 btnRateGuests_Click(sender, e);
             else if (Keyboard.IsKeyDown(Key.Escape))
                 btnLogout_Click(sender, e);
-
         }
     }
 }

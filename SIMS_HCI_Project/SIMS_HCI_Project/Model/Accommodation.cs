@@ -79,7 +79,6 @@ namespace SIMS_HCI_Project.Model
                 OwnerId.ToString(),
                 Name,
                 LocationId.ToString(),
-
                 Type.ToString(),
                 MaxGuests.ToString(),
                 MinimumReservationDays.ToString(),

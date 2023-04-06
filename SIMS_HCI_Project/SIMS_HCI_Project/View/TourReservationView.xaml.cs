@@ -31,8 +31,8 @@ namespace SIMS_HCI_Project.View
         private TourReservationController _tourReservationController = new TourReservationController();
         private TourVoucherController _tourVoucherController = new TourVoucherController();
 
-        public TourVoucher SelectedVoucher { get; set; }
         public TourVoucher TourVoucher { get; set; }
+        public TourTime TourTime { get; set; }
 
         public Tour Tour { get; set; }
         public Guest2 Guest2 { get; set; }
@@ -46,7 +46,15 @@ namespace SIMS_HCI_Project.View
                 OnPropertyChanged();
             }
         }
-        public TourTime TourTime { get; set; }
+        private TourVoucher _selectedTourVoucher;
+        public TourVoucher SelectedVoucher 
+        {
+            get { return _selectedTourVoucher; }
+            set { 
+                _selectedTourVoucher = value;
+                OnPropertyChanged();
+                } 
+        }
 
         private ObservableCollection<TourReservation> _reservations { get; set; }
         public ObservableCollection<TourReservation> Reservations 
@@ -100,6 +108,7 @@ namespace SIMS_HCI_Project.View
             SelectedTourTime = Tour.DepartureTimes[0];
 
             Reservations = new ObservableCollection<TourReservation>(_tourReservationController.GetAll());
+            //Guest2.Vouchers = new ObservableCollection<TourVoucher>(_tourVoucherController.GetValidVouchersByGuestId(guest.Id));
             Vouchers = new ObservableCollection<TourVoucher>(_tourVoucherController.GetValidVouchersByGuestId(guest.Id));
 
             Closing += TourReservationView_Closing;
@@ -115,6 +124,7 @@ namespace SIMS_HCI_Project.View
             bool isValidrequestedPartySize = int.TryParse(txtRequestedPartySize.Text, out requestedPartySize);
 
             TourTime = _tourTimeController.FindById(SelectedTourTime.Id);
+            TourVoucher = _tourVoucherController.FindById(SelectedVoucher.Id);
             TourReservation tourReservation = new TourReservation(SelectedTourTime.Id, Guest2.Id, requestedPartySize);
 
             if (IsValid)
@@ -127,6 +137,7 @@ namespace SIMS_HCI_Project.View
                 {
                     if (requestedPartySize <= TourTime.Available)
                     {
+                        _tourVoucherController.UseVoucher(TourVoucher);
                         Reservations.Add(tourReservation);
                         _tourReservationController.Add(tourReservation);
                         _tourTimeController.ReduceAvailablePlaces(TourTime, requestedPartySize);
@@ -144,7 +155,9 @@ namespace SIMS_HCI_Project.View
             {
                 MessageBox.Show("Field is not validly filled in");
             }
-            _reservations = Reservations; 
+            _reservations = Reservations;
+            _vouchers = Vouchers;
+            OnPropertyChanged();
         }
 
         private void btnShowSuggestions_Click(object sender, RoutedEventArgs e)
@@ -159,14 +172,7 @@ namespace SIMS_HCI_Project.View
             Window guest2View = new Guest2View(Guest2);
             guest2View.Show();
         }
-        public void UseVoucher()
-        {
-            if (SelectedVoucher != null)
-            {
-                TourVoucher = _tourVoucherController.FindById(SelectedVoucher.Id);
-                TourVoucher.Status = VoucherStatus.USED;
-            }
-        }
+        
 
         private string _requestedPartySize;
         public string RequestedPartySize

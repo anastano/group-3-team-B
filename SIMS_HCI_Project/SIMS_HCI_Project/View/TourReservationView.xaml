@@ -94,9 +94,9 @@
             </Validation.ErrorTemplate>
         </TextBox>
         <TextBlock HorizontalAlignment="Left" Margin="307,294,0,0" TextWrapping="Wrap" Text="Enter number of people and select deparature time, then click on CONFIRM RESERVATION button to complete reservation." VerticalAlignment="Top" Height="58" Width="343" FontSize="14" TextAlignment="Center" Foreground="#FFD40707"/>
-        <DataGrid Name="dgVouchers" d:ItemsSource="{Binding Path=Guest.Vouchers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path= SelectedVoucher, UpdateSourceTrigger=Explicit}" IsReadOnly="True" AutoGenerateColumns="False" Margin="307,448,10,120">
+        <DataGrid Name="dgVouchers" ItemsSource="{Binding Path=Vouchers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path= SelectedVoucher, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" Margin="307,448,10,120" >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="VoucherID" Binding="{Binding Id}" CanUserResize="False" IsReadOnly="True" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}" CanUserResize="False" IsReadOnly="True" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Expiration date" Binding="{Binding ExpirationDate}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>

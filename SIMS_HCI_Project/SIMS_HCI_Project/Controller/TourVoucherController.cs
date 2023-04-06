@@ -92,6 +92,15 @@ namespace SIMS_HCI_Project.Controller
             AddMultiple(givenTourVouchers);
         }
 
+        public void UseVoucher(TourVoucher selectedVoucher)
+        {
+            if (selectedVoucher == null) return;
+
+            TourVoucher voucher = FindById(selectedVoucher.Id);
+            voucher.Status = VoucherStatus.USED;
+            Save();
+
+        }
         public void Subscribe(IObserver observer)
         {
             _observers.Add(observer);

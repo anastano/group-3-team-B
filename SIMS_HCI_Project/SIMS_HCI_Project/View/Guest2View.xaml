@@ -47,7 +47,7 @@
         <DataGrid Name="dgVouchers" 
            ItemsSource="{Binding Path=Guest.Vouchers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" Margin="598,56,50,403">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="VoucherID" Binding="{Binding Title}" CanUserResize="False" IsReadOnly="True" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}" CanUserResize="False" IsReadOnly="True" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Expiration date" Binding="{Binding ExpirationDate}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>

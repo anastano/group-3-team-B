@@ -33,7 +33,6 @@ namespace SIMS_HCI_Project.View
 
         public TourVoucher TourVoucher { get; set; }
         public TourTime TourTime { get; set; }
-
         public Tour Tour { get; set; }
         public Guest2 Guest2 { get; set; }
         private TourTime _selectedTourTime;
@@ -88,8 +87,7 @@ namespace SIMS_HCI_Project.View
                 }
             }
         }
-       
-
+ 
         public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -104,11 +102,10 @@ namespace SIMS_HCI_Project.View
             Tour = tour;
             Guest2 = guest;
             _tourController.LoadConnections();
-            _tourTimeController.ConnectAvailablePlaces();
+            _tourTimeController.LoadConnections();
             SelectedTourTime = Tour.DepartureTimes[0];
 
             Reservations = new ObservableCollection<TourReservation>(_tourReservationController.GetAll());
-            //Guest2.Vouchers = new ObservableCollection<TourVoucher>(_tourVoucherController.GetValidVouchersByGuestId(guest.Id));
             Vouchers = new ObservableCollection<TourVoucher>(_tourVoucherController.GetValidVouchersByGuestId(guest.Id));
 
             Closing += TourReservationView_Closing;
@@ -120,19 +117,37 @@ namespace SIMS_HCI_Project.View
 
         private void btnConfirmReservation_Click(object sender, RoutedEventArgs e) 
         {
+            Reserve();
+        }
+
+        private void btnShowSuggestions_Click(object sender, RoutedEventArgs e)
+        {
+            Window window = new TourSuggestionsView(Tour.Location, Guest2);
+            window.Show();
+            this.Close();
+        }
+
+        private void TourReservationView_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Window guest2View = new Guest2View(Guest2);
+            guest2View.Show();
+        }
+        
+        private void Reserve() //TODO: refactor
+        {
             int requestedPartySize;
             bool isValidrequestedPartySize = int.TryParse(txtRequestedPartySize.Text, out requestedPartySize);
 
             TourTime = _tourTimeController.FindById(SelectedTourTime.Id);
             TourReservation tourReservation = new TourReservation();
-            if (SelectedVoucher != null) 
+            if (SelectedVoucher != null)
             {
                 TourVoucher = _tourVoucherController.FindById(SelectedVoucher.Id);
-                 tourReservation = new TourReservation(SelectedTourTime.Id, Guest2.Id, requestedPartySize, TourVoucher.Id);
+                tourReservation = new TourReservation(SelectedTourTime.Id, Guest2.Id, requestedPartySize, TourVoucher.Id);
             }
             else
             {
-                 tourReservation = new TourReservation(SelectedTourTime.Id, Guest2.Id, requestedPartySize, -1);
+                tourReservation = new TourReservation(SelectedTourTime.Id, Guest2.Id, requestedPartySize, -1);
             }
 
             if (IsValid)
@@ -145,11 +160,10 @@ namespace SIMS_HCI_Project.View
                 {
                     if (requestedPartySize <= TourTime.Available)
                     {
-                        if(SelectedVoucher != null)
+                        if (SelectedVoucher != null)
                         {
-                        _tourVoucherController.UseVoucher(TourVoucher);
+                            _tourVoucherController.UseVoucher(TourVoucher);
                         }
-                        //tourReservation.VoucherUsedId = TourVoucher.Id;
                         Reservations.Add(tourReservation);
                         _tourReservationController.Add(tourReservation);
                         _tourTimeController.ReduceAvailablePlaces(TourTime, requestedPartySize);
@@ -171,20 +185,6 @@ namespace SIMS_HCI_Project.View
             _vouchers = Vouchers;
             OnPropertyChanged();
         }
-
-        private void btnShowSuggestions_Click(object sender, RoutedEventArgs e)
-        {
-            Window window = new TourSuggestionsView(Tour.Location, Guest2);
-            window.Show();
-            this.Close();
-        }
-
-        private void TourReservationView_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            Window guest2View = new Guest2View(Guest2);
-            guest2View.Show();
-        }
-        
 
         private string _requestedPartySize;
         public string RequestedPartySize

@@ -11,48 +11,8 @@ namespace SIMS_HCI_Project.Model
 {
     public class Guest2 : User
     {
-        //public ObservableCollection<TourReservation> Reservations { get; set; }
-
-        //
-
-        private ObservableCollection<TourVoucher> _vouchers { get; set; }
-        public ObservableCollection<TourVoucher> Vouchers
-        {
-            get { return _vouchers; }
-            set
-            {
-                if(value != _vouchers)
-                {
-                    _vouchers = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        private ObservableCollection<TourReservation> _reservations { get; set; }
-        public ObservableCollection<TourReservation> Reservations
-        {
-            get
-            {
-                return _reservations;
-            }
-            set
-            {
-                if (value != _reservations)
-                {
-                    _reservations = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        //
+        public ObservableCollection<TourReservation> Reservations { get; set; }
+        public ObservableCollection<TourVoucher> Vouchers { get; set; }
 
         public Guest2()
         {
@@ -60,7 +20,7 @@ namespace SIMS_HCI_Project.Model
             Vouchers = new ObservableCollection<TourVoucher>();
         }
 
-        public Guest2(int id, string username, string password, UserRole role)
+        /*public Guest2(int id, string username, string password, UserRole role)
         {
             Id = id;
             Username = username;
@@ -68,6 +28,19 @@ namespace SIMS_HCI_Project.Model
             Role = role;
             Reservations = new ObservableCollection<TourReservation>();
             Vouchers= new ObservableCollection<TourVoucher>();
+        }*/
+
+        public Guest2(User user)
+        {
+            Id = user.Id;
+            Username = user.Username;
+            Password = user.Password;
+            //Role = role;
+            Name = user.Name;
+            Surname = user.Surname;
+            Age = user.Age;
+            Reservations = new ObservableCollection<TourReservation>();
+            Vouchers = new ObservableCollection<TourVoucher>();
         }
     }
 }

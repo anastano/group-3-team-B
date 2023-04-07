@@ -40,8 +40,7 @@ namespace SIMS_HCI_Project.View
             _tourController.LoadConnections();
             _tourTimeController.ConnectAvailablePlaces();
             _tourReservationController.LoadConnections();
-            //_tourVoucherController.LoadConnections(); implement if needed
-     
+            
             Guest.Reservations = new ObservableCollection<TourReservation> (_tourReservationController.GetAllByGuestId(guest.Id));
             Guest.Vouchers = new ObservableCollection<TourVoucher> (_tourVoucherController.GetValidVouchersByGuestId(guest.Id));
 

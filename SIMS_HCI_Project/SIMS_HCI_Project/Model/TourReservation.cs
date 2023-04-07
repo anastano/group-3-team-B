@@ -17,7 +17,7 @@ namespace SIMS_HCI_Project.Model
         public int Guest2Id { get; set; }
         public int PartySize { get; set; }
         public TourReservationStatus Status { get; set; }
-        public int VoucherUsedId { get; set; } // TODO: Connect with Voucher class later
+        public int VoucherUsedId { get; set; } 
         public TourVoucher TourVoucher { get; set; }
 
         public TourReservation()

@@ -1,5 +1,6 @@
 ﻿using SIMS_HCI_Project.FileHandler;
 using SIMS_HCI_Project.Model;
+using SIMS_HCI_Project.Observer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,9 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Controller
 {
-    public class TourVoucherController
+    public class TourVoucherController : ISubject
     {
+        private readonly List<IObserver> _observers;
         private TourVoucherFileHandler _fileHandler;
 
         private static List<TourVoucher> _tourVouchers;
@@ -23,6 +25,7 @@ namespace SIMS_HCI_Project.Controller
             {
                 Load();
             }
+            _observers = new List<IObserver>();
         }
 
         public List<TourVoucher> GetAll()
@@ -58,7 +61,18 @@ namespace SIMS_HCI_Project.Controller
             }
             Save();
         }
-
+        public TourVoucher FindById(int id)
+        {
+            return _tourVouchers.Find(v => v.Id == id);
+        }
+        public List<TourVoucher> GetAllByGuestId(int id)
+        {
+            return _tourVouchers.FindAll(v => v.GuestId == id);
+        }
+        public List<TourVoucher> GetValidVouchersByGuestId(int id)
+        {
+            return _tourVouchers.FindAll(v => v.GuestId == id && v.Status==VoucherStatus.VALID);
+        }
         private int GenerateId()
         {
             if (_tourVouchers.Count == 0) return 1;
@@ -72,10 +86,36 @@ namespace SIMS_HCI_Project.Controller
             foreach (TourReservation tourReservation in tourReservations)
             {
                 tourReservation.Status = TourReservationStatus.CANCELLED;
-                givenTourVouchers.Add(new TourVoucher(tourReservation.Guest2Id, DateTime.Now, DateTime.Now.AddDays(DefaultExpirationDays)));
+                givenTourVouchers.Add(new TourVoucher(tourReservation.Guest2Id,"generate_name_later", DateTime.Now, DateTime.Now.AddDays(DefaultExpirationDays)));
             }
 
             AddMultiple(givenTourVouchers);
+        }
+
+        public void UseVoucher(TourVoucher selectedVoucher)
+        {
+            if (selectedVoucher == null) return;
+
+            TourVoucher voucher = FindById(selectedVoucher.Id);
+            voucher.Status = VoucherStatus.USED;
+            Save();
+        }
+        public void Subscribe(IObserver observer)
+        {
+            _observers.Add(observer);
+        }
+
+        public void Unsubscribe(IObserver observer)
+        {
+            _observers.Remove(observer);
+        }
+
+        public void NotifyObservers()
+        {
+            foreach (var observer in _observers)
+            {
+                observer.Update();
+            }
         }
     }
 }

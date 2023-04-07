@@ -66,7 +66,6 @@ namespace SIMS_HCI_Project.Controller
             }
             return _reservations[_reservations.Count - 1].Id + 1;
         }
-
         public void ConnectTourTimes()
         {
             TourTimeController tourTimeController = new TourTimeController();
@@ -76,9 +75,18 @@ namespace SIMS_HCI_Project.Controller
             }
         }
 
+        public void ConnectVouchers()
+        {
+            TourVoucherController tourVoucherController = new TourVoucherController();
+            foreach(TourReservation tourReservation in _reservations)
+            {
+                tourReservation.TourVoucher = tourVoucherController.FindById(tourReservation.VoucherUsedId);
+            }
+        }
         public void LoadConnections()
         {
             ConnectTourTimes();
+            ConnectVouchers();
         }
 
 

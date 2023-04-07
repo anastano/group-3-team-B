@@ -116,40 +116,39 @@ namespace SIMS_HCI_Project.Controller
                 tourTime.CurrentKeyPoint = tourTime.Tour.KeyPoints[tourTime.CurrentKeyPointIndex];
             }
         }
+        public void ConnectAvailablePlaces()
+        {
+            foreach (TourTime tourTime in _tourTimes)
+            {
+                _reservations = _tourReservationController.GetAllByTourTimeId(tourTime.Id);
+                tourTime.Available = tourTime.Tour.MaxGuests;
+
+                if (_reservations == null)
+                {
+                    tourTime.Available = tourTime.Tour.MaxGuests;
+                    return;
+                }
+
+                foreach (TourReservation tourReservation in _reservations)
+                {
+                    tourTime.Available -= tourReservation.PartySize;
+                }
+
+            }
+        }
 
         public void LoadConnections()
         {
             ConnectGuestAttendances();
             ConnectCurrentKeyPoints();
+            ConnectAvailablePlaces();
         }
 
-        public void ReduceAvailablePlaces(TourTime tourTime, int requestedPartySize)
+        public void ReduceAvailablePlaces(TourTime selectedTourTime, int requestedPartySize)
         {
-            TourTime tt = FindById(tourTime.Id);
+            TourTime tourTime = FindById(selectedTourTime.Id);
 
-            tt.Available -= requestedPartySize;
-        }
-
-        public void ConnectAvailablePlaces()
-        {
-            foreach (TourTime tt in _tourTimes)
-            {
-                _reservations = _tourReservationController.GetAllByTourTimeId(tt.Id);
-                tt.Available = tt.Tour.MaxGuests;
-
-                if (_reservations == null)
-                {
-                    tt.Available = tt.Tour.MaxGuests;
-
-                }
-                else
-                {
-                    foreach (TourReservation tr in _reservations)
-                    {
-                        tt.Available -= tr.PartySize;
-                    }
-                }
-            }
+            tourTime.Available -= requestedPartySize;
         }
 
         public void StartTour(TourTime tourTime)

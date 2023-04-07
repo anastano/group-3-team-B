@@ -17,19 +17,20 @@ namespace SIMS_HCI_Project.Model
         public int Guest2Id { get; set; }
         public int PartySize { get; set; }
         public TourReservationStatus Status { get; set; }
- //       public int VoucherUsedId { get; set; } // TODO: Connect with Voucher class later
+        public int VoucherUsedId { get; set; } 
+        public TourVoucher TourVoucher { get; set; }
 
         public TourReservation()
         {
         }
 
-        public TourReservation(int tourTimeId, int guest2Id, int partySize)
+        public TourReservation(int tourTimeId, int guest2Id, int partySize, int voucherId)
         {
             TourTimeId = tourTimeId;
             Guest2Id = guest2Id;
             PartySize = partySize;
             Status = TourReservationStatus.GOING;
- //           VoucherUsedId = -1;
+            VoucherUsedId = voucherId;
             
         }
 
@@ -44,7 +45,7 @@ namespace SIMS_HCI_Project.Model
 
         public string[] ToCSV()
         {
-            string[] csvValues = { Id.ToString(), TourTimeId.ToString(), Guest2Id.ToString(), PartySize.ToString(), Status.ToString() };
+            string[] csvValues = { Id.ToString(), TourTimeId.ToString(), Guest2Id.ToString(), PartySize.ToString(), Status.ToString(), VoucherUsedId.ToString() };
             return csvValues;
         }
 
@@ -56,7 +57,7 @@ namespace SIMS_HCI_Project.Model
             PartySize = Convert.ToInt32(values[3]);
             Enum.TryParse(values[4], out TourReservationStatus status);
             Status = status;
-            //VoucherUsedId= Convert.ToInt32(values[5]);
+            VoucherUsedId= Convert.ToInt32(values[5]);
         }
     }
 }

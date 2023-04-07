@@ -83,6 +83,10 @@ namespace SIMS_HCI_Project.Controller
         {
             return _tours.FindAll(t => t.GuideId == id);
         }
+        public List<string> GetImages(int id)
+        {
+            return _tours.Find(t => t.Id == id).Images;
+        }
 
         public void ConnectLocations()
         {
@@ -138,9 +142,5 @@ namespace SIMS_HCI_Project.Controller
             return result.ToList();
         }
 
-        public List<string> GetImages(int id)
-        {
-            return _tours.Find(t => t.Id == id).Images;
-        }
     }
 }

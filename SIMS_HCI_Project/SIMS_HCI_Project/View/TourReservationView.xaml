@@ -75,13 +75,13 @@
 
         <Button Content="CONFIRM RESERVATION" Name="btnConfirmReservation" Click="btnConfirmReservation_Click" HorizontalAlignment="Left" Margin="351,613,0,0" VerticalAlignment="Top" Height="35"/>
         <Button Content="SHOW SUGGESTIONS" Name="btnShowSuggestions" HorizontalAlignment="Left" Margin="116,613,0,0" VerticalAlignment="Top" Height="35" Click="btnShowSuggestions_Click"/>
-        <Label Content="Available" HorizontalAlignment="Left" Margin="360,407,0,0" VerticalAlignment="Top"/>
+        <Label Content="Available" HorizontalAlignment="Left" Margin="352,357,0,0" VerticalAlignment="Top"/>
 
         <TextBlock x:Name="tblAvailable" Text="{Binding Path=SelectedTourTime.Available, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                 HorizontalAlignment="Left" Margin="428,405,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="78" Height="35" Foreground="Beige" FontSize="14"/>
+                 HorizontalAlignment="Left" Margin="428,357,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="78" Height="35" Foreground="Beige" FontSize="14"/>
 
-        <Label Content="Enter number of pople:" HorizontalAlignment="Left" Margin="352,451,0,0" VerticalAlignment="Top"/>
-        <TextBox Name="txtRequestedPartySize"  HorizontalAlignment="Left" Margin="352,477,0,0"
+        <Label Content="Enter number of pople:" HorizontalAlignment="Left" Margin="315,392,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.455,-1.509"/>
+        <TextBox Name="txtRequestedPartySize"  HorizontalAlignment="Left" Margin="466,392,0,0"
             Text="{Binding Path=RequestedPartySize, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                  TextWrapping="Wrap" VerticalAlignment="Top" Width="142" Height="37">
             <Validation.ErrorTemplate>
@@ -93,7 +93,13 @@
                 </ControlTemplate>
             </Validation.ErrorTemplate>
         </TextBox>
-        <TextBlock HorizontalAlignment="Left" Margin="337,316,0,0" TextWrapping="Wrap" Text="Enter number of people and select deparature time, then click on CONFIRM RESERVATION button to complete reservation." VerticalAlignment="Top" Height="84" Width="260" FontSize="14" TextAlignment="Center" Foreground="#FFD40707"/>
+        <TextBlock HorizontalAlignment="Left" Margin="307,294,0,0" TextWrapping="Wrap" Text="Enter number of people and select deparature time, then click on CONFIRM RESERVATION button to complete reservation." VerticalAlignment="Top" Height="58" Width="343" FontSize="14" TextAlignment="Center" Foreground="#FFD40707"/>
+        <DataGrid Name="dgVouchers" ItemsSource="{Binding Path=Vouchers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path= SelectedVoucher, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" Margin="307,448,10,120" >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}" CanUserResize="False" IsReadOnly="True" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Expiration date" Binding="{Binding ExpirationDate}" Width="*"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
 
     </Grid>
 </Window>

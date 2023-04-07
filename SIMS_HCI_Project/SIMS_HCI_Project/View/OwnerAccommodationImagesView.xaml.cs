@@ -97,7 +97,7 @@ namespace SIMS_HCI_Project.View
             LoadImage();
         }
 
-        private void Window_KeyDown(object sender, KeyEventArgs e)
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (Keyboard.IsKeyDown(Key.Right))
                 btnNextImage_Click(sender, e);

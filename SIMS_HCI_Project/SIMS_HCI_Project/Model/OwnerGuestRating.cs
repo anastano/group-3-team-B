@@ -14,7 +14,7 @@ namespace SIMS_HCI_Project.Model
         public int OwnerId { get; set; }
         public int GuestId { get; set; }
         public int ReservationId { get; set; }
-
+        public AccommodationReservation AccommodationReservation { get; set; }
         public int Cleanliness { get; set; }
         public int RuleCompliance { get; set; }
         public string AdditionalComment { get; set; }

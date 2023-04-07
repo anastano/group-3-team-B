@@ -18,7 +18,7 @@ namespace SIMS_HCI_Project.Model
         public Notification()
         {
             Message = " ";
-            IsRead = true;
+            IsRead = false;
         }
         public Notification(string message, int userId, bool isRead)
         {

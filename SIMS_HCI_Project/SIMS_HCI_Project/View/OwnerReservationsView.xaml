@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.View"
         mc:Ignorable="d"
-        Title="OwnerReservationsView" Height="700" Width="1000" WindowStartupLocation="CenterScreen">
+        Title="OwnerReservationsView" Height="700" Width="1000" WindowStartupLocation="CenterScreen"
+        PreviewKeyDown="Window_PreviewKeyDown">
     <Window.Resources>
         <Style x:Key="fancyButtonStyle" TargetType="Button">
-            <Setter Property="Width" Value="220"/>
+            <Setter Property="Width" Value="130"/>
             <Setter Property="Height" Value="45"/>
             <Setter Property="Margin" Value="5 5 5 5"/>
             <Setter Property="Padding" Value="10"/>
@@ -106,6 +107,12 @@
                             <TextBox x:Name="txtGuestName"></TextBox>
                         </StackPanel>
 
+                        <StackPanel Orientation="Vertical" Margin="5 5 5 5">
+                            <TextBlock Text=" Guest Surname" FontSize="16" Foreground="Turquoise">
+                            </TextBlock>
+                            <TextBox x:Name="txtGuestSurname"></TextBox>
+                        </StackPanel>
+
                         <Button x:Name="btnSearch"  Content="Search (Ctrl+S)" Click="btnSearch_Click"
                             Style="{StaticResource ResourceKey=fancyButtonStyle}">
                         </Button>
@@ -128,12 +135,13 @@
                                   IsReadOnly="True" Background="Azure" Width="930" Height="380" Margin="10 10 10 10">
 
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Accommodation Id" Binding="{Binding AccommodationId}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Guest Id" Binding="{Binding GuestId}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Type" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Start" Binding="{Binding End , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="End" Binding="{Binding GuestNumber}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="0.4*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Accommodation Name" Binding="{Binding Accommodation.Name}" Width="2*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Guest Name" Binding="{Binding Guest.Name}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Guest Surname" Binding="{Binding Guest.Surname}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Start" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="End" Binding="{Binding End , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Guests Number" Binding="{Binding GuestNumber}" Width="*"></DataGridTextColumn>
                                 <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*"></DataGridTextColumn>
                             </DataGrid.Columns>
 

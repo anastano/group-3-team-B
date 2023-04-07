@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.View"
         mc:Ignorable="d"
         Title="OwnerAccommodationsView" Height="700" Width="1000" WindowStartupLocation="CenterScreen"
-        KeyDown="Window_KeyDown">
+        PreviewKeyDown="Window_PreviewKeyDown">
     <Window.Resources>
         <Style x:Key="fancyButtonStyle" TargetType="Button">
             <Setter Property="Width" Value="220"/>
@@ -113,15 +113,14 @@
                                       Background="Azure" Width="930" Height="380" Margin="10 10 10 10" CanUserSortColumns="True" SelectionMode="Single" IsTabStop="False">
 
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Owner Id" Binding="{Binding OwnerId}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="0.4*"></DataGridTextColumn>
                                 <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="2*"></DataGridTextColumn>
                                 <DataGridTextColumn Header="City" Binding="{Binding Location.City}" Width="*"></DataGridTextColumn>
                                 <DataGridTextColumn Header="Country" Binding="{Binding Location.Country}" Width="*"></DataGridTextColumn>
                                 <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Max guests" Binding="{Binding MaxGuests}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Min days" Binding="{Binding MinimumReservationDays}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Cancellation dead line" Binding="{Binding CancellationDeadlineInDays}" Width="2*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Max guests" Binding="{Binding MaxGuests}" Width="0.7*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Min days" Binding="{Binding MinimumReservationDays}" Width="0.7*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Cancellation days" Binding="{Binding CancellationDeadlineInDays}" Width="*"></DataGridTextColumn>
                             </DataGrid.Columns>
 
                         </DataGrid>

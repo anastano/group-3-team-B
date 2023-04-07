@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Controller
 {
-    public class RescheduleRequestController
+    public class RescheduleRequestController : ISubject
     {
         private readonly List<IObserver> _observers;
         private readonly RescheduleRequestFileHandler _fileHandler;
@@ -32,6 +32,18 @@ namespace SIMS_HCI_Project.Controller
         public List<RescheduleRequest> GetAll()
         {
             return _requests;
+        }
+
+        public List<RescheduleRequest> GetPendingRequestsByOwnerId(int ownerId)
+        {
+            return _requests.FindAll(r => r.AccommodationReservation.Accommodation.OwnerId == ownerId && r.Status == RescheduleRequestStatus.PENDING);
+        }
+
+        public void EditStatus(RescheduleRequest request, RescheduleRequestStatus status)
+        {
+            request.Status = status;
+            Save();
+            NotifyObservers();
         }
 
         public void Load()

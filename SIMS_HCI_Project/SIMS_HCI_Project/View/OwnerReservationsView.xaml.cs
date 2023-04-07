@@ -53,13 +53,21 @@ namespace SIMS_HCI_Project.View
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
-            List<AccommodationReservation> searchResult = _reservationController.Search(txtAccommodationName.Text, txtGuestName.Text, Owner.Id);
+            List<AccommodationReservation> searchResult = _reservationController.Search(txtAccommodationName.Text, txtGuestName.Text, txtGuestSurname.Text, Owner.Id);
             dgReservations.ItemsSource = searchResult;
         }
 
         private void btnClose_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.S))
+                btnSearch_Click(sender, e);
+            else if (Keyboard.IsKeyDown(Key.Escape))
+                btnClose_Click(sender, e);
         }
     }
 }

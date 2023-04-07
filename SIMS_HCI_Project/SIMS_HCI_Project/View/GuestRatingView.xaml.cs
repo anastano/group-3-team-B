@@ -40,6 +40,7 @@ namespace SIMS_HCI_Project.View
             Rating.OwnerId = ownerId;
             Rating.ReservationId = reservation.Id;
             Rating.GuestId = reservation.GuestId;
+            Rating.AccommodationReservation = reservation;
             
             _ratingController = ratingController;
         }
@@ -55,7 +56,7 @@ namespace SIMS_HCI_Project.View
             Close();
         }
 
-        private void Window_KeyDown(object sender, KeyEventArgs e)
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (Keyboard.IsKeyDown(Key.LeftCtrl) && Keyboard.IsKeyDown(Key.R))
                 btnRate_Click(sender, e);

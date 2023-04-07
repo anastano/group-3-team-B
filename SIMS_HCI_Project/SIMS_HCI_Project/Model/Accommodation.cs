@@ -18,6 +18,7 @@ namespace SIMS_HCI_Project.Model
     {
         public int Id { get; set; }
         public int OwnerId { get; set; }
+        public Owner Owner { get; set; }
         public string Name { get; set; }
         public int LocationId { get; set; }
         public Location Location { get; set; }
@@ -78,7 +79,6 @@ namespace SIMS_HCI_Project.Model
                 OwnerId.ToString(),
                 Name,
                 LocationId.ToString(),
-
                 Type.ToString(),
                 MaxGuests.ToString(),
                 MinimumReservationDays.ToString(),

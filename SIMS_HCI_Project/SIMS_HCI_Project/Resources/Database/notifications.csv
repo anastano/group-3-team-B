@@ -1,1 +1,2 @@
-1|Reservation for Hotel Zelengora with id: 3 has been cancelled|1|False
+1|Reservation for Hotel Zelengora with id: 3 has been cancelled|1|True
+2|Request to reschedule the reservation for 'Ime smestaja 0' has been ACCEPTED|3|False

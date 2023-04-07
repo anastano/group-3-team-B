@@ -30,7 +30,6 @@ namespace SIMS_HCI_Project.View
         private TourController _tourController = new TourController();
         private TourTimeController _tourTimeController = new TourTimeController();
         private TourVoucherController _tourVoucherController = new TourVoucherController();
-
         public List<TourReservation> TourReservations { get; set; } //ne treba?
         public Guest2View(Guest2 guest)
         {

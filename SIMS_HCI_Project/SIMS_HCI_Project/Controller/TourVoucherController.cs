@@ -99,12 +99,10 @@ namespace SIMS_HCI_Project.Controller
             TourVoucher voucher = FindById(selectedVoucher.Id);
             voucher.Status = VoucherStatus.USED;
             Save();
-
         }
         public void Subscribe(IObserver observer)
         {
             _observers.Add(observer);
-
         }
 
         public void Unsubscribe(IObserver observer)

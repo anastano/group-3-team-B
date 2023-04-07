@@ -124,8 +124,16 @@ namespace SIMS_HCI_Project.View
             bool isValidrequestedPartySize = int.TryParse(txtRequestedPartySize.Text, out requestedPartySize);
 
             TourTime = _tourTimeController.FindById(SelectedTourTime.Id);
-            TourVoucher = _tourVoucherController.FindById(SelectedVoucher.Id);
-            TourReservation tourReservation = new TourReservation(SelectedTourTime.Id, Guest2.Id, requestedPartySize);
+            TourReservation tourReservation = new TourReservation();
+            if (SelectedVoucher != null) 
+            {
+                TourVoucher = _tourVoucherController.FindById(SelectedVoucher.Id);
+                 tourReservation = new TourReservation(SelectedTourTime.Id, Guest2.Id, requestedPartySize, TourVoucher.Id);
+            }
+            else
+            {
+                 tourReservation = new TourReservation(SelectedTourTime.Id, Guest2.Id, requestedPartySize, -1);
+            }
 
             if (IsValid)
             {
@@ -137,7 +145,11 @@ namespace SIMS_HCI_Project.View
                 {
                     if (requestedPartySize <= TourTime.Available)
                     {
+                        if(SelectedVoucher != null)
+                        {
                         _tourVoucherController.UseVoucher(TourVoucher);
+                        }
+                        //tourReservation.VoucherUsedId = TourVoucher.Id;
                         Reservations.Add(tourReservation);
                         _tourReservationController.Add(tourReservation);
                         _tourTimeController.ReduceAvailablePlaces(TourTime, requestedPartySize);

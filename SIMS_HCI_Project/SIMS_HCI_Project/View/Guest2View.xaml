@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.View"
         mc:Ignorable="d"
-        Title="Guest2View" Height="600" Width="1000" WindowStartupLocation="CenterScreen">
+        Title="Guest2View" Height="600" Width="1200" WindowStartupLocation="CenterScreen">
 
     <Grid Background="Orange">
         <Button x:Name="btnSearch" Content="Search and reserve" HorizontalAlignment="Left" Margin="47,31,0,0" VerticalAlignment="Top" Height="44" Width="153" Click="btnSearchReserve_Click"/>
@@ -22,8 +22,9 @@
                 <DataGridTextColumn Header="Duration" Binding="{Binding TourTime.Tour.Duration}" Width="105"></DataGridTextColumn>
                 <DataGridTextColumn Header="Party size" Binding="{Binding PartySize}" Width="70"></DataGridTextColumn>
                 <DataGridTextColumn Header="Tour status" Binding="{Binding TourTime.Status}" Width="80"></DataGridTextColumn>
-                <DataGridTextColumn Header="Reservation status" Binding="{Binding Status}" Width="80"></DataGridTextColumn>
-                <DataGridTextColumn Header="Guide" Binding="{Binding TourTime.Tour.GuideId}" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Reservation status" Binding="{Binding Status}" Width="105"></DataGridTextColumn>
+                <DataGridTextColumn Header="Guide" Binding="{Binding TourTime.Tour.GuideId}" Width="150"></DataGridTextColumn>
+                <DataGridTextColumn Header="Voucher" Binding="{Binding TourVoucher.Title}"></DataGridTextColumn>
                 <DataGridTemplateColumn Header="Images">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

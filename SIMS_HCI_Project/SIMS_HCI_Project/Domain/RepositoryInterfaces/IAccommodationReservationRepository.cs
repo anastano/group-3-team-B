@@ -6,13 +6,13 @@ namespace SIMS_HCI_Project.Repositories
 {
     public interface IAccommodationReservationRepository
     {
-        AccommodationReservation FindById(int id);
+        AccommodationReservation GetById(int id);
         int GenerateId();
         List<AccommodationReservation> GetAll();
-        void Load();
         void NotifyObservers();
         void Save();
         void Subscribe(IObserver observer);
         void Unsubscribe(IObserver observer);
+        List<AccommodationReservation> GetByOwnerId(int id);
     }
 }

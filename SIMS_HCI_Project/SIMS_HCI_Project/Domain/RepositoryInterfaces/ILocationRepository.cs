@@ -5,12 +5,11 @@ namespace SIMS_HCI_Project.Repositories
 {
     public interface ILocationRepository
     {
-        Location FindByCountryAndCity(string country, string city);
-        Location FindById(int id);
-        Location FindOrAdd(Location location);
+        Location GetByCountryAndCity(string country, string city);
+        Location GetById(int id);
+        Location GetOrAdd(Location location);
         int GenerateId();
         List<Location> GetAll();
-        void Load();
         void Save();
     }
 }

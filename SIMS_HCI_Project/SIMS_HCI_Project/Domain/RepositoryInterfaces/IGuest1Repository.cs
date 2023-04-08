@@ -5,9 +5,7 @@ namespace SIMS_HCI_Project.Repositories
 {
     public interface IGuest1Repository
     {
-        Guest1 FindById(int id);
+        Guest1 GetById(int id);
         List<Guest1> GetAll();
-        void Load();
-        void Save();
     }
 }

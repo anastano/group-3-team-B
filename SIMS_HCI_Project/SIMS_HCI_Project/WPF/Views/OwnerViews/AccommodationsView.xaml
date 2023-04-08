@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         mc:Ignorable="d"
-        Title="AccommodationsView" Height="650" Width="1000">
+        Title="AccommodationsView" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style x:Key="fancyButtonStyle" TargetType="Button">
             <Setter Property="Width" Value="220"/>
@@ -83,10 +83,10 @@
                 <Border Style="{StaticResource ResourceKey=fencyBorder}">
                     <!-- Buttons STACK PANEL-->
                     <StackPanel  Margin="5 5 5 5" Orientation="Horizontal">
-                        <Button x:Name="btnAddAccommodation"  Content="         Add New &#xa;Accommodation (Ctrl+A)" 
+                        <Button x:Name="btnAddAccommodation"  Content="            Add New &#xa;Accommodation (Ctrl+A)" 
                             Style="{StaticResource ResourceKey=fancyButtonStyle}">
                         </Button>
-                        <Button x:Name="btnDeleteAccommodation"  Content="    Delete Selected &#xa;Accommodation (Ctrl+D)" 
+                        <Button x:Name="btnDeleteAccommodation"  Content="       Delete Selected &#xa;Accommodation (Ctrl+D)" Command="{Binding DeleteAccommodationCommand}"
                             Style="{StaticResource ResourceKey=fancyButtonStyle}">
                         </Button>
                         <Button x:Name="btnShowImages"  Content="Show Images (Ctrl+S)" 

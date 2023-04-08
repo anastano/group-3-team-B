@@ -6,6 +6,7 @@ namespace SIMS_HCI_Project.Repositories
     public interface IUserRepository
     {
         List<User> GetAll();
-        User LogIn(string username, string password);
+        User GetById(int id);
+        User GetByUsernameAndPassword(string username, string password);
     }
 }

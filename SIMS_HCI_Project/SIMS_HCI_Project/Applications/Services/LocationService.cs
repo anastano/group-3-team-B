@@ -17,29 +17,24 @@ namespace SIMS_HCI_Project.Applications.Services
             _locationRepository = Injector.Injector.CreateInstance<ILocationRepository>();
         }
 
-        public Location FindById(int id)
+        public void Save()
         {
-            return _locationRepository.FindById(id);
+            _locationRepository.Save();
         }
 
-        public Location FindOrAdd(Location location)
+        public Location GetById(int id)
         {
-            return _locationRepository.FindOrAdd(location);
+            return _locationRepository.GetById(id);
+        }
+
+        public Location GetOrAdd(Location location)
+        {
+            return _locationRepository.GetOrAdd(location);
         }
 
         public List<Location> GetAll()
         {
             return _locationRepository.GetAll();
-        }
-
-        public void Load()
-        {
-            _locationRepository.Load();
-        }
-
-        public void Save()
-        {
-            _locationRepository.Save();
         }
 
     }

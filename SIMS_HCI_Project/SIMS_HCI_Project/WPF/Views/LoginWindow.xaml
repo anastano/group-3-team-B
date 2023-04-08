@@ -18,7 +18,7 @@
                 <Label Content="Password" HorizontalAlignment="Left"  Height="30" Width="80"/>
                 <TextBox HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding Path=Password, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Width="180" Height="30"/>
             </StackPanel>
-            <Button x:Name="btnLogIn" Content="Login" HorizontalAlignment="Center" Click="btnLogIn_Click" Height="30" Width="100" Margin="10"/>
+            <Button x:Name="btnLogIn" Content="Login" HorizontalAlignment="Center" Command="{Binding LoginCommand}" Height="30" Width="100" Margin="10"/>
             <Label x:Name="lblErrorMessage" Content="" HorizontalAlignment="Center"/>
 
         </StackPanel>

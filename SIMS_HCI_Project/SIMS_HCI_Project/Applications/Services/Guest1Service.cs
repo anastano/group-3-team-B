@@ -17,26 +17,15 @@ namespace SIMS_HCI_Project.Applications.Services
             _guest1Repository = Injector.Injector.CreateInstance<IGuest1Repository>();
         }
 
-        public Guest1 FindById(int id)
+        public Guest1 GetById(int id)
         {
-            return _guest1Repository.FindById(id);
+            return _guest1Repository.GetById(id);
         }
 
         public List<Guest1> GetAll()
         {
             return _guest1Repository.GetAll();
         }
-
-        public void Load()
-        {
-            _guest1Repository.Load();
-        }
-
-        public void Save()
-        {
-            _guest1Repository.Save();
-        }
-
 
     }
 }

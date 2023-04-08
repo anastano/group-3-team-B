@@ -17,9 +17,9 @@ namespace SIMS_HCI_Project.Applications.Services
             _ownerRepository = Injector.Injector.CreateInstance<IOwnerRepository>();
         }
 
-        public Owner FindById(int id)
+        public Owner GetById(int id)
         {
-            return _ownerRepository.FindById(id);
+            return _ownerRepository.GetById(id);
         }
 
         public List<Owner> GetAll()
@@ -27,15 +27,6 @@ namespace SIMS_HCI_Project.Applications.Services
             return _ownerRepository.GetAll();
         }
 
-        public void Load()
-        {
-           _ownerRepository.Load();
-        }
-
-        public void Save()
-        {
-            _ownerRepository.Save();
-        }
 
     }
 }

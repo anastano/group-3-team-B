@@ -16,16 +16,11 @@ namespace SIMS_HCI_Project.Repositories
 
         public Guest1Repository()
         {
-            if (_guests == null)
-            {
-                _guests = new List<Guest1>();
-            }
-
             _fileHandler = new Guest1FileHandler();
-
+            _guests = _fileHandler.Load();
         }
 
-        public Guest1 FindById(int id)
+        public Guest1 GetById(int id)
         {
             return _guests.Find(g => g.Id == id);
         }
@@ -35,15 +30,6 @@ namespace SIMS_HCI_Project.Repositories
             return _guests;
         }
 
-        public void Load()
-        {
-            _guests = _fileHandler.Load();
-        }
-
-        public void Save()
-        {
-            _fileHandler.Save(_guests);
-        }
 
     }
 }

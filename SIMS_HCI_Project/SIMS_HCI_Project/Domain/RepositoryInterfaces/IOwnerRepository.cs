@@ -5,9 +5,7 @@ namespace SIMS_HCI_Project.Repositories
 {
     public interface IOwnerRepository
     {
-        Owner FindById(int id);
+        Owner GetById(int id);
         List<Owner> GetAll();
-        void Load();
-        void Save();
     }
 }

@@ -19,9 +19,14 @@ namespace SIMS_HCI_Project.Applications.Services
             _accommodationRepository = Injector.Injector.CreateInstance<IAccommodationRepository>();
         }
 
-        public Accommodation FindById(int id)
+        public void Save()
         {
-            return _accommodationRepository.FindById(id);
+            _accommodationRepository.Save();
+        }
+
+        public Accommodation GetById(int id)
+        {
+            return _accommodationRepository.GetById(id);
         }
 
         public List<Accommodation> GetAll()
@@ -34,28 +39,22 @@ namespace SIMS_HCI_Project.Applications.Services
             return _accommodationRepository.GetImages(id);
         }
 
-        public void Load()
+        public void Delete(Accommodation accommodation, Owner owner)
         {
-           _accommodationRepository.Load();
-        }
-
-        public void Save()
-        {
-            _accommodationRepository.Save();
+            _accommodationRepository.Delete(accommodation, owner);
         }
 
         public void ConnectAccommodationsWithLocations(LocationService locationService)
         {
             foreach (Accommodation accommodation in _accommodationRepository.GetAll())
             {
-                accommodation.Location = locationService.FindById(accommodation.LocationId);
+                accommodation.Location = locationService.GetById(accommodation.LocationId);
             }
         }
 
-        public void FillOwnerAccommodationList(int ownerId, OwnerService ownerService)
+        public void FillOwnerAccommodationList(Owner owner)
         {
-            // check if its better to create FindByOwnerId in AccommodationRepository
-            ownerService.FindById(ownerId).Accommodations = _accommodationRepository.GetAll().FindAll(a => a.OwnerId == ownerId);
+            owner.Accommodations = _accommodationRepository.GetByOwnerId(owner.Id);
         }
 
         public void NotifyObservers()

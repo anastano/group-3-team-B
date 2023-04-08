@@ -20,20 +20,29 @@ namespace SIMS_HCI_Project.Repositories
             _locations = _fileHandler.Load();
         }
 
-       
-        public Location FindById(int id)
+        public int GenerateId()
+        {
+            return _locations.Count == 0 ? 1 : _locations[_locations.Count - 1].Id + 1;
+        }
+
+        public void Save()
+        {
+            _fileHandler.Save(_locations);
+        }
+
+        public Location GetById(int id)
         {
             return _locations.Find(l => l.Id == id);
         }
 
-        public Location FindByCountryAndCity(string country, string city)
+        public Location GetByCountryAndCity(string country, string city)
         {
             return _locations.FirstOrDefault(l => l.City.ToLower() == city.ToLower() && l.Country.ToLower() == country.ToLower());
         }
 
-        public Location FindOrAdd(Location location)
+        public Location GetOrAdd(Location location)
         {
-            Location foundLocation = FindByCountryAndCity(location.Country, location.City);
+            Location foundLocation = GetByCountryAndCity(location.Country, location.City);
             if (foundLocation == null)
             {
                 location.Id = GenerateId();
@@ -47,25 +56,12 @@ namespace SIMS_HCI_Project.Repositories
             }
         }
 
-        public int GenerateId()
-        {
-            return _locations.Count == 0 ? 1 : _locations[_locations.Count - 1].Id + 1;
-        }
-
         public List<Location> GetAll()
         {
             return _locations;
         }
 
-        public void Load()
-        {
-            _locations = _fileHandler.Load();
-        }
 
-        public void Save()
-        {
-            _fileHandler.Save(_locations);
-        }
 
     }
 }

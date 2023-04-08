@@ -16,15 +16,11 @@ namespace SIMS_HCI_Project.Repositories
 
         public OwnerRepository()
         {
-            if (_owners == null)
-            {
-                _owners = new List<Owner>();
-            }
-
             _fileHandler = new OwnerFileHandler();
+            _owners = _fileHandler.Load();
         }
 
-        public Owner FindById(int id)
+        public Owner GetById(int id)
         {
             return _owners.Find(o => o.Id == id);
         }
@@ -32,16 +28,6 @@ namespace SIMS_HCI_Project.Repositories
         public List<Owner> GetAll()
         {
             return _owners;
-        }
-
-        public void Load()
-        {
-            _owners = _fileHandler.Load();
-        }
-
-        public void Save()
-        {
-            _fileHandler.Save(_owners);
         }
 
     }

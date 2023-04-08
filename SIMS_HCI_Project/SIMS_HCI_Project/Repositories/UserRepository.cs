@@ -19,12 +19,17 @@ namespace SIMS_HCI_Project.Repositories
             _users = _fileHandler.Load();
         }
 
+        public User GetById(int id)
+        {
+            return _users.Find(u => u.Id == id);
+        }
+
         public List<User> GetAll()
         {
             return _users;
         }
 
-        public User LogIn(string username, string password)
+        public User GetByUsernameAndPassword(string username, string password)
         {
             return _users.FirstOrDefault(u => u.Username == username && u.Password == password);
         }

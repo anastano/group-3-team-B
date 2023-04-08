@@ -18,28 +18,25 @@ namespace SIMS_HCI_Project.Repositories
 
         public AccommodationReservationRepository()
         {
-            if (_reservations == null)
-            {
-                _reservations = new List<AccommodationReservation>();
-            }
+            _fileHandler = new AccommodationReservationFileHandler();          
+            _reservations = _fileHandler.Load();
 
-            _fileHandler = new AccommodationReservationFileHandler();
             _observers = new List<IObserver>();
-
-        }
-
-        public AccommodationReservation FindById(int id)
-        {
-            return _reservations.Find(r => r.Id == id);
         }
 
         public int GenerateId()
         {
-            if (_reservations.Count == 0)
-            {
-                return 1;
-            }
-            return _reservations[_reservations.Count - 1].Id + 1;
+            return _reservations.Count == 0 ? 1 : _reservations[_reservations.Count - 1].Id + 1;
+        }
+
+        public void Save()
+        {
+            _fileHandler.Save(_reservations);
+        }
+
+        public AccommodationReservation GetById(int id)
+        {
+            return _reservations.Find(r => r.Id == id);
         }
 
         public List<AccommodationReservation> GetAll()
@@ -47,14 +44,9 @@ namespace SIMS_HCI_Project.Repositories
             return _reservations;
         }
 
-        public void Load()
+        public List<AccommodationReservation> GetByOwnerId(int ownerId)
         {
-            _reservations = _fileHandler.Load();
-        }
-
-        public void Save()
-        {
-            _fileHandler.Save(_reservations);
+            return _reservations.FindAll(r => r.Accommodation.OwnerId == ownerId);
         }
 
         public void NotifyObservers()

@@ -1,4 +1,5 @@
-﻿using SIMS_HCI_Project.Domain.Models;
+﻿using SIMS_HCI_Project.Applications.Services;
+using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels;
 using System;
 using System.Collections.Generic;
@@ -17,15 +18,14 @@ using System.Windows.Shapes;
 namespace SIMS_HCI_Project.WPF.Views.OwnerViews
 {
     /// <summary>
-    /// Interaction logic for OwnerMainView.xaml
+    /// Interaction logic for RescheduleRequestsView.xaml
     /// </summary>
-    public partial class OwnerMainView : Window
+    public partial class RescheduleRequestsView : Window
     {
-        public OwnerMainView(Owner owner)
+        public RescheduleRequestsView(RescheduleRequestService requestService, AccommodationReservationService reservationService, NotificationService notificationService, Owner owner)
         {
             InitializeComponent();
-            this.DataContext = new OwnerMainViewModel(this, owner);
+            this.DataContext = new RescheduleRequestsViewModel(this, requestService, reservationService, notificationService, owner);
         }
-
     }
 }

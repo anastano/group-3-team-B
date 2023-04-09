@@ -26,7 +26,7 @@ namespace SIMS_HCI_Project.WPF.Views.OwnerViews
         public AccommodationsView(AccommodationService accommodationService, Owner owner)
         {
             InitializeComponent();
-            this.DataContext = new AccommodationsViewModel(accommodationService, owner);
+            this.DataContext = new AccommodationsViewModel(this, accommodationService, owner);
         }
     }
 }

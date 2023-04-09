@@ -18,20 +18,22 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         private readonly AccommodationService _accommodationService;
 
-        public Owner Owner { get; set; }
-        public AccommodationsView AccommodationsView { get; set; }      
+        public AccommodationsView AccommodationsView { get; set; }
+        public Owner Owner { get; set; }        
         public ObservableCollection<Accommodation> Accommodations { get; set; }
         public Accommodation SelectedAccommodation { get; set; }
 
         public RelayCommand DeleteAccommodationCommand { get; set; }
 
-        public AccommodationsViewModel(AccommodationService accommodationService, Owner owner)
+        public AccommodationsViewModel(AccommodationsView accommodationsView, AccommodationService accommodationService, Owner owner)
         {
             InitCommands();
 
-            Owner = owner;
             _accommodationService = accommodationService;
-            Accommodations = new ObservableCollection<Accommodation>(Owner.Accommodations);           
+
+            AccommodationsView = accommodationsView;
+            Owner = owner;            
+            Accommodations = new ObservableCollection<Accommodation>(_accommodationService.GetByOwnerId(Owner.Id));           
 
             _accommodationService.Subscribe(this);
         }
@@ -64,7 +66,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public void UpdateAccommodations()
         {
             Accommodations.Clear();
-            foreach (Accommodation accommodation in Owner.Accommodations)
+            foreach (Accommodation accommodation in _accommodationService.GetByOwnerId(Owner.Id))
             {
                 Accommodations.Add(accommodation);
             }

@@ -34,6 +34,11 @@ namespace SIMS_HCI_Project.Applications.Services
             return _accommodationRepository.GetAll();
         }
 
+        public List<Accommodation> GetByOwnerId(int ownerId)
+        {
+            return _accommodationRepository.GetByOwnerId(ownerId);
+        }
+
         public List<string> GetImages(int id)
         {
             return _accommodationRepository.GetImages(id);
@@ -54,7 +59,7 @@ namespace SIMS_HCI_Project.Applications.Services
 
         public void FillOwnerAccommodationList(Owner owner)
         {
-            owner.Accommodations = _accommodationRepository.GetByOwnerId(owner.Id);
+            owner.Accommodations = GetByOwnerId(owner.Id);
         }
 
         public void NotifyObservers()

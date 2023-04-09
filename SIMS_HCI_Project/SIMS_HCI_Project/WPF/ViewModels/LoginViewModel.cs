@@ -16,7 +16,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels
     public class LoginViewModel
     {
         public string? Username { get; set; }
-        public string? Password { get; set; }
         public LoginWindow LoginWindow { get; set;}
 
         public RelayCommand LoginCommand { get; set; }
@@ -35,8 +34,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels
         public void Executed_LoginCommand(object obj)
         {
             LoginWindow.lblErrorMessage.Content = "";
-            Window win = null;
-            User user = _userService.GetByUsernameAndPassword(Username, Password);
+            User user = _userService.GetByUsernameAndPassword(Username, LoginWindow.pbPassword.Password);
 
             if (user != null)
             {
@@ -47,7 +45,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels
                         ownerView.Show();
                         break;
                     case UserRole.GUEST1:
-                        win = null;
+                        Window guest1View = null;
                         //win.Show();
 
                         break;

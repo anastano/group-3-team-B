@@ -1,14 +1,14 @@
-﻿<Window x:Class="SIMS_HCI_Project.WPF.Views.OwnerViews.AccommodationsView"
+﻿<Window x:Class="SIMS_HCI_Project.WPF.Views.OwnerViews.RescheduleRequestsView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         mc:Ignorable="d"
-        Title="AccommodationsView" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
+        Title="RescheduleRequestsView" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style x:Key="fancyButtonStyle" TargetType="Button">
-            <Setter Property="Width" Value="220"/>
+            <Setter Property="Width" Value="400"/>
             <Setter Property="Height" Value="45"/>
             <Setter Property="Margin" Value="5 5 5 5"/>
             <Setter Property="Padding" Value="10"/>
@@ -76,20 +76,14 @@
         <!-- GLAVNI STACK PANEL-->
         <StackPanel Orientation="Vertical" Margin="10 5 10 5">
             <!--GORNJI STACK PANEL - Options-->
-            <StackPanel Margin="5 5 5 5">
+            <StackPanel Margin="5 0 5 0">
                 <TextBlock x:Name="tblOptions" Text="Options" 
                        Style="{StaticResource ResourceKey=fancyTitle}">
                 </TextBlock>
                 <Border Style="{StaticResource ResourceKey=fencyBorder}">
                     <!-- Buttons STACK PANEL-->
-                    <StackPanel  Margin="5 0 5 5" Orientation="Horizontal">
-                        <Button x:Name="btnAddAccommodation"  Content="            Add New &#xa;Accommodation (Ctrl+A)" 
-                            Style="{StaticResource ResourceKey=fancyButtonStyle}">
-                        </Button>
-                        <Button x:Name="btnDeleteAccommodation"  Content="       Delete Selected &#xa;Accommodation (Ctrl+D)" Command="{Binding DeleteAccommodationCommand}"
-                            Style="{StaticResource ResourceKey=fancyButtonStyle}">
-                        </Button>
-                        <Button x:Name="btnShowImages"  Content="Show Images (Ctrl+S)" 
+                    <StackPanel  Margin="5 5 5 5" Orientation="Horizontal">
+                        <Button x:Name="btnAcceptDeclineRequest"  Content="    Accept/Decline Selected &#xa;         Request (Ctrl+S)" Command="{Binding ShowSelectedRequestCommand}"
                             Style="{StaticResource ResourceKey=fancyButtonStyle}">
                         </Button>
                         <Button x:Name="btnClose"  Content="Close (Esc)"
@@ -101,25 +95,27 @@
             <!-- SREDNJI STACK PANEL-->
             <StackPanel Margin="5 0 5 0">
 
-                <TextBlock x:Name="tblAccommodations" Text="My accommodations" 
+                <TextBlock x:Name="tblRequests" Text="Guest Requests" 
                            Style="{StaticResource ResourceKey=fancyTitle}">
                 </TextBlock>
                 <Border Style="{StaticResource ResourceKey=fencyBorder}">
                     <!-- DataGrid STACKPANEL-->
                     <StackPanel Margin="0 0 0 0">
-                        <DataGrid x:Name = "dgAccommodation" AutoGenerateColumns="False" ItemsSource="{Binding Path=Accommodations, UpdateSourceTrigger=PropertyChanged}" 
-                                      SelectedItem="{Binding Path=SelectedAccommodation, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Focusable="True"
+                        <DataGrid x:Name = "dgRequests" AutoGenerateColumns="False" ItemsSource="{Binding Path= PendingRequests, UpdateSourceTrigger=PropertyChanged}" 
+                                      SelectedItem="{Binding Path=SelectedRequest, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Focusable="True"
                                       Background="Azure" Width="930" Height="330" Margin="10 10 10 10" CanUserSortColumns="True" SelectionMode="Single" IsTabStop="False">
 
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="0.4*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="2*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="City" Binding="{Binding Location.City}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Country" Binding="{Binding Location.Country}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Max guests" Binding="{Binding MaxGuests}" Width="0.7*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Min days" Binding="{Binding MinimumReservationDays}" Width="0.7*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Cancellation days" Binding="{Binding CancellationDeadlineInDays}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Guest Name" Binding="{Binding AccommodationReservation.Guest.Name}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Guest Surname" Binding="{Binding AccommodationReservation.Guest.Surname}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Reservation Id" Binding="{Binding AccommodationReservationId}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Accommodation Name" Binding="{Binding AccommodationReservation.Accommodation.Name}" Width="2*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Inital Start" Binding="{Binding AccommodationReservation.Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Inital End" Binding="{Binding AccommodationReservation.End , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Wanted Start" Binding="{Binding WantedStart , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Wanted End" Binding="{Binding WantedEnd , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
+                                <!-- Does it make sense to show accepted, denied and panding requests or just pending??? -->
+                                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*"></DataGridTextColumn>
                             </DataGrid.Columns>
 
                         </DataGrid>

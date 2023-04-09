@@ -33,11 +33,21 @@ namespace SIMS_HCI_Project.Applications.Services
             return _reservationRepository.GetAll();
         }
 
+        public List<AccommodationReservation> GetByOwnerId(int ownerId)
+        {
+            return _reservationRepository.GetByOwnerId(ownerId);
+        }
+
+        public List<AccommodationReservation> GetByAccommodationId(int accommodationId)
+        {
+            return _reservationRepository.GetByAccommodationId(accommodationId);
+        }
+
         public List<AccommodationReservation> GetInProgressByOwnerId(int ownerId)
         {
             List<AccommodationReservation> reservationsInProgress = new List<AccommodationReservation>();
 
-            foreach (AccommodationReservation reservation in _reservationRepository.GetByOwnerId(ownerId))
+            foreach (AccommodationReservation reservation in GetByOwnerId(ownerId))
             {
                 if (IsInProgress(reservation) && IsReservedOrRescheduled(reservation))
                 {
@@ -56,6 +66,38 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return reservation.Status == AccommodationReservationStatus.RESERVED || reservation.Status == AccommodationReservationStatus.RESCHEDULED;
         }
+      
+        public List<AccommodationReservation> GetOverlappingReservations(RescheduleRequest request)
+        {
+            List<AccommodationReservation> overlappingReservations = new List<AccommodationReservation>();
+
+            foreach (AccommodationReservation reservation in GetByAccommodationId(request.AccommodationReservation.AccommodationId))
+            {               
+                    if (IsDateRangeOverlapping(reservation, request) && IsReservedOrRescheduled(reservation) && reservation.Id != request.AccommodationReservationId)
+                    {
+                        overlappingReservations.Add(reservation);
+                    }
+            }
+            return overlappingReservations;
+        }
+
+        public bool IsDateRangeOverlapping(AccommodationReservation reservation, RescheduleRequest request)
+        {
+            bool startOverlaps = reservation.Start >= request.WantedStart && reservation.Start <= request.WantedEnd;
+            bool endOverlaps = reservation.End >= request.WantedStart && reservation.End <= request.WantedEnd;
+
+            return startOverlaps || endOverlaps;
+        }
+
+        public void EditStatus(int reservationId, AccommodationReservationStatus status)
+        {
+            _reservationRepository.EditStatus(reservationId, status);
+        }
+
+        public void RescheduleReservation(RescheduleRequest request)
+        {
+            _reservationRepository.EditReservation(request);
+        }
 
         public void ConnectReservationsWithAccommodations(AccommodationService accommodationService)
         {
@@ -65,9 +107,17 @@ namespace SIMS_HCI_Project.Applications.Services
             }
         }
 
+        public void ConnectReservationsWithGuests(Guest1Service guest1Service)
+        {
+            foreach (AccommodationReservation reservation in _reservationRepository.GetAll())
+            {
+                reservation.Guest = guest1Service.GetById(reservation.GuestId);
+            }
+        }
+
         public void FillOwnerReservationList(Owner owner)
         {
-            owner.Reservations = _reservationRepository.GetByOwnerId(owner.Id);
+            owner.Reservations = GetByOwnerId(owner.Id);
         }
 
         public void NotifyObservers()

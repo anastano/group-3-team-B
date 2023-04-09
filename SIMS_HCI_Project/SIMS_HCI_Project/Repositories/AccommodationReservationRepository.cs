@@ -49,6 +49,29 @@ namespace SIMS_HCI_Project.Repositories
             return _reservations.FindAll(r => r.Accommodation.OwnerId == ownerId);
         }
 
+        public List<AccommodationReservation> GetByAccommodationId(int accommodationId)
+        {
+            return _reservations.FindAll(r => r.AccommodationId == accommodationId);
+        }
+
+        public void EditStatus(int reservationId, AccommodationReservationStatus status)
+        {
+            AccommodationReservation reservation = _reservations.Find(r => r.Id == reservationId);
+            reservation.Status = status;
+            Save();
+            NotifyObservers();
+        }
+
+        public void EditReservation(RescheduleRequest request)
+        {
+            AccommodationReservation reservation = _reservations.Find(r => r.Id == request.AccommodationReservationId);
+            reservation.Start = request.WantedStart;
+            reservation.End = request.WantedEnd;
+            reservation.Status = AccommodationReservationStatus.RESCHEDULED;
+            Save();
+            NotifyObservers();
+        }
+
         public void NotifyObservers()
         {
             foreach (var observer in _observers)

@@ -5,22 +5,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:VM="clr-namespace:SIMS_HCI_Project.WPF.ViewModels"
         mc:Ignorable="d"
-        Title="LoginWindow" Height="300" Width="500" WindowStartupLocation="CenterScreen"
+        Title="LoginWindow" Height="300" Width="450" WindowStartupLocation="CenterScreen"
         >
     <Grid>
-        <StackPanel Margin="30">
-            <TextBlock Text="Login Form" FontSize="30" TextAlignment="Center" Margin="10"></TextBlock>
-            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" Margin="10">
-                <Label Content="Username" HorizontalAlignment="Left" Height="30" Width="80"/>
-                <TextBox HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding Path=Username, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Width="180" Height="30"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center">
-                <Label Content="Password" HorizontalAlignment="Left"  Height="30" Width="80"/>
-                <TextBox HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding Path=Password, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Width="180" Height="30"/>
-            </StackPanel>
-            <Button x:Name="btnLogIn" Content="Login" HorizontalAlignment="Center" Command="{Binding LoginCommand}" Height="30" Width="100" Margin="10"/>
-            <Label x:Name="lblErrorMessage" Content="" HorizontalAlignment="Center"/>
+        <Border BorderThickness="2" BorderBrush="DarkGray" Width="350" Height="230" CornerRadius="20">
+            <StackPanel>
+                <TextBlock Text="Login Form" FontSize="30" TextAlignment="Center" Margin="10" FontWeight="DemiBold" Foreground="DarkGray"></TextBlock>
 
-        </StackPanel>
+                <StackPanel Background="LightGray">
+                    <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center" Margin="10">
+                        <Label Content="Username:" HorizontalAlignment="Left" Height="30" Width="80" FontSize="14"/>
+                        <TextBox HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding Path=Username, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" Width="180" Height="30" FontSize="14"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal"  HorizontalAlignment="Center"  Margin="10">
+                        <Label Content="Password:" HorizontalAlignment="Left"  Height="30" Width="80" FontSize="14"/>
+                        <PasswordBox x:Name="pbPassword" HorizontalAlignment="Center" Width="180" Height="30" FontSize="14"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <Button x:Name="btnLogIn" Content="Login" HorizontalAlignment="Center" Command="{Binding LoginCommand}" Height="30" Width="100" Margin="20" FontSize="14" BorderBrush="DarkGray" Background="LightGray">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="10"></Setter>
+                        </Style>
+                    </Button.Resources>
+                </Button>
+                <Label x:Name="lblErrorMessage" Content="" HorizontalAlignment="Center"/>
+
+            </StackPanel>
+        </Border>
     </Grid>
 </Window>

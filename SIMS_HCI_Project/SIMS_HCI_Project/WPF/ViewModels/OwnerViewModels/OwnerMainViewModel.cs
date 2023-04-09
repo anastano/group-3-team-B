@@ -2,6 +2,7 @@
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Observer;
 using SIMS_HCI_Project.WPF.Commands;
+using SIMS_HCI_Project.WPF.Views;
 using SIMS_HCI_Project.WPF.Views.OwnerViews;
 using System;
 using System.Collections.Generic;
@@ -20,24 +21,34 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         private Guest1Service _guest1Service;
         private LocationService _locationService;
         private AccommodationService _accommodationService;
-        private AccommodationReservationService _accommodationReservationService;
+        private AccommodationReservationService _reservationService;
+        private RescheduleRequestService _requestService;
+        private NotificationService _notificationService;
         #endregion
 
-        public Owner Owner { get; set; }
         public OwnerMainView OwnerMainView { get; set; }
+        public Owner Owner { get; set; }        
         public ObservableCollection<AccommodationReservation> ReservationsInProgress { get; set; }
+        public ObservableCollection<Notification> Notifications { get; set; }
 
         public RelayCommand ShowAccommodationsCommand { get; set; }
+        public RelayCommand ShowPendingRequestsCommand { get; set; }
+        public RelayCommand LogoutCommand { get; set; }
 
-        public OwnerMainViewModel(Owner owner, OwnerMainView ownerMainView) 
-        {                           
-            Owner = owner;
+        public OwnerMainViewModel(OwnerMainView ownerMainView, Owner owner) 
+        {
             OwnerMainView = ownerMainView;
-
+            Owner = owner;
+            
             LoadFromFiles();
             InitCommands();
 
-            ReservationsInProgress = new ObservableCollection<AccommodationReservation>(_accommodationReservationService.GetInProgressByOwnerId(Owner.Id));
+            ReservationsInProgress = new ObservableCollection<AccommodationReservation>(_reservationService.GetInProgressByOwnerId(Owner.Id));
+            Notifications = new ObservableCollection<Notification>(_notificationService.GetUnreadByUserId(Owner.Id));
+
+            ShowNotifications();
+
+            _reservationService.Subscribe(this);
         }
 
         public void LoadFromFiles()
@@ -46,13 +57,30 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             _guest1Service = new Guest1Service();
             _locationService = new LocationService();
             _accommodationService = new AccommodationService();
-            _accommodationReservationService = new AccommodationReservationService();
+            _reservationService = new AccommodationReservationService();
+            _requestService = new RescheduleRequestService();
+            _notificationService = new NotificationService();
 
             _accommodationService.ConnectAccommodationsWithLocations(_locationService);
-            _accommodationReservationService.ConnectReservationsWithAccommodations(_accommodationService);
+            _reservationService.ConnectReservationsWithAccommodations(_accommodationService);
+            _reservationService.ConnectReservationsWithGuests(_guest1Service);
+            _requestService.ConnectRequestsWithReservations(_reservationService);
 
             _accommodationService.FillOwnerAccommodationList(Owner);
-            _accommodationReservationService.FillOwnerReservationList(Owner);
+            _reservationService.FillOwnerReservationList(Owner);
+        }
+
+        private void ShowNotifications()
+        {
+           // int unratedGuestsNumber = _ownerGuestRatingService.GetUnratedReservations(Owner.Id).Count;
+           // OwnerMainView.txtUnratedGuestsNotifications.Visibility = unratedGuestsNumber != 0 ? Visibility.Visible : Visibility.Collapsed;
+
+           // int guestRequestsNumber = _requestService.GetPendingByOwnerId(Owner.Id).Count;
+           // OwnerMainView.txtGuestsRequestsNotifications.Visibility = guestRequestsNumber != 0 ? Visibility.Visible : Visibility.Collapsed;
+
+            int otherNotificationsNumber = Notifications.Count;
+            OwnerMainView.lvNotifications.Visibility = otherNotificationsNumber != 0 ? Visibility.Visible : Visibility.Collapsed;
+
         }
 
         #region Commands
@@ -66,12 +94,38 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             return true;
         }
+
+        public void Executed_ShowPendingRequestsCommand(object obj)
+        {
+            Window requestsView = new RescheduleRequestsView(_requestService, _reservationService, _notificationService, Owner);
+            requestsView.Show();
+        }
+
+        public bool CanExecute_ShowPendingRequestsCommand(object obj)
+        {
+            return true;
+        }
+
+        public void Executed_LogoutCommand(object obj)
+        {
+            foreach (Notification notification in _notificationService.GetUnreadByUserId(Owner.Id))
+            {
+                _notificationService.MarkAsRead(notification.Id);
+            }
+            OwnerMainView.Close();
+        }
+
+        public bool CanExecute_LogoutCommand(object obj)
+        {
+            return true;
+        }
         #endregion
 
         public void InitCommands() 
         {
-            ShowAccommodationsCommand = new RelayCommand(Executed_ShowAccommodationsCommand,
-                CanExecute_ShowAccommodationsCommand);
+            ShowAccommodationsCommand = new RelayCommand(Executed_ShowAccommodationsCommand, CanExecute_ShowAccommodationsCommand);
+            ShowPendingRequestsCommand = new RelayCommand(Executed_ShowPendingRequestsCommand, CanExecute_ShowPendingRequestsCommand);
+            LogoutCommand = new RelayCommand(Executed_LogoutCommand, CanExecute_LogoutCommand);
         }
 
         public void Update()
@@ -82,7 +136,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public void UpdateReservationsInProgress()
         {
             ReservationsInProgress.Clear();
-            foreach (AccommodationReservation reservation in _accommodationReservationService.GetInProgressByOwnerId(Owner.Id))
+            foreach (AccommodationReservation reservation in _reservationService.GetInProgressByOwnerId(Owner.Id))
             {
                 ReservationsInProgress.Add(reservation);
             }

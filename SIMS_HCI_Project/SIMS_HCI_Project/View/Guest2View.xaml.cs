@@ -72,6 +72,12 @@ namespace SIMS_HCI_Project.View
             //TODO: add reservation cancellation option
             //status change in CANCELLED and available -= partysize and remove from list OR change loadinf method for MyReservations to show only GOING, and to not remove from the list. Second option is better
         }
+
+        private void BtnRateTours_Click(object sender, RoutedEventArgs e)
+        {
+            Window win = new TourRatingView(Guest);
+            win.Show();
+        }
     }
 
     

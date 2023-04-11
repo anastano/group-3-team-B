@@ -2,6 +2,7 @@
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands;
 using SIMS_HCI_Project.WPF.Views;
+using SIMS_HCI_Project.WPF.Views.GuideViews;
 using SIMS_HCI_Project.WPF.Views.OwnerViews;
 using System;
 using System.Collections.Generic;
@@ -55,8 +56,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels
                         //guest2View.Show();
                         break;
                     case UserRole.GUIDE:
-                        Window guideWindow = null;
-                        //guideWindow.Show();
+                        Window guideWindow = new GuideMainView(new Guide(user));
+                        guideWindow.Show();
                         break;
                 }
             }

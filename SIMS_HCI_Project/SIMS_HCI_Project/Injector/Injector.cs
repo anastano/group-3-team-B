@@ -1,4 +1,5 @@
-﻿using SIMS_HCI_Project.Repositories;
+﻿using SIMS_HCI_Project.Domain.RepositoryInterfaces;
+using SIMS_HCI_Project.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +17,13 @@ namespace SIMS_HCI_Project.Injector
             { typeof(IGuest1Repository), new Guest1Repository() },
             { typeof(ILocationRepository), new LocationRepository() },
             { typeof(IAccommodationRepository), new AccommodationRepository() },
-             { typeof(IAccommodationReservationRepository), new AccommodationReservationRepository() },
-             { typeof(IRescheduleRequestRepository), new RescheduleRequestRepository() },
-             { typeof(INotificationRepository), new NotificationRepository() }
-
+            { typeof(IAccommodationReservationRepository), new AccommodationReservationRepository() },
+            { typeof(IRescheduleRequestRepository), new RescheduleRequestRepository() },
+            { typeof(INotificationRepository), new NotificationRepository() },
+            { typeof(ITourReservationRepository), new TourReservationRepository() },
+            { typeof(ITourTimeRepository), new TourTimeRepository() },
+            { typeof(ITourVoucherRepository), new TourVoucherRepository() },
+            { typeof(ITourRepository), new TourRepository() }
         };
 
         public static T CreateInstance<T>()

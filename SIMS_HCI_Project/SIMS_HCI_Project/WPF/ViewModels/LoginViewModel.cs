@@ -3,6 +3,7 @@ using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands;
 using SIMS_HCI_Project.WPF.Views;
 using SIMS_HCI_Project.WPF.Views.OwnerViews;
+using SIMS_HCI_Project.WPF.Views.Guest1Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -45,7 +46,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels
                         ownerView.Show();
                         break;
                     case UserRole.GUEST1:
-                        Window guest1View = null;
+                        Window guest1View = new Guest1MainView(new Guest1(user));
+                        guest1View.Show();
                         //win.Show();
 
                         break;

@@ -44,6 +44,10 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _requests;
         }
+        public List<RescheduleRequest> GetAllByOwnerId(int ownerId)
+        {
+            return _requests.FindAll(r => r.AccommodationReservation.Accommodation.OwnerId == ownerId);
+        }
 
         public List<RescheduleRequest> GetPendingByOwnerId(int ownerId)
         {
@@ -57,7 +61,13 @@ namespace SIMS_HCI_Project.Repositories
             Save();
             NotifyObservers();
         }
-
+        public void Add(RescheduleRequest request)
+        {
+            request.Id = GenerateId();
+            _requests.Add(request);
+            Save();
+            NotifyObservers();
+        }
         public void NotifyObservers()
         {
             foreach (var observer in _observers)

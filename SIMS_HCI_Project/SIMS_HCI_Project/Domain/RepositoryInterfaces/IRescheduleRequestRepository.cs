@@ -10,7 +10,9 @@ namespace SIMS_HCI_Project.Repositories
         int GenerateId();
         List<RescheduleRequest> GetAll();
         RescheduleRequest GetById(int id);
+        List<RescheduleRequest> GetAllByOwnerId(int ownerId);
         List<RescheduleRequest> GetPendingByOwnerId(int ownerId);
+        void Add(RescheduleRequest request);
         void NotifyObservers();
         void Save();
         void Subscribe(IObserver observer);

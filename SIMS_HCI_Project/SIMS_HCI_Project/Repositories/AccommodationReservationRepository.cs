@@ -23,6 +23,17 @@ namespace SIMS_HCI_Project.Repositories
 
             _observers = new List<IObserver>();
         }
+        public void ConvertReservedAccommodationsIntoCompleted(DateTime currentDate)
+        {
+            foreach (var reservation in _reservations)
+            {
+                if (reservation.End < currentDate && reservation.Status == AccommodationReservationStatus.RESERVED)
+                {
+                    reservation.Status = AccommodationReservationStatus.COMPLETED;
+                }
+            }
+            Save();
+        }
 
         public int GenerateId()
         {
@@ -52,6 +63,10 @@ namespace SIMS_HCI_Project.Repositories
         public List<AccommodationReservation> GetByAccommodationId(int accommodationId)
         {
             return _reservations.FindAll(r => r.AccommodationId == accommodationId);
+        }
+        public List<AccommodationReservation> GetAllByStatusAndGuestId(int id, AccommodationReservationStatus status)
+        {
+            return _reservations.FindAll(g => g.GuestId == id && g.Status == status);
         }
 
         public void EditStatus(int reservationId, AccommodationReservationStatus status)

@@ -42,7 +42,10 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return _reservationRepository.GetByAccommodationId(accommodationId);
         }
-
+        public List<AccommodationReservation> GetAllByStatusAndGuestId(int id, AccommodationReservationStatus status)
+        {
+            return _reservationRepository.GetAllByStatusAndGuestId(id, status);
+        }
         public List<AccommodationReservation> GetInProgressByOwnerId(int ownerId)
         {
             List<AccommodationReservation> reservationsInProgress = new List<AccommodationReservation>();
@@ -120,6 +123,10 @@ namespace SIMS_HCI_Project.Applications.Services
             owner.Reservations = GetByOwnerId(owner.Id);
         }
 
+        public void ConvertReservedAccommodationsIntoCompleted(DateTime currentDate)
+        {
+            _reservationRepository.ConvertReservedAccommodationsIntoCompleted(currentDate);
+        }
         public void NotifyObservers()
         {
             _reservationRepository.NotifyObservers();

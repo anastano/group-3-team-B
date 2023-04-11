@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SIMS_HCI_Project.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,6 +28,17 @@ namespace SIMS_HCI_Project.Domain.Models
             Id = guest1.Id;
             Username = guest1.Username;
             Password = guest1.Password;
+
+            Reservations = new List<AccommodationReservation>();
+        }
+        public Guest1(User user)
+        {
+            Id = user.Id;
+            Password = user.Password;
+            Username = user.Username;
+            Name = user.Name;
+            Surname = user.Surname;
+            Age = user.Age;
 
             Reservations = new List<AccommodationReservation>();
         }

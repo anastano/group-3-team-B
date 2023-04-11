@@ -33,6 +33,10 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return _requestRepository.GetAll();
         }
+        public List<RescheduleRequest> GetAllByOwnerId(int ownerId)
+        {
+            return _requestRepository.GetAllByOwnerId(ownerId);
+        }
 
         public List<RescheduleRequest> GetPendingByOwnerId(int ownerId)
         {
@@ -49,6 +53,10 @@ namespace SIMS_HCI_Project.Applications.Services
             {
                 request.AccommodationReservation = reservationService.GetById(request.AccommodationReservationId);
             }
+        }
+        public void Add(RescheduleRequest rescheduleRequest)
+        {
+            _requestRepository.Add(rescheduleRequest);
         }
 
         public void NotifyObservers()

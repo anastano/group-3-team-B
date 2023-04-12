@@ -40,7 +40,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         #region Commands
         public void Executed_ShowSelectedReviewCommand(object obj)
         {
-
+            if (SelectedReview != null)
+            {
+                Window selectedGuestReviewView = new SelectedGuestReviewView(SelectedReview);
+                selectedGuestReviewView.Show();
+            }
         }
 
         public bool CanExecute_ShowSelectedReviewCommand(object obj)

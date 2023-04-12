@@ -63,6 +63,37 @@ namespace SIMS_HCI_Project.Applications.Services
                 rating.Reservation = reservationService.GetById(rating.ReservationId);
             }
         }
+
+        public void FillAverageRatingAndSuperFlag(Owner owner)
+        {
+            FillAverageRating(owner);
+            FillSuperFlag(owner);
+        }
+
+        private void FillAverageRating(Owner owner)
+        {
+            int ratingsSum = 0;
+            int counter = 0;
+
+            foreach (RatingGivenByGuest rating in GetByOwnerId(owner.Id))
+            {
+                ratingsSum += rating.Cleanliness + rating.Correctness;
+                counter += 2;
+            }
+
+            owner.AverageRating = (double)ratingsSum / counter;
+        }
+
+        private void FillSuperFlag(Owner owner)
+        {
+            owner.SuperFlag = IsSuperFlag(owner) ? true : false;
+        }
+
+        private bool IsSuperFlag(Owner owner)
+        {
+            return (GetByOwnerId(owner.Id).Count >= 2 && owner.AverageRating > 4.5);
+        }
+
         public void NotifyObservers()
         {
             _ratingRepository.NotifyObservers();

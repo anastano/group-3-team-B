@@ -31,6 +31,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 
         public RelayCommand CancelReservationCommand { get; set; }
         public RelayCommand RescheduleReservationCommand { get; set; }
+        public RelayCommand RateCommand { get; set; }
 
         public ReservationsViewModel(ReservationsView reservationsView, Guest1MainView guest1MainView, AccommodationReservationService reseravtionService, NotificationService notificationService, Guest1 guest)
         {
@@ -90,12 +91,25 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             return true;
         }
+        public void Executed_RateCommand(object obj)
+        {
+            if (SelectedReservation != null)
+            {
+                //Potencijalno ako bude trebalo zbog selected
+                Guest1MainView.MainGuestFrame.Content = new RatingReservationView(Guest1MainView, ReservationsView, _reservationService, SelectedReservation);
+            }
+        }
+        public bool CanExecute_RateCommand(object obj)
+        {
+            return true;
+        }
         #endregion
 
         public void InitCommands()
         {
             CancelReservationCommand = new RelayCommand(Executed_CancelReservationCommand, CanExecute_CancelReservationCommand);
             RescheduleReservationCommand = new RelayCommand(Executed_RescheduleReservationCommand, CanExecute_RescheduleReservationCommand);
+            RateCommand = new RelayCommand(Executed_RateCommand, CanExecute_RateCommand);
         }
         
         public void Update()

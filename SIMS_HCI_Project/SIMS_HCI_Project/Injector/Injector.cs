@@ -19,6 +19,7 @@ namespace SIMS_HCI_Project.Injector
             { typeof(IAccommodationRepository), new AccommodationRepository() },
             { typeof(IAccommodationReservationRepository), new AccommodationReservationRepository() },
             { typeof(IRescheduleRequestRepository), new RescheduleRequestRepository() },
+            { typeof(IRatingGivenByGuestRepository), new RatingGivenByGuestRepository() },
             { typeof(INotificationRepository), new NotificationRepository() },
             { typeof(ITourReservationRepository), new TourReservationRepository() },
             { typeof(ITourTimeRepository), new TourTimeRepository() },

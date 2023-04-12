@@ -75,7 +75,8 @@
                 </DataGrid>
             </TabItem>
             <TabItem Header="Past">
-                <DataGrid ItemsSource="{Binding Path=PastReservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="60,60,60,60" AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid ItemsSource="{Binding Path=PastReservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="60,60,60,60" AutoGenerateColumns="False" IsReadOnly="True"
+                          SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Accommodation Name" Binding="{Binding Accommodation.Name}" Width="Auto"></DataGridTextColumn>
                         <DataGridTextColumn Header="Start" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="SizeToCells"></DataGridTextColumn>
@@ -84,7 +85,8 @@
                         <DataGridTemplateColumn Header="Rate" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="Rate"/>
+                                    <Button Content="Rate"  Command="{Binding DataContext.RateCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
+                                            Visibility ="{Binding End, Converter={local1:RateButtonVisibilityConverter}}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>

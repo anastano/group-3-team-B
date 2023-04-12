@@ -1,0 +1,20 @@
+﻿<Window x:Class="SIMS_HCI_Project.WPF.Views.GuideViews.GuideMainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.GuideViews"
+        mc:Ignorable="d"
+        Title="GuideMainView" Height="450" Width="800">
+    <Grid>
+        <Button Content="Cancel" HorizontalAlignment="Left" Margin="58,319,0,0" VerticalAlignment="Top" Height="57" Width="93" Command="{Binding CancelTourCommand}"/>
+        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Path=AllTourTimes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=SelectedTourTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="NaN" Margin="58,38,52,164" Width="NaN">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="TourId" Width="1*" Binding="{Binding Path=TourId}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Time" Width="1*" Binding="{Binding DepartureTime}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Status" Width="1*" Binding="{Binding Status}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</Window>

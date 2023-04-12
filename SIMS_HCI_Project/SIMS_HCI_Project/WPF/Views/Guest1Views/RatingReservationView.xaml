@@ -1,0 +1,37 @@
+﻿<Page x:Class="SIMS_HCI_Project.WPF.Views.Guest1Views.RatingReservationView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest1Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="RatingReservationView">
+
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Owner:"/>
+                <TextBox x:Name="Owner" Width="100" Text="{Binding Path=Reservation.Accommodation.Owner, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Accommodation cleanliness:"/>
+                <TextBox x:Name="Cleanliness" Width="100" Text="{Binding Path=Cleanliness, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Owner correctness:"/>
+                <TextBox x:Name="Corecntess" Width="100" Text="{Binding Path=Correctness, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Image URLs:"/>
+                <TextBox x:Name="Images" Width="100" Text="{Binding Path=Images, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Aditional comment:"/>
+                <TextBox x:Name="Comment" Width="100" Text="{Binding Path=AdditionalComment, UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+            <Button Content="Review"  Command="{Binding DataContext.ReviewReservationCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
+        </StackPanel>
+
+    </Grid>
+</Page>

@@ -1,0 +1,164 @@
+﻿<Window x:Class="SIMS_HCI_Project.WPF.Views.OwnerViews.SelectedGuestReviewView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
+        mc:Ignorable="d"
+        Title="SelectedGuestReviewView" Height="480" Width="800" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+
+        <Style x:Key="fancyTitle" TargetType="TextBlock">
+            <Setter Property="Height" Value="30"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+            <Setter Property="FontSize" Value="30"></Setter>
+            <Setter Property="Foreground" Value="Turquoise"></Setter>
+            <Setter Property="TextAlignment" Value="Center"></Setter>
+            <Setter Property="Margin" Value="0 0 0 5"></Setter>
+        </Style>
+
+        <Style x:Key="fancyButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="200"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="Margin" Value="10 10 10 10"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Foreground" Value="Azure"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="15"
+                                Background="Turquoise"
+                                BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"></ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Style.Triggers>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect Color="LightBlue" Opacity="50" ShadowDepth="10"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="BorderBrush" Value="Turquoise"/>
+            <Setter Property="TextWrapping" Value ="Wrap"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="100"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="0 0 0 0"/>
+            <Setter Property ="Foreground" Value="Turquoise"/>
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="16"></Setter>
+            <Setter Property="Foreground" Value="Turquoise"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Margin" Value="10 0 0 0"/>
+        </Style>
+
+        <Style x:Key="fancyBorder" TargetType="Border">
+            <Setter Property="BorderBrush" Value="Turquoise"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="CornerRadius" Value="15"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
+    </Window.Resources>
+    <Grid Background="Azure">
+        <StackPanel>
+
+            <TextBlock x:Name="tblWelcome" Text="Guest Review" Margin="10" Height="40"
+                       Style="{StaticResource ResourceKey=fancyTitle}">
+            </TextBlock>
+
+            <Border Style="{StaticResource ResourceKey=fancyBorder}">
+                <StackPanel Orientation="Horizontal">
+                    <StackPanel Margin="10">
+                        <!--
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Label Content="Guest: " Grid.Row="0" Grid.Column="0" FontSize="20" FontWeight="Bold"></Label>
+
+                        <TextBlock x:Name="tblGuestName" Grid.Row="0" Grid.Column="1"
+                             Text="{Binding SelectedReview.Reservation.Guest.Name}"
+                             Style="{StaticResource ResourceKey=fancyTitle}"
+                             FontSize="20" FontWeight="Bold" Height="35" Margin="10 10 0 0">
+                        </TextBlock>
+
+                        <TextBlock x:Name="tblGuestSurname" Grid.Row="0" Grid.Column="1"
+                             Text="{Binding SelectedReview.Reservation.Guest.Surname}"
+                                   Style="{StaticResource ResourceKey=fancyTitle}"
+                             FontSize="20" FontWeight="Bold" Height="35" Margin="10 10 0 0">
+                        </TextBlock>
+                    </StackPanel>
+                    -->
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Cleanliness (1-5):  " FontSize="16" HorizontalAlignment="Left" Margin="0 0 0 0"
+                                        Style="{StaticResource ResourceKey=fancyTitle}" FontWeight="Bold">
+                            </TextBlock>
+                            <TextBlock Text="{Binding SelectedReview.Cleanliness}" FontSize="16" HorizontalAlignment="Left" Margin="0 0 0 0"
+                                        Style="{StaticResource ResourceKey=fancyTitle}">
+                            </TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Correctness (1-5):  " FontSize="16" HorizontalAlignment="Left" Margin="0 0 0 0"
+                                        Style="{StaticResource ResourceKey=fancyTitle}" FontWeight="Bold">
+                            </TextBlock>
+                            <TextBlock Text="{Binding SelectedReview.Correctness}" FontSize="16" HorizontalAlignment="Left" Margin="0 0 0 0"
+                                        Style="{StaticResource ResourceKey=fancyTitle}">
+                            </TextBlock>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Additional commnent:  " FontSize="16" HorizontalAlignment="Left" Margin="0 0 0 0"
+                                        Style="{StaticResource ResourceKey=fancyTitle}" FontWeight="Bold">
+                            </TextBlock>
+                            <TextBox Text="{Binding SelectedReview.AdditionalComment}" FontSize="16" HorizontalAlignment="Left"
+                                 Width="260" Height="160">
+                            </TextBox>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel Width="350" Orientation="Vertical">
+                        <Border Style="{StaticResource ResourceKey=fancyBorder}" Margin="10">
+                            <Image x:Name="imgGuestReviewImage" Height="200" Width="300" Margin="10"/>
+                        </Border>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button x:Name="btnPrevious" Content="Previous" Command="{Binding PreviousGuestReviewImageCommand}"
+                                Style="{StaticResource ResourceKey=fancyButtonStyle}" Width="120" Height="30">
+                            </Button>
+
+                            <Button x:Name="btnNext" Content="Next"  Command="{Binding NextGuestReviewImageCommand}"
+                                Style="{StaticResource ResourceKey=fancyButtonStyle}" Width="120" Height="30">
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                    
+                </StackPanel>
+            </Border>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="btnClose" Content="Close (Esc)" 
+                Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                </Button>
+
+                <Button x:Name="btnHome" Content="Home (Ctrl+H)" 
+                Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                </Button>
+            </StackPanel>
+
+        </StackPanel>
+    </Grid>
+</Window>

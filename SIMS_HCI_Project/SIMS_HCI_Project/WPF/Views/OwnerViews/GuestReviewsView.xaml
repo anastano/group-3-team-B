@@ -82,7 +82,7 @@
                 <Border Style="{StaticResource ResourceKey=fencyBorder}">
                     <!-- Buttons STACK PANEL-->
                     <StackPanel  Margin="5 5 5 5" Orientation="Horizontal">
-                        <Button x:Name="btnShowSelectedRating"  Content="Show Selected Rating (Ctrl+S)" 
+                        <Button x:Name="btnShowSelectedRating"  Content="Show Selected Rating (Ctrl+S)"  Command="{Binding ShowSelectedReviewCommand}"
                             Style="{StaticResource ResourceKey=fancyButtonStyle}">
                         </Button>
                         <Button x:Name="btnClose"  Content="Close (Esc)"

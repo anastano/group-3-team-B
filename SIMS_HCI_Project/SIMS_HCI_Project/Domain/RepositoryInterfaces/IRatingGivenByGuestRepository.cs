@@ -18,5 +18,6 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         void Save();
         void Subscribe(IObserver observer);
         void Unsubscribe(IObserver observer);
+        List<RatingGivenByGuest> GetByOwnerId(int ownerId);
     }
 }

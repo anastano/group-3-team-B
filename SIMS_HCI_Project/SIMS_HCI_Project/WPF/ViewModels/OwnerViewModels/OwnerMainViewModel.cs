@@ -24,6 +24,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         private AccommodationReservationService _reservationService;
         private RescheduleRequestService _requestService;
         private NotificationService _notificationService;
+        private RatingGivenByOwnerService _ownerRatingService;
+        private RatingGivenByGuestService _guestRatingService;
         #endregion
 
         public OwnerMainView OwnerMainView { get; set; }
@@ -31,8 +33,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public ObservableCollection<AccommodationReservation> ReservationsInProgress { get; set; }
         public ObservableCollection<Notification> Notifications { get; set; }
 
+        //
+        public ObservableCollection<RatingGivenByOwner> OwnerReviews { get; set; }
+        //
         public RelayCommand ShowAccommodationsCommand { get; set; }
         public RelayCommand ShowPendingRequestsCommand { get; set; }
+        public RelayCommand ShowUnratedReservationsCommand { get; set; }
+        public RelayCommand ShowGuestReviewsCommand { get; set; }
         public RelayCommand LogoutCommand { get; set; }
 
         public OwnerMainViewModel(OwnerMainView ownerMainView, Owner owner) 
@@ -45,6 +52,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
             ReservationsInProgress = new ObservableCollection<AccommodationReservation>(_reservationService.GetInProgressByOwnerId(Owner.Id));
             Notifications = new ObservableCollection<Notification>(_notificationService.GetUnreadByUserId(Owner.Id));
+            OwnerReviews = new ObservableCollection<RatingGivenByOwner>(_ownerRatingService.GetAll());
 
             ShowNotifications();
 
@@ -60,11 +68,15 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             _reservationService = new AccommodationReservationService();
             _requestService = new RescheduleRequestService();
             _notificationService = new NotificationService();
+            _ownerRatingService = new RatingGivenByOwnerService();
+            _guestRatingService = new RatingGivenByGuestService();
 
             _accommodationService.ConnectAccommodationsWithLocations(_locationService);
             _reservationService.ConnectReservationsWithAccommodations(_accommodationService);
             _reservationService.ConnectReservationsWithGuests(_guest1Service);
             _requestService.ConnectRequestsWithReservations(_reservationService);
+            _ownerRatingService.ConnectRatingsWithReservations(_reservationService);
+            _guestRatingService.ConnectRatingsWithReservations(_reservationService);
 
             _accommodationService.FillOwnerAccommodationList(Owner);
             _reservationService.FillOwnerReservationList(Owner);
@@ -106,6 +118,28 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             return true;
         }
 
+        public void Executed_ShowUnratedReservationsCommand(object obj)
+        {
+            Window unratedReservationsView = new UnratedReservationsView(_reservationService, _ownerRatingService, Owner);
+            unratedReservationsView.Show();
+        }
+
+        public bool CanExecute_ShowUnratedReservationsCommand(object obj)
+        {
+            return true;
+        }
+
+        public void Executed_ShowGuestReviewsCommand(object obj)
+        {
+            Window guestReviewsView = new GuestReviewsView(_guestRatingService, _ownerRatingService, Owner);
+            guestReviewsView.Show();
+        }
+
+        public bool CanExecute_ShowGuestReviewsCommand(object obj)
+        {
+            return true;
+        }
+
         public void Executed_LogoutCommand(object obj)
         {
             foreach (Notification notification in _notificationService.GetUnreadByUserId(Owner.Id))
@@ -125,6 +159,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             ShowAccommodationsCommand = new RelayCommand(Executed_ShowAccommodationsCommand, CanExecute_ShowAccommodationsCommand);
             ShowPendingRequestsCommand = new RelayCommand(Executed_ShowPendingRequestsCommand, CanExecute_ShowPendingRequestsCommand);
+            ShowUnratedReservationsCommand = new RelayCommand(Executed_ShowUnratedReservationsCommand, CanExecute_ShowUnratedReservationsCommand);
+            ShowGuestReviewsCommand = new RelayCommand(Executed_ShowGuestReviewsCommand, CanExecute_ShowGuestReviewsCommand);
             LogoutCommand = new RelayCommand(Executed_LogoutCommand, CanExecute_LogoutCommand);
         }
 

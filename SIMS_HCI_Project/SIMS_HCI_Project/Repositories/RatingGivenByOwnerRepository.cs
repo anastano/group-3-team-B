@@ -1,5 +1,4 @@
 ﻿using SIMS_HCI_Project.Domain.Models;
-using SIMS_HCI_Project.Domain.RepositoryInterfaces;
 using SIMS_HCI_Project.FileHandlers;
 using SIMS_HCI_Project.Observer;
 using System;
@@ -10,43 +9,45 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Repositories
 {
-    public class RatingGivenByGuestRepository : ISubject, IRatingGivenByGuestRepository
+    public class RatingGivenByOwnerRepository : ISubject, IRatingGivenByOwnerRepository
     {
-
         private readonly List<IObserver> _observers;
-        private readonly RatingGivenByGuestFileHandler _fileHandler;
+        private readonly RatingGivenByOwnerFileHandler _fileHandler;
 
-        private static List<RatingGivenByGuest> _ratings;
+        private static List<RatingGivenByOwner> _ratings;
 
-        public RatingGivenByGuestRepository()
+        public RatingGivenByOwnerRepository()
         {
-            _fileHandler = new RatingGivenByGuestFileHandler();
+            _fileHandler = new RatingGivenByOwnerFileHandler();
             _ratings = _fileHandler.Load();
             _observers = new List<IObserver>();
         }
+
         public int GenerateId()
         {
             return _ratings.Count == 0 ? 1 : _ratings[_ratings.Count - 1].Id + 1;
         }
+
         public void Save()
         {
             _fileHandler.Save(_ratings);
         }
-        public RatingGivenByGuest GetById(int id)
+
+        public RatingGivenByOwner GetById(int id)
         {
             return _ratings.Find(r => r.Id == id);
         }
-        public List<RatingGivenByGuest> GetAll()
+
+        public RatingGivenByOwner GetByReservationId(int reservationId)
+        {
+            return _ratings.Find(r => r.ReservationId == reservationId);
+        }
+
+        public List<RatingGivenByOwner> GetAll()
         {
             return _ratings;
         }
-
-        public List<RatingGivenByGuest> GetByOwnerId(int ownerId)
-        {
-            return _ratings.FindAll(r => r.Reservation.Accommodation.OwnerId == ownerId);
-        }
-
-        public void Add(RatingGivenByGuest rating)
+        public void Add(RatingGivenByOwner rating)
         {
             rating.Id = GenerateId();
             _ratings.Add(rating);

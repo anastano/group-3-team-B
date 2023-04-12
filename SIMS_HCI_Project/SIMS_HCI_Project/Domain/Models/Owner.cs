@@ -8,13 +8,19 @@ namespace SIMS_HCI_Project.Domain.Models
 {
     public class Owner : User
     {
+        public double AverageRating { get; set; }
+        public bool SuperFlag { get; set; }
+
         public List<Accommodation> Accommodations;
         public List<AccommodationReservation> Reservations;
          
         public Owner() 
         {
-           Accommodations= new List<Accommodation>();
-           Reservations = new List<AccommodationReservation>();
+            AverageRating = 0;
+            SuperFlag = false;
+
+            Accommodations= new List<Accommodation>();
+            Reservations = new List<AccommodationReservation>();
         }
 
         public Owner(User user) 

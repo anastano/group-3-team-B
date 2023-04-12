@@ -199,25 +199,29 @@
                         </TextBlock>
                         <Border Style="{StaticResource ResourceKey=fancyBorder}">
                             <StackPanel Width="430" Height="210" Orientation="Horizontal">
-                                <TextBlock Width="100" Height="140" Margin="35 10 10 10" HorizontalAlignment="Left" Background="Gray"></TextBlock>
-
-                                <StackPanel Orientation="Vertical" Width="290">
+                                <Border Style="{StaticResource fancyBorder}" Margin="10">
+                                    <Grid>
+                                        <Image Source="../../../Resources/Images/profil.png"  Width="150" Height="170" Margin="15 15 20 0"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                        <Image x:Name="imgSuperFlag" Source="../../../Resources/Images/goldenHouse.png"  Width="70" Height="70" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                                    </Grid>
+                                </Border>
+                                <StackPanel Orientation="Vertical" Width="210" Margin="10">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Name:     " FontSize="20" HorizontalAlignment="Left" Margin="10 10 0 0"
+                                        <TextBlock Text="Name:  " FontSize="20" HorizontalAlignment="Left" Margin="0 10 0 0"
                                         Style="{StaticResource ResourceKey=fancyTitle}">
                                         </TextBlock>
                                         <TextBlock  Text="{Binding Path = Owner.Name, UpdateSourceTrigger = PropertyChanged}" 
-                                                    FontSize="20" HorizontalAlignment="Left" Margin="10 10 0 0"
+                                                    FontSize="20" HorizontalAlignment="Left" Margin="0 10 0 0"
                                                     Style="{StaticResource ResourceKey=fancyTitle}">
                                         </TextBlock>
                                     </StackPanel>
 
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Surname: " FontSize="20" HorizontalAlignment="Left" Margin="10 10 0 0"
+                                        <TextBlock Text="Surname:  " FontSize="20" HorizontalAlignment="Left" Margin="0 0 0 0"
                                         Style="{StaticResource ResourceKey=fancyTitle}">
                                         </TextBlock>
                                         <TextBlock  Text="{Binding Path = Owner.Surname, UpdateSourceTrigger = PropertyChanged}" 
-                                                    FontSize="20" HorizontalAlignment="Left" Margin="10 10 0 0"
+                                                    FontSize="20" HorizontalAlignment="Left" Margin="0 0 0 0"
                                                     Style="{StaticResource ResourceKey=fancyTitle}">
                                         </TextBlock>
                                     </StackPanel>
@@ -225,18 +229,19 @@
 
 
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Rating: " FontSize="20" HorizontalAlignment="Left" Margin="10 10 0 0"
+                                        <TextBlock Text="Rating:  " FontSize="20" HorizontalAlignment="Left" Margin="0 0 0 0"
                                         Style="{StaticResource ResourceKey=fancyTitle}">
                                         </TextBlock>
-                                        <TextBlock  Text="(Add Rating)" 
-                                                    FontSize="25" FontWeight="Bold" HorizontalAlignment="Left" Margin="10 5 0 0"
+                                        <TextBlock  Text="{Binding Owner.AverageRating, StringFormat=N2}" 
+                                                    FontSize="25" FontWeight="Bold" HorizontalAlignment="Left" Margin="0 -5 0 0"
                                                     Style="{StaticResource ResourceKey=fancyTitle}">
                                         </TextBlock>
+
                                     </StackPanel>
 
                                     <Button x:Name="btnLogout" Content="Log out (Esc)" 
                                             HorizontalAlignment="Left" Margin="10 10 10 10" Command="{Binding LogoutCommand}"
-                                            Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                                            Width="180" Style="{StaticResource ResourceKey=fancyButtonStyle}">
                                     </Button>
 
 

@@ -32,10 +32,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public Owner Owner { get; set; }        
         public ObservableCollection<AccommodationReservation> ReservationsInProgress { get; set; }
         public ObservableCollection<Notification> Notifications { get; set; }
-
-        //
-        public ObservableCollection<RatingGivenByOwner> OwnerReviews { get; set; }
-        //
         public RelayCommand ShowAccommodationsCommand { get; set; }
         public RelayCommand ShowPendingRequestsCommand { get; set; }
         public RelayCommand ShowUnratedReservationsCommand { get; set; }
@@ -52,9 +48,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
             ReservationsInProgress = new ObservableCollection<AccommodationReservation>(_reservationService.GetInProgressByOwnerId(Owner.Id));
             Notifications = new ObservableCollection<Notification>(_notificationService.GetUnreadByUserId(Owner.Id));
-            OwnerReviews = new ObservableCollection<RatingGivenByOwner>(_ownerRatingService.GetAll());
 
-            ShowNotifications();
+            ShowNotificationsAndSuperFlag();
 
             _reservationService.Subscribe(this);
         }
@@ -80,9 +75,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
             _accommodationService.FillOwnerAccommodationList(Owner);
             _reservationService.FillOwnerReservationList(Owner);
+
+            _guestRatingService.FillAverageRatingAndSuperFlag(Owner);
         }
 
-        private void ShowNotifications()
+        private void ShowNotificationsAndSuperFlag()
         {
            // int unratedGuestsNumber = _ownerGuestRatingService.GetUnratedReservations(Owner.Id).Count;
            // OwnerMainView.txtUnratedGuestsNotifications.Visibility = unratedGuestsNumber != 0 ? Visibility.Visible : Visibility.Collapsed;
@@ -93,6 +90,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             int otherNotificationsNumber = Notifications.Count;
             OwnerMainView.lvNotifications.Visibility = otherNotificationsNumber != 0 ? Visibility.Visible : Visibility.Collapsed;
 
+            OwnerMainView.imgSuperFlag.Visibility = Owner.SuperFlag ? Visibility.Visible : Visibility.Collapsed;
         }
 
         #region Commands

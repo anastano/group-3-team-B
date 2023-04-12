@@ -42,10 +42,12 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return _reservationRepository.GetByAccommodationId(accommodationId);
         }
+
         public List<AccommodationReservation> GetAllByStatusAndGuestId(int id, AccommodationReservationStatus status)
         {
             return _reservationRepository.GetAllByStatusAndGuestId(id, status);
         }
+
         public List<AccommodationReservation> GetInProgressByOwnerId(int ownerId)
         {
             List<AccommodationReservation> reservationsInProgress = new List<AccommodationReservation>();
@@ -90,6 +92,39 @@ namespace SIMS_HCI_Project.Applications.Services
             bool endOverlaps = reservation.End >= request.WantedStart && reservation.End <= request.WantedEnd;
 
             return startOverlaps || endOverlaps;
+        }
+
+        public List<AccommodationReservation> GetUnratedReservations(int ownerId, RatingGivenByOwnerService ownerRatingService)
+        {
+            List<AccommodationReservation> unratedReservations = new List<AccommodationReservation>();
+
+            foreach (AccommodationReservation reservation in GetByOwnerId(ownerId))
+            {
+                if (IsCompleted(reservation) && IsWithinFiveDaysAfterCheckout(reservation) && !IsRated(reservation, ownerRatingService))
+                {
+                    unratedReservations.Add(reservation);
+                }
+            }
+            return unratedReservations;
+        }
+
+        public bool IsCompleted(AccommodationReservation reservation)
+        {
+            return reservation.Status == AccommodationReservationStatus.COMPLETED;
+        }
+
+        public bool IsWithinFiveDaysAfterCheckout(AccommodationReservation reservation)
+        {
+            return DateTime.Today <= reservation.End.AddDays(5);
+        }
+
+        public bool IsRated(AccommodationReservation reservation, RatingGivenByOwnerService ownerRatingService)
+        {
+            if (ownerRatingService.GetByReservationId(reservation.Id) != null)
+            {
+                return true;
+            }
+            return false;
         }
 
         public void EditStatus(int reservationId, AccommodationReservationStatus status)

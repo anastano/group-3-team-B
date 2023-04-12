@@ -65,7 +65,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels
             }
             else
             {
-                LoginWindow.lblErrorMessage.Content = "Inccorect username or password";
+                LoginWindow.lblErrorMessage.Content = "Incorrect username or password";
             }
         }
 

@@ -10,59 +10,46 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Applications.Services
 {
-    public class RatingGivenByGuestService
+    public class RatingGivenByOwnerService
     {
-        private readonly IRatingGivenByGuestRepository _ratingRepository;
+        private readonly IRatingGivenByOwnerRepository _ratingRepository;
 
-        public RatingGivenByGuestService()
+        public RatingGivenByOwnerService()
         {
-            _ratingRepository = Injector.Injector.CreateInstance<IRatingGivenByGuestRepository>();
+            _ratingRepository = Injector.Injector.CreateInstance<IRatingGivenByOwnerRepository>();
         }
         public void Save()
         {
             _ratingRepository.Save();
         }
-        public RatingGivenByGuest GetById(int id)
+        public RatingGivenByOwner GetById(int id)
         {
             return _ratingRepository.GetById(id);
         }
 
-        public List<RatingGivenByGuest> GetAll()
+        public RatingGivenByOwner GetByReservationId(int reservationId)
+        {
+            return _ratingRepository.GetByReservationId(reservationId);
+        }
+
+        public List<RatingGivenByOwner> GetAll()
         {
             return _ratingRepository.GetAll();
         }
 
-        public List<RatingGivenByGuest> GetByOwnerId(int ownerId)
-        {
-            return _ratingRepository.GetByOwnerId(ownerId);
-        }
-
-        public List<RatingGivenByGuest> GetRatedByOwnerId(RatingGivenByOwnerService ownerRatingService, int ownerId)
-        {
-            List<RatingGivenByGuest> ratedByOwnerId = new List<RatingGivenByGuest>();
-
-            foreach (RatingGivenByGuest rating in GetByOwnerId(ownerId))
-            {
-                if (ownerRatingService.GetByReservationId(rating.ReservationId) != null)
-                {
-                    ratedByOwnerId.Add(rating);
-                }
-            }
-            return ratedByOwnerId;
-        }
-
-        public void Add(RatingGivenByGuest rating)
+        public void Add(RatingGivenByOwner rating)
         {
             _ratingRepository.Add(rating);
         }
 
         public void ConnectRatingsWithReservations(AccommodationReservationService reservationService)
         {
-            foreach (RatingGivenByGuest rating in _ratingRepository.GetAll())
+            foreach (RatingGivenByOwner rating in _ratingRepository.GetAll())
             {
                 rating.Reservation = reservationService.GetById(rating.ReservationId);
             }
         }
+
         public void NotifyObservers()
         {
             _ratingRepository.NotifyObservers();

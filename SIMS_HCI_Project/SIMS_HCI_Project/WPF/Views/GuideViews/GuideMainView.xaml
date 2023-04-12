@@ -8,6 +8,7 @@
         Title="GuideMainView" Height="450" Width="800">
     <Grid>
         <Button Content="Cancel" HorizontalAlignment="Left" Margin="58,319,0,0" VerticalAlignment="Top" Height="57" Width="93" Command="{Binding CancelTourCommand}"/>
+        <Button Content="See statistics" HorizontalAlignment="Left" Margin="169,319,0,0" VerticalAlignment="Top" Height="57" Width="93" Command="{Binding SeeStatistics}"/>
         <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Path=AllTourTimes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=SelectedTourTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="NaN" Margin="58,38,52,164" Width="NaN">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="TourId" Width="1*" Binding="{Binding Path=TourId}"></DataGridTextColumn>
@@ -15,6 +16,8 @@
                 <DataGridTextColumn Header="Status" Width="1*" Binding="{Binding Status}"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <ListBox ItemsSource="{Binding NumberOfGuestsByAgeGroup}" Margin="288,296,415,10"/>
+        <ListBox ItemsSource="{Binding VoucherPercentage}" Margin="407,296,296,10"/>
 
     </Grid>
 </Window>

@@ -16,7 +16,7 @@ namespace SIMS_HCI_Project.Domain.Models
     {
         public int Id { get; set; }
         public int GuestId { get; set; }
-        //public Guest2 Guest { get; set; }
+        public Guest2 Guest { get; set; }
         public int TourTimeId { get; set; }
         public TourTime TourTime { get; set; }
         private AttendanceStatus _status;

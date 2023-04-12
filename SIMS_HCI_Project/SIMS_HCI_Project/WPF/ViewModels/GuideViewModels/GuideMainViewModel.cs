@@ -21,11 +21,22 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         public TourTime SelectedTourTime { get; set; }
 
         public RelayCommand CancelTourCommand { get; set; }
+        public RelayCommand SeeStatistics { get; set; }
+
+        public List<int> NumberOfGuestsByAgeGroup { get; set; }
+        public List<int> VoucherPercentage { get; set; }
+
+        public Tour AllTimeTopTour { get; set; }
+        public Tour SelectedYearTopTour { get; set; }
 
         public GuideMainViewModel(Guide guide)
         {
             LoadFromFiles();
             CancelTourCommand = new RelayCommand(Excuted_CancelTourCommand, CanExecute_CancelTourCommand);
+            SeeStatistics = new RelayCommand(Excuted_SeeStatisticsCommand, CanExecute_SeeStatisticsCommand);
+            NumberOfGuestsByAgeGroup = new List<int>();
+            AllTimeTopTour = new Tour();
+            SelectedTourTime = new TourTime();
 
             AllTourTimes = new ObservableCollection<TourTime>(_tourTimeService.GetAllByGuideId(guide.Id));
             SelectedTourTime = AllTourTimes.First();
@@ -45,11 +56,23 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         public void Excuted_CancelTourCommand(object obj)
         {
             _tourTimeService.CancelTour(SelectedTourTime, _tourVoucherService, _tourReservationService);
+
         }
 
         public bool CanExecute_CancelTourCommand(object obj)
         {
             return true;
         }
+
+        public void Excuted_SeeStatisticsCommand(object obj)
+        {
+
+        }
+
+        public bool CanExecute_SeeStatisticsCommand(object obj)
+        {
+            return true;
+        }
+
     }
 }

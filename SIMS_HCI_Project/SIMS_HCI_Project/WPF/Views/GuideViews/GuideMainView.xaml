@@ -6,13 +6,13 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.GuideViews"
         mc:Ignorable="d"
         Title="Home" Height="720" Width="1280" MinHeight="450" MinWidth="800" WindowStartupLocation="CenterScreen" FontSize="20">
-    <!--<Window.Resources>
+    <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="GuideStyles.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-    </Window.Resources>-->
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="3*"/>
@@ -89,7 +89,7 @@
                 </StackPanel>
             </StackPanel>
         </Border>
-        <Button x:Name="temporeri" Content="Temp Control Point 2" HorizontalAlignment="Left" Margin="68,78,0,0" Grid.Row="1" VerticalAlignment="Top" Click="temporeri_Click"/>
+        <Button x:Name="temporeri" Content="Temp Control Point 2" HorizontalAlignment="Left" Margin="36,78,0,0" Grid.Row="1" VerticalAlignment="Top" Click="temporeri_Click" Style="{StaticResource BasicButton}" Width="210"/>
 
     </Grid>
 </Window>

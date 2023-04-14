@@ -5,16 +5,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.GuideViews"
         mc:Ignorable="d"
-        Title="GuideMainView" Height="450" Width="800">
+        Title="GuideMainView" Height="450" Width="1200">
     <Grid>
         <Button Content="Cancel" HorizontalAlignment="Left" Margin="58,319,0,0" VerticalAlignment="Top" Height="57" Width="93" Command="{Binding CancelTourCommand}"/>
-        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Path=AllTourTimes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=SelectedTourTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="NaN" Margin="58,38,52,164" Width="NaN">
+        <Button Content="See statistics" HorizontalAlignment="Left" Margin="169,319,0,0" VerticalAlignment="Top" Height="57" Width="93" Command="{Binding SeeStatistics}"/>
+        <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Path=AllTourTimes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=SelectedTourTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="NaN" Margin="58,38,433,164" Width="NaN">
             <DataGrid.Columns>
+                <DataGridTextColumn Header="TourTimeId" Width="1*" Binding="{Binding Path=Id}"></DataGridTextColumn>
                 <DataGridTextColumn Header="TourId" Width="1*" Binding="{Binding Path=TourId}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Time" Width="1*" Binding="{Binding DepartureTime}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Status" Width="1*" Binding="{Binding Status}"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-
+        <ListBox ItemsSource="{Binding SelectedTourStatistics.GuestNumbersByAge, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="288,296,788,10" >
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Key.MinAge}" Margin="0,0,5,0"/>
+                        <TextBlock Text="{Binding Key.MaxAge}" Margin="0,0,5,0"/>
+                        <TextBlock Text="{Binding Value}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <TextBlock Text="{Binding SelectedTourStatistics.WithVoucherPercentage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="566,280,533,104" Height="50" Width="100"></TextBlock>
+        <TextBlock Text="{Binding SelectedTourStatistics.WithoutVoucherPercentage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="566,348,534,36" Height="50" Width="100"></TextBlock>
+        <TextBlock HorizontalAlignment="Left" Margin="811,55,0,0" TextWrapping="Wrap" Text="Top Tour: " VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="911,55,0,0" TextWrapping="Wrap" Text="{Binding AllTimeTopTour.Id, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"/>
+        <ComboBox Width="100" Height="50" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="811,104,0,0" ItemsSource="{Binding YearsWithTours}"  SelectedItem="{Binding SelectedYear}" ></ComboBox>
+        <TextBlock HorizontalAlignment="Left" Margin="811,185,0,0" TextWrapping="Wrap" Text="Top Tour in selected year: " VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="1011,185,0,0" TextWrapping="Wrap" Text="{Binding SelectedYearTopTour.Id, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"/>
+        <Label Content="With Voucher" HorizontalAlignment="Left" Margin="445,296,0,0" VerticalAlignment="Top"/>
+        <Label Content="Without Voucher" HorizontalAlignment="Left" Margin="445,328,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

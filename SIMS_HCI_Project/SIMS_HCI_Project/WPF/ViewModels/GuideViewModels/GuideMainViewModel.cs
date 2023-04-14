@@ -1,34 +1,88 @@
 ﻿using SIMS_HCI_Project.Applications.Services;
+using SIMS_HCI_Project.Domain.DTOs;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 {
-    class GuideMainViewModel
+    class GuideMainViewModel : INotifyPropertyChanged
     {
         private TourTimeService _tourTimeService;
         private TourVoucherService _tourVoucherService;
         private TourReservationService _tourReservationService;
         private TourService _tourService;
+        private GuestTourAttendanceService _guestTourAttendanceService;
+        private TourStatisticsService _tourStatisticsService;
 
         public ObservableCollection<TourTime> AllTourTimes { get; set; }
         public TourTime SelectedTourTime { get; set; }
 
         public RelayCommand CancelTourCommand { get; set; }
+        public RelayCommand SeeStatistics { get; set; }
+
+        private TourStatisticsInfo _selectedTourStatistics;
+        public TourStatisticsInfo SelectedTourStatistics
+        {
+            get { return _selectedTourStatistics; }
+            set
+            {
+                _selectedTourStatistics = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public TourTime AllTimeTopTour { get; set; }
+        private TourTime _selectedYearTopTour;
+        public TourTime SelectedYearTopTour
+        {
+            get { return _selectedYearTopTour; }
+            set
+            {
+                _selectedYearTopTour = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private int _selectedYear;
+        public int SelectedYear
+        {
+            get { return _selectedYear; }
+            set
+            {
+                _selectedYear = value;
+                UpdateTopTourByYear();
+            }
+        }
+        public List<int> YearsWithTours { get; set; }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public GuideMainViewModel(Guide guide)
         {
             LoadFromFiles();
             CancelTourCommand = new RelayCommand(Excuted_CancelTourCommand, CanExecute_CancelTourCommand);
+            SeeStatistics = new RelayCommand(Excuted_SeeStatisticsCommand, CanExecute_SeeStatisticsCommand);
+            
+            AllTimeTopTour = _tourStatisticsService.GetTopTour();
+            YearsWithTours = _tourTimeService.GetYearsWithToursByGuide(guide.Id);
+            SelectedYear = YearsWithTours.First();
+            UpdateTopTourByYear();
 
             AllTourTimes = new ObservableCollection<TourTime>(_tourTimeService.GetAllByGuideId(guide.Id));
             SelectedTourTime = AllTourTimes.First();
+            SelectedTourStatistics = _tourStatisticsService.GetTourStatistics(SelectedTourTime.Id);
         }
 
         private void LoadFromFiles()
@@ -37,10 +91,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             _tourVoucherService = new TourVoucherService();
             _tourReservationService = new TourReservationService();
             _tourService = new TourService();
+            _guestTourAttendanceService = new GuestTourAttendanceService();
+            _tourStatisticsService = new TourStatisticsService();
 
             _tourService.ConnectDepartureTimes(_tourTimeService);
+            _guestTourAttendanceService.LoadConnections();
         }
-
 
         public void Excuted_CancelTourCommand(object obj)
         {
@@ -51,5 +107,21 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         {
             return true;
         }
+
+        public void Excuted_SeeStatisticsCommand(object obj)
+        {
+            SelectedTourStatistics = _tourStatisticsService.GetTourStatistics(SelectedTourTime.Id);
+        }
+
+        public bool CanExecute_SeeStatisticsCommand(object obj)
+        {
+            return true;
+        }
+
+        private void UpdateTopTourByYear()
+        {
+            SelectedYearTopTour = _tourStatisticsService.GetTopTourByYear(SelectedYear);
+        }
+
     }
 }

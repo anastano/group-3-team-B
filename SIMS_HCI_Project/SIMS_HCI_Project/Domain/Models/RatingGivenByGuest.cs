@@ -18,7 +18,8 @@ namespace SIMS_HCI_Project.Domain.Models
         public string AdditionalComment { get; set; }
         public List<string> Images { get; set; }
 
-        public RatingGivenByGuest() {
+        public RatingGivenByGuest()
+        {
             Cleanliness = 5;
             Correctness = 5;
             Images = new List<string>();

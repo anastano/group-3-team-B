@@ -162,6 +162,13 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             _reservationRepository.ConvertReservedAccommodationsIntoCompleted(currentDate);
         }
+        public void ConvertReservationsIntoRated(RatingGivenByGuestService ratingGivenByGuestService)
+        {
+            foreach (AccommodationReservation reservation in _reservationRepository.GetAll())
+            {
+                reservation.isRated = ratingGivenByGuestService.IsReservationRated(reservation.Id);
+            }
+        }
         public void NotifyObservers()
         {
             _reservationRepository.NotifyObservers();

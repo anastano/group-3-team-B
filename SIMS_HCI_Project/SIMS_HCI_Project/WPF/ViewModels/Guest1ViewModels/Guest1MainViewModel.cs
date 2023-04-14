@@ -27,6 +27,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         private AccommodationReservationService _reservationService;
         private RescheduleRequestService _requestService;
         private NotificationService _notificationService;
+        private RatingGivenByGuestService _ratingService;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -61,13 +62,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _reservationService = new AccommodationReservationService();
             _requestService = new RescheduleRequestService();
             _notificationService = new NotificationService();
+            _ratingService = new RatingGivenByGuestService(); 
 
             _accommodationService.ConnectAccommodationsWithLocations(_locationService);
             _reservationService.ConnectReservationsWithAccommodations(_accommodationService);
             _reservationService.ConvertReservedAccommodationsIntoCompleted(DateTime.Now);
             _reservationService.ConnectReservationsWithGuests(_guest1Service);
             _requestService.ConnectRequestsWithReservations(_reservationService);
-
+            _reservationService.ConvertReservationsIntoRated(_ratingService);
 
             //_accommodationService.FillOwnerAccommodationList(Owner);
             //_reservationService.FillOwnerReservationList(Owner);

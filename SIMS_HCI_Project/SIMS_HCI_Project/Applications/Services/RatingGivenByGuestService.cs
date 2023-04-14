@@ -36,6 +36,10 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return _ratingRepository.GetByOwnerId(ownerId);
         }
+        public bool IsReservationRated(int reservationId)
+        {
+            return _ratingRepository.isReservationRated(reservationId);
+        }
 
         public List<RatingGivenByGuest> GetRatedByOwnerId(RatingGivenByOwnerService ownerRatingService, int ownerId)
         {

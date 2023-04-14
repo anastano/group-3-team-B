@@ -34,7 +34,6 @@ namespace SIMS_HCI_Project.Repositories
             }
             Save();
         }
-
         public int GenerateId()
         {
             return _reservations.Count == 0 ? 1 : _reservations[_reservations.Count - 1].Id + 1;

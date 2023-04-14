@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace SIMS_HCI_Project.View.Converters
+namespace SIMS_HCI_Project.Wpf.Converters
 {
     public class RateButtonVisibilityConverter : MarkupExtension, IMultiValueConverter
     {

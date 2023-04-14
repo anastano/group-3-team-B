@@ -14,5 +14,7 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         int GenerateId();
         void Add(GuestTourAttendance guestTourAttendance);
         int GetGuestNumberByAgeGroup(AgeGroup ageGroup, int tourTimeId);
+        int GetTopTourIdByGuestNumber();
+        int GetTopTourIdByGuestNumberAndYear(int year);
     }
 }

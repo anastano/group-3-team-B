@@ -38,8 +38,29 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             }
         }
 
-        public Tour AllTimeTopTour { get; set; }
-        public Tour SelectedYearTopTour { get; set; }
+        public TourTime AllTimeTopTour { get; set; }
+        private TourTime _selectedYearTopTour;
+        public TourTime SelectedYearTopTour
+        {
+            get { return _selectedYearTopTour; }
+            set
+            {
+                _selectedYearTopTour = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private int _selectedYear;
+        public int SelectedYear
+        {
+            get { return _selectedYear; }
+            set
+            {
+                _selectedYear = value;
+                UpdateTopTourByYear();
+            }
+        }
+        public List<int> YearsWithTours { get; set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -53,8 +74,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             CancelTourCommand = new RelayCommand(Excuted_CancelTourCommand, CanExecute_CancelTourCommand);
             SeeStatistics = new RelayCommand(Excuted_SeeStatisticsCommand, CanExecute_SeeStatisticsCommand);
             
-            AllTimeTopTour = new Tour();
-            SelectedTourTime = new TourTime();
+            AllTimeTopTour = _guestTourAttendanceService.GetTopTour();
+            YearsWithTours = _tourTimeService.GetYearsWithToursByGuide(guide.Id);
+            SelectedYear = YearsWithTours.First();
+            UpdateTopTourByYear();
 
             AllTourTimes = new ObservableCollection<TourTime>(_tourTimeService.GetAllByGuideId(guide.Id));
             SelectedTourTime = AllTourTimes.First();
@@ -72,7 +95,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             _tourService.ConnectDepartureTimes(_tourTimeService);
             _guestTourAttendanceService.LoadConnections();
         }
-
 
         public void Excuted_CancelTourCommand(object obj)
         {
@@ -92,6 +114,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         public bool CanExecute_SeeStatisticsCommand(object obj)
         {
             return true;
+        }
+
+        private void UpdateTopTourByYear()
+        {
+            SelectedYearTopTour = _guestTourAttendanceService.GetTopTourByYear(SelectedYear);
         }
 
     }

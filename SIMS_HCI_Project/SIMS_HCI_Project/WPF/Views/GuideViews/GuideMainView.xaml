@@ -11,6 +11,7 @@
         <Button Content="See statistics" HorizontalAlignment="Left" Margin="169,319,0,0" VerticalAlignment="Top" Height="57" Width="93" Command="{Binding SeeStatistics}"/>
         <DataGrid AutoGenerateColumns="False" ItemsSource="{Binding Path=AllTourTimes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=SelectedTourTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="NaN" Margin="58,38,433,164" Width="NaN">
             <DataGrid.Columns>
+                <DataGridTextColumn Header="TourTimeId" Width="1*" Binding="{Binding Path=Id}"></DataGridTextColumn>
                 <DataGridTextColumn Header="TourId" Width="1*" Binding="{Binding Path=TourId}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Time" Width="1*" Binding="{Binding DepartureTime}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Status" Width="1*" Binding="{Binding Status}"></DataGridTextColumn>
@@ -30,10 +31,10 @@
         </ListBox>
         <ListBox ItemsSource="{Binding SelectedTourStatistics}" Margin="490,296,609,10"/>
         <TextBlock HorizontalAlignment="Left" Margin="811,55,0,0" TextWrapping="Wrap" Text="Top Tour: " VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="911,55,0,0" TextWrapping="Wrap" Text="{Binding AllTimeTopTour.Title}" VerticalAlignment="Top"/>
-        <ComboBox Margin="811,154,302,257"></ComboBox>
+        <TextBlock HorizontalAlignment="Left" Margin="911,55,0,0" TextWrapping="Wrap" Text="{Binding AllTimeTopTour.Id, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"/>
+        <ComboBox Width="100" Height="50" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="811,104,0,0" ItemsSource="{Binding YearsWithTours}"  SelectedItem="{Binding SelectedYear}" ></ComboBox>
         <TextBlock HorizontalAlignment="Left" Margin="811,185,0,0" TextWrapping="Wrap" Text="Top Tour in selected year: " VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="1011,185,0,0" TextWrapping="Wrap" Text="{Binding SelectedYearTopTour.Title}" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="1011,185,0,0" TextWrapping="Wrap" Text="{Binding SelectedYearTopTour.Id, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

@@ -11,10 +11,11 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Repositories
 {
-    public class TourReservationRepository : ITourReservationRepository
+    public class TourReservationRepository : ITourReservationRepository, ISubject
     {
         private readonly TourReservationFileHandler _fileHandler;
         private static List<TourReservation> _reservations;
+        private readonly List<IObserver> _observers;
 
         public TourReservationRepository()
         {
@@ -23,6 +24,7 @@ namespace SIMS_HCI_Project.Repositories
             {
                 Load();
             }
+            _observers = new List<IObserver>();
         }
 
         public void Load()
@@ -52,6 +54,55 @@ namespace SIMS_HCI_Project.Repositories
             Save();
 
             return tourReservations;
+        }
+
+        public List<TourReservation> GetAllByGuestId(int id)
+        {
+            return _reservations.FindAll(r => r.Guest2Id == id);
+        }
+
+        public List<TourReservation> GetAll()
+        {
+            return _reservations;
+        }
+
+        public TourReservation FindById(int id)
+        {
+            return _reservations.Find(r => r.Id == id);
+        }
+
+        public int GenerateId()
+        {
+            if (_reservations.Count == 0)
+            {
+                return 1;
+            }
+            return _reservations[_reservations.Count - 1].Id + 1;
+        }
+
+        public void Add(TourReservation tourReservation)
+        {
+            tourReservation.Id = GenerateId();
+
+            _reservations.Add(tourReservation);
+            Save();
+        }
+        public void NotifyObservers()
+        {
+            foreach (var observer in _observers)
+            {
+                observer.Update();
+            }
+        }
+
+        public void Subscribe(IObserver observer)
+        {
+            _observers.Add(observer);
+        }
+
+        public void Unsubscribe(IObserver observer)
+        {
+            _observers.Remove(observer);
         }
     }
 }

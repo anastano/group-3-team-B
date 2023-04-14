@@ -86,40 +86,5 @@ namespace SIMS_HCI_Project.Applications.Services
                 guestTourAttendance.TourReservation = _tourReservationRepository.GetByGuestAndTour(guestTourAttendance.GuestId, guestTourAttendance.TourTimeId);
             }
         }
-
-        public TourStatisticsInfo GetTourStatistics(int tourTimeId)
-        {
-            // move this to some global settings or similar?
-            List<AgeGroup> wantedAgeGroups = new List<AgeGroup> { new AgeGroup(0, 18), new AgeGroup(18, 50), new AgeGroup(50, 150) };
-            Dictionary<AgeGroup, int> guestNumberByAgeGroup = new Dictionary<AgeGroup, int>();
-
-            foreach (AgeGroup ageGroup in wantedAgeGroups)
-            {
-                guestNumberByAgeGroup.Add(ageGroup, _guestTourAttendanceRepository.GetGuestNumberByAgeGroup(ageGroup, tourTimeId));
-            }
-
-            int guestsWithVoucher = _guestTourAttendanceRepository.GetGuestsWithVoucherNumber(tourTimeId);
-            int totalGuests = guestNumberByAgeGroup.Values.Sum();
-            if (totalGuests == 0) totalGuests = 1;
-
-            double withVoucher = ((double)guestsWithVoucher / (double)totalGuests) * 100;
-            double withoutVoucher = (100 - withVoucher);
-
-            return new TourStatisticsInfo(guestNumberByAgeGroup, withVoucher, withoutVoucher);
-        }
-
-        public TourTime GetTopTour()
-        {
-            int topTourId = _guestTourAttendanceRepository.GetTopTourIdByGuestNumber();
-
-            return _tourTimeRepository.GetById(topTourId);
-        }
-
-        public TourTime GetTopTourByYear(int year)
-        {
-            int topTourId = _guestTourAttendanceRepository.GetTopTourIdByGuestNumberAndYear(year);
-
-            return _tourTimeRepository.GetById(topTourId);
-        }
     }
 }

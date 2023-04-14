@@ -20,6 +20,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         private TourReservationService _tourReservationService;
         private TourService _tourService;
         private GuestTourAttendanceService _guestTourAttendanceService;
+        private TourStatisticsService _tourStatisticsService;
 
         public ObservableCollection<TourTime> AllTourTimes { get; set; }
         public TourTime SelectedTourTime { get; set; }
@@ -74,14 +75,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             CancelTourCommand = new RelayCommand(Excuted_CancelTourCommand, CanExecute_CancelTourCommand);
             SeeStatistics = new RelayCommand(Excuted_SeeStatisticsCommand, CanExecute_SeeStatisticsCommand);
             
-            AllTimeTopTour = _guestTourAttendanceService.GetTopTour();
+            AllTimeTopTour = _tourStatisticsService.GetTopTour();
             YearsWithTours = _tourTimeService.GetYearsWithToursByGuide(guide.Id);
             SelectedYear = YearsWithTours.First();
             UpdateTopTourByYear();
 
             AllTourTimes = new ObservableCollection<TourTime>(_tourTimeService.GetAllByGuideId(guide.Id));
             SelectedTourTime = AllTourTimes.First();
-            SelectedTourStatistics = _guestTourAttendanceService.GetTourStatistics(SelectedTourTime.Id);
+            SelectedTourStatistics = _tourStatisticsService.GetTourStatistics(SelectedTourTime.Id);
         }
 
         private void LoadFromFiles()
@@ -91,6 +92,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             _tourReservationService = new TourReservationService();
             _tourService = new TourService();
             _guestTourAttendanceService = new GuestTourAttendanceService();
+            _tourStatisticsService = new TourStatisticsService();
 
             _tourService.ConnectDepartureTimes(_tourTimeService);
             _guestTourAttendanceService.LoadConnections();
@@ -108,7 +110,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         public void Excuted_SeeStatisticsCommand(object obj)
         {
-            SelectedTourStatistics = _guestTourAttendanceService.GetTourStatistics(SelectedTourTime.Id);
+            SelectedTourStatistics = _tourStatisticsService.GetTourStatistics(SelectedTourTime.Id);
         }
 
         public bool CanExecute_SeeStatisticsCommand(object obj)
@@ -118,7 +120,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         private void UpdateTopTourByYear()
         {
-            SelectedYearTopTour = _guestTourAttendanceService.GetTopTourByYear(SelectedYear);
+            SelectedYearTopTour = _tourStatisticsService.GetTopTourByYear(SelectedYear);
         }
 
     }

@@ -65,22 +65,22 @@ namespace SIMS_HCI_Project.Repositories
             return _guestTourAttendances.FindAll(gta => gta.TourTimeId == id);
         }
 
-        public int GetGuestNumberByAgeGroup(AgeGroup ageGroup, int tourTimeId)
+        public int GetGuestCountByAgeGroup(AgeGroup ageGroup, int tourTimeId)
         {
             return _guestTourAttendances.FindAll(gta => gta.Guest.Age >= ageGroup.MinAge && gta.Guest.Age <= ageGroup.MaxAge && gta.TourTimeId == tourTimeId).Count;
         }
 
-        public int GetTopTourIdByGuestNumber()
+        public TourTime GetTourWithMostGuests()
         {
-            return _guestTourAttendances.Where(gta => gta.TourTime.Status == TourStatus.COMPLETED).GroupBy(gta => gta.TourTimeId).OrderByDescending(gta => gta.Count()).First().First().TourTimeId;
+            return _guestTourAttendances.Where(gta => gta.TourTime.Status == TourStatus.COMPLETED).GroupBy(gta => gta.TourTimeId).OrderByDescending(gta => gta.Count()).First().First().TourTime;
         }
 
-        public int GetTopTourIdByGuestNumberAndYear(int year)
+        public TourTime GetTourWithMostGuestsByYear(int year)
         {
-            return _guestTourAttendances.Where(gta => gta.TourTime.DepartureTime.Year == year && gta.TourTime.Status == TourStatus.COMPLETED).ToList().GroupBy(gta => gta.TourTimeId).OrderByDescending(gta => gta.Count()).First().First().TourTimeId;
+            return _guestTourAttendances.Where(gta => gta.TourTime.DepartureTime.Year == year && gta.TourTime.Status == TourStatus.COMPLETED).ToList().GroupBy(gta => gta.TourTimeId).OrderByDescending(gta => gta.Count()).First().First().TourTime;
         }
 
-        public int GetGuestsWithVoucherNumber(int tourTimeId)
+        public int GetGuestsWithVoucherCount(int tourTimeId)
         {
             return _guestTourAttendances.Where(gta => gta.TourReservation.VoucherUsedId != -1 && gta.TourTimeId == tourTimeId).Count();
         }

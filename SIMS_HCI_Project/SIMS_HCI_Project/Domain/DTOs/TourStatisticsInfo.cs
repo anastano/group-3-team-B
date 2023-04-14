@@ -12,11 +12,11 @@ namespace SIMS_HCI_Project.Domain.DTOs
         public double WithVoucherPercentage { get; set; }
         public double WithoutVoucherPercentage { get; set; }
 
-        public TourStatisticsInfo(Dictionary<AgeGroup, int> guestNumbersByAge, double withVoucherPercentage, double withoutVoucherPercentage)
+        public TourStatisticsInfo(Dictionary<AgeGroup, int> guestNumbersByAge, double withVoucherPercentage)
         {
             GuestNumbersByAge = guestNumbersByAge;
             WithVoucherPercentage = withVoucherPercentage;
-            WithoutVoucherPercentage = withoutVoucherPercentage;
+            WithoutVoucherPercentage = 100 - WithVoucherPercentage;
         }
     }
 }

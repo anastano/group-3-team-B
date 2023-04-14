@@ -17,7 +17,6 @@
                 <DataGridTextColumn Header="Status" Width="1*" Binding="{Binding Status}"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBlock Text="{Binding SelectedTourStatistics.HadVoucherPercentage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="618,296,512,74"></TextBlock>
         <ListBox ItemsSource="{Binding SelectedTourStatistics.GuestNumbersByAge, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="288,296,788,10" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -29,12 +28,14 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <ListBox ItemsSource="{Binding SelectedTourStatistics}" Margin="490,296,609,10"/>
+        <TextBlock Text="{Binding SelectedTourStatistics.WithVoucherPercentage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="566,280,533,104" Height="50" Width="100"></TextBlock>
+        <TextBlock Text="{Binding SelectedTourStatistics.WithoutVoucherPercentage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="566,348,534,36" Height="50" Width="100"></TextBlock>
         <TextBlock HorizontalAlignment="Left" Margin="811,55,0,0" TextWrapping="Wrap" Text="Top Tour: " VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="911,55,0,0" TextWrapping="Wrap" Text="{Binding AllTimeTopTour.Id, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"/>
         <ComboBox Width="100" Height="50" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="811,104,0,0" ItemsSource="{Binding YearsWithTours}"  SelectedItem="{Binding SelectedYear}" ></ComboBox>
         <TextBlock HorizontalAlignment="Left" Margin="811,185,0,0" TextWrapping="Wrap" Text="Top Tour in selected year: " VerticalAlignment="Top"/>
         <TextBlock HorizontalAlignment="Left" Margin="1011,185,0,0" TextWrapping="Wrap" Text="{Binding SelectedYearTopTour.Id, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top"/>
-
+        <Label Content="With Voucher" HorizontalAlignment="Left" Margin="445,296,0,0" VerticalAlignment="Top"/>
+        <Label Content="Without Voucher" HorizontalAlignment="Left" Margin="445,328,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

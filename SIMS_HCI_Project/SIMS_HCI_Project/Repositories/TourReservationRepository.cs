@@ -53,5 +53,10 @@ namespace SIMS_HCI_Project.Repositories
 
             return tourReservations;
         }
+
+        public TourReservation GetByGuestAndTour(int guestId, int tourTimeId)
+        {
+            return _reservations.Where(tr => tr.Guest2Id == guestId && tr.TourTimeId == tourTimeId).First();
+        }
     }
 }

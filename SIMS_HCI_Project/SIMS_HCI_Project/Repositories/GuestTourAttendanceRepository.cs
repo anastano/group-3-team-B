@@ -72,12 +72,17 @@ namespace SIMS_HCI_Project.Repositories
 
         public int GetTopTourIdByGuestNumber()
         {
-            return _guestTourAttendances.Where(gta => gta.TourTime.Status == TourStatus.COMPLETED).GroupBy(gta => gta.TourTimeId).OrderByDescending(t => t.Count()).First().First().TourTimeId;
+            return _guestTourAttendances.Where(gta => gta.TourTime.Status == TourStatus.COMPLETED).GroupBy(gta => gta.TourTimeId).OrderByDescending(gta => gta.Count()).First().First().TourTimeId;
         }
 
         public int GetTopTourIdByGuestNumberAndYear(int year)
         {
-            return _guestTourAttendances.Where(why => why.TourTime.DepartureTime.Year == year && why.TourTime.Status == TourStatus.COMPLETED).ToList().GroupBy(gta => gta.TourTimeId).OrderByDescending(t => t.Count()).First().First().TourTimeId;
+            return _guestTourAttendances.Where(gta => gta.TourTime.DepartureTime.Year == year && gta.TourTime.Status == TourStatus.COMPLETED).ToList().GroupBy(gta => gta.TourTimeId).OrderByDescending(gta => gta.Count()).First().First().TourTimeId;
+        }
+
+        public int GetGuestsWithVoucherNumber(int tourTimeId)
+        {
+            return _guestTourAttendances.Where(gta => gta.TourReservation.VoucherUsedId != -1 && gta.TourTimeId == tourTimeId).Count();
         }
     }
 }

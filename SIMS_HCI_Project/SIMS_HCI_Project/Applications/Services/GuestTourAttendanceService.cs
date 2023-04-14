@@ -14,6 +14,7 @@ namespace SIMS_HCI_Project.Applications.Services
     public class GuestTourAttendanceService
     {
         private readonly IGuestTourAttendanceRepository _guestTourAttendanceRepository;
+        private readonly ITourReservationRepository _tourReservationRepository;
         private readonly IUserRepository _userRepository;
         private readonly ITourTimeRepository _tourTimeRepository;
 
@@ -22,6 +23,7 @@ namespace SIMS_HCI_Project.Applications.Services
             _guestTourAttendanceRepository = Injector.Injector.CreateInstance<IGuestTourAttendanceRepository>();
             _userRepository = Injector.Injector.CreateInstance<IUserRepository>();
             _tourTimeRepository = Injector.Injector.CreateInstance<ITourTimeRepository>();
+            _tourReservationRepository = Injector.Injector.CreateInstance<ITourReservationRepository>();
         }
 
         public void Load()
@@ -58,6 +60,7 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             ConnectTours();
             ConnectGuests();
+            ConnectReservations();
         }
 
         private void ConnectGuests()
@@ -76,6 +79,14 @@ namespace SIMS_HCI_Project.Applications.Services
             }
         }
 
+        private void ConnectReservations()
+        {
+            foreach (GuestTourAttendance guestTourAttendance in _guestTourAttendanceRepository.GetAll())
+            {
+                guestTourAttendance.TourReservation = _tourReservationRepository.GetByGuestAndTour(guestTourAttendance.GuestId, guestTourAttendance.TourTimeId);
+            }
+        }
+
         public TourStatisticsInfo GetTourStatistics(int tourTimeId)
         {
             // move this to some global settings or similar?
@@ -87,7 +98,14 @@ namespace SIMS_HCI_Project.Applications.Services
                 guestNumberByAgeGroup.Add(ageGroup, _guestTourAttendanceRepository.GetGuestNumberByAgeGroup(ageGroup, tourTimeId));
             }
 
-            return new TourStatisticsInfo(guestNumberByAgeGroup, 30);
+            int guestsWithVoucher = _guestTourAttendanceRepository.GetGuestsWithVoucherNumber(tourTimeId);
+            int totalGuests = guestNumberByAgeGroup.Values.Sum();
+            if (totalGuests == 0) totalGuests = 1;
+
+            double withVoucher = ((double)guestsWithVoucher / (double)totalGuests) * 100;
+            double withoutVoucher = (100 - withVoucher);
+
+            return new TourStatisticsInfo(guestNumberByAgeGroup, withVoucher, withoutVoucher);
         }
 
         public TourTime GetTopTour()

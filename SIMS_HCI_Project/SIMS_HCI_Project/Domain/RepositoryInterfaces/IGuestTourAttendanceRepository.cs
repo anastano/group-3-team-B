@@ -16,5 +16,6 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         int GetGuestNumberByAgeGroup(AgeGroup ageGroup, int tourTimeId);
         int GetTopTourIdByGuestNumber();
         int GetTopTourIdByGuestNumberAndYear(int year);
+        int GetGuestsWithVoucherNumber(int tourTimeId);
     }
 }

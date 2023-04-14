@@ -81,7 +81,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
             AllTourTimes = new ObservableCollection<TourTime>(_tourTimeService.GetAllByGuideId(guide.Id));
             SelectedTourTime = AllTourTimes.First();
-            SelectedTourStatistics = _guestTourAttendanceService.GetTourStatistics(SelectedTourTime.TourId);
+            SelectedTourStatistics = _guestTourAttendanceService.GetTourStatistics(SelectedTourTime.Id);
         }
 
         private void LoadFromFiles()
@@ -108,7 +108,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         public void Excuted_SeeStatisticsCommand(object obj)
         {
-            SelectedTourStatistics = _guestTourAttendanceService.GetTourStatistics(SelectedTourTime.TourId);
+            SelectedTourStatistics = _guestTourAttendanceService.GetTourStatistics(SelectedTourTime.Id);
         }
 
         public bool CanExecute_SeeStatisticsCommand(object obj)

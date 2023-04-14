@@ -1,4 +1,5 @@
 ﻿using SIMS_HCI_Project.Controller;
+using SIMS_HCI_Project.Domain.DTOs;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Domain.RepositoryInterfaces;
 using SIMS_HCI_Project.FileHandlers;
@@ -61,6 +62,11 @@ namespace SIMS_HCI_Project.Repositories
         public List<GuestTourAttendance> GetAllByTourId(int id)
         {
             return _guestTourAttendances.FindAll(gta => gta.TourTimeId == id);
+        }
+
+        public int GetGuestNumberByAgeGroup(AgeGroup ageGroup, int tourTimeId)
+        {
+            return _guestTourAttendances.FindAll(gta => gta.Guest.Age >= ageGroup.MinAge && gta.Guest.Age <= ageGroup.MaxAge && gta.TourTimeId == tourTimeId).Count;
         }
     }
 }

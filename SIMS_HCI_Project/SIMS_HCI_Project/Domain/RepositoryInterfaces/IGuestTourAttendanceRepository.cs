@@ -1,4 +1,5 @@
-﻿using SIMS_HCI_Project.Domain.Models;
+﻿using SIMS_HCI_Project.Domain.DTOs;
+using SIMS_HCI_Project.Domain.Models;
 using System.Collections.Generic;
 
 namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
@@ -12,5 +13,6 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         List<GuestTourAttendance> GetAllByTourId(int id);
         int GenerateId();
         void Add(GuestTourAttendance guestTourAttendance);
+        int GetGuestNumberByAgeGroup(AgeGroup ageGroup, int tourTimeId);
     }
 }

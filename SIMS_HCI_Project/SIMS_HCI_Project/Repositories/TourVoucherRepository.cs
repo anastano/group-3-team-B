@@ -57,8 +57,7 @@ namespace SIMS_HCI_Project.Repositories
 
         private int GenerateId()
         {
-            if (_tourVouchers.Count == 0) return 1;
-            return _tourVouchers[_tourVouchers.Count - 1].Id + 1;
+            return _tourVouchers.Count == 0 ? 1 : _tourVouchers[_tourVouchers.Count - 1].Id + 1;
         }
 
         public void GiveVouchersToGuestsWithReservation(List<TourReservation> tourReservations)

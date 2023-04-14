@@ -17,22 +17,15 @@ using System.Windows.Shapes;
 namespace SIMS_HCI_Project.WPF.Views.GuideViews
 {
     /// <summary>
-    /// Interaction logic for GuideMainView.xaml
+    /// Interaction logic for ControlPoint2TempView.xaml
     /// </summary>
-    public partial class GuideMainView : Window
+    public partial class ControlPoint2TempView : Window
     {
-        private Guide Guide;
-
-        public GuideMainView(Guide guide)
+        public ControlPoint2TempView(Guide guide)
         {
             InitializeComponent();
-            Guide = guide;
-        }
 
-        private void temporeri_Click(object sender, RoutedEventArgs e)
-        {
-            Window temporeri = new ControlPoint2TempView(Guide);
-            temporeri.Show();
+            this.DataContext = new ControlPoint2TempViewModel(guide);
         }
     }
 }

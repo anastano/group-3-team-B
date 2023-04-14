@@ -1,0 +1,58 @@
+﻿<Window x:Class="SIMS_HCI_Project.WPF.Views.GuideViews.TourInformationView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.GuideViews"
+        mc:Ignorable="d"
+        Title="TourInformation" Height="820" Width="620" WindowStartupLocation="CenterScreen" FontSize="20">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Vertical" Margin="20,20,20,20">
+                <TextBlock Text="Tour Title" Margin="0,0,0,10"></TextBlock>
+                <TextBlock Text="Tour Location" Margin="0,0,0,30"></TextBlock>
+                <TextBlock Text="This is some long description just for testing. I don't know what I'm writing yaaay, this should be wrapped" Margin="0,0,0,40" TextWrapping="Wrap"></TextBlock>
+                <TextBlock Text="Language: english"></TextBlock>
+                <TextBlock Text="Duration: 2h"></TextBlock>
+                <TextBlock Text="MaxGuests: 24" Margin="0,0,0,30"></TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="See Stats" Margin="0,0,40,0"></Button>
+                    <Button Content="See Reviews"></Button>
+                </StackPanel>
+            </StackPanel>
+            <ListBox Grid.Column="1" Margin="20,20,20,20">
+                <ListBoxItem>Test</ListBoxItem>
+                <ListBoxItem>Test</ListBoxItem>
+                <ListBoxItem>Test</ListBoxItem>
+                <ListBoxItem>Test</ListBoxItem>
+            </ListBox>
+        </Grid>
+        <Grid Grid.Row="1" Margin="20,10,20,20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Departure Times" Margin="0,0,40,0"></Label>
+                    <Button Content="Add Time"></Button>
+                </StackPanel>
+                <ListBox>
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                </ListBox>
+            </StackPanel>
+            <Button Content="Cancel" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20,0,0,20"></Button>
+            <Button Content="Start Tour" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,20,20"></Button>
+        </Grid>
+    </Grid>
+</Window>

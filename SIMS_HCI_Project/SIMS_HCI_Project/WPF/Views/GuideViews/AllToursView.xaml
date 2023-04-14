@@ -1,0 +1,31 @@
+﻿<Window x:Class="SIMS_HCI_Project.WPF.Views.GuideViews.AllToursView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.GuideViews"
+        mc:Ignorable="d"
+        Title="AllTours" Height="720" Width="1280" MinHeight="450" MinWidth="800" WindowStartupLocation="CenterScreen" FontSize="20">
+    <Grid>
+        <DockPanel >
+            <StackPanel Orientation="Horizontal" Margin="20,20,20,20" DockPanel.Dock="Top">
+                <StackPanel Orientation="Vertical" Margin="0,0,40,0" VerticalAlignment="Bottom">
+                    <Label Content="Tour title"></Label>
+                    <TextBox></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="0,0,40,0" VerticalAlignment="Bottom">
+                    <Label Content="Location"></Label>
+                    <ComboBox></ComboBox>
+                </StackPanel>
+                <StackPanel Orientation="Vertical" Margin="0,0,40,0" VerticalAlignment="Bottom">
+                    <Label Content="Language"></Label>
+                    <ComboBox></ComboBox>
+                </StackPanel>
+                <Button Content="Filter" Margin="0,0,40,0" VerticalAlignment="Bottom"></Button>
+            </StackPanel>
+            <Button Content="Create new" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="0,0,30,30"></Button>
+            <DataGrid d:ItemsSource="{d:SampleData ItemCount=5}" Margin="20,20,20,20" />
+        </DockPanel>
+
+    </Grid>
+</Window>

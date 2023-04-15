@@ -40,5 +40,10 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return _guestTourAttendanceRepository.GetAllByTourId(id);
         }
+
+        public bool IsPresent(int guestId, int tourTimeId)
+        {
+            return _guestTourAttendanceRepository.IsPresent(guestId, tourTimeId);
+        }
     }
 }

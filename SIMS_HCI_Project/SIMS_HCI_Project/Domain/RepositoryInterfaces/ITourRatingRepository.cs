@@ -19,5 +19,6 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         void NotifyObservers();
         void Subscribe(IObserver observer);
         void Unsubscribe(IObserver observer);
+        bool IsRated(int id);
     }
 }

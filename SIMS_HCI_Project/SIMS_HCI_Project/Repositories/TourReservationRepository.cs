@@ -1,4 +1,5 @@
-﻿using SIMS_HCI_Project.Controller;
+﻿using SIMS_HCI_Project.Applications.Services;
+using SIMS_HCI_Project.Controller;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Domain.RepositoryInterfaces;
 using SIMS_HCI_Project.FileHandlers;
@@ -40,6 +41,26 @@ namespace SIMS_HCI_Project.Repositories
         public List<TourReservation> GetAllByTourTimeId(int id)
         {
             return _reservations.FindAll(r => r.TourTimeId == id);
+        }
+
+
+
+        public List<TourReservation> GetUnratedReservations(int guestId, GuestTourAttendanceService guestTourAttendanceService, TourRatingService tourRatingService)
+        {
+            List<TourReservation> unratedReservations = new List<TourReservation>();
+            foreach (TourReservation reservation in GetAllByGuestId(guestId))
+            {
+                if (IsCompleted(reservation) && guestTourAttendanceService.IsPresent(guestId, reservation.TourTime.Id) && !(tourRatingService.IsRated(reservation.Id)))
+                {
+                    unratedReservations.Add(reservation);
+                }
+            }
+            return unratedReservations;
+        }
+
+        public bool IsCompleted(TourReservation reservation)
+        {
+            return reservation.TourTime.Status == TourStatus.COMPLETED;
         }
 
         public List<TourReservation> CancelReservationsByTour(int tourTimeId)

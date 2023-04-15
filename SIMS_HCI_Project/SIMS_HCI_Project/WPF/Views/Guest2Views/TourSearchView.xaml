@@ -30,7 +30,7 @@
                 <DataGridTemplateColumn Header="Images">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Images" Command="{Binding ShowImages}"/>
+                            <Button Content="Images" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

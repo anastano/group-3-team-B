@@ -14,6 +14,15 @@ namespace SIMS_HCI_Project.Repositories
     {
         private GuestTourAttendanceFileHandler _fileHandler;
         private static List<GuestTourAttendance> _guestTourAttendances;
+
+        public GuestTourAttendanceRepository()
+        {
+            _fileHandler = new GuestTourAttendanceFileHandler();
+            if (_guestTourAttendances == null)
+            {
+                Load();
+            }
+        }
         public List<GuestTourAttendance> GetAll()
         {
             return _guestTourAttendances;
@@ -38,5 +47,16 @@ namespace SIMS_HCI_Project.Repositories
         {
             _fileHandler.Save(_guestTourAttendances);
         }
+
+        public bool IsPresent(int guestId, int tourTimeId)
+        {
+            GuestTourAttendance attendance = GetByGuestAndTourTimeIds(guestId, tourTimeId);
+            return _guestTourAttendances.Any(gta => gta.Status == AttendanceStatus.PRESENT);
+        }
+        public GuestTourAttendance GetByGuestAndTourTimeIds(int guestId, int tourTimeId)
+        {
+            return _guestTourAttendances.Find(g => g.GuestId == guestId && g.TourTimeId == tourTimeId);
+        }
+        
     }
 }

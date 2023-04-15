@@ -74,7 +74,7 @@
 
 
         <Button Content="CONFIRM RESERVATION" Name="btnConfirmReservation" Command="{Binding ConfirmReservation}" HorizontalAlignment="Left" Margin="351,613,0,0" VerticalAlignment="Top" Height="35"/>
-        <Button Content="SHOW SUGGESTIONS" Name="btnShowSuggestions" HorizontalAlignment="Left" Margin="116,613,0,0" VerticalAlignment="Top" Height="35" Command="{Binding ShowSuggestions}"/>
+        <Button Content="SHOW SUGGESTIONS" Name="btnShowSuggestions" HorizontalAlignment="Left" Margin="116,613,0,0" VerticalAlignment="Top" Height="35" />
         <Label Content="Available" HorizontalAlignment="Left" Margin="352,357,0,0" VerticalAlignment="Top"/>
 
         <TextBlock x:Name="tblAvailable" Text="{Binding Path=SelectedTourTime.Available, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

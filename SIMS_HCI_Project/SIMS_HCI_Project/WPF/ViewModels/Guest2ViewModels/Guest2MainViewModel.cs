@@ -27,6 +27,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public RelayCommand SearchAndReserve { get; set; }
         public RelayCommand ShowImages { get; set; }
         public RelayCommand CancelReservation { get; set; }
+        public RelayCommand RateVisitedTours { get; set; }
 
         public Guest2 Guest { get; set; }
         public TourTime TourTime { get; set; }
@@ -71,9 +72,21 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
         public void InitCommands()
         {
+            RateVisitedTours = new RelayCommand(Executed_RateVisitedTours, CanExecute_RateVisitedTours);
             SearchAndReserve = new RelayCommand(Executed_SearchAndReserve, CanExecute_SearchAndReserve);
             //ShowImages = new RelayCommand(Executed_ShowImages, CanExecute_ShowImages);
             //CancelReservation = new RelayCommand(Executed_CancelReservation, CanExecute_CancelReservation);
+        }
+
+        public void Executed_RateVisitedTours(object obj)
+        {
+            Window win = new TourRatingView(Guest);
+            win.Show();
+            //Guest2MainView.Close();
+        }
+        public bool CanExecute_RateVisitedTours(object obj)
+        {
+            return true;
         }
 
         public void Executed_SearchAndReserve(object obj)

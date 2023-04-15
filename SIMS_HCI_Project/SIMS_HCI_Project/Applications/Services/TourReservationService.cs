@@ -51,6 +51,10 @@ namespace SIMS_HCI_Project.Applications.Services
             return _tourReservationRepository.GetAllByGuestId(id);
         }
 
+        public List<TourReservation> GetUnratedReservations(int guestId, GuestTourAttendanceService guestTourAttendanceService, TourRatingService tourRatingService)
+        {
+            return _tourReservationRepository.GetUnratedReservations(guestId, guestTourAttendanceService, tourRatingService);
+        }
         public List<TourReservation> CancelReservationsByTour(int tourTimeId)
         {
             return _tourReservationRepository.CancelReservationsByTour(tourTimeId);

@@ -45,6 +45,10 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _ratings.Find(r => r.Id == id);
         }
+        public bool IsRated(int id)
+        {
+            return _ratings.Any(r => r.Id == id);
+        }
         public void Add(TourRating rating)
         {
             rating.Id = GenerateId();
@@ -79,5 +83,6 @@ namespace SIMS_HCI_Project.Repositories
         {
             _observers.Remove(observer);
         }
+
     }
 }

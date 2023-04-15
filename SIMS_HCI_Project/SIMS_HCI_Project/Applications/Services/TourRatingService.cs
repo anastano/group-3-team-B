@@ -34,6 +34,10 @@ namespace SIMS_HCI_Project.Applications.Services
             return _tourRatingRepository.GetById(id);
         }
 
+        public bool IsRated(int reservationId)
+        {
+            return _tourRatingRepository.IsRated(reservationId);
+        }
         public List<TourRating> GetAll()
         {
             return _tourRatingRepository.GetAll();

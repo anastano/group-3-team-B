@@ -28,23 +28,23 @@
                 <DataGridTemplateColumn Header="Images">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Images" Command="{Binding ShowImages}"/>
+                            <Button Content="Images" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Header="Cancel">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Cancel" Command="{Binding CancelReservation}"/>
+                            <Button Content="Cancel" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        
+
         <TextBlock x:Name="tblMyReservedTours" Text="My reserved tours:" Foreground="Beige" HorizontalAlignment="Left" Margin="42,168,0,0" TextWrapping="Wrap" FontSize="18" VerticalAlignment="Top" Height="26" Width="158" RenderTransformOrigin="0.452,-0.398"/>
         <TextBlock x:Name="tblVouchers" Text="My vouchers:" Foreground="Beige" HorizontalAlignment="Left" Margin="618,22,0,0" TextWrapping="Wrap" FontSize="18" VerticalAlignment="Top" Height="26" Width="158" RenderTransformOrigin="0.452,-0.398"/>
-        
+
         <DataGrid Name="dgVouchers" 
            ItemsSource="{Binding Path=Guest.Vouchers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" Margin="598,56,50,403">
             <DataGrid.Columns>
@@ -52,6 +52,7 @@
                 <DataGridTextColumn Header="Expiration date" Binding="{Binding ExpirationDate}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <Button Content="Rate visited tours" Command="{Binding RateVisitedTours}" HorizontalAlignment="Left" Margin="270,31,0,0" VerticalAlignment="Top" Height="44" Width="125"/>
 
 
     </Grid>

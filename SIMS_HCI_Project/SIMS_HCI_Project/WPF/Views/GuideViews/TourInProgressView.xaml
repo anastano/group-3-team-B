@@ -1,0 +1,38 @@
+﻿<Window x:Class="SIMS_HCI_Project.WPF.Views.GuideViews.TourInProgressView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.GuideViews"
+        mc:Ignorable="d"
+        Title="TourInProgress" Height="620" Width="820" WindowStartupLocation="CenterScreen" FontSize="20">
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"></ColumnDefinition>
+                <ColumnDefinition Width="5*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Vertical" Grid.Column="0" Margin="20,40,20,20">
+                <TextBlock Text="Tour Title" Margin="0,0,0,0"></TextBlock>
+                <TextBlock Text="Tour Location" Margin="0,0,0,0"></TextBlock>
+                <TextBlock Text="Some random tour time" Margin="0,0,0,40"></TextBlock>
+                <Button Content="Go to the next key point" Margin="0,0,0,10" Height="60"></Button>
+                <TextBlock Text="Current Key Point: River" Margin="0,0,0,50"></TextBlock>
+                <ListBox>
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                </ListBox>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" Grid.Column="1" Margin="20,40,20,20">
+                <Button Content="End tour before last key point" Height="60" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="10,10,10,60"></Button>
+                <Label Content="Guest list"></Label>
+                <ListBox Margin="10,10,10,10">
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                    <ListBoxItem>Test</ListBoxItem>
+                </ListBox>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>

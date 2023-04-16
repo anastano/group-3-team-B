@@ -45,17 +45,23 @@ namespace SIMS_HCI_Project.Repositories
 
 
 
-        public List<TourReservation> GetUnratedReservations(int guestId, GuestTourAttendanceService guestTourAttendanceService, TourRatingService tourRatingService)
+        public List<TourReservation> GetUnratedReservations(int guestId, GuestTourAttendanceService guestTourAttendanceService, TourRatingService tourRatingService, TourTimeService tourTimeService)
         {
             List<TourReservation> unratedReservations = new List<TourReservation>();
             foreach (TourReservation reservation in GetAllByGuestId(guestId))
             {
-                if (IsCompleted(reservation) && guestTourAttendanceService.IsPresent(guestId, reservation.TourTime.Id) && !(tourRatingService.IsRated(reservation.Id)))
+                if (IsCompleted(reservation) && WasPresentInTourTime(guestId, reservation.TourTime.Id, guestTourAttendanceService, tourTimeService) && !(tourRatingService.IsRated(reservation.Id)))
                 {
                     unratedReservations.Add(reservation);
                 }
             }
             return unratedReservations;
+        }
+
+        public bool WasPresentInTourTime(int guestId, int tourTimeId, GuestTourAttendanceService guestTourAttendanceService, TourTimeService tourTimeService)
+        {
+            List<TourTime> toursAttended = guestTourAttendanceService.GetTourTimesWhereGuestWasPresent(guestId, tourTimeService);
+            return toursAttended.Any(ta => ta.Id == tourTimeId);
         }
 
         public bool IsCompleted(TourReservation reservation)

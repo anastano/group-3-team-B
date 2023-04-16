@@ -45,7 +45,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
             //SelectedReservation = UnratedReservations.FirstOrDefault();
 
-            UnratedReservations = new ObservableCollection<TourReservation>(_tourReservationService.GetUnratedReservations(Guest.Id, _guestTourAttendanceService, _tourRatingService));
+            UnratedReservations = new ObservableCollection<TourReservation>(_tourReservationService.GetUnratedReservations(Guest.Id, _guestTourAttendanceService, _tourRatingService, _tourTimeService));
 
         }
 

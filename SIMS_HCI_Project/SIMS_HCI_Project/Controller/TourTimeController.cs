@@ -116,7 +116,7 @@ namespace SIMS_HCI_Project.Controller
                 tourTime.CurrentKeyPoint = tourTime.Tour.KeyPoints[tourTime.CurrentKeyPointIndex];
             }
         }
-        public void ConnectAvailablePlaces()
+        public void ConnectAvailablePlaces() //moved to TourReservationService
         {
             foreach (TourTime tourTime in _tourTimes)
             {

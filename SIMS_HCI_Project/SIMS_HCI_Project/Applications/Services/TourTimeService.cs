@@ -48,6 +48,30 @@ namespace SIMS_HCI_Project.Applications.Services
             List<TourReservation> cancelledReservations = tourReservationService.CancelReservationsByTour(tourTime.TourId);
             tourVoucherService.GiveVouchersToGuestsWithReservation(cancelledReservations);
         }
+        public void ConnectGuestAttendances(GuestTourAttendanceService guestTourAttendanceService)
+        {
+            foreach (TourTime tourTime in _tourTimeRepository.GetAll())
+            {
+                tourTime.GuestAttendances = guestTourAttendanceService.GetAllByTourId(tourTime.Id);
+            }
+        }
+        public void ConnectCurrentKeyPoints()
+        {
+            foreach (TourTime tourTime in _tourTimeRepository.GetAll())
+            {
+                tourTime.CurrentKeyPoint = tourTime.Tour.KeyPoints[tourTime.CurrentKeyPointIndex];
+            }
+        }
+        public void ReduceAvailablePlaces(TourTime selectedTourTime, int requestedPartySize)
+        {
+            TourTime tourTime = GetById(selectedTourTime.Id);
+
+            tourTime.Available -= requestedPartySize;
+        }
+        public void CheckAndUpdateStatus()
+        {
+            _tourTimeRepository.CheckAndUpdateStatus();
+        }
 
         public List<int> GetYearsWithToursByGuide(int guideId)
         {

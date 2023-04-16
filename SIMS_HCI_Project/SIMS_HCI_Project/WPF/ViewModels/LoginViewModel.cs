@@ -5,6 +5,7 @@ using SIMS_HCI_Project.WPF.Views;
 using SIMS_HCI_Project.WPF.Views.GuideViews;
 using SIMS_HCI_Project.WPF.Views.OwnerViews;
 using SIMS_HCI_Project.WPF.Views.Guest1Views;
+using SIMS_HCI_Project.WPF.Views.Guest2Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -54,8 +55,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels
                         break;
                     case UserRole.GUEST2:
                         // Window guest2View = new Guest2View(new Guest2(user.Id, user.Username, user.Password, user.Role));
-                        Window guest2View = null;
+                        //Window guest2View = null;
                         //guest2View.Show();
+                        Window guest2View = new Guest2MainView(new Guest2(user));
+                        guest2View.Show();
                         break;
                     case UserRole.GUIDE:
                         Window guideWindow = new GuideMainView(new Guide(user));

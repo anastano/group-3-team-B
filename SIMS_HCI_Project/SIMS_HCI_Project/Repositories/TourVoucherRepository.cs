@@ -10,11 +10,13 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Repositories
 {
-    public class TourVoucherRepository : ITourVoucherRepository
+    public class TourVoucherRepository : ITourVoucherRepository, ISubject
     {
         private TourVoucherFileHandler _fileHandler;
         private static List<TourVoucher> _tourVouchers;
         private readonly int DefaultExpirationDays = 10;
+        private readonly List<IObserver> _observers;
+
 
         public TourVoucherRepository()
         {
@@ -24,6 +26,8 @@ namespace SIMS_HCI_Project.Repositories
             {
                 Load();
             }
+            _observers = new List<IObserver>();
+
         }
 
         public void Load()
@@ -70,6 +74,33 @@ namespace SIMS_HCI_Project.Repositories
             }
 
             AddMultiple(givenTourVouchers);
+        }
+
+        public TourVoucher GetById(int id)
+        {
+            return _tourVouchers.Find(v => v.Id == id);
+        }
+
+        public List<TourVoucher> GetValidVouchersByGuestId(int id)
+        {
+            return _tourVouchers.FindAll(v => v.GuestId == id && v.Status == VoucherStatus.VALID);
+        }
+        public void NotifyObservers()
+        {
+            foreach (var observer in _observers)
+            {
+                observer.Update();
+            }
+        }
+
+        public void Subscribe(IObserver observer)
+        {
+            _observers.Add(observer);
+        }
+
+        public void Unsubscribe(IObserver observer)
+        {
+            _observers.Remove(observer);
         }
     }
 }

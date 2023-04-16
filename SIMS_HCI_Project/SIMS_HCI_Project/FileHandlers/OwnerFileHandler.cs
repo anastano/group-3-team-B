@@ -19,7 +19,6 @@ namespace SIMS_HCI_Project.FileHandlers
             _serializer = new Serializer<Owner>();
         }
 
-
         public List<Owner> Load()
         {
             return _serializer.FromCSV(path);

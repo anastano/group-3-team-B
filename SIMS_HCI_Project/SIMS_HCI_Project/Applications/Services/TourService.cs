@@ -47,5 +47,21 @@ namespace SIMS_HCI_Project.Applications.Services
                 tourTime.Tour.DepartureTimes.Add(tourTime);
             }
         }
+
+        public void ConnectLocations(LocationService locationService)
+        {
+            foreach (Tour tour in _tourRepository.GetAll())
+            {
+                tour.Location = locationService.GetById(tour.LocationId);
+            }
+        }
+
+        public void ConnectKeyPoints(TourKeyPointService tourKeyPointService)
+        {
+            foreach (Tour tour in _tourRepository.GetAll())
+            {
+                tour.KeyPoints = tourKeyPointService.FindByIds(tour.KeyPointsIds);
+            }
+        }
     }
 }

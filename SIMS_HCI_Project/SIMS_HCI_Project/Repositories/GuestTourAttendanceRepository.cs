@@ -1,21 +1,21 @@
-﻿using SIMS_HCI_Project.Controller;
-using SIMS_HCI_Project.Domain.DTOs;
-using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Domain.RepositoryInterfaces;
-using SIMS_HCI_Project.FileHandlers;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SIMS_HCI_Project.Domain.Models;
+using SIMS_HCI_Project.FileHandlers;
+using SIMS_HCI_Project.Applications.Services;
+﻿using SIMS_HCI_Project.Controller;
+using SIMS_HCI_Project.Domain.DTOs;
+
 
 namespace SIMS_HCI_Project.Repositories
 {
     public class GuestTourAttendanceRepository : IGuestTourAttendanceRepository
     {
         private GuestTourAttendanceFileHandler _fileHandler;
-
         private static List<GuestTourAttendance> _guestTourAttendances;
 
         public GuestTourAttendanceRepository()
@@ -27,7 +27,6 @@ namespace SIMS_HCI_Project.Repositories
                 Load();
             }
         }
-
         public void Load()
         {
             _guestTourAttendances = _fileHandler.Load();
@@ -49,12 +48,6 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _guestTourAttendances.Count == 0 ? 1 : _guestTourAttendances[_guestTourAttendances.Count - 1].Id + 1;
         }
-
-        public GuestTourAttendance GetById(int id)
-        {
-            return _guestTourAttendances.Find(gta => gta.Id == id);
-        }
-
         public List<GuestTourAttendance> GetAll()
         {
             return _guestTourAttendances;
@@ -63,6 +56,34 @@ namespace SIMS_HCI_Project.Repositories
         public List<GuestTourAttendance> GetAllByTourId(int id)
         {
             return _guestTourAttendances.FindAll(gta => gta.TourTimeId == id);
+        }
+        
+        public GuestTourAttendance GetById(int id)
+        {
+            return _guestTourAttendances.Find(gta => gta.Id == id);
+        }
+
+        public GuestTourAttendance GetByGuestAndTourTimeIds(int guestId, int tourTimeId)
+        {
+            return _guestTourAttendances.Find(g => g.GuestId == guestId && g.TourTimeId == tourTimeId);
+        }
+
+        public List<GuestTourAttendance> GetAllByGuestId( int guestId)
+        {
+            return _guestTourAttendances.FindAll(g => g.GuestId == guestId);
+        }
+
+        public List<TourTime> GetTourTimesWhereGuestWasPresent(int guestId, TourTimeService tourTimeService) // TODO izbaci service
+        {
+            List<TourTime> tourTimes = new List<TourTime>();
+            foreach(var gta in GetAllByGuestId(guestId))
+            {
+                if(gta.Status == AttendanceStatus.PRESENT)
+                {
+                    tourTimes.Add(tourTimeService.GetById(gta.TourTimeId));
+                }
+            }
+            return tourTimes;
         }
 
         public int GetGuestCountByAgeGroup(AgeGroup ageGroup, int tourTimeId)
@@ -83,6 +104,12 @@ namespace SIMS_HCI_Project.Repositories
         public int GetGuestsWithVoucherCount(int tourTimeId)
         {
             return _guestTourAttendances.Where(gta => gta.TourReservation.VoucherUsedId != -1 && gta.TourTimeId == tourTimeId).Count();
+        }
+
+        public bool IsPresent(int guestId, int tourTimeId)
+        {
+            GuestTourAttendance attendance = GetByGuestAndTourTimeIds(guestId, tourTimeId);
+            return _guestTourAttendances.Any(gta => gta.Status == AttendanceStatus.PRESENT);
         }
     }
 }

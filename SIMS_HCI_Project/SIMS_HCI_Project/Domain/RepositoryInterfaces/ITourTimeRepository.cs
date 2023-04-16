@@ -11,5 +11,7 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         List<TourTime> GetAll();
         List<TourTime> GetAllByGuideId(int id);
         void CancelTour(TourTime tourTime);
+        void CheckAndUpdateStatus();
+        
     }
 }

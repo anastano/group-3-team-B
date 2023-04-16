@@ -9,7 +9,7 @@
     <Grid Background="OliveDrab">
         <DataGrid Name="dgUnratedTours" 
         ItemsSource="{Binding Path=UnratedReservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-        SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" Margin="42,82,38,182">
+        SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" Margin="10,82,10,182">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="40"></DataGridTextColumn>
                 <DataGridTextColumn Header="Title" Binding="{Binding TourTime.Tour.Title}" Width="110"></DataGridTextColumn>
@@ -17,12 +17,12 @@
                 <DataGridTextColumn Header="Country" Binding="{Binding TourTime.Tour.Location.Country}" Width="110"></DataGridTextColumn>
                 <DataGridTextColumn Header="City" Binding="{Binding TourTime.Tour.Location.City}" Width="110"></DataGridTextColumn>
                 <DataGridTextColumn Header="Language" Binding="{Binding TourTime.Tour.Language}" Width="105"></DataGridTextColumn>
-                <DataGridTextColumn Header="Duration" Binding="{Binding TourTime.Tour.Duration}" Width="105"></DataGridTextColumn>
+                <DataGridTextColumn Header="Duration" Binding="{Binding TourTime.Tour.Duration}" Width="80"></DataGridTextColumn>
                 <DataGridTextColumn Header="TT dep time" Binding="{Binding TourTime.DepartureTime}" Width="110"></DataGridTextColumn>
                 <DataGridTextColumn Header="Party size" Binding="{Binding PartySize}" Width="70"></DataGridTextColumn>
                 <DataGridTextColumn Header="Tour status" Binding="{Binding TourTime.Status}" Width="80"></DataGridTextColumn>
                 <DataGridTextColumn Header="Reservation status" Binding="{Binding Status}" Width="105"></DataGridTextColumn>
-                <DataGridTextColumn Header="Guide" Binding="{Binding TourTime.Tour.GuideId}" Width="150"></DataGridTextColumn>
+                <DataGridTextColumn Header="Guide" Binding="{Binding TourTime.Tour.GuideId}" Width="50"></DataGridTextColumn>
                 <DataGridTextColumn Header="Voucher" Binding="{Binding TourVoucher.Title}"></DataGridTextColumn>
                 
                 <DataGridTemplateColumn Header="Rate">

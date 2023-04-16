@@ -47,7 +47,7 @@ namespace SIMS_HCI_Project.Repositories
         }
         public bool IsRated(int id)
         {
-            return _ratings.Any(r => r.Id == id);
+            return _ratings.Any(r => r.ReservationId == id);
         }
         public void Add(TourRating rating)
         {

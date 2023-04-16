@@ -43,7 +43,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             LoadFromFiles();
             InitCommands();
 
-            //SelectedReservation = UnratedReservations.FirstOrDefault();
+            
 
             UnratedReservations = new ObservableCollection<TourReservation>(_tourReservationService.GetUnratedReservations(Guest.Id, _guestTourAttendanceService, _tourRatingService, _tourTimeService));
 
@@ -91,6 +91,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         private void Executed_Rate(object sender)
         {
             //pozovvi prozor za ocenjivanje
+            Window window = new RateSelectedReservationView(Guest, SelectedReservation);
+            window.Show();
+            TourRatingView.Close();
         }
         public bool CanExecute_Rate(object sender)
         {

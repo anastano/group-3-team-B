@@ -21,14 +21,22 @@ namespace SIMS_HCI_Project.Domain.Models
         public int GuidesLanguage { get; set; }
         public string Comment { get; set; }
         public List<string> Images { get; set; }
+        public string Image { get; set; }
 
         public TourRating()
         {
+            OverallExperience = 5;
+            Organisation = 5;
+            Interestingness = 5;
+            GuidesKnowledge = 5;
+            GuidesLanguage = 5;
+            Comment = "";
+            Images = new List<string>();
         }
 
-        public TourRating(int id, int guestId, int reservationId, int guideId, TourReservation tourReservation, int overallExperience, int organisation, int interestingness, int guidesKnowledge, int guidesLanguage, string comment, List<string> images)
+        public TourRating( int guestId, int reservationId, int guideId, TourReservation tourReservation, int overallExperience, int organisation, int interestingness, int guidesKnowledge, int guidesLanguage, string comment, List<string> image)
         {
-            Id = id;
+            
             GuestId = guestId;
             ReservationId = reservationId;
             GuideId = guideId;
@@ -38,10 +46,28 @@ namespace SIMS_HCI_Project.Domain.Models
             GuidesKnowledge = guidesKnowledge;
             GuidesLanguage = guidesLanguage;
             Comment = comment;
-            Images = images;
 
             TourReservation = new TourReservation();
             Images = new List<string>();
+            //Images.Add(image);
+        }
+
+        public TourRating(int guestId, int reservationId, int guideId, TourReservation tourReservation, int overallExperience, int organisation, int interestingness, int guidesKnowledge, int guidesLanguage, string comment, string image)
+        {
+
+            GuestId = guestId;
+            ReservationId = reservationId;
+            GuideId = guideId;
+            OverallExperience = overallExperience;
+            Organisation = organisation;
+            Interestingness = interestingness;
+            GuidesKnowledge = guidesKnowledge;
+            GuidesLanguage = guidesLanguage;
+            Comment = comment;
+
+            TourReservation = new TourReservation();
+            Images = new List<string>();
+            Images.Add(image);
         }
 
         public string[] ToCSV()

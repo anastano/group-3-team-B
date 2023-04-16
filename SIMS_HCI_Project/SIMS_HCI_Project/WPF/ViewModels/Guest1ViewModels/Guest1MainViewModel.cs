@@ -66,25 +66,22 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 
             _accommodationService.ConnectAccommodationsWithLocations(_locationService);
             _reservationService.ConnectReservationsWithAccommodations(_accommodationService);
-            _reservationService.ConvertReservedAccommodationsIntoCompleted(DateTime.Now);
+            _reservationService.ConvertReservedReservationIntoCompleted(DateTime.Now);
             _reservationService.ConnectReservationsWithGuests(_guest1Service);
             _requestService.ConnectRequestsWithReservations(_reservationService);
             _reservationService.ConvertReservationsIntoRated(_ratingService);
-
-            //_accommodationService.FillOwnerAccommodationList(Owner);
-            //_reservationService.FillOwnerReservationList(Owner);
         }
-        public void Executed_ShowReservationsCommand(object obj)
+        public void ExecutedShowReservationsCommand(object obj)
         {
-            Guest1MainView.MainGuestFrame.Content = new ReservationsView(Guest1MainView, _reservationService, _notificationService, Guest);
+            Guest1MainView.MainGuestFrame.Navigate(new ReservationsView(_reservationService, Guest));
             //OnPropertyChanged();
         }
 
-        public bool CanExecute_ShowReservationsCommand(object obj)
+        public bool CanExecute(object obj)
         {
             return true;
         }
-        public void Executed_LogoutCommand(object obj)
+        public void ExecutedLogoutCommand(object obj)
         {
             foreach (Notification notification in _notificationService.GetUnreadByUserId(Guest.Id))
             {
@@ -92,15 +89,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             }
             Guest1MainView.Close();
         }
-
-        public bool CanExecute_LogoutCommand(object obj)
-        {
-            return true;
-        }
         public void InitCommands()
         {
-            ShowReservationsCommand = new RelayCommand(Executed_ShowReservationsCommand, CanExecute_ShowReservationsCommand);
-            LogoutCommand = new RelayCommand(Executed_LogoutCommand, CanExecute_LogoutCommand);
+            ShowReservationsCommand = new RelayCommand(ExecutedShowReservationsCommand, CanExecute);
+            LogoutCommand = new RelayCommand(ExecutedLogoutCommand, CanExecute);
         }
     }
 }

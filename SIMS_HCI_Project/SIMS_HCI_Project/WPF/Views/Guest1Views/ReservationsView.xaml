@@ -10,13 +10,13 @@
       Title="ReservationView">
 
     <Grid>
-        <TabControl>
+        <TabControl Margin="5, 5, 5, 5">
             <TabControl.Resources>
                 <Style TargetType="{x:Type TabItem}">
                     <Setter Property="HeaderTemplate">
                         <Setter.Value>
                             <DataTemplate>
-                                <TextBlock Text="{TemplateBinding Content}" FontSize="40"/>
+                                <TextBlock Text="{TemplateBinding Content}" FontSize="30"/>
                             </DataTemplate>
                         </Setter.Value>
                     </Setter>
@@ -112,6 +112,7 @@
                     </DataGrid>
                 </TabItem>
         </TabControl>
+        <Frame x:Name="ReservationsFrame" NavigationUIVisibility="Hidden"/>
 
     </Grid>
 </Page>

@@ -158,9 +158,9 @@ namespace SIMS_HCI_Project.Applications.Services
             owner.Reservations = GetByOwnerId(owner.Id);
         }
 
-        public void ConvertReservedAccommodationsIntoCompleted(DateTime currentDate)
+        public void ConvertReservedReservationIntoCompleted(DateTime currentDate)
         {
-            _reservationRepository.ConvertReservedAccommodationsIntoCompleted(currentDate);
+            _reservationRepository.ConvertReservedReservationIntoCompleted(currentDate);
         }
         public void ConvertReservationsIntoRated(RatingGivenByGuestService ratingGivenByGuestService)
         {

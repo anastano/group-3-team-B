@@ -23,7 +23,7 @@ namespace SIMS_HCI_Project.Repositories
 
             _observers = new List<IObserver>();
         }
-        public void ConvertReservedAccommodationsIntoCompleted(DateTime currentDate)
+        public void ConvertReservedReservationIntoCompleted(DateTime currentDate)
         {
             foreach (var reservation in _reservations)
             {

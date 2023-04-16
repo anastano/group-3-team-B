@@ -57,13 +57,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        public ReservationRescheduleViewModel(Guest1MainView guest1MainView, ReservationsView reservationsView, ReservationRescheduleView reservationRescheduleView, AccommodationReservationService reservationService, AccommodationReservation reservation)
+        public ReservationRescheduleViewModel(ReservationRescheduleView reservationRescheduleView, AccommodationReservationService reservationService, AccommodationReservation reservation)
         {
             _accommodationReservationService = reservationService;
-            _rescheduleRequestService = new RescheduleRequestService();   //samo mi ovdje treba bezveze da ga ne prosledjujem
+            _rescheduleRequestService = new RescheduleRequestService(); 
             ReservationRescheduleView = reservationRescheduleView;
-            Guest1MainView = guest1MainView;
-            ReservationsView = reservationsView;
             Reservation = reservation;
             RescheduleRequests = new ObservableCollection<RescheduleRequest>(_rescheduleRequestService.GetAllByOwnerId(Reservation.Accommodation.OwnerId));
             InitCommands();
@@ -73,8 +71,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             MessageBoxResult result = ConfirmRescheduleRequest();
             if (result == MessageBoxResult.Yes)
             {
-                _rescheduleRequestService.Add(new RescheduleRequest(Reservation, WantedStart, WantedEnd));
-                Guest1MainView.MainGuestFrame.Content = ReservationsView;
+               _rescheduleRequestService.Add(new RescheduleRequest(Reservation, WantedStart, WantedEnd));
+                ReservationRescheduleView.ReservationRescheduleFrame.Content = new ReservationsView(_accommodationReservationService, Reservation.Guest);
 
             }
         }
@@ -90,13 +88,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             return result;
         }
 
-        public bool CanExecute_SendReservationRescheduleRequestCommand(object obj)
+        public bool CanExecute(object obj)
         {
             return true;
         }
         public void InitCommands()
         {
-            SendReservationRescheduleRequestCommand = new RelayCommand(Executed_SendReservationRescheduleRequestCommand, CanExecute_SendReservationRescheduleRequestCommand);
+            SendReservationRescheduleRequestCommand = new RelayCommand(Executed_SendReservationRescheduleRequestCommand, CanExecute);
         }        
     }
 }

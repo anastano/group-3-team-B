@@ -6,32 +6,36 @@
       xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest1Views"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="RatingReservationView">
+      Title="RatingReservationView"
+      Background="#f5f5f5">
 
-    <Grid>
-        <StackPanel Orientation="Vertical">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Owner:"/>
-                <TextBox x:Name="Owner" Width="100" Text="{Binding Path=Reservation.Accommodation.Owner, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Accommodation cleanliness:"/>
-                <TextBox x:Name="Cleanliness" Width="100" Text="{Binding Path=Cleanliness, UpdateSourceTrigger=PropertyChanged}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Owner correctness:"/>
-                <TextBox x:Name="Corecntess" Width="100" Text="{Binding Path=Correctness, UpdateSourceTrigger=PropertyChanged}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Image URLs:"/>
-                <TextBox x:Name="Images" Width="100" Text="{Binding Path=Images, UpdateSourceTrigger=PropertyChanged}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Aditional comment:"/>
-                <TextBox x:Name="Comment" Width="100" Text="{Binding Path=AdditionalComment, UpdateSourceTrigger=PropertyChanged}"/>
-            </StackPanel>
-            <Button Content="Review"  Command="{Binding DataContext.ReviewReservationCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
-        </StackPanel>
+    <Grid Margin="30 30 30 30">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="1.5*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label Content="Review owner and accommodation (required): " Grid.Row="0" Grid.Column="0"></Label>
+        <Label Content="Owner: " Grid.Row="1" Grid.Column="0"></Label>
+        <TextBox x:Name="Owner" Grid.Row="1" Grid.Column="1" Text="{Binding Path=Reservation.Accommodation.Owner, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+        <Label Content="Accommodation cleanliness (1-5): " Grid.Row="2" Grid.Column="0"></Label>
+        <TextBox x:Name="Cleanliness" Grid.Row="2" Grid.Column="1" Text="{Binding Path=Cleanliness, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Content="Owner correctness (1-5):" Grid.Row="3" Grid.Column="0"></Label>
+        <TextBox x:Name="Corecntess" Grid.Row="3" Grid.Column="1" Text="{Binding Path=Correctness, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Content="Image URLs:" Grid.Row="4" Grid.Column="0"></Label>
+        <TextBox x:Name="Images" Grid.Row="4" Grid.Column="1" Text="{Binding Path=Images, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Content="Aditional comment:" Grid.Row="5" Grid.Column="0"></Label>
+        <TextBox x:Name="Comment" Grid.Row="5" Grid.Column="1" Text="{Binding Path=AdditionalComment, UpdateSourceTrigger=PropertyChanged}"/>
 
+        <Button Content="Review" Grid.Row="6" Grid.Column="1" Command="{Binding DataContext.ReviewReservationCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
+        <Frame x:Name="ReservationRatingFrame" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Page>

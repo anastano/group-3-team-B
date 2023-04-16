@@ -18,12 +18,7 @@ namespace SIMS_HCI_Project.Wpf.Converters
         {
             int deadline = (int)values[0];
             DateTime startTime = (DateTime)values[1];
-            bool isVisible = false;
-            if(startTime <= DateTime.Today)
-            {
-                return ButtonVisibility(isVisible);
-            }
-            isVisible = ((startTime - DateTime.Today).TotalDays - 1) >= deadline;
+            bool isVisible = ((startTime - DateTime.Today).TotalDays - 1) >= deadline;
             return ButtonVisibility(isVisible);
         }
         public Visibility ButtonVisibility(bool isVisible)

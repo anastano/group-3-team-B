@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using AccommodationReservation = SIMS_HCI_Project.Domain.Models.AccommodationReservation;
+using System.Windows.Controls;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
@@ -23,6 +24,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 
         public ReservationsView ReservationsView { get; set; }
         public Guest1MainView Guest1MainView { get; set; }
+
+        private Frame frame;
+        public Frame Frame
+        {
+            get { return frame; }
+            set { frame = value; }
+        }
         public Guest1 Guest { get; set; }
         public ObservableCollection<AccommodationReservation> ActiveReservations { get; set; }
         public ObservableCollection<AccommodationReservation> PastReservations { get; set; }
@@ -33,14 +41,15 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public RelayCommand RescheduleReservationCommand { get; set; }
         public RelayCommand RateCommand { get; set; }
 
-        public ReservationsViewModel(ReservationsView reservationsView, Guest1MainView guest1MainView, AccommodationReservationService reseravtionService, NotificationService notificationService, Guest1 guest)
+        public ReservationsViewModel(Frame currentFrame, AccommodationReservationService reseravtionService, Guest1 guest)
         {
             InitCommands();
 
             _reservationService = reseravtionService;
-            _notificationService = notificationService;
-            ReservationsView = reservationsView;
-            Guest1MainView = guest1MainView;
+            _notificationService = new NotificationService();
+            //ReservationsView = reservationsView;
+            //Guest1MainView = view;
+            this.Frame = currentFrame;
             Guest = guest;
             ActiveReservations = new ObservableCollection<AccommodationReservation>(_reservationService.GetAllByStatusAndGuestId(Guest.Id, AccommodationReservationStatus.RESERVED));
             PastReservations = new ObservableCollection<AccommodationReservation>(_reservationService.GetAllByStatusAndGuestId(Guest.Id, AccommodationReservationStatus.COMPLETED));
@@ -83,7 +92,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             if (SelectedReservation != null)
             {
                 //Potencijalno ako bude trebalo zbog selected
-                Guest1MainView.MainGuestFrame.Content = new ReservationRescheduleView(Guest1MainView, ReservationsView, _reservationService, SelectedReservation);
+                this.Frame.Navigate(new ReservationRescheduleView(_reservationService, SelectedReservation));
             }
         }
 
@@ -95,8 +104,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             if (SelectedReservation != null)
             {
-                //Potencijalno ako bude trebalo zbog selected
-                Guest1MainView.MainGuestFrame.Content = new RatingReservationView(Guest1MainView, ReservationsView, _reservationService, SelectedReservation);
+                this.Frame.Navigate(new RatingReservationView(_reservationService, SelectedReservation));
+                //Guest1MainView.MainGuestFrame.Content = new RatingReservationView(Guest1MainView, _reservationService, SelectedReservation);
             }
         }
         public bool CanExecute_RateCommand(object obj)

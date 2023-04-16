@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
@@ -23,6 +24,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public ReservationsView ReservationsView { get; set; }
         public AccommodationReservation Reservation { get; set; }
         public RelayCommand ReviewReservationCommand { get; set; }
+
+        private Frame frame;
+        public Frame Frame
+        {
+            get { return frame; }
+            set { frame = value; }
+        }
 
         private int _cleanliness;
         public int Cleanliness
@@ -82,20 +90,21 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        public RatingReservationViewModel(Guest1MainView guest1MainView, ReservationsView reservationsView, RatingReservationView ratingReservationView, AccommodationReservationService reservationService, AccommodationReservation reservation)
+        public RatingReservationViewModel(RatingReservationView ratingReservationView, AccommodationReservationService reservationService, AccommodationReservation reservation)
         {
             _accommodationReservationService = reservationService;
             _ratingService = new RatingGivenByGuestService();
             RatingReservationView = ratingReservationView;
-            Guest1MainView = guest1MainView;
-            ReservationsView = reservationsView;
+            //Guest1MainView = guest1MainView;
+            //ReservationsView = reservationsView;
             Reservation = reservation;
             InitCommands();
         }
         public void Executed_ReviewReservationCommand(object obj)
         {
             _ratingService.Add(new RatingGivenByGuest(Reservation.Id, Cleanliness, Correcntess, AdditionalComment, Images));
-            Guest1MainView.MainGuestFrame.Content = ReservationsView;
+            //Guest1MainView.MainGuestFrame.Content = ReservationsView;
+            this.Frame.Navigate(new ReservationsView(_accommodationReservationService, Reservation.Guest));
         }
 
         public bool CanExecute_ReviewReservationCommand(object obj)

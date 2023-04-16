@@ -14,7 +14,7 @@
             <StackPanel DockPanel.Dock="Top" Height="80" Margin="0,0,0,0" Width="944">
                 <Button Content="My Profile" Width="40" Height="40"/>
             </StackPanel>
-            <Frame x:Name="MainGuestFrame"></Frame>
+            <Frame x:Name="MainGuestFrame" NavigationUIVisibility="Hidden"/>
         </DockPanel>
 
     </Grid>

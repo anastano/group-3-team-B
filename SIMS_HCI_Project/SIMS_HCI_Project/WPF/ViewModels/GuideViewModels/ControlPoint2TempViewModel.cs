@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -21,12 +22,15 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         private TourService _tourService;
         private GuestTourAttendanceService _guestTourAttendanceService;
         private TourStatisticsService _tourStatisticsService;
+        private TourRatingService _tourRatingService;
 
         public ObservableCollection<TourTime> AllTourTimes { get; set; }
         public TourTime SelectedTourTime { get; set; }
 
         public RelayCommand CancelTourCommand { get; set; }
         public RelayCommand SeeStatistics { get; set; }
+        public RelayCommand SeeRatings { get; set; }
+        public RelayCommand MarkRatingInvalid { get; set; }
 
         private TourStatisticsInfo _selectedTourStatistics;
         public TourStatisticsInfo SelectedTourStatistics
@@ -63,6 +67,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         }
         public List<int> YearsWithTours { get; set; }
 
+        //private ObservableCollection<TourRating> _selectedTourRatings;
+
+        public ObservableCollection<TourRating> SelectedTourRatings { get; set; }
+        public TourRating SelectedRating { get; set; } 
+
         public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -74,6 +83,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             LoadFromFiles();
             CancelTourCommand = new RelayCommand(Excuted_CancelTourCommand, CanExecute_CancelTourCommand);
             SeeStatistics = new RelayCommand(Excuted_SeeStatisticsCommand, CanExecute_SeeStatisticsCommand);
+            SeeRatings = new RelayCommand(Excuted_SeeRatingsCommand, CanExecute_SeeRatingsCommand);
+            MarkRatingInvalid = new RelayCommand(Excuted_MarkRatingInvalidCommand, CanExecute_MarkRatingInvalidCommand);
 
             AllTimeTopTour = _tourStatisticsService.GetTopTour();
             YearsWithTours = _tourTimeService.GetYearsWithToursByGuide(guide.Id);
@@ -83,6 +94,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             AllTourTimes = new ObservableCollection<TourTime>(_tourTimeService.GetAllByGuideId(guide.Id));
             SelectedTourTime = AllTourTimes.First();
             SelectedTourStatistics = _tourStatisticsService.GetTourStatistics(SelectedTourTime.Id);
+
+            SelectedTourRatings = new ObservableCollection<TourRating>(_tourRatingService.GetByTourId(SelectedTourTime.Id));
         }
 
         private void LoadFromFiles()
@@ -93,14 +106,18 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             _tourService = new TourService();
             _guestTourAttendanceService = new GuestTourAttendanceService();
             _tourStatisticsService = new TourStatisticsService();
+            _tourRatingService = new TourRatingService();
 
             _tourService.ConnectDepartureTimes(_tourTimeService);
+            _tourRatingService.LoadConnections();
             _guestTourAttendanceService.LoadConnections();
         }
 
         public void Excuted_CancelTourCommand(object obj)
         {
             _tourTimeService.CancelTour(SelectedTourTime, _tourVoucherService, _tourReservationService);
+
+            Trace.WriteLine("but why");
         }
 
         public bool CanExecute_CancelTourCommand(object obj)
@@ -122,5 +139,33 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         {
             SelectedYearTopTour = _tourStatisticsService.GetTopTourByYear(SelectedYear);
         }
+
+        public void Excuted_SeeRatingsCommand(object obj)
+        {
+            SelectedTourRatings.Clear();
+
+            foreach (TourRating tourRating in _tourRatingService.GetByTourId(SelectedTourTime.Id))
+            {
+                SelectedTourRatings.Add(tourRating);
+            }
+        }
+
+        public bool CanExecute_SeeRatingsCommand(object obj)
+        {
+            return true;
+        }
+
+        public void Excuted_MarkRatingInvalidCommand(object obj)
+        {
+            _tourRatingService.MarkAsInvalid(SelectedRating);
+
+            Trace.WriteLine("why");
+        }
+
+        public bool CanExecute_MarkRatingInvalidCommand(object obj)
+        {
+            return true;
+        }
+
     }
 }

@@ -45,6 +45,13 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _ratings.Find(r => r.Id == id);
         }
+
+        public List<TourRating> GetByTourId(int tourTimeId)
+        {
+            var aa = _ratings.FindAll(r => r.TourReservation.TourTimeId == tourTimeId);
+            return _ratings.FindAll(r => r.TourReservation.TourTimeId == tourTimeId);
+        }
+
         public bool IsRated(int id)
         {
             return _ratings.Any(r => r.ReservationId == id);
@@ -64,7 +71,14 @@ namespace SIMS_HCI_Project.Repositories
                 return 1;
             }
             return _ratings[_ratings.Count - 1].Id + 1;
-        } 
+        }
+
+        public void MarkAsInvalid(TourRating tourRating)
+        {
+            tourRating.IsValid = false;
+
+            Save();
+        }
 
         public void NotifyObservers()
         {

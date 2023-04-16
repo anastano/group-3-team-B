@@ -10,6 +10,7 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
     {
         void Load();
         void Save();
+        TourReservation GetById(int id);
         List<TourReservation> CancelReservationsByTour(int tourTimeId);
         List<TourReservation> GetAllByTourTimeId(int id);
         List<TourReservation> GetAllByGuestId(int id);

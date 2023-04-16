@@ -22,6 +22,8 @@ namespace SIMS_HCI_Project.Domain.Models
         public string Comment { get; set; }
         public List<string> Images { get; set; }
         public string Image { get; set; }
+        public bool IsValid { get; set; }
+        public GuestTourAttendance Attendance { get; set; } // runtime field, sorry Anastano, but I need to show info from GuestAttendance in View. It doesn't affect your part since I'm not saving it in the file
 
         public TourRating()
         {
@@ -32,6 +34,7 @@ namespace SIMS_HCI_Project.Domain.Models
             GuidesLanguage = 5;
             Comment = "";
             Images = new List<string>();
+            IsValid = true;
         }
 
         public TourRating( int guestId, int reservationId, int guideId, TourReservation tourReservation, int overallExperience, int organisation, int interestingness, int guidesKnowledge, int guidesLanguage, string comment, List<string> image)
@@ -49,6 +52,7 @@ namespace SIMS_HCI_Project.Domain.Models
 
             TourReservation = new TourReservation();
             Images = new List<string>();
+            IsValid = true;
             //Images.Add(image);
         }
 
@@ -68,6 +72,7 @@ namespace SIMS_HCI_Project.Domain.Models
             TourReservation = new TourReservation();
             Images = new List<string>();
             Images.Add(image);
+            IsValid = true;
         }
 
         public string[] ToCSV()
@@ -84,7 +89,8 @@ namespace SIMS_HCI_Project.Domain.Models
                 GuidesKnowledge.ToString(),
                 GuidesLanguage.ToString(),
                 Comment,
-                string.Join(",", Images)
+                string.Join(",", Images),
+                IsValid.ToString()
             };
             return csvValues;
         }
@@ -102,6 +108,7 @@ namespace SIMS_HCI_Project.Domain.Models
             GuidesLanguage = int.Parse(values[8]);
             Comment = values[9];
             Images = new List<string>(values[10].Split(","));
+            IsValid = bool.Parse(values[11]);
         }
     }
 }

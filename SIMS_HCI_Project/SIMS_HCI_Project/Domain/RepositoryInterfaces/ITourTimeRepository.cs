@@ -12,7 +12,6 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         List<TourTime> GetAllByGuideId(int id);
         void CancelTour(TourTime tourTime);
         void CheckAndUpdateStatus();
-        //TourTime GetByReservationId(int id);
-        //TourTime GetByReservationId(int id, TourReservationService tourReservationService);
+        
     }
 }

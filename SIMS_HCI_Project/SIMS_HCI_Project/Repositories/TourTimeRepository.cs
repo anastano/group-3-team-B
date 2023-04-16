@@ -54,8 +54,6 @@ namespace SIMS_HCI_Project.Repositories
             return _tourTimes.FindAll(tt => tt.Tour.GuideId == id);
         }
         
-        
-
         public void CancelTour(TourTime tourTime)
         {
             tourTime.Status = TourStatus.CANCELED;

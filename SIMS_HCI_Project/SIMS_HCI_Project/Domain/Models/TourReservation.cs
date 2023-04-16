@@ -31,7 +31,6 @@ namespace SIMS_HCI_Project.Domain.Models
             PartySize = partySize;
             Status = TourReservationStatus.GOING;
             VoucherUsedId = voucherId;
-            
         }
 
         public TourReservation(TourReservation temp)

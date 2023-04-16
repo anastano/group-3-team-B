@@ -92,7 +92,6 @@ namespace SIMS_HCI_Project.Applications.Services
 
         public void ConnectVouchers(TourVoucherService tourVoucherService)
         {
-            //TourVoucherController tourVoucherController = new TourVoucherController();
             foreach (TourReservation tourReservation in _tourReservationRepository.GetAll())
             {
                 tourReservation.TourVoucher = tourVoucherService.GetById(tourReservation.VoucherUsedId);

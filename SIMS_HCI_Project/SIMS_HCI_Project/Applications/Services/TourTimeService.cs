@@ -42,20 +42,6 @@ namespace SIMS_HCI_Project.Applications.Services
             return _tourTimeRepository.GetAllByGuideId(id);
         }
 
-       /* public TourTime GetByReservationId(int id)
-        {
-            return _tourTimeRepository.GetByReservationId(id);
-        }
-       */
-        /*public TourTime GetByReservationId(int id, TourReservationService tourReservationService)
-        {
-            return _tourTimeRepository.GetByReservationId(id, tourReservationService);
-            foreach (TourReservation tourReservation in tourReservationService.GetAll())
-            {
-                return _tourTimes.Find(tt => tt.Id == id);
-            }
-        }*/
-
         public void CancelTour(TourTime tourTime, TourVoucherService tourVoucherService, TourReservationService tourReservationService)
         {
             _tourTimeRepository.CancelTour(tourTime);
@@ -85,6 +71,11 @@ namespace SIMS_HCI_Project.Applications.Services
         public void CheckAndUpdateStatus()
         {
             _tourTimeRepository.CheckAndUpdateStatus();
+        }
+
+        public List<int> GetYearsWithToursByGuide(int guideId)
+        {
+            return _tourTimeRepository.GetAll().Where(tt => tt.Status == TourStatus.COMPLETED).Select(tt => tt.DepartureTime.Year).Distinct().ToList();
         }
     }
 }

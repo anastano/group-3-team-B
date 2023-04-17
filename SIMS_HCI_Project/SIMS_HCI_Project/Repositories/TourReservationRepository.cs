@@ -91,12 +91,17 @@ namespace SIMS_HCI_Project.Repositories
             return _reservations.FindAll(r => r.Guest2Id == id);
         }
 
+        public List<TourReservation> GetActiveByGuestId(int id)
+        {
+            return _reservations.FindAll(r => r.Guest2Id == id && r.TourTime.Status == TourStatus.IN_PROGRESS && r.Status == TourReservationStatus.GOING);
+        }
+
         public List<TourReservation> GetAll()
         {
             return _reservations;
         }
 
-        public TourReservation FindById(int id)
+        public TourReservation GetById(int id)
         {
             return _reservations.Find(r => r.Id == id);
         }
@@ -140,5 +145,6 @@ namespace SIMS_HCI_Project.Repositories
             return _reservations.Where(tr => tr.Guest2Id == guestId && tr.TourTimeId == tourTimeId).First();
 
         }
+
     }
 }

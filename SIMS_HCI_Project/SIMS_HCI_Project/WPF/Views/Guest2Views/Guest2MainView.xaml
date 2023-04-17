@@ -14,7 +14,7 @@
     </Window.Resources-->
 
     <Grid Background="Orange">
-        <Button x:Name="btnSearch" Content="Search and reserve" HorizontalAlignment="Left" Margin="47,31,0,0" VerticalAlignment="Top" Height="44" Width="153" Command="{Binding SearchAndReserve}"/>
+        <Button x:Name="btnSearch" Content="Search and reserve" HorizontalAlignment="Left" Margin="15,4,0,0" VerticalAlignment="Top" Height="32" Width="158" Command="{Binding SearchAndReserve}"/>
 
         <!--My reservations-->
         <DataGrid x:Name="dgReservedTours" 
@@ -30,19 +30,19 @@
                 <DataGridTextColumn Header="Party size" Binding="{Binding PartySize}" Width="70"></DataGridTextColumn>
                 <DataGridTextColumn Header="Tour status" Binding="{Binding TourTime.Status}" Width="80"></DataGridTextColumn>
                 <DataGridTextColumn Header="Reservation status" Binding="{Binding Status}" Width="105"></DataGridTextColumn>
-                <DataGridTextColumn Header="Guide" Binding="{Binding TourTime.Tour.GuideId}" Width="150"></DataGridTextColumn>
-                <DataGridTextColumn Header="Voucher" Binding="{Binding TourVoucher.Title}"></DataGridTextColumn >
+                <DataGridTextColumn Header="Guide" Binding="{Binding TourTime.Tour.GuideId}" Width="50"></DataGridTextColumn>
+                <DataGridTextColumn Header="Voucher" Binding="{Binding TourVoucher.Title}" Width="80"></DataGridTextColumn >
 
-                
 
-                <DataGridTemplateColumn Header="Images">
+
+                <DataGridTemplateColumn Header="Images" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Content="Images" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Cancel">
+                <DataGridTemplateColumn Header="Cancel" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Content="Cancel" />
@@ -54,33 +54,33 @@
 
         <!--My vouchers-->
         <DataGrid Name="dgVouchers" 
-           ItemsSource="{Binding Path=Guest.Vouchers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" Margin="600,41,48,418">
+           ItemsSource="{Binding Path=Guest.Vouchers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" Margin="10,69,742,424">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title" Binding="{Binding Title}" CanUserResize="False" IsReadOnly="True" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Expiration date" Binding="{Binding ExpirationDate}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Rate visited tours" Command="{Binding RateVisitedTours}" HorizontalAlignment="Left" Margin="270,31,0,0" VerticalAlignment="Top" Height="44" Width="125"/>
+        <Button Content="Rate visited tours" Command="{Binding RateVisitedTours}" HorizontalAlignment="Left" Margin="211,4,0,0" VerticalAlignment="Top" Height="32" Width="134"/>
 
         <!--Active tours-->
-        <DataGrid x:Name="dgActiveTours" 
+        <DataGrid x:Name="dgActiveTours"  
                   ItemsSource="{Binding Path=ActiveTours, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=SelectedActiveReservation, UpdateSourceTrigger=PropertyChanged}"
                   IsReadOnly="True" AutoGenerateColumns="False" Margin="10,178,10,265">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="40"></DataGridTextColumn>
                 <DataGridTextColumn Header="Title" Binding="{Binding TourTime.Tour.Title}" Width="110"></DataGridTextColumn>
-                <DataGridTextColumn Header="TTid" Binding="{Binding TourTime.Id}" Width="110"></DataGridTextColumn>
+                <DataGridTextColumn Header="TTid" Binding="{Binding TourTime.Id}" Width="30"></DataGridTextColumn>
                 <DataGridTextColumn Header="Country" Binding="{Binding TourTime.Tour.Location.Country}" Width="110"></DataGridTextColumn>
                 <DataGridTextColumn Header="City" Binding="{Binding TourTime.Tour.Location.City}" Width="110"></DataGridTextColumn>
                 <DataGridTextColumn Header="Language" Binding="{Binding TourTime.Tour.Language}" Width="105"></DataGridTextColumn>
-                <DataGridTextColumn Header="Duration" Binding="{Binding TourTime.Tour.Duration}" Width="105"></DataGridTextColumn>
+                <DataGridTextColumn Header="Duration" Binding="{Binding TourTime.Tour.Duration}" Width="70"></DataGridTextColumn>
                 <DataGridTextColumn Header="Party size" Binding="{Binding PartySize}" Width="70"></DataGridTextColumn>
                 <DataGridTextColumn Header="Tour status" Binding="{Binding TourTime.Status}" Width="80"></DataGridTextColumn>
-                <DataGridTextColumn Header="Guide" Binding="{Binding TourTime.Tour.GuideId}" Width="150"></DataGridTextColumn>
+                <DataGridTextColumn Header="Guide" Binding="{Binding TourTime.Tour.GuideId}" Width="50"></DataGridTextColumn>
                 <DataGridTextColumn Header="Current Key Point" Binding="{Binding Path=TourTime.Tour.KeyPoints[0]}" Width="150"></DataGridTextColumn>
                 <!--DataGridTextColumn Header="Current Key Point" Binding="{Binding CurrentKeyPoint}" ></DataGridTextColumn nacin sa stringom sa .Title-->
 
-               <!--DataGridTextColumn Header="Current Key Point" Binding="{Binding Path=TourTime.Tour.KeyPoints[AAA]}" Width="150"></DataGridTextColumn nadji AAA-->
+                <!--DataGridTextColumn Header="Current Key Point" Binding="{Binding Path=TourTime.Tour.KeyPoints[AAA]}" Width="150"></DataGridTextColumn nadji AAA-->
                 <!--DataGridTextColumn Header="Current Key Point" Binding="{Binding Path=TourTime.Tour.KeyPoints[Binding TourTime.CurrentKeyPointIndex]}" Width="150"></DataGridTextColumn-->
 
                 <!--DataGridTextColumn Header="Current Key Point" 
@@ -90,19 +90,44 @@
                                       ConverterParameter={Binding TourTime.CurrentKeyPointIndex}}"
                 /-->
 
-                <DataGridTemplateColumn Header="Confirm attendance">
+
+                <DataGridTemplateColumn Header="Confirm attendance" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Confirm attendance" Command="{Binding DataContext.ConfirmAttendance, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+                            <Button Content="Confirm attendance" Command="{Binding DataContext.ConfirmAttendance, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" >
+                                <Button.Style>
+                                    <Style TargetType="Button">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding AttendanceStatus}" Value="PRESENT">
+                                                <Setter Property="Visibility" Value="Hidden" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <Label Content="{Binding AttendanceStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="380,6,664,528"/>
+
 
         <TextBlock x:Name="tblActiveTours" Text="Active tours:" Foreground="Beige" HorizontalAlignment="Left" Margin="10,147,0,0" TextWrapping="Wrap" FontSize="18" VerticalAlignment="Top" Height="26" Width="158" RenderTransformOrigin="0.452,-0.398"/>
         <TextBlock x:Name="tblMyReservedTours" Text="My reserved tours:" Foreground="Beige" HorizontalAlignment="Left" Margin="10,324,0,0" TextWrapping="Wrap" FontSize="18" VerticalAlignment="Top" Height="26" Width="158" RenderTransformOrigin="0.452,-0.398"/>
-        <TextBlock x:Name="tblVouchers" Text="My vouchers:" Foreground="Beige" HorizontalAlignment="Left" Margin="600,10,0,0" TextWrapping="Wrap" FontSize="18" VerticalAlignment="Top" Height="26" Width="158" RenderTransformOrigin="0.452,-0.398"/>
+        <TextBlock x:Name="tblVouchers" Text="My vouchers:" Foreground="Beige" HorizontalAlignment="Left" Margin="15,43,0,0" TextWrapping="Wrap" FontSize="18" VerticalAlignment="Top" Height="26" Width="158" RenderTransformOrigin="0.452,-0.398"/>
+
+
+        <!--notifications-->
+        <StackPanel Height="150" Margin="600,10,10,424">
+            <ListView x:Name="lvNotifications" Margin="10 10 10 10" Width="553" Height="127" ItemsSource="{Binding Notifications}">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Width="540" DisplayMemberBinding="{Binding Message}" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </StackPanel>
 
 
     </Grid>

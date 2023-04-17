@@ -85,6 +85,18 @@ namespace SIMS_HCI_Project.Repositories
             }
             return tourTimes;
         }
+        public List<GuestTourAttendance> GetByConfirmationRequestedStatus(int guestId)
+        {
+            var result = new List<GuestTourAttendance>();
+            foreach(var gta in GetAllByGuestId(guestId))
+            {
+                if(gta.Status == AttendanceStatus.CONFIRMATION_REQUESTED)
+                {
+                    result.Add(gta);
+                }
+            }
+            return result;
+        }
 
         public int GetGuestCountByAgeGroup(AgeGroup ageGroup, int tourTimeId)
         {

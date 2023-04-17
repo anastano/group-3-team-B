@@ -60,6 +60,9 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return _guestTourAttendanceRepository.GetAllByTourId(id);
         }
+        public GuestTourAttendance GetByGuestAndTourTimeIds(int guestId, int tourTimeId){
+            return _guestTourAttendanceRepository.GetByGuestAndTourTimeIds(guestId, tourTimeId);
+        }
 
         public bool IsPresent(int guestId, int tourTimeId)
         {
@@ -104,6 +107,10 @@ namespace SIMS_HCI_Project.Applications.Services
         public void ConfirmAttendanceForTourTime(int guestId, int tourTimeId)
         {
             _guestTourAttendanceRepository.ConfirmAttendanceForTourTime(guestId, tourTimeId);
+        }
+        public List<GuestTourAttendance> GetByConfirmationRequestedStatus(int guestId)
+        {
+            return _guestTourAttendanceRepository.GetByConfirmationRequestedStatus(guestId);
         }
     }
 

@@ -27,5 +27,6 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         int GetGuestsWithVoucherCount(int tourTimeId);
         bool IsPresent(int guestId, int tourTimeId);
         void ConfirmAttendanceForTourTime(int guestId, int tourTimeId);
+        List<GuestTourAttendance> GetByConfirmationRequestedStatus(int guestId);
     }
 }

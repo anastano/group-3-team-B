@@ -13,6 +13,9 @@ using System.Windows;
 using SIMS_HCI_Project.Applications.Services;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;                   // TODO: dodaj logout i tada podesi notifikacije na procitane
+                                                            // TODO: napraavi nekako da se odmah cuva u csv kada se izmeni, da bi se moglo podrzati da kada se izloguje, nozi korisnik moze da vidi promene u csv koje je napravio stari korisnik
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje samo indeks trenutne TT, a treba da prikaze naziv keyPointa
 {
@@ -25,18 +28,20 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
         private TourKeyPointService _tourKeyPointService;
         private TourVoucherService _tourVoucherService;
         private GuestTourAttendanceService _guestTourAttendanceService;
-
+        private NotificationService _notificationService;
+        public ObservableCollection<Notification> Notifications { get; set; }
         public RelayCommand SearchAndReserve { get; set; }
         public RelayCommand ShowImages { get; set; }
         public RelayCommand CancelReservation { get; set; }
         public RelayCommand RateVisitedTours { get; set; }
         public RelayCommand ConfirmAttendance { get; set; }
-
+        public List<GuestTourAttendance> attendances { get; set; }
         public Guest2 Guest { get; set; }
         public TourTime TourTime { get; set; }
-
+        public GuestTourAttendance ActiveGuestAttendance { get; set; }
+        //public AttendanceStatus AttendanceStatus { get; set; }
         public TourReservation SelectedTourReservation { get; set; }
-        public TourReservation SelectedActiveReservation { get; set; }
+        //public TourReservation SelectedActiveReservation { get; set; }
         public GuestTourAttendance GuestTourAttendance { get; set; }
         public Tour Tour { get; set; }
         public ObservableCollection<TourReservation> ActiveTours { get; set; }
@@ -49,6 +54,35 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
             set
             {
                 _currentKeyPoint = value;
+                OnPropertyChanged();
+            }
+        }
+        private AttendanceStatus _attendanceStatus;
+
+        public AttendanceStatus AttendanceStatus
+        {
+            get {
+                
+                    ActiveGuestAttendance = _guestTourAttendanceService.GetByGuestAndTourTimeIds(SelectedActiveReservation.Guest2Id, SelectedActiveReservation.TourTimeId);
+                    _attendanceStatus = ActiveGuestAttendance.Status;
+
+                return _attendanceStatus; }
+            set
+            {
+                _attendanceStatus = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private TourReservation _selectedActiveReservation;
+        public TourReservation SelectedActiveReservation
+        {
+            get { return _selectedActiveReservation; }
+            set
+            {
+                _selectedActiveReservation = value;
+                ActiveGuestAttendance = _guestTourAttendanceService.GetByGuestAndTourTimeIds(SelectedActiveReservation.Guest2Id, SelectedActiveReservation.TourTimeId);
+                _attendanceStatus = ActiveGuestAttendance.Status;
                 OnPropertyChanged();
             }
         }
@@ -95,8 +129,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
             LoadFromFiles();
             InitCommands();
 
-           
-
+            attendances = new List<GuestTourAttendance>();
 
             //CurrentKeyPointInd = TourTime.CurrentKeyPoint;
             //TourTime.CurrentKeyPoint = TourTime.Tour.KeyPoints[TourTime.CurrentKeyPointIndex];
@@ -105,7 +138,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
 
             Guest.Reservations = new ObservableCollection<TourReservation>(_tourReservationService.GetAllByGuestId(guest.Id));
             Guest.Vouchers = new ObservableCollection<TourVoucher>(_tourVoucherService.GetValidVouchersByGuestId(guest.Id));
-
             ActiveTours = new ObservableCollection<TourReservation>(_tourReservationService.GetActiveByGuestId(guest.Id));
             TourTime = new TourTime();
             GuestTourAttendance = new GuestTourAttendance();
@@ -115,8 +147,37 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
                 _AAA = TourTime.CurrentKeyPointIndex;
 
             }*/
+            SelectedActiveReservation = ActiveTours[0];
+            if(SelectedActiveReservation != null)
+            {
+                ActiveGuestAttendance = _guestTourAttendanceService.GetByGuestAndTourTimeIds(SelectedActiveReservation.Guest2Id, SelectedActiveReservation.TourTimeId);
+                _attendanceStatus = ActiveGuestAttendance.Status;
+
+            }
+            ActiveGuestAttendance = _guestTourAttendanceService.GetByGuestAndTourTimeIds(SelectedActiveReservation.Guest2Id, SelectedActiveReservation.TourTimeId);
+            //ActiveGuestAttendance = _guestTourAttendanceService.GetByGuestAndTourTimeIds(SelectedActiveReservation.Guest2Id, SelectedActiveReservation.TourTimeId);
+            //AttendanceStatus = ActiveGuestAttendance.Status;
+            MakeNotificationsForAttendanceConfirmation(); //mozda podati posle u TourProgressViewModel
+
+            Notifications = new ObservableCollection<Notification>(_notificationService.GetUnreadByUserId(Guest.Id));
+            ShowNotifications();
+
             _tourReservationService.Subscribe(this);
             _tourVoucherService.Subscribe(this);
+        }
+
+        public void MakeNotificationsForAttendanceConfirmation()
+        {
+            //string Message = "";
+            attendances = _guestTourAttendanceService.GetByConfirmationRequestedStatus(Guest.Id);
+            foreach (GuestTourAttendance attendance in attendances)
+            {
+                //GuestTourAttendance = new GuestTourAttendance(attendance);
+                String Message = "You have request to confirm your attendance for tour with id: " + attendance.TourTimeId + ". Confirm your attendance on that tour in the list of active tours.";
+                //String Message = "You have " + attendances.Count + "requests";
+                _notificationService.Add(new Notification(Message, Guest.Id, false));
+
+            }
         }
 
         private void LoadFromFiles()
@@ -128,18 +189,23 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
             _locationService = new LocationService();
             _tourKeyPointService = new TourKeyPointService();
             _guestTourAttendanceService = new GuestTourAttendanceService();
+            _notificationService = new NotificationService();
 
 
             _tourService.ConnectLocations(_locationService);
             _tourService.ConnectKeyPoints(_tourKeyPointService);
             _tourService.ConnectDepartureTimes(_tourTimeService);
 
-            //_tourTimeService.
             _tourReservationService.ConnectTourTimes(_tourTimeService);
             _tourReservationService.ConnectVouchers(_tourVoucherService);
             _tourReservationService.ConnectAvailablePlaces(_tourTimeService);
         }
 
+        public void ShowNotifications()
+        {
+            int otherNotificationsNumber = Notifications.Count;
+            Guest2MainView.lvNotifications.Visibility = otherNotificationsNumber != 0 ? Visibility.Visible : Visibility.Collapsed;
+        }
         public void InitCommands()
         {
             RateVisitedTours = new RelayCommand(Executed_RateVisitedTours, CanExecute_RateVisitedTours);
@@ -197,15 +263,15 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
         }
         public void Executed_ConfirmAttendance(object obj)
         {
-            MessageBox.Show("Do you want to confirm attendance on this Tour for all reservations?"); //ili napravi konstruktor GTA koji prihvata i rezervaciju kao parametar pa trazi po rezervaciji?
-            MessageBoxButton messageBoxButton = MessageBoxButton.OK;
+            MessageBox.Show("Do you want to confirm attendance on this Tour for all reservations?"); //ili napravi konstruktor GTA koji prihvata i rezervaciju kao parametar pa trazi po rezervaciji? okej je ovako ipak
+            MessageBoxButton messageBoxButton = MessageBoxButton.OKCancel;
             if (messageBoxButton == MessageBoxButton.OK)
             {
                 _guestTourAttendanceService.ConfirmAttendanceForTourTime(SelectedActiveReservation.Guest2Id, SelectedActiveReservation.TourTimeId);
+               
                 MessageBox.Show("Your tour attendance is confirmed.");
             }
         }
-
         
 
         public bool CanExecute_ConfirmAttendance(object obj)

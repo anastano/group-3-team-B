@@ -168,13 +168,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
 
         public void MakeNotificationsForAttendanceConfirmation()
         {
-            //string Message = "";
             attendances = _guestTourAttendanceService.GetByConfirmationRequestedStatus(Guest.Id);
             foreach (GuestTourAttendance attendance in attendances)
             {
-                //GuestTourAttendance = new GuestTourAttendance(attendance);
                 String Message = "You have request to confirm your attendance for tour with id: " + attendance.TourTimeId + ". Confirm your attendance on that tour in the list of active tours.";
-                //String Message = "You have " + attendances.Count + "requests";
                 _notificationService.Add(new Notification(Message, Guest.Id, false));
 
             }
@@ -195,6 +192,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
             _tourService.ConnectLocations(_locationService);
             _tourService.ConnectKeyPoints(_tourKeyPointService);
             _tourService.ConnectDepartureTimes(_tourTimeService);
+
+            _tourTimeService.ConnectCurrentKeyPoints();
 
             _tourReservationService.ConnectTourTimes(_tourTimeService);
             _tourReservationService.ConnectVouchers(_tourVoucherService);
@@ -264,13 +263,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
         public void Executed_ConfirmAttendance(object obj)
         {
             MessageBox.Show("Do you want to confirm attendance on this Tour for all reservations?"); //ili napravi konstruktor GTA koji prihvata i rezervaciju kao parametar pa trazi po rezervaciji? okej je ovako ipak
-            MessageBoxButton messageBoxButton = MessageBoxButton.OKCancel;
-            if (messageBoxButton == MessageBoxButton.OK)
-            {
-                _guestTourAttendanceService.ConfirmAttendanceForTourTime(SelectedActiveReservation.Guest2Id, SelectedActiveReservation.TourTimeId);
+            MessageBoxButton messageBoxButton = MessageBoxButton.OK;
+            _guestTourAttendanceService.ConfirmAttendanceForTourTime(SelectedActiveReservation.Guest2Id, SelectedActiveReservation.TourTimeId);
                
-                MessageBox.Show("Your tour attendance is confirmed.");
-            }
+            MessageBox.Show("Your tour attendance is confirmed.");
+            
         }
         
 

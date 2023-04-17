@@ -77,7 +77,7 @@
                 <DataGridTextColumn Header="Party size" Binding="{Binding PartySize}" Width="70"></DataGridTextColumn>
                 <DataGridTextColumn Header="Tour status" Binding="{Binding TourTime.Status}" Width="80"></DataGridTextColumn>
                 <DataGridTextColumn Header="Guide" Binding="{Binding TourTime.Tour.GuideId}" Width="50"></DataGridTextColumn>
-                <DataGridTextColumn Header="Current Key Point" Binding="{Binding Path=TourTime.Tour.KeyPoints[0]}" Width="150"></DataGridTextColumn>
+                <DataGridTextColumn Header="Current Key Point" Binding="{Binding Path=TourTime.CurrentKeyPoint.Title}" Width="150"></DataGridTextColumn>
                 <!--DataGridTextColumn Header="Current Key Point" Binding="{Binding CurrentKeyPoint}" ></DataGridTextColumn nacin sa stringom sa .Title-->
 
                 <!--DataGridTextColumn Header="Current Key Point" Binding="{Binding Path=TourTime.Tour.KeyPoints[AAA]}" Width="150"></DataGridTextColumn nadji AAA-->

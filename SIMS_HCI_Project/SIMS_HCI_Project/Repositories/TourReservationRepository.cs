@@ -43,6 +43,10 @@ namespace SIMS_HCI_Project.Repositories
             return _reservations.FindAll(r => r.TourTimeId == id);
         }
 
+        public TourReservation GetById(int id)
+        {
+            return _reservations.Find(r => r.Id == id);
+        }
 
 
         public List<TourReservation> GetUnratedReservations(int guestId, GuestTourAttendanceService guestTourAttendanceService, TourRatingService tourRatingService, TourTimeService tourTimeService)

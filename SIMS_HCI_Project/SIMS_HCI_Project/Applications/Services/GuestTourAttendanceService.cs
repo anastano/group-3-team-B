@@ -101,6 +101,10 @@ namespace SIMS_HCI_Project.Applications.Services
                 guestTourAttendance.TourReservation = _tourReservationRepository.GetByGuestAndTour(guestTourAttendance.GuestId, guestTourAttendance.TourTimeId);
             }
         }
+        public void ConfirmAttendanceForTourTime(int guestId, int tourTimeId)
+        {
+            _guestTourAttendanceRepository.ConfirmAttendanceForTourTime(guestId, tourTimeId);
+        }
     }
 
 }

@@ -4,15 +4,22 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels"
+        xmlns:local1="clr-namespace:SIMS_HCI_Project.View.Converters"
+
         mc:Ignorable="d"
         Title="Guest2MainView" Height="600" Width="1200" WindowStartupLocation="CenterScreen">
+
+    <!--Window.Resources>
+        <local:KeyPointConverter x:Key="KeyPointConverter"/>
+    </Window.Resources-->
 
     <Grid Background="Orange">
         <Button x:Name="btnSearch" Content="Search and reserve" HorizontalAlignment="Left" Margin="47,31,0,0" VerticalAlignment="Top" Height="44" Width="153" Command="{Binding SearchAndReserve}"/>
 
+        <!--My reservations-->
         <DataGrid x:Name="dgReservedTours" 
                   ItemsSource="{Binding Path=Guest.Reservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=SelectedTourReservation, UpdateSourceTrigger=PropertyChanged}"
-                  IsReadOnly="True" AutoGenerateColumns="False" Margin="10,199,10,10">
+                  IsReadOnly="True" AutoGenerateColumns="False" Margin="10,355,10,10">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="40"></DataGridTextColumn>
                 <DataGridTextColumn Header="Title" Binding="{Binding TourTime.Tour.Title}" Width="110"></DataGridTextColumn>
@@ -24,7 +31,10 @@
                 <DataGridTextColumn Header="Tour status" Binding="{Binding TourTime.Status}" Width="80"></DataGridTextColumn>
                 <DataGridTextColumn Header="Reservation status" Binding="{Binding Status}" Width="105"></DataGridTextColumn>
                 <DataGridTextColumn Header="Guide" Binding="{Binding TourTime.Tour.GuideId}" Width="150"></DataGridTextColumn>
-                <DataGridTextColumn Header="Voucher" Binding="{Binding TourVoucher.Title}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Voucher" Binding="{Binding TourVoucher.Title}"></DataGridTextColumn >
+
+                
+
                 <DataGridTemplateColumn Header="Images">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -42,17 +52,57 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <TextBlock x:Name="tblMyReservedTours" Text="My reserved tours:" Foreground="Beige" HorizontalAlignment="Left" Margin="42,168,0,0" TextWrapping="Wrap" FontSize="18" VerticalAlignment="Top" Height="26" Width="158" RenderTransformOrigin="0.452,-0.398"/>
-        <TextBlock x:Name="tblVouchers" Text="My vouchers:" Foreground="Beige" HorizontalAlignment="Left" Margin="618,22,0,0" TextWrapping="Wrap" FontSize="18" VerticalAlignment="Top" Height="26" Width="158" RenderTransformOrigin="0.452,-0.398"/>
-
+        <!--My vouchers-->
         <DataGrid Name="dgVouchers" 
-           ItemsSource="{Binding Path=Guest.Vouchers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" Margin="598,56,50,403">
+           ItemsSource="{Binding Path=Guest.Vouchers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" Margin="600,41,48,418">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title" Binding="{Binding Title}" CanUserResize="False" IsReadOnly="True" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Expiration date" Binding="{Binding ExpirationDate}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
         <Button Content="Rate visited tours" Command="{Binding RateVisitedTours}" HorizontalAlignment="Left" Margin="270,31,0,0" VerticalAlignment="Top" Height="44" Width="125"/>
+
+        <!--Active tours-->
+        <DataGrid x:Name="dgActiveTours" 
+                  ItemsSource="{Binding Path=ActiveTours, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=SelectedActiveReservation, UpdateSourceTrigger=PropertyChanged}"
+                  IsReadOnly="True" AutoGenerateColumns="False" Margin="10,178,10,265">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="40"></DataGridTextColumn>
+                <DataGridTextColumn Header="Title" Binding="{Binding TourTime.Tour.Title}" Width="110"></DataGridTextColumn>
+                <DataGridTextColumn Header="TTid" Binding="{Binding TourTime.Id}" Width="110"></DataGridTextColumn>
+                <DataGridTextColumn Header="Country" Binding="{Binding TourTime.Tour.Location.Country}" Width="110"></DataGridTextColumn>
+                <DataGridTextColumn Header="City" Binding="{Binding TourTime.Tour.Location.City}" Width="110"></DataGridTextColumn>
+                <DataGridTextColumn Header="Language" Binding="{Binding TourTime.Tour.Language}" Width="105"></DataGridTextColumn>
+                <DataGridTextColumn Header="Duration" Binding="{Binding TourTime.Tour.Duration}" Width="105"></DataGridTextColumn>
+                <DataGridTextColumn Header="Party size" Binding="{Binding PartySize}" Width="70"></DataGridTextColumn>
+                <DataGridTextColumn Header="Tour status" Binding="{Binding TourTime.Status}" Width="80"></DataGridTextColumn>
+                <DataGridTextColumn Header="Guide" Binding="{Binding TourTime.Tour.GuideId}" Width="150"></DataGridTextColumn>
+                <DataGridTextColumn Header="Current Key Point" Binding="{Binding Path=TourTime.Tour.KeyPoints[0]}" Width="150"></DataGridTextColumn>
+                <!--DataGridTextColumn Header="Current Key Point" Binding="{Binding CurrentKeyPoint}" ></DataGridTextColumn nacin sa stringom sa .Title-->
+
+               <!--DataGridTextColumn Header="Current Key Point" Binding="{Binding Path=TourTime.Tour.KeyPoints[AAA]}" Width="150"></DataGridTextColumn nadji AAA-->
+                <!--DataGridTextColumn Header="Current Key Point" Binding="{Binding Path=TourTime.Tour.KeyPoints[Binding TourTime.CurrentKeyPointIndex]}" Width="150"></DataGridTextColumn-->
+
+                <!--DataGridTextColumn Header="Current Key Point" 
+                    Width="150"
+                    Binding="{Binding Path=TourTime.Tour.KeyPoints, 
+                                      Converter={StaticResource KeyPointConverter}, 
+                                      ConverterParameter={Binding TourTime.CurrentKeyPointIndex}}"
+                /-->
+
+                <DataGridTemplateColumn Header="Confirm attendance">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Confirm attendance" Command="{Binding DataContext.ConfirmAttendance, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <TextBlock x:Name="tblActiveTours" Text="Active tours:" Foreground="Beige" HorizontalAlignment="Left" Margin="10,147,0,0" TextWrapping="Wrap" FontSize="18" VerticalAlignment="Top" Height="26" Width="158" RenderTransformOrigin="0.452,-0.398"/>
+        <TextBlock x:Name="tblMyReservedTours" Text="My reserved tours:" Foreground="Beige" HorizontalAlignment="Left" Margin="10,324,0,0" TextWrapping="Wrap" FontSize="18" VerticalAlignment="Top" Height="26" Width="158" RenderTransformOrigin="0.452,-0.398"/>
+        <TextBlock x:Name="tblVouchers" Text="My vouchers:" Foreground="Beige" HorizontalAlignment="Left" Margin="600,10,0,0" TextWrapping="Wrap" FontSize="18" VerticalAlignment="Top" Height="26" Width="158" RenderTransformOrigin="0.452,-0.398"/>
 
 
     </Grid>

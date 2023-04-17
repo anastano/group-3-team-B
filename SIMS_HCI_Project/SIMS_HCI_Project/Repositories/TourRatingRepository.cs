@@ -31,6 +31,7 @@ namespace SIMS_HCI_Project.Repositories
         {
             _ratings = _fileHandler.Load();
         }
+
         public void Save()
         {
             _fileHandler.Save(_ratings);
@@ -56,6 +57,7 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _ratings.Any(r => r.ReservationId == id);
         }
+
         public void Add(TourRating rating)
         {
             rating.Id = GenerateId();
@@ -66,11 +68,7 @@ namespace SIMS_HCI_Project.Repositories
 
         public int GenerateId()
         {
-            if (_ratings.Count == 0)
-            {
-                return 1;
-            }
-            return _ratings[_ratings.Count - 1].Id + 1;
+            return _ratings.Count == 0 ? 1 : _ratings[_ratings.Count - 1].Id + 1;
         }
 
         public void MarkAsInvalid(TourRating tourRating)

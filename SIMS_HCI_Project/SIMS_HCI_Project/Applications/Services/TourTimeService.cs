@@ -17,16 +17,6 @@ namespace SIMS_HCI_Project.Applications.Services
             _tourTimeRepository = Injector.Injector.CreateInstance<ITourTimeRepository>();
         }
 
-        public void Load()
-        {
-            _tourTimeRepository.Load();
-        }
-
-        public void Save()
-        {
-            _tourTimeRepository.Save();
-        }
-
         public TourTime GetById(int id)
         {
             return _tourTimeRepository.GetById(id);

@@ -41,7 +41,7 @@ namespace SIMS_HCI_Project.Repositories
             _fileHandler.Save(_tours);
         }
 
-        public Tour FindById(int id)
+        public Tour GetById(int id)
         {
             return _tours.Find(t => t.Id == id);
         }

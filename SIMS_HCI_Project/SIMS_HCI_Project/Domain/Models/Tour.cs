@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Domain.Models
 {
-    public class Tour : ISerializable, IDataErrorInfo, INotifyPropertyChanged, INotifyCollectionChanged 
+    public class Tour : ISerializable, IDataErrorInfo
     {
         public int Id { get; set; }
         public int GuideId { get; set; }
@@ -27,8 +27,7 @@ namespace SIMS_HCI_Project.Domain.Models
         public List<TourKeyPoint> KeyPoints { get; set; }
         public List<TourTime> DepartureTimes { get; set; }
         public int Duration { get; set; }
-       
-        public List<string> Images { get; set; } // [Maybe] TODO: Change to URI type
+        public List<string> Images { get; set; }
 
         public Tour() {
 
@@ -58,7 +57,6 @@ namespace SIMS_HCI_Project.Domain.Models
             Language = language;
             MaxGuests = maxGuestNumber;
             Duration = duration;
-            //Available = maxGuestNumber;
 
             Location = new Location();
             Images = new List<string>();
@@ -66,7 +64,7 @@ namespace SIMS_HCI_Project.Domain.Models
             KeyPoints = new List<TourKeyPoint>();
         }
 
-        public string[] ToCSV()     //anastaNOTE: add Available in csv or not?
+        public string[] ToCSV()
         {
             string[] csvValues = { Id.ToString(), GuideId.ToString(), Title, LocationId.ToString(), Description, Language, MaxGuests.ToString(), string.Join(",", KeyPointsIds), Duration.ToString(), string.Join(",", Images)};
             return csvValues;
@@ -129,17 +127,6 @@ namespace SIMS_HCI_Project.Domain.Models
         }
 
         private readonly string[] _validatedProperties = { "Title", "Description", "Language", "MaxGuests", "Duration", "DepartureTimes", "KeyPoints" };
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public event NotifyCollectionChangedEventHandler? CollectionChanged;
-
-        protected virtual void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
-        {
-            if (CollectionChanged != null)
-            {
-                CollectionChanged(this, e);
-            }
-        }
 
         public bool IsValid
         {

@@ -96,10 +96,6 @@ namespace SIMS_HCI_Project.Repositories
             return _reservations;
         }
 
-        public TourReservation FindById(int id)
-        {
-            return _reservations.Find(r => r.Id == id);
-        }
 
         public int GenerateId()
         {

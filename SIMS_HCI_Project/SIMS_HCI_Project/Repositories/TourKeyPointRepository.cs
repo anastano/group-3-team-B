@@ -39,17 +39,17 @@ namespace SIMS_HCI_Project.Repositories
             return _tourKeyPoints;
         }
 
-        public TourKeyPoint FindById(int id) //preimenuj u get
+        public TourKeyPoint GetById(int id)
         {
             return _tourKeyPoints.Find(tkp => tkp.Id == id);
         }
 
-        public List<TourKeyPoint> FindByIds(List<int> ids) //preimenuj u get
+        public List<TourKeyPoint> GetByIds(List<int> ids)
         {
             List<TourKeyPoint> tourKeyPoints = new List<TourKeyPoint>();
             foreach (int id in ids)
             {
-                tourKeyPoints.Add(FindById(id));
+                tourKeyPoints.Add(GetById(id));
             }
 
             return tourKeyPoints;

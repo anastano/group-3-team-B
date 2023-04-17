@@ -18,21 +18,10 @@ namespace SIMS_HCI_Project.Applications.Services
             _tourReservationRepository = Injector.Injector.CreateInstance<ITourReservationRepository>();
         }
 
-        public void Load()
-        {
-            _tourReservationRepository.Load();
-        }
-
-        public void Save()
-        {
-            _tourReservationRepository.Save();
-        }
-
         public void Add(TourReservation tourReservation)
         {
             _tourReservationRepository.Add(tourReservation);
         }
-       
 
         public List<TourReservation> GetAll()
         {
@@ -40,7 +29,7 @@ namespace SIMS_HCI_Project.Applications.Services
         }
         public TourReservation FindById(int id)
         {
-            return _tourReservationRepository.FindById(id);
+            return _tourReservationRepository.GetById(id);
         }
         public List<TourReservation> GetAllByTourTimeId(int id)
         {

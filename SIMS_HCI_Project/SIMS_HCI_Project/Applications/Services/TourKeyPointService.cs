@@ -18,16 +18,6 @@ namespace SIMS_HCI_Project.Applications.Services
             _tourKeyPointRepository = Injector.Injector.CreateInstance<ITourKeyPointRepository>();
         }
 
-        public void Load()
-        {
-            _tourKeyPointRepository.Load();
-        }
-
-        public void Save()
-        {
-            _tourKeyPointRepository.Save();
-        }
-
         public List<TourKeyPoint> GetAll()
         {
             return _tourKeyPointRepository.GetAll();
@@ -35,12 +25,12 @@ namespace SIMS_HCI_Project.Applications.Services
 
         public TourKeyPoint FindById(int id)
         {
-            return _tourKeyPointRepository.FindById(id);
+            return _tourKeyPointRepository.GetById(id);
         }
 
         public List<TourKeyPoint> FindByIds(List<int> ids)
         {
-            return _tourKeyPointRepository.FindByIds(ids);
+            return _tourKeyPointRepository.GetByIds(ids);
         }
     }
 }

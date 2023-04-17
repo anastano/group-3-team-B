@@ -76,6 +76,15 @@ namespace SIMS_HCI_Project.Repositories
             AddMultiple(givenTourVouchers);
         }
 
+        public void UseVoucher(TourVoucher selectedVoucher)
+        {
+            if (selectedVoucher == null) return;
+
+            TourVoucher voucher = GetById(selectedVoucher.Id);
+            voucher.Status = VoucherStatus.USED;
+            Save();
+        }
+
         public TourVoucher GetById(int id)
         {
             return _tourVouchers.Find(v => v.Id == id);

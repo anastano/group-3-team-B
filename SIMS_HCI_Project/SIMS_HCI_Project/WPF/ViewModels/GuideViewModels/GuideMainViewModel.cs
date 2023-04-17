@@ -13,9 +13,39 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 {
-    class GuideMainViewModel
+    class GuideMainViewModel : INotifyPropertyChanged
     {
-        
+        #region PropertyChanged
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        #endregion
+
+        public TourTime TourInProgress { get; set; }
+        public ObservableCollection<TourTime> TodaysTours { get; set; }
+
+        public Guide Guide { get; set; }
+
+        private TourService _tourService;
+
+        public GuideMainViewModel(Guide guide)
+        {
+            Guide = guide;
+
+            _tourService = new TourService();
+        }
+
+        private void LoadTourInProgress()
+        {
+
+        }
+
+        private void LoadTodaysTours()
+        {
+
+        }
 
     }
 }

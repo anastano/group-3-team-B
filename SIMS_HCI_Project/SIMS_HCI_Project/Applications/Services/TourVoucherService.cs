@@ -18,36 +18,26 @@ namespace SIMS_HCI_Project.Applications.Services
             _tourVoucherRepository = Injector.Injector.CreateInstance<ITourVoucherRepository>();
         }
 
-        public void Load()
-        {
-            _tourVoucherRepository.Load();
-        }
-
-        public void Save()
-        {
-            _tourVoucherRepository.Save();
-        }
-
         public void GiveVouchersToGuestsWithReservation(List<TourReservation> tourReservations)
         {
             _tourVoucherRepository.GiveVouchersToGuestsWithReservation(tourReservations);
         }
+
         public TourVoucher GetById(int id)
         {
             return _tourVoucherRepository.GetById(id);
         }
+
         public List<TourVoucher> GetValidVouchersByGuestId(int id)
         {
             return _tourVoucherRepository.GetValidVouchersByGuestId(id);
         }
+
         public void UseVoucher(TourVoucher selectedVoucher)
         {
-            if (selectedVoucher == null) return;
-
-            TourVoucher voucher = GetById(selectedVoucher.Id);
-            voucher.Status = VoucherStatus.USED;
-            Save();
+            _tourVoucherRepository.UseVoucher(selectedVoucher);
         }
+
         public void NotifyObservers()
         {
             _tourVoucherRepository.NotifyObservers();

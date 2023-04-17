@@ -7,7 +7,7 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
     {
         void Load();
         void Save();
-        Tour FindById(int id);
+        Tour GetById(int id);
         List<Tour> GetAll();
     }
 }

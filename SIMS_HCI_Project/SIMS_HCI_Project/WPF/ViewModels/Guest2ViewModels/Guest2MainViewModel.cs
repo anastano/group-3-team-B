@@ -60,9 +60,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             _tourKeyPointService = new TourKeyPointService();
 
 
-            _tourService.ConnectLocations(_locationService);
-            _tourService.ConnectKeyPoints(_tourKeyPointService);
-            _tourService.ConnectDepartureTimes(_tourTimeService);
+            _tourService.ConnectLocations();
+            _tourService.ConnectKeyPoints();
+            _tourService.ConnectDepartureTimes();
 
             //_tourTimeService.
             _tourReservationService.ConnectTourTimes(_tourTimeService);
@@ -103,7 +103,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public void ConnectTourByReservation() //TODO: move
         {
             TourTime = _tourTimeService.GetById(SelectedTourReservation.TourTimeId);
-            Tour = _tourService.FindById(TourTime.TourId);
+            Tour = _tourService.GetById(TourTime.TourId);
         }
         public void Executed_ShowImages(object obj)
         {

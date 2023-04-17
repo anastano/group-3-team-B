@@ -23,16 +23,6 @@ namespace SIMS_HCI_Project.Applications.Services
             _guestTourAttendanceRepository = Injector.Injector.CreateInstance<IGuestTourAttendanceRepository>();
         }
 
-        public void Save()
-        {
-            _tourRatingRepository.Save();
-        }
-
-        public void Load()
-        {
-            _tourRatingRepository.Load();
-        }
-
         public TourRating GetById(int id)
         {
             return _tourRatingRepository.GetById(id);

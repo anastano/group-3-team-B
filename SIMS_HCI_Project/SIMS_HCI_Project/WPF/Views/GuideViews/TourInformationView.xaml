@@ -17,22 +17,25 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Orientation="Vertical" Margin="20,20,20,20">
-                <TextBlock Text="Tour Title" Margin="0,0,0,10"></TextBlock>
-                <TextBlock Text="Tour Location" Margin="0,0,0,30"></TextBlock>
-                <TextBlock Text="This is some long description just for testing. I don't know what I'm writing yaaay, this should be wrapped" Margin="0,0,0,40" TextWrapping="Wrap"></TextBlock>
-                <TextBlock Text="Language: english"></TextBlock>
-                <TextBlock Text="Duration: 2h"></TextBlock>
-                <TextBlock Text="MaxGuests: 24" Margin="0,0,0,30"></TextBlock>
+                <TextBlock Text="{Binding Tour.Title}" Margin="0,0,0,10"></TextBlock>
+                <TextBlock Margin="0,0,0,30">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} ({1})">
+                            <Binding Path="Tour.Location.City"></Binding>
+                            <Binding Path="Tour.Location.Country"></Binding>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                <TextBlock Text="{Binding Tour.Description}" Margin="0,0,0,40" TextWrapping="Wrap"></TextBlock>
+                <TextBlock Text="{Binding Tour.Language, StringFormat=Language: {0}}"></TextBlock>
+                <TextBlock Text="{Binding Tour.Duration, StringFormat=Duration: {0}}"></TextBlock>
+                <TextBlock Text="{Binding Tour.MaxGuests, StringFormat=Max Guests: {0}}" Margin="0,0,0,30"></TextBlock>
                 <StackPanel Orientation="Horizontal">
-                    <Button Content="See Stats" Margin="0,0,40,0"></Button>
-                    <Button Content="See Reviews"></Button>
+                    <Button Content="See Stats" Margin="0,0,40,0" Command="{Binding SeeStatistics}"></Button>
+                    <Button Content="See Reviews" Command="{Binding SeeReviews}"></Button>
                 </StackPanel>
             </StackPanel>
-            <ListBox Grid.Column="1" Margin="20,20,20,20">
-                <ListBoxItem>Test</ListBoxItem>
-                <ListBoxItem>Test</ListBoxItem>
-                <ListBoxItem>Test</ListBoxItem>
-                <ListBoxItem>Test</ListBoxItem>
+            <ListBox Grid.Column="1" ItemsSource="{Binding Tour.Images}" Margin="20,20,20,20">
             </ListBox>
         </Grid>
         <Grid Grid.Row="1" Margin="20,10,20,20">
@@ -45,14 +48,14 @@
                     <Label Content="Departure Times" Margin="0,0,40,0"></Label>
                     <Button Content="Add Time"></Button>
                 </StackPanel>
-                <ListBox>
-                    <ListBoxItem>Test</ListBoxItem>
-                    <ListBoxItem>Test</ListBoxItem>
-                    <ListBoxItem>Test</ListBoxItem>
-                </ListBox>
+                <DataGrid ItemsSource="{Binding Tour.DepartureTimes}" SelectedItem="{Binding SelectedTourTime}" AutoGenerateColumns="False" IsReadOnly="True" Height="200">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Binding="{Binding DepartureTime}"></DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
             </StackPanel>
-            <Button Content="Cancel" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20,0,0,20"></Button>
-            <Button Content="Start Tour" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,20,20"></Button>
+            <Button Content="Cancel" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20,0,0,20" Command="{Binding CancelTour}"></Button>
+            <Button Content="Start Tour" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,20,20" Command="{Binding SeeTourProgress}"></Button>
         </Grid>
     </Grid>
 </Window>

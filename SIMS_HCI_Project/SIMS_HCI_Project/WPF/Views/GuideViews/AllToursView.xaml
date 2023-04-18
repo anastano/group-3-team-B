@@ -24,7 +24,7 @@
                 <Button Content="Filter" Margin="0,0,40,0" VerticalAlignment="Bottom"></Button>
             </StackPanel>
             <Button Content="Create new" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="0,0,30,30" Command="{Binding AddNewTour}"></Button>
-            <DataGrid ItemsSource="{Binding Path=AllTours, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="20,20,20,20" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid ItemsSource="{Binding Path=AllTours, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedTour}" Margin="20,20,20,20" AutoGenerateColumns="False" IsReadOnly="True">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Title" Binding="{Binding Path=Title}" Width="2*"></DataGridTextColumn>
                     <DataGridTextColumn Header="City" Binding="{Binding Path=Location.City}" Width="1*"></DataGridTextColumn>
@@ -35,7 +35,11 @@
                     <DataGridTemplateColumn Header="More info" Width="*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="INFO" Command="{StaticResource SeeTourInfo}">
+                                <Button Content="INFO" 
+                                    Command="{Binding RelativeSource={
+                                              RelativeSource Mode=FindAncestor,
+                                              AncestorType={x:Type Window}},
+                                              Path=DataContext.SeeTourInfo}">
                                 </Button>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

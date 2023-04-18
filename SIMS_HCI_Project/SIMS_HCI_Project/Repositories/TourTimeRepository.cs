@@ -73,6 +73,14 @@ namespace SIMS_HCI_Project.Repositories
             }
         }
 
+        public void Update(TourTime tourTime)
+        {
+            TourTime tourTimeUpdated = GetById(tourTime.Id);
+            tourTimeUpdated = tourTime;
+
+            Save();
+        }
+
         public void Add(TourTime tourTime)
         {
             tourTime.Id = GenerateId();
@@ -100,6 +108,11 @@ namespace SIMS_HCI_Project.Repositories
         private int GenerateId()
         {
             return _tourTimes.Count == 0 ? 1 : _tourTimes[_tourTimes.Count - 1].Id + 1;
+        }
+
+        public bool HasTourInProgress(int guideId)
+        {
+            return _tourTimes.Any(tt => tt.Tour.GuideId == guideId && tt.Status == TourStatus.IN_PROGRESS);
         }
 
         public void AssignTourToTourTimes(Tour tour, List<TourTime> tourTimes)

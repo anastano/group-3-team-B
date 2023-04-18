@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SIMS_HCI_Project.Domain.Models;
+using SIMS_HCI_Project.WPF.ViewModels.GuideViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,11 +19,13 @@ namespace SIMS_HCI_Project.WPF.Views.GuideViews
     /// <summary>
     /// Interaction logic for TourInProgressView.xaml
     /// </summary>
-    public partial class TourInProgressView : Window
+    public partial class TourProgressView : Window
     {
-        public TourInProgressView()
+        public TourProgressView(TourTime tour)
         {
             InitializeComponent();
+
+            this.DataContext = new TourProgressViewModel(tour);
         }
     }
 }

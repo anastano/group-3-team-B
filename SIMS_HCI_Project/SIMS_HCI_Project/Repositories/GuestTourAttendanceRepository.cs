@@ -44,6 +44,27 @@ namespace SIMS_HCI_Project.Repositories
             Save();
         }
 
+
+        public void AddMultiple(List<GuestTourAttendance> guestTourAttendances)
+        {
+            foreach (GuestTourAttendance guestTourAttendance in guestTourAttendances)
+            {
+                guestTourAttendance.Id = GenerateId();
+                _guestTourAttendances.Add(guestTourAttendance);
+            }
+            Save();
+        }
+
+        public void BulkUpdate(List<GuestTourAttendance> guestTourAttendances)
+        {
+            foreach (GuestTourAttendance guestTourAttendance in guestTourAttendances)
+            {
+                GuestTourAttendance toUpdate = GetById(guestTourAttendance.Id);
+                toUpdate = guestTourAttendance;
+            }
+            Save();
+        }
+
         public int GenerateId()
         {
             return _guestTourAttendances.Count == 0 ? 1 : _guestTourAttendances[_guestTourAttendances.Count - 1].Id + 1;

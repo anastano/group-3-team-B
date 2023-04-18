@@ -1,4 +1,5 @@
 ﻿using SIMS_HCI_Project.Applications.Services;
+using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands;
 using SIMS_HCI_Project.WPF.Views.GuideViews;
 using System;
@@ -29,8 +30,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         public RelayCommand SeeTourProgress { get; set; }
         #endregion
 
-        public TourInformationViewModel()
-        {
+        public Tour Tour { get; set; }
+        public TourTime SelectedTourTime { get; set; }
+
+        private TourLifeCycleService _tourLifeCycleService;
+
+        public TourInformationViewModel(Tour tour)
+        {   
+            Tour = tour;
+
+            _tourLifeCycleService = new TourLifeCycleService(); 
+
             InitCommands();
         }
 
@@ -38,7 +48,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         {
             SeeStatistics = new RelayCommand(ExecutedSeeStatisticsCommand, CanExecuteCommand);
             SeeReviews = new RelayCommand(ExecutedSeeReviewsCommand, CanExecuteCommand);
-            CancelTour = new RelayCommand(ExecutedCanceltourCommand, CanExecuteCommand);
+            CancelTour = new RelayCommand(ExecutedCancelTourCommand, CanExecuteCommand);
             SeeTourProgress = new RelayCommand(ExecutedSeeTourProgressCommand, CanExecuteCommand);
         }
 
@@ -50,16 +60,21 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         private void ExecutedSeeReviewsCommand(object obj)
         {
 
+            Window tourReviews = new TourReviewsView();
+            tourReviews.Show();
         }
 
-        private void ExecutedCanceltourCommand(object obj)
+        private void ExecutedCancelTourCommand(object obj)
         {
 
         }
 
         private void ExecutedSeeTourProgressCommand(object obj)
         {
-
+            _tourLifeCycleService.StartTour(SelectedTourTime);
+                
+            Window tourProgress = new TourProgressView(SelectedTourTime);
+            tourProgress.Show();
         }
 
         private bool CanExecuteCommand(object obj)

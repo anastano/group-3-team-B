@@ -21,6 +21,9 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         GuestTourAttendance GetById(int id);
         int GenerateId();
         void Add(GuestTourAttendance guestTourAttendance);
+        void AddMultiple(List<GuestTourAttendance> guestTourAttendances);
+
+        void BulkUpdate(List<GuestTourAttendance> guestTourAttendances);
         int GetGuestCountByAgeGroup(AgeGroup ageGroup, int tourTimeId);
         TourTime GetTourWithMostGuests();
         TourTime GetTourWithMostGuestsByYear(int year);

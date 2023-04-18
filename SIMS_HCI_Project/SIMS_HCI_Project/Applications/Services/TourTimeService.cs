@@ -38,6 +38,7 @@ namespace SIMS_HCI_Project.Applications.Services
             List<TourReservation> cancelledReservations = tourReservationService.CancelReservationsByTour(tourTime.TourId);
             tourVoucherService.GiveVouchersToGuestsWithReservation(cancelledReservations);
         }
+
         public void ConnectGuestAttendances(GuestTourAttendanceService guestTourAttendanceService)
         {
             foreach (TourTime tourTime in _tourTimeRepository.GetAll())

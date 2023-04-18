@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -40,6 +41,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             }
         }
 
+        public Tour SelectedTour { get; set; }
+
         private TourService _tourService;
 
         private Guide _guide;
@@ -72,7 +75,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         private void ExecutedSeeTourInfoCommand(object obj)
         {
-            Window tourInfo = new TourInformationView();
+            Trace.Write("aaaa");
+            Window tourInfo = new TourInformationView(SelectedTour);
             tourInfo.Show();
         }
 

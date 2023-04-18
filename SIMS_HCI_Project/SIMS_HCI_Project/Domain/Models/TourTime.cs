@@ -60,5 +60,10 @@ namespace SIMS_HCI_Project.Domain.Models
             Status = status;
             CurrentKeyPointIndex = Convert.ToInt32(values[4]);
         }
+
+        public bool IsAtLastKeyPoint()
+        {
+            return this.CurrentKeyPointIndex >= this.Tour.KeyPoints.Count - 1;
+        }
     }
 }

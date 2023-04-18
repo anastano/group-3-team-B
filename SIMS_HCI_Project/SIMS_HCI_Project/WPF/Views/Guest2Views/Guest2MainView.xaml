@@ -4,21 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels"
-        xmlns:local1="clr-namespace:SIMS_HCI_Project.View.Converters"
 
         mc:Ignorable="d"
         Title="Guest2MainView" Height="600" Width="1200" WindowStartupLocation="CenterScreen">
 
-    <!--Window.Resources>
-        <local:KeyPointConverter x:Key="KeyPointConverter"/>
-    </Window.Resources-->
 
     <Grid Background="Orange">
         <Button x:Name="btnSearch" Content="Search and reserve" HorizontalAlignment="Left" Margin="15,4,0,0" VerticalAlignment="Top" Height="32" Width="158" Command="{Binding SearchAndReserve}"/>
 
         <!--My reservations-->
         <DataGrid x:Name="dgReservedTours" 
-                  ItemsSource="{Binding Path=Guest.Reservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=SelectedTourReservation, UpdateSourceTrigger=PropertyChanged}"
+                  ItemsSource="{Binding Path=Reservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=SelectedTourReservation, UpdateSourceTrigger=PropertyChanged}"
                   IsReadOnly="True" AutoGenerateColumns="False" Margin="10,355,10,10">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="40"></DataGridTextColumn>
@@ -32,7 +28,6 @@
                 <DataGridTextColumn Header="Reservation status" Binding="{Binding Status}" Width="105"></DataGridTextColumn>
                 <DataGridTextColumn Header="Guide" Binding="{Binding TourTime.Tour.GuideId}" Width="50"></DataGridTextColumn>
                 <DataGridTextColumn Header="Voucher" Binding="{Binding TourVoucher.Title}" Width="80"></DataGridTextColumn >
-
 
 
                 <DataGridTemplateColumn Header="Images" Width="*">
@@ -54,7 +49,7 @@
 
         <!--My vouchers-->
         <DataGrid Name="dgVouchers" 
-           ItemsSource="{Binding Path=Guest.Vouchers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" Margin="10,69,742,424">
+           ItemsSource="{Binding Path=Vouchers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" Margin="10,69,742,424">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title" Binding="{Binding Title}" CanUserResize="False" IsReadOnly="True" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Expiration date" Binding="{Binding ExpirationDate}" Width="*"></DataGridTextColumn>
@@ -78,18 +73,6 @@
                 <DataGridTextColumn Header="Tour status" Binding="{Binding TourTime.Status}" Width="80"></DataGridTextColumn>
                 <DataGridTextColumn Header="Guide" Binding="{Binding TourTime.Tour.GuideId}" Width="50"></DataGridTextColumn>
                 <DataGridTextColumn Header="Current Key Point" Binding="{Binding Path=TourTime.CurrentKeyPoint.Title}" Width="150"></DataGridTextColumn>
-                <!--DataGridTextColumn Header="Current Key Point" Binding="{Binding CurrentKeyPoint}" ></DataGridTextColumn nacin sa stringom sa .Title-->
-
-                <!--DataGridTextColumn Header="Current Key Point" Binding="{Binding Path=TourTime.Tour.KeyPoints[AAA]}" Width="150"></DataGridTextColumn nadji AAA-->
-                <!--DataGridTextColumn Header="Current Key Point" Binding="{Binding Path=TourTime.Tour.KeyPoints[Binding TourTime.CurrentKeyPointIndex]}" Width="150"></DataGridTextColumn-->
-
-                <!--DataGridTextColumn Header="Current Key Point" 
-                    Width="150"
-                    Binding="{Binding Path=TourTime.Tour.KeyPoints, 
-                                      Converter={StaticResource KeyPointConverter}, 
-                                      ConverterParameter={Binding TourTime.CurrentKeyPointIndex}}"
-                /-->
-
 
                 <DataGridTemplateColumn Header="Confirm attendance" Width="*">
                     <DataGridTemplateColumn.CellTemplate>

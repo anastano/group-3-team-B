@@ -35,6 +35,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
         public RelayCommand CancelReservation { get; set; }
         public RelayCommand RateVisitedTours { get; set; }
         public RelayCommand ConfirmAttendance { get; set; }
+        public RelayCommand Logout { get; set; }
         public List<GuestTourAttendance> attendances { get; set; }
         public Guest2 Guest { get; set; }
         public TourTime TourTime { get; set; }
@@ -210,6 +211,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
             RateVisitedTours = new RelayCommand(Executed_RateVisitedTours, CanExecute_RateVisitedTours);
             SearchAndReserve = new RelayCommand(Executed_SearchAndReserve, CanExecute_SearchAndReserve);
             ConfirmAttendance = new RelayCommand(Executed_ConfirmAttendance, CanExecute_ConfirmAttendance);
+            Logout = new RelayCommand(Executed_Logout, CanExecute_Logout);
             //ShowImages = new RelayCommand(Executed_ShowImages, CanExecute_ShowImages);
             //CancelReservation = new RelayCommand(Executed_CancelReservation, CanExecute_CancelReservation);
         }
@@ -235,7 +237,19 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
         {
             return true;
         }
+        public void Executed_Logout(object obj)
+        {
+            foreach (Notification notification in _notificationService.GetUnreadByUserId(Guest.Id))
+            {
+                _notificationService.MarkAsRead(notification.Id);
+            }
+            Guest2MainView.Close();
+        }
 
+        public bool CanExecute_Logout(object obj)
+        {
+            return true;
+        }
         public void ConnectTourByReservation() //TODO: move
         {
             TourTime = _tourTimeService.GetById(SelectedTourReservation.TourTimeId);

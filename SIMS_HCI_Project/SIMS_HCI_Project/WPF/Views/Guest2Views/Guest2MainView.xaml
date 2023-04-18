@@ -10,7 +10,7 @@
 
 
     <Grid Background="Orange">
-        <Button x:Name="btnSearch" Content="Search and reserve" HorizontalAlignment="Left" Margin="15,4,0,0" VerticalAlignment="Top" Height="32" Width="158" Command="{Binding SearchAndReserve}"/>
+        <Button x:Name="btnSearch" Content="Search and reserve" HorizontalAlignment="Left" Margin="127,4,0,0" VerticalAlignment="Top" Height="32" Width="158" Command="{Binding SearchAndReserve}"/>
 
         <!--My reservations-->
         <DataGrid x:Name="dgReservedTours" 
@@ -55,7 +55,7 @@
                 <DataGridTextColumn Header="Expiration date" Binding="{Binding ExpirationDate}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Rate visited tours" Command="{Binding RateVisitedTours}" HorizontalAlignment="Left" Margin="211,4,0,0" VerticalAlignment="Top" Height="32" Width="134"/>
+        <Button Content="Rate visited tours" Command="{Binding RateVisitedTours}" HorizontalAlignment="Left" Margin="304,4,0,0" VerticalAlignment="Top" Height="32" Width="134"/>
 
         <!--Active tours-->
         <DataGrid x:Name="dgActiveTours"  
@@ -93,7 +93,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Label Content="{Binding AttendanceStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="380,6,664,528"/>
+        <Label Content="{Binding AttendanceStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="474,0,570,534"/>
 
 
         <TextBlock x:Name="tblActiveTours" Text="Active tours:" Foreground="Beige" HorizontalAlignment="Left" Margin="10,147,0,0" TextWrapping="Wrap" FontSize="18" VerticalAlignment="Top" Height="26" Width="158" RenderTransformOrigin="0.452,-0.398"/>
@@ -111,6 +111,7 @@
                 </ListView.View>
             </ListView>
         </StackPanel>
+        <Button Content="Logout" Command="{Binding Logout}" HorizontalAlignment="Left" Margin="10,4,0,0" VerticalAlignment="Top" Height="32" Width="97" Background="#FF29A8AB"/>
 
 
     </Grid>

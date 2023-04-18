@@ -15,9 +15,9 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;                   // TODO: dodaj logout i tada podesi notifikacije na procitane
-                                                            // TODO: napraavi nekako da se odmah cuva u csv kada se izmeni, da bi se moglo podrzati da kada se izloguje, nozi korisnik moze da vidi promene u csv koje je napravio stari korisnik
+                                                            
 
-namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje samo indeks trenutne TT, a treba da prikaze naziv keyPointa
+namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels 
 {
     public class Guest2MainViewModel : IObserver
     {
@@ -33,6 +33,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
         public RelayCommand SearchAndReserve { get; set; }
         public RelayCommand RateVisitedTours { get; set; }
         public RelayCommand ConfirmAttendance { get; set; }
+        public RelayCommand Logout { get; set; }
         #endregion
         private ObservableCollection<Notification> _notifications;
         public ObservableCollection<Notification> Notifications
@@ -82,27 +83,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
         public GuestTourAttendance GuestTourAttendance { get; set; }
         public Guest2MainView Guest2MainView { get; set; }
 
-        private TourKeyPoint _currentKeyPoint;
-        public TourKeyPoint CurrentKeyPointInd
-        {
-            get { return _currentKeyPoint; }
-            set
-            {
-                _currentKeyPoint = value;
-                OnPropertyChanged();
-            }
-        }
-        private AttendanceStatus _attendanceStatus;
-
-        public AttendanceStatus AttendanceStatus
-        {
-            get { return _attendanceStatus; }
-            set
-            {
-                _attendanceStatus = value;
-                OnPropertyChanged();
-            }
-        }
 
         private TourReservation _selectedActiveReservation;
         public TourReservation SelectedActiveReservation
@@ -131,15 +111,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
             MakeNotificationsForAttendanceConfirmation(); //add in TourProgressViewModel later
 
             Attendances = new List<GuestTourAttendance>();
-
-
+            TourTime = new TourTime();
+            GuestTourAttendance = new GuestTourAttendance();
             Reservations = new ObservableCollection<TourReservation>(_tourReservationService.GetAllByGuestId(guest.Id));
             Vouchers = new ObservableCollection<TourVoucher>(_tourVoucherService.GetValidVouchersByGuestId(guest.Id));
             ActiveTours = new ObservableCollection<TourReservation>(_tourReservationService.GetActiveByGuestId(guest.Id));
             Notifications = new ObservableCollection<Notification>(_notificationService.GetUnreadByUserId(Guest.Id));
 
-            TourTime = new TourTime();
-            GuestTourAttendance = new GuestTourAttendance();
             ShowNotifications();
 
             _tourReservationService.Subscribe(this);
@@ -178,6 +156,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
             RateVisitedTours = new RelayCommand(Executed_RateVisitedTours, CanExecute_RateVisitedTours);
             SearchAndReserve = new RelayCommand(Executed_SearchAndReserve, CanExecute_SearchAndReserve);
             ConfirmAttendance = new RelayCommand(Executed_ConfirmAttendance, CanExecute_ConfirmAttendance);
+            Logout = new RelayCommand(Executed_Logout, CanExecute_Logout);
         }
         #region Commands
         public void Executed_RateVisitedTours(object obj)
@@ -212,6 +191,19 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
         }
 
         public bool CanExecute_ConfirmAttendance(object obj)
+        {
+            return true;
+        }
+        public void Executed_Logout(object obj)
+        {
+            foreach (Notification notification in _notificationService.GetUnreadByUserId(Guest.Id))
+            {
+                _notificationService.MarkAsRead(notification.Id);
+            }
+            Guest2MainView.Close();
+        }
+
+        public bool CanExecute_Logout(object obj)
         {
             return true;
         }

@@ -99,6 +99,27 @@ namespace SIMS_HCI_Project.Repositories
             }
 
             Save();
+
+            return tourReservations;
+        }
+        public List<TourReservation> GetAllByGuestId(int id)
+        {
+            return _reservations.FindAll(r => r.Guest2Id == id);
+        }
+
+        public List<TourReservation> GetActiveByGuestId(int id)
+        {
+            return _reservations.FindAll(r => r.Guest2Id == id && r.TourTime.Status == TourStatus.IN_PROGRESS && r.Status == TourReservationStatus.GOING);
+        }
+
+        public List<TourReservation> GetAll()
+        {
+            return _reservations;
+        }
+
+        public TourReservation GetById(int id)
+        {
+            return _reservations.Find(r => r.Id == id);
         }
 
         private int GenerateId()

@@ -22,12 +22,17 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             _tourReservationRepository.Add(tourReservation);
         }
+       
+        public List<TourReservation> GetActiveByGuestId(int id)
+        {
+            return _tourReservationRepository.GetActiveByGuestId(id);
+        }
 
         public List<TourReservation> GetAll()
         {
             return _tourReservationRepository.GetAll();
         }
-        public TourReservation FindById(int id)
+        public TourReservation GetById(int id)
         {
             return _tourReservationRepository.GetById(id);
         }

@@ -20,6 +20,8 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         // FIX!
         List<TourReservation> GetUnratedReservations(int guestId, GuestTourAttendanceService guestTourAttendanceService, TourRatingService tourRatingService, TourService tourService);
 
+
+        List<TourReservation> CancelReservationsByTour(int tourTimeId);
         void NotifyObservers();
         void Subscribe(IObserver observer);
         void Unsubscribe(IObserver observer);

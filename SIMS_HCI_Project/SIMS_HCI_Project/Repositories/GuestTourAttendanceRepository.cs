@@ -109,6 +109,18 @@ namespace SIMS_HCI_Project.Repositories
             }
             return tourTimes;
         }
+        public List<GuestTourAttendance> GetByConfirmationRequestedStatus(int guestId)
+        {
+            var result = new List<GuestTourAttendance>();
+            foreach(var gta in GetAllByGuestId(guestId))
+            {
+                if(gta.Status == AttendanceStatus.CONFIRMATION_REQUESTED)
+                {
+                    result.Add(gta);
+                }
+            }
+            return result;
+        }
 
         public int GetGuestCountByAgeGroup(AgeGroup ageGroup, int tourTimeId)
         {
@@ -124,6 +136,15 @@ namespace SIMS_HCI_Project.Repositories
         {
             GuestTourAttendance attendance = GetByGuestAndTourTimeIds(guestId, tourTimeId);
             return _guestTourAttendances.Any(gta => gta.Status == AttendanceStatus.PRESENT);
+        }
+        public void ConfirmAttendanceForTourTime(int guestId, int tourTimeId)
+        {
+            GuestTourAttendance attendance = GetByGuestAndTourTimeIds(guestId, tourTimeId);
+            if (attendance.Status == AttendanceStatus.CONFIRMATION_REQUESTED)
+            {
+                attendance.Status = AttendanceStatus.PRESENT;
+                Save();
+            }
         }
     }
 }

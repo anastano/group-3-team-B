@@ -24,6 +24,7 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         
         void Add(GuestTourAttendance guestTourAttendance);
         void AddMultiple(List<GuestTourAttendance> guestTourAttendances);
+        void Update(GuestTourAttendance guestTourAttendance);
         void BulkUpdate(List<GuestTourAttendance> guestTourAttendances);
 
         // CLEAN!

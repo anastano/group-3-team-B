@@ -30,14 +30,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         #endregion
 
         public TourTime Tour { get; set; }
+        public GuestTourAttendance SelectedGuest { get; set; }
 
         private TourLifeCycleService _tourLifeCycleService;
+        private GuestTourAttendanceService _guestTourAttendanceService;
 
         public TourProgressViewModel(TourTime tour)
         {
             Tour = tour;
 
             _tourLifeCycleService = new TourLifeCycleService();
+            _guestTourAttendanceService = new GuestTourAttendanceService();
 
             InitCommands();
         }
@@ -51,7 +54,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         private void ExecutedMarkGuestPresentCommand(object obj)
         {
-            _tourLifeCycleService.CancelTour(Tour);
+            _guestTourAttendanceService.MarkGuestAsPresent(SelectedGuest);
         }
 
         private void ExecutedEndTourCommand(object obj)

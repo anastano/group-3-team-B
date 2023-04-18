@@ -87,7 +87,7 @@
                 </DataGrid>
             </StackPanel>
             <Button Content="Cancel" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20,0,0,20" Command="{Binding CancelTour}" Style="{StaticResource CancelButton}"></Button>
-            <Button Content="Start Tour" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,20,20" Command="{Binding SeeTourProgress}" Style="{StaticResource StartButton}"></Button>
+            <Button Content="Start Tour" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,20,20" Command="{Binding SeeTourProgress}" ></Button>
         </Grid>
     </Grid>
 </Window>

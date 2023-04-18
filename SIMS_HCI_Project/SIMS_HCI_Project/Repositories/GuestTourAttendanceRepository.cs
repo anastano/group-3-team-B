@@ -56,6 +56,13 @@ namespace SIMS_HCI_Project.Repositories
             Save();
         }
 
+        public void Update(GuestTourAttendance guestTourAttendance)
+        {
+            GuestTourAttendance toUpdate = GetById(guestTourAttendance.Id);
+            toUpdate = guestTourAttendance;
+            Save();
+        }
+
         public void BulkUpdate(List<GuestTourAttendance> guestTourAttendances)
         {
             foreach (GuestTourAttendance guestTourAttendance in guestTourAttendances)

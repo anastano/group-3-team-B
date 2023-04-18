@@ -31,7 +31,7 @@
             <StackPanel Orientation="Vertical" Grid.Column="1" Margin="20,40,20,20">
                 <Button Content="End tour before last key point" Height="60" HorizontalAlignment="Left"  VerticalAlignment="Top" Margin="10,10,10,60" Command="{Binding EndTour}"></Button>
                 <Label Content="Guest list"></Label>
-                <DataGrid ItemsSource="{Binding Path=Tour.GuestAttendances, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=SelectedGuest}" AutoGenerateColumns="False" IsReadOnly="True">
+                <DataGrid ItemsSource="{Binding Path=Tour.GuestAttendances, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=SelectedGuest}" AutoGenerateColumns="False" IsReadOnly="True" Height="304">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Guest" Binding="{Binding GuestId}" Width="2*"></DataGridTextColumn>
                         <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="2*"></DataGridTextColumn>

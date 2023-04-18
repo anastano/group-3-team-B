@@ -43,7 +43,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             InitCommands();
             LoadFromFiles();
 
-            Tours = new ObservableCollection<Tour>(_tourService.GetAll());
+            Tours = new ObservableCollection<Tour>(_tourService.GetAllTourInformation());
            
             
         }

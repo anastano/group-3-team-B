@@ -103,7 +103,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public void ConnectTourByReservation() //TODO: move
         {
             TourTime = _tourTimeService.GetById(SelectedTourReservation.TourTimeId);
-            Tour = _tourService.GetById(TourTime.TourId);
+            Tour = _tourService.GetTourInformation(TourTime.TourId);
         }
         public void Executed_ShowImages(object obj)
         {

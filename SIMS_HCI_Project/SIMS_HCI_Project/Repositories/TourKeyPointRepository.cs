@@ -44,7 +44,7 @@ namespace SIMS_HCI_Project.Repositories
             return _tourKeyPoints.Find(tkp => tkp.Id == id);
         }
 
-        public List<TourKeyPoint> GetByIds(List<int> ids)
+        public List<TourKeyPoint> GetByIds(List<int> ids) // make one liner #New
         {
             List<TourKeyPoint> tourKeyPoints = new List<TourKeyPoint>();
             foreach (int id in ids)
@@ -54,5 +54,28 @@ namespace SIMS_HCI_Project.Repositories
 
             return tourKeyPoints;
         }
+
+        public void Add(TourKeyPoint tourKeyPoint)
+        {
+            tourKeyPoint.Id = GenerateId();
+            _tourKeyPoints.Add(tourKeyPoint);
+            Save();
+        }
+
+        public void AddMultiple(List<TourKeyPoint> tourKeyPoints)
+        {
+            foreach (TourKeyPoint tourKeyPoint in tourKeyPoints)
+            {
+                tourKeyPoint.Id = GenerateId();
+                _tourKeyPoints.Add(tourKeyPoint);
+            }
+            Save();
+        }
+
+        private int GenerateId()
+        {
+            return _tourKeyPoints.Count == 0 ? 1 : _tourKeyPoints[_tourKeyPoints.Count - 1].Id + 1;
+        }
+
     }
 }

@@ -25,14 +25,57 @@ namespace SIMS_HCI_Project.Applications.Services
             _tourKeyPointRepository = Injector.Injector.CreateInstance<ITourKeyPointRepository>();
         }
 
-        public List<Tour> GetAll()
+        public List<Tour> GetAllTourInformation()
         {
             return _tourRepository.GetAll();
         }
 
-        public Tour GetById(int id)
+        public List<Tour> GetAllTourInformationByGuide(int guideId)
         {
-            return _tourRepository.GetById(id);
+            return _tourRepository.GetAllByGuide(guideId);
+        }
+
+        public Tour GetTourInformation(int tourId)
+        {
+            return _tourRepository.GetById(tourId);
+        }
+
+        public TourTime GetTourInstance(int tourTimeId)
+        {
+            return _tourTimeRepository.GetById(tourTimeId);
+        }
+
+        public List<TourTime> GetToursByGuide(int guideId)
+        {
+            return _tourTimeRepository.GetAllByGuideId(guideId);
+        }
+
+        public List<TourTime> GetTodaysToursByGuide(int guideId)
+        {
+            List<TourTime> guideTours = GetToursByGuide(guideId);
+            return guideTours.Where(t => t.DepartureTime.Date == DateTime.Today).ToList();
+        }
+
+        public TourTime GetActiveTour(int guideId)
+        {
+            List<TourTime> guideTours = GetToursByGuide(guideId);
+            return guideTours.Find(t => t.Status == TourStatus.IN_PROGRESS);
+        }
+
+        public void Add(Tour tour)
+        {
+            tour.Location = _locationRepository.GetOrAdd(tour.Location);
+            tour.LocationId = tour.Location.Id;
+
+            _tourKeyPointRepository.AddMultiple(tour.KeyPoints);
+            tour.KeyPointsIds = tour.KeyPoints.Select(c => c.Id).ToList();
+
+            _tourRepository.Add(tour);
+
+            _tourTimeRepository.AssignTourToTourTimes(tour, tour.DepartureTimes);
+            _tourTimeRepository.AddMultiple(tour.DepartureTimes);
+
+            tour.Guide.Tours.Add(tour); // maybe remove Guide #New
         }
 
         #region Connections
@@ -47,7 +90,7 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             foreach (TourTime tourTime in _tourTimeRepository.GetAll())
             {
-                tourTime.Tour = GetById(tourTime.TourId);
+                tourTime.Tour = GetTourInformation(tourTime.TourId);
                 tourTime.Tour.DepartureTimes.Add(tourTime);
             }
         }

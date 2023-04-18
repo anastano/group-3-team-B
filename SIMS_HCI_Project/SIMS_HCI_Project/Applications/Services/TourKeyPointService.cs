@@ -11,6 +11,7 @@ namespace SIMS_HCI_Project.Applications.Services
 {
     public class TourKeyPointService
     {
+        // delete entire service #New
         private readonly ITourKeyPointRepository _tourKeyPointRepository;
 
         public TourKeyPointService()

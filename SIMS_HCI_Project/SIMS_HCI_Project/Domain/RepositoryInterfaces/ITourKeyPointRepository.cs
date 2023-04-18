@@ -9,5 +9,8 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         List<TourKeyPoint> GetAll();
         TourKeyPoint GetById(int id);
         List<TourKeyPoint> GetByIds(List<int> ids);
+
+        void Add(TourKeyPoint tourKeyPoint);
+        void AddMultiple(List<TourKeyPoint> tourKeyPoints);
     }
 }

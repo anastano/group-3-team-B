@@ -5,9 +5,9 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
 {
     public interface ITourRepository
     {
-        void Load();
-        void Save();
         Tour GetById(int id);
         List<Tour> GetAll();
+        List<Tour> GetAllByGuide(int guideId);
+        void Add(Tour tour);
     }
 }

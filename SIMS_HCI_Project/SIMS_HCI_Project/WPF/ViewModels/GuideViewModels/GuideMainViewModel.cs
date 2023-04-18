@@ -2,6 +2,7 @@
 using SIMS_HCI_Project.Domain.DTOs;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands;
+using SIMS_HCI_Project.WPF.Views.GuideViews;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 {
@@ -23,8 +25,31 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         }
         #endregion
 
-        public TourTime TourInProgress { get; set; }
-        public ObservableCollection<TourTime> TodaysTours { get; set; }
+        #region Commands
+        public RelayCommand SeeAllTours { get; set; }
+        #endregion
+
+        private TourTime _tourInProgress;
+        public TourTime TourInProgress
+        {
+            get { return _tourInProgress; }
+            set
+            {
+                _tourInProgress = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private ObservableCollection<TourTime> _todaysTours;
+        public ObservableCollection<TourTime> TodaysTours
+        {
+            get { return _todaysTours; }
+            set
+            {
+                _todaysTours = value;
+                OnPropertyChanged();
+            }
+        }
 
         public Guide Guide { get; set; }
 
@@ -35,16 +60,37 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             Guide = guide;
 
             _tourService = new TourService();
+            _tourService.LoadConnections();
+
+            LoadTourInProgress();
+            LoadTodaysTours();
+            InitCommands();
+        }
+
+        private void InitCommands()
+        {
+            SeeAllTours = new RelayCommand(ExecutedSeeAllToursCommand, CanExecuteCommand);
         }
 
         private void LoadTourInProgress()
         {
-
+            TourInProgress = _tourService.GetActiveTour(Guide.Id);
         }
 
         private void LoadTodaysTours()
         {
+            TodaysTours = new ObservableCollection<TourTime>(_tourService.GetTodaysToursByGuide(Guide.Id));
+        }
 
+        private void ExecutedSeeAllToursCommand(object obj)
+        {
+            Window allTours = new AllToursView(_tourService, Guide);
+            allTours.Show();
+        }
+
+        private bool CanExecuteCommand(object obj)
+        {
+            return true;
         }
 
     }

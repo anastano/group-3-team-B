@@ -24,6 +24,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public ReservationsView ReservationsView { get; set; }
         public AccommodationReservation Reservation { get; set; }
         public RelayCommand ReviewReservationCommand { get; set; }
+        public RelayCommand CancelReviewCommand { get; set; }
+        public RelayCommand RemoveImageCommand { get; set; }
+        public RelayCommand AddImageCommand { get; set; }
 
         private Frame frame;
         public Frame Frame
@@ -31,7 +34,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             get { return frame; }
             set { frame = value; }
         }
-
+        public ObservableCollection<string> Images { get; set; }
         private int _cleanliness;
         public int Cleanliness
         {
@@ -71,15 +74,15 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
-        private String _images;
-        public String Images
+        private String _imageUrl;
+        public String ImageUrl
         {
-            get => _images;
+            get => _imageUrl;
             set
             {
-                if (value != _images)
+                if (value != _imageUrl)
                 {
-                    _images = value;
+                    _imageUrl = value;
                     OnPropertyChanged();
                 }
             }
@@ -95,25 +98,46 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _accommodationReservationService = reservationService;
             _ratingService = new RatingGivenByGuestService();
             RatingReservationView = ratingReservationView;
-            //Guest1MainView = guest1MainView;
-            //ReservationsView = reservationsView;
             Reservation = reservation;
+            Images = new ObservableCollection<string>();
             InitCommands();
         }
-        public void Executed_ReviewReservationCommand(object obj)
+        public void ExecutedReviewReservationCommand(object obj)
         {
-            _ratingService.Add(new RatingGivenByGuest(Reservation.Id, Cleanliness, Correcntess, AdditionalComment, Images));
-            //Guest1MainView.MainGuestFrame.Content = ReservationsView;
+            _ratingService.Add(new RatingGivenByGuest(Reservation.Id, Cleanliness, Correcntess, AdditionalComment, new List<string>(Images)));
             this.Frame.Navigate(new ReservationsView(_accommodationReservationService, Reservation.Guest));
         }
+        public void ExecutedCancelReviewCommand(object obj)
+        {
+            this.Frame.Navigate(new ReservationsView(_accommodationReservationService, Reservation.Guest));
+        }
+        public void ExecutedRemoveImageCommand(object obj)
+        {
+            if (RatingReservationView.lbImages.SelectedItem != null)
+            {
+                Images.RemoveAt(RatingReservationView.lbImages.SelectedIndex);
+            }
 
-        public bool CanExecute_ReviewReservationCommand(object obj)
+        }
+        public void ExecutedAddImageCommand(object obj)
+        {
+            if (!ImageUrl.Equals(""))
+            {
+                Images.Add(ImageUrl);
+                ImageUrl = "";
+            }
+        }
+
+        public bool CanExecute(object obj)
         {
             return true;
         }
         public void InitCommands()
         {
-            ReviewReservationCommand = new RelayCommand(Executed_ReviewReservationCommand, CanExecute_ReviewReservationCommand);
+            ReviewReservationCommand = new RelayCommand(ExecutedReviewReservationCommand, CanExecute);
+            CancelReviewCommand = new RelayCommand(ExecutedCancelReviewCommand, CanExecute);
+            RemoveImageCommand = new RelayCommand(ExecutedRemoveImageCommand, CanExecute);
+            AddImageCommand = new RelayCommand(ExecutedAddImageCommand, CanExecute);
         }
     }
 }

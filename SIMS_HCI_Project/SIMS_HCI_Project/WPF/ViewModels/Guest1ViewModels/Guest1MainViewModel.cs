@@ -28,29 +28,20 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         private RescheduleRequestService _requestService;
         private NotificationService _notificationService;
         private RatingGivenByGuestService _ratingService;
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
         public Guest1MainView Guest1MainView { get; set; }
         public Guest1 Guest { get; set; }
-        public ObservableCollection<AccommodationReservation> ReservationsInProgress { get; set; }
-        public ObservableCollection<Notification> Notifications { get; set; }
-
         public RelayCommand ShowReservationsCommand { get; set; }
-        public RelayCommand ShowPendingRequestsCommand { get; set; }
+        public RelayCommand ShowProfileCommand { get; set; }
         public RelayCommand LogoutCommand { get; set; }
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public Guest1MainViewModel(Guest1MainView guest1MainView, Guest1 guest)
         {
             Guest1MainView = guest1MainView;
             Guest = guest;
-
             LoadFromFiles();
             InitCommands();
-
-            //ReservationsInProgress = new ObservableCollection<AccommodationReservation>(_reservationService.GetInProgressByOwnerId(Owner.Id));
-            Notifications = new ObservableCollection<Notification>(_notificationService.GetUnreadByUserId(Guest.Id));
-            //ShowNotifications();
+            Guest1MainView.MainGuestFrame.Content = new ProfileView(Guest);
 
         }
 
@@ -74,7 +65,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public void ExecutedShowReservationsCommand(object obj)
         {
             Guest1MainView.MainGuestFrame.Navigate(new ReservationsView(_reservationService, Guest));
-            //OnPropertyChanged();
         }
 
         public bool CanExecute(object obj)
@@ -89,9 +79,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             }
             Guest1MainView.Close();
         }
+        public void ExecutedShowProfileCommand(object obj)
+        {
+            Guest1MainView.MainGuestFrame.Navigate(new ProfileView(Guest));
+        }
         public void InitCommands()
         {
             ShowReservationsCommand = new RelayCommand(ExecutedShowReservationsCommand, CanExecute);
+            ShowProfileCommand = new RelayCommand(ExecutedShowProfileCommand, CanExecute);
             LogoutCommand = new RelayCommand(ExecutedLogoutCommand, CanExecute);
         }
     }

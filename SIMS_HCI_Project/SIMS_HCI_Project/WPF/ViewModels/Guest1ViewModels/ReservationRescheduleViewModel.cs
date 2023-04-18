@@ -66,7 +66,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             RescheduleRequests = new ObservableCollection<RescheduleRequest>(_rescheduleRequestService.GetAllByOwnerId(Reservation.Accommodation.OwnerId));
             InitCommands();
         }
-        public void Executed_SendReservationRescheduleRequestCommand(object obj)
+        public void ExecutedSendReservationRescheduleRequestCommand(object obj)
         {
             MessageBoxResult result = ConfirmRescheduleRequest();
             if (result == MessageBoxResult.Yes)
@@ -94,7 +94,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         }
         public void InitCommands()
         {
-            SendReservationRescheduleRequestCommand = new RelayCommand(Executed_SendReservationRescheduleRequestCommand, CanExecute);
+            SendReservationRescheduleRequestCommand = new RelayCommand(ExecutedSendReservationRescheduleRequestCommand, CanExecute);
         }        
     }
 }

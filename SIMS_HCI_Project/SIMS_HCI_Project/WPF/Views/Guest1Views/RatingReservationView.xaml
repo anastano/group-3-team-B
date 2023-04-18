@@ -8,6 +8,34 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="RatingReservationView"
       Background="#f5f5f5">
+    <Page.Resources>
+        <Style x:Key="circleButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Margin" Value="5 0 0 0"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Foreground" Value="Azure"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="15"
+                            Background="Turquoise"
+                            BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"></ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="ValidationTemplate">
+            <StackPanel>
+                <AdornedElementPlaceholder x:Name="textBox" />
+                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" FontSize="12" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </ControlTemplate>
+    </Page.Resources>
 
     <Grid Margin="30 30 30 30">
         <Grid.ColumnDefinitions>
@@ -25,17 +53,48 @@
         </Grid.RowDefinitions>
         <Label Content="Review owner and accommodation (required): " Grid.Row="0" Grid.Column="0"></Label>
         <Label Content="Owner: " Grid.Row="1" Grid.Column="0"></Label>
-        <TextBox x:Name="Owner" Grid.Row="1" Grid.Column="1" Text="{Binding Path=Reservation.Accommodation.Owner, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+        <TextBox x:Name="Owner" Grid.Row="1" Grid.Column="1" Text="{Binding Path=Reservation.Accommodation.Owner.Name, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
         <Label Content="Accommodation cleanliness (1-5): " Grid.Row="2" Grid.Column="0"></Label>
-        <TextBox x:Name="Cleanliness" Grid.Row="2" Grid.Column="1" Text="{Binding Path=Cleanliness, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox x:Name="Cleanliness" Grid.Row="2" Grid.Column="1" Text="{Binding Path=Cleanliness, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+            Validation.ErrorTemplate="{StaticResource ValidationTemplate}"/>
         <Label Content="Owner correctness (1-5):" Grid.Row="3" Grid.Column="0"></Label>
-        <TextBox x:Name="Corecntess" Grid.Row="3" Grid.Column="1" Text="{Binding Path=Correctness, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox x:Name="Corecntess" Grid.Row="3" Grid.Column="1" Text="{Binding Path=Correctness, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                 Validation.ErrorTemplate="{StaticResource ValidationTemplate}"/>
         <Label Content="Image URLs:" Grid.Row="4" Grid.Column="0"></Label>
-        <TextBox x:Name="Images" Grid.Row="4" Grid.Column="1" Text="{Binding Path=Images, UpdateSourceTrigger=PropertyChanged}"/>
+        <StackPanel Grid.Row="4" Grid.Column="1">
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  >
+
+                <TextBox x:Name="txtPictureURL"  
+                                    Text="{Binding Path = ImageUrl, UpdateSourceTrigger = PropertyChanged, ValidatesOnDataErrors=True}"
+                                    Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
+                                     Width="300" TextWrapping="Wrap">
+                </TextBox>
+
+                <Button x:Name="btnAddImage" Command="{Binding DataContext.AddImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Content="(Ins)" 
+                                     Style="{StaticResource ResourceKey=circleButtonStyle}">
+                </Button>
+
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <ListBox x:Name="lbImages" ItemsSource="{Binding Path=Images, UpdateSourceTrigger=PropertyChanged}" 
+                                  Height="80" Width="320" BorderBrush="Turquoise" FontSize="16" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                </ListBox>
+
+                <Button x:Name="btnRemoveImage" Command="{Binding DataContext.RemoveImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"  Content="(Del)" 
+                                     Style="{StaticResource ResourceKey=circleButtonStyle}">
+                </Button>
+            </StackPanel>
+        </StackPanel>
         <Label Content="Aditional comment:" Grid.Row="5" Grid.Column="0"></Label>
         <TextBox x:Name="Comment" Grid.Row="5" Grid.Column="1" Text="{Binding Path=AdditionalComment, UpdateSourceTrigger=PropertyChanged}"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Center">
+            <Button Content="Cancel" Command="{Binding DataContext.CancelReviewCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
+                    Margin=" 5, 0, 55, 0"/>
+            <Button Content="Review" Command="{Binding DataContext.ReviewReservationCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
+        </StackPanel>
 
-        <Button Content="Review" Grid.Row="6" Grid.Column="1" Command="{Binding DataContext.ReviewReservationCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
-        <Frame x:Name="ReservationRatingFrame" NavigationUIVisibility="Hidden"/>
+        <Frame x:Name="ReservationRatingFrame" NavigationUIVisibility="Hidden" Margin="-30,-28,-31,-27" Grid.RowSpan="7" Grid.ColumnSpan="2"/>
     </Grid>
 </Page>

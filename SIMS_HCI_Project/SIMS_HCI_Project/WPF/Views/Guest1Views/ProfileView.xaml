@@ -1,0 +1,148 @@
+﻿<Page x:Class="SIMS_HCI_Project.WPF.Views.Guest1Views.ProfileView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest1Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="900"
+      Title="ProfileView"
+      Background="#f5f5f5">
+    <Page.Resources>
+        <SolidColorBrush x:Key="clrPrimary" Color="Azure" />
+        <SolidColorBrush x:Key="clrSecondary" Color="Turquoise"/>
+
+        <Style x:Key="fancyButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="250"/>
+            <Setter Property="Height" Value="45"/>
+            <Setter Property="Margin" Value="0 5 0 5"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Foreground" Value="Azure"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="15"
+                            Background="Turquoise"
+                            BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"></ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Style.Triggers>
+                <Trigger Property="IsKeyboardFocused" Value="True">
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect Color="LightBlue" Opacity="50" ShadowDepth="10"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="fancyTitle" TargetType="TextBlock">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="Foreground" Value="Turquoise"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0 0 0 5"/>
+        </Style>
+
+        <Style x:Key="fancyNotifications" TargetType="TextBox">
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Width" Value="420"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Margin" Value="0 5 0 0 "/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Background" Value="Azure"/>
+            <Setter Property="BorderBrush" Value="Coral"/>
+            <Setter Property="Foreground" Value="Coral"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="Focusable" Value="False"/>
+        </Style>
+
+        <Style x:Key="fancyBorder" TargetType="Border">
+            <Setter Property="BorderBrush" Value="Turquoise"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="CornerRadius" Value="15"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+        <Style TargetType="ListView">
+            <Setter Property="Background" Value="Azure"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="Coral"/>
+            <Setter Property="Foreground" Value="Coral"/>
+            <Setter Property="FontSize" Value="13"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid>
+        <StackPanel Orientation="Horizontal">
+            <!-- My Profile STACK PANEL-->
+            <StackPanel Margin="0 100 0 0" Width="470">
+                <TextBlock x:Name="tblMyProfile" Text="My Profile" 
+                           Style="{StaticResource ResourceKey=fancyTitle}">
+                </TextBlock>
+                <Border Style="{StaticResource ResourceKey=fancyBorder}">
+                    <StackPanel Width="430" Height="210" Orientation="Horizontal">
+                        <Border Style="{StaticResource fancyBorder}" Margin="10">
+                            <Grid>
+                                <Image Source="../../../Resources/Images/profil.png"  Width="150" Height="170" Margin="15 15 20 0"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                            </Grid>
+                        </Border>
+                        <StackPanel Orientation="Vertical" Width="210" Margin="10">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Name:  " FontSize="20" HorizontalAlignment="Left" Margin="0 10 0 0"
+                                        Style="{StaticResource ResourceKey=fancyTitle}">
+                                </TextBlock>
+                                <TextBlock  Text="{Binding Path = Guest.Name, UpdateSourceTrigger = PropertyChanged}" 
+                                                    FontSize="20" HorizontalAlignment="Left" Margin="0 10 0 0"
+                                                    Style="{StaticResource ResourceKey=fancyTitle}">
+                                </TextBlock>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Surname:  " FontSize="20" HorizontalAlignment="Left" Margin="0 0 0 0"
+                                        Style="{StaticResource ResourceKey=fancyTitle}">
+                                </TextBlock>
+                                <TextBlock  Text="{Binding Path = Guest.Surname, UpdateSourceTrigger = PropertyChanged}" 
+                                                    FontSize="20" HorizontalAlignment="Left" Margin="0 0 0 0"
+                                                    Style="{StaticResource ResourceKey=fancyTitle}">
+                                </TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+            <!-- Notifications STACK PANEL-->
+            <StackPanel Margin="0 100 0 0" Width="428">
+                <TextBlock x:Name="tblNotifications" Text="Notifications" 
+                           Style="{StaticResource ResourceKey=fancyTitle}">
+                </TextBlock>
+                <Border Style="{StaticResource ResourceKey=fancyBorder}">
+                    <StackPanel Width="416" Height="210">
+
+                        <StackPanel x:Name="spNotifications">
+                        </StackPanel>
+
+                        <ListView x:Name="lvNotifications" Margin="10 10 10 10" Width="398" Height="190" ItemsSource="{Binding Notifications}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding Message}" TextWrapping="Wrap" />
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

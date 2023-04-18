@@ -61,8 +61,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
         {
             get {
                 
-                    ActiveGuestAttendance = _guestTourAttendanceService.GetByGuestAndTourTimeIds(SelectedActiveReservation.Guest2Id, SelectedActiveReservation.TourTimeId);
-                    _attendanceStatus = ActiveGuestAttendance.Status;
+                   /* ActiveGuestAttendance = _guestTourAttendanceService.GetByGuestAndTourTimeIds(SelectedActiveReservation.Guest2Id, SelectedActiveReservation.TourTimeId);
+                    _attendanceStatus = ActiveGuestAttendance.Status;*/
 
                 return _attendanceStatus; }
             set
@@ -79,8 +79,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
             set
             {
                 _selectedActiveReservation = value;
-                ActiveGuestAttendance = _guestTourAttendanceService.GetByGuestAndTourTimeIds(SelectedActiveReservation.Guest2Id, SelectedActiveReservation.TourTimeId);
-                _attendanceStatus = ActiveGuestAttendance.Status;
+                /*ActiveGuestAttendance = _guestTourAttendanceService.GetByGuestAndTourTimeIds(SelectedActiveReservation.Guest2Id, SelectedActiveReservation.TourTimeId);
+                _attendanceStatus = ActiveGuestAttendance.Status;*/
                 OnPropertyChanged();
             }
         }
@@ -145,14 +145,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
                 _AAA = TourTime.CurrentKeyPointIndex;
 
             }*/
-            SelectedActiveReservation = ActiveTours[0];
+            /*SelectedActiveReservation = ActiveTours[0];
             if(SelectedActiveReservation != null)
             {
                 ActiveGuestAttendance = _guestTourAttendanceService.GetByGuestAndTourTimeIds(SelectedActiveReservation.Guest2Id, SelectedActiveReservation.TourTimeId);
                 _attendanceStatus = ActiveGuestAttendance.Status;
 
-            }
-            ActiveGuestAttendance = _guestTourAttendanceService.GetByGuestAndTourTimeIds(SelectedActiveReservation.Guest2Id, SelectedActiveReservation.TourTimeId);
+            }*/
+            /*ActiveGuestAttendance = _guestTourAttendanceService.GetByGuestAndTourTimeIds(SelectedActiveReservation.Guest2Id, SelectedActiveReservation.TourTimeId);*/
             //ActiveGuestAttendance = _guestTourAttendanceService.GetByGuestAndTourTimeIds(SelectedActiveReservation.Guest2Id, SelectedActiveReservation.TourTimeId);
             //AttendanceStatus = ActiveGuestAttendance.Status;
             MakeNotificationsForAttendanceConfirmation(); //mozda podati posle u TourProgressViewModel

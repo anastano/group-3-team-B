@@ -20,7 +20,6 @@ namespace SIMS_HCI_Project.Applications.Services
         private readonly IUserRepository _userRepository;
         private readonly ITourTimeRepository _tourTimeRepository;
 
-
         public GuestTourAttendanceService()
         {
             _guestTourAttendanceRepository = Injector.Injector.CreateInstance<IGuestTourAttendanceRepository>();
@@ -28,16 +27,6 @@ namespace SIMS_HCI_Project.Applications.Services
             _userRepository = Injector.Injector.CreateInstance<IUserRepository>();
             _tourTimeRepository = Injector.Injector.CreateInstance<ITourTimeRepository>();
             _tourReservationRepository = Injector.Injector.CreateInstance<ITourReservationRepository>();
-        }
-
-        public void Load()
-        {
-            _guestTourAttendanceRepository.Load();
-        }
-
-        public void Save()
-        {
-            _guestTourAttendanceRepository.Save();
         }
 
         public void Add(GuestTourAttendance guestTourAttendance)
@@ -69,9 +58,9 @@ namespace SIMS_HCI_Project.Applications.Services
             return _guestTourAttendanceRepository.IsPresent(guestId, tourTimeId);
         }
 
-        public List<TourTime> GetTourTimesWhereGuestWasPresent(int guestId, TourTimeService tourTimeService)
+        public List<TourTime> GetTourTimesWhereGuestWasPresent(int guestId, TourService tourService)
         {
-            return _guestTourAttendanceRepository.GetTourTimesWhereGuestWasPresent(guestId, tourTimeService);
+            return _guestTourAttendanceRepository.GetTourTimesWhereGuestWasPresent(guestId, tourService);
         }
 
         public void LoadConnections()
@@ -94,6 +83,7 @@ namespace SIMS_HCI_Project.Applications.Services
             foreach (GuestTourAttendance guestTourAttendance in _guestTourAttendanceRepository.GetAll())
             {
                 guestTourAttendance.TourTime = _tourTimeRepository.GetById(guestTourAttendance.TourTimeId);
+                guestTourAttendance.TourTime.GuestAttendances.Add(guestTourAttendance);
             }
         }
 
@@ -108,9 +98,16 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             _guestTourAttendanceRepository.ConfirmAttendanceForTourTime(guestId, tourTimeId);
         }
+
         public List<GuestTourAttendance> GetByConfirmationRequestedStatus(int guestId)
         {
             return _guestTourAttendanceRepository.GetByConfirmationRequestedStatus(guestId);
+        }
+
+        public void MarkGuestAsPresent(GuestTourAttendance guestTourAttendance)
+        {
+            guestTourAttendance.Status = AttendanceStatus.CONFIRMATION_REQUESTED;
+            _guestTourAttendanceRepository.Update(guestTourAttendance);
         }
     }
 

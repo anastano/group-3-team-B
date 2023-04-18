@@ -38,62 +38,9 @@ namespace SIMS_HCI_Project.Repositories
             _fileHandler.Save(_reservations);
         }
 
-        public List<TourReservation> GetAllByTourTimeId(int id)
-        {
-            return _reservations.FindAll(r => r.TourTimeId == id);
-        }
-
         public TourReservation GetById(int id)
         {
             return _reservations.Find(r => r.Id == id);
-        }
-
-
-        public List<TourReservation> GetUnratedReservations(int guestId, GuestTourAttendanceService guestTourAttendanceService, TourRatingService tourRatingService, TourTimeService tourTimeService)
-        {
-            List<TourReservation> unratedReservations = new List<TourReservation>();
-            foreach (TourReservation reservation in GetAllByGuestId(guestId))
-            {
-                if (IsCompleted(reservation) && WasPresentInTourTime(guestId, reservation.TourTime.Id, guestTourAttendanceService, tourTimeService) && !(tourRatingService.IsRated(reservation.Id)))
-                {
-                    unratedReservations.Add(reservation);
-                }
-            }
-            return unratedReservations;
-        }
-
-        public bool WasPresentInTourTime(int guestId, int tourTimeId, GuestTourAttendanceService guestTourAttendanceService, TourTimeService tourTimeService)
-        {
-            List<TourTime> toursAttended = guestTourAttendanceService.GetTourTimesWhereGuestWasPresent(guestId, tourTimeService);
-            return toursAttended.Any(ta => ta.Id == tourTimeId);
-        }
-
-        public bool IsCompleted(TourReservation reservation)
-        {
-            return reservation.TourTime.Status == TourStatus.COMPLETED;
-        }
-
-        public List<TourReservation> CancelReservationsByTour(int tourTimeId)
-        {
-            List<TourReservation> tourReservations = GetAllByTourTimeId(tourTimeId);
-
-            foreach (TourReservation tourReservation in tourReservations)
-            {
-                tourReservation.Status = TourReservationStatus.CANCELLED;
-            }
-
-            Save();
-
-            return tourReservations;
-        }
-        public List<TourReservation> GetAllByGuestId(int id)
-        {
-            return _reservations.FindAll(r => r.Guest2Id == id);
-        }
-
-        public List<TourReservation> GetActiveByGuestId(int id)
-        {
-            return _reservations.FindAll(r => r.Guest2Id == id && r.TourTime.Status == TourStatus.IN_PROGRESS && r.Status == TourReservationStatus.GOING);
         }
 
         public List<TourReservation> GetAll()
@@ -101,27 +48,77 @@ namespace SIMS_HCI_Project.Repositories
             return _reservations;
         }
 
-        public TourReservation GetById(int id)
+        public List<TourReservation> GetAllByGuestId(int id)
         {
-            return _reservations.Find(r => r.Id == id);
+            return _reservations.FindAll(r => r.Guest2Id == id);
         }
 
-        public int GenerateId()
+        public List<TourReservation> GetAllByTourTimeId(int id)
         {
-            if (_reservations.Count == 0)
+            return _reservations.FindAll(r => r.TourTimeId == id);
+        }
+
+        public TourReservation GetByGuestAndTour(int guestId, int tourTimeId)
+        {
+            return _reservations.Where(tr => tr.Guest2Id == guestId && tr.TourTimeId == tourTimeId).First();
+        }
+
+        // Fix this #New
+        public List<TourReservation> GetUnratedReservations(int guestId, GuestTourAttendanceService guestTourAttendanceService, TourRatingService tourRatingService, TourService tourService)
+        {
+            List<TourReservation> unratedReservations = new List<TourReservation>();
+            foreach (TourReservation reservation in GetAllByGuestId(guestId))
             {
-                return 1;
+                if (IsCompleted(reservation) && WasPresentInTourTime(guestId, reservation.TourTime.Id, guestTourAttendanceService, tourService) && !(tourRatingService.IsRated(reservation.Id)))
+                {
+                    unratedReservations.Add(reservation);
+                }
             }
-            return _reservations[_reservations.Count - 1].Id + 1;
+            return unratedReservations;
+        }
+
+        // Fix this #New
+        public bool WasPresentInTourTime(int guestId, int tourTimeId, GuestTourAttendanceService guestTourAttendanceService, TourService tourService)
+        {
+            List<TourTime> toursAttended = guestTourAttendanceService.GetTourTimesWhereGuestWasPresent(guestId, tourService);
+            return toursAttended.Any(ta => ta.Id == tourTimeId);
+        }
+
+        // Move to model #New
+        public bool IsCompleted(TourReservation reservation)
+        {
+            return reservation.TourTime.Status == TourStatus.COMPLETED;
+        }
+
+        public void BulkUpdate(List<TourReservation> tourReservations)
+        {
+            foreach (TourReservation tourReservation in tourReservations)
+            {
+                TourReservation toUpdate = GetById(tourReservation.Id);
+                toUpdate = tourReservation;
+            }
+
+            Save();
+        }
+
+        public List<TourReservation> GetActiveByGuestId(int id)
+        {
+            return _reservations.FindAll(r => r.Guest2Id == id && r.TourTime.Status == TourStatus.IN_PROGRESS && r.Status == TourReservationStatus.GOING);
+        }
+
+        private int GenerateId()
+        {
+            return _reservations.Count == 0 ? 1 : _reservations[_reservations.Count - 1].Id + 1;
         }
 
         public void Add(TourReservation tourReservation)
         {
             tourReservation.Id = GenerateId();
-
             _reservations.Add(tourReservation);
+
             Save();
         }
+
         public void NotifyObservers()
         {
             foreach (var observer in _observers)
@@ -139,12 +136,5 @@ namespace SIMS_HCI_Project.Repositories
         {
             _observers.Remove(observer);
         }
-
-        public TourReservation GetByGuestAndTour(int guestId, int tourTimeId)
-        {
-            return _reservations.Where(tr => tr.Guest2Id == guestId && tr.TourTimeId == tourTimeId).First();
-
-        }
-
     }
 }

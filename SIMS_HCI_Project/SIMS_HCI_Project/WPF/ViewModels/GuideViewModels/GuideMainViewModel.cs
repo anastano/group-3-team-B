@@ -2,6 +2,7 @@
 using SIMS_HCI_Project.Domain.DTOs;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands;
+using SIMS_HCI_Project.WPF.Views.GuideViews;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,12 +11,99 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 {
-    class GuideMainViewModel
+    class GuideMainViewModel : INotifyPropertyChanged
     {
-        
+        #region PropertyChanged
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        #endregion
+
+        #region Commands
+        public RelayCommand SeeAllTours { get; set; }
+        public RelayCommand SeeStatistics { get; set; }
+        #endregion
+
+        private TourTime _tourInProgress;
+        public TourTime TourInProgress
+        {
+            get { return _tourInProgress; }
+            set
+            {
+                _tourInProgress = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private ObservableCollection<TourTime> _todaysTours;
+        public ObservableCollection<TourTime> TodaysTours
+        {
+            get { return _todaysTours; }
+            set
+            {
+                _todaysTours = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Guide Guide { get; set; }
+
+        private TourService _tourService;
+        private GuestTourAttendanceService _guestTourAttendanceService;
+
+        public GuideMainViewModel(Guide guide)
+        {
+            Guide = guide;
+
+            _tourService = new TourService();
+            _guestTourAttendanceService = new GuestTourAttendanceService();
+
+            _tourService.LoadConnections();
+            _guestTourAttendanceService.LoadConnections();
+
+            LoadTourInProgress();
+            LoadTodaysTours();
+            InitCommands();
+        }
+
+        private void InitCommands()
+        {
+            SeeAllTours = new RelayCommand(ExecutedSeeAllToursCommand, CanExecuteCommand);
+            SeeStatistics = new RelayCommand(ExecutedSeeStatisticsCommand, CanExecuteCommand);
+        }
+
+        private void LoadTourInProgress()
+        {
+            TourInProgress = _tourService.GetActiveTour(Guide.Id);
+        }
+
+        private void LoadTodaysTours()
+        {
+            TodaysTours = new ObservableCollection<TourTime>(_tourService.GetTodaysToursByGuide(Guide.Id));
+        }
+
+        private void ExecutedSeeAllToursCommand(object obj)
+        {
+            Window allTours = new AllToursView(_tourService, Guide);
+            allTours.Show();
+        }
+
+        private void ExecutedSeeStatisticsCommand(object obj)
+        {
+            Window toursStatistics = new AllToursStatisticsView(Guide);
+            toursStatistics.Show();
+        }
+
+        private bool CanExecuteCommand(object obj)
+        {
+            return true;
+        }
 
     }
 }

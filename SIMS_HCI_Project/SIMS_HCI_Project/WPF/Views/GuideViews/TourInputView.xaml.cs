@@ -1,4 +1,7 @@
-﻿using System;
+﻿using SIMS_HCI_Project.Applications.Services;
+using SIMS_HCI_Project.Domain.Models;
+using SIMS_HCI_Project.WPF.ViewModels.GuideViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +22,11 @@ namespace SIMS_HCI_Project.WPF.Views.GuideViews
     /// </summary>
     public partial class TourInputView : Window
     {
-        public TourInputView()
+        public TourInputView(TourService tourService, Guide guide)
         {
             InitializeComponent();
+
+            this.DataContext = new TourInputViewModel(tourService, guide);
         }
     }
 }

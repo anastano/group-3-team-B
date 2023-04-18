@@ -110,5 +110,10 @@ namespace SIMS_HCI_Project.Domain.Models
             Images = new List<string>(values[10].Split(","));
             IsValid = bool.Parse(values[11]);
         }
+
+        public double GetAverageRating()
+        {
+            return (double)(OverallExperience + Organisation + Interestingness + GuidesKnowledge + GuidesLanguage) / 5;
+        }
     }
 }

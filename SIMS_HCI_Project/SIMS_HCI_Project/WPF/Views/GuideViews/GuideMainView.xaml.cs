@@ -27,6 +27,8 @@ namespace SIMS_HCI_Project.WPF.Views.GuideViews
         {
             InitializeComponent();
             Guide = guide;
+
+            this.DataContext = new GuideMainViewModel(guide);
         }
 
         private void temporeri_Click(object sender, RoutedEventArgs e)

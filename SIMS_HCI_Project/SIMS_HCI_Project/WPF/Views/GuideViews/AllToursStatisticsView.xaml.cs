@@ -1,5 +1,4 @@
-﻿using SIMS_HCI_Project.Applications.Services;
-using SIMS_HCI_Project.Domain.Models;
+﻿using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.ViewModels.GuideViewModels;
 using System;
 using System.Collections.Generic;
@@ -17,13 +16,16 @@ using System.Windows.Shapes;
 
 namespace SIMS_HCI_Project.WPF.Views.GuideViews
 {
-    public partial class AllToursView : Window
+    /// <summary>
+    /// Interaction logic for AllToursStatisticsView.xaml
+    /// </summary>
+    public partial class AllToursStatisticsView : Window
     {
-        public AllToursView(TourService tourService, Guide guide)
+        public AllToursStatisticsView(Guide guide)
         {
             InitializeComponent();
 
-            this.DataContext = new AllToursViewModel(tourService, guide);
+            this.DataContext = new AllToursStatisticsViewModel(guide);
         }
     }
 }

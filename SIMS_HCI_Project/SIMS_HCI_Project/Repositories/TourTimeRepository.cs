@@ -49,15 +49,47 @@ namespace SIMS_HCI_Project.Repositories
             return _tourTimes;
         }
 
-        public List<TourTime> GetAllByGuideId(int id)
+        public List<TourTime> GetAllByGuideId(int guideId)
         {
-            return _tourTimes.FindAll(tt => tt.Tour.GuideId == id);
+            return _tourTimes.FindAll(tt => tt.Tour.GuideId == guideId);
         }
-        
-        public void CancelTour(TourTime tourTime)
+
+        public void Add(TourTime tourTime)
         {
-            tourTime.Status = TourStatus.CANCELED;
+            tourTime.Id = GenerateId();
+            tourTime.CurrentKeyPointIndex = 0; // move to model #New
+            _tourTimes.Add(tourTime);
+
             Save();
+        }
+
+        public void AddMultiple(List<TourTime> tourTimes)
+        {
+            foreach (TourTime tourTime in tourTimes)
+            {
+                tourTime.Id = GenerateId();
+                tourTime.CurrentKeyPointIndex = 0; // move to model #New
+                _tourTimes.Add(tourTime);
+            }
+            Save();
+        }
+
+        public void Update(TourTime tourTime)
+        {
+            TourTime tourTimeUpdated = GetById(tourTime.Id);
+            tourTimeUpdated = tourTime;
+
+            Save();
+        }
+
+        public bool HasTourInProgress(int guideId)
+        {
+            return _tourTimes.Any(tt => tt.Tour.GuideId == guideId && tt.Status == TourStatus.IN_PROGRESS);
+        }
+
+        private int GenerateId()
+        {
+            return _tourTimes.Count == 0 ? 1 : _tourTimes[_tourTimes.Count - 1].Id + 1;
         }
 
         public void CheckAndUpdateStatus()
@@ -73,5 +105,13 @@ namespace SIMS_HCI_Project.Repositories
             }
         }
 
+        public void AssignTourToTourTimes(Tour tour, List<TourTime> tourTimes)
+        {
+            foreach (TourTime tourTime in tourTimes)
+            {
+                tourTime.TourId = tour.Id;
+                tourTime.Tour = tour;
+            }
+        }
     }
 }

@@ -24,13 +24,13 @@ namespace SIMS_HCI_Project.Repositories
                 Load();
             }
             _observers = new List<IObserver>();
-
         }
 
         public void Load()
         {
             _ratings = _fileHandler.Load();
         }
+
         public void Save()
         {
             _fileHandler.Save(_ratings);
@@ -48,7 +48,6 @@ namespace SIMS_HCI_Project.Repositories
 
         public List<TourRating> GetByTourId(int tourTimeId)
         {
-            var aa = _ratings.FindAll(r => r.TourReservation.TourTimeId == tourTimeId);
             return _ratings.FindAll(r => r.TourReservation.TourTimeId == tourTimeId);
         }
 
@@ -56,28 +55,27 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _ratings.Any(r => r.ReservationId == id);
         }
+
         public void Add(TourRating rating)
         {
             rating.Id = GenerateId();
             _ratings.Add(rating);
+
             Save();
             NotifyObservers();
         }
 
-        public int GenerateId()
+        public void Update(TourRating tourRating)
         {
-            if (_ratings.Count == 0)
-            {
-                return 1;
-            }
-            return _ratings[_ratings.Count - 1].Id + 1;
-        }
-
-        public void MarkAsInvalid(TourRating tourRating)
-        {
-            tourRating.IsValid = false;
+            TourRating toUpdate = GetById(tourRating.Id);
+            toUpdate = tourRating;
 
             Save();
+        }
+
+        public int GenerateId()
+        {
+            return _ratings.Count == 0 ? 1 : _ratings[_ratings.Count - 1].Id + 1;
         }
 
         public void NotifyObservers()

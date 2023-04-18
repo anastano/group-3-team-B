@@ -8,21 +8,21 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
 {
     public interface ITourReservationRepository
     {
-        void Load();
-        void Save();
         TourReservation GetById(int id);
-        List<TourReservation> CancelReservationsByTour(int tourTimeId);
+        List<TourReservation> GetAll();
         List<TourReservation> GetAllByTourTimeId(int id);
         List<TourReservation> GetAllByGuestId(int id);
+        TourReservation GetByGuestAndTour(int guestId, int tourTimeId);
         List<TourReservation> GetActiveByGuestId(int id);
-        List<TourReservation> GetAll();
-        TourReservation GetById(int id);
-        int GenerateId();
+
         void Add(TourReservation tourReservation);
+        void BulkUpdate(List<TourReservation> tourReservations);
+
+        // FIX!
+        List<TourReservation> GetUnratedReservations(int guestId, GuestTourAttendanceService guestTourAttendanceService, TourRatingService tourRatingService, TourService tourService);
+
         void NotifyObservers();
         void Subscribe(IObserver observer);
         void Unsubscribe(IObserver observer);
-        List<TourReservation> GetUnratedReservations(int guestId, GuestTourAttendanceService guestTourAttendanceService, TourRatingService tourRatingService, TourTimeService tourTimeService);
-        TourReservation GetByGuestAndTour(int guestId, int tourTimeId);
     }
 }

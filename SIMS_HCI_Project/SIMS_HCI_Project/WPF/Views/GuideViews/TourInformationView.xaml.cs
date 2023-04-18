@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SIMS_HCI_Project.Domain.Models;
+using SIMS_HCI_Project.WPF.ViewModels.GuideViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,9 +21,11 @@ namespace SIMS_HCI_Project.WPF.Views.GuideViews
     /// </summary>
     public partial class TourInformationView : Window
     {
-        public TourInformationView()
+        public TourInformationView(Tour tour)
         {
             InitializeComponent();
+
+            this.DataContext = new TourInformationViewModel(tour);
         }
     }
 }

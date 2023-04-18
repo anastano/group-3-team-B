@@ -14,8 +14,6 @@ namespace SIMS_HCI_Project.Domain.Models
         public string Title { get; set; }
         public int GuestId { get; set; }
         public Guest2 Guest { get; set; }
-        //public string GuideId { get; set; } // specification unclear. This is optional? Guide Resign part unclear, mentiones Guide specific vouchers that aren't mentioned anywhere else
-        //public Guide Guide { get; set; }
         public DateTime AquiredDate { get; set; }
         public DateTime ExpirationDate { get; set; }
         public VoucherStatus Status { get; set; }

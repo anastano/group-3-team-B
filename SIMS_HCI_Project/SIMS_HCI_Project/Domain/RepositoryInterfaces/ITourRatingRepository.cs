@@ -10,17 +10,17 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
 {
     public interface ITourRatingRepository
     {
-        void Load();
-        void Save();
-        List<TourRating> GetAll();
         TourRating GetById(int id);
-        int GenerateId();
+        List<TourRating> GetAll();
+        List<TourRating> GetByTourId(int tourTimeId);
+
         void Add(TourRating rating);
+        void Update(TourRating tourRating);
+
+        bool IsRated(int id);
+
         void NotifyObservers();
         void Subscribe(IObserver observer);
         void Unsubscribe(IObserver observer);
-        bool IsRated(int id);
-        List<TourRating> GetByTourId(int tourTimeId);
-        void MarkAsInvalid(TourRating tourRating);
     }
 }

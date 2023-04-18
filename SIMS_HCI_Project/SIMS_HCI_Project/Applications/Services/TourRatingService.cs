@@ -23,16 +23,6 @@ namespace SIMS_HCI_Project.Applications.Services
             _guestTourAttendanceRepository = Injector.Injector.CreateInstance<IGuestTourAttendanceRepository>();
         }
 
-        public void Save()
-        {
-            _tourRatingRepository.Save();
-        }
-
-        public void Load()
-        {
-            _tourRatingRepository.Load();
-        }
-
         public TourRating GetById(int id)
         {
             return _tourRatingRepository.GetById(id);
@@ -81,7 +71,8 @@ namespace SIMS_HCI_Project.Applications.Services
 
         public void MarkAsInvalid(TourRating tourRating)
         {
-            _tourRatingRepository.MarkAsInvalid(tourRating);
+            tourRating.IsValid = false;
+            _tourRatingRepository.Update(tourRating);
         }
 
         public void NotifyObservers()

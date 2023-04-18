@@ -11,15 +11,6 @@ namespace SIMS_HCI_Project.Domain.Models
 {
     public class Guide : User
     {
-        public ObservableCollection<TourTime> TodaysTours {get; set; }
-        public ObservableCollection<Tour> Tours { get; set; }
-
-        public Guide()
-        {
-            TodaysTours = new ObservableCollection<TourTime>();
-            Tours = new ObservableCollection<Tour>();
-        }
-
         public Guide(User user)
         {
             Id = user.Id;
@@ -28,19 +19,6 @@ namespace SIMS_HCI_Project.Domain.Models
             Name = user.Name;
             Surname = user.Surname;
             Age = user.Age;
-            TodaysTours = new ObservableCollection<TourTime>();
-            Tours = new ObservableCollection<Tour>();
-        }
-
-        public void AddTodaysTourTimes(List<TourTime> tourTimes)
-        {
-            foreach(TourTime tourTime in tourTimes)
-            {
-                if(tourTime.DepartureTime.Date == DateTime.Today)
-                {
-                    TodaysTours.Add(tourTime);
-                }
-            }
         }
     }
 }

@@ -18,16 +18,6 @@ namespace SIMS_HCI_Project.Applications.Services
             _tourReservationRepository = Injector.Injector.CreateInstance<ITourReservationRepository>();
         }
 
-        public void Load()
-        {
-            _tourReservationRepository.Load();
-        }
-
-        public void Save()
-        {
-            _tourReservationRepository.Save();
-        }
-
         public void Add(TourReservation tourReservation)
         {
             _tourReservationRepository.Add(tourReservation);
@@ -55,18 +45,15 @@ namespace SIMS_HCI_Project.Applications.Services
             return _tourReservationRepository.GetAllByGuestId(id);
         }
 
-        public List<TourReservation> GetUnratedReservations(int guestId, GuestTourAttendanceService guestTourAttendanceService, TourRatingService tourRatingService, TourTimeService tourTimeService)
+        public List<TourReservation> GetUnratedReservations(int guestId, GuestTourAttendanceService guestTourAttendanceService, TourRatingService tourRatingService, TourService tourService)
         {
-            return _tourReservationRepository.GetUnratedReservations(guestId, guestTourAttendanceService, tourRatingService, tourTimeService);
-        }
-        public List<TourReservation> CancelReservationsByTour(int tourTimeId)
-        {
-            return _tourReservationRepository.CancelReservationsByTour(tourTimeId);
+            return _tourReservationRepository.GetUnratedReservations(guestId, guestTourAttendanceService, tourRatingService, tourService); // !
         }
 
-        public void ConnectAvailablePlaces(TourTimeService tourTimeService)
+
+        public void ConnectAvailablePlaces(TourService tourService)
         {
-            foreach (TourTime tourTime in tourTimeService.GetAll())
+            foreach (TourTime tourTime in tourService.GetAllTourInstances())
             {
                 //private static List<TourReservation> _reservations = new List<TourReservation>();
        var _reservations =_tourReservationRepository.GetAllByTourTimeId(tourTime.Id);
@@ -86,11 +73,18 @@ namespace SIMS_HCI_Project.Applications.Services
             }
         }
 
-        public void ConnectTourTimes(TourTimeService tourTimeService)
+        public void ReduceAvailablePlaces(TourService tourService, TourTime selectedTourTime, int requestedPartySize)
+        {
+            TourTime tourTime = tourService.GetTourInstance(selectedTourTime.Id);
+
+            tourTime.Available -= requestedPartySize;
+        }
+
+        public void ConnectTourTimes(TourService tourService)
         {
             foreach (TourReservation tourReservation in _tourReservationRepository.GetAll())
             {
-                tourReservation.TourTime = tourTimeService.GetById(tourReservation.TourTimeId);
+                tourReservation.TourTime = tourService.GetTourInstance(tourReservation.TourTimeId);
             }
         }
 

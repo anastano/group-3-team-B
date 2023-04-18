@@ -16,7 +16,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 {
     class ControlPoint2TempViewModel : INotifyPropertyChanged
     {
-        private TourTimeService _tourTimeService;
         private TourVoucherService _tourVoucherService;
         private TourReservationService _tourReservationService;
         private TourService _tourService;
@@ -24,7 +23,16 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         private TourStatisticsService _tourStatisticsService;
         private TourRatingService _tourRatingService;
 
-        public ObservableCollection<TourTime> AllTourTimes { get; set; }
+        private ObservableCollection<TourTime> _allTourTimes;
+        public ObservableCollection<TourTime> AllTourTimes
+        {
+            get { return _allTourTimes;  }
+            set
+            {
+                _allTourTimes = value;
+                OnPropertyChanged();
+            }
+        }
         public TourTime SelectedTourTime { get; set; }
 
         public RelayCommand CancelTourCommand { get; set; }
@@ -67,9 +75,16 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         }
         public List<int> YearsWithTours { get; set; }
 
-        //private ObservableCollection<TourRating> _selectedTourRatings;
-
-        public ObservableCollection<TourRating> SelectedTourRatings { get; set; }
+        private ObservableCollection<TourRating> _selectedTourRatings;
+        public ObservableCollection<TourRating> SelectedTourRatings
+        {
+            get { return _selectedTourRatings; }
+            set
+            {
+                _selectedTourRatings = value;
+                OnPropertyChanged();
+            }
+        }
         public TourRating SelectedRating { get; set; } 
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -77,6 +92,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        private Guide _guide;
 
         public ControlPoint2TempViewModel(Guide guide)
         {
@@ -86,21 +103,22 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             SeeRatings = new RelayCommand(Excuted_SeeRatingsCommand, CanExecute_SeeRatingsCommand);
             MarkRatingInvalid = new RelayCommand(Excuted_MarkRatingInvalidCommand, CanExecute_MarkRatingInvalidCommand);
 
+            _guide = guide;
+
             AllTimeTopTour = _tourStatisticsService.GetTopTour();
-            YearsWithTours = _tourTimeService.GetYearsWithToursByGuide(guide.Id);
+            YearsWithTours = _tourService.GetYearsWithToursByGuide(guide.Id);
             SelectedYear = YearsWithTours.First();
             UpdateTopTourByYear();
 
-            AllTourTimes = new ObservableCollection<TourTime>(_tourTimeService.GetAllByGuideId(guide.Id));
+            LoadAllTours();
             SelectedTourTime = AllTourTimes.First();
             SelectedTourStatistics = _tourStatisticsService.GetTourStatistics(SelectedTourTime.Id);
 
-            SelectedTourRatings = new ObservableCollection<TourRating>(_tourRatingService.GetByTourId(SelectedTourTime.Id));
+            LoadRatings();
         }
 
         private void LoadFromFiles()
         {
-            _tourTimeService = new TourTimeService();
             _tourVoucherService = new TourVoucherService();
             _tourReservationService = new TourReservationService();
             _tourService = new TourService();
@@ -108,16 +126,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             _tourStatisticsService = new TourStatisticsService();
             _tourRatingService = new TourRatingService();
 
-            _tourService.ConnectDepartureTimes(_tourTimeService);
+            _tourService.ConnectDepartureTimes();
             _tourRatingService.LoadConnections();
             _guestTourAttendanceService.LoadConnections();
         }
 
         public void Excuted_CancelTourCommand(object obj)
         {
-            _tourTimeService.CancelTour(SelectedTourTime, _tourVoucherService, _tourReservationService);
-
-            Trace.WriteLine("but why");
+            LoadAllTours();
         }
 
         public bool CanExecute_CancelTourCommand(object obj)
@@ -142,12 +158,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         public void Excuted_SeeRatingsCommand(object obj)
         {
-            SelectedTourRatings.Clear();
-
-            foreach (TourRating tourRating in _tourRatingService.GetByTourId(SelectedTourTime.Id))
-            {
-                SelectedTourRatings.Add(tourRating);
-            }
+            LoadRatings();
         }
 
         public bool CanExecute_SeeRatingsCommand(object obj)
@@ -159,7 +170,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         {
             _tourRatingService.MarkAsInvalid(SelectedRating);
 
-            Trace.WriteLine("why");
+            LoadRatings();
         }
 
         public bool CanExecute_MarkRatingInvalidCommand(object obj)
@@ -167,5 +178,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             return true;
         }
 
+        private void LoadAllTours()
+        {
+        }
+
+        private void LoadRatings()
+        {
+            SelectedTourRatings = new ObservableCollection<TourRating>(_tourRatingService.GetByTourId(SelectedTourTime.Id));
+        }
     }
 }

@@ -31,7 +31,6 @@ namespace SIMS_HCI_Project.Domain.Models
             Cleanliness = cleanliness;
             Correctness = correctness;
             AdditionalComment = additionalComment;
-            //ovo nece biti ovako, samo za testiranja 
             Images = images;
         }
 

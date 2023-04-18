@@ -43,32 +43,41 @@
             <ColumnDefinition Width="1.5*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.5*" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="3*" />
             <RowDefinition Height="3*" />
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.5*"/>
         </Grid.RowDefinitions>
-        <Label Content="Review owner and accommodation (required): " Grid.Row="0" Grid.Column="0"></Label>
+        <Label Content="Review owner and accommodation (required): " Grid.Row="0" FontSize="16"></Label>
         <Label Content="Owner: " Grid.Row="1" Grid.Column="0"></Label>
-        <TextBox x:Name="Owner" Grid.Row="1" Grid.Column="1" Text="{Binding Path=Reservation.Accommodation.Owner.Name, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+        <TextBox x:Name="Owner" Grid.Row="1" Grid.Column="1" Text="{Binding Path=Owner, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
         <Label Content="Accommodation cleanliness (1-5): " Grid.Row="2" Grid.Column="0"></Label>
-        <TextBox x:Name="Cleanliness" Grid.Row="2" Grid.Column="1" Text="{Binding Path=Cleanliness, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-            Validation.ErrorTemplate="{StaticResource ValidationTemplate}"/>
+        <StackPanel Orientation="Horizontal"  Grid.Row="2" Grid.Column="1">
+            <TextBox Text="{Binding ElementName=cleanlinessSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" 
+                     Width="40"  Margin="0, 5, 0, 5"/>
+            <Slider x:Name="cleanlinessSlider" Value="{Binding Path=Cleanliness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    IsSnapToTickEnabled="True"  Minimum="1"  Maximum="5" Margin="20, 12, 0, 0"  Width="200"/>
+        </StackPanel>
         <Label Content="Owner correctness (1-5):" Grid.Row="3" Grid.Column="0"></Label>
-        <TextBox x:Name="Corecntess" Grid.Row="3" Grid.Column="1" Text="{Binding Path=Correctness, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                 Validation.ErrorTemplate="{StaticResource ValidationTemplate}"/>
+        <StackPanel Orientation="Horizontal"  Grid.Row="3" Grid.Column="1">
+            <TextBox Text="{Binding ElementName=correctnessSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" 
+                     Width="40"  Margin="0, 5, 0, 5"/>
+            <Slider x:Name="correctnessSlider" Value="{Binding Path=Correcntess, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    IsSnapToTickEnabled="True"  Minimum="1"  Maximum="5" Margin="20, 12, 0, 0"  Width="200"/>
+        </StackPanel>
         <Label Content="Image URLs:" Grid.Row="4" Grid.Column="0"></Label>
         <StackPanel Grid.Row="4" Grid.Column="1">
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  >
 
-                <TextBox x:Name="txtPictureURL"  
-                                    Text="{Binding Path = ImageUrl, UpdateSourceTrigger = PropertyChanged, ValidatesOnDataErrors=True}"
-                                    Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
-                                     Width="300" TextWrapping="Wrap">
+                <TextBox x:Name="txtPictureURL" Width="300" TextWrapping="Wrap">
+                    <TextBox.Text>
+                        <Binding  Path="ImageUrl" UpdateSourceTrigger="PropertyChanged">
+                        </Binding>
+                    </TextBox.Text>
                 </TextBox>
 
                 <Button x:Name="btnAddImage" Command="{Binding DataContext.AddImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Content="(Ins)" 
@@ -95,6 +104,6 @@
             <Button Content="Review" Command="{Binding DataContext.ReviewReservationCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
         </StackPanel>
 
-        <Frame x:Name="ReservationRatingFrame" NavigationUIVisibility="Hidden" Margin="-30,-28,-31,-27" Grid.RowSpan="7" Grid.ColumnSpan="2"/>
+        <Frame x:Name="ReservationRatingFrame" NavigationUIVisibility="Hidden" Margin="-32,-30,-30,-25" Grid.RowSpan="7" Grid.ColumnSpan="2" />
     </Grid>
 </Page>

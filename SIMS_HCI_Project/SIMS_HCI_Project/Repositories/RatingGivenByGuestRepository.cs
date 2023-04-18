@@ -47,7 +47,7 @@ namespace SIMS_HCI_Project.Repositories
         }
         public bool isReservationRated(int reservationId)
         {
-            return _ratings.Any(r => r.Id == reservationId);
+            return _ratings.Any(r => r.ReservationId == reservationId);
         }
         public void Add(RatingGivenByGuest rating)
         {

@@ -7,7 +7,8 @@
       xmlns:local1="clr-namespace:SIMS_HCI_Project.Wpf.Converters"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="ReservationView">
+      Title="ReservationView"
+      Background="#f5f5f5">
 
     <Grid>
         <TabControl Margin="5, 5, 5, 5">

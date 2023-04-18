@@ -9,13 +9,14 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
-    internal class RatingReservationViewModel
+    internal class RatingReservationViewModel : INotifyPropertyChanged
     {
         private AccommodationReservationService _accommodationReservationService;
         private RatingGivenByGuestService _ratingService;
@@ -35,6 +36,19 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             set { frame = value; }
         }
         public ObservableCollection<string> Images { get; set; }
+        private String _owner;
+        public String Owner
+        {
+            get => _owner;
+            set
+            {
+                if (value != _owner)
+                {
+                    _owner = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         private int _cleanliness;
         public int Cleanliness
         {
@@ -87,6 +101,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
+        private Regex urlRegex = new Regex("(http(s?)://.)([/|.|\\w|\\s|-])*\\.(?:jpg|gif|png)|(^$)");
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -99,12 +114,15 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _ratingService = new RatingGivenByGuestService();
             RatingReservationView = ratingReservationView;
             Reservation = reservation;
+            Frame = RatingReservationView.ReservationRatingFrame;
             Images = new ObservableCollection<string>();
+            Owner = Reservation.Accommodation.Owner.Name + " " + Reservation.Accommodation.Owner.Surname;
             InitCommands();
         }
         public void ExecutedReviewReservationCommand(object obj)
         {
             _ratingService.Add(new RatingGivenByGuest(Reservation.Id, Cleanliness, Correcntess, AdditionalComment, new List<string>(Images)));
+            _accommodationReservationService.ConvertReservationsIntoRated(_ratingService);
             this.Frame.Navigate(new ReservationsView(_accommodationReservationService, Reservation.Guest));
         }
         public void ExecutedCancelReviewCommand(object obj)
@@ -121,10 +139,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         }
         public void ExecutedAddImageCommand(object obj)
         {
-            if (!ImageUrl.Equals(""))
+            Match match = urlRegex.Match(ImageUrl);
+            if (match.Success)
             {
                 Images.Add(ImageUrl);
                 ImageUrl = "";
+                //return "URL is not in valid format.";
             }
         }
 

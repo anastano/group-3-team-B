@@ -34,14 +34,14 @@
         <Label Content="Initial End: " Grid.Row="1" Grid.Column="2"></Label>
         <DatePicker x:Name="End"  Grid.Row="1" Grid.Column="3" IsEnabled="False" SelectedDate="{Binding Reservation.End}"/>
 
-        <Label Content="My request for reschedule:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Bottom"></Label>
+        <Label Content="My request for reschedule:" Grid.Row="2" Grid.ColumnSpan="4" FontSize="16" VerticalAlignment="Bottom"></Label>
         <Label Content="Wanted Start:" Grid.Row="3" Grid.Column="0"></Label>
         <DatePicker x:Name="WantedStartDatePicker" Grid.Row="3" Grid.Column="1" IsEnabled="True" SelectedDate="{Binding WantedStart, Mode=OneWayToSource}"/>
         <Label Content="Wanted End:" Grid.Row="3" Grid.Column="2"></Label>
         <DatePicker x:Name="WantedEndDatePicker" Grid.Row="3" Grid.Column="3" IsEnabled="True" SelectedDate="{Binding WantedEnd, Mode=OneWayToSource}"/>
         <Button Content="Send" Grid.Row="3" Grid.Column="4" Command="{Binding DataContext.SendReservationRescheduleRequestCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
 
-        <Label Content="Other requests to reschedule this accommodation:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Bottom"></Label>
+        <Label Content="Other requests to reschedule this accommodation:" Grid.Row="4"  Grid.ColumnSpan="4" FontSize="16" VerticalAlignment="Bottom"></Label>
         <DataGrid  Grid.Row="5" Grid.ColumnSpan="5" ItemsSource="{Binding Path=RescheduleRequests, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True">
         <DataGrid.Columns>
                 <DataGridTextColumn Header="Guest" Binding="{Binding AccommodationReservation.Guest.Name}" Width="Auto"></DataGridTextColumn>

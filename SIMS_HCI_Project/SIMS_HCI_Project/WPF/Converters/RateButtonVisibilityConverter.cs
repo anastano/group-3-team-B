@@ -16,7 +16,7 @@ namespace SIMS_HCI_Project.Wpf.Converters
         {
             DateTime reservationEnd = (DateTime)values[0];
             bool isRated = (bool)values[1];
-            return ((DateTime.Now.Subtract(reservationEnd)).TotalDays <= 5 && isRated) ? Visibility.Visible : Visibility.Collapsed;
+            return ((DateTime.Now.Subtract(reservationEnd)).TotalDays <= 5 && !isRated) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object[] ConvertBack(object value, Type[] targetType, object parameter, CultureInfo culture)

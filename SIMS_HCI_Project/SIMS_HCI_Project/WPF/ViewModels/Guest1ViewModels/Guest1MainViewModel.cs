@@ -22,6 +22,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
     internal class Guest1MainViewModel
     {
         private Guest1Service _guest1Service;
+        private OwnerService _ownerService;
         private LocationService _locationService;
         private AccommodationService _accommodationService;
         private AccommodationReservationService _reservationService;
@@ -48,6 +49,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public void LoadFromFiles()
         {
             _guest1Service = new Guest1Service();
+            _ownerService = new OwnerService();
             _locationService = new LocationService();
             _accommodationService = new AccommodationService();
             _reservationService = new AccommodationReservationService();
@@ -56,7 +58,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _ratingService = new RatingGivenByGuestService(); 
 
             _accommodationService.ConnectAccommodationsWithLocations(_locationService);
+            _accommodationService.ConnectAccommodationsWithOwners(_ownerService);
             _reservationService.ConnectReservationsWithAccommodations(_accommodationService);
+            _reservationService.ConnectReservationsWithGuests(_guest1Service);
             _reservationService.ConvertReservedReservationIntoCompleted(DateTime.Now);
             _reservationService.ConnectReservationsWithGuests(_guest1Service);
             _requestService.ConnectRequestsWithReservations(_reservationService);

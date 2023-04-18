@@ -86,9 +86,18 @@ namespace SIMS_HCI_Project.Repositories
 
             return tourReservations;
         }
+
+        public void CancelReservation(int reservationId)
+        {
+            TourReservation tourReservation = _reservations.Find(r => r.Id == reservationId);
+            tourReservation.Status = TourReservationStatus.CANCELLED;
+            Save();
+            NotifyObservers();
+        }
+
         public List<TourReservation> GetAllByGuestId(int id)
         {
-            return _reservations.FindAll(r => r.Guest2Id == id);
+            return _reservations.FindAll(r => r.Guest2Id == id && r.Status == TourReservationStatus.GOING );
         }
 
         public List<TourReservation> GetActiveByGuestId(int id)

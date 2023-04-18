@@ -21,6 +21,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
 {
     public class Guest2MainViewModel : IObserver
     {
+        public ObservableCollection<TourReservation> Reservations { get; set; }
         private TourReservationService _tourReservationService;
         private TourService _tourService;
         private TourTimeService _tourTimeService;
@@ -58,7 +59,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
                 OnPropertyChanged();
             }
         }
-        private AttendanceStatus _attendanceStatus;
+        /*private AttendanceStatus _attendanceStatus;
 
         public AttendanceStatus AttendanceStatus
         {
@@ -73,7 +74,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
                 _attendanceStatus = value;
                 OnPropertyChanged();
             }
-        }
+        }*/
 
         private TourReservation _selectedActiveReservation;
         public TourReservation SelectedActiveReservation
@@ -82,8 +83,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
             set
             {
                 _selectedActiveReservation = value;
-                ActiveGuestAttendance = _guestTourAttendanceService.GetByGuestAndTourTimeIds(SelectedActiveReservation.Guest2Id, SelectedActiveReservation.TourTimeId);
-                _attendanceStatus = ActiveGuestAttendance.Status;
+                /*ActiveGuestAttendance = _guestTourAttendanceService.GetByGuestAndTourTimeIds(SelectedActiveReservation.Guest2Id, SelectedActiveReservation.TourTimeId);
+                _attendanceStatus = ActiveGuestAttendance.Status;*/
                 OnPropertyChanged();
             }
         }
@@ -138,6 +139,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
             //CurrentKeyPoint = TourTime.Tour.KeyPoints[TourTime.CurrentKeyPointIndex];
 
             Guest.Reservations = new ObservableCollection<TourReservation>(_tourReservationService.GetAllByGuestId(guest.Id));
+
+            Reservations = new ObservableCollection<TourReservation>(_tourReservationService.GetAllByGuestId(guest.Id));
+
             Guest.Vouchers = new ObservableCollection<TourVoucher>(_tourVoucherService.GetValidVouchersByGuestId(guest.Id));
             ActiveTours = new ObservableCollection<TourReservation>(_tourReservationService.GetActiveByGuestId(guest.Id));
             TourTime = new TourTime();
@@ -148,14 +152,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
                 _AAA = TourTime.CurrentKeyPointIndex;
 
             }*/
-            SelectedActiveReservation = ActiveTours[0];
+            /*SelectedActiveReservation = ActiveTours[0];
             if(SelectedActiveReservation != null)
             {
                 ActiveGuestAttendance = _guestTourAttendanceService.GetByGuestAndTourTimeIds(SelectedActiveReservation.Guest2Id, SelectedActiveReservation.TourTimeId);
                 _attendanceStatus = ActiveGuestAttendance.Status;
 
             }
-            ActiveGuestAttendance = _guestTourAttendanceService.GetByGuestAndTourTimeIds(SelectedActiveReservation.Guest2Id, SelectedActiveReservation.TourTimeId);
+            ActiveGuestAttendance = _guestTourAttendanceService.GetByGuestAndTourTimeIds(SelectedActiveReservation.Guest2Id, SelectedActiveReservation.TourTimeId);*/
             //ActiveGuestAttendance = _guestTourAttendanceService.GetByGuestAndTourTimeIds(SelectedActiveReservation.Guest2Id, SelectedActiveReservation.TourTimeId);
             //AttendanceStatus = ActiveGuestAttendance.Status;
             MakeNotificationsForAttendanceConfirmation(); //mozda podati posle u TourProgressViewModel
@@ -199,6 +203,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
             _tourReservationService.ConnectTourTimes(_tourTimeService);
             _tourReservationService.ConnectVouchers(_tourVoucherService);
             _tourReservationService.ConnectAvailablePlaces(_tourTimeService);
+
+            _guestTourAttendanceService.LoadConnections();
         }
 
         public void ShowNotifications()
@@ -268,7 +274,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
 
         public void Executed_CancelReservation(object obj)
         {
-            //TODO later
+            MessageBox.Show("This reservation will be cancelled?");
+            MessageBoxButton messageBoxButton = MessageBoxButton.OK;
+            if(messageBoxButton == MessageBoxButton.OK)
+            {
+                _tourReservationService.CancelReservation(SelectedTourReservation.Id);
+                MessageBox.Show("Reservation is cancelled.");
+            }
+            //treba update available places ali onda treba i da se vodi racuna i kod vodica i svuda da li je otkazana ili vazeca
         }
         public bool CanExecute_CancelReservation(object obj)
         {
@@ -292,6 +305,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
 
         public void Update()
         {
+            /*Reservations.Clear();
+            Reservations = new ObservableCollection<TourReservation>(_tourReservationService.GetAllByGuestId(Guest.Id));*/
             throw new NotImplementedException();
         }
 

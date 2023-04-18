@@ -54,7 +54,6 @@ namespace SIMS_HCI_Project.Repositories
         public void Add(Tour tour)
         {
             tour.Id = GenerateId();
-
             _tours.Add(tour);
 
             Save();

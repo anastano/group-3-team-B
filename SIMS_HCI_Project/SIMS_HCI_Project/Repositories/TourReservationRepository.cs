@@ -38,17 +38,32 @@ namespace SIMS_HCI_Project.Repositories
             _fileHandler.Save(_reservations);
         }
 
-        public List<TourReservation> GetAllByTourTimeId(int id)
-        {
-            return _reservations.FindAll(r => r.TourTimeId == id);
-        }
-
         public TourReservation GetById(int id)
         {
             return _reservations.Find(r => r.Id == id);
         }
 
+        public List<TourReservation> GetAll()
+        {
+            return _reservations;
+        }
 
+        public List<TourReservation> GetAllByGuestId(int id)
+        {
+            return _reservations.FindAll(r => r.Guest2Id == id);
+        }
+
+        public List<TourReservation> GetAllByTourTimeId(int id)
+        {
+            return _reservations.FindAll(r => r.TourTimeId == id);
+        }
+
+        public TourReservation GetByGuestAndTour(int guestId, int tourTimeId)
+        {
+            return _reservations.Where(tr => tr.Guest2Id == guestId && tr.TourTimeId == tourTimeId).First();
+        }
+
+        // Fix this #New
         public List<TourReservation> GetUnratedReservations(int guestId, GuestTourAttendanceService guestTourAttendanceService, TourRatingService tourRatingService, TourTimeService tourTimeService)
         {
             List<TourReservation> unratedReservations = new List<TourReservation>();
@@ -62,12 +77,14 @@ namespace SIMS_HCI_Project.Repositories
             return unratedReservations;
         }
 
+        // Fix this #New
         public bool WasPresentInTourTime(int guestId, int tourTimeId, GuestTourAttendanceService guestTourAttendanceService, TourTimeService tourTimeService)
         {
             List<TourTime> toursAttended = guestTourAttendanceService.GetTourTimesWhereGuestWasPresent(guestId, tourTimeService);
             return toursAttended.Any(ta => ta.Id == tourTimeId);
         }
 
+        // Move to model #New
         public bool IsCompleted(TourReservation reservation)
         {
             return reservation.TourTime.Status == TourStatus.COMPLETED;
@@ -84,18 +101,7 @@ namespace SIMS_HCI_Project.Repositories
             Save();
         }
 
-        public List<TourReservation> GetAllByGuestId(int id)
-        {
-            return _reservations.FindAll(r => r.Guest2Id == id);
-        }
-
-        public List<TourReservation> GetAll()
-        {
-            return _reservations;
-        }
-
-
-        public int GenerateId()
+        private int GenerateId()
         {
             if (_reservations.Count == 0)
             {
@@ -107,10 +113,11 @@ namespace SIMS_HCI_Project.Repositories
         public void Add(TourReservation tourReservation)
         {
             tourReservation.Id = GenerateId();
-
             _reservations.Add(tourReservation);
+
             Save();
         }
+
         public void NotifyObservers()
         {
             foreach (var observer in _observers)
@@ -127,12 +134,6 @@ namespace SIMS_HCI_Project.Repositories
         public void Unsubscribe(IObserver observer)
         {
             _observers.Remove(observer);
-        }
-
-        public TourReservation GetByGuestAndTour(int guestId, int tourTimeId)
-        {
-            return _reservations.Where(tr => tr.Guest2Id == guestId && tr.TourTimeId == tourTimeId).First();
-
         }
     }
 }

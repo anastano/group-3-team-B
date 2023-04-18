@@ -18,11 +18,6 @@ namespace SIMS_HCI_Project.Applications.Services
             _tourVoucherRepository = Injector.Injector.CreateInstance<ITourVoucherRepository>();
         }
 
-        public void GiveVouchersToGuestsWithReservation(List<TourReservation> tourReservations)
-        {
-            _tourVoucherRepository.GiveVouchersToGuestsWithReservation(tourReservations);
-        }
-
         public TourVoucher GetById(int id)
         {
             return _tourVoucherRepository.GetById(id);
@@ -35,7 +30,7 @@ namespace SIMS_HCI_Project.Applications.Services
 
         public void UseVoucher(TourVoucher selectedVoucher)
         {
-            _tourVoucherRepository.UseVoucher(selectedVoucher);
+            _tourVoucherRepository.UseVoucher(selectedVoucher); // Ovo treba da radi service samo
         }
 
         public void NotifyObservers()

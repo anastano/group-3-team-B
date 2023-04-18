@@ -57,6 +57,7 @@ namespace SIMS_HCI_Project.Applications.Services
             _tourTimeRepository.CheckAndUpdateStatus();
         }
 
+        // Deket #New
         public List<int> GetYearsWithToursByGuide(int guideId)
         {
             return _tourTimeRepository.GetAll().Where(tt => tt.Status == TourStatus.COMPLETED).Select(tt => tt.DepartureTime.Year).Distinct().ToList();

@@ -14,16 +14,19 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
     {
         void Load();
         void Save();
+
+        GuestTourAttendance GetById(int id);
         List<GuestTourAttendance> GetAll();
         List<GuestTourAttendance> GetAllByTourId(int id);
         GuestTourAttendance GetByGuestAndTourTimeIds(int guestId, int tourTimeId); //check later
+
         List<TourTime> GetTourTimesWhereGuestWasPresent(int guestId, TourTimeService tourTimeService); 
-        GuestTourAttendance GetById(int id);
-        int GenerateId();
+        
         void Add(GuestTourAttendance guestTourAttendance);
         void AddMultiple(List<GuestTourAttendance> guestTourAttendances);
-
         void BulkUpdate(List<GuestTourAttendance> guestTourAttendances);
+
+        // CLEAN!
         int GetGuestCountByAgeGroup(AgeGroup ageGroup, int tourTimeId);
         TourTime GetTourWithMostGuests();
         TourTime GetTourWithMostGuestsByYear(int year);

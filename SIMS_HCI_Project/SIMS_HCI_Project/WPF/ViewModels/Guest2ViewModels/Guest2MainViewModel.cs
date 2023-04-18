@@ -22,6 +22,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
     public class Guest2MainViewModel : IObserver
     {
         public ObservableCollection<TourReservation> Reservations { get; set; }
+        public ObservableCollection<TourVoucher> Vouchers { get; set; }
         private TourReservationService _tourReservationService;
         private TourService _tourService;
         private TourTimeService _tourTimeService;
@@ -138,11 +139,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
             //_currentKeyPointIndex = TourTime.CurrentKeyPointIndex;
             //CurrentKeyPoint = TourTime.Tour.KeyPoints[TourTime.CurrentKeyPointIndex];
 
-            Guest.Reservations = new ObservableCollection<TourReservation>(_tourReservationService.GetAllByGuestId(guest.Id));
+            //Guest.Reservations = new ObservableCollection<TourReservation>(_tourReservationService.GetAllByGuestId(guest.Id));
 
             Reservations = new ObservableCollection<TourReservation>(_tourReservationService.GetAllByGuestId(guest.Id));
 
-            Guest.Vouchers = new ObservableCollection<TourVoucher>(_tourVoucherService.GetValidVouchersByGuestId(guest.Id));
+            //Guest.Vouchers = new ObservableCollection<TourVoucher>(_tourVoucherService.GetValidVouchersByGuestId(guest.Id));
+
+            Vouchers = new ObservableCollection<TourVoucher>(_tourVoucherService.GetValidVouchersByGuestId(guest.Id));
+
             ActiveTours = new ObservableCollection<TourReservation>(_tourReservationService.GetActiveByGuestId(guest.Id));
             TourTime = new TourTime();
             GuestTourAttendance = new GuestTourAttendance();

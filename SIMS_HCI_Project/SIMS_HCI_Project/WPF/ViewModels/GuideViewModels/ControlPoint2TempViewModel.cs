@@ -135,7 +135,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         public void Excuted_CancelTourCommand(object obj)
         {
-            _tourTimeService.CancelTour(SelectedTourTime, _tourVoucherService, _tourReservationService);
+            //_tourTimeService.CancelTour(SelectedTourTime, _tourVoucherService, _tourReservationService);
             LoadAllTours();
         }
 

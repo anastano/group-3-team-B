@@ -6,6 +6,38 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.GuideViews"
         mc:Ignorable="d"
         Title="TourInformation" Height="820" Width="620" WindowStartupLocation="CenterScreen" FontSize="20">
+    <Window.Resources>
+        <Style x:Key="CancelButton" TargetType="Button">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding SelectedTourTime.IsCancellable}" Value="True">
+                    <Setter Property="IsEnabled" Value="True"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding SelectedTourTime.IsCancellable}" Value="False">
+                    <Setter Property="IsEnabled" Value="False"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="StartButton" TargetType="Button">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding SelectedTourTime.IsStartable}" Value="True">
+                    <Setter Property="IsEnabled" Value="True"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding SelectedTourTime.IsStartable}" Value="False">
+                    <Setter Property="IsEnabled" Value="False"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="FinishedButton" TargetType="Button">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding SelectedTourTime.IsFinished}" Value="True">
+                    <Setter Property="IsEnabled" Value="True"></Setter>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding SelectedTourTime.IsFinished}" Value="False">
+                    <Setter Property="IsEnabled" Value="False"></Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="3*"></RowDefinition>
@@ -31,8 +63,8 @@
                 <TextBlock Text="{Binding Tour.Duration, StringFormat=Duration: {0}}"></TextBlock>
                 <TextBlock Text="{Binding Tour.MaxGuests, StringFormat=Max Guests: {0}}" Margin="0,0,0,30"></TextBlock>
                 <StackPanel Orientation="Horizontal">
-                    <Button Content="See Stats" Margin="0,0,40,0" Command="{Binding SeeStatistics}"></Button>
-                    <Button Content="See Reviews" Command="{Binding SeeReviews}"></Button>
+                    <Button Content="See Stats" Margin="0,0,40,0" Command="{Binding SeeStatistics}" Style="{StaticResource FinishedButton}"></Button>
+                    <Button Content="See Reviews" Command="{Binding SeeReviews}"  Style="{StaticResource FinishedButton}"></Button>
                 </StackPanel>
             </StackPanel>
             <ListBox Grid.Column="1" ItemsSource="{Binding Tour.Images}" Margin="20,20,20,20">
@@ -48,14 +80,14 @@
                     <Label Content="Departure Times" Margin="0,0,40,0"></Label>
                     <Button Content="Add Time"></Button>
                 </StackPanel>
-                <DataGrid ItemsSource="{Binding Tour.DepartureTimes}" SelectedItem="{Binding SelectedTourTime}" AutoGenerateColumns="False" IsReadOnly="True" Height="200">
+                <DataGrid ItemsSource="{Binding Tour.DepartureTimes}" SelectedItem="{Binding SelectedTourTime}" AutoGenerateColumns="True" IsReadOnly="True" Height="200">
                     <DataGrid.Columns>
                         <DataGridTextColumn Binding="{Binding DepartureTime}"></DataGridTextColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </StackPanel>
-            <Button Content="Cancel" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20,0,0,20" Command="{Binding CancelTour}"></Button>
-            <Button Content="Start Tour" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,20,20" Command="{Binding SeeTourProgress}"></Button>
+            <Button Content="Cancel" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20,0,0,20" Command="{Binding CancelTour}" Style="{StaticResource CancelButton}"></Button>
+            <Button Content="Start Tour" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,20,20" Command="{Binding SeeTourProgress}" Style="{StaticResource StartButton}"></Button>
         </Grid>
     </Grid>
 </Window>

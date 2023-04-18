@@ -24,25 +24,24 @@ namespace SIMS_HCI_Project.Applications.Services
 
         public void StartTour(TourTime tourTime)
         {
-            if (tourTime.Status != TourStatus.NOT_STARTED || _tourTimeRepository.HasTourInProgress(tourTime.Tour.GuideId)) return;
+            if (!tourTime.IsStartable || _tourTimeRepository.HasTourInProgress(tourTime.Tour.GuideId)) return;
 
             tourTime.Status = TourStatus.IN_PROGRESS;
             _tourTimeRepository.Update(tourTime);
-            List<GuestTourAttendance> generatedAttendances = new List<GuestTourAttendance>();
 
+            List<GuestTourAttendance> generatedAttendances = new List<GuestTourAttendance>();
             foreach (TourReservation tourReservation in _tourReservationRepository.GetAllByTourTimeId(tourTime.Id))
             {
                 GuestTourAttendance newAttendance = new GuestTourAttendance(tourReservation.Guest2Id, tourTime.Id);
                 newAttendance.TourTime = tourTime;
                 generatedAttendances.Add(newAttendance);
             }
-
             _guestTourAttendanceRepository.AddMultiple(generatedAttendances);
         }
 
         public void MoveToNextKeyPoint(TourTime tourTime)
         {
-            if (tourTime.IsAtLastKeyPoint())
+            if (tourTime.IsAtLastKeyPoint)
             {
                 EndTour(tourTime);
             }
@@ -67,8 +66,22 @@ namespace SIMS_HCI_Project.Applications.Services
                     guestTourAttendance.Status = AttendanceStatus.NEVER_SHOWED_UP;
                 }
             }
-
             _guestTourAttendanceRepository.BulkUpdate(attendancesToUpdate);
+        }
+
+        public void CancelTour(TourTime tourTime)
+        {
+            if (!tourTime.IsCancellable) return;
+
+            tourTime.Status = TourStatus.CANCELED;
+            _tourTimeRepository.Update(tourTime);
+
+            List<TourReservation> tourReservationsToCancel = _tourReservationRepository.GetAllByTourTimeId(tourTime.Id);
+            foreach (TourReservation tourReservation in tourReservationsToCancel)
+            {
+                tourReservation.Status = TourReservationStatus.CANCELLED;
+            }
+            _tourReservationRepository.BulkUpdate(tourReservationsToCancel);
         }
     }
 }

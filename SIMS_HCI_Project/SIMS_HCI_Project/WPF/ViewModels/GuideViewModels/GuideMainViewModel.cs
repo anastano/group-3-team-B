@@ -27,6 +27,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         #region Commands
         public RelayCommand SeeAllTours { get; set; }
+        public RelayCommand SeeStatistics { get; set; }
         #endregion
 
         private TourTime _tourInProgress;
@@ -54,13 +55,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         public Guide Guide { get; set; }
 
         private TourService _tourService;
+        private GuestTourAttendanceService _guestTourAttendanceService;
 
         public GuideMainViewModel(Guide guide)
         {
             Guide = guide;
 
             _tourService = new TourService();
+            _guestTourAttendanceService = new GuestTourAttendanceService();
+
             _tourService.LoadConnections();
+            _guestTourAttendanceService.LoadConnections();
 
             LoadTourInProgress();
             LoadTodaysTours();
@@ -70,6 +75,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         private void InitCommands()
         {
             SeeAllTours = new RelayCommand(ExecutedSeeAllToursCommand, CanExecuteCommand);
+            SeeStatistics = new RelayCommand(ExecutedSeeStatisticsCommand, CanExecuteCommand);
         }
 
         private void LoadTourInProgress()
@@ -86,6 +92,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         {
             Window allTours = new AllToursView(_tourService, Guide);
             allTours.Show();
+        }
+
+        private void ExecutedSeeStatisticsCommand(object obj)
+        {
+            Window toursStatistics = new AllToursStatisticsView(Guide);
+            toursStatistics.Show();
         }
 
         private bool CanExecuteCommand(object obj)

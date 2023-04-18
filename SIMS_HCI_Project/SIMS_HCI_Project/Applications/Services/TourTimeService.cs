@@ -32,13 +32,6 @@ namespace SIMS_HCI_Project.Applications.Services
             return _tourTimeRepository.GetAllByGuideId(id);
         }
 
-        public void CancelTour(TourTime tourTime, TourVoucherService tourVoucherService, TourReservationService tourReservationService)
-        {
-            _tourTimeRepository.CancelTour(tourTime);
-            List<TourReservation> cancelledReservations = tourReservationService.CancelReservationsByTour(tourTime.TourId);
-            tourVoucherService.GiveVouchersToGuestsWithReservation(cancelledReservations);
-        }
-
         public void ConnectGuestAttendances(GuestTourAttendanceService guestTourAttendanceService)
         {
             foreach (TourTime tourTime in _tourTimeRepository.GetAll())

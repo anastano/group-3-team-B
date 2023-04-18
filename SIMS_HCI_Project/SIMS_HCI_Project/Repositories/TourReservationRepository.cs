@@ -73,19 +73,17 @@ namespace SIMS_HCI_Project.Repositories
             return reservation.TourTime.Status == TourStatus.COMPLETED;
         }
 
-        public List<TourReservation> CancelReservationsByTour(int tourTimeId)
+        public void BulkUpdate(List<TourReservation> tourReservations)
         {
-            List<TourReservation> tourReservations = GetAllByTourTimeId(tourTimeId);
-
             foreach (TourReservation tourReservation in tourReservations)
             {
-                tourReservation.Status = TourReservationStatus.CANCELLED;
+                TourReservation toUpdate = GetById(tourReservation.Id);
+                toUpdate = tourReservation;
             }
 
             Save();
-
-            return tourReservations;
         }
+
         public List<TourReservation> GetAllByGuestId(int id)
         {
             return _reservations.FindAll(r => r.Guest2Id == id);

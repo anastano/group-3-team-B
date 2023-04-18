@@ -1,0 +1,26 @@
+﻿<Window x:Class="SIMS_HCI_Project.WPF.Views.GuideViews.AllToursStatisticsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.GuideViews"
+        mc:Ignorable="d"
+        Title="AllToursStatisticsView" Height="450" Width="800"  WindowStartupLocation="CenterScreen" FontSize="20">
+    <Grid>
+        <Label Content="Top Tour" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top"/>
+        <StackPanel Margin="10,62,94,294">
+            <TextBlock Text="{Binding AllTimeTopTour.Tour.Title}"></TextBlock>
+            <TextBlock Text="{Binding AllTimeTopTour.Tour.Location.City}"></TextBlock>
+            <TextBlock Text="{Binding AllTimeTopTour.Tour.Location.Country}"></TextBlock>
+        </StackPanel>
+
+        <Label Content="Top Tour in" HorizontalAlignment="Left" Margin="10,168,0,0" VerticalAlignment="Top"/>
+        <ComboBox HorizontalAlignment="Left" Margin="128,170,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding YearsWithTours}"  SelectedItem="{Binding SelectedYear}"/>
+        <StackPanel Margin="10,234,94,122">
+            <TextBlock Text="{Binding SelectedYearTopTour.Tour.Title}"></TextBlock>
+            <TextBlock Text="{Binding SelectedYearTopTour.Tour.Location.City}"></TextBlock>
+            <TextBlock Text="{Binding SelectedYearTopTour.Tour.Location.Country}"></TextBlock>
+        </StackPanel>
+        
+    </Grid>
+</Window>

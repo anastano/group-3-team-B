@@ -17,14 +17,15 @@ using System.Windows.Shapes;
 namespace SIMS_HCI_Project.WPF.Views.GuideViews
 {
     /// <summary>
-    /// Interaction logic for TourReviewsView.xaml
+    /// Interaction logic for AllToursStatisticsView.xaml
     /// </summary>
-    public partial class TourReviewsView : Window
+    public partial class AllToursStatisticsView : Window
     {
-        public TourReviewsView(TourTime tour)
+        public AllToursStatisticsView(Guide guide)
         {
             InitializeComponent();
-            this.DataContext = new TourReviewsViewModel(tour);
+
+            this.DataContext = new AllToursStatisticsViewModel(guide);
         }
     }
 }

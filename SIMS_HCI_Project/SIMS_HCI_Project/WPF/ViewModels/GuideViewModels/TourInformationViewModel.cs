@@ -31,7 +31,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         #endregion
 
         public Tour Tour { get; set; }
-        public TourTime SelectedTourTime { get; set; }
+
+        private TourTime _selectedTourTime;
+        public TourTime SelectedTourTime
+        {
+            get { return _selectedTourTime; }
+            set
+            {
+                _selectedTourTime = value;
+                OnPropertyChanged();
+            }
+        }
 
         private TourLifeCycleService _tourLifeCycleService;
 
@@ -54,19 +64,19 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         private void ExecutedSeeStatisticsCommand(object obj)
         {
-
+            Window tourStatistics = new TourStatisticsView(SelectedTourTime);
+            tourStatistics.Show();
         }
 
         private void ExecutedSeeReviewsCommand(object obj)
         {
-
-            Window tourReviews = new TourReviewsView();
+            Window tourReviews = new TourReviewsView(SelectedTourTime);
             tourReviews.Show();
         }
 
         private void ExecutedCancelTourCommand(object obj)
         {
-
+            _tourLifeCycleService.CancelTour(SelectedTourTime);
         }
 
         private void ExecutedSeeTourProgressCommand(object obj)

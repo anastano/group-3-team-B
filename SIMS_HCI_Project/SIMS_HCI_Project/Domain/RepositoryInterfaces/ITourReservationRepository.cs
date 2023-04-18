@@ -9,7 +9,7 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
     public interface ITourReservationRepository
     {
         TourReservation GetById(int id);
-        List<TourReservation> CancelReservationsByTour(int tourTimeId);
+        void BulkUpdate(List<TourReservation> tourReservations);
         List<TourReservation> GetAllByTourTimeId(int id);
         List<TourReservation> GetAllByGuestId(int id);
         List<TourReservation> GetAll();

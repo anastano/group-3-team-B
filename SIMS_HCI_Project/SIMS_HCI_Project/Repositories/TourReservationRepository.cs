@@ -1,6 +1,4 @@
-﻿using SIMS_HCI_Project.Applications.Services;
-using SIMS_HCI_Project.Controller;
-using SIMS_HCI_Project.Domain.Models;
+﻿using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Domain.RepositoryInterfaces;
 using SIMS_HCI_Project.FileHandlers;
 using SIMS_HCI_Project.Observer;
@@ -62,34 +60,7 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _reservations.Where(tr => tr.Guest2Id == guestId && tr.TourTimeId == tourTimeId).First();
         }
-
-        // Fix this #New
-        public List<TourReservation> GetUnratedReservations(int guestId, GuestTourAttendanceService guestTourAttendanceService, TourRatingService tourRatingService, TourService tourService)
-        {
-            List<TourReservation> unratedReservations = new List<TourReservation>();
-            foreach (TourReservation reservation in GetAllByGuestId(guestId))
-            {
-                if (IsCompleted(reservation) && WasPresentInTourTime(guestId, reservation.TourTime.Id, guestTourAttendanceService, tourService) && !(tourRatingService.IsRated(reservation.Id)))
-                {
-                    unratedReservations.Add(reservation);
-                }
-            }
-            return unratedReservations;
-        }
-
-        // Fix this #New
-        public bool WasPresentInTourTime(int guestId, int tourTimeId, GuestTourAttendanceService guestTourAttendanceService, TourService tourService)
-        {
-            List<TourTime> toursAttended = guestTourAttendanceService.GetTourTimesWhereGuestWasPresent(guestId, tourService);
-            return toursAttended.Any(ta => ta.Id == tourTimeId);
-        }
-
-        // Move to model #New
-        public bool IsCompleted(TourReservation reservation)
-        {
-            return reservation.TourTime.Status == TourStatus.COMPLETED;
-        }
-
+       
         public void BulkUpdate(List<TourReservation> tourReservations)
         {
             foreach (TourReservation tourReservation in tourReservations)
@@ -97,7 +68,6 @@ namespace SIMS_HCI_Project.Repositories
                 TourReservation toUpdate = GetById(tourReservation.Id);
                 toUpdate = tourReservation;
             }
-
             Save();
         }
 

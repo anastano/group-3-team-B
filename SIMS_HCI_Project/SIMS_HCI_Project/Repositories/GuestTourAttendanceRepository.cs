@@ -6,8 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.FileHandlers;
-using SIMS_HCI_Project.Applications.Services;
-﻿using SIMS_HCI_Project.Controller;
 using SIMS_HCI_Project.Domain.DTOs;
 
 
@@ -98,24 +96,12 @@ namespace SIMS_HCI_Project.Repositories
             return _guestTourAttendances.Find(g => g.GuestId == guestId && g.TourTimeId == tourTimeId);
         }
 
-        public List<GuestTourAttendance> GetAllByGuestId( int guestId)
+        public List<GuestTourAttendance> GetAllByGuestId(int guestId)
         {
             return _guestTourAttendances.FindAll(g => g.GuestId == guestId);
         }
 
-        // Fix this #New
-        public List<TourTime> GetTourTimesWhereGuestWasPresent(int guestId, TourService tourService) // TODO izbaci service
-        {
-            List<TourTime> tourTimes = new List<TourTime>();
-            foreach(var gta in GetAllByGuestId(guestId))
-            {
-                if(gta.Status == AttendanceStatus.PRESENT)
-                {
-                    tourTimes.Add(tourService.GetTourInstance(gta.TourTimeId));
-                }
-            }
-            return tourTimes;
-        }
+        
         public List<GuestTourAttendance> GetByConfirmationRequestedStatus(int guestId)
         {
             var result = new List<GuestTourAttendance>();

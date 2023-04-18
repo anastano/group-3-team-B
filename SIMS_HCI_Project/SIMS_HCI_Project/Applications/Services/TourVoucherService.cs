@@ -30,7 +30,11 @@ namespace SIMS_HCI_Project.Applications.Services
 
         public void UseVoucher(TourVoucher selectedVoucher)
         {
-            _tourVoucherRepository.UseVoucher(selectedVoucher); // Ovo treba da radi service samo
+            if(selectedVoucher == null) return;
+
+            TourVoucher voucher = GetById(selectedVoucher.Id);
+            voucher.Status = VoucherStatus.USED;
+            _tourVoucherRepository.Save();
         }
 
         public void NotifyObservers()

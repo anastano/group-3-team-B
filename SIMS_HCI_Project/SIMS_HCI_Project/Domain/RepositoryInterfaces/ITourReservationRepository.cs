@@ -18,7 +18,7 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         void BulkUpdate(List<TourReservation> tourReservations);
 
         // FIX!
-        List<TourReservation> GetUnratedReservations(int guestId, GuestTourAttendanceService guestTourAttendanceService, TourRatingService tourRatingService, TourTimeService tourTimeService);
+        List<TourReservation> GetUnratedReservations(int guestId, GuestTourAttendanceService guestTourAttendanceService, TourRatingService tourRatingService, TourService tourService);
 
         void NotifyObservers();
         void Subscribe(IObserver observer);

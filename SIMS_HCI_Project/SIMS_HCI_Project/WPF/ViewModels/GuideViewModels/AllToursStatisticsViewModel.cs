@@ -21,7 +21,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         #endregion
 
         private TourStatisticsService _tourStatisticsService;
-        private TourTimeService _tourTimeService;
+        private TourService _tourService;
 
         public TourTime AllTimeTopTour { get; set; }
 
@@ -52,10 +52,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         public AllToursStatisticsViewModel(Guide guide)
         {
             _tourStatisticsService = new TourStatisticsService();
-            _tourTimeService = new TourTimeService();
+            _tourService = new TourService();
 
             AllTimeTopTour = _tourStatisticsService.GetTopTour();
-            YearsWithTours = _tourTimeService.GetYearsWithToursByGuide(guide.Id);
+            YearsWithTours = _tourService.GetYearsWithToursByGuide(guide.Id);
             SelectedYear = YearsWithTours.First();
             UpdateTopTourByYear();
         }

@@ -64,12 +64,12 @@ namespace SIMS_HCI_Project.Repositories
         }
 
         // Fix this #New
-        public List<TourReservation> GetUnratedReservations(int guestId, GuestTourAttendanceService guestTourAttendanceService, TourRatingService tourRatingService, TourTimeService tourTimeService)
+        public List<TourReservation> GetUnratedReservations(int guestId, GuestTourAttendanceService guestTourAttendanceService, TourRatingService tourRatingService, TourService tourService)
         {
             List<TourReservation> unratedReservations = new List<TourReservation>();
             foreach (TourReservation reservation in GetAllByGuestId(guestId))
             {
-                if (IsCompleted(reservation) && WasPresentInTourTime(guestId, reservation.TourTime.Id, guestTourAttendanceService, tourTimeService) && !(tourRatingService.IsRated(reservation.Id)))
+                if (IsCompleted(reservation) && WasPresentInTourTime(guestId, reservation.TourTime.Id, guestTourAttendanceService, tourService) && !(tourRatingService.IsRated(reservation.Id)))
                 {
                     unratedReservations.Add(reservation);
                 }
@@ -78,9 +78,9 @@ namespace SIMS_HCI_Project.Repositories
         }
 
         // Fix this #New
-        public bool WasPresentInTourTime(int guestId, int tourTimeId, GuestTourAttendanceService guestTourAttendanceService, TourTimeService tourTimeService)
+        public bool WasPresentInTourTime(int guestId, int tourTimeId, GuestTourAttendanceService guestTourAttendanceService, TourService tourService)
         {
-            List<TourTime> toursAttended = guestTourAttendanceService.GetTourTimesWhereGuestWasPresent(guestId, tourTimeService);
+            List<TourTime> toursAttended = guestTourAttendanceService.GetTourTimesWhereGuestWasPresent(guestId, tourService);
             return toursAttended.Any(ta => ta.Id == tourTimeId);
         }
 

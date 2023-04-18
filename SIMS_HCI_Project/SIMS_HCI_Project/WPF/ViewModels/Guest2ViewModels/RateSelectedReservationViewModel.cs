@@ -18,11 +18,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
     public class RateSelectedReservationViewModel
     {
         private TourService _tourService;
-        private TourTimeService _tourTimeService;
         private TourReservationService _tourReservationService;
         private TourVoucherService _tourVoucherService;
         private LocationService _locationService;
-        private TourKeyPointService _tourKeyPointService;
         private GuestTourAttendanceService _guestTourAttendanceService;
         private TourRatingService _tourRatingService;
 
@@ -162,11 +160,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public void LoadFromFiles()
         {
             _tourService = new TourService();
-            _tourTimeService = new TourTimeService();
             _tourReservationService = new TourReservationService();
             _tourVoucherService = new TourVoucherService();
             _locationService = new LocationService();
-            _tourKeyPointService = new TourKeyPointService();
             _guestTourAttendanceService = new GuestTourAttendanceService();
             _tourRatingService = new TourRatingService();
 
@@ -175,11 +171,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             _tourService.ConnectDepartureTimes();
 
             _tourReservationService.ConnectVouchers(_tourVoucherService);
-            _tourReservationService.ConnectTourTimes(_tourTimeService);
-            _tourReservationService.ConnectAvailablePlaces(_tourTimeService);
+            _tourReservationService.ConnectTourTimes(_tourService);
+            _tourReservationService.ConnectAvailablePlaces(_tourService);
 
-            _tourTimeService.ConnectCurrentKeyPoints();
-            _tourTimeService.CheckAndUpdateStatus();
+            _tourService.CheckAndUpdateStatus();
         }
         public void InitCommands()
         {

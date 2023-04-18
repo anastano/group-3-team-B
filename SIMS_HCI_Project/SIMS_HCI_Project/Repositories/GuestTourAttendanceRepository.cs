@@ -97,38 +97,24 @@ namespace SIMS_HCI_Project.Repositories
         }
 
         // Fix this #New
-        public List<TourTime> GetTourTimesWhereGuestWasPresent(int guestId, TourTimeService tourTimeService) // TODO izbaci service
+        public List<TourTime> GetTourTimesWhereGuestWasPresent(int guestId, TourService tourService) // TODO izbaci service
         {
             List<TourTime> tourTimes = new List<TourTime>();
             foreach(var gta in GetAllByGuestId(guestId))
             {
                 if(gta.Status == AttendanceStatus.PRESENT)
                 {
-                    tourTimes.Add(tourTimeService.GetById(gta.TourTimeId));
+                    tourTimes.Add(tourService.GetTourInstance(gta.TourTimeId));
                 }
             }
             return tourTimes;
         }
 
-        // Fix this, too complicated for Repo #New
         public int GetGuestCountByAgeGroup(AgeGroup ageGroup, int tourTimeId)
         {
             return _guestTourAttendances.FindAll(gta => gta.Guest.Age >= ageGroup.MinAge && gta.Guest.Age <= ageGroup.MaxAge && gta.TourTimeId == tourTimeId).Count;
         }
 
-        // Fix this, too complicated for Repo #New
-        public TourTime GetTourWithMostGuests()
-        {
-            return _guestTourAttendances.Where(gta => gta.TourTime.Status == TourStatus.COMPLETED).GroupBy(gta => gta.TourTimeId).OrderByDescending(gta => gta.Count()).First().First().TourTime;
-        }
-
-        // Fix this, too complicated for Repo #New
-        public TourTime GetTourWithMostGuestsByYear(int year)
-        {
-            return _guestTourAttendances.Where(gta => gta.TourTime.DepartureTime.Year == year && gta.TourTime.Status == TourStatus.COMPLETED).ToList().GroupBy(gta => gta.TourTimeId).OrderByDescending(gta => gta.Count()).First().First().TourTime;
-        }
-
-        // Fix this, too complicated for Repo #New
         public int GetGuestsWithVoucherCount(int tourTimeId)
         {
             return _guestTourAttendances.Where(gta => gta.TourReservation.VoucherUsedId != -1 && gta.TourTimeId == tourTimeId).Count();

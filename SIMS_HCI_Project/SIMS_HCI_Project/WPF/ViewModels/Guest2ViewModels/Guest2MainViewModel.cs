@@ -19,9 +19,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
     {
         private TourReservationService _tourReservationService;
         private TourService _tourService;
-        private TourTimeService _tourTimeService;
         private LocationService _locationService;
-        private TourKeyPointService _tourKeyPointService;
         private TourVoucherService _tourVoucherService;
 
         public RelayCommand SearchAndReserve { get; set; }
@@ -52,22 +50,19 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
         private void LoadFromFiles()
         {
-            _tourTimeService = new TourTimeService();
             _tourVoucherService = new TourVoucherService();
             _tourReservationService = new TourReservationService();
             _tourService = new TourService();
             _locationService = new LocationService();
-            _tourKeyPointService = new TourKeyPointService();
 
 
             _tourService.ConnectLocations();
             _tourService.ConnectKeyPoints();
             _tourService.ConnectDepartureTimes();
 
-            //_tourTimeService.
-            _tourReservationService.ConnectTourTimes(_tourTimeService);
+            _tourReservationService.ConnectTourTimes(_tourService);
             _tourReservationService.ConnectVouchers(_tourVoucherService);
-            _tourReservationService.ConnectAvailablePlaces(_tourTimeService);
+            _tourReservationService.ConnectAvailablePlaces(_tourService);
         }
 
         public void InitCommands()
@@ -102,7 +97,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
         public void ConnectTourByReservation() //TODO: move
         {
-            TourTime = _tourTimeService.GetById(SelectedTourReservation.TourTimeId);
+            TourTime = _tourService.GetTourInstance(SelectedTourReservation.TourTimeId);
             Tour = _tourService.GetTourInformation(TourTime.TourId);
         }
         public void Executed_ShowImages(object obj)

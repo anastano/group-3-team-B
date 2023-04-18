@@ -56,9 +56,9 @@ namespace SIMS_HCI_Project.Applications.Services
             return _guestTourAttendanceRepository.IsPresent(guestId, tourTimeId);
         }
 
-        public List<TourTime> GetTourTimesWhereGuestWasPresent(int guestId, TourTimeService tourTimeService)
+        public List<TourTime> GetTourTimesWhereGuestWasPresent(int guestId, TourService tourService)
         {
-            return _guestTourAttendanceRepository.GetTourTimesWhereGuestWasPresent(guestId, tourTimeService);
+            return _guestTourAttendanceRepository.GetTourTimesWhereGuestWasPresent(guestId, tourService);
         }
 
         public void LoadConnections()

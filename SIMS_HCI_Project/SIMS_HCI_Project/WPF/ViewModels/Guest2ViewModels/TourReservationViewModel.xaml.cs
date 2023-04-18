@@ -21,11 +21,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
     public partial class TourReservationViewModel : INotifyPropertyChanged
     {
         private TourService _tourService;
-        private TourTimeService _tourTimeService;
         private TourReservationService _tourReservationService;
         private TourVoucherService _tourVoucherService;
         private LocationService _locationService;
-        private TourKeyPointService _tourKeyPointService;
         private GuestTourAttendanceService _tourAttendanceService;
 
         public RelayCommand ShowSuggestions { get; set; }
@@ -119,23 +117,16 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public void LoadFromFiles()
         {
             _tourService = new TourService();
-            _tourTimeService = new TourTimeService();
             _tourReservationService = new TourReservationService();
             _tourVoucherService = new TourVoucherService();
             _locationService = new LocationService();
-            _tourKeyPointService = new TourKeyPointService();
             _tourAttendanceService = new GuestTourAttendanceService();
 
-            _tourService.ConnectLocations();
-            _tourService.ConnectKeyPoints();
-            _tourService.ConnectDepartureTimes();
+            _tourService.LoadConnections();
 
             _tourReservationService.ConnectVouchers(_tourVoucherService);
-            _tourReservationService.ConnectTourTimes(_tourTimeService);
-            _tourReservationService.ConnectAvailablePlaces(_tourTimeService);
-
-            _tourTimeService.ConnectCurrentKeyPoints();
-            //_tourTimeService.ConnectGuestAttendances(_tourAttendanceService);
+            _tourReservationService.ConnectTourTimes(_tourService);
+            _tourReservationService.ConnectAvailablePlaces(_tourService);
 
         
         }
@@ -175,7 +166,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
            // int requestedPartySize;
             //bool isValidrequestedPartySize = int.TryParse(txtRequestedPartySize.Text, out requestedPartySize);
 
-            TourTime = _tourTimeService.GetById(SelectedTourTime.Id);
+            TourTime = _tourService.GetTourInstance(SelectedTourTime.Id);
             TourReservation tourReservation = new TourReservation();
             if (SelectedVoucher != null)
             {
@@ -203,7 +194,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                         }
                         Reservations.Add(tourReservation);
                         _tourReservationService.Add(tourReservation);
-                        _tourTimeService.ReduceAvailablePlaces(TourTime, RequestedPartySize);
+                        _tourReservationService.ReduceAvailablePlaces(_tourService,TourTime, RequestedPartySize);
 
                         MessageBox.Show("Reservation successfully completed.");
                         MessageBoxButton messageBoxButton = MessageBoxButton.OK;

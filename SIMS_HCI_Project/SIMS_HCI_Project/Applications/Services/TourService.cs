@@ -45,6 +45,11 @@ namespace SIMS_HCI_Project.Applications.Services
             return _tourTimeRepository.GetById(tourTimeId);
         }
 
+        public List<TourTime> GetAllTourInstances()
+        {
+            return _tourTimeRepository.GetAll();
+        }
+
         public List<TourTime> GetToursByGuide(int guideId)
         {
             return _tourTimeRepository.GetAllByGuideId(guideId);
@@ -74,8 +79,11 @@ namespace SIMS_HCI_Project.Applications.Services
 
             _tourTimeRepository.AssignTourToTourTimes(tour, tour.DepartureTimes);
             _tourTimeRepository.AddMultiple(tour.DepartureTimes);
+        }
 
-            tour.Guide.Tours.Add(tour); // maybe remove Guide #New
+        public List<int> GetYearsWithToursByGuide(int guideId)
+        {
+            return _tourTimeRepository.GetAll().Where(tt => tt.Status == TourStatus.COMPLETED).Select(tt => tt.DepartureTime.Year).Distinct().ToList();
         }
 
         #region Connections
@@ -84,6 +92,7 @@ namespace SIMS_HCI_Project.Applications.Services
             ConnectDepartureTimes();
             ConnectLocations();
             ConnectKeyPoints();
+            ConnectCurrentKeyPoints();
         }
 
         public void ConnectDepartureTimes()
@@ -110,6 +119,28 @@ namespace SIMS_HCI_Project.Applications.Services
                 tour.KeyPoints = _tourKeyPointRepository.GetByIds(tour.KeyPointsIds);
             }
         }
+
+        public void CheckAndUpdateStatus()
+        {
+            _tourTimeRepository.CheckAndUpdateStatus();
+        }
+
+        public void ConnectGuestAttendances(GuestTourAttendanceService guestTourAttendanceService)
+        {
+            foreach (TourTime tourTime in _tourTimeRepository.GetAll())
+            {
+                tourTime.GuestAttendances = guestTourAttendanceService.GetAllByTourId(tourTime.Id);
+            }
+        }
+
+        public void ConnectCurrentKeyPoints()
+        {
+            foreach (TourTime tourTime in _tourTimeRepository.GetAll())
+            {
+                tourTime.CurrentKeyPoint = tourTime.Tour.KeyPoints[tourTime.CurrentKeyPointIndex];
+            }
+        }
+
         #endregion
     }
 }

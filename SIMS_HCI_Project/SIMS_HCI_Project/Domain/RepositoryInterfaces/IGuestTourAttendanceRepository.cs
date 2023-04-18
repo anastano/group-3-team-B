@@ -20,7 +20,7 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         List<GuestTourAttendance> GetAllByTourId(int id);
         GuestTourAttendance GetByGuestAndTourTimeIds(int guestId, int tourTimeId); //check later
 
-        List<TourTime> GetTourTimesWhereGuestWasPresent(int guestId, TourTimeService tourTimeService); 
+        List<TourTime> GetTourTimesWhereGuestWasPresent(int guestId, TourService tourTimeService); 
         
         void Add(GuestTourAttendance guestTourAttendance);
         void AddMultiple(List<GuestTourAttendance> guestTourAttendances);
@@ -28,8 +28,6 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
 
         // CLEAN!
         int GetGuestCountByAgeGroup(AgeGroup ageGroup, int tourTimeId);
-        TourTime GetTourWithMostGuests();
-        TourTime GetTourWithMostGuestsByYear(int year);
         int GetGuestsWithVoucherCount(int tourTimeId);
         bool IsPresent(int guestId, int tourTimeId);
     }

@@ -36,14 +36,16 @@ namespace SIMS_HCI_Project.Applications.Services
             return new TourStatisticsInfo(guestNumberByAgeGroup, ((double)guestsWithVoucher / (double)totalGuests) * 100);
         }
 
+        // make more readable
         public TourTime GetTopTour()
         {
-            return _guestTourAttendanceRepository.GetTourWithMostGuests();
+            return _guestTourAttendanceRepository.GetAll().Where(gta => gta.TourTime.Status == TourStatus.COMPLETED).GroupBy(gta => gta.TourTimeId).OrderByDescending(gta => gta.Count()).First().First().TourTime;
         }
 
+        // make more readable
         public TourTime GetTopTourByYear(int year)
         {
-            return _guestTourAttendanceRepository.GetTourWithMostGuestsByYear(year);
+            return _guestTourAttendanceRepository.GetAll().Where(gta => gta.TourTime.DepartureTime.Year == year && gta.TourTime.Status == TourStatus.COMPLETED).ToList().GroupBy(gta => gta.TourTimeId).OrderByDescending(gta => gta.Count()).First().First().TourTime;
         }
     }
 }

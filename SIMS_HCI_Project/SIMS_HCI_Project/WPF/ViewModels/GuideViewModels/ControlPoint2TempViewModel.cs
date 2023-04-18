@@ -16,7 +16,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 {
     class ControlPoint2TempViewModel : INotifyPropertyChanged
     {
-        private TourTimeService _tourTimeService;
         private TourVoucherService _tourVoucherService;
         private TourReservationService _tourReservationService;
         private TourService _tourService;
@@ -107,7 +106,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             _guide = guide;
 
             AllTimeTopTour = _tourStatisticsService.GetTopTour();
-            YearsWithTours = _tourTimeService.GetYearsWithToursByGuide(guide.Id);
+            YearsWithTours = _tourService.GetYearsWithToursByGuide(guide.Id);
             SelectedYear = YearsWithTours.First();
             UpdateTopTourByYear();
 
@@ -120,7 +119,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         private void LoadFromFiles()
         {
-            _tourTimeService = new TourTimeService();
             _tourVoucherService = new TourVoucherService();
             _tourReservationService = new TourReservationService();
             _tourService = new TourService();
@@ -135,7 +133,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         public void Excuted_CancelTourCommand(object obj)
         {
-            //_tourTimeService.CancelTour(SelectedTourTime, _tourVoucherService, _tourReservationService);
             LoadAllTours();
         }
 
@@ -183,7 +180,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         private void LoadAllTours()
         {
-            AllTourTimes = new ObservableCollection<TourTime>(_tourTimeService.GetAllByGuideId(_guide.Id));
         }
 
         private void LoadRatings()

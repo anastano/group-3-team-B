@@ -148,14 +148,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             _locationService = new LocationService();
             _guestTourAttendanceService = new GuestTourAttendanceService();
             _notificationService = new NotificationService();
-
-            _tourService.LoadConnections();
-            _guestTourAttendanceService.LoadConnections();
-            _tourReservationService.ConnectTourTimes(_tourService);
-            _tourReservationService.ConnectVouchers(_tourVoucherService);
-            _tourReservationService.ConnectAvailablePlaces(_tourService);
-            
         }
+
         public void InitCommands()
         {
             RateVisitedTours = new RelayCommand(Executed_RateVisitedTours, CanExecute_RateVisitedTours);

@@ -22,10 +22,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         private TourService _tourService;
         private TourReservationService _tourReservationService;
         private TourVoucherService _tourVoucherService;
-        #region Properties
+        #region Commands
         public RelayCommand ShowSuggestions { get; set; }
         public RelayCommand ConfirmReservation { get; set; }
+        public RelayCommand Back { get; set; }
+        #endregion
 
+        #region Properties
         public TourReservationView TourReservationView { get; set; }
         public TourVoucher TourVoucher { get; set; }
         public TourTime TourTime { get; set; }
@@ -126,16 +129,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             _tourService = new TourService();
             _tourReservationService = new TourReservationService();
             _tourVoucherService = new TourVoucherService();
-
-            _tourService.LoadConnections();
-            _tourReservationService.ConnectVouchers(_tourVoucherService);
-            _tourReservationService.ConnectTourTimes(_tourService);
-            _tourReservationService.ConnectAvailablePlaces(_tourService);
         }
 
         public void InitCommands()
         {
             ConfirmReservation = new RelayCommand(Executed_ConfirmReservation, CanExecute_ConfirmReservation);
+            Back = new RelayCommand(Executed_Back, CanExecute_Back);
         }
         #region Commands
         private void Executed_ConfirmReservation(object sender) 
@@ -143,6 +142,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             Reserve();
         }
         public bool CanExecute_ConfirmReservation(object sender)
+        {
+            return true;
+        }
+
+        private void Executed_Back(object sender)
+        {
+            Window window = new TourSearchView(Guest2);
+            window.Show();
+            TourReservationView.Close();
+        }
+        public bool CanExecute_Back(object sender)
         {
             return true;
         }

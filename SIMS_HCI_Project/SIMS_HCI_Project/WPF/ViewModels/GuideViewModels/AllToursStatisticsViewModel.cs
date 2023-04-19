@@ -55,8 +55,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             _tourService = new TourService();
 
             AllTimeTopTour = _tourStatisticsService.GetTopTour();
-            YearsWithTours = _tourService.GetYearsWithToursByGuide(guide.Id);
+            YearsWithTours = _tourService.GetAllTourInstances().Where(tt => tt.Status == TourStatus.COMPLETED)
+                                                                .Select(tt => tt.DepartureTime.Year).Distinct().ToList();
             SelectedYear = YearsWithTours.First();
+
             UpdateTopTourByYear();
         }
 

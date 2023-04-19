@@ -8,19 +8,21 @@
         Title="AllToursStatisticsView" Height="450" Width="800"  WindowStartupLocation="CenterScreen" FontSize="20">
     <Grid>
         <Label Content="Top Tour" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top"/>
-        <StackPanel Margin="10,62,94,294">
-            <TextBlock Text="{Binding AllTimeTopTour.Tour.Title}"></TextBlock>
-            <TextBlock Text="{Binding AllTimeTopTour.Tour.Location.City}"></TextBlock>
-            <TextBlock Text="{Binding AllTimeTopTour.Tour.Location.Country}"></TextBlock>
+        <StackPanel Margin="20,62,94,230">
+            <TextBlock Text="{Binding AllTimeTopTour.Tour.Title, StringFormat=Tour Title: {0}}"></TextBlock>
+            <TextBlock Text="{Binding AllTimeTopTour.Tour.Location.City, StringFormat=Location City: {0}}"></TextBlock>
+            <TextBlock Text="{Binding AllTimeTopTour.Tour.Location.Country, StringFormat=Location Country: {0}}"></TextBlock>
+            <TextBlock Text="{Binding AllTimeTopTour.Id, StringFormat=Tour Id: {0}}"></TextBlock>
         </StackPanel>
 
-        <Label Content="Top Tour in" HorizontalAlignment="Left" Margin="10,168,0,0" VerticalAlignment="Top"/>
-        <ComboBox HorizontalAlignment="Left" Margin="128,170,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding YearsWithTours}"  SelectedItem="{Binding SelectedYear}"/>
-        <StackPanel Margin="10,234,94,122">
-            <TextBlock Text="{Binding SelectedYearTopTour.Tour.Title}"></TextBlock>
-            <TextBlock Text="{Binding SelectedYearTopTour.Tour.Location.City}"></TextBlock>
-            <TextBlock Text="{Binding SelectedYearTopTour.Tour.Location.Country}"></TextBlock>
+        <Label Content="Top Tour in" HorizontalAlignment="Left" Margin="10,214,0,0" VerticalAlignment="Top"/>
+        <ComboBox HorizontalAlignment="Left" Margin="138,214,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding YearsWithTours}"  SelectedItem="{Binding SelectedYear}"/>
+        <StackPanel Margin="20,269,94,38">
+            <TextBlock Text="{Binding SelectedYearTopTour.Tour.Title, StringFormat=Tour Title: {0}}"></TextBlock>
+            <TextBlock Text="{Binding SelectedYearTopTour.Tour.Location.City, StringFormat=Location City: {0}}"></TextBlock>
+            <TextBlock Text="{Binding SelectedYearTopTour.Tour.Location.Country, StringFormat=Location Country: {0}}"></TextBlock>
+            <TextBlock Text="{Binding SelectedYearTopTour.Id, StringFormat=Tour Id: {0}}"></TextBlock>
         </StackPanel>
-        
+
     </Grid>
 </Window>

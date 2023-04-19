@@ -24,9 +24,9 @@
                             <StackPanel Orientation="Vertical" Margin="10,10,10,10">
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                     <TextBlock Text="-name-"/>
-                                    <TextBlock Text="{Binding GetAverageRating}" Margin="40,0,0,0"/>
+                                    <TextBlock Text="{Binding GetAverageRating, StringFormat={} {0}/5}" Margin="40,0,0,0"/>
                                     <TextBlock Text="{Binding Attendance.KeyPointJoined.Title, StringFormat=Joined at: \{0\}}" Margin="40,0,0,0"/>
-                                    <TextBlock Text="{Binding IsValid, StringFormat=Rating valid: \{0\}}" HorizontalAlignment="Right"  Margin="180,0,0,0"/>
+                                    <TextBlock Text="{Binding IsValid, StringFormat=Rating valid: \{0\}}" HorizontalAlignment="Right"  Margin="180,0,20,0"/>
                                     <Button Content="Mark as invalid" 
                                     Command="{Binding DataContext.MarkRatingInvalid, RelativeSource={RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}}"/>
                                 </StackPanel>

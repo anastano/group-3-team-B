@@ -13,12 +13,16 @@ namespace SIMS_HCI_Project.Applications.Services
         private readonly ITourTimeRepository _tourTimeRepository;
         private readonly IGuestTourAttendanceRepository _guestTourAttendanceRepository;
         private readonly ITourReservationRepository _tourReservationRepository;
+        private readonly ITourVoucherRepository _tourVoucherRepository;
+        private readonly int DefaultExpirationDays = 10;
+
 
         public TourLifeCycleService() 
         {
             _tourTimeRepository = Injector.Injector.CreateInstance<ITourTimeRepository>();
             _guestTourAttendanceRepository = Injector.Injector.CreateInstance<IGuestTourAttendanceRepository>();
             _tourReservationRepository = Injector.Injector.CreateInstance<ITourReservationRepository>();
+            _tourVoucherRepository = Injector.Injector.CreateInstance<ITourVoucherRepository>();
         }
 
         public void StartTour(TourTime tourTime)
@@ -76,11 +80,14 @@ namespace SIMS_HCI_Project.Applications.Services
             _tourTimeRepository.Update(tourTime);
 
             List<TourReservation> tourReservationsToCancel = _tourReservationRepository.GetAllByTourTimeId(tourTime.Id);
+            List<TourVoucher> givenTourVouchers = new List<TourVoucher>();
             foreach (TourReservation tourReservation in tourReservationsToCancel)
             {
                 tourReservation.Status = TourReservationStatus.CANCELLED;
+                givenTourVouchers.Add(new TourVoucher(tourReservation.Guest2Id, "EXTRAVOUCHER777", DateTime.Now, DateTime.Now.AddDays(DefaultExpirationDays)));
             }
             _tourReservationRepository.BulkUpdate(tourReservationsToCancel);
+            _tourVoucherRepository.AddMultiple(givenTourVouchers);
         }
     }
 }

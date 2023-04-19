@@ -13,8 +13,10 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         List<TourReservation> GetAllByGuestId(int id);
         TourReservation GetByGuestAndTour(int guestId, int tourTimeId);
         List<TourReservation> GetActiveByGuestId(int id);
+
         void Add(TourReservation tourReservation);
         void BulkUpdate(List<TourReservation> tourReservations);
+
         void NotifyObservers();
         void Subscribe(IObserver observer);
         void Unsubscribe(IObserver observer);

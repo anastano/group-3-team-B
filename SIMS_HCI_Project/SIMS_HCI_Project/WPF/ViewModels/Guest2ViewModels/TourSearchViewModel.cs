@@ -34,7 +34,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public RelayCommand ShowImages { get; set; }
         public RelayCommand Reserve { get; set; }
         public RelayCommand Back { get; set; }
-
+        #region PropertyChanged
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        #endregion
         public TourSearchViewModel(TourSearchView tourSearchView, Guest2 guest2)
         {
             TourSearchView = tourSearchView;
@@ -50,10 +56,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         {
             _tourService = new TourService();
             _locationService = new LocationService();
-
-            _tourService.ConnectLocations();
-            _tourService.ConnectKeyPoints();
-            _tourService.ConnectDepartureTimes();
         }
         public void InitCommands()
         {
@@ -64,32 +66,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         }
         public void Executed_Search(object obj) // must refactor to support command
         {
-            /*
-            List<Tour> result = new List<Tour>();
-
-            int guestsNum;
-            bool isValidGuestsNum = int.TryParse(txtGuestNumber.Text, out guestsNum);
-            int duration; //Assuming that the user enters the maximum duration of the tour. Should discuss whether this is a good way, if so: the name should be changed and a field for the minimum duration added.
-            bool isValidDuration = int.TryParse(txtDuration.Text, out duration);
-
-            if (!isValidGuestsNum)
-            {
-                guestsNum = 0;
-            }
-
-            if (!isValidDuration)
-            {
-                duration = 0;
-            }
-
-            result = _tourController.Search(txtCountry.Text, txtCity.Text, duration, txtLanguage.Text, guestsNum);
-
-            dgTours.ItemsSource = result;
-            /////////////
-            List<Tour> result = new List<Tour>();
-            //todo: validacija da nije slovo
-            result = _tourService.Search(Country, City, TourDuration, Language, GuestNumber);
-            */
             
         }
         public bool CanExecute_Search(object obj)
@@ -124,11 +100,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public bool CanExecute_Back(object sender)
         {
             return true;
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         private int _guestNumber;
         public int GuestNumber

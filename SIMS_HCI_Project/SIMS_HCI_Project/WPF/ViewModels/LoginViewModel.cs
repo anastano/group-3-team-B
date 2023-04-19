@@ -24,11 +24,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels
         public RelayCommand LoginCommand { get; set; }
 
         private readonly UserService _userService;
-
+        private readonly StartupService _startupService;
 
         public LoginViewModel(LoginWindow loginWindow)
         {
             _userService = new UserService();
+            _startupService = new StartupService();
             LoginWindow = loginWindow;
 
             LoginCommand = new RelayCommand(Executed_LoginCommand, CanExecute_LoginCommand);
@@ -41,6 +42,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels
 
             if (user != null)
             {
+                _startupService.LoadConnections();
                 switch (user.Role)
                 {
                     case UserRole.OWNER:

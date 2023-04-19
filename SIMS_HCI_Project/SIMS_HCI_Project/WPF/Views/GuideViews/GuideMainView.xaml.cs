@@ -21,11 +21,20 @@ namespace SIMS_HCI_Project.WPF.Views.GuideViews
     /// </summary>
     public partial class GuideMainView : Window
     {
+        private Guide Guide;
+
         public GuideMainView(Guide guide)
         {
             InitializeComponent();
+            Guide = guide;
 
             this.DataContext = new GuideMainViewModel(guide);
+        }
+
+        private void temporeri_Click(object sender, RoutedEventArgs e)
+        {
+            Window temporeri = new ControlPoint2TempView(Guide);
+            temporeri.Show();
         }
     }
 }

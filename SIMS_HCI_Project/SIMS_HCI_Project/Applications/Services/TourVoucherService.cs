@@ -1,5 +1,6 @@
 ﻿using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Domain.RepositoryInterfaces;
+using SIMS_HCI_Project.Observer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,19 +18,34 @@ namespace SIMS_HCI_Project.Applications.Services
             _tourVoucherRepository = Injector.Injector.CreateInstance<ITourVoucherRepository>();
         }
 
-        public void Load()
+        public TourVoucher GetById(int id)
         {
-            _tourVoucherRepository.Load();
+            return _tourVoucherRepository.GetById(id);
         }
 
-        public void Save()
+        public List<TourVoucher> GetValidVouchersByGuestId(int id)
         {
-            _tourVoucherRepository.Save();
+            return _tourVoucherRepository.GetValidVouchersByGuestId(id);
         }
 
-        public void GiveVouchersToGuestsWithReservation(List<TourReservation> tourReservations)
+        public void UseVoucher(TourVoucher selectedVoucher)
         {
-            _tourVoucherRepository.GiveVouchersToGuestsWithReservation(tourReservations);
+            _tourVoucherRepository.UseVoucher(selectedVoucher); // Ovo treba da radi service samo
+        }
+
+        public void NotifyObservers()
+        {
+            _tourVoucherRepository.NotifyObservers();
+        }
+
+        public void Subscribe(IObserver observer)
+        {
+            _tourVoucherRepository.Subscribe(observer);
+        }
+
+        public void Unsubscribe(IObserver observer)
+        {
+            _tourVoucherRepository.Unsubscribe(observer);
         }
     }
 }

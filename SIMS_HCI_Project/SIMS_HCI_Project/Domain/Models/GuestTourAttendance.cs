@@ -12,31 +12,17 @@ namespace SIMS_HCI_Project.Domain.Models
 {
     public enum AttendanceStatus { NOT_PRESENT, CONFIRMATION_REQUESTED, PRESENT, NEVER_SHOWED_UP}
 
-    public class GuestTourAttendance : ISerializable, INotifyPropertyChanged
+    public class GuestTourAttendance : ISerializable
     {
         public int Id { get; set; }
         public int GuestId { get; set; }
-        //public Guest2 Guest { get; set; }
+        public Guest2 Guest { get; set; }
         public int TourTimeId { get; set; }
         public TourTime TourTime { get; set; }
-        private AttendanceStatus _status;
-        public AttendanceStatus Status
-        {
-            get { return _status; }
-            set
-            {
-                _status = value;
-                OnPropertyChanged();
-            }
-        }
+        public TourReservation TourReservation { get; set; }
+        public AttendanceStatus Status { get; set; }
         public int KeyPointJoinedId { get; set; }
         public TourKeyPoint KeyPointJoined { get; set; }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
         public GuestTourAttendance() { }
 

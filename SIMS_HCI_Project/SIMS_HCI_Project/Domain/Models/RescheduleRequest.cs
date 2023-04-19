@@ -29,7 +29,6 @@ namespace SIMS_HCI_Project.Domain.Models
             WantedEnd = wantedEnd;
             Status = RescheduleRequestStatus.PENDING;
             OwnerComment = "";
-
         }
 
         public RescheduleRequest(RescheduleRequest request)

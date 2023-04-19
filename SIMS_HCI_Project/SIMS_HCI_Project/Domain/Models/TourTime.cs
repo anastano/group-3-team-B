@@ -1,4 +1,5 @@
 ﻿using SIMS_HCI_Project.Controller;
+using SIMS_HCI_Project.Model;
 using SIMS_HCI_Project.Serializer;
 using System;
 using System.Collections.Generic;
@@ -12,59 +13,17 @@ namespace SIMS_HCI_Project.Domain.Models
 {
     public enum TourStatus { NOT_STARTED, IN_PROGRESS, COMPLETED, CANCELED };
 
-    public class TourTime : ISerializable, INotifyPropertyChanged
+    public class TourTime : ISerializable
     {
         public int Id { get; set; }
         public int TourId { get; set; }
         public Tour Tour { get; set; }
         public DateTime DepartureTime { get; set; }
-        private TourStatus _status;
-        public TourStatus Status
-        {
-            get { return _status; }
-            set
-            {
-                _status = value;
-                OnPropertyChanged();
-            }
-        }
-        private TourKeyPoint _currentKeyPoint;
-        public TourKeyPoint CurrentKeyPoint
-        {
-            get { return _currentKeyPoint; }
-            set
-            {
-                _currentKeyPoint = value;
-                OnPropertyChanged();
-            }
-        }
-        public int _currentKeyPointIndex;
-        public int CurrentKeyPointIndex
-        {
-            get { return _currentKeyPointIndex; }
-            set
-            {
-                _currentKeyPointIndex = value;
-                OnPropertyChanged();
-            }
-        }
+        public TourStatus Status { get; set; }
+        public TourKeyPoint CurrentKeyPoint { get; set; }
+        public int CurrentKeyPointIndex { get; set; }
         public List<GuestTourAttendance> GuestAttendances { get; set; }
-
-        private int _available;
-        public int Available {
-            get { return _available; }
-            set
-            {
-                _available = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        public int Available { get; set; }
 
         public TourTime()
         {
@@ -97,11 +56,42 @@ namespace SIMS_HCI_Project.Domain.Models
         {
             Id = Convert.ToInt32(values[0]);
             TourId = Convert.ToInt32(values[1]);
-            //DepartureTime = Convert.ToDateTime(values[2]);
             DepartureTime = DateTime.ParseExact(values[2], "M/d/yyyy h:mm:ss tt", null);
             Enum.TryParse(values[3], out TourStatus status);
             Status = status;
             CurrentKeyPointIndex = Convert.ToInt32(values[4]);
+        }
+
+        public bool IsAtLastKeyPoint
+        {
+            get
+            {
+                return this.CurrentKeyPointIndex >= this.Tour.KeyPoints.Count - 1;
+            }
+        }
+
+        public bool IsCancellable
+        {
+            get
+            {
+                return DateTime.Now.AddDays(2) < this.DepartureTime;
+            }
+        }
+
+        public bool IsStartable
+        {
+            get
+            {
+                return this.Status == TourStatus.NOT_STARTED && this.DepartureTime.Date == DateTime.Today;
+            }
+        }
+
+        public bool IsFinished
+        {
+            get
+            {
+                return this.Status == TourStatus.COMPLETED;
+            }
         }
     }
 }

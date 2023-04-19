@@ -11,7 +11,7 @@ namespace SIMS_HCI_Project.Repositories
         List<Notification> GetAll();
         Notification GetById(int id);
         List<Notification> GetUnreadByUserId(int userId);
-        void MarkAsRead(int notificationId);
+        void MarkAsRead(int notificationId); // to Update #New
         void NotifyObservers();
         void Save();
         void Subscribe(IObserver observer);

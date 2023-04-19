@@ -18,10 +18,7 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             _ratingRepository = Injector.Injector.CreateInstance<IRatingGivenByOwnerRepository>();
         }
-        public void Save()
-        {
-            _ratingRepository.Save();
-        }
+
         public RatingGivenByOwner GetById(int id)
         {
             return _ratingRepository.GetById(id);
@@ -35,6 +32,26 @@ namespace SIMS_HCI_Project.Applications.Services
         public List<RatingGivenByOwner> GetAll()
         {
             return _ratingRepository.GetAll();
+        }
+
+        public List<AccommodationReservation> GetUnratedReservations(int ownerId, AccommodationReservationService reservationService)
+        {
+            List<AccommodationReservation> unratedReservations = new List<AccommodationReservation>();
+
+            foreach (AccommodationReservation reservation in reservationService.GetByOwnerId(ownerId))
+            {
+                if (reservationService.IsCompleted(reservation) && reservationService.IsWithinFiveDaysAfterCheckout(reservation) && !IsReservationRated(reservation))
+                {
+                    unratedReservations.Add(reservation);
+                }
+            }
+            return unratedReservations;
+        }
+
+
+        public bool IsReservationRated(AccommodationReservation reservation)
+        {
+            return (GetByReservationId(reservation.Id) != null) ? true : false;
         }
 
         public void Add(RatingGivenByOwner rating)

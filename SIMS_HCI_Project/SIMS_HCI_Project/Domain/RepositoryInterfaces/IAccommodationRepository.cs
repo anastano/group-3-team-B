@@ -7,7 +7,6 @@ namespace SIMS_HCI_Project.Repositories
     public interface IAccommodationRepository
     {
         Accommodation GetById(int id);
-        int GenerateId();
         List<Accommodation> GetAll();
         List<Accommodation> GetByOwnerId(int id);
         List<string> GetImages(int id);

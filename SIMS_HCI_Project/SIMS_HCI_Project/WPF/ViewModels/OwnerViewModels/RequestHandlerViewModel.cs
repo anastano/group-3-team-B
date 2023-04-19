@@ -25,7 +25,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public RelayCommand AcceptRequestCommand { get; set; }
         public RelayCommand DeclineRequestCommand { get; set; }
 
-        public RequestHandlerViewModel(RequestHandlerView requestHandlerView, RescheduleRequestService requestService, AccommodationReservationService reservationService, NotificationService notificationService, RescheduleRequest selectedRequest) 
+        public RequestHandlerViewModel(RequestHandlerView requestHandlerView, RescheduleRequestService requestService, 
+            AccommodationReservationService reservationService, NotificationService notificationService, RescheduleRequest selectedRequest) 
         {
             InitCommands();
 
@@ -36,7 +37,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             RequestHandlerView = requestHandlerView;
             Request = selectedRequest;
             
-            OverlappingReservations = new ObservableCollection<AccommodationReservation>(_reservationService.GetOverlappingReservations(Request));
+            OverlappingReservations = new ObservableCollection<AccommodationReservation>(_requestService.GetOverlappingReservations(Request, _reservationService));
 
             ShowTextBox();
         }
@@ -53,7 +54,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
                 }
             }
 
-            _reservationService.RescheduleReservation(Request);
+            _reservationService.EditReservation(Request);
             _requestService.EditStatus(Request.Id, RescheduleRequestStatus.ACCEPTED);
 
             String Message = "Request to reschedule the reservation for '" + Request.AccommodationReservation.Accommodation.Name + "' has been ACCEPTED";
@@ -87,7 +88,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public void ShowTextBox()
         {
-            int overlappingReservations = _reservationService.GetOverlappingReservations(Request).Count;
+            int overlappingReservations = _requestService.GetOverlappingReservations(Request, _reservationService).Count;
             if (overlappingReservations != 0)
             {
                 RequestHandlerView.txtOverlappingReservations.Text = "There are reservations on those days: ";

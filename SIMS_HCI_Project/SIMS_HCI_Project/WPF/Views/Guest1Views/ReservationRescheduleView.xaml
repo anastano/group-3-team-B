@@ -84,7 +84,7 @@
 
         <Label Content="Other requests to reschedule this accommodation:" Grid.Row="4"  Grid.ColumnSpan="4" FontSize="16" VerticalAlignment="Bottom"></Label>
         <DataGrid  Grid.Row="5" Grid.ColumnSpan="5" ItemsSource="{Binding Path=RescheduleRequests, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True">
-        <DataGrid.Columns>
+            <DataGrid.Columns>
                 <DataGridTextColumn Header="Guest" Binding="{Binding AccommodationReservation.Guest.Name}" Width="Auto"></DataGridTextColumn>
                 <DataGridTextColumn Header="Initial Start" Binding="{Binding AccommodationReservation.Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="SizeToCells"></DataGridTextColumn>
                 <DataGridTextColumn Header="Initial End" Binding="{Binding AccommodationReservation.End, StringFormat='{}{0:MM/dd/yyyy}'}" Width="SizeToCells"></DataGridTextColumn>
@@ -94,7 +94,7 @@
                 <DataGridTextColumn Header="Owner comment" Binding="{Binding OwnerComment}" Width="6*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Frame x:Name="ReservationRescheduleFrame" NavigationUIVisibility="Hidden"/>
+        <Frame x:Name="ReservationRescheduleFrame" NavigationUIVisibility="Hidden" Margin="-25,-28,-30,-28" Grid.RowSpan="6" Grid.ColumnSpan="5"/>
 
     </Grid>
 </Page>

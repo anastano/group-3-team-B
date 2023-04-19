@@ -22,7 +22,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         
         public RelayCommand SubmitRequestDenialCommand { get; set; }
 
-        public RequestDenialViewModel(RequestHandlerView requestHandlerView, RequestDenialView requestDenialView, RescheduleRequestService requestService, NotificationService notificationService, RescheduleRequest selectedRequest) 
+        public RequestDenialViewModel(RequestHandlerView requestHandlerView, RequestDenialView requestDenialView, RescheduleRequestService requestService, 
+            NotificationService notificationService, RescheduleRequest selectedRequest) 
         {
             InitCommands();
 

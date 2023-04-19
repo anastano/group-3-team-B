@@ -14,6 +14,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
@@ -27,6 +28,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public AccommodationReservation Reservation { get; set; }
         public ObservableCollection<RescheduleRequest> RescheduleRequests { get; set; }
         public RelayCommand SendReservationRescheduleRequestCommand { get; set; }
+
+        private Frame _frame;
+        public Frame Frame
+        {
+            get { return _frame; }
+            set { _frame = value; }
+        }
 
         private DateTime _wantedStart;
         public DateTime WantedStart
@@ -64,6 +72,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _accommodationReservationService = reservationService;
             _rescheduleRequestService = new RescheduleRequestService(); 
             ReservationRescheduleView = reservationRescheduleView;
+            Frame = ReservationRescheduleView.ReservationRescheduleFrame;
             Reservation = reservation;
             RescheduleRequests = new ObservableCollection<RescheduleRequest>(_rescheduleRequestService.GetAllByOwnerId(Reservation.Accommodation.OwnerId));
             WantedStart = DateTime.Now.AddDays(1);
@@ -78,10 +87,16 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             {
                 string result = null;
 
-                if (columnName == "WantedStart" || columnName == "WantedEnd")
+                if (columnName == "WantedStart")
                 {
                     result = PassedDayErrorMessage(WantedStart);
-                    if(result.Equals(" "))
+                    if(result == null)
+                        result = DateRangeErrorMessage();
+                }
+                else if(columnName == "WantedEnd")
+                {
+                    result = PassedDayErrorMessage(WantedStart);
+                    if (result == null)
                         result = DateRangeErrorMessage();
                 }
                 return result;
@@ -90,12 +105,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         private string DateRangeErrorMessage()
         {
             bool isDateRangeValid = ((WantedEnd - WantedStart).TotalDays < Reservation.Accommodation.MinimumReservationDays - 1);
-            return isDateRangeValid ? "Date range should be bigger, because of days for reseration" : " ";
+            return isDateRangeValid ? "Date range should be bigger, because of days for reseration" : null;
         }
 
         private string PassedDayErrorMessage(DateTime date)
         {
-            return (date <= DateTime.Now) ? "Start cannot be a day that has already passed" : " ";
+            return (date <= DateTime.Now) ? "Start cannot be a day that has already passed" : null;
         }
 
         private readonly string[] _validatedProperties = { "WantedStart", "WantedEnd" };
@@ -119,7 +134,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             if (result == MessageBoxResult.Yes && IsValid)
             {
                _rescheduleRequestService.Add(new RescheduleRequest(Reservation, WantedStart, WantedEnd));
-                ReservationRescheduleView.ReservationRescheduleFrame.Content = new ReservationsView(_accommodationReservationService, Reservation.Guest);
+                this.Frame.Navigate(new ReservationsView(_accommodationReservationService, Reservation.Guest));
 
             }
         }

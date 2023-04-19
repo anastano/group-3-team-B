@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.GuideViews"
         mc:Ignorable="d"
-        Title="TourStatisticsView" Height="450" Width="450"  WindowStartupLocation="CenterScreen" FontSize="20">
+        Title="TourStatisticsView" Height="550" Width="450"  WindowStartupLocation="CenterScreen" FontSize="20">
     <Grid>
-        <DataGrid ItemsSource="{Binding TourStatistics.GuestNumbersByAge}" Margin="58,23,49,244">
+        <DataGrid ItemsSource="{Binding TourStatistics.GuestNumbersByAge}" Margin="58,23,49,326" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Min Age" Binding="{Binding Key.MinAge}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Max Age" Binding="{Binding Key.MaxAge}"></DataGridTextColumn>
@@ -17,7 +17,7 @@
         <TextBlock Text="{Binding TourStatistics.WithVoucherPercentage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=With Voucher: {0}%}" Height="50" Margin="58,195,49,189"/>
         <TextBlock Text="{Binding TourStatistics.WithoutVoucherPercentage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=Without Voucher: {0}%}" Height="50" Margin="58,247,49,137"/>
 
-        <Button Content="See All Tour Statistics" HorizontalAlignment="Left" Margin="10,391,0,0" VerticalAlignment="Top" Width="198" Height="33"/>
+        <Button Content="See All Tour Statistics" HorizontalAlignment="Left" Margin="10,436,0,0" VerticalAlignment="Top" Width="198" Height="33" Command="{Binding SeeAllToursStats}"/>
 
     </Grid>
 </Window>

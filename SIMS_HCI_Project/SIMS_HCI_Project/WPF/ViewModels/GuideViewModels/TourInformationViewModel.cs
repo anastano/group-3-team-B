@@ -27,6 +27,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         public RelayCommand SeeStatistics { get; set; }
         public RelayCommand SeeReviews { get; set; }
         public RelayCommand CancelTour { get; set; }
+        public RelayCommand StartTour { get; set; }
         public RelayCommand SeeTourProgress { get; set; }
         #endregion
 
@@ -59,6 +60,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             SeeStatistics = new RelayCommand(ExecutedSeeStatisticsCommand, CanExecuteCommand);
             SeeReviews = new RelayCommand(ExecutedSeeReviewsCommand, CanExecuteCommand);
             CancelTour = new RelayCommand(ExecutedCancelTourCommand, CanExecuteCommand);
+            StartTour = new RelayCommand(ExecutedStartTourCommand, CanExecuteCommand);
             SeeTourProgress = new RelayCommand(ExecutedSeeTourProgressCommand, CanExecuteCommand);
         }
 
@@ -79,10 +81,16 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             _tourLifeCycleService.CancelTour(SelectedTourTime);
         }
 
-        private void ExecutedSeeTourProgressCommand(object obj)
+        private void ExecutedStartTourCommand(object obj)
         {
             _tourLifeCycleService.StartTour(SelectedTourTime);
                 
+            Window tourProgress = new TourProgressView(SelectedTourTime);
+            tourProgress.Show();
+        }
+        
+        private void ExecutedSeeTourProgressCommand(object obj)
+        {
             Window tourProgress = new TourProgressView(SelectedTourTime);
             tourProgress.Show();
         }

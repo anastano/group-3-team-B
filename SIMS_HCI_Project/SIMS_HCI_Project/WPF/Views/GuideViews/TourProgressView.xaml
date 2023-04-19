@@ -24,7 +24,7 @@
                 </TextBlock>
                 <TextBlock Text="{Binding Tour.DepartureTime}" Margin="0,0,0,40"></TextBlock>
                 <Button Content="Go to the next key point" Margin="0,0,0,10" Height="60" Command="{Binding MoveKeyPoint}"></Button>
-                <TextBlock Text="{Binding Tour.CurrentKeyPoint.Title, StringFormat=Current Key Point: {0}}" Margin="0,0,0,50"></TextBlock>
+                <TextBlock Text="{Binding Tour.CurrentKeyPoint.Title, StringFormat=Current Key Point: {0}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,50"></TextBlock>
                 <ListBox ItemsSource="{Binding Path=Tour.Tour.KeyPoints}" Height="200">
                 </ListBox>
             </StackPanel>
@@ -33,8 +33,8 @@
                 <Label Content="Guest list"></Label>
                 <DataGrid ItemsSource="{Binding Path=Tour.GuestAttendances, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=SelectedGuest}" AutoGenerateColumns="False" IsReadOnly="True" Height="304">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Guest" Binding="{Binding GuestId}" Width="2*"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="2*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Guest" Binding="{Binding GuestId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="2*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Status" Binding="{Binding Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="2*"></DataGridTextColumn>
                         <DataGridTemplateColumn Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>

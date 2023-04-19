@@ -183,14 +183,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels // TODO: prikazuje sa
             _locationService = new LocationService();
             _guestTourAttendanceService = new GuestTourAttendanceService();
             _notificationService = new NotificationService();
-
-            _tourService.ConnectLocations();
-            _tourService.ConnectKeyPoints();
-            _tourService.ConnectDepartureTimes();
-
-            _tourReservationService.ConnectTourTimes(_tourService);
-            _tourReservationService.ConnectVouchers(_tourVoucherService);
-            _tourReservationService.ConnectAvailablePlaces(_tourService);
         }
 
         public void ShowNotifications()

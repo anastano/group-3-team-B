@@ -38,7 +38,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
                 OnPropertyChanged();
             }
         }
-
         public TourRating SelectedRating { get; set; }
 
         public TourTime Tour { get; set; }
@@ -46,7 +45,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         public TourReviewsViewModel(TourTime tour)
         {
             _tourRatingService = new TourRatingService();
-            _tourRatingService.LoadConnections();
+
             Tour = tour;
             InitCommands();
 

@@ -19,7 +19,6 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         List<GuestTourAttendance> GetAll();
         List<GuestTourAttendance> GetAllByTourId(int id);
         GuestTourAttendance GetByGuestAndTourTimeIds(int guestId, int tourTimeId); //check later
-
         List<TourTime> GetTourTimesWhereGuestWasPresent(int guestId, TourService tourTimeService); 
         
         void Add(GuestTourAttendance guestTourAttendance);

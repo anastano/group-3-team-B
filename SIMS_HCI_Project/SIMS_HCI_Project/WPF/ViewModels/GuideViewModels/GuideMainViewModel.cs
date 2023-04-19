@@ -2,6 +2,7 @@
 using SIMS_HCI_Project.Domain.DTOs;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands;
+using SIMS_HCI_Project.WPF.Views;
 using SIMS_HCI_Project.WPF.Views.GuideViews;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         #region Commands
         public RelayCommand SeeAllTours { get; set; }
         public RelayCommand SeeStatistics { get; set; }
+        public RelayCommand SignOut { get; set; }
         #endregion
 
         private TourTime _tourInProgress;
@@ -64,9 +66,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             _tourService = new TourService();
             _guestTourAttendanceService = new GuestTourAttendanceService();
 
-            _tourService.LoadConnections();
-            _guestTourAttendanceService.LoadConnections();
-
             LoadTourInProgress();
             LoadTodaysTours();
             InitCommands();
@@ -76,6 +75,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         {
             SeeAllTours = new RelayCommand(ExecutedSeeAllToursCommand, CanExecuteCommand);
             SeeStatistics = new RelayCommand(ExecutedSeeStatisticsCommand, CanExecuteCommand);
+            SignOut = new RelayCommand(ExecutedSignOutCommand, CanExecuteCommand);
         }
 
         private void LoadTourInProgress()
@@ -98,6 +98,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         {
             Window toursStatistics = new AllToursStatisticsView(Guide);
             toursStatistics.Show();
+        }
+
+        private void ExecutedSignOutCommand(object obj)
+        {
+            Window logIn = new LoginWindow();
+            for (int i = App.Current.Windows.Count - 1; i >= 0; i--)
+            {
+                if (App.Current.Windows[i] == logIn) continue;
+                App.Current.Windows[i].Close();
+            }
+            logIn.Show();
         }
 
         private bool CanExecuteCommand(object obj)

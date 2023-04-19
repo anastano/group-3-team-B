@@ -30,11 +30,5 @@ namespace SIMS_HCI_Project.WPF.Views.GuideViews
 
             this.DataContext = new GuideMainViewModel(guide);
         }
-
-        private void temporeri_Click(object sender, RoutedEventArgs e)
-        {
-            Window temporeri = new ControlPoint2TempView(Guide);
-            temporeri.Show();
-        }
     }
 }

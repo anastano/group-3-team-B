@@ -21,7 +21,5 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
             TourStatistics = _tourStatisticsService.GetTourStatistics(tour.Id);
         }
-
-
     }
 }

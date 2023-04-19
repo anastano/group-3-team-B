@@ -49,10 +49,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         {
             _tourService = new TourService();
             _locationService = new LocationService();
-
-            _tourService.ConnectLocations();
-            _tourService.ConnectKeyPoints();
-            _tourService.ConnectDepartureTimes();
         }
         public void InitCommands()
         {

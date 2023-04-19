@@ -121,14 +121,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             _tourVoucherService = new TourVoucherService();
             _locationService = new LocationService();
             _tourAttendanceService = new GuestTourAttendanceService();
-
-            _tourService.LoadConnections();
-
-            _tourReservationService.ConnectVouchers(_tourVoucherService);
-            _tourReservationService.ConnectTourTimes(_tourService);
-            _tourReservationService.ConnectAvailablePlaces(_tourService);
-
-        
         }
 
         public void InitCommands()

@@ -29,9 +29,20 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         public RelayCommand MoveKeyPoint { get; set; }
         #endregion
 
-        public TourTime Tour { get; set; }
+        private TourTime _tour;
+        public TourTime Tour
+        {
+            get { return _tour; }
+            set
+            {
+                _tour = value;
+                OnPropertyChanged();
+            }
+        }
+
         public GuestTourAttendance SelectedGuest { get; set; }
 
+        private TourService _tourService;
         private TourLifeCycleService _tourLifeCycleService;
         private GuestTourAttendanceService _guestTourAttendanceService;
 
@@ -41,6 +52,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
             _tourLifeCycleService = new TourLifeCycleService();
             _guestTourAttendanceService = new GuestTourAttendanceService();
+            _tourService = new TourService();
 
             InitCommands();
         }
@@ -55,16 +67,24 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         private void ExecutedMarkGuestPresentCommand(object obj)
         {
             _guestTourAttendanceService.MarkGuestAsPresent(SelectedGuest);
+            LoadTour();
         }
 
         private void ExecutedEndTourCommand(object obj)
         {
             _tourLifeCycleService.EndTour(Tour);
+            LoadTour();
         }
 
         private void ExecutedMoveKeyPointCommand(object obj)
         {
             _tourLifeCycleService.MoveToNextKeyPoint(Tour);
+            LoadTour();
+        }
+
+        private void LoadTour()
+        {
+            Tour = _tourService.GetTourInstance(Tour.Id);
         }
 
         private bool CanExecuteCommand(object obj)

@@ -117,12 +117,20 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             Frame = RatingReservationView.ReservationRatingFrame;
             Images = new ObservableCollection<string>();
             Owner = Reservation.Accommodation.Owner.Name + " " + Reservation.Accommodation.Owner.Surname;
+            InitialProperties();
             InitCommands();
         }
+        public void InitialProperties()
+        {
+            ImageUrl = " ";
+            AdditionalComment = " ";
+            Correcntess = 1;
+            Cleanliness = 1;
+        }
+
         public void ExecutedReviewReservationCommand(object obj)
         {
-            _ratingService.Add(new RatingGivenByGuest(Reservation.Id, Cleanliness, Correcntess, AdditionalComment, new List<string>(Images)));
-            _accommodationReservationService.ConvertReservationsIntoRated(_ratingService);
+            _ratingService.RateReservation(_accommodationReservationService, new RatingGivenByGuest(Reservation.Id, Cleanliness, Correcntess, AdditionalComment, new List<string>(Images)));
             this.Frame.Navigate(new ReservationsView(_accommodationReservationService, Reservation.Guest));
         }
         public void ExecutedCancelReviewCommand(object obj)

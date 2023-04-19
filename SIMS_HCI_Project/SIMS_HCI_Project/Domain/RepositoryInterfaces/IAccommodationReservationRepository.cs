@@ -7,18 +7,18 @@ namespace SIMS_HCI_Project.Repositories
 {
     public interface IAccommodationReservationRepository
     {
-        AccommodationReservation GetById(int id);
-        int GenerateId();
         List<AccommodationReservation> GetAll();
-        void NotifyObservers();
-        void Save();
-        void Subscribe(IObserver observer);
-        void Unsubscribe(IObserver observer);
+        AccommodationReservation GetById(int id);
         List<AccommodationReservation> GetByOwnerId(int id);
         List<AccommodationReservation> GetByAccommodationId(int accommodationId);
         List<AccommodationReservation> GetAllByStatusAndGuestId(int id, AccommodationReservationStatus status);
         void EditStatus(int id, AccommodationReservationStatus status);
-        void ConvertReservedReservationIntoCompleted(DateTime currentDate);
         void EditReservation(RescheduleRequest request);
+        void ConvertReservedReservationIntoCompleted(DateTime currentDate);
+        int GenerateId();
+        void Save();
+        void NotifyObservers();
+        void Subscribe(IObserver observer);
+        void Unsubscribe(IObserver observer);
     }
 }

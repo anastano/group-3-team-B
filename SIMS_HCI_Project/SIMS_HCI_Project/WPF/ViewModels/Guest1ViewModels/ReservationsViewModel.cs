@@ -24,21 +24,22 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public ReservationsView ReservationsView { get; set; }
         public Guest1MainView Guest1MainView { get; set; }
 
-        private Frame frame;
-        public Frame Frame
-        {
-            get { return frame; }
-            set { frame = value; }
-        }
         public Guest1 Guest { get; set; }
         public ObservableCollection<AccommodationReservation> ActiveReservations { get; set; }
         public ObservableCollection<AccommodationReservation> PastReservations { get; set; }
-        public ObservableCollection<AccommodationReservation> CanceledReservations { get; set; }  //TO DO DODATI TAJ TAB
+        public ObservableCollection<AccommodationReservation> CanceledReservations { get; set; }
         public AccommodationReservation SelectedReservation { get; set; }
 
         public RelayCommand CancelReservationCommand { get; set; }
         public RelayCommand RescheduleReservationCommand { get; set; }
         public RelayCommand RateCommand { get; set; }
+
+        private Frame _frame;
+        public Frame Frame
+        {
+            get { return _frame; }
+            set { _frame = value; }
+        }
 
         public ReservationsViewModel(Frame currentFrame, AccommodationReservationService reseravtionService, Guest1 guest)
         {
@@ -49,6 +50,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             this.Frame = currentFrame;
             Guest = guest;
             ActiveReservations = new ObservableCollection<AccommodationReservation>(_reservationService.GetAllByStatusAndGuestId(Guest.Id, AccommodationReservationStatus.RESERVED));
+            AddRescheduledReservations();
             PastReservations = new ObservableCollection<AccommodationReservation>(_reservationService.GetAllByStatusAndGuestId(Guest.Id, AccommodationReservationStatus.COMPLETED));
             CanceledReservations = new ObservableCollection<AccommodationReservation>(_reservationService.GetAllByStatusAndGuestId(Guest.Id,AccommodationReservationStatus.CANCELLED));
             _reservationService.Subscribe(this);
@@ -62,9 +64,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 MessageBoxResult result = ConfirmCancellation();
                 if (result == MessageBoxResult.Yes)
                 {
-                    String Message = "Reservation for " + SelectedReservation.Accommodation.Name + " with id: " + SelectedReservation.Id + " has been cancelled";
-                    _notificationService.Add(new Notification(Message, SelectedReservation.Accommodation.OwnerId, false));
-                    _reservationService.EditStatus(SelectedReservation.Id, AccommodationReservationStatus.CANCELLED);
+                    _reservationService.CancelReservation(_notificationService, SelectedReservation);
                 }
             }
         }
@@ -118,7 +118,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             {
                 ActiveReservations.Add(reservation);
             }
-
+            AddRescheduledReservations();
             PastReservations.Clear();
             foreach (AccommodationReservation reservation in _reservationService.GetAllByStatusAndGuestId(Guest.Id, AccommodationReservationStatus.COMPLETED))
             {
@@ -129,6 +129,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             foreach (AccommodationReservation reservation in _reservationService.GetAllByStatusAndGuestId(Guest.Id, AccommodationReservationStatus.CANCELLED))
             {
                 CanceledReservations.Add(reservation);
+            }
+        }
+
+        private void AddRescheduledReservations()
+        {
+            foreach (AccommodationReservation reservation in _reservationService.GetAllByStatusAndGuestId(Guest.Id, AccommodationReservationStatus.RESCHEDULED))
+            {
+                ActiveReservations.Add(reservation);
             }
         }
     }

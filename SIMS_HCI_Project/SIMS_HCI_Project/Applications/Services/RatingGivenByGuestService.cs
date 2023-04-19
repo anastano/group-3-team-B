@@ -55,9 +55,10 @@ namespace SIMS_HCI_Project.Applications.Services
             return ratedByOwnerId;
         }
 
-        public void Add(RatingGivenByGuest rating)
+        public void RateReservation(AccommodationReservationService reservationService, RatingGivenByGuest rating)
         {
             _ratingRepository.Add(rating);
+            reservationService.GetById(rating.ReservationId).isRated = true;
         }
 
         public void ConnectRatingsWithReservations(AccommodationReservationService reservationService)

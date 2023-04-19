@@ -152,7 +152,6 @@ namespace SIMS_HCI_Project.Applications.Services
                 reservation.Guest = guest1Service.GetById(reservation.GuestId);
             }
         }
-
         public void FillOwnerReservationList(Owner owner)
         {
             owner.Reservations = GetByOwnerId(owner.Id);
@@ -168,6 +167,12 @@ namespace SIMS_HCI_Project.Applications.Services
             {
                 reservation.isRated = ratingGivenByGuestService.IsReservationRated(reservation.Id);
             }
+        }
+        public void CancelReservation(NotificationService notificationService, AccommodationReservation reservation)
+        {
+            String Message = "Reservation for " + reservation.Accommodation.Name + " with id: " + reservation.Id + " has been cancelled";
+            notificationService.Add(new Notification(Message, reservation.Accommodation.OwnerId, false));
+            _reservationRepository.EditStatus(reservation.Id, AccommodationReservationStatus.CANCELLED);
         }
         public void NotifyObservers()
         {

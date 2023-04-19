@@ -107,7 +107,7 @@ namespace SIMS_HCI_Project.Repositories
             var result = new List<GuestTourAttendance>();
             foreach(var gta in GetAllByGuestId(guestId))
             {
-                if(gta.Status == AttendanceStatus.CONFIRMATION_REQUESTED)
+                if(gta.Status == AttendanceStatus.CONFIRMATION_REQUESTED && gta.TourTime.Status == TourStatus.IN_PROGRESS) //proveri
                 {
                     result.Add(gta);
                 }

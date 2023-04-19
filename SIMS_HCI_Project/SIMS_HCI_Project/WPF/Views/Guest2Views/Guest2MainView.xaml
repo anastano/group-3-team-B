@@ -77,8 +77,8 @@
                 <DataGridTemplateColumn Header="Confirm attendance" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Confirm attendance" Command="{Binding DataContext.ConfirmAttendance, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" >
-                                <Button.Style>
+                            <Button Content="Confirm attendance" Command="{Binding DataContext.ConfirmAttendance, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" />
+                            <!--Button.Style>
                                     <Style TargetType="Button">
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding AttendanceStatus}" Value="PRESENT">
@@ -87,13 +87,13 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Button.Style>
-                            </Button>
+                            </Button-->
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Label Content="{Binding AttendanceStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="474,0,570,534"/>
+        <!--Label Content="{Binding AttendanceStatus, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="474,0,570,534"/-->
 
 
         <TextBlock x:Name="tblActiveTours" Text="Active tours:" Foreground="Beige" HorizontalAlignment="Left" Margin="10,147,0,0" TextWrapping="Wrap" FontSize="18" VerticalAlignment="Top" Height="26" Width="158" RenderTransformOrigin="0.452,-0.398"/>

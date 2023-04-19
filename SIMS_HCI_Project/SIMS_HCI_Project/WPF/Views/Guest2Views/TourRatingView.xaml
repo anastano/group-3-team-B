@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest2Views"
         mc:Ignorable="d"
-        Title="TourRatingView" Height="768" Width="1200">
+        Title="TourRatingView" Height="768" Width="1300">
     <Grid Background="OliveDrab">
         <DataGrid Name="dgUnratedTours" 
         ItemsSource="{Binding Path=UnratedReservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 

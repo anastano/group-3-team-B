@@ -15,7 +15,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;                   // TODO: dodaj logout i tada podesi notifikacije na procitane
-                                                            
+using System.Windows.Input;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels 
 {
@@ -34,6 +34,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public RelayCommand RateVisitedTours { get; set; }
         public RelayCommand ConfirmAttendance { get; set; }
         public RelayCommand Logout { get; set; }
+        //public ICommand CloseWindow { get; set; }
         #endregion
         private ObservableCollection<Notification> _notifications;
         public ObservableCollection<Notification> Notifications
@@ -108,6 +109,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             Guest = guest;
             LoadFromFiles();
             InitCommands();
+            //CloseWindow = new RelayCommand(ExecuteCloseWindow);
             MakeNotificationsForAttendanceConfirmation(); //add in TourProgressViewModel later
 
             Attendances = new List<GuestTourAttendance>();
@@ -129,8 +131,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             Attendances = _guestTourAttendanceService.GetByConfirmationRequestedStatus(Guest.Id);
             foreach (GuestTourAttendance attendance in Attendances)
             {
-                String Message = "You have request to confirm your attendance for tour with id: " + attendance.TourTimeId + ". Confirm your attendance on that tour in the list of active tours.";
-                _notificationService.Add(new Notification(Message, Guest.Id, false));
+                if( _notificationService.GetAll().Select(n => n.Message).ToList().Contains(attendance.TourTimeId.ToString()) == false)
+                { 
+                
+                    String Message = "You have request to confirm your attendance for tour with id: " + attendance.TourTimeId + ". Confirm your attendance on that tour in the list of active tours.";
+                    _notificationService.Add(new Notification(Message, Guest.Id, false));
+                }
             }
         }
 
@@ -162,7 +168,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         {
             Window win = new TourRatingView(Guest);
             win.Show();
-            //Guest2MainView.Close();
+            Guest2MainView.Close();
         }
         public bool CanExecute_RateVisitedTours(object obj)
         {
@@ -206,8 +212,21 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         {
             return true;
         }
+
+        public void ExecuteCloseWindow(object obj)
+        {
+            foreach (Notification notification in _notificationService.GetUnreadByUserId(Guest.Id))
+            {
+                _notificationService.MarkAsRead(notification.Id);
+            }
+            App.Current.MainWindow.Close();
+        }
+        public bool CanExecute_CloseWindow(object obj)
+        {
+            return true;
+        }
         #endregion
-        #region ShowNotifications
+        #region Notifications
         public void ShowNotifications()
         {
             int otherNotificationsNumber = Notifications.Count;

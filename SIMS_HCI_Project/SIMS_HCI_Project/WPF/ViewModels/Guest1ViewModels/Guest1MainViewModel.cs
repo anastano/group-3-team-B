@@ -22,67 +22,60 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
     internal class Guest1MainViewModel
     {
         private Guest1Service _guest1Service;
+        private OwnerService _ownerService;
         private LocationService _locationService;
         private AccommodationService _accommodationService;
         private AccommodationReservationService _reservationService;
         private RescheduleRequestService _requestService;
         private NotificationService _notificationService;
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
+        private RatingGivenByGuestService _ratingService;
         public Guest1MainView Guest1MainView { get; set; }
         public Guest1 Guest { get; set; }
-        public ObservableCollection<AccommodationReservation> ReservationsInProgress { get; set; }
-        public ObservableCollection<Notification> Notifications { get; set; }
-
         public RelayCommand ShowReservationsCommand { get; set; }
-        public RelayCommand ShowPendingRequestsCommand { get; set; }
+        public RelayCommand ShowProfileCommand { get; set; }
         public RelayCommand LogoutCommand { get; set; }
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public Guest1MainViewModel(Guest1MainView guest1MainView, Guest1 guest)
         {
             Guest1MainView = guest1MainView;
             Guest = guest;
-
             LoadFromFiles();
             InitCommands();
-
-            //ReservationsInProgress = new ObservableCollection<AccommodationReservation>(_reservationService.GetInProgressByOwnerId(Owner.Id));
-            Notifications = new ObservableCollection<Notification>(_notificationService.GetUnreadByUserId(Guest.Id));
-            //ShowNotifications();
+            Guest1MainView.MainGuestFrame.Content = new ProfileView(Guest);
 
         }
 
         public void LoadFromFiles()
         {
             _guest1Service = new Guest1Service();
+            _ownerService = new OwnerService();
             _locationService = new LocationService();
             _accommodationService = new AccommodationService();
             _reservationService = new AccommodationReservationService();
             _requestService = new RescheduleRequestService();
             _notificationService = new NotificationService();
+            _ratingService = new RatingGivenByGuestService(); 
 
             _accommodationService.ConnectAccommodationsWithLocations(_locationService);
+            _accommodationService.ConnectAccommodationsWithOwners(_ownerService);
             _reservationService.ConnectReservationsWithAccommodations(_accommodationService);
-            _reservationService.ConvertReservedAccommodationsIntoCompleted(DateTime.Now);
+            _reservationService.ConnectReservationsWithGuests(_guest1Service);
+            _reservationService.ConvertReservedReservationIntoCompleted(DateTime.Now);
             _reservationService.ConnectReservationsWithGuests(_guest1Service);
             _requestService.ConnectRequestsWithReservations(_reservationService);
-
-
-            //_accommodationService.FillOwnerAccommodationList(Owner);
-            //_reservationService.FillOwnerReservationList(Owner);
+            _reservationService.ConvertReservationsIntoRated(_ratingService);
         }
-        public void Executed_ShowReservationsCommand(object obj)
+        public void ExecutedShowReservationsCommand(object obj)
         {
-            Guest1MainView.MainGuestFrame.Content = new ReservationsView(Guest1MainView, _reservationService, _notificationService, Guest);
-            //OnPropertyChanged();
+            Guest1MainView.MainGuestFrame.Navigate(new ReservationsView(_reservationService, Guest));
         }
 
-        public bool CanExecute_ShowReservationsCommand(object obj)
+        public bool CanExecute(object obj)
         {
             return true;
         }
-        public void Executed_LogoutCommand(object obj)
+        public void ExecutedLogoutCommand(object obj)
         {
             foreach (Notification notification in _notificationService.GetUnreadByUserId(Guest.Id))
             {
@@ -90,15 +83,15 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             }
             Guest1MainView.Close();
         }
-
-        public bool CanExecute_LogoutCommand(object obj)
+        public void ExecutedShowProfileCommand(object obj)
         {
-            return true;
+            Guest1MainView.MainGuestFrame.Navigate(new ProfileView(Guest));
         }
         public void InitCommands()
         {
-            ShowReservationsCommand = new RelayCommand(Executed_ShowReservationsCommand, CanExecute_ShowReservationsCommand);
-            LogoutCommand = new RelayCommand(Executed_LogoutCommand, CanExecute_LogoutCommand);
+            ShowReservationsCommand = new RelayCommand(ExecutedShowReservationsCommand, CanExecute);
+            ShowProfileCommand = new RelayCommand(ExecutedShowProfileCommand, CanExecute);
+            LogoutCommand = new RelayCommand(ExecutedLogoutCommand, CanExecute);
         }
     }
 }

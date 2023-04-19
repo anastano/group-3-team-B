@@ -23,7 +23,7 @@ namespace SIMS_HCI_Project.Repositories
 
             _observers = new List<IObserver>();
         }
-        public void ConvertReservedAccommodationsIntoCompleted(DateTime currentDate)
+        public void ConvertReservedReservationIntoCompleted(DateTime currentDate)
         {
             foreach (var reservation in _reservations)
             {
@@ -34,7 +34,6 @@ namespace SIMS_HCI_Project.Repositories
             }
             Save();
         }
-
         public int GenerateId()
         {
             return _reservations.Count == 0 ? 1 : _reservations[_reservations.Count - 1].Id + 1;

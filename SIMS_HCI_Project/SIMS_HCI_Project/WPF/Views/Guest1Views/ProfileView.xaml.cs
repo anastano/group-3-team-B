@@ -1,5 +1,4 @@
-﻿using SIMS_HCI_Project.Applications.Services;
-using SIMS_HCI_Project.Domain.Models;
+﻿using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels;
 using System;
 using System.Collections.Generic;
@@ -19,14 +18,14 @@ using System.Windows.Shapes;
 namespace SIMS_HCI_Project.WPF.Views.Guest1Views
 {
     /// <summary>
-    /// Interaction logic for ReservationView.xaml
+    /// Interaction logic for ProfileView.xaml
     /// </summary>
-    public partial class ReservationsView : Page
+    public partial class ProfileView : Page
     {
-        public ReservationsView(AccommodationReservationService reservationService, Guest1 guest)
+        public ProfileView(Guest1 guest)
         {
             InitializeComponent();
-            this.DataContext = new ReservationsViewModel(ReservationsFrame, reservationService, guest);
+            this.DataContext = new ProfileViewModel(this, guest);
         }
     }
 }

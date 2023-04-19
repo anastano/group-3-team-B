@@ -5,16 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest1Views"
         mc:Ignorable="d"
-        Title="Guest1MainView" Height="768" Width="1024">
+        Title="Guest1MainView" Height="768" Width="1024"
+        WindowStartupLocation="CenterScreen">
+
     <Grid>
         <DockPanel>
-            <StackPanel DockPanel.Dock="Left" Width="80" Height="752">
-                <Button Content="My Reservations" Width="40" Height="40"  Command="{Binding ShowReservationsCommand}"/>
+            <StackPanel DockPanel.Dock="Left" Width="80">
+                <Button Content="       My &#xa;Reservations" Width="80" Height="40"  Command="{Binding ShowReservationsCommand}"
+                        Margin="0, 155, 0, 0"/>
             </StackPanel>
             <StackPanel DockPanel.Dock="Top" Height="80" Margin="0,0,0,0" Width="944">
-                <Button Content="My Profile" Width="40" Height="40"/>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="  My &#xa;Profile" Width="80" Height="40"  Command="{Binding ShowProfileCommand}"
+                        Margin="700, 10, 0, 0"/>
+                    <Button Content="Logout" Width="80" Height="40"  Command="{Binding LogoutCommand}"
+                        Margin="50, 10, 0, 0"/>
+                </StackPanel>
             </StackPanel>
-            <Frame x:Name="MainGuestFrame"></Frame>
+            <Frame x:Name="MainGuestFrame" NavigationUIVisibility="Hidden"/>
         </DockPanel>
 
     </Grid>

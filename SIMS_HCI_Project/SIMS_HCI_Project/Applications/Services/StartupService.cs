@@ -22,6 +22,8 @@ namespace SIMS_HCI_Project.Applications.Services
         private readonly ITourReservationRepository _tourReservationRepository;
         private readonly IUserRepository _userRepository;
 
+        private static bool _connectionsLoaded = false;
+
         public StartupService()
         {
             _tourTimeRepository = Injector.Injector.CreateInstance<ITourTimeRepository>();
@@ -37,11 +39,14 @@ namespace SIMS_HCI_Project.Applications.Services
 
         public void LoadConnections()
         {
+            if (_connectionsLoaded) return;
+
             ConnectTourFields();
             ConnectTourTimeFields();
             ConnectGuestAttendanceFields();
             ConnectRatingFields();
             ConnectTourReservationFields();
+            _connectionsLoaded = true;
         }
 
         public void ConnectTourFields()

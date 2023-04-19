@@ -213,6 +213,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             TourRating.GuideId = TourReservation.TourTime.Tour.GuideId;
             TourRating.GuestId = Guest.Id;
             TourRating.TourReservation = TourReservation;
+            TourRating.Attendance = _guestTourAttendanceService.GetByGuestAndTourTimeIds(TourRating.GuestId, TourRating.TourReservation.TourTimeId);
             TourRating.Images = Images.ToList();
 
             _tourRatingService.Add(TourRating);

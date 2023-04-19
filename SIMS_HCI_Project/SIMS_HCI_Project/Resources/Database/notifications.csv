@@ -2,3 +2,6 @@
 2|Request to reschedule the reservation for 'Ime smestaja 0' has been ACCEPTED|3|False
 3|Request to reschedule the reservation for 'Ime smestaja 0' has been DENIED|3|False
 4|aaaaaaaaaaaaaaaa|4|True
+5|You have request to confirm your attendance for tour with id: 41. Confirm your attendance on that tour in the list of active tours.|4|True
+6|You have request to confirm your attendance for tour with id: 43. Confirm your attendance on that tour in the list of active tours.|4|True
+7|You have request to confirm your attendance for tour with id: 43. Confirm your attendance on that tour in the list of active tours.|4|False

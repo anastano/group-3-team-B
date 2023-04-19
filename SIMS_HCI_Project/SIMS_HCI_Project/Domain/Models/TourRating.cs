@@ -23,7 +23,7 @@ namespace SIMS_HCI_Project.Domain.Models
         public List<string> Images { get; set; }
         public string Image { get; set; }
         public bool IsValid { get; set; }
-        public GuestTourAttendance Attendance { get; set; } // runtime field, sorry Anastano, but I need to show info from GuestAttendance in View. It doesn't affect your part since I'm not saving it in the file
+        public GuestTourAttendance Attendance { get; set; } 
 
         public TourRating()
         {
@@ -111,9 +111,12 @@ namespace SIMS_HCI_Project.Domain.Models
             IsValid = bool.Parse(values[11]);
         }
 
-        public double GetAverageRating()
+        public double GetAverageRating
         {
-            return (double)(OverallExperience + Organisation + Interestingness + GuidesKnowledge + GuidesLanguage) / 5;
+            get
+            {
+                return (double)(OverallExperience + Organisation + Interestingness + GuidesKnowledge + GuidesLanguage) / 5;
+            }
         }
     }
 }

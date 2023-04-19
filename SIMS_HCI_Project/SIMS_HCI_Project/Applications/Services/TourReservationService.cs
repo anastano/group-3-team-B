@@ -24,6 +24,7 @@ namespace SIMS_HCI_Project.Applications.Services
 
         public void Add(TourReservation tourReservation)
         {
+            tourReservation.TourTime = _tourTimeRepository.GetById(tourReservation.TourTimeId);
             _tourReservationRepository.Add(tourReservation);
         }
        
@@ -37,45 +38,33 @@ namespace SIMS_HCI_Project.Applications.Services
             return _tourReservationRepository.GetAll();
         }
 
+        public List<TourReservation> GetAllByTourTimeId(int id)
+        {
+            return _tourReservationRepository.GetAllByTourTimeId(id);
+        }
+
         public List<TourReservation> GetAllByGuestId(int id)
         {
             return _tourReservationRepository.GetAllByGuestId(id);
         }
 
         public List<TourReservation> GetUnratedReservations(int guestId, GuestTourAttendanceService guestTourAttendanceService, TourRatingService tourRatingService)
-        {   
-                List<TourReservation> unratedReservations = new List<TourReservation>();
-                foreach (TourReservation reservation in GetAllByGuestId(guestId))
+        {
+            List<TourReservation> unratedReservations = new List<TourReservation>();
+            foreach (TourReservation reservation in GetAllByGuestId(guestId))
+            {
+                if (reservation.TourTime.IsCompleted && WasPresentInTourTime(guestId, reservation.TourTime.Id, guestTourAttendanceService) && !(tourRatingService.IsRated(reservation.Id)))
                 {
-                    if (reservation.TourTime.IsCompleted && WasPresentInTourTime(guestId, reservation.TourTime.Id, guestTourAttendanceService) && !(tourRatingService.IsRated(reservation.Id)))
-                    {
-                        unratedReservations.Add(reservation);
-                    }
+                    unratedReservations.Add(reservation);
                 }
-                return unratedReservations;
+            }
+            return unratedReservations;
         }
 
-
-        public void ConnectAvailablePlaces(TourService tourService)
+        public bool WasPresentInTourTime(int guestId, int tourTimeId, GuestTourAttendanceService guestTourAttendanceService)
         {
-            foreach (TourTime tourTime in tourService.GetAllTourInstances())
-            {
-                //private static List<TourReservation> _reservations = new List<TourReservation>();
-       var _reservations =_tourReservationRepository.GetAllByTourTimeId(tourTime.Id);
-                tourTime.Available = tourTime.Tour.MaxGuests;
-
-                if (_reservations == null)
-                {
-                    tourTime.Available = tourTime.Tour.MaxGuests;
-                    return;
-                }
-
-                foreach (TourReservation tourReservation in _reservations)
-                {
-                    tourTime.Available -= tourReservation.PartySize;
-                }
-
-            }
+            List<TourTime> toursAttended = guestTourAttendanceService.GetTourTimesWhereGuestWasPresent(guestId);
+            return toursAttended.Any(ta => ta.Id == tourTimeId);
         }
 
         public void ReduceAvailablePlaces(TourService tourService, TourTime selectedTourTime, int requestedPartySize)

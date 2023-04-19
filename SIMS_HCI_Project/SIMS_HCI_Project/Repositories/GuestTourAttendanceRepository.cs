@@ -130,14 +130,5 @@ namespace SIMS_HCI_Project.Repositories
             GuestTourAttendance attendance = GetByGuestAndTourTimeIds(guestId, tourTimeId);
             return _guestTourAttendances.Any(gta => gta.Status == AttendanceStatus.PRESENT);
         }
-        public void ConfirmAttendanceForTourTime(int guestId, int tourTimeId)
-        {
-            GuestTourAttendance attendance = GetByGuestAndTourTimeIds(guestId, tourTimeId);
-            if (attendance.Status == AttendanceStatus.CONFIRMATION_REQUESTED)
-            {
-                attendance.Status = AttendanceStatus.PRESENT;
-                Save();
-            }
-        }
     }
 }

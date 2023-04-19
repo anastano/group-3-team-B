@@ -150,18 +150,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             _notificationService = new NotificationService();
         }
 
-        public void ShowNotifications()
-        {
-            int otherNotificationsNumber = Notifications.Count;
-            Guest2MainView.lvNotifications.Visibility = otherNotificationsNumber != 0 ? Visibility.Visible : Visibility.Collapsed;
-            _tourReservationService.ConnectAvailablePlaces(_tourService);
-        }
-
-        public void ShowNotifications()
-        {
-            int otherNotificationsNumber = Notifications.Count;
-            Guest2MainView.lvNotifications.Visibility = otherNotificationsNumber != 0 ? Visibility.Visible : Visibility.Collapsed;
-        }
         public void InitCommands()
         {
             RateVisitedTours = new RelayCommand(Executed_RateVisitedTours, CanExecute_RateVisitedTours);

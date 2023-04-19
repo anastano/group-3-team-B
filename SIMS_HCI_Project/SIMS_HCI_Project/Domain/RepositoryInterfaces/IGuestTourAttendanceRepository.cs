@@ -11,15 +11,13 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
 {
     internal interface IGuestTourAttendanceRepository
     {
-        void Load();
-        void Save();
-
         GuestTourAttendance GetById(int id);
         List<GuestTourAttendance> GetAll();
         List<GuestTourAttendance> GetAllByTourId(int id);
         List<GuestTourAttendance> GetAllByGuestId(int id);
-        GuestTourAttendance GetByGuestAndTourTimeIds(int guestId, int tourTimeId); 
-        
+        GuestTourAttendance GetByGuestAndTourTimeIds(int guestId, int tourTimeId);
+        List<GuestTourAttendance> GetByConfirmationRequestedStatus(int guestId);
+
         void Add(GuestTourAttendance guestTourAttendance);
         void AddMultiple(List<GuestTourAttendance> guestTourAttendances);
         void Update(GuestTourAttendance guestTourAttendance);
@@ -29,7 +27,5 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         int GetGuestCountByAgeGroup(AgeGroup ageGroup, int tourTimeId);
         int GetGuestsWithVoucherCount(int tourTimeId);
         bool IsPresent(int guestId, int tourTimeId);
-        void ConfirmAttendanceForTourTime(int guestId, int tourTimeId);
-        List<GuestTourAttendance> GetByConfirmationRequestedStatus(int guestId);
     }
 }

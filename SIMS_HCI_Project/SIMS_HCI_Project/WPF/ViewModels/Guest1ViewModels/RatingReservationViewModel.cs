@@ -29,11 +29,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public RelayCommand RemoveImageCommand { get; set; }
         public RelayCommand AddImageCommand { get; set; }
 
-        private Frame frame;
+        private Frame _frame;
         public Frame Frame
         {
-            get { return frame; }
-            set { frame = value; }
+            get { return _frame; }
+            set { _frame = value; }
         }
         public ObservableCollection<string> Images { get; set; }
         private String _owner;

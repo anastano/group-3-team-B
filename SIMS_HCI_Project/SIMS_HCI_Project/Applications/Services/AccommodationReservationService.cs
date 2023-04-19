@@ -61,6 +61,10 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return DateTime.Today >= reservation.Start && DateTime.Today <= reservation.End;
         }
+        public bool IsReservationActive(AccommodationReservation reservation)
+        {
+            return reservation.End >= DateTime.Today;
+        }
 
         public bool IsReservedOrRescheduled(AccommodationReservation reservation)
         {

@@ -136,7 +136,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             foreach (AccommodationReservation reservation in _reservationService.GetAllByStatusAndGuestId(Guest.Id, AccommodationReservationStatus.RESCHEDULED))
             {
-                ActiveReservations.Add(reservation);
+                if (_reservationService.IsReservationActive(reservation))
+                {
+                    ActiveReservations.Add(reservation);
+                }
             }
         }
     }

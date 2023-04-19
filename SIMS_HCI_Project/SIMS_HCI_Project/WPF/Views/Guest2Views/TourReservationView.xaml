@@ -100,6 +100,7 @@
                 <DataGridTextColumn Header="Expiration date" Binding="{Binding ExpirationDate}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <Button Content="Back" Command="{Binding Back}" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Background="#FFB30808" BorderBrush="#FFEDDCDC" Height="33" Width="68"/>
 
     </Grid>
 </Window>

@@ -19,11 +19,6 @@ namespace SIMS_HCI_Project.Applications.Services
             _requestRepository = Injector.Injector.CreateInstance<IRescheduleRequestRepository>();
         }
 
-        public void Save()
-        {
-            _requestRepository.Save();
-        }
-
         public RescheduleRequest GetById(int id)
         {
             return _requestRepository.GetById(id);
@@ -41,6 +36,28 @@ namespace SIMS_HCI_Project.Applications.Services
         public List<RescheduleRequest> GetPendingByOwnerId(int ownerId)
         {
             return _requestRepository.GetPendingByOwnerId(ownerId);
+        }
+
+        public List<AccommodationReservation> GetOverlappingReservations(RescheduleRequest request, AccommodationReservationService reservationService)
+        {
+            List<AccommodationReservation> overlappingReservations = new List<AccommodationReservation>();
+
+            foreach (AccommodationReservation reservation in reservationService.GetByAccommodationId(request.AccommodationReservation.AccommodationId))
+            {
+                if (IsDateRangeOverlapping(reservation, request) && reservationService.IsReservedOrRescheduled(reservation) && reservation.Id != request.AccommodationReservationId)
+                {
+                    overlappingReservations.Add(reservation);
+                }
+            }
+            return overlappingReservations;
+        }
+
+        public bool IsDateRangeOverlapping(AccommodationReservation reservation, RescheduleRequest request)
+        {
+            bool startOverlaps = reservation.Start >= request.WantedStart && reservation.Start <= request.WantedEnd;
+            bool endOverlaps = reservation.End >= request.WantedStart && reservation.End <= request.WantedEnd;
+
+            return startOverlaps || endOverlaps;
         }
 
         public void EditStatus(int requestId, RescheduleRequestStatus status)

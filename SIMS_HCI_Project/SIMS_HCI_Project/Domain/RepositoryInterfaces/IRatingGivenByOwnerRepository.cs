@@ -7,7 +7,6 @@ namespace SIMS_HCI_Project.Repositories
     public interface IRatingGivenByOwnerRepository
     {
         void Add(RatingGivenByOwner rating);
-        int GenerateId();
         List<RatingGivenByOwner> GetAll();
         RatingGivenByOwner GetById(int id);
         RatingGivenByOwner GetByReservationId(int reservationId);

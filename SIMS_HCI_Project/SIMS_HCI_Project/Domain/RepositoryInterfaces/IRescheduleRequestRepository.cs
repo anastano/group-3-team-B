@@ -7,7 +7,6 @@ namespace SIMS_HCI_Project.Repositories
     public interface IRescheduleRequestRepository
     {
         void EditStatus(int requestId, RescheduleRequestStatus status); // To Update #New
-        int GenerateId();
         List<RescheduleRequest> GetAll();
         RescheduleRequest GetById(int id);
         List<RescheduleRequest> GetAllByOwnerId(int ownerId);

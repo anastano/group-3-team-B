@@ -19,11 +19,6 @@ namespace SIMS_HCI_Project.Applications.Services
             _accommodationRepository = Injector.Injector.CreateInstance<IAccommodationRepository>();
         }
 
-        public void Save()
-        {
-            _accommodationRepository.Save();
-        }
-
         public Accommodation GetById(int id)
         {
             return _accommodationRepository.GetById(id);
@@ -51,14 +46,14 @@ namespace SIMS_HCI_Project.Applications.Services
 
         public void ConnectAccommodationsWithLocations(LocationService locationService)
         {
-            foreach (Accommodation accommodation in _accommodationRepository.GetAll())
+            foreach (Accommodation accommodation in GetAll())
             {
                 accommodation.Location = locationService.GetById(accommodation.LocationId);
             }
         }
         public void ConnectAccommodationsWithOwners(OwnerService ownerService)
         {
-            foreach (Accommodation accommodation in _accommodationRepository.GetAll())
+            foreach (Accommodation accommodation in GetAll())
             {
                 accommodation.Owner = ownerService.GetById(accommodation.OwnerId);
             }

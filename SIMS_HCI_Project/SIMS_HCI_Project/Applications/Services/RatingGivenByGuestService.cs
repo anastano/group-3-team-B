@@ -18,10 +18,7 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             _ratingRepository = Injector.Injector.CreateInstance<IRatingGivenByGuestRepository>();
         }
-        public void Save()
-        {
-            _ratingRepository.Save();
-        }
+
         public RatingGivenByGuest GetById(int id)
         {
             return _ratingRepository.GetById(id);

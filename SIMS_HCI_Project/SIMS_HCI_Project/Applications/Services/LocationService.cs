@@ -17,11 +17,6 @@ namespace SIMS_HCI_Project.Applications.Services
             _locationRepository = Injector.Injector.CreateInstance<ILocationRepository>();
         }
 
-        public void Save()
-        {
-            _locationRepository.Save();
-        }
-
         public Location GetById(int id)
         {
             return _locationRepository.GetById(id);

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SIMS_HCI_Project.Domain.Models;
-using SIMS_HCI_Project.Applications.Services;
 using SIMS_HCI_Project.Domain.DTOs;
 
 
@@ -18,8 +17,8 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         GuestTourAttendance GetById(int id);
         List<GuestTourAttendance> GetAll();
         List<GuestTourAttendance> GetAllByTourId(int id);
-        GuestTourAttendance GetByGuestAndTourTimeIds(int guestId, int tourTimeId); //check later
-        List<TourTime> GetTourTimesWhereGuestWasPresent(int guestId, TourService tourTimeService); 
+        List<GuestTourAttendance> GetAllByGuestId(int id);
+        GuestTourAttendance GetByGuestAndTourTimeIds(int guestId, int tourTimeId); 
         
         void Add(GuestTourAttendance guestTourAttendance);
         void AddMultiple(List<GuestTourAttendance> guestTourAttendances);

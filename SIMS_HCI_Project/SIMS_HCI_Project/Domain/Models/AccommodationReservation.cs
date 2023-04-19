@@ -20,6 +20,7 @@ namespace SIMS_HCI_Project.Domain.Models
         public DateTime End { get; set; }
         public int GuestNumber { get; set; }
         public AccommodationReservationStatus Status { get; set; }
+        public bool isRated { get; set; }
 
         public AccommodationReservation() { }
 

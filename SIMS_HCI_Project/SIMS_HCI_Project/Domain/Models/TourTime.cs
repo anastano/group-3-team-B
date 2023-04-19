@@ -78,6 +78,14 @@ namespace SIMS_HCI_Project.Domain.Models
             }
         }
 
+        public bool IsCompleted
+        {
+            get 
+            { 
+                return this.Status == TourStatus.COMPLETED; 
+            }
+        }
+
         public bool IsStartable
         {
             get

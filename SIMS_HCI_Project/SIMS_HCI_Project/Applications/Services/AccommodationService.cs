@@ -56,7 +56,13 @@ namespace SIMS_HCI_Project.Applications.Services
                 accommodation.Location = locationService.GetById(accommodation.LocationId);
             }
         }
-
+        public void ConnectAccommodationsWithOwners(OwnerService ownerService)
+        {
+            foreach (Accommodation accommodation in _accommodationRepository.GetAll())
+            {
+                accommodation.Owner = ownerService.GetById(accommodation.OwnerId);
+            }
+        }
         public void FillOwnerAccommodationList(Owner owner)
         {
             owner.Accommodations = GetByOwnerId(owner.Id);

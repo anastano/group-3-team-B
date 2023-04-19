@@ -33,6 +33,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public RelayCommand Search { get; set; }
         public RelayCommand ShowImages { get; set; }
         public RelayCommand Reserve { get; set; }
+        public RelayCommand Back { get; set; }
 
         public TourSearchViewModel(TourSearchView tourSearchView, Guest2 guest2)
         {
@@ -55,6 +56,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             //Search = new RelayCommand(Executed_Search, CanExecute_Search);
             //ShowImages = new RelayCommand(Executed_ShowImages, CanExecute_ShowImages);
             Reserve = new RelayCommand(Executed_Reserve, CanExecute_Reserve);
+            Back = new RelayCommand(Executed_Back, CanExecute_Back);
         }
         public void Executed_Search(object obj) // must refactor to support command
         {
@@ -109,7 +111,16 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         {
             return true;
         }
-
+        private void Executed_Back(object sender)
+        {
+            Window window = new Guest2MainView(Guest);
+            window.Show();
+            TourSearchView.Close();
+        }
+        public bool CanExecute_Back(object sender)
+        {
+            return true;
+        }
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

@@ -6,32 +6,107 @@
       xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest1Views"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="RatingReservationView">
+      Title="RatingReservationView"
+      Background="#f5f5f5">
+    <Page.Resources>
+        <Style x:Key="circleButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Margin" Value="5 0 0 0"/>
+            <Setter Property="Padding" Value="10"/>
+            <Setter Property="Foreground" Value="Azure"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border CornerRadius="15"
+                            Background="Turquoise"
+                            BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"></ContentPresenter>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="ValidationTemplate">
+            <StackPanel>
+                <AdornedElementPlaceholder x:Name="textBox" />
+                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" FontSize="12" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </ControlTemplate>
+    </Page.Resources>
 
-    <Grid>
-        <StackPanel Orientation="Vertical">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Owner:"/>
-                <TextBox x:Name="Owner" Width="100" Text="{Binding Path=Reservation.Accommodation.Owner, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+    <Grid Margin="30 30 30 30">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="1.5*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="0.5*"/>
+        </Grid.RowDefinitions>
+        <Label Content="Review owner and accommodation (required): " Grid.Row="0" FontSize="16"></Label>
+        <Label Content="Owner: " Grid.Row="1" Grid.Column="0"></Label>
+        <TextBox x:Name="Owner" Grid.Row="1" Grid.Column="1" Text="{Binding Path=Owner, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
+        <Label Content="Accommodation cleanliness (1-5): " Grid.Row="2" Grid.Column="0"></Label>
+        <StackPanel Orientation="Horizontal"  Grid.Row="2" Grid.Column="1">
+            <TextBox Text="{Binding ElementName=cleanlinessSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" 
+                     Width="40"  Margin="0, 5, 0, 5"/>
+            <Slider x:Name="cleanlinessSlider" Value="{Binding Path=Cleanliness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    IsSnapToTickEnabled="True"  Minimum="1"  Maximum="5" Margin="20, 12, 0, 0"  Width="200"/>
+        </StackPanel>
+        <Label Content="Owner correctness (1-5):" Grid.Row="3" Grid.Column="0"></Label>
+        <StackPanel Orientation="Horizontal"  Grid.Row="3" Grid.Column="1">
+            <TextBox Text="{Binding ElementName=correctnessSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" 
+                     Width="40"  Margin="0, 5, 0, 5"/>
+            <Slider x:Name="correctnessSlider" Value="{Binding Path=Correcntess, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    IsSnapToTickEnabled="True"  Minimum="1"  Maximum="5" Margin="20, 12, 0, 0"  Width="200"/>
+        </StackPanel>
+        <Label Content="Image URLs:" Grid.Row="4" Grid.Column="0"></Label>
+        <StackPanel Grid.Row="4" Grid.Column="1">
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  >
+                <StackPanel Orientation="Vertical">
+                    <TextBox x:Name="txtPictureURL" Width="300" Height="40" TextWrapping="Wrap">
+                        <TextBox.Text>
+                            <Binding  Path="ImageUrl" UpdateSourceTrigger="PropertyChanged">
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <TextBox x:Name="txtPictureURLs" Text="URL format should be http(s)://......(.jpg/.png/.gif)" FontSize="10"
+                             Height="15" TextAlignment="Center" Foreground="Red" Width="300" TextWrapping="Wrap" IsReadOnly="True"/>
+                </StackPanel>
+
+                <Button x:Name="btnAddImage" Command="{Binding DataContext.AddImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Content="(Ins)" 
+                                     Style="{StaticResource ResourceKey=circleButtonStyle}">
+                </Button>
+
             </StackPanel>
+
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Accommodation cleanliness:"/>
-                <TextBox x:Name="Cleanliness" Width="100" Text="{Binding Path=Cleanliness, UpdateSourceTrigger=PropertyChanged}"/>
+                <ListBox x:Name="lbImages" ItemsSource="{Binding Path=Images, UpdateSourceTrigger=PropertyChanged}" 
+                                  Height="80" Width="320" BorderBrush="Turquoise" FontSize="16" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                </ListBox>
+
+                <Button x:Name="btnRemoveImage" Command="{Binding DataContext.RemoveImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"  Content="(Del)" 
+                                     Style="{StaticResource ResourceKey=circleButtonStyle}">
+                </Button>
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Owner correctness:"/>
-                <TextBox x:Name="Corecntess" Width="100" Text="{Binding Path=Correctness, UpdateSourceTrigger=PropertyChanged}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Image URLs:"/>
-                <TextBox x:Name="Images" Width="100" Text="{Binding Path=Images, UpdateSourceTrigger=PropertyChanged}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Aditional comment:"/>
-                <TextBox x:Name="Comment" Width="100" Text="{Binding Path=AdditionalComment, UpdateSourceTrigger=PropertyChanged}"/>
-            </StackPanel>
-            <Button Content="Review"  Command="{Binding DataContext.ReviewReservationCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
+        </StackPanel>
+        <Label Content="Aditional comment:" Grid.Row="5" Grid.Column="0"></Label>
+        <TextBox x:Name="Comment" Grid.Row="5" Grid.Column="1" Text="{Binding Path=AdditionalComment, UpdateSourceTrigger=PropertyChanged}"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Center">
+            <Button Content="Cancel" Command="{Binding DataContext.CancelReviewCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
+                    Margin=" 5, 0, 55, 0"/>
+            <Button Content="Review" Command="{Binding DataContext.ReviewReservationCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
         </StackPanel>
 
+        <Frame x:Name="ReservationRatingFrame" NavigationUIVisibility="Hidden" Margin="-32,-30,-30,-25" Grid.RowSpan="7" Grid.ColumnSpan="2" />
     </Grid>
 </Page>

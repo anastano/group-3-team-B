@@ -1,5 +1,4 @@
-﻿using SIMS_HCI_Project.Controller;
-using SIMS_HCI_Project.Domain.Models;
+﻿using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Domain.RepositoryInterfaces;
 using SIMS_HCI_Project.FileHandlers;
 using System;
@@ -13,15 +12,11 @@ namespace SIMS_HCI_Project.Repositories
     public class TourTimeRepository : ITourTimeRepository
     {
         private TourTimeFileHandler _fileHandler;
-
         private static List<TourTime> _tourTimes;
-        private TourVoucherController _tourVoucherController;
-        private TourReservationController _tourReservationController = new TourReservationController();
-
+ 
         public TourTimeRepository()
         {
             _fileHandler = new TourTimeFileHandler();
-            _tourVoucherController = new TourVoucherController();
 
             if (_tourTimes == null)
             {

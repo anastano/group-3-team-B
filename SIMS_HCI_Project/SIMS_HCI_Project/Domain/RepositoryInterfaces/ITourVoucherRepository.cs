@@ -8,12 +8,12 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
     public interface ITourVoucherRepository
     {
         TourVoucher GetById(int id);
-
+        void Save();
         void Add(TourVoucher tourVoucher);
         void AddMultiple(List<TourVoucher> tourVouchers); // change to Bulk, not Multiple #New
 
         List<TourVoucher> GetValidVouchersByGuestId(int id);
-        void UseVoucher(TourVoucher selectedVoucher); // move logic to Service, add Update method for this #New
+        //void UseVoucher(TourVoucher selectedVoucher); // move logic to Service, add Update method for this #New, moved to service
 
         void NotifyObservers();
         void Subscribe(IObserver observer);

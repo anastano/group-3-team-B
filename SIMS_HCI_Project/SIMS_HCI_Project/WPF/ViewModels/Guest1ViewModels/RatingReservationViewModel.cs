@@ -9,12 +9,14 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
-    internal class RatingReservationViewModel
+    internal class RatingReservationViewModel : INotifyPropertyChanged
     {
         private AccommodationReservationService _accommodationReservationService;
         private RatingGivenByGuestService _ratingService;
@@ -23,7 +25,30 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public ReservationsView ReservationsView { get; set; }
         public AccommodationReservation Reservation { get; set; }
         public RelayCommand ReviewReservationCommand { get; set; }
+        public RelayCommand CancelReviewCommand { get; set; }
+        public RelayCommand RemoveImageCommand { get; set; }
+        public RelayCommand AddImageCommand { get; set; }
 
+        private Frame frame;
+        public Frame Frame
+        {
+            get { return frame; }
+            set { frame = value; }
+        }
+        public ObservableCollection<string> Images { get; set; }
+        private String _owner;
+        public String Owner
+        {
+            get => _owner;
+            set
+            {
+                if (value != _owner)
+                {
+                    _owner = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         private int _cleanliness;
         public int Cleanliness
         {
@@ -63,48 +88,84 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
-        private String _images;
-        public String Images
+        private String _imageUrl;
+        public String ImageUrl
         {
-            get => _images;
+            get => _imageUrl;
             set
             {
-                if (value != _images)
+                if (value != _imageUrl)
                 {
-                    _images = value;
+                    _imageUrl = value;
                     OnPropertyChanged();
                 }
             }
         }
+        private Regex urlRegex = new Regex("(http(s?)://.)([/|.|\\w|\\s|-])*\\.(?:jpg|gif|png)|(^$)");
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        public RatingReservationViewModel(Guest1MainView guest1MainView, ReservationsView reservationsView, RatingReservationView ratingReservationView, AccommodationReservationService reservationService, AccommodationReservation reservation)
+        public RatingReservationViewModel(RatingReservationView ratingReservationView, AccommodationReservationService reservationService, AccommodationReservation reservation)
         {
             _accommodationReservationService = reservationService;
             _ratingService = new RatingGivenByGuestService();
             RatingReservationView = ratingReservationView;
-            Guest1MainView = guest1MainView;
-            ReservationsView = reservationsView;
             Reservation = reservation;
+            Frame = RatingReservationView.ReservationRatingFrame;
+            Images = new ObservableCollection<string>();
+            Owner = Reservation.Accommodation.Owner.Name + " " + Reservation.Accommodation.Owner.Surname;
+            InitialProperties();
             InitCommands();
         }
-        public void Executed_ReviewReservationCommand(object obj)
+        public void InitialProperties()
         {
-            _ratingService.Add(new RatingGivenByGuest(Reservation.Id, Cleanliness, Correcntess, AdditionalComment, Images));
-            Guest1MainView.MainGuestFrame.Content = ReservationsView;
+            ImageUrl = " ";
+            AdditionalComment = " ";
+            Correcntess = 1;
+            Cleanliness = 1;
         }
 
-        public bool CanExecute_ReviewReservationCommand(object obj)
+        public void ExecutedReviewReservationCommand(object obj)
+        {
+            _ratingService.RateReservation(_accommodationReservationService, new RatingGivenByGuest(Reservation.Id, Cleanliness, Correcntess, AdditionalComment, new List<string>(Images)));
+            this.Frame.Navigate(new ReservationsView(_accommodationReservationService, Reservation.Guest));
+        }
+        public void ExecutedCancelReviewCommand(object obj)
+        {
+            this.Frame.Navigate(new ReservationsView(_accommodationReservationService, Reservation.Guest));
+        }
+        public void ExecutedRemoveImageCommand(object obj)
+        {
+            if (RatingReservationView.lbImages.SelectedItem != null)
+            {
+                Images.RemoveAt(RatingReservationView.lbImages.SelectedIndex);
+            }
+
+        }
+        public void ExecutedAddImageCommand(object obj)
+        {
+            Match match = urlRegex.Match(ImageUrl);
+            if (match.Success)
+            {
+                Images.Add(ImageUrl);
+                ImageUrl = "";
+                //return "URL is not in valid format.";
+            }
+        }
+
+        public bool CanExecute(object obj)
         {
             return true;
         }
         public void InitCommands()
         {
-            ReviewReservationCommand = new RelayCommand(Executed_ReviewReservationCommand, CanExecute_ReviewReservationCommand);
+            ReviewReservationCommand = new RelayCommand(ExecutedReviewReservationCommand, CanExecute);
+            CancelReviewCommand = new RelayCommand(ExecutedCancelReviewCommand, CanExecute);
+            RemoveImageCommand = new RelayCommand(ExecutedRemoveImageCommand, CanExecute);
+            AddImageCommand = new RelayCommand(ExecutedAddImageCommand, CanExecute);
         }
     }
 }

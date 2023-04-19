@@ -18,21 +18,20 @@ namespace SIMS_HCI_Project.Domain.Models
         public string AdditionalComment { get; set; }
         public List<string> Images { get; set; }
 
-        public RatingGivenByGuest() {
+        public RatingGivenByGuest()
+        {
             Cleanliness = 5;
             Correctness = 5;
             Images = new List<string>();
         }
 
-        public RatingGivenByGuest(int reservationId, int cleanliness, int correctness, string additionalComment, String image)
+        public RatingGivenByGuest(int reservationId, int cleanliness, int correctness, string additionalComment, List<string> images)
         {
             ReservationId = reservationId;
             Cleanliness = cleanliness;
             Correctness = correctness;
             AdditionalComment = additionalComment;
-            //ovo nece biti ovako, samo za testiranja 
-            Images = new List<string>();
-            Images.Add(image);
+            Images = images;
         }
 
         public RatingGivenByGuest(RatingGivenByGuest temp) 

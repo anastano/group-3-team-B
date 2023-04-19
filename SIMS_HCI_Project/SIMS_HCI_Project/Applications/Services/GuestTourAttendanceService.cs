@@ -19,6 +19,33 @@ namespace SIMS_HCI_Project.Applications.Services
         public GuestTourAttendanceService()
         {
             _guestTourAttendanceRepository = Injector.Injector.CreateInstance<IGuestTourAttendanceRepository>();
+
+            _userRepository = Injector.Injector.CreateInstance<IUserRepository>();
+            _tourTimeRepository = Injector.Injector.CreateInstance<ITourTimeRepository>();
+            _tourReservationRepository = Injector.Injector.CreateInstance<ITourReservationRepository>();
+        }
+
+        public void Add(GuestTourAttendance guestTourAttendance)
+        {
+            _guestTourAttendanceRepository.Add(guestTourAttendance);
+        }
+
+        public GuestTourAttendance GetById(int id)
+        {
+            return _guestTourAttendanceRepository.GetById(id);
+        }
+
+        public List<GuestTourAttendance> GetAll()
+        {
+            return _guestTourAttendanceRepository.GetAll();
+        }
+        
+        public List<GuestTourAttendance> GetAllByTourId(int id)
+        {
+            return _guestTourAttendanceRepository.GetAllByTourId(id);
+        }
+        public GuestTourAttendance GetByGuestAndTourTimeIds(int guestId, int tourTimeId){
+            return _guestTourAttendanceRepository.GetByGuestAndTourTimeIds(guestId, tourTimeId);
         }
 
         public bool IsPresent(int guestId, int tourTimeId)
@@ -26,9 +53,17 @@ namespace SIMS_HCI_Project.Applications.Services
             return _guestTourAttendanceRepository.IsPresent(guestId, tourTimeId);
         }
 
-        public List<TourTime> GetTourTimesWhereGuestWasPresent(int guestId, TourService tourService)
+        public List<TourTime> GetTourTimesWhereGuestWasPresent(int guestId) 
         {
-            return _guestTourAttendanceRepository.GetTourTimesWhereGuestWasPresent(guestId, tourService);
+            List<TourTime> tourTimes = new List<TourTime>();
+            foreach (var gta in _guestTourAttendanceRepository.GetAllByGuestId(guestId))
+            {
+                if (gta.Status == AttendanceStatus.PRESENT)
+                {
+                    tourTimes.Add(_tourTimeRepository.GetById(gta.TourTimeId));
+                }
+            }
+            return tourTimes;
         }
 
         public void ConfirmAttendanceForTourTime(int guestId, int tourTimeId)

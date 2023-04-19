@@ -12,10 +12,14 @@ namespace SIMS_HCI_Project.Applications.Services
     public class TourReservationService //TODO: add functions for creating reservation
     {
         private readonly ITourReservationRepository _tourReservationRepository;
+        private readonly IGuestTourAttendanceRepository _guestTourAttendanceRepository;
+        private readonly ITourTimeRepository _tourTimeRepository;
 
         public TourReservationService()
         {
             _tourReservationRepository = Injector.Injector.CreateInstance<ITourReservationRepository>();
+            _tourTimeRepository = Injector.Injector.CreateInstance<ITourTimeRepository>();
+            _guestTourAttendanceRepository = Injector.Injector.CreateInstance<IGuestTourAttendanceRepository>();
         }
 
         public void Add(TourReservation tourReservation)
@@ -38,9 +42,40 @@ namespace SIMS_HCI_Project.Applications.Services
             return _tourReservationRepository.GetAllByGuestId(id);
         }
 
-        public List<TourReservation> GetUnratedReservations(int guestId, GuestTourAttendanceService guestTourAttendanceService, TourRatingService tourRatingService, TourService tourService)
+        public List<TourReservation> GetUnratedReservations(int guestId, GuestTourAttendanceService guestTourAttendanceService, TourRatingService tourRatingService)
+        {   
+                List<TourReservation> unratedReservations = new List<TourReservation>();
+                foreach (TourReservation reservation in GetAllByGuestId(guestId))
+                {
+                    if (reservation.TourTime.IsCompleted && WasPresentInTourTime(guestId, reservation.TourTime.Id, guestTourAttendanceService) && !(tourRatingService.IsRated(reservation.Id)))
+                    {
+                        unratedReservations.Add(reservation);
+                    }
+                }
+                return unratedReservations;
+        }
+
+
+        public void ConnectAvailablePlaces(TourService tourService)
         {
-            return _tourReservationRepository.GetUnratedReservations(guestId, guestTourAttendanceService, tourRatingService, tourService); // !
+            foreach (TourTime tourTime in tourService.GetAllTourInstances())
+            {
+                //private static List<TourReservation> _reservations = new List<TourReservation>();
+       var _reservations =_tourReservationRepository.GetAllByTourTimeId(tourTime.Id);
+                tourTime.Available = tourTime.Tour.MaxGuests;
+
+                if (_reservations == null)
+                {
+                    tourTime.Available = tourTime.Tour.MaxGuests;
+                    return;
+                }
+
+                foreach (TourReservation tourReservation in _reservations)
+                {
+                    tourTime.Available -= tourReservation.PartySize;
+                }
+
+            }
         }
 
         public void ReduceAvailablePlaces(TourService tourService, TourTime selectedTourTime, int requestedPartySize)

@@ -23,10 +23,10 @@ namespace SIMS_HCI_Project.WPF.Views.Guest1Views
     /// </summary>
     public partial class ReservationRescheduleView : Page
     {
-        public ReservationRescheduleView(Guest1MainView guest1MainView, ReservationsView reservationsView, AccommodationReservationService reservationService, AccommodationReservation reservation)
+        public ReservationRescheduleView(AccommodationReservationService reservationService, AccommodationReservation reservation)
         {
             InitializeComponent();
-            this.DataContext = new ReservationRescheduleViewModel(guest1MainView, reservationsView, this, reservationService, reservation);
+            this.DataContext = new ReservationRescheduleViewModel(this, reservationService, reservation);
         }
     }
 }

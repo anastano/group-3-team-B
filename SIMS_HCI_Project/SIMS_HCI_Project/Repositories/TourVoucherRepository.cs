@@ -63,16 +63,6 @@ namespace SIMS_HCI_Project.Repositories
             return _tourVouchers.Count == 0 ? 1 : _tourVouchers[_tourVouchers.Count - 1].Id + 1;
         }
 
-        // remove this #New
-        public void UseVoucher(TourVoucher selectedVoucher)
-        {
-            if (selectedVoucher == null) return;
-
-            TourVoucher voucher = GetById(selectedVoucher.Id);
-            voucher.Status = VoucherStatus.USED;
-            Save();
-        }
-
         public TourVoucher GetById(int id)
         {
             return _tourVouchers.Find(v => v.Id == id);

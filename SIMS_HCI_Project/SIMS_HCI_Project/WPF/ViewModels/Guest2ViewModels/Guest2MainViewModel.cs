@@ -47,7 +47,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             }
         }
         private ObservableCollection<TourReservation> _activeTours;
-        public ObservableCollection<TourReservation> ActiveTours //change to GuestTourAttendance
+        public ObservableCollection<TourReservation> ActiveTours
         {
             get { return _activeTours; }
             set
@@ -76,15 +76,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                 OnPropertyChanged();
             }
         }
-
-
-        public List<GuestTourAttendance> Attendances { get; set; }
-        public Guest2 Guest { get; set; }
-        public TourTime TourTime { get; set; }
-        public GuestTourAttendance GuestTourAttendance { get; set; }
-        public Guest2MainView Guest2MainView { get; set; }
-
-
         private TourReservation _selectedActiveReservation;
         public TourReservation SelectedActiveReservation
         {
@@ -95,7 +86,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                 OnPropertyChanged();
             }
         }
-       
+
+        public List<GuestTourAttendance> Attendances { get; set; }
+        public Guest2 Guest { get; set; }
+        public TourTime TourTime { get; set; }
+        public GuestTourAttendance GuestTourAttendance { get; set; }
+        public Guest2MainView Guest2MainView { get; set; }
         #region PropertyChanged
         public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -103,14 +99,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
+
         public Guest2MainViewModel(Guest2MainView guest2MainView, Guest2 guest)
         {
             Guest2MainView = guest2MainView;
             Guest = guest;
             LoadFromFiles();
             InitCommands();
-            //CloseWindow = new RelayCommand(ExecuteCloseWindow);
-            MakeNotificationsForAttendanceConfirmation(); //add in TourProgressViewModel later
+            MakeNotificationsForAttendanceConfirmation();
 
             Attendances = new List<GuestTourAttendance>();
             TourTime = new TourTime();
@@ -126,19 +122,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             _tourVoucherService.Subscribe(this);
         }
 
-        public void MakeNotificationsForAttendanceConfirmation()
-        {
-            Attendances = _guestTourAttendanceService.GetByConfirmationRequestedStatus(Guest.Id);
-            foreach (GuestTourAttendance attendance in Attendances)
-            {
-                if( _notificationService.GetAll().Select(n => n.Message).ToList().Contains(attendance.TourTimeId.ToString()) == false)
-                { 
-                
-                    String Message = "You have request to confirm your attendance for tour with id: " + attendance.TourTimeId + ". Confirm your attendance on that tour in the list of active tours.";
-                    _notificationService.Add(new Notification(Message, Guest.Id, false));
-                }
-            }
-        }
 
         private void LoadFromFiles()
         {
@@ -152,35 +135,35 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
         public void InitCommands()
         {
-            RateVisitedTours = new RelayCommand(Executed_RateVisitedTours, CanExecute_RateVisitedTours);
-            SearchAndReserve = new RelayCommand(Executed_SearchAndReserve, CanExecute_SearchAndReserve);
-            ConfirmAttendance = new RelayCommand(Executed_ConfirmAttendance, CanExecute_ConfirmAttendance);
-            Logout = new RelayCommand(Executed_Logout, CanExecute_Logout);
+            RateVisitedTours = new RelayCommand(ExecutedRateVisitedTours, CanExecuteRateVisitedTours);
+            SearchAndReserve = new RelayCommand(ExecutedSearchAndReserve, CanExecuteSearchAndReserve);
+            ConfirmAttendance = new RelayCommand(ExecutedConfirmAttendance, CanExecuteConfirmAttendance);
+            Logout = new RelayCommand(ExecutedLogout, CanExecuteLogout);
         }
         #region Commands
-        public void Executed_RateVisitedTours(object obj)
+        public void ExecutedRateVisitedTours(object obj)
         {
             Window win = new TourRatingView(Guest);
             win.Show();
             Guest2MainView.Close();
         }
-        public bool CanExecute_RateVisitedTours(object obj)
+        public bool CanExecuteRateVisitedTours(object obj)
         {
             return true;
         }
 
-        public void Executed_SearchAndReserve(object obj)
+        public void ExecutedSearchAndReserve(object obj)
         {
             Window win = new TourSearchView(Guest);
             win.Show();
             Guest2MainView.Close();
         }
-        public bool CanExecute_SearchAndReserve(object obj)
+        public bool CanExecuteSearchAndReserve(object obj)
         {
             return true;
         }
 
-        public void Executed_ConfirmAttendance(object obj)
+        public void ExecutedConfirmAttendance(object obj)
         {
             MessageBox.Show("Do you want to confirm attendance on this Tour for all reservations?"); //ili napravi konstruktor GTA koji prihvata i rezervaciju kao parametar pa trazi po rezervaciji? okej je ovako ipak
             MessageBoxButton messageBoxButton = MessageBoxButton.OK;
@@ -189,11 +172,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             MessageBox.Show("Your tour attendance is confirmed.");
         }
 
-        public bool CanExecute_ConfirmAttendance(object obj)
+        public bool CanExecuteConfirmAttendance(object obj)
         {
             return true;
         }
-        public void Executed_Logout(object obj)
+        public void ExecutedLogout(object obj)
         {
             foreach (Notification notification in _notificationService.GetUnreadByUserId(Guest.Id))
             {
@@ -202,23 +185,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             Guest2MainView.Close();
         }
 
-        public bool CanExecute_Logout(object obj)
+        public bool CanExecuteLogout(object obj)
         {
             return true;
         }
 
-        public void ExecuteCloseWindow(object obj)
-        {
-            foreach (Notification notification in _notificationService.GetUnreadByUserId(Guest.Id))
-            {
-                _notificationService.MarkAsRead(notification.Id);
-            }
-            App.Current.MainWindow.Close();
-        }
-        public bool CanExecute_CloseWindow(object obj)
-        {
-            return true;
-        }
         #endregion
         #region Notifications
         public void ShowNotifications()
@@ -227,6 +198,19 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             Guest2MainView.lvNotifications.Visibility = otherNotificationsNumber != 0 ? Visibility.Visible : Visibility.Collapsed;
         }
         #endregion
+        public void MakeNotificationsForAttendanceConfirmation()
+        {
+            Attendances = _guestTourAttendanceService.GetByConfirmationRequestedStatus(Guest.Id);
+            foreach (GuestTourAttendance attendance in Attendances)
+            {
+                if( _notificationService.GetAll().Select(n => n.Message).ToList().Contains(attendance.TourTimeId.ToString()) == false)
+                { 
+                
+                    String Message = "You have request to confirm your attendance for tour with id: " + attendance.TourTimeId + ". Confirm your attendance on that tour in the list of active tours.";
+                    _notificationService.Add(new Notification(Message, Guest.Id, false));
+                }
+            }
+        }
         public void Update()
         {
             throw new NotImplementedException();

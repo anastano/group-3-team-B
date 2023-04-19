@@ -17,22 +17,24 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 {
     public class RateSelectedReservationViewModel
     {
+        #region Services
         private TourService _tourService;
         private TourReservationService _tourReservationService;
         private TourVoucherService _tourVoucherService;
         private LocationService _locationService;
         private GuestTourAttendanceService _guestTourAttendanceService;
         private TourRatingService _tourRatingService;
-
-        public RateSelectedReservationView RateSelectedReservationView { get; set; }
-        public TourReservation TourReservation { get; set; }
-        public Guest2 Guest { get; set; }
-        public TourRating TourRating { get; set; }
-
+        #endregion
+        #region Commands
         public RelayCommand Back { get; set; }
         public RelayCommand ConfirmRating { get; set; }
         public RelayCommand Cancel { get; set; }
         public RelayCommand AddImage { get; set; }
+        #endregion
+        public RateSelectedReservationView RateSelectedReservationView { get; set; }
+        public TourReservation TourReservation { get; set; }
+        public Guest2 Guest { get; set; }
+        public TourRating TourRating { get; set; }
         public ObservableCollection<string> Images { get; set; }
 
         private string _imageURL;
@@ -124,25 +126,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                 }
             }
         }
-        /*private String _images;
-        public String Images
-        {
-            get => _images;
-            set
-            {
-                if (value != _images)
-                {
-                    _images = value;
-                    OnPropertyChanged();
-                }
-            }
-        }*/
-
+        #region PropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion
 
         public RateSelectedReservationViewModel(Guest2 guest2, TourReservation selectedReservation, RateSelectedReservationView rateSelectedReservationView)
         {
@@ -168,12 +158,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         }
         public void InitCommands()
         {
-            Back = new RelayCommand(Executed_Back, CanExecute_Back);
-            Cancel = new RelayCommand(Executed_Cancel, CanExecute_Cancel);
-            ConfirmRating = new RelayCommand(Executed_ConfirmRating, CanExecute_ConfirmRating);
-            AddImage = new RelayCommand(Executed_AddImage, CanExecute_AddImage);
+            Back = new RelayCommand(ExecutedBack, CanExecuteBack);
+            Cancel = new RelayCommand(ExecutedCancel, CanExecuteCancel);
+            ConfirmRating = new RelayCommand(ExecutedConfirmRating, CanExecuteConfirmRating);
+            AddImage = new RelayCommand(ExecutedAddImage, CanExecuteAddImage);
         }
-        private void Executed_AddImage(object sender)
+        #region Commands
+        private void ExecutedAddImage(object sender)
         {
             if (ImageURL != "")
             {
@@ -181,34 +172,33 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                 ImageURL = "";
             }
         }
-        private bool CanExecute_AddImage(object sender)
+        private bool CanExecuteAddImage(object sender)
         {
             return true;
         }
-        private void Executed_Back(object sender)
+        private void ExecutedBack(object sender)
         {
             Window window = new TourRatingView(Guest);
             window.Show();
             RateSelectedReservationView.Close();
         }
-        public bool CanExecute_Back(object sender)
+        public bool CanExecuteBack(object sender)
         {
             return true;
         }
-        private void Executed_Cancel(object sender)
+        private void ExecutedCancel(object sender)
         {
             Window window = new TourRatingView(Guest);
             window.Show();
             RateSelectedReservationView.Close();
         }
-        public bool CanExecute_Cancel(object sender)
+        public bool CanExecuteCancel(object sender)
         {
             return true;
         }
 
-        private void Executed_ConfirmRating(object sender)
+        private void ExecutedConfirmRating(object sender)
         {
-            // dodaj validaciju da mora poslati kompletnu formu da bi se prihvatila
             TourRating.ReservationId = TourReservation.Id;
             TourRating.GuideId = TourReservation.TourTime.Tour.GuideId;
             TourRating.GuestId = Guest.Id;
@@ -223,9 +213,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             RateSelectedReservationView.Close();
 
         }
-        public bool CanExecute_ConfirmRating(object sender)
+        public bool CanExecuteConfirmRating(object sender)
         {
             return true;
         }
+        #endregion
     }
 }

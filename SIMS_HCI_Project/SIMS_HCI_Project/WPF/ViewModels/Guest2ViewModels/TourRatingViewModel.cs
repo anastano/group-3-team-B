@@ -71,28 +71,28 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
         public void InitCommands()
         {
-            Back = new RelayCommand(Executed_Back, CanExecute_Back);
-            Rate = new RelayCommand(Executed_Rate, CanExecute_Rate);
+            Back = new RelayCommand(ExecutedBack, CanExecuteBack);
+            Rate = new RelayCommand(ExecutedRate, CanExecuteRate);
         }
 
         #region Commands
-        private void Executed_Back(object sender)
+        private void ExecutedBack(object sender)
         {
             Window window = new Guest2MainView(Guest);
             window.Show();
             TourRatingView.Close();
         }
-        public bool CanExecute_Back(object sender)
+        public bool CanExecuteBack(object sender)
         {
             return true;
         }
-        private void Executed_Rate(object sender)
+        private void ExecutedRate(object sender)
         {
             Window window = new RateSelectedReservationView(Guest, SelectedReservation);
             window.Show();
             TourRatingView.Close();
         }
-        public bool CanExecute_Rate(object sender)
+        public bool CanExecuteRate(object sender)
         {
             return true;
         }

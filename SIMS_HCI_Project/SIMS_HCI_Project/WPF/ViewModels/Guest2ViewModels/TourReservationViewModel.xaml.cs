@@ -19,16 +19,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
    
     public partial class TourReservationViewModel : INotifyPropertyChanged
     {
+        #region Services
         private TourService _tourService;
         private TourReservationService _tourReservationService;
         private TourVoucherService _tourVoucherService;
+        #endregion
         #region Commands
         public RelayCommand ShowSuggestions { get; set; }
         public RelayCommand ConfirmReservation { get; set; }
         public RelayCommand Back { get; set; }
         #endregion
 
-        #region Properties
         public TourReservationView TourReservationView { get; set; }
         public TourVoucher TourVoucher { get; set; }
         public TourTime TourTime { get; set; }
@@ -99,7 +100,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                 }
             }
         }
-        #endregion
+        
         #region PropertyChanged
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -133,26 +134,26 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
         public void InitCommands()
         {
-            ConfirmReservation = new RelayCommand(Executed_ConfirmReservation, CanExecute_ConfirmReservation);
-            Back = new RelayCommand(Executed_Back, CanExecute_Back);
+            ConfirmReservation = new RelayCommand(ExecutedConfirmReservation, CanExecuteConfirmReservation);
+            Back = new RelayCommand(ExecutedBack, CanExecuteBack);
         }
         #region Commands
-        private void Executed_ConfirmReservation(object sender) 
+        private void ExecutedConfirmReservation(object sender) 
         {
             Reserve();
         }
-        public bool CanExecute_ConfirmReservation(object sender)
+        public bool CanExecuteConfirmReservation(object sender)
         {
             return true;
         }
 
-        private void Executed_Back(object sender)
+        private void ExecutedBack(object sender)
         {
             Window window = new TourSearchView(Guest2);
             window.Show();
             TourReservationView.Close();
         }
-        public bool CanExecute_Back(object sender)
+        public bool CanExecuteBack(object sender)
         {
             return true;
         }

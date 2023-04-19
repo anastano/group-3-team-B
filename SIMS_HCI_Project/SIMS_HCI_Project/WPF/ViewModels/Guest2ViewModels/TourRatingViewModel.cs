@@ -17,21 +17,37 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 {
     public class TourRatingViewModel : INotifyPropertyChanged
     {
+        #region PropertyChanged
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        #endregion
+        #region Services
         private TourService _tourService;
         private TourReservationService _tourReservationService;
         private TourVoucherService _tourVoucherService;
-        private LocationService _locationService;
         private GuestTourAttendanceService _guestTourAttendanceService;
         private TourRatingService _tourRatingService;
-        public TourRatingView TourRatingView { get; set; }
-        public Tour Tour { get; set; }
-        public TourReservation TourReservation { get; set; }
-        public TourReservation SelectedReservation { get; set; }
-        public Guest2 Guest { get; set; }
-        public ObservableCollection<TourReservation> UnratedReservations { get; set; }
-
+        #endregion
+        #region Commands
         public RelayCommand Back { get; set; }
         public RelayCommand Rate { get; set; }
+        #endregion
+        public TourRatingView TourRatingView { get; set; }
+        public TourReservation SelectedReservation { get; set; }
+        public Guest2 Guest { get; set; }
+        private ObservableCollection<TourReservation> _unratedReservations;
+        public ObservableCollection<TourReservation> UnratedReservations
+        {
+            get { return _unratedReservations; }
+            set
+            {
+                _unratedReservations = value;
+                OnPropertyChanged();
+            }
+        }
 
         public TourRatingViewModel(TourRatingView tourRatingView, Guest2 guest2)
         {
@@ -41,10 +57,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             LoadFromFiles();
             InitCommands();
 
-            
-
-            UnratedReservations = new ObservableCollection<TourReservation>(_tourReservationService.GetUnratedReservations(Guest.Id, _guestTourAttendanceService, _tourRatingService, _tourService));
-
+            UnratedReservations = new ObservableCollection<TourReservation>(_tourReservationService.GetUnratedReservations(Guest.Id, _guestTourAttendanceService, _tourRatingService));
         }
 
         public void LoadFromFiles()
@@ -52,7 +65,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             _tourService = new TourService();
             _tourReservationService = new TourReservationService();
             _tourVoucherService = new TourVoucherService();
-            _locationService = new LocationService();
             _guestTourAttendanceService = new GuestTourAttendanceService();
             _tourRatingService = new TourRatingService();
 
@@ -73,6 +85,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             Rate = new RelayCommand(Executed_Rate, CanExecute_Rate);
         }
 
+        #region Commands
         private void Executed_Back(object sender)
         {
             Window window = new Guest2MainView(Guest);
@@ -85,7 +98,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         }
         private void Executed_Rate(object sender)
         {
-            //pozovvi prozor za ocenjivanje
             Window window = new RateSelectedReservationView(Guest, SelectedReservation);
             window.Show();
             TourRatingView.Close();
@@ -94,15 +106,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         {
             return true;
         }
-
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        
+        #endregion
     }
 }

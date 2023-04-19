@@ -1,5 +1,4 @@
-﻿using SIMS_HCI_Project.Controller;
-using SIMS_HCI_Project.Domain.Models;
+﻿using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Domain.RepositoryInterfaces;
 using System;
 using System.Collections.Generic;

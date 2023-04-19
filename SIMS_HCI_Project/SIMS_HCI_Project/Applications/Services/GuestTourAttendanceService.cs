@@ -44,7 +44,6 @@ namespace SIMS_HCI_Project.Applications.Services
             return _guestTourAttendanceRepository.GetAll();
         }
         
-
         public List<GuestTourAttendance> GetAllByTourId(int id)
         {
             return _guestTourAttendanceRepository.GetAllByTourId(id);
@@ -58,9 +57,17 @@ namespace SIMS_HCI_Project.Applications.Services
             return _guestTourAttendanceRepository.IsPresent(guestId, tourTimeId);
         }
 
-        public List<TourTime> GetTourTimesWhereGuestWasPresent(int guestId, TourService tourService)
+        public List<TourTime> GetTourTimesWhereGuestWasPresent(int guestId) 
         {
-            return _guestTourAttendanceRepository.GetTourTimesWhereGuestWasPresent(guestId, tourService);
+            List<TourTime> tourTimes = new List<TourTime>();
+            foreach (var gta in _guestTourAttendanceRepository.GetAllByGuestId(guestId))
+            {
+                if (gta.Status == AttendanceStatus.PRESENT)
+                {
+                    tourTimes.Add(_tourTimeRepository.GetById(gta.TourTimeId));
+                }
+            }
+            return tourTimes;
         }
 
         public void LoadConnections()

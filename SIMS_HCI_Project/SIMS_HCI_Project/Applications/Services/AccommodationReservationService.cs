@@ -134,12 +134,10 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             _reservationRepository.NotifyObservers();
         }
-
         public void Subscribe(IObserver observer)
         {
             _reservationRepository.Subscribe(observer);
         }
-
         public void Unsubscribe(IObserver observer)
         {
             _reservationRepository.Unsubscribe(observer);

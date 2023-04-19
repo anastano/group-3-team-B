@@ -18,11 +18,6 @@ namespace SIMS_HCI_Project.Applications.Services
             _notificationRepository = Injector.Injector.CreateInstance<INotificationRepository>();
         }
 
-        public void Save()
-        {
-            _notificationRepository.Save();
-        }
-
         public Notification GetById(int id)
         {
             return _notificationRepository.GetById(id);

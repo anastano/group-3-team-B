@@ -35,7 +35,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
             UnratedReservationsView = unratedReservationsView;
             Owner = owner;
-            UnratedReservations = new ObservableCollection<AccommodationReservation>(_reservationService.GetUnratedReservations(Owner.Id, _ownerRatingService));
+            UnratedReservations = new ObservableCollection<AccommodationReservation>(_ownerRatingService.GetUnratedReservations(Owner.Id, _reservationService));
 
             _ownerRatingService.Subscribe(this);
         }
@@ -71,7 +71,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public void UpdateUnratedReservations()
         {
             UnratedReservations.Clear();
-            foreach (AccommodationReservation reservation in _reservationService.GetUnratedReservations(Owner.Id, _ownerRatingService))
+            foreach (AccommodationReservation reservation in _ownerRatingService.GetUnratedReservations(Owner.Id, _reservationService))
             {
                 UnratedReservations.Add(reservation);
             }

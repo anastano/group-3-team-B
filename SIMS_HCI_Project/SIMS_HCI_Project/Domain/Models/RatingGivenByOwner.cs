@@ -1,5 +1,4 @@
-﻿using SIMS_HCI_Project.Model;
-using SIMS_HCI_Project.Serializer;
+﻿using SIMS_HCI_Project.Serializer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +31,7 @@ namespace SIMS_HCI_Project.Domain.Models
             AdditionalComment = additionalComment;
         }
 
-        public RatingGivenByOwner(OwnerGuestRating rating)
+        public RatingGivenByOwner(RatingGivenByOwner rating)
         {
             Id = rating.Id;
             ReservationId = rating.ReservationId;

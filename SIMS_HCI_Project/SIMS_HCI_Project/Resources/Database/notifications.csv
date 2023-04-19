@@ -1,4 +1,5 @@
-1|Reservation for Hotel Zelengora with id: 3 has been cancelled|1|True
+1|Reservation for Hotel Zelengora with id: 3 has been cancelled|1|False
 2|Request to reschedule the reservation for 'Ime smestaja 0' has been ACCEPTED|3|False
-3|Request to reschedule the reservation for 'Ime smestaja 0' has been DENIED|3|False
-4|aaaaaaaaaaaaaaaa|4|True
+3|You have request to confirm your attendance for tour with id: 13. Confirm your attendance on that tour in the list of active tours.|4|False
+4|You have request to confirm your attendance for tour with id: 13. Confirm your attendance on that tour in the list of active tours.|4|False
+5|You have request to confirm your attendance for tour with id: 13. Confirm your attendance on that tour in the list of active tours.|4|False

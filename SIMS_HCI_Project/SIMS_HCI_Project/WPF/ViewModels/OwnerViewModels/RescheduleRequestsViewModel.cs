@@ -26,7 +26,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public RelayCommand ShowSelectedRequestCommand { get; set; }
 
-        public RescheduleRequestsViewModel(RescheduleRequestsView requestsView, RescheduleRequestService rescheduleRequestService, AccommodationReservationService reservationSevice, NotificationService notificationService, Owner owner)
+        public RescheduleRequestsViewModel(RescheduleRequestsView requestsView, RescheduleRequestService rescheduleRequestService, 
+            AccommodationReservationService reservationSevice, NotificationService notificationService, Owner owner)
         {
             InitCommands();
 

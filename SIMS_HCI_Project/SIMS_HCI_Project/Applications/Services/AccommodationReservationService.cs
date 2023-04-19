@@ -18,11 +18,6 @@ namespace SIMS_HCI_Project.Applications.Services
             _reservationRepository = Injector.Injector.CreateInstance<IAccommodationReservationRepository>();
         }
 
-        public void Save()
-        {
-            _reservationRepository.Save();
-        }
-
         public AccommodationReservation GetById(int id)
         {
             return _reservationRepository.GetById(id);
@@ -66,46 +61,14 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return DateTime.Today >= reservation.Start && DateTime.Today <= reservation.End;
         }
+        public bool IsReservationActive(AccommodationReservation reservation)
+        {
+            return reservation.End >= DateTime.Today;
+        }
 
         public bool IsReservedOrRescheduled(AccommodationReservation reservation)
         {
             return reservation.Status == AccommodationReservationStatus.RESERVED || reservation.Status == AccommodationReservationStatus.RESCHEDULED;
-        }
-      
-        public List<AccommodationReservation> GetOverlappingReservations(RescheduleRequest request)
-        {
-            List<AccommodationReservation> overlappingReservations = new List<AccommodationReservation>();
-
-            foreach (AccommodationReservation reservation in GetByAccommodationId(request.AccommodationReservation.AccommodationId))
-            {               
-                    if (IsDateRangeOverlapping(reservation, request) && IsReservedOrRescheduled(reservation) && reservation.Id != request.AccommodationReservationId)
-                    {
-                        overlappingReservations.Add(reservation);
-                    }
-            }
-            return overlappingReservations;
-        }
-
-        public bool IsDateRangeOverlapping(AccommodationReservation reservation, RescheduleRequest request)
-        {
-            bool startOverlaps = reservation.Start >= request.WantedStart && reservation.Start <= request.WantedEnd;
-            bool endOverlaps = reservation.End >= request.WantedStart && reservation.End <= request.WantedEnd;
-
-            return startOverlaps || endOverlaps;
-        }
-
-        public List<AccommodationReservation> GetUnratedReservations(int ownerId, RatingGivenByOwnerService ownerRatingService)
-        {
-            List<AccommodationReservation> unratedReservations = new List<AccommodationReservation>();
-
-            foreach (AccommodationReservation reservation in GetByOwnerId(ownerId))
-            {
-                if (IsCompleted(reservation) && IsWithinFiveDaysAfterCheckout(reservation) && !IsRated(reservation, ownerRatingService))
-                {
-                    unratedReservations.Add(reservation);
-                }
-            }
-            return unratedReservations;
         }
 
         public bool IsCompleted(AccommodationReservation reservation)
@@ -118,28 +81,19 @@ namespace SIMS_HCI_Project.Applications.Services
             return DateTime.Today <= reservation.End.AddDays(5);
         }
 
-        public bool IsRated(AccommodationReservation reservation, RatingGivenByOwnerService ownerRatingService)
-        {
-            if (ownerRatingService.GetByReservationId(reservation.Id) != null)
-            {
-                return true;
-            }
-            return false;
-        }
-
         public void EditStatus(int reservationId, AccommodationReservationStatus status)
         {
             _reservationRepository.EditStatus(reservationId, status);
         }
 
-        public void RescheduleReservation(RescheduleRequest request)
+        public void EditReservation(RescheduleRequest request)
         {
             _reservationRepository.EditReservation(request);
         }
 
         public void ConnectReservationsWithAccommodations(AccommodationService accommodationService)
         {
-            foreach (AccommodationReservation reservation in _reservationRepository.GetAll())
+            foreach (AccommodationReservation reservation in GetAll())
             {
                 reservation.Accommodation = accommodationService.GetById(reservation.AccommodationId);
             }
@@ -147,7 +101,7 @@ namespace SIMS_HCI_Project.Applications.Services
 
         public void ConnectReservationsWithGuests(Guest1Service guest1Service)
         {
-            foreach (AccommodationReservation reservation in _reservationRepository.GetAll())
+            foreach (AccommodationReservation reservation in GetAll())
             {
                 reservation.Guest = guest1Service.GetById(reservation.GuestId);
             }
@@ -168,26 +122,25 @@ namespace SIMS_HCI_Project.Applications.Services
                 reservation.isRated = ratingGivenByGuestService.IsReservationRated(reservation.Id);
             }
         }
+
         public void CancelReservation(NotificationService notificationService, AccommodationReservation reservation)
         {
             String Message = "Reservation for " + reservation.Accommodation.Name + " with id: " + reservation.Id + " has been cancelled";
             notificationService.Add(new Notification(Message, reservation.Accommodation.OwnerId, false));
             _reservationRepository.EditStatus(reservation.Id, AccommodationReservationStatus.CANCELLED);
         }
+
         public void NotifyObservers()
         {
             _reservationRepository.NotifyObservers();
         }
-
         public void Subscribe(IObserver observer)
         {
             _reservationRepository.Subscribe(observer);
         }
-
         public void Unsubscribe(IObserver observer)
         {
             _reservationRepository.Unsubscribe(observer);
         }
-
     }
 }

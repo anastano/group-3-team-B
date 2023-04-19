@@ -7,7 +7,6 @@ namespace SIMS_HCI_Project.Repositories
     public interface INotificationRepository
     {
         void Add(Notification notification);
-        int GenerateId();
         List<Notification> GetAll();
         Notification GetById(int id);
         List<Notification> GetUnreadByUserId(int userId);

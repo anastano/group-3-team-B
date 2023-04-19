@@ -8,7 +8,6 @@ namespace SIMS_HCI_Project.Repositories
         Location GetByCountryAndCity(string country, string city);
         Location GetById(int id);
         Location GetOrAdd(Location location);
-        int GenerateId();
         List<Location> GetAll();
         void Save();
     }

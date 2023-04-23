@@ -73,9 +73,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             _ownerRatingService.ConnectRatingsWithReservations(_reservationService);
             _guestRatingService.ConnectRatingsWithReservations(_reservationService);
 
-            _accommodationService.FillOwnerAccommodationList(Owner);
-            _reservationService.FillOwnerReservationList(Owner);
-
             _guestRatingService.FillAverageRatingAndSuperFlag(Owner);
         }
 
@@ -97,7 +94,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public void Executed_ShowAccommodationsCommand(object obj)
         {
             Window accommodationsView = new AccommodationsView(_accommodationService, Owner);
-            accommodationsView.Show();
+            accommodationsView.ShowDialog();
         }
 
         public bool CanExecute_ShowAccommodationsCommand(object obj)
@@ -108,7 +105,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public void Executed_ShowPendingRequestsCommand(object obj)
         {
             Window requestsView = new RescheduleRequestsView(_requestService, _reservationService, _notificationService, Owner);
-            requestsView.Show();
+            requestsView.ShowDialog();
         }
 
         public bool CanExecute_ShowPendingRequestsCommand(object obj)
@@ -119,7 +116,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public void Executed_ShowUnratedReservationsCommand(object obj)
         {
             Window unratedReservationsView = new UnratedReservationsView(_reservationService, _ownerRatingService, Owner);
-            unratedReservationsView.Show();
+            unratedReservationsView.ShowDialog();
         }
 
         public bool CanExecute_ShowUnratedReservationsCommand(object obj)
@@ -130,7 +127,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public void Executed_ShowGuestReviewsCommand(object obj)
         {
             Window guestReviewsView = new GuestReviewsView(_guestRatingService, _ownerRatingService, Owner);
-            guestReviewsView.Show();
+            guestReviewsView.ShowDialog();
         }
 
         public bool CanExecute_ShowGuestReviewsCommand(object obj)

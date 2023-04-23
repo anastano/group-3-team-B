@@ -23,6 +23,7 @@ namespace SIMS_HCI_Project.Domain.Models
         public int MinimumReservationDays { get; set; }
         public int CancellationDeadlineInDays { get; set; }
         public List<string> Images { get; set; }
+        public string FirstImage { get; set; }
 
         public List<AccommodationReservation> Reservations { get; set; }
 
@@ -79,6 +80,7 @@ namespace SIMS_HCI_Project.Domain.Models
             MinimumReservationDays = int.Parse(values[6]);
             CancellationDeadlineInDays = int.Parse(values[7]);
             Images = new List<string>(values[8].Split(","));
+            FirstImage = Images.FirstOrDefault();
         }
     }
 }

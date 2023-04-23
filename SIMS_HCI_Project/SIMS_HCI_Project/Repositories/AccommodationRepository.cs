@@ -55,10 +55,17 @@ namespace SIMS_HCI_Project.Repositories
             return _accommodations.Find(a => a.Id == id).Images;
         }
 
-        public void Delete(Accommodation accommodation, Owner owner)
+        public void Add(Accommodation accommodation)
+        {
+            accommodation.Id = GenerateId();
+            _accommodations.Add(accommodation);
+            NotifyObservers();
+            Save();
+        }
+
+        public void Delete(Accommodation accommodation)
         {
             _accommodations.Remove(accommodation);
-            owner.Accommodations.Remove(accommodation);
             NotifyObservers();
             Save();
         }

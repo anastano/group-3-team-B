@@ -13,10 +13,12 @@ namespace SIMS_HCI_Project.Applications.Services
     public class AccommodationService
     {
         private readonly IAccommodationRepository _accommodationRepository;
+        private readonly ILocationRepository _locationRepository;
 
         public AccommodationService()
         {
             _accommodationRepository = Injector.Injector.CreateInstance<IAccommodationRepository>();
+            _locationRepository = Injector.Injector.CreateInstance<ILocationRepository>();
         }
 
         public Accommodation GetById(int id)
@@ -39,9 +41,16 @@ namespace SIMS_HCI_Project.Applications.Services
             return _accommodationRepository.GetImages(id);
         }
 
-        public void Delete(Accommodation accommodation, Owner owner)
+        public void Add(Accommodation accommodation, Location location)
         {
-            _accommodationRepository.Delete(accommodation, owner);
+            accommodation.Location = _locationRepository.GetOrAdd(location);
+            accommodation.LocationId = location.Id;
+            _accommodationRepository.Add(accommodation);
+        }
+
+        public void Delete(Accommodation accommodation)
+        {
+            _accommodationRepository.Delete(accommodation);
         }
 
         public void ConnectAccommodationsWithLocations(LocationService locationService)
@@ -57,10 +66,6 @@ namespace SIMS_HCI_Project.Applications.Services
             {
                 accommodation.Owner = ownerService.GetById(accommodation.OwnerId);
             }
-        }
-        public void FillOwnerAccommodationList(Owner owner)
-        {
-            owner.Accommodations = GetByOwnerId(owner.Id);
         }
 
         public void NotifyObservers()

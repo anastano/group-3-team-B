@@ -10,17 +10,11 @@ namespace SIMS_HCI_Project.Domain.Models
     {
         public double AverageRating { get; set; }
         public bool SuperFlag { get; set; }
-
-        public List<Accommodation> Accommodations;
-        public List<AccommodationReservation> Reservations;
          
         public Owner() 
         {
             AverageRating = 0;
             SuperFlag = false;
-
-            Accommodations= new List<Accommodation>();
-            Reservations = new List<AccommodationReservation>();
         }
 
         public Owner(User user) 
@@ -31,9 +25,6 @@ namespace SIMS_HCI_Project.Domain.Models
             Name = user.Name;
             Surname = user.Surname;
             Age = user.Age;
-
-            Accommodations = new List<Accommodation>();
-            Reservations = new List<AccommodationReservation>();
         }
     }
 }

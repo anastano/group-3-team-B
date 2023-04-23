@@ -24,6 +24,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public Accommodation SelectedAccommodation { get; set; }
 
         public RelayCommand DeleteAccommodationCommand { get; set; }
+        public RelayCommand AddAccommodationCommand { get; set; }
+        public RelayCommand ShowAccommodationImagesCommand { get; set; }
+        public RelayCommand CloseAccommodationsViewCommand { get; set; }
 
         public AccommodationsViewModel(AccommodationsView accommodationsView, AccommodationService accommodationService, Owner owner)
         {
@@ -33,7 +36,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
             AccommodationsView = accommodationsView;
             Owner = owner;            
-            Accommodations = new ObservableCollection<Accommodation>(_accommodationService.GetByOwnerId(Owner.Id));           
+            Accommodations = new ObservableCollection<Accommodation>(_accommodationService.GetByOwnerId(Owner.Id));
 
             _accommodationService.Subscribe(this);
         }
@@ -43,11 +46,46 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             if (SelectedAccommodation != null)
             {
-                _accommodationService.Delete(SelectedAccommodation, Owner);
+                _accommodationService.Delete(SelectedAccommodation);
             }
         }
 
         public bool CanExecute_DeleteAccommodationCommand(object obj)
+        {
+            return true;
+        }
+
+        public void Executed_AddAccommodationCommand(object obj)
+        {
+            Window addAccommodationView = new AddAccommodationView(_accommodationService, Owner);
+            addAccommodationView.ShowDialog();
+        }
+
+        public bool CanExecute_AddAccommodationCommand(object obj)
+        {
+            return true;
+        }
+
+        public void Executed_ShowAccommodationImagesCommand(object obj)
+        {
+            if (SelectedAccommodation != null)
+            {
+                Window accommodationImagesView = new AccommodationImagesView(_accommodationService, SelectedAccommodation);
+                accommodationImagesView.ShowDialog();
+            }
+        }
+
+        public bool CanExecute_ShowAccommodationImagesCommand(object obj)
+        {
+            return true;
+        }
+
+        public void Executed_CloseAccommodationsViewCommand(object obj)
+        {
+            AccommodationsView.Close();
+        }
+
+        public bool CanExecute_CloseAccommodationsViewCommand(object obj)
         {
             return true;
         }
@@ -56,6 +94,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public void InitCommands()
         {
             DeleteAccommodationCommand = new RelayCommand(Executed_DeleteAccommodationCommand, CanExecute_DeleteAccommodationCommand);
+            AddAccommodationCommand = new RelayCommand(Executed_AddAccommodationCommand, CanExecute_AddAccommodationCommand);
+            ShowAccommodationImagesCommand = new RelayCommand(Executed_ShowAccommodationImagesCommand, CanExecute_ShowAccommodationImagesCommand);
+            CloseAccommodationsViewCommand = new RelayCommand(Executed_CloseAccommodationsViewCommand, CanExecute_CloseAccommodationsViewCommand);
         }
 
         public void Update()
@@ -69,6 +110,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             foreach (Accommodation accommodation in _accommodationService.GetByOwnerId(Owner.Id))
             {
                 Accommodations.Add(accommodation);
+            }
+
+            foreach (Accommodation accommodation in Accommodations)
+            {
+                accommodation.FirstImage = accommodation.Images.FirstOrDefault();
             }
         }
     }

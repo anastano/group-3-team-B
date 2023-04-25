@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -19,7 +20,7 @@ using Notification = SIMS_HCI_Project.Domain.Models.Notification;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
-    internal class Guest1MainViewModel
+    internal class Guest1MainViewModel : INotifyPropertyChanged
     {
         private Guest1Service _guest1Service;
         private OwnerService _ownerService;
@@ -30,20 +31,41 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         private NotificationService _notificationService;
         private RatingGivenByGuestService _ratingService;
         public Guest1MainView Guest1MainView { get; set; }
+        private ReservationsViewModel reservationsViewModel;
         public Guest1 Guest { get; set; }
         public RelayCommand ShowReservationsCommand { get; set; }
         public RelayCommand ShowProfileCommand { get; set; }
         public RelayCommand LogoutCommand { get; set; }
-        public event PropertyChangedEventHandler? PropertyChanged;
 
+        private object _currentViewModel;
+
+        public object CurrentViewModel
+
+        {
+            get => _currentViewModel;
+            set
+            {
+                if (value != _currentViewModel)
+                {
+                    _currentViewModel = value;
+                    OnPropertyChanged();
+                }
+            }
+
+        }
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
         public Guest1MainViewModel(Guest1MainView guest1MainView, Guest1 guest)
         {
             Guest1MainView = guest1MainView;
             Guest = guest;
             LoadFromFiles();
             InitCommands();
-            Guest1MainView.MainGuestFrame.Content = new ProfileView(Guest);
-
+            CurrentViewModel = new ProfileViewModel(Guest);
+            reservationsViewModel = new ReservationsViewModel(Guest);
         }
 
         public void LoadFromFiles()
@@ -68,7 +90,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         }
         public void ExecutedShowReservationsCommand(object obj)
         {
-            Guest1MainView.MainGuestFrame.Navigate(new ReservationsView(_reservationService, Guest));
+            CurrentViewModel = new ReservationsViewModel(Guest);
         }
 
         public bool CanExecute(object obj)
@@ -81,11 +103,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             {
                 _notificationService.MarkAsRead(notification.Id);
             }
-            Guest1MainView.Close();
+            //Guest1MainView.Close();
         }
         public void ExecutedShowProfileCommand(object obj)
         {
-            Guest1MainView.MainGuestFrame.Navigate(new ProfileView(Guest));
+            CurrentViewModel = (object)new ProfileViewModel(Guest);
         }
         public void InitCommands()
         {

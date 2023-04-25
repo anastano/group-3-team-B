@@ -20,22 +20,30 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
     {
         private AccommodationReservationService _accommodationReservationService;
         private RatingGivenByGuestService _ratingService;
-        public RatingReservationView RatingReservationView { get; set; }
-        public Guest1MainView Guest1MainView { get; set; }
-        public ReservationsView ReservationsView { get; set; }
         public AccommodationReservation Reservation { get; set; }
         public RelayCommand ReviewReservationCommand { get; set; }
         public RelayCommand CancelReviewCommand { get; set; }
         public RelayCommand RemoveImageCommand { get; set; }
         public RelayCommand AddImageCommand { get; set; }
-
-        private Frame _frame;
-        public Frame Frame
-        {
-            get { return _frame; }
-            set { _frame = value; }
-        }
         public ObservableCollection<string> Images { get; set; }
+        public String SelectedUrl { get; set; }
+
+        private object _currentViewModel;
+
+        public object CurrentViewModel
+
+        {
+            get => _currentViewModel;
+            set
+            {
+                if (value != _currentViewModel)
+                {
+                    _currentViewModel = value;
+                    OnPropertyChanged();
+                }
+            }
+
+        }
         private String _owner;
         public String Owner
         {
@@ -101,6 +109,21 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
+        private bool _isClosed;
+        public bool IsClosed
+        {
+            get { return _isClosed; }
+            set
+            {
+                _isClosed = value;
+                OnPropertyChanged(nameof(IsClosed));
+                if (value)
+                {
+                    Closed?.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
+        public event EventHandler Closed;
         private Regex urlRegex = new Regex("(http(s?)://.)([/|.|\\w|\\s|-])*\\.(?:jpg|gif|png)|(^$)");
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -108,13 +131,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        public RatingReservationViewModel(RatingReservationView ratingReservationView, AccommodationReservationService reservationService, AccommodationReservation reservation)
+        public RatingReservationViewModel(AccommodationReservation reservation)
         {
-            _accommodationReservationService = reservationService;
+            _accommodationReservationService = new AccommodationReservationService();
             _ratingService = new RatingGivenByGuestService();
-            RatingReservationView = ratingReservationView;
             Reservation = reservation;
-            Frame = RatingReservationView.ReservationRatingFrame;
             Images = new ObservableCollection<string>();
             Owner = Reservation.Accommodation.Owner.Name + " " + Reservation.Accommodation.Owner.Surname;
             InitialProperties();
@@ -131,17 +152,19 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public void ExecutedReviewReservationCommand(object obj)
         {
             _ratingService.RateReservation(_accommodationReservationService, new RatingGivenByGuest(Reservation.Id, Cleanliness, Correcntess, AdditionalComment, new List<string>(Images)));
-            this.Frame.Navigate(new ReservationsView(_accommodationReservationService, Reservation.Guest));
+            CurrentViewModel = new ReservationsViewModel(Reservation.Guest);
+            IsClosed = true;
+
         }
         public void ExecutedCancelReviewCommand(object obj)
         {
-            this.Frame.Navigate(new ReservationsView(_accommodationReservationService, Reservation.Guest));
+            IsClosed = true;
         }
         public void ExecutedRemoveImageCommand(object obj)
         {
-            if (RatingReservationView.lbImages.SelectedItem != null)
+            if (SelectedUrl != null)
             {
-                Images.RemoveAt(RatingReservationView.lbImages.SelectedIndex);
+                Images.Remove(SelectedUrl);
             }
 
         }
@@ -155,7 +178,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 //return "URL is not in valid format.";
             }
         }
-
         public bool CanExecute(object obj)
         {
             return true;

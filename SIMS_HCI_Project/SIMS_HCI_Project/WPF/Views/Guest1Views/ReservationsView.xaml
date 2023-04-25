@@ -1,15 +1,13 @@
-﻿<Page x:Class="SIMS_HCI_Project.WPF.Views.Guest1Views.ReservationsView"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest1Views"
-      xmlns:local1="clr-namespace:SIMS_HCI_Project.Wpf.Converters"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="ReservationView"
-      Background="#f5f5f5">
-
+﻿<UserControl x:Class="SIMS_HCI_Project.WPF.Views.Guest1Views.ReservationsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:views="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest1Views"
+             xmlns:viewmodels="clr-namespace:SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels"
+             xmlns:local1="clr-namespace:SIMS_HCI_Project.Wpf.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Background="#f5f5f5">
     <Grid>
         <TabControl Margin="5, 5, 5, 5">
             <TabControl.Resources>
@@ -52,7 +50,7 @@
                         <DataGridTemplateColumn Header="Cancellation" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="Cancellation" Command="{Binding DataContext.CancelReservationCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}">
+                                    <Button Content="Cancellation" Command="{Binding DataContext.CancelReservationCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
                                         <Button.Visibility>
                                             <MultiBinding Converter="{local1:CancellationButtonVisibilityConverter}">
                                                 <Binding Path="Accommodation.CancellationDeadlineInDays" />
@@ -66,7 +64,7 @@
                         <DataGridTemplateColumn Header="Reschedule" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="Reschedule" Command="{Binding DataContext.RescheduleReservationCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
+                                    <Button Content="Reschedule" Command="{Binding DataContext.RescheduleReservationCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
                                         Visibility ="{Binding Start, Converter={local1:RescheduleButtonVisibilityConverter}}">
                                     </Button>
                                 </DataTemplate>
@@ -86,7 +84,7 @@
                         <DataGridTemplateColumn Header="Rate" Width="*">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Button Content="Rate"  Command="{Binding DataContext.RateCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}">
+                                    <Button Content="Rate"  Command="{Binding DataContext.RateCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
                                         <Button.Visibility>
                                             <MultiBinding Converter="{local1:RateButtonVisibilityConverter}">
                                                 <Binding Path="End" />
@@ -103,17 +101,28 @@
             <TabItem Header="Canceled">
                 <DataGrid ItemsSource="{Binding Path=CanceledReservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="60,60,60,60" AutoGenerateColumns="False" IsReadOnly="True"
                       SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="Accommodation Name" Binding="{Binding Accommodation.Name}" Width="2*"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Start" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="2*"></DataGridTextColumn>
-                            <DataGridTextColumn Header="End" Binding="{Binding End, StringFormat='{}{0:MM/dd/yyyy}'}" Width="2*"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Guests" Binding="{Binding GuestNumber}" Width="SizeToHeader"></DataGridTextColumn>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Accommodation Name" Binding="{Binding Accommodation.Name}" Width="2*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Start" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="2*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="End" Binding="{Binding End, StringFormat='{}{0:MM/dd/yyyy}'}" Width="2*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Guests" Binding="{Binding GuestNumber}" Width="SizeToHeader"></DataGridTextColumn>
                         <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="SizeToCells"></DataGridTextColumn>
                     </DataGrid.Columns>
-                    </DataGrid>
-                </TabItem>
+                </DataGrid>
+            </TabItem>
         </TabControl>
-        <Frame x:Name="ReservationsFrame" NavigationUIVisibility="Hidden"/>
-
+        <ContentControl x:Name="UserControls" Content="{Binding CurrentViewModel}">
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type viewmodels:ReservationRescheduleViewModel}">
+                    <views:ReservationRescheduleView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:RatingReservationViewModel}">
+                    <views:RatingReservationView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:ReservationsViewModel}">
+                    <views:ReservationsView/>
+                </DataTemplate>
+            </ContentControl.Resources>
+        </ContentControl>
     </Grid>
-</Page>
+</UserControl>

@@ -1,5 +1,4 @@
-﻿using SIMS_HCI_Project.Domain.Models;
-using SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels;
+﻿using SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,12 +19,11 @@ namespace SIMS_HCI_Project.WPF.Views.Guest1Views
     /// <summary>
     /// Interaction logic for ProfileView.xaml
     /// </summary>
-    public partial class ProfileView : Page
+    public partial class ProfileView : UserControl
     {
-        public ProfileView(Guest1 guest)
+        public ProfileView()
         {
             InitializeComponent();
-            this.DataContext = new ProfileViewModel(this, guest);
         }
     }
 }

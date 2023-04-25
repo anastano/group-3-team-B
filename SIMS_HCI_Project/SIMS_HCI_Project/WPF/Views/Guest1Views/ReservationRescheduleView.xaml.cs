@@ -21,12 +21,11 @@ namespace SIMS_HCI_Project.WPF.Views.Guest1Views
     /// <summary>
     /// Interaction logic for ReservationRescheduleView.xaml
     /// </summary>
-    public partial class ReservationRescheduleView : Page
+    public partial class ReservationRescheduleView : UserControl
     {
-        public ReservationRescheduleView(AccommodationReservationService reservationService, AccommodationReservation reservation)
+        public ReservationRescheduleView()
         {
             InitializeComponent();
-            this.DataContext = new ReservationRescheduleViewModel(this, reservationService, reservation);
         }
     }
 }

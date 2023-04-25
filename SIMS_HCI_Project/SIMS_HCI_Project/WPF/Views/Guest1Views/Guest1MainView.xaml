@@ -3,27 +3,42 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest1Views"
+        xmlns:views="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest1Views"
+        xmlns:viewmodels="clr-namespace:SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels"
         mc:Ignorable="d"
         Title="Guest1MainView" Height="768" Width="1024"
         WindowStartupLocation="CenterScreen">
 
     <Grid>
-        <DockPanel>
-            <StackPanel DockPanel.Dock="Left" Width="80">
-                <Button Content="       My &#xa;Reservations" Width="80" Height="40"  Command="{Binding ShowReservationsCommand}"
-                        Margin="0, 155, 0, 0"/>
-            </StackPanel>
-            <StackPanel DockPanel.Dock="Top" Height="80" Margin="0,0,0,0" Width="944">
-                <StackPanel Orientation="Horizontal">
-                    <Button Content="  My &#xa;Profile" Width="80" Height="40"  Command="{Binding ShowProfileCommand}"
+        <Grid.RowDefinitions>
+            <RowDefinition Height = "80"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width = "80"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="1" Grid.Column="0">
+             <Button Content="       My &#xa;Reservations" Width="80" Height="40"  Command="{Binding ShowReservationsCommand}"
+                      Margin="0, 155, 0, 0"/>
+        </StackPanel>
+        <StackPanel Grid.Row="0" Grid.Column="1" Margin="0,0,0,0">
+             <StackPanel Orientation="Horizontal" Height="76">
+                  <Button Content="  My &#xa;Profile" Width="80" Height="40"  Command="{Binding ShowProfileCommand}"
                         Margin="700, 10, 0, 0"/>
-                    <Button Content="Logout" Width="80" Height="40"  Command="{Binding LogoutCommand}"
+                  <Button Content="Logout" Width="80" Height="40"  Command="{Binding LogoutCommand}"
                         Margin="50, 10, 0, 0"/>
-                </StackPanel>
-            </StackPanel>
-            <Frame x:Name="MainGuestFrame" NavigationUIVisibility="Hidden"/>
-        </DockPanel>
-
+             </StackPanel>
+        </StackPanel>
+        <ContentControl Grid.Row="1" Grid.Column="1" x:Name="UserControls" Content="{Binding CurrentViewModel}">
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type viewmodels:ProfileViewModel}">
+                    <views:ProfileView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:ReservationsViewModel}">
+                    <views:ReservationsView/>
+                </DataTemplate>
+            </ContentControl.Resources>
+        </ContentControl>
     </Grid>
 </Window>

@@ -21,12 +21,12 @@ namespace SIMS_HCI_Project.WPF.Views.Guest1Views
     /// <summary>
     /// Interaction logic for RatingReservationView.xaml
     /// </summary>
-    public partial class RatingReservationView : Page
+    public partial class RatingReservationView : UserControl
     {
-        public RatingReservationView(AccommodationReservationService reservationService, AccommodationReservation reservation)
+        public RatingReservationView(/*AccommodationReservationService reservationService, AccommodationReservation reservation*/)
         {
             InitializeComponent();
-            this.DataContext = new RatingReservationViewModel(this, reservationService, reservation);
+            //this.DataContext = new RatingReservationViewModel(this, reservationService, reservation);
         }
     }
 }

@@ -50,13 +50,13 @@ namespace SIMS_HCI_Project.Applications.Services
             }
             return unratedReservations;
         }
-        public List<RatingGivenByOwner> GetRatedByGuestId(RatingGivenByOwnerService ownerRatingService, int guestId)
+        public List<RatingGivenByOwner> GetRatedByGuestId(RatingGivenByGuestService guestRatingService, int guestId)
         {
             List<RatingGivenByOwner> ratedByOwnerId = new List<RatingGivenByOwner>();
 
             foreach (RatingGivenByOwner rating in GetByGuestId(guestId))
             {
-                if (ownerRatingService.GetByReservationId(rating.ReservationId) != null)
+                if (guestRatingService.GetByReservationId(rating.ReservationId) != null)
                 {
                     ratedByOwnerId.Add(rating);
                 }

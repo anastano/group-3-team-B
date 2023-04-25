@@ -15,13 +15,15 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
     internal class MyRatingsViewModel
     {
         private readonly RatingGivenByOwnerService _ownerRatingService;
+        private readonly RatingGivenByGuestService _guestRatingService;
         public Guest1 Guest { get; set; }
         public ObservableCollection<RatingGivenByOwner> RatingsGivenByOwners { get; set; }
         public MyRatingsViewModel(Guest1 guest)
         {
             _ownerRatingService = new RatingGivenByOwnerService();
+            _guestRatingService = new RatingGivenByGuestService();
             Guest = guest;
-            RatingsGivenByOwners = new ObservableCollection<RatingGivenByOwner>(_ownerRatingService.GetRatedByGuestId(_ownerRatingService, Guest.Id));
+            RatingsGivenByOwners = new ObservableCollection<RatingGivenByOwner>(_ownerRatingService.GetRatedByGuestId(_guestRatingService, Guest.Id));
         }
 
     }

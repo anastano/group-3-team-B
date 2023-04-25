@@ -16,6 +16,7 @@ using AccommodationReservation = SIMS_HCI_Project.Domain.Models.AccommodationRes
 using System.Windows.Controls;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
@@ -36,7 +37,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public RelayCommand RateCommand { get; set; }
 
         private object _currentViewModel;
-
         public object CurrentViewModel
 
         {
@@ -69,7 +69,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         }
 
         #region Commands
-        public void Executed_CancelReservationCommand(object obj)
+        public void ExecutedCancelReservationCommand(object obj)
         {
             if (SelectedReservation != null)
             {
@@ -121,7 +121,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 
         public void InitCommands()
         {
-            CancelReservationCommand = new RelayCommand(Executed_CancelReservationCommand, CanExecute);
+            CancelReservationCommand = new RelayCommand(ExecutedCancelReservationCommand, CanExecute);
             RescheduleReservationCommand = new RelayCommand(ExecutedRescheduleReservationCommand, CanExecute);
             RateCommand = new RelayCommand(ExecutedRateCommand, CanExecute);
         }
@@ -130,7 +130,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             UpdateReservations();
         }
-        
+        /*private void Image_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            Image image = sender as Image;
+            
+
+        }*/
+
         public void UpdateReservations()
         {
             ActiveReservations.Clear();

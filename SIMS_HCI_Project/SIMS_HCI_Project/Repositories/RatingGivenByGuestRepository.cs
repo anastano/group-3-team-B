@@ -36,6 +36,10 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _ratings.Find(r => r.Id == id);
         }
+        public RatingGivenByGuest GetByReservationId(int reservationId)
+        {
+            return _ratings.Find(r => r.ReservationId == reservationId);
+        }
         public List<RatingGivenByGuest> GetAll()
         {
             return _ratings;

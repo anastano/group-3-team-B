@@ -11,6 +11,7 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
     public interface IRatingGivenByGuestRepository
     {
         RatingGivenByGuest GetById(int id);
+        RatingGivenByGuest GetByReservationId(int reservationId);
         List<RatingGivenByGuest> GetAll();
         void Add(RatingGivenByGuest rating);
         bool isReservationRated(int reservationId);

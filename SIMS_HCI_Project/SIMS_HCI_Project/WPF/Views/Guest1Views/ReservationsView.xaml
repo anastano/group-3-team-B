@@ -6,8 +6,12 @@
              xmlns:views="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest1Views"
              xmlns:viewmodels="clr-namespace:SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels"
              xmlns:local1="clr-namespace:SIMS_HCI_Project.Wpf.Converters"
+             xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="#f5f5f5">
+    <UserControl.Resources>
+        <converters:ImageUrlConverter x:Key="ImageUrlConverter" />
+    </UserControl.Resources>
     <Grid>
         <TabControl Margin="5, 5, 5, 5">
             <TabControl.Resources>
@@ -43,6 +47,13 @@
                 <DataGrid ItemsSource="{Binding Path=ActiveReservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="60,60,60,60" AutoGenerateColumns="False" IsReadOnly="True"
                       SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}">
                     <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="Image">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Image Source="{Binding Accommodation.Images, Converter={StaticResource ImageUrlConverter}}" Width="50" Height="50"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                         <DataGridTextColumn Header="Accommodation Name" Binding="{Binding Accommodation.Name}" Width="2*"></DataGridTextColumn>
                         <DataGridTextColumn Header="Start" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="2*"></DataGridTextColumn>
                         <DataGridTextColumn Header="End" Binding="{Binding End, StringFormat='{}{0:MM/dd/yyyy}'}" Width="2*"></DataGridTextColumn>
@@ -121,6 +132,9 @@
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type viewmodels:ReservationsViewModel}">
                     <views:ReservationsView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:AccommodationImagesViewModel}">
+                    <views:AccommodationImagesView/>
                 </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>

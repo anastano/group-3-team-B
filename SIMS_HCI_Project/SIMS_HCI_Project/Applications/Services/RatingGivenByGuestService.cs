@@ -28,7 +28,10 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return _ratingRepository.GetAll();
         }
-
+        public RatingGivenByGuest GetByReservationId(int reservationId)
+        {
+            return _ratingRepository.GetByReservationId(reservationId);
+        }
         public List<RatingGivenByGuest> GetByOwnerId(int ownerId)
         {
             return _ratingRepository.GetByOwnerId(ownerId);

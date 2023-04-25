@@ -35,6 +35,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         private ReservationsViewModel reservationsViewModel;
         public Guest1 Guest { get; set; }
         public RelayCommand ShowReservationsCommand { get; set; }
+        public RelayCommand SearchAccommodationCommand { get; set; }
         public RelayCommand ShowRatingsCommand { get; set; }
         public RelayCommand ShowProfileCommand { get; set; }
         public RelayCommand LogoutCommand { get; set; }
@@ -96,6 +97,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             CurrentViewModel = new ReservationsViewModel(Guest);
         }
+        public void ExecutedSearchAccommodationCommand(object obj)
+        {
+            CurrentViewModel = new AccommodationSearchViewModel(Guest);
+        }
         public void ExecutedShowRatingsCommand(object obj)
         {
             CurrentViewModel = new MyRatingsViewModel(Guest);
@@ -120,6 +125,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public void InitCommands()
         {
             ShowReservationsCommand = new RelayCommand(ExecutedShowReservationsCommand, CanExecute);
+            SearchAccommodationCommand = new RelayCommand(ExecutedSearchAccommodationCommand, CanExecute);
             ShowProfileCommand = new RelayCommand(ExecutedShowProfileCommand, CanExecute);
             LogoutCommand = new RelayCommand(ExecutedLogoutCommand, CanExecute);
             ShowRatingsCommand = new RelayCommand(ExecutedShowRatingsCommand, CanExecute);

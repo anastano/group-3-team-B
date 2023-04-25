@@ -29,11 +29,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         private AccommodationReservationService _reservationService;
         private RescheduleRequestService _requestService;
         private NotificationService _notificationService;
-        private RatingGivenByGuestService _ratingService;
+        private RatingGivenByGuestService _guestRatingService;
+        private RatingGivenByOwnerService _ownerRatingService;
         public Guest1MainView Guest1MainView { get; set; }
         private ReservationsViewModel reservationsViewModel;
         public Guest1 Guest { get; set; }
         public RelayCommand ShowReservationsCommand { get; set; }
+        public RelayCommand ShowRatingsCommand { get; set; }
         public RelayCommand ShowProfileCommand { get; set; }
         public RelayCommand LogoutCommand { get; set; }
 
@@ -77,7 +79,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _reservationService = new AccommodationReservationService();
             _requestService = new RescheduleRequestService();
             _notificationService = new NotificationService();
-            _ratingService = new RatingGivenByGuestService(); 
+            _guestRatingService = new RatingGivenByGuestService();
+            _ownerRatingService = new RatingGivenByOwnerService();
 
             _accommodationService.ConnectAccommodationsWithLocations(_locationService);
             _accommodationService.ConnectAccommodationsWithOwners(_ownerService);
@@ -86,11 +89,16 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _reservationService.ConvertReservedReservationIntoCompleted(DateTime.Now);
             _reservationService.ConnectReservationsWithGuests(_guest1Service);
             _requestService.ConnectRequestsWithReservations(_reservationService);
-            _reservationService.ConvertReservationsIntoRated(_ratingService);
+            _reservationService.ConvertReservationsIntoRated(_guestRatingService);
+            _ownerRatingService.ConnectRatingsWithReservations(_reservationService);
         }
         public void ExecutedShowReservationsCommand(object obj)
         {
             CurrentViewModel = new ReservationsViewModel(Guest);
+        }
+        public void ExecutedShowRatingsCommand(object obj)
+        {
+            CurrentViewModel = new MyRatingsViewModel(Guest);
         }
 
         public bool CanExecute(object obj)
@@ -114,6 +122,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             ShowReservationsCommand = new RelayCommand(ExecutedShowReservationsCommand, CanExecute);
             ShowProfileCommand = new RelayCommand(ExecutedShowProfileCommand, CanExecute);
             LogoutCommand = new RelayCommand(ExecutedLogoutCommand, CanExecute);
+            ShowRatingsCommand = new RelayCommand(ExecutedShowRatingsCommand, CanExecute);
         }
     }
 }

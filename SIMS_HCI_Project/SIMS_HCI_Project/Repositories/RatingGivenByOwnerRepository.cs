@@ -42,7 +42,10 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _ratings.Find(r => r.ReservationId == reservationId);
         }
-
+        public List<RatingGivenByOwner> GetByGuestId(int guestId)
+        {
+            return _ratings.FindAll(r => r.Reservation.GuestId == guestId);
+        }
         public List<RatingGivenByOwner> GetAll()
         {
             return _ratings;

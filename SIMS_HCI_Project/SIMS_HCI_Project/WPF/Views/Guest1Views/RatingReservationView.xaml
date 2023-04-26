@@ -1,14 +1,14 @@
-﻿<Page x:Class="SIMS_HCI_Project.WPF.Views.Guest1Views.RatingReservationView"
+﻿<UserControl x:Class="SIMS_HCI_Project.WPF.Views.Guest1Views.RatingReservationView"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest1Views"
+      xmlns:views="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest1Views"
+      xmlns:viewmodels="clr-namespace:SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="RatingReservationView"
+      d:DesignHeight="550" d:DesignWidth="800"
       Background="#f5f5f5">
-    <Page.Resources>
+    <UserControl.Resources>
         <Style x:Key="circleButtonStyle" TargetType="Button">
             <Setter Property="Width" Value="40"/>
             <Setter Property="Height" Value="40"/>
@@ -35,9 +35,9 @@
                 <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" FontSize="12" HorizontalAlignment="Center"/>
             </StackPanel>
         </ControlTemplate>
-    </Page.Resources>
+    </UserControl.Resources>
 
-    <Grid Margin="30 30 30 30">
+    <Grid Margin="20 20 20 20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="1.5*"/>
@@ -48,7 +48,8 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="3*" />
-            <RowDefinition Height="3*" />
+            <RowDefinition Height="2*" />
+            <RowDefinition Height="*" />
             <RowDefinition Height="0.5*"/>
         </Grid.RowDefinitions>
         <Label Content="Review owner and accommodation (required): " Grid.Row="0" FontSize="16"></Label>
@@ -83,30 +84,43 @@
                              Height="15" TextAlignment="Center" Foreground="Red" Width="300" TextWrapping="Wrap" IsReadOnly="True"/>
                 </StackPanel>
 
-                <Button x:Name="btnAddImage" Command="{Binding DataContext.AddImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Content="(Ins)" 
+                <Button x:Name="btnAddImage" Command="{Binding DataContext.AddImageCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Content="(Ins)" 
                                      Style="{StaticResource ResourceKey=circleButtonStyle}">
                 </Button>
 
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <ListBox x:Name="lbImages" ItemsSource="{Binding Path=Images, UpdateSourceTrigger=PropertyChanged}" 
+                <ListBox x:Name="lbImages" ItemsSource="{Binding Path=Images, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedItem="{Binding Path=SelectedUrl, UpdateSourceTrigger=PropertyChanged}" 
                                   Height="80" Width="320" BorderBrush="Turquoise" FontSize="16" ScrollViewer.VerticalScrollBarVisibility="Visible">
                 </ListBox>
 
-                <Button x:Name="btnRemoveImage" Command="{Binding DataContext.RemoveImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"  Content="(Del)" 
+                <Button x:Name="btnRemoveImage" Command="{Binding DataContext.RemoveImageCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  Content="(Del)" 
                                      Style="{StaticResource ResourceKey=circleButtonStyle}">
                 </Button>
             </StackPanel>
         </StackPanel>
         <Label Content="Aditional comment:" Grid.Row="5" Grid.Column="0"></Label>
         <TextBox x:Name="Comment" Grid.Row="5" Grid.Column="1" Text="{Binding Path=AdditionalComment, UpdateSourceTrigger=PropertyChanged}"/>
-        <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1" HorizontalAlignment="Center">
-            <Button Content="Cancel" Command="{Binding DataContext.CancelReviewCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
-                    Margin=" 5, 0, 55, 0"/>
-            <Button Content="Review" Command="{Binding DataContext.ReviewReservationCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
+        <Label Content="Recommend renovation:  &#xa;        (optional)" Grid.Row="6" Grid.Column="0"></Label>
+        <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1">
+            <Button Content="Recommend" Command="{Binding DataContext.RecommendRenovationCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                    Margin="0, 10, 0, 0" Width="100"/>
+            <RadioButton Content="Filled" Margin="50, 20, 0, 0"></RadioButton>
         </StackPanel>
-
-        <Frame x:Name="ReservationRatingFrame" NavigationUIVisibility="Hidden" Margin="-32,-30,-30,-25" Grid.RowSpan="7" Grid.ColumnSpan="2" />
+        <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Center">
+            <Button Content="Cancel" Command="{Binding DataContext.CancelReviewCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                    Margin=" 5, 5, 55, 0"/>
+            <Button Content="Review" Command="{Binding DataContext.ReviewReservationCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                    Margin=" 5, 5, 55, 0"/>
+        </StackPanel>
+        <ContentControl x:Name="UserControls" Content="{Binding CurrentViewModel}">
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type viewmodels:ReservationsViewModel}">
+                    <views:ReservationsView/>
+                </DataTemplate>
+            </ContentControl.Resources>
+        </ContentControl>
     </Grid>
-</Page>
+</UserControl>

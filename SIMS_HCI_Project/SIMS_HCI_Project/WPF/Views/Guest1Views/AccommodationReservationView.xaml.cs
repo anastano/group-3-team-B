@@ -1,7 +1,4 @@
-﻿using SIMS_HCI_Project.Applications.Services;
-using SIMS_HCI_Project.Domain.Models;
-using SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,11 +16,11 @@ using System.Windows.Shapes;
 namespace SIMS_HCI_Project.WPF.Views.Guest1Views
 {
     /// <summary>
-    /// Interaction logic for ReservationRescheduleView.xaml
+    /// Interaction logic for AccommodationReservationView.xaml
     /// </summary>
-    public partial class ReservationRescheduleView : UserControl
+    public partial class AccommodationReservationView : UserControl
     {
-        public ReservationRescheduleView()
+        public AccommodationReservationView()
         {
             InitializeComponent();
         }

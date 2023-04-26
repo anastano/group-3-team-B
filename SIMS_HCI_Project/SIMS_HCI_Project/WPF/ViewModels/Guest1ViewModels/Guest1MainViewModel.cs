@@ -10,16 +10,18 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using AccommodationReservation = SIMS_HCI_Project.Domain.Models.AccommodationReservation;
 using Guest1 = SIMS_HCI_Project.Domain.Models.Guest1;
 using Notification = SIMS_HCI_Project.Domain.Models.Notification;
+using Owner = SIMS_HCI_Project.Domain.Models.Owner;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
-    internal class Guest1MainViewModel
+    internal class Guest1MainViewModel : INotifyPropertyChanged
     {
         private Guest1Service _guest1Service;
         private OwnerService _ownerService;
@@ -28,22 +30,46 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         private AccommodationReservationService _reservationService;
         private RescheduleRequestService _requestService;
         private NotificationService _notificationService;
-        private RatingGivenByGuestService _ratingService;
+        private RatingGivenByGuestService _guestRatingService;
+        private RatingGivenByOwnerService _ownerRatingService;
         public Guest1MainView Guest1MainView { get; set; }
+        private ReservationsViewModel reservationsViewModel;
         public Guest1 Guest { get; set; }
         public RelayCommand ShowReservationsCommand { get; set; }
+        public RelayCommand SearchAccommodationCommand { get; set; }
+        public RelayCommand ShowRatingsCommand { get; set; }
         public RelayCommand ShowProfileCommand { get; set; }
         public RelayCommand LogoutCommand { get; set; }
-        public event PropertyChangedEventHandler? PropertyChanged;
 
+        private object _currentViewModel;
+
+        public object CurrentViewModel
+
+        {
+            get => _currentViewModel;
+            set
+            {
+                if (value != _currentViewModel)
+                {
+                    _currentViewModel = value;
+                    OnPropertyChanged();
+                }
+            }
+
+        }
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
         public Guest1MainViewModel(Guest1MainView guest1MainView, Guest1 guest)
         {
             Guest1MainView = guest1MainView;
             Guest = guest;
             LoadFromFiles();
             InitCommands();
-            Guest1MainView.MainGuestFrame.Content = new ProfileView(Guest);
-
+            CurrentViewModel = new ProfileViewModel(Guest);
+            reservationsViewModel = new ReservationsViewModel(Guest);
         }
 
         public void LoadFromFiles()
@@ -55,7 +81,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _reservationService = new AccommodationReservationService();
             _requestService = new RescheduleRequestService();
             _notificationService = new NotificationService();
-            _ratingService = new RatingGivenByGuestService(); 
+            _guestRatingService = new RatingGivenByGuestService();
+            _ownerRatingService = new RatingGivenByOwnerService();
 
             _accommodationService.ConnectAccommodationsWithLocations(_locationService);
             _accommodationService.ConnectAccommodationsWithOwners(_ownerService);
@@ -64,11 +91,22 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _reservationService.ConvertReservedReservationIntoCompleted(DateTime.Now);
             _reservationService.ConnectReservationsWithGuests(_guest1Service);
             _requestService.ConnectRequestsWithReservations(_reservationService);
-            _reservationService.ConvertReservationsIntoRated(_ratingService);
+            _reservationService.ConvertReservationsIntoRated(_guestRatingService);
+            _ownerRatingService.ConnectRatingsWithReservations(_reservationService);
+            _guestRatingService.ConnectRatingsWithReservations(_reservationService);
+            _guestRatingService.FillAverageRatingAndSuperFlag(_ownerService);
         }
         public void ExecutedShowReservationsCommand(object obj)
         {
-            Guest1MainView.MainGuestFrame.Navigate(new ReservationsView(_reservationService, Guest));
+            CurrentViewModel = new ReservationsViewModel(Guest);
+        }
+        public void ExecutedSearchAccommodationCommand(object obj)
+        {
+            CurrentViewModel = new AccommodationSearchViewModel(Guest);
+        }
+        public void ExecutedShowRatingsCommand(object obj)
+        {
+            CurrentViewModel = new MyRatingsViewModel(Guest);
         }
 
         public bool CanExecute(object obj)
@@ -81,17 +119,19 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             {
                 _notificationService.MarkAsRead(notification.Id);
             }
-            Guest1MainView.Close();
+            //Guest1MainView.Close();
         }
         public void ExecutedShowProfileCommand(object obj)
         {
-            Guest1MainView.MainGuestFrame.Navigate(new ProfileView(Guest));
+            CurrentViewModel = (object)new ProfileViewModel(Guest);
         }
         public void InitCommands()
         {
             ShowReservationsCommand = new RelayCommand(ExecutedShowReservationsCommand, CanExecute);
+            SearchAccommodationCommand = new RelayCommand(ExecutedSearchAccommodationCommand, CanExecute);
             ShowProfileCommand = new RelayCommand(ExecutedShowProfileCommand, CanExecute);
             LogoutCommand = new RelayCommand(ExecutedLogoutCommand, CanExecute);
+            ShowRatingsCommand = new RelayCommand(ExecutedShowRatingsCommand, CanExecute);
         }
     }
 }

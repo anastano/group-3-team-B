@@ -1,7 +1,4 @@
-﻿using SIMS_HCI_Project.Applications.Services;
-using SIMS_HCI_Project.Domain.Models;
-using SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,14 +16,13 @@ using System.Windows.Shapes;
 namespace SIMS_HCI_Project.WPF.Views.Guest1Views
 {
     /// <summary>
-    /// Interaction logic for ReservationView.xaml
+    /// Interaction logic for ReservationsView.xaml
     /// </summary>
-    public partial class ReservationsView : Page
+    public partial class ReservationsView : UserControl
     {
-        public ReservationsView(AccommodationReservationService reservationService, Guest1 guest)
+        public ReservationsView()
         {
             InitializeComponent();
-            this.DataContext = new ReservationsViewModel(ReservationsFrame, reservationService, guest);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿  using SIMS_HCI_Project.Applications.Services;
+﻿using SIMS_HCI_Project.Applications.Services;
 using SIMS_HCI_Project.Controller;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands;
@@ -18,7 +18,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
     {
         private AccommodationReservationService _accommodationReservationService;
         public AccommodationReservation SelectedReservation { get; set; }
-        public Accommodation Accommodation { get; set; }
+        public Accommodation Accommodation { get; }
         public Guest1 Guest { get; set; }
         public RelayCommand PlusGuestNumberCommand { get; set; }
         public RelayCommand MinusGuestNumberCommand { get; set; }
@@ -38,7 +38,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 {
 
                     _availableReservations = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(AvailableReservations));
                 }
             }
         }
@@ -51,7 +51,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 if (value != _guestsNumber)
                 {
                     _guestsNumber = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(GuestsNumber));
                 }
             }
         }
@@ -65,7 +65,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 if (value != _daysNumber)
                 {
                     _daysNumber = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(DaysNumber));
                 }
             }
         }
@@ -78,7 +78,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 if (value != _start)
                 {
                     _start = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(Start));
                 }
             }
         }
@@ -91,7 +91,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 if (value != _end)
                 {
                     _end = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(End));
                 }
             }
         }
@@ -179,6 +179,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             return true;
         }
+        public bool CanBackExecute(object obj)
+        {
+            return true;
+        }
         public void InitCommands()
         {
             ReserveAccommodationCommand = new RelayCommand(ExecutedReserveAccommodationCommand, CanExecute);
@@ -187,9 +191,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             PlusGuestNumberCommand = new RelayCommand(ExecutedPlusGuestNumberCommand, CanExecute);
             MinusDaysNumberCommand = new RelayCommand(ExecutedMinusDaysNumberCommand, CanExecute);
             PlusDaysNumberCommand = new RelayCommand(ExecutedPlusDaysNumberCommand, CanExecute);
-            BackCommand = new RelayCommand(ExecutedBackCommand, CanExecute);
+            BackCommand = new RelayCommand(ExecutedBackCommand, CanBackExecute);
         }
-        /*
+/*
                 private void btnFindAvailable_Click(object sender, RoutedEventArgs e)
                 {
                     List<AccommodationReservation> availableReservations = new List<AccommodationReservation>();

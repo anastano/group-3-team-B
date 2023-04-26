@@ -3,12 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest1Views"
+             xmlns:views="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest1Views"
+             xmlns:viewmodels="clr-namespace:SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels"
              xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="#f5f5f5">
     <UserControl.Resources>
         <converters:ImageUrlConverter x:Key="ImageUrlConverter"/>
+        <converters:ButtonMinusConverter x:Key="ButtonMinusConverter"/>
+        <converters:ButtonPlusConverter x:Key="ButtonPlusConverter"/>
+        <converters:ButtonToEnableConverter x:Key="ButtonToEnableConverter"/>
     </UserControl.Resources>
     <Grid Margin="15, 15, 15, 15">
             <Grid.ColumnDefinitions>
@@ -25,7 +29,7 @@
                 <RowDefinition Height="0.5*" />
                 <RowDefinition Height="5*" />
             </Grid.RowDefinitions>
-        <Button Grid.Row="0" Grid.Column="0" Command="{Binding DataContext.BackCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Margin="0,0,0,0" Content="Back" FontSize="18" Width="80"/>
+        <Button Grid.Row="0" Grid.Column="0" Command="{Binding DataContext.BackCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Margin="0,0,0,0" Content="Back" FontSize="18" Width="80" HorizontalAlignment="Left"/>
         <Label Grid.Row="1" Grid.ColumnSpan="5" Content="{Binding Accommodation.Name}" HorizontalAlignment="Center" FontSize="25" Width="770"/>
         <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="0">
             <Label HorizontalAlignment="Left" Width="144">Start</Label>
@@ -68,11 +72,10 @@
         <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="2" >
             <Label HorizontalAlignment="Left" Width="144">Number of Days</Label>
             <StackPanel Orientation="Horizontal">
-                <Button
-                        Command="{Binding DataContext.MinusDaysNumberCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
+                <Button  Command="{Binding DataContext.MinusDaysNumberCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
                         Margin="0,1,0,0" Content="-" FontSize="18" Width="20">
                     <Button.IsEnabled>
-                        <MultiBinding Converter="{converters:ButtonToEnableConverter}">
+                        <MultiBinding Converter="{StaticResource ButtonToEnableConverter}">
                             <Binding Path="DaysNumber" />
                             <Binding Path="Accommodation.MinimumReservationDays" />
                         </MultiBinding>
@@ -86,11 +89,11 @@
             <Label HorizontalAlignment="Left" Width="144">Number of Guests</Label>
             <StackPanel Orientation="Horizontal">
                 <Button Content="-" Command="{Binding DataContext.MinusGuestNumberCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Margin="0,1,0,0" FontSize="18" Width="20"
-                        IsEnabled ="{Binding GuestsNumber, Converter={converters:ButtonMinusConverter}}"/>
+                        IsEnabled ="{Binding GuestsNumber, Converter={StaticResource ButtonMinusConverter}}"/>
                 <TextBox HorizontalAlignment="Left" IsReadOnly="True" Text="{Binding Path = GuestsNumber, UpdateSourceTrigger = PropertyChanged}" Name="txtGuestNumber" Height="28" Margin="0,1,0,0" TextWrapping="Wrap" Width="100"/>
                 <Button Content="+" Command="{Binding DataContext.PlusGuestNumberCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" FontSize="18" Margin="0,1,0,0" Width="20">
                     <Button.IsEnabled>
-                        <MultiBinding Converter="{converters:ButtonPlusConverter}">
+                        <MultiBinding Converter="{StaticResource ButtonPlusConverter}">
                             <Binding Path="GuestsNumber" />
                             <Binding Path="Accommodation.MaxGuests" />
                         </MultiBinding>
@@ -127,5 +130,12 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <ContentControl x:Name="UserControls" Content="{Binding CurrentViewModel}">
+            <ContentControl.Resources>
+                <DataTemplate DataType="{x:Type viewmodels:AccommodationSearchViewModel}">
+                    <views:AccommodationSearchView/>
+                </DataTemplate>
+            </ContentControl.Resources>
+        </ContentControl>
     </Grid>
 </UserControl>

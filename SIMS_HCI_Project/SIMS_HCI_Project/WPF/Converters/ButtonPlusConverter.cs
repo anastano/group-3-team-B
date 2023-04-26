@@ -12,10 +12,11 @@ namespace SIMS_HCI_Project.WPF.Converters
     public class ButtonPlusConverter : MarkupExtension, IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
+        {/*
             int GuestsNumber = (int)values[0];
             int MaxGuests = (int)values[1];
-            return GuestsNumber == MaxGuests ? false : true;
+            return GuestsNumber == MaxGuests ? false : true;*/
+            return true;
         }
 
         public object[] ConvertBack(object value, Type[] targetType, object parameter, CultureInfo culture)

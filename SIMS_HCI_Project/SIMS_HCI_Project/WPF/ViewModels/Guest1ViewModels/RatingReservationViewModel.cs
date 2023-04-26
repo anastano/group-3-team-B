@@ -25,8 +25,23 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public RelayCommand CancelReviewCommand { get; set; }
         public RelayCommand RemoveImageCommand { get; set; }
         public RelayCommand AddImageCommand { get; set; }
+        public RelayCommand RecommendRenovationCommand { get; set; }
         public ObservableCollection<string> Images { get; set; }
         public String SelectedUrl { get; set; }
+        private object _currentViewModel;
+        public object CurrentViewModel
+
+        {
+            get => _currentViewModel;
+            set
+            {
+                if (value != _currentViewModel)
+                {
+                    _currentViewModel = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         private String _owner;
         public String Owner
         {
@@ -135,7 +150,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             _ratingService.RateReservation(_accommodationReservationService, new RatingGivenByGuest(Reservation.Id, Cleanliness, Correcntess, AdditionalComment, new List<string>(Images)));
             IsClosed = true;
-
+        }
+        public void ExecutedRecommentRenovationCommand(object obj)
+        {
+            CurrentViewModel = new RecommendRenovationViewModel();
         }
         public void ExecutedCancelReviewCommand(object obj)
         {
@@ -169,6 +187,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             CancelReviewCommand = new RelayCommand(ExecutedCancelReviewCommand, CanExecute);
             RemoveImageCommand = new RelayCommand(ExecutedRemoveImageCommand, CanExecute);
             AddImageCommand = new RelayCommand(ExecutedAddImageCommand, CanExecute);
+            RecommendRenovationCommand = new RelayCommand(ExecutedRecommentRenovationCommand, CanExecute);
         }
     }
 }

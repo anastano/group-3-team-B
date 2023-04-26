@@ -14,9 +14,11 @@ namespace SIMS_HCI_Project.WPF.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
+            /*
             int DaysNumber = (int)values[0];
             int MinimumDays = (int)values[1];
-            return DaysNumber == MinimumDays ?  false : true;
+            return DaysNumber == MinimumDays ?  false : true;*/
+            return true;
         }
 
         public object[] ConvertBack(object value, Type[] targetType, object parameter, CultureInfo culture)

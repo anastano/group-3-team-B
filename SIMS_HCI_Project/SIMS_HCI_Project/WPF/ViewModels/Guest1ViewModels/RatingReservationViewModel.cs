@@ -27,23 +27,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public RelayCommand AddImageCommand { get; set; }
         public ObservableCollection<string> Images { get; set; }
         public String SelectedUrl { get; set; }
-
-        private object _currentViewModel;
-
-        public object CurrentViewModel
-
-        {
-            get => _currentViewModel;
-            set
-            {
-                if (value != _currentViewModel)
-                {
-                    _currentViewModel = value;
-                    OnPropertyChanged();
-                }
-            }
-
-        }
         private String _owner;
         public String Owner
         {
@@ -148,11 +131,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             Correcntess = 1;
             Cleanliness = 1;
         }
-
         public void ExecutedReviewReservationCommand(object obj)
         {
             _ratingService.RateReservation(_accommodationReservationService, new RatingGivenByGuest(Reservation.Id, Cleanliness, Correcntess, AdditionalComment, new List<string>(Images)));
-            CurrentViewModel = new ReservationsViewModel(Reservation.Guest);
             IsClosed = true;
 
         }

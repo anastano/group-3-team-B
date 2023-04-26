@@ -17,6 +17,7 @@ using System.Windows;
 using AccommodationReservation = SIMS_HCI_Project.Domain.Models.AccommodationReservation;
 using Guest1 = SIMS_HCI_Project.Domain.Models.Guest1;
 using Notification = SIMS_HCI_Project.Domain.Models.Notification;
+using Owner = SIMS_HCI_Project.Domain.Models.Owner;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
@@ -92,6 +93,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _requestService.ConnectRequestsWithReservations(_reservationService);
             _reservationService.ConvertReservationsIntoRated(_guestRatingService);
             _ownerRatingService.ConnectRatingsWithReservations(_reservationService);
+            _guestRatingService.ConnectRatingsWithReservations(_reservationService);
+            _guestRatingService.FillAverageRatingAndSuperFlag(_ownerService);
         }
         public void ExecutedShowReservationsCommand(object obj)
         {

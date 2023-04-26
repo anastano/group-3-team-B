@@ -20,14 +20,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
     internal class AccommodationSearchViewModel : INotifyPropertyChanged
     {
         private readonly AccommodationService _accommodationService;
-
-        private readonly LocationController _locationController;
-
         private readonly AccommodationReservationService _accommodationReservationService;
         private AccommodationReservationViewModel _accommodationReservationViewModel;
-        public Accommodation Accommodation { get; set; }
-        public ObservableCollection<Accommodation> Accommodations { get; set; }
-
         public ObservableCollection<Location> Locations { get; set; }
         public Accommodation SelectedAccommodation { get; set; }
         public Guest1 Guest { get; set; }
@@ -37,6 +31,52 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public RelayCommand MinusDaysNumberCommand { get; set; }
         public RelayCommand SearchCommand { get; set; }
         public RelayCommand ReserveAccommodationCommand { get; set; }
+
+        private Accommodation _accommodation;
+        public Accommodation Accommodation
+        {
+            get => _accommodation;
+            set
+            {
+                if (value != _accommodation)
+                {
+
+                    _accommodation = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private List<Accommodation> _accommodations;
+        public List<Accommodation> Accommodations
+        {
+            get => _accommodations;
+            set
+            {
+                if (value != _accommodations)
+                {
+
+                    _accommodations = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        public string[] AccommodationTypes
+        {
+            get { return Enum.GetNames(typeof(AccommodationType)); }
+        }
+        private string _selectedAccommodationType;
+        public string SelectedAccommodationType
+        {
+            get { return _selectedAccommodationType; }
+            set
+            {
+                if (_selectedAccommodationType != value)
+                {
+                    _selectedAccommodationType = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         private int _guestsNumber;
         public int GuestsNumber
         {
@@ -86,46 +126,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public AccommodationSearchViewModel(Guest1 guest)
         {
             _accommodationService = new AccommodationService();
-            _locationController = new LocationController();
             _accommodationReservationService = new AccommodationReservationService();
             Accommodation = new Accommodation();
+            GuestsNumber = 1;
+            DaysNumber = 1;
             Guest = guest;
-            Accommodations = new ObservableCollection<Accommodation>(_accommodationService.GetAll());
+            Accommodations = _accommodationService.GetAllSortedBySuperFlag();
             InitCommands();
-
         }
-        /*
-        private void SearchAccommodation(object sender, EventArgs e)
-        {
-            List<Accommodation> searchResult = new List<Accommodation>();
-
-            int maxGuests;
-            bool isValidMaxGuests = int.TryParse(txtGuestNumber.Text, out maxGuests);
-            int reservationDays;
-            bool isValidReservationDays = int.TryParse(txtReservationDays.Text, out reservationDays);
-            ComboBoxItem selectedItem = comboboxType.SelectedItem as ComboBoxItem;
-            string selectedItemContent = null;
-
-            if (selectedItem != null)
-            {
-                selectedItemContent = selectedItem.Content.ToString();
-            }
-
-            if (!isValidMaxGuests)
-            {
-                maxGuests = 0;
-            }
-
-            if (!isValidReservationDays)
-            {
-                reservationDays = 0;
-            }
-
-            searchResult = _accommodationController.Search(txtName.Text, txtCountry.Text, txtCity.Text, selectedItemContent, maxGuests, reservationDays);
-
-            DataGridAccommodation.ItemsSource = searchResult;
-        }
-        */
         public void ExecutedReserveAccommodationCommand(object obj)
         {
             if (SelectedAccommodation != null)
@@ -142,7 +150,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         }
         public void ExecutedSearchCommand(object obj)
         {
-            //kasnije
+            Accommodations = _accommodationService.Search(Accommodation.Name, Accommodation.Location.Country, Accommodation.Location.City, SelectedAccommodationType, GuestsNumber, DaysNumber);
         }
         public void ExecutedMinusGuestNumberCommand(object obj)
         {
@@ -166,7 +174,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             DaysNumber += 1;
         }
-
         public bool CanExecute(object obj)
         {
             return true;

@@ -1,4 +1,4 @@
-﻿using SIMS_HCI_Project.Applications.Services;
+﻿  using SIMS_HCI_Project.Applications.Services;
 using SIMS_HCI_Project.Controller;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands;
@@ -14,7 +14,7 @@ using System.Windows;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
-    internal class AccommodationReservationViewModel
+    internal class AccommodationReservationViewModel : INotifyPropertyChanged
     {
         private AccommodationReservationService _accommodationReservationService;
         public AccommodationReservation SelectedReservation { get; set; }
@@ -95,58 +95,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
-        private bool _isBtnMinusDaysEnabled;
-        public bool IsBtnMinusDaysEnabled
-        {
-            get => _isBtnMinusDaysEnabled;
-            set
-            {
-                if (value != _isBtnMinusDaysEnabled)
-                {
-                    _isBtnMinusDaysEnabled = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-        private bool _isBtnPlusDaysEnabled;
-        public bool IsBtnPlusDaysEnabled
-        {
-            get => _isBtnPlusDaysEnabled;
-            set
-            {
-                if (value != _isBtnPlusDaysEnabled)
-                {
-                    _isBtnPlusDaysEnabled = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-        private bool _isBtnMinusGuestEnabled;
-        public bool IsBtnMinusGuestEnabled
-        {
-            get => _isBtnMinusGuestEnabled;
-            set
-            {
-                if (value != _isBtnMinusGuestEnabled)
-                {
-                    _isBtnMinusGuestEnabled = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-        private bool _isBtnPlusGuestEnabled;
-        public bool IsBtnPlusGuestEnabled
-        {
-            get => _isBtnPlusGuestEnabled;
-            set
-            {
-                if (value != _isBtnPlusGuestEnabled)
-                {
-                    _isBtnPlusGuestEnabled = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
         private bool _isClosed;
         public bool IsClosed
         {
@@ -198,51 +146,33 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 MessageBoxResult result = ConfirmReservation();
                 if (result == MessageBoxResult.Yes)
                 {
-                    /*_reservationRescheduleViewModel = new ReservationRescheduleViewModel(SelectedReservation);
-                    _reservationRescheduleViewModel.Closed += UnloadUserControl;
-                    CurrentViewModel = _reservationRescheduleViewModel;*/
+                    
                 }
             }
+        }
+        public void ExecutedSearchCommand(object obj)
+        {
+            
         }
         public void ExecutedBackCommand(object obj)
         {
             IsClosed = true;
         }
-        public void ExecutedSearchCommand(object obj)
-        {
-            //kasnije
-        }
         public void ExecutedMinusGuestNumberCommand(object obj)
         {
-            IsBtnPlusGuestEnabled = true;
-
-            if (GuestsNumber > 1)
-            {
-                GuestsNumber -= 1;
-            }
+           GuestsNumber -= 1;
         }
         public void ExecutedPlusGuestNumberCommand(object obj)
         {
-            if (GuestsNumber >= Accommodation.MaxGuests)
-            {
-                IsBtnPlusGuestEnabled = false;
-            }
-            else
-            {
-                IsBtnPlusGuestEnabled = true;
-                GuestsNumber += 1;
-            }
+           GuestsNumber += 1;
         }
         public void ExecutedMinusDaysNumberCommand(object obj)
         {
-            if (DaysNumber > 1)
-            {
-                DaysNumber -= 1;
-            }
+           DaysNumber -= 1;
         }
         public void ExecutedPlusDaysNumberCommand(object obj)
         {
-            DaysNumber += 1;
+           DaysNumber += 1;
         }
 
         public bool CanExecute(object obj)

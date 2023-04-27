@@ -40,6 +40,8 @@ namespace SIMS_HCI_Project.Applications.Services
             _tourRatingRepository.Update(tourRating);
         }
 
+        
+
         public void NotifyObservers()
         {
             _tourRatingRepository.NotifyObservers();

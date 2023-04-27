@@ -60,6 +60,11 @@ namespace SIMS_HCI_Project.Applications.Services
             return guideTours.Where(t => t.DepartureTime.Date == DateTime.Today).ToList();
         }
 
+        public List<Tour> Search(string country, string city, int duration, string language, int guestsNum)
+        {
+            return _tourRepository.Search(country, city, duration, language, guestsNum);
+        }
+
         public TourTime GetActiveTour(int guideId)
         {
             List<TourTime> guideTours = GetToursByGuide(guideId);

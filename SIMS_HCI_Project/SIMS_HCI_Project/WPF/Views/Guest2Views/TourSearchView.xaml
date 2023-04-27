@@ -47,11 +47,13 @@
         </DataGrid>
 
         <Grid>
-            <TextBox x:Name="txtCountry" HorizontalAlignment="Right" Margin="0,65,11,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145" />
-            <TextBox x:Name="txtCity" HorizontalAlignment="Right"   Margin="0,123,11,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145"/>
-            <TextBox x:Name="txtDuration" HorizontalAlignment="Right" Margin="0,184,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145"/>
-            <TextBox x:Name="txtLanguage" HorizontalAlignment="Right" Margin="0,245,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145"/>
-            <TextBox x:Name="txtGuestNumber" HorizontalAlignment="Right" Margin="0,305,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145"/>
+            <TextBox x:Name="txtCountry" 
+                Text="{Binding Path=Country, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                     HorizontalAlignment="Right" Margin="0,65,11,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145" />
+            <TextBox x:Name="txtCity" Text="{Binding Path=City, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right"   Margin="0,123,11,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145"/>
+            <TextBox x:Name="txtDuration" Text="{Binding Path=Duration, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Margin="0,184,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145"/>
+            <TextBox x:Name="txtLanguage" Text="{Binding Path=Language, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Margin="0,245,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145"/>
+            <TextBox x:Name="txtGuestNumber" Text="{Binding Path=GuestNumber, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Margin="0,305,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145"/>
 
 
             <Button Content="Search" HorizontalAlignment="Right" Margin="0,371,22,0" VerticalAlignment="Top" RenderTransformOrigin="0.278,0.553" Command="{Binding Search}" Width="111" Height="32" FontSize="14"/>

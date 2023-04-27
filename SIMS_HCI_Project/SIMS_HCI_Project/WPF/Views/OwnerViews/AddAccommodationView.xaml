@@ -104,8 +104,8 @@
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  >
 
                             <TextBox x:Name="txtPictureURL"  
-                                    Text="{Binding Path = ImageURL}"
-                                    Style="{StaticResource OwnerTextBoxStyle}" Width="320" TextWrapping="Wrap">
+                                    Text="{Binding Path = ImageURL}" FontSize="14"
+                                    Style="{StaticResource OwnerTextBoxStyle}" Width="320" Height="45" TextWrapping="Wrap">
                             </TextBox>
 
                             <Button x:Name="btnAddImage" Content="(Ins)" Command="{Binding AddAccommodationImageCommand}"
@@ -118,6 +118,20 @@
 
                             <ListBox x:Name="lbImages" ItemsSource="{Binding Path=Images}"
                                   Style="{StaticResource OwnerListBoxStyle}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="3" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="{Binding}" Width="85" Height="80"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                                
                             </ListBox>
 
                             <Button x:Name="btnRemoveImage"  Content="(Del)" Command="{Binding RemoveAccommodationImageCommand}"

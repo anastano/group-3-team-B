@@ -44,7 +44,7 @@ namespace SIMS_HCI_Project.Applications.Services
         public void Add(Accommodation accommodation, Location location)
         {
             accommodation.Location = _locationRepository.GetOrAdd(location);
-            accommodation.LocationId = location.Id;
+            accommodation.LocationId = accommodation.Location.Id;
             _accommodationRepository.Add(accommodation);
         }
 

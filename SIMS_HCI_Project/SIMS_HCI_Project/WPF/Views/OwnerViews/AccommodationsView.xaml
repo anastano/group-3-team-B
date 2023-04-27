@@ -57,10 +57,10 @@
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
-                                <DataGridTemplateColumn Width="*" Header="Name">
+                                <DataGridTemplateColumn Width="1.5*" Header="Name">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Label Content="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -68,7 +68,7 @@
                                 <DataGridTemplateColumn Width="*" Header="City">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Label Content="{Binding Location.City}" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                                            <TextBlock Text="{Binding Location.City}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -76,7 +76,7 @@
                                 <DataGridTemplateColumn Width="*" Header="Country">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Label Content="{Binding Location.Country}" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                                            <TextBlock Text="{Binding Location.Country}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -84,7 +84,7 @@
                                 <DataGridTemplateColumn Width="*" Header="Type">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Label Content="{Binding Type}" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                                            <TextBlock Text="{Binding Type}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -92,7 +92,7 @@
                                 <DataGridTemplateColumn Width="0.7*" Header="Max guests">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Label Content="{Binding MaxGuests}" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                                            <TextBlock Text="{Binding MaxGuests}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -100,7 +100,7 @@
                                 <DataGridTemplateColumn Width="0.6*" Header="Min days">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Label Content="{Binding MinimumReservationDays}" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                                            <TextBlock Text="{Binding MinimumReservationDays}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -108,7 +108,7 @@
                                 <DataGridTemplateColumn Width="*" Header="Cancellation days">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Label Content="{Binding CancellationDeadlineInDays}" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                                            <TextBlock Text="{Binding CancellationDeadlineInDays}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>

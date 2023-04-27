@@ -91,6 +91,11 @@ namespace SIMS_HCI_Project.Applications.Services
             _reservationRepository.EditReservation(request);
         }
 
+        public List<AccommodationReservation>  OwnerSearch(string accommodationName, string guestName, string guestSurname, int ownerId)
+        {
+            return _reservationRepository.OwnerSearch(accommodationName, guestName, guestSurname, ownerId);
+        }
+
         public void ConnectReservationsWithAccommodations(AccommodationService accommodationService)
         {
             foreach (AccommodationReservation reservation in GetAll())

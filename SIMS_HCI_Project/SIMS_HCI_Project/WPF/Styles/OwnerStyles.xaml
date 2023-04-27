@@ -21,7 +21,8 @@
             <Setter.Value>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                     <GradientStop Offset="0" Color="#79D0C9" />
-                    <GradientStop Offset="0.7" Color="Turquoise" />
+                    <GradientStop Offset="0.5" Color="Turquoise" />
+                    <GradientStop Offset="1" Color="#79D0C9" />
                 </LinearGradientBrush>
             </Setter.Value>
         </Setter>
@@ -55,7 +56,7 @@
             <Trigger Property="IsKeyboardFocused" Value="True">
                 <Setter Property="Effect">
                     <Setter.Value>
-                        <DropShadowEffect Color="#00758F" Opacity="100" ShadowDepth="10" BlurRadius="30" />
+                        <DropShadowEffect Color="DarkGray" Opacity="100" ShadowDepth="10" BlurRadius="30" />
                     </Setter.Value>
                 </Setter>
             </Trigger>
@@ -101,7 +102,6 @@
         <Setter Property="Background" Value="{StaticResource OwnerNeutralColor}"/>
         <Setter Property="ColumnHeaderHeight" Value="30"/>
         <Setter Property="FontSize" Value="13"/>
- 
     </Style>
 
     <Style x:Key="OwnerDatagridCellStyle" TargetType="DataGridCell">

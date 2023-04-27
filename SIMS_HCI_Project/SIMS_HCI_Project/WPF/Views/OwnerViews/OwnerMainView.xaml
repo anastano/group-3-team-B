@@ -20,7 +20,7 @@
     </Window.Resources>
 
 
-    <Grid Background="Azure">
+    <Grid Background="{StaticResource OwnerNeutralColor}">
 
         <!-- MAIN STACK PANEL-->
         <StackPanel Orientation="Horizontal" Height="680">
@@ -37,7 +37,7 @@
                         Style="{StaticResource OwnerButtonStyle}">
                         </Button>
 
-                        <Button x:Name="btnReservations" Content="Guest Reservations            (2)" 
+                        <Button x:Name="btnReservations" Content="Guest Reservations            (2)" Command="{Binding ShowReservationsCommand}"
                         Style="{StaticResource OwnerButtonStyle}">
                         </Button>
 

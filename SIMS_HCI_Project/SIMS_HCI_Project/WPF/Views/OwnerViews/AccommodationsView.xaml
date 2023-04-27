@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="AccommodationsView" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
 
-    <Grid Background="Azure">
+    <Grid Background="{StaticResource OwnerNeutralColor}">
         <!-- MAIN STACK PANEL-->
         <StackPanel Orientation="Vertical" Margin="10 5 10 5">
             <!-- TOP STACK PANEL - Options-->
@@ -44,7 +44,7 @@
                     <StackPanel Margin="0 0 0 0">
                         <DataGrid x:Name = "dgAccommodation" AutoGenerateColumns="False" ItemsSource="{Binding Path=Accommodations, UpdateSourceTrigger=PropertyChanged}" 
                                       SelectedItem="{Binding Path=SelectedAccommodation, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Focusable="True"
-                                      Background="Azure" Width="930" Height="330" Margin="10 10 10 10" CanUserSortColumns="True" SelectionMode="Single" IsTabStop="False"
+                                      Background="{StaticResource OwnerNeutralColor}" Width="930" Height="330" Margin="10 10 10 10" CanUserSortColumns="True" SelectionMode="Single" IsTabStop="False"
                                         Style="{StaticResource OwnerDatagridStyle}" CellStyle="{StaticResource OwnerDatagridCellStyle}">
 
                             <DataGrid.Columns>
@@ -128,10 +128,10 @@
                     <!-- Sort STACK PANEL-->
                     <StackPanel  Margin="5 5 5 5" Orientation="Horizontal">
 
-                        <Button x:Name="btnDescening"  Content="DESCENDING (Ctrl+Down)" 
+                        <Button x:Name="btnDescening"  Content="Descending (Ctrl+Down)" 
                             Style="{StaticResource OwnerButtonStyle}" Width="200" Height="35">
                         </Button>
-                        <Button x:Name="btnAscending"  Content="ASCENDING (Ctrl+Up)" 
+                        <Button x:Name="btnAscending"  Content="Ascending (Ctrl+Up)" 
                             Style="{StaticResource OwnerButtonStyle}" Width="200" Height="35">
                         </Button>
 

@@ -3,6 +3,7 @@ using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Observer;
 using SIMS_HCI_Project.WPF.Commands;
 using SIMS_HCI_Project.WPF.Views;
+using SIMS_HCI_Project.WPF.Views.Guest1Views;
 using SIMS_HCI_Project.WPF.Views.OwnerViews;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public ObservableCollection<AccommodationReservation> ReservationsInProgress { get; set; }
         public ObservableCollection<Notification> Notifications { get; set; }
         public RelayCommand ShowAccommodationsCommand { get; set; }
+        public RelayCommand ShowReservationsCommand { get; set; }
         public RelayCommand ShowPendingRequestsCommand { get; set; }
         public RelayCommand ShowUnratedReservationsCommand { get; set; }
         public RelayCommand ShowGuestReviewsCommand { get; set; }
@@ -102,6 +104,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             return true;
         }
 
+        public void Executed_ShowReservationsCommand(object obj)
+        {
+            Window reservationsView = new GuestReservationsView(_reservationService, Owner);
+            reservationsView.ShowDialog();
+        }
+
+        public bool CanExecute_ShowReservationsCommand(object obj)
+        {
+            return true;
+        }
+
         public void Executed_ShowPendingRequestsCommand(object obj)
         {
             Window requestsView = new RescheduleRequestsView(_requestService, _reservationService, _notificationService, Owner);
@@ -153,6 +166,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public void InitCommands() 
         {
             ShowAccommodationsCommand = new RelayCommand(Executed_ShowAccommodationsCommand, CanExecute_ShowAccommodationsCommand);
+            ShowReservationsCommand = new RelayCommand(Executed_ShowReservationsCommand, CanExecute_ShowReservationsCommand);
             ShowPendingRequestsCommand = new RelayCommand(Executed_ShowPendingRequestsCommand, CanExecute_ShowPendingRequestsCommand);
             ShowUnratedReservationsCommand = new RelayCommand(Executed_ShowUnratedReservationsCommand, CanExecute_ShowUnratedReservationsCommand);
             ShowGuestReviewsCommand = new RelayCommand(Executed_ShowGuestReviewsCommand, CanExecute_ShowGuestReviewsCommand);

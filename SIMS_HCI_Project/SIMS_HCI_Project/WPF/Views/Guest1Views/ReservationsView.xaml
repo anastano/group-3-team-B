@@ -9,6 +9,7 @@
              xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="702" d:DesignWidth="969" Background="#f5f5f5">
     <UserControl.Resources>
@@ -130,8 +131,9 @@
                 </DataGrid>
                     <lvc:PieChart Grid.Column="1" Width="250" Height="250" Hoverable="True" InnerRadius="0">
                         <lvc:PieChart.Series>
-                            <lvc:PieSeries Title="Cancelled reservations" DataLabels="True" Values="{Binding CancelledCount}" ></lvc:PieSeries>
-                            <lvc:PieSeries Title="Other reservations" DataLabels="True" Values="{Binding ReservationsCount}"></lvc:PieSeries>
+                            <lvc:PieSeries Title="Cancelled reservations" DataLabels="True" Values="{Binding CancelledCount}" >
+                            </lvc:PieSeries>
+                                <lvc:PieSeries Title="Other reservations" DataLabels="True" Values="{Binding ReservationsCount}"></lvc:PieSeries>
                         </lvc:PieChart.Series>
                             <lvc:PieChart.DataTooltip>
                             <lvc:DefaultTooltip BulletSize="20"/>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest2Views"
         mc:Ignorable="d"
-        Title="Guest2View"  WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight">
+        Title="Guest 2 - Tourist"  WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
     <Grid Height="600" Width="1100">
         <DockPanel>
             <DockPanel DockPanel.Dock="Top">
@@ -17,12 +17,22 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
-                           
+
                         </Grid.ColumnDefinitions>
 
                         <Button Grid.Column="0" Background="Orange" Command="{Binding SearchAndReserve}">
-                            <StackPanel>
-                                <TextBlock Text="Search and reserve" Foreground="White"  FontSize="15"/>
+                            <StackPanel Height="54" Width="155">
+
+                                <StackPanel.Background>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="Wheat" Offset="1"/>
+                                        <GradientStop Color="#FFF7390F" Offset="0"/>
+                                        <GradientStop Color="Tomato" Offset="0.373"/>
+                                        <GradientStop Color="Orange" Offset="0.72"/>
+                                    </LinearGradientBrush>
+                                </StackPanel.Background>
+                                <Label Content="" Foreground="White"  FontSize="15" Height="10" Width="151"/>
+                                <Label Content="Search and reserve" Foreground="White"  FontSize="15" Height="39" Width="134"/>
                             </StackPanel>
                         </Button>
                         <Button Grid.Column="1" Background="YellowGreen" Command="{Binding RateTour}">
@@ -47,11 +57,11 @@
                         </Button>
                     </Grid>
                 </Border>
-                        <Button Width="50" Background="Black" Command="{Binding Logout}" HorizontalAlignment="Right">
-                            <StackPanel>
-                                <TextBlock Text="logout" Foreground="White"  FontSize="15"/>
-                            </StackPanel>
-                        </Button>
+                <Button Width="50" Background="Black" Command="{Binding Logout}" HorizontalAlignment="Right">
+                    <StackPanel>
+                        <TextBlock Text="logout" Foreground="White"  FontSize="15"/>
+                    </StackPanel>
+                </Button>
             </DockPanel>
             <Grid>
             </Grid>

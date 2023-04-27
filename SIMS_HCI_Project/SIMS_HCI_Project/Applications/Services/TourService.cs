@@ -65,6 +65,11 @@ namespace SIMS_HCI_Project.Applications.Services
             return _tourRepository.Search(country, city, duration, language, guestsNum);
         }
 
+        public List<Tour> Search(string city, string country)
+        {
+            return _tourRepository.Search(city, country);
+        }
+
         public TourTime GetActiveTour(int guideId)
         {
             List<TourTime> guideTours = GetToursByGuide(guideId);

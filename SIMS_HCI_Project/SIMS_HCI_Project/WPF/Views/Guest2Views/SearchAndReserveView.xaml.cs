@@ -32,7 +32,7 @@ namespace SIMS_HCI_Project.WPF.Views.Guest2Views
             InitializeComponent();
 
             TopFrame.Content =new TourReservationView(selectedTour, guest2);
-            BottomFrame.Content = new TourSuggestionsView();
+            BottomFrame.Content = new TourSuggestionsView(selectedTour.Location, guest2, navigationService);
             this.DataContext = new SearchAndReserveViewModel( guest2, selectedTour, this, navigationService);
         }
     }

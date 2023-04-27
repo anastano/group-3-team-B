@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SIMS_HCI_Project.Domain.Models;
+using SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,10 @@ namespace SIMS_HCI_Project.WPF.Views.Guest2Views
     /// </summary>
     public partial class TourSuggestionsView : Page
     {
-        public TourSuggestionsView()
+        public TourSuggestionsView(Location location, Guest2 guest2, NavigationService navigationService)
         {
             InitializeComponent();
+            this.DataContext = new TourSuggestionsViewModel(this, location, guest2, navigationService);
         }
     }
 }

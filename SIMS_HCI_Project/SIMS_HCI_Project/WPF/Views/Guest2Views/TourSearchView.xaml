@@ -7,7 +7,15 @@
         mc:Ignorable="d"
         Title="TourSearchView" Height="518" Width="1080">
 
-    <Grid Background="Orange" >
+    <Grid >
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="Wheat" Offset="1"/>
+                <GradientStop Color="#FFF7390F" Offset="0"/>
+                <GradientStop Color="Tomato" Offset="0.373"/>
+                <GradientStop Color="Orange" Offset="0.72"/>
+            </LinearGradientBrush>
+        </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="0*"/>
@@ -64,7 +72,7 @@
             <TextBlock HorizontalAlignment="Right" Margin="0,229,100,0" TextWrapping="Wrap" Text="Language:" Foreground="Beige" VerticalAlignment="Top"/>
             <TextBlock HorizontalAlignment="Right" Margin="0,289,77,0" TextWrapping="Wrap" Text="Guest number:" Foreground="Beige" VerticalAlignment="Top"/>
 
-            <TextBlock  Text="Search and reserve tour:" Foreground="Beige" HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" FontSize="18" VerticalAlignment="Top" Height="28" Width="206"/>
+            <TextBlock  Text="Search and reserve tour:" Foreground="Beige" HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" FontSize="22" VerticalAlignment="Top" Height="38" Width="254"/>
         </Grid>
 
     </Grid>

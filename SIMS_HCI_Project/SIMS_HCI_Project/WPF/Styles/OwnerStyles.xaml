@@ -3,7 +3,7 @@
 
     <SolidColorBrush x:Key="OwnerNeutralColor" Color="Azure" />
     <SolidColorBrush x:Key="OwnerMainColor" Color="Turquoise"/>
-    <SolidColorBrush x:Key="OwnerButtonTextColor" Color="CadetBlue"/>
+    <SolidColorBrush x:Key="OwnerButtonTextColor" Color="Azure"/>
     <SolidColorBrush x:Key="OwnerNotificationsColor" Color="Coral"/>
 
     <!-- BUTTON STYLE -->
@@ -16,27 +16,51 @@
         <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="BorderThickness" Value="2"/>
+        
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Offset="0" Color="#79D0C9" />
+                    <GradientStop Offset="0.7" Color="Turquoise" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border CornerRadius="15"
-                            Background="{StaticResource OwnerMainColor}"
+                            Background="{TemplateBinding Background}"
                             BorderThickness="1">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"></ContentPresenter>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" FontSize="16" FontWeight="Bold">
+                        <TextBlock.Effect>
+                            <DropShadowEffect Color="DarkGray" Direction="330" ShadowDepth="2" Opacity="0.5"/>
+                        </TextBlock.Effect>
+                    </TextBlock>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Style.Triggers>
             <Trigger Property="IsKeyboardFocused" Value="True">
                 <Setter Property="Effect">
                     <Setter.Value>
-                        <DropShadowEffect Color="LightBlue" Opacity="50" ShadowDepth="10"/>
+                        <DropShadowEffect Color="#00758F" Opacity="100" ShadowDepth="10" BlurRadius="30" />
                     </Setter.Value>
                 </Setter>
             </Trigger>
         </Style.Triggers>
+
     </Style>
 
     <!-- TITLE STYLE -->
@@ -127,6 +151,19 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" FontSize="16" FontWeight="Bold">
+                        <TextBlock.Effect>
+                            <DropShadowEffect Color="DarkGray" Direction="330" ShadowDepth="2" Opacity="0.5"/>
+                        </TextBlock.Effect>
+                    </TextBlock>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Style.Triggers>
             <Trigger Property="IsKeyboardFocused" Value="True">

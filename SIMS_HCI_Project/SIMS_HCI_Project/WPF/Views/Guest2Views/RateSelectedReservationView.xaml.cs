@@ -15,6 +15,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 
@@ -23,12 +24,12 @@ namespace SIMS_HCI_Project.WPF.Views.Guest2Views
     /// <summary>
     /// Interaction logic for RateSelectedReservation.xaml
     /// </summary>
-    public partial class RateSelectedReservationView : Window
+    public partial class RateSelectedReservationView : Page
     {
-        public RateSelectedReservationView(Guest2 guest2, TourReservation tourReservation)
+        public RateSelectedReservationView(Guest2 guest2, TourReservation tourReservation, NavigationService navigationSetvice)
         {
             InitializeComponent();
-            this.DataContext = new RateSelectedReservationViewModel( guest2, tourReservation, this);
+            this.DataContext = new RateSelectedReservationViewModel( guest2, tourReservation, this, navigationSetvice);
         }
     }
 }

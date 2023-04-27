@@ -12,6 +12,8 @@ using System.Windows;
 using SIMS_HCI_Project.Applications.Services;
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
+using System.Windows.Navigation;
+using System.Windows.Controls;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 {
@@ -48,12 +50,23 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                 OnPropertyChanged();
             }
         }
+        public NavigationService NavigationService { get; set; }
+        private Frame _rateReservationFrame;
+        public Frame RateReservationFrame
+        {
+            get { return _rateReservationFrame; }
+            set { 
+                _rateReservationFrame = value;
+                OnPropertyChanged();
+            }
+        }
 
-        public TourRatingViewModel(TourRatingView tourRatingView, Guest2 guest2)
+        public TourRatingViewModel(TourRatingView tourRatingView, Guest2 guest2, NavigationService navigationService, Frame rateReservationFrame)
         {
             TourRatingView = tourRatingView;
             Guest = guest2;
-
+            NavigationService = navigationService;
+            RateReservationFrame = rateReservationFrame;
             LoadFromFiles();
             InitCommands();
 
@@ -71,26 +84,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
         public void InitCommands()
         {
-            Back = new RelayCommand(ExecutedBack, CanExecuteBack);
             Rate = new RelayCommand(ExecutedRate, CanExecuteRate);
         }
 
         #region Commands
-        private void ExecutedBack(object sender)
-        {
-            Window window = new Guest2MainView(Guest);
-            window.Show();
-            TourRatingView.Close();
-        }
-        public bool CanExecuteBack(object sender)
-        {
-            return true;
-        }
+        
         private void ExecutedRate(object sender)
         {
-            Window window = new RateSelectedReservationView(Guest, SelectedReservation);
-            window.Show();
-            TourRatingView.Close();
+            RateReservationFrame.NavigationService.Navigate(new RateSelectedReservationView(Guest, SelectedReservation, NavigationService)); 
         }
         public bool CanExecuteRate(object sender)
         {

@@ -65,12 +65,23 @@ namespace SIMS_HCI_Project.Repositories
 
         public TourVoucher GetById(int id)
         {
+            UpdateStatusForExpired();
             return _tourVouchers.Find(v => v.Id == id);
         }
 
         public List<TourVoucher> GetValidVouchersByGuestId(int id)
         {
+            UpdateStatusForExpired();
             return _tourVouchers.FindAll(v => v.GuestId == id && v.Status == VoucherStatus.VALID);
+        }
+
+        public void UpdateStatusForExpired()
+        {
+            foreach(TourVoucher tourVoucher in _tourVouchers)
+            {
+                if (tourVoucher.ExpirationDate > DateTime.Now)
+                    tourVoucher.Status = VoucherStatus.EXPIRED;
+            }
         }
 
         public void NotifyObservers()

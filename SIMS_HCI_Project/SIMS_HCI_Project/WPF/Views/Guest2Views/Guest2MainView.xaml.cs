@@ -12,6 +12,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace SIMS_HCI_Project.WPF.Views.Guest2Views
@@ -19,14 +20,14 @@ namespace SIMS_HCI_Project.WPF.Views.Guest2Views
     /// <summary>
     /// Interaction logic for Guest2View.xaml
     /// </summary>
-    public partial class Guest2MainView : Window
+    public partial class Guest2MainView : Page
     {
 
-        public Guest2MainView(Guest2 guest)
+        public Guest2MainView(Guest2 guest, NavigationService navigationService)
         {
             InitializeComponent();
 
-            this.DataContext = new Guest2MainViewModel(this, guest);
+            DataContext = new Guest2MainViewModel(this, guest, navigationService);
         }
 
     }  

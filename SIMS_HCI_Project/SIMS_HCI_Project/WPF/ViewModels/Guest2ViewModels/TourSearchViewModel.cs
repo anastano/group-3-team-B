@@ -13,6 +13,7 @@ using SIMS_HCI_Project.Applications.Services;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
+using System.Windows.Navigation;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 {
@@ -28,13 +29,22 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public RelayCommand Search { get; set; }
         public RelayCommand ShowImages { get; set; }
         public RelayCommand Reserve { get; set; }
-        public RelayCommand Back { get; set; }
         #endregion
         public TourSearchView  TourSearchView { get; set; }
         public Guest2 Guest { get; set; }
         public Tour SelectedTour { get; set; }
-        public ObservableCollection<Tour> Tours { get; set; }
-
+        private List<Tour> _tours;
+        public List<Tour> Tours
+        {
+            get { return _tours; }
+            set
+            {
+                _tours = value;
+                OnPropertyChanged();
+            }
+        }
+        public SearchAndReserveView SearchAndReserveView { get; set; }
+        private NavigationService NavigationService { get; set; }
         #region PropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -42,49 +52,65 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
-        public TourSearchViewModel(TourSearchView tourSearchView, Guest2 guest2)
+        #region SearchFields
+        private string _country;
+        public string Country
         {
-            TourSearchView = tourSearchView;
-            Guest = guest2;
-            InitCommands();
-            LoadFromFiles();
+            get => _country;
+            set
+            {
+                if (_country != value)
+                {
+                    _country = value;
+                }
+                OnPropertyChanged();
+            }
+        }
 
-            Tours = new ObservableCollection<Tour>(_tourService.GetAllTourInformation());
-        }
-        public void LoadFromFiles()
+        private string _city;
+        public string City
         {
-            _tourService = new TourService();
-            _locationService = new LocationService();
+            get => _city;
+            set
+            {
+                if (_city != value)
+                {
+                    _city = value;
+                }
+                OnPropertyChanged();
+            }
         }
-        public void InitCommands()
+
+        private string _duration;
+        public string Duration
         {
-            Reserve = new RelayCommand(ExecutedReserve, CanExecuteReserve);
-            Back = new RelayCommand(ExecutedBack, CanExecuteBack);
+            get => _duration;
+            set
+            {
+                if (_duration != value)
+                {
+                    _duration = value;
+                }
+                OnPropertyChanged();
+            }
         }
-        #region Commands
-        public void ExecutedReserve(object obj)
+
+        private string _language;
+        public string Language
         {
-            Window window = new TourReservationView(SelectedTour, Guest);
-            window.Show();
-            TourSearchView.Close();
+            get => _language;
+            set
+            {
+                if (_language != value)
+                {
+                    _language = value;
+                }
+                OnPropertyChanged();
+            }
         }
-        public bool CanExecuteReserve(object obj)
-        {
-            return true;
-        }
-        private void ExecutedBack(object sender)
-        {
-            Window window = new Guest2MainView(Guest);
-            window.Show();
-            TourSearchView.Close();
-        }
-        public bool CanExecuteBack(object sender)
-        {
-            return true;
-        }
-        #endregion
-        private int _guestNumber;
-        public int GuestNumber
+
+        private string _guestNumber;
+        public string GuestNumber
         {
             get => _guestNumber;
             set
@@ -96,6 +122,66 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                 }
             }
         }
+        #endregion
+        public TourSearchViewModel(TourSearchView tourSearchView, Guest2 guest2, NavigationService navigationService)
+        {
+            TourSearchView = tourSearchView;
+            Guest = guest2;
+            NavigationService = navigationService;
+            InitCommands();
+            LoadFromFiles();
+
+            Tours = new List<Tour>(_tourService.GetAllTourInformation());
+        }
+        public void LoadFromFiles()
+        {
+            _tourService = new TourService();
+            _locationService = new LocationService();
+        }
+        public void InitCommands()
+        {
+            Reserve = new RelayCommand(ExecutedReserve, CanExecute);
+            Search = new RelayCommand(ExecuteSearch, CanExecute);
+        }
+        #region Commands
+        public void ExecuteSearch(object sender)
+        {
+            int guestsNum;
+            bool isValidGuestsNum = int.TryParse(GuestNumber, out guestsNum);
+            int duration; 
+            bool isValidDuration = int.TryParse(Duration, out duration);
+
+            if (!isValidGuestsNum)
+            {
+                guestsNum = 0;
+            }
+
+            if (!isValidDuration)
+            {
+                duration = 0;
+            }
+
+            Tours = _tourService.Search(Country, City, duration, Language, guestsNum);
+        }
+
+        public void ExecutedReserve(object obj)
+        {
+        
+            if (SelectedTour == null)
+                {
+                    SelectedTour = Tours[0];
+                }
+            NavigationService.Navigate(new SearchAndReserveView(Guest, SelectedTour, NavigationService));
+     
+        }
+         
+        public bool CanExecute(object obj)
+        {
+            return true;
+        }
+        
+        #endregion
+        
         public void Update()
         {
             throw new NotImplementedException();

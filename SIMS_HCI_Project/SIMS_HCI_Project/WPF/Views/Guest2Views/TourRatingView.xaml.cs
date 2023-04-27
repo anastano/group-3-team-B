@@ -12,6 +12,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace SIMS_HCI_Project.WPF.Views.Guest2Views
@@ -19,12 +20,13 @@ namespace SIMS_HCI_Project.WPF.Views.Guest2Views
     /// <summary>
     /// Interaction logic for TourRatingView.xaml
     /// </summary>
-    public partial class TourRatingView : Window
+    public partial class TourRatingView : Page
     {
-        public TourRatingView(Guest2 guest2)
+        public TourRatingView(Guest2 guest2, NavigationService navigationService)
         {
             InitializeComponent();
-            this.DataContext = new TourRatingViewModel(this, guest2);
+            
+            this.DataContext = new TourRatingViewModel(this, guest2, navigationService, RateReservationFrame);
         }
     }
 }

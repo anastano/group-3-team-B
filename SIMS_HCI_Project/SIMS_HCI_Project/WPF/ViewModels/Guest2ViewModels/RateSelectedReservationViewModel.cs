@@ -12,10 +12,11 @@ using System.Windows;
 using SIMS_HCI_Project.Applications.Services;
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
+using System.Windows.Navigation;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 {
-    public class RateSelectedReservationViewModel
+    public class RateSelectedReservationViewModel 
     {
         #region Services
         private TourService _tourService;
@@ -133,12 +134,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
+        public NavigationService NavigationService { get; set; }
 
-        public RateSelectedReservationViewModel(Guest2 guest2, TourReservation selectedReservation, RateSelectedReservationView rateSelectedReservationView)
+        public RateSelectedReservationViewModel(Guest2 guest2, TourReservation selectedReservation, RateSelectedReservationView rateSelectedReservationView, NavigationService navigationService)
         {
             Guest = guest2;
             TourReservation = selectedReservation;
             RateSelectedReservationView = rateSelectedReservationView;
+            NavigationService = navigationService;
             TourRating = new TourRating();
             Images = new ObservableCollection<string>();
 
@@ -158,7 +161,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         }
         public void InitCommands()
         {
-            Back = new RelayCommand(ExecutedBack, CanExecuteBack);
             Cancel = new RelayCommand(ExecutedCancel, CanExecuteCancel);
             ConfirmRating = new RelayCommand(ExecutedConfirmRating, CanExecuteConfirmRating);
             AddImage = new RelayCommand(ExecutedAddImage, CanExecuteAddImage);
@@ -176,21 +178,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         {
             return true;
         }
-        private void ExecutedBack(object sender)
-        {
-            Window window = new TourRatingView(Guest);
-            window.Show();
-            RateSelectedReservationView.Close();
-        }
-        public bool CanExecuteBack(object sender)
-        {
-            return true;
-        }
+        
         private void ExecutedCancel(object sender)
         {
-            Window window = new TourRatingView(Guest);
-            window.Show();
-            RateSelectedReservationView.Close();
+            NavigationService.Navigate(new TourRatingView(Guest, NavigationService));
         }
         public bool CanExecuteCancel(object sender)
         {
@@ -207,11 +198,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             TourRating.Images = Images.ToList();
 
             _tourRatingService.Add(TourRating);
-            MessageBox.Show("Submited");
-            Window window = new TourRatingView(Guest);
-            window.Show();
-            RateSelectedReservationView.Close();
-
+            MessageBox.Show("Tour rating is submited.");
+            NavigationService.Navigate(new TourRatingView(Guest, NavigationService));
+         
         }
         public bool CanExecuteConfirmRating(object sender)
         {

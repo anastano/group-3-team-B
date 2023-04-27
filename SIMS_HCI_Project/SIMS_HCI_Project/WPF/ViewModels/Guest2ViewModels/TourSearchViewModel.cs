@@ -13,6 +13,7 @@ using SIMS_HCI_Project.Applications.Services;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
+using System.Windows.Navigation;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 {
@@ -28,13 +29,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public RelayCommand Search { get; set; }
         public RelayCommand ShowImages { get; set; }
         public RelayCommand Reserve { get; set; }
-        public RelayCommand Back { get; set; }
         #endregion
         public TourSearchView  TourSearchView { get; set; }
         public Guest2 Guest { get; set; }
         public Tour SelectedTour { get; set; }
         public ObservableCollection<Tour> Tours { get; set; }
-
+        public SearchAndReserveView SearchAndReserveView { get; set; }
+        private NavigationService NavigationService { get; set; }
         #region PropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -42,10 +43,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
-        public TourSearchViewModel(TourSearchView tourSearchView, Guest2 guest2)
+        public TourSearchViewModel(TourSearchView tourSearchView, Guest2 guest2, NavigationService navigationService)
         {
             TourSearchView = tourSearchView;
             Guest = guest2;
+            NavigationService = navigationService;
             InitCommands();
             LoadFromFiles();
 
@@ -59,29 +61,24 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public void InitCommands()
         {
             Reserve = new RelayCommand(ExecutedReserve, CanExecuteReserve);
-            Back = new RelayCommand(ExecutedBack, CanExecuteBack);
         }
         #region Commands
         public void ExecutedReserve(object obj)
         {
-            Window window = new TourReservationView(SelectedTour, Guest);
-            window.Show();
-            TourSearchView.Close();
+        
+            if (SelectedTour == null)
+                {
+                    SelectedTour = Tours[0];
+                }
+            NavigationService.Navigate(new SearchAndReserveView(Guest, SelectedTour, NavigationService));
+     
         }
+         
         public bool CanExecuteReserve(object obj)
         {
             return true;
         }
-        private void ExecutedBack(object sender)
-        {
-            Window window = new Guest2MainView(Guest);
-            window.Show();
-            TourSearchView.Close();
-        }
-        public bool CanExecuteBack(object sender)
-        {
-            return true;
-        }
+        
         #endregion
         private int _guestNumber;
         public int GuestNumber

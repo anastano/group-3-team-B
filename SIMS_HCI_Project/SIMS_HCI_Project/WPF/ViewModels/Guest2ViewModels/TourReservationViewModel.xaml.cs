@@ -27,7 +27,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         #region Commands
         public RelayCommand ShowSuggestions { get; set; }
         public RelayCommand ConfirmReservation { get; set; }
-        public RelayCommand Back { get; set; }
         #endregion
 
         public TourReservationView TourReservationView { get; set; }
@@ -109,7 +108,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
-        public TourReservationViewModel(TourReservationView tourReservationView, Tour tour, Guest2 guest)
+        public TourReservationViewModel(Tour tour, Guest2 guest, TourReservationView tourReservationView)
         {
 
             TourReservationView = tourReservationView;
@@ -135,7 +134,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public void InitCommands()
         {
             ConfirmReservation = new RelayCommand(ExecutedConfirmReservation, CanExecuteConfirmReservation);
-            Back = new RelayCommand(ExecutedBack, CanExecuteBack);
         }
         #region Commands
         private void ExecutedConfirmReservation(object sender) 
@@ -147,16 +145,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             return true;
         }
 
-        private void ExecutedBack(object sender)
-        {
-            Window window = new TourSearchView(Guest2);
-            window.Show();
-            TourReservationView.Close();
-        }
-        public bool CanExecuteBack(object sender)
-        {
-            return true;
-        }
+        
         #endregion
 
         private void Reserve() 
@@ -211,14 +200,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         }
         private void ConfirmationMessage()
         {
-            MessageBox.Show("Reservation successfully completed.");
+            MessageBox.Show("Reservation successfully completed. You can see it in the list of your reservations, on your profile.");
             MessageBoxButton messageBoxButton = MessageBoxButton.OK;
-            if (messageBoxButton == MessageBoxButton.OK)
-            {
-                TourReservationView.Close();
-                Window win = new Guest2MainView(Guest2);
-                win.Show();
-            }
+            
         }
         #endregion
     }

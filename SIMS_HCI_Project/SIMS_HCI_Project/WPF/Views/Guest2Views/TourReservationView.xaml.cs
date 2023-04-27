@@ -19,12 +19,12 @@ namespace SIMS_HCI_Project.WPF.Views.Guest2Views
     /// <summary>
     /// Interaction logic for TourReservationView.xaml
     /// </summary>
-    public partial class TourReservationView : Window
+    public partial class TourReservationView : Page
     {
        public TourReservationView(Tour tour, Guest2 guest2)
         {
             InitializeComponent();
-            this.DataContext = new TourReservationViewModel(this, tour, guest2);
+            this.DataContext = new TourReservationViewModel(tour, guest2, this);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿<Window x:Class="SIMS_HCI_Project.WPF.Views.Guest2Views.TourReservationView"
+﻿<Page x:Class="SIMS_HCI_Project.WPF.Views.Guest2Views.TourReservationView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,9 +6,9 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest2Views"
         xmlns:cvt="clr-namespace:SIMS_HCI_Project.View.Converters"
         mc:Ignorable="d"
-        Title="TourReservationView" Height="700" Width="650" WindowStartupLocation="CenterScreen">
+        Title="TourReservationView" Height="350" Width="1080" >
 
-    <Window.Resources>
+    <Page.Resources>
         <ControlTemplate x:Key="ValidationTemplate">
             <StackPanel>
                 <!-- Placeholder for the TextBox itself -->
@@ -17,14 +17,14 @@
             </StackPanel>
 
         </ControlTemplate>
-    </Window.Resources>
+    </Page.Resources>
 
-    <Grid Background="Orange" HorizontalAlignment="Center" Width="650">
-        <Label Content="Title" HorizontalAlignment="Left" Margin="67,10,0,0" VerticalAlignment="Top"/>
-        <Label HorizontalAlignment="Left" Margin="113,10,0,0" 
+    <Grid Background="Orange" HorizontalAlignment="Center" Width="1080" Margin="0,0,0,0">
+        <Label Content="Title" HorizontalAlignment="Left" Margin="16,41,0,0" VerticalAlignment="Top"/>
+        <Label HorizontalAlignment="Left" Margin="81,41,0,0" 
                  Content="{Binding Path=Tour.Title}" Foreground="#FF0A0A08"
-                  VerticalAlignment="Top" Width="159" Height="31" Background="#FFF5F0F0"/>
-        <Label Content="Location" HorizontalAlignment="Left" Margin="20,73,0,0" VerticalAlignment="Top"/>
+                  VerticalAlignment="Top" Width="244" Height="26" Background="#FFF5F0F0"/>
+        <Label Content="Location" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top"/>
         <Label  HorizontalAlignment="Left" Margin="81,72,0,0" 
                  Content="{Binding Path =Tour.Location.City}"
                   Foreground="#FF0A0A08"
@@ -32,58 +32,56 @@
         <Label  HorizontalAlignment="Left" Margin="190,72,0,0" 
                  Content="{Binding Path=Tour.Location.Country}"
                  VerticalAlignment="Top" Width="135" Height="32" Foreground="Black" Background="#FFF1EDED"/>
-        <Label Content="City" HorizontalAlignment="Left" Margin="134,46,0,0" VerticalAlignment="Top"/>
-        <Label Content="Country" HorizontalAlignment="Left" Margin="197,46,0,0" VerticalAlignment="Top"/>
-        <Label Content="Description" HorizontalAlignment="Left" Margin="12,122,0,0" VerticalAlignment="Top"/>
-        <TextBlock  HorizontalAlignment="Left" Margin="83,122,0,0" TextWrapping="Wrap" Foreground="Black" Background="#FFF1EDED"
+        <Label Content="Description" HorizontalAlignment="Left" Margin="12,223,0,0" VerticalAlignment="Top"/>
+        <TextBlock  HorizontalAlignment="Left" Margin="16,254,0,0" TextWrapping="Wrap" Foreground="Black" Background="#FFF1EDED"
                  Text="{Binding Path=Tour.Description}" 
               
-                 VerticalAlignment="Top" Width="242" Height="90"/>
-        <Label Content="Language" HorizontalAlignment="Left" Margin="20,217,0,0" VerticalAlignment="Top"/>
-        <TextBlock  HorizontalAlignment="Left" Margin="83,223,0,0" TextWrapping="Wrap" Foreground="Black"
+                 VerticalAlignment="Top" Width="402" Height="86"/>
+        <Label Content="Language" HorizontalAlignment="Left" Margin="10,109,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.21,0.618"/>
+        <TextBlock  HorizontalAlignment="Left" Margin="84,114,0,0" TextWrapping="Wrap" Foreground="Black"
                  Text="{Binding Path=Tour.Language}" 
                   Background="#FFF1EDED" 
                  VerticalAlignment="Top" Width="242" Height="26"/>
-        <Label Content="Max number of guests" Margin="20,259,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-        <TextBlock  HorizontalAlignment="Left" Margin="164,259,0,0" TextWrapping="Wrap" Foreground="Beige"
+        <Label Content="Max number of guests" Margin="10,192,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <TextBlock  HorizontalAlignment="Left" Margin="160,192,0,0" TextWrapping="Wrap" Foreground="Beige"
                  Text="{Binding Path=Tour.MaxGuests}"
-                 VerticalAlignment="Top" Width="46" Height="31"/>
+                 VerticalAlignment="Top" Width="165" Height="31" Background="#FFF7E3E3"/>
 
 
-        <Label Content="Duration [hours]" HorizontalAlignment="Left" Margin="361,266,0,0" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="470,264,0,0" TextWrapping="Wrap" Foreground="Beige"
+        <Label Content="Duration [hours]" HorizontalAlignment="Left" Margin="10,150,0,0" VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Left" Margin="160,150,0,0" TextWrapping="Wrap" Foreground="Beige"
                  Text="{Binding Path=Tour.Duration}" 
-                 VerticalAlignment="Top" Width="71" Height="30" RenderTransformOrigin="0.333,0.042"/>
+                 VerticalAlignment="Top" Width="165" Height="30" RenderTransformOrigin="0.333,0.042" Background="#FFECDEDE"/>
 
 
 
 
-        <Label Content="Key Points:" HorizontalAlignment="Left" Margin="361,5,0,0" VerticalAlignment="Top"/>
+        <Label Content="Key Points:" HorizontalAlignment="Left" Margin="520,11,0,0" VerticalAlignment="Top"/>
 
 
         <ListBox x:Name="lbKeyPoints" 
                  ItemsSource="{Binding Path=Tour.KeyPoints}" 
-                  Margin="361,31,78,435"
+                  Margin="489,42,463,196"
             ScrollViewer.VerticalScrollBarVisibility="Visible"/>
 
-        <DataGrid x:Name="dgDepartureTimes" ItemsSource="{Binding Path=Tour.DepartureTimes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding SelectedTourTime}"  Margin="40,302,361,120" AutoGenerateColumns="False" IsReadOnly="True">
+        <DataGrid x:Name="dgDepartureTimes" ItemsSource="{Binding Path=Tour.DepartureTimes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding SelectedTourTime}"  Margin="671,42,217,208" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Departure Time" Binding="{Binding DepartureTime}" CanUserResize="False" IsReadOnly="True" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
 
 
-        <Button Content="CONFIRM RESERVATION" Name="btnConfirmReservation" Command="{Binding ConfirmReservation}" HorizontalAlignment="Left" Margin="351,613,0,0" VerticalAlignment="Top" Height="35"/>
-        <Button Content="SHOW SUGGESTIONS" Name="btnShowSuggestions" HorizontalAlignment="Left" Margin="116,613,0,0" VerticalAlignment="Top" Height="35" />
-        <Label Content="Available" HorizontalAlignment="Left" Margin="352,357,0,0" VerticalAlignment="Top"/>
+        <Button Content="SUBMIT RESERVATION" Padding="7" Name="btnConfirmReservation" Command="{Binding ConfirmReservation}" HorizontalAlignment="Left" Margin="818,195,0,0" VerticalAlignment="Top" Height="35"/>
+        <Button Content="SHOW SUGGESTIONS" Name="btnShowSuggestions" HorizontalAlignment="Left" Margin="684,297,0,0" VerticalAlignment="Top" Height="34" />
+        <Label Content="Available" HorizontalAlignment="Left" Margin="943,62,0,0" VerticalAlignment="Top"/>
 
         <TextBlock x:Name="tblAvailable" Text="{Binding Path=SelectedTourTime.Available, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                 HorizontalAlignment="Left" Margin="428,357,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="78" Height="35" Foreground="Beige" FontSize="14"/>
+                 HorizontalAlignment="Left" Margin="1006,57,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="64" Height="35" Foreground="Beige" FontSize="14" Background="#FFEFD0D0"/>
 
-        <Label Content="Enter number of pople:" HorizontalAlignment="Left" Margin="315,392,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.455,-1.509"/>
-        <TextBox Name="txtRequestedPartySize"  HorizontalAlignment="Left" Margin="466,392,0,0"
+        <Label Content="Enter number of pople:" HorizontalAlignment="Left" Margin="868,109,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.455,-1.509"/>
+        <TextBox Name="txtRequestedPartySize"  HorizontalAlignment="Left" Margin="1005,103,0,0"
             Text="{Binding Path=RequestedPartySize, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                 TextWrapping="Wrap" VerticalAlignment="Top" Width="142" Height="37">
+                 TextWrapping="Wrap" VerticalAlignment="Top" Width="65" Height="37">
             <Validation.ErrorTemplate>
                 <ControlTemplate>
                     <StackPanel>
@@ -93,14 +91,14 @@
                 </ControlTemplate>
             </Validation.ErrorTemplate>
         </TextBox>
-        <TextBlock HorizontalAlignment="Left" Margin="307,294,0,0" TextWrapping="Wrap" Text="Enter number of people and select deparature time, then click on CONFIRM RESERVATION button to complete reservation." VerticalAlignment="Top" Height="58" Width="343" FontSize="14" TextAlignment="Center" Foreground="#FFD40707"/>
-        <DataGrid Name="dgVouchers" ItemsSource="{Binding Path=Vouchers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path= SelectedVoucher, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" Margin="307,448,10,120" >
+        <DataGrid Name="dgVouchers" ItemsSource="{Binding Path=Vouchers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path= SelectedVoucher, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" Margin="454,254,432,10" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title" Binding="{Binding Title}" CanUserResize="False" IsReadOnly="True" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Expiration date" Binding="{Binding ExpirationDate}" Width="*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Content="Back" Command="{Binding Back}" HorizontalAlignment="Left" Margin="0,8,0,0" VerticalAlignment="Top" Background="#FFB30808" BorderBrush="#FFEDDCDC" Height="33" Width="68"/>
+
+        <Button Content="IMAGE" HorizontalAlignment="Left" Margin="346,41,0,0" VerticalAlignment="Top" Height="122" Width="120"/>
 
     </Grid>
-</Window>
+</Page>

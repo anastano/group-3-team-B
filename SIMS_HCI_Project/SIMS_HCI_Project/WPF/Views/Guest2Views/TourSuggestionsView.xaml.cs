@@ -1,6 +1,4 @@
-﻿using SIMS_HCI_Project.Domain.Models;
-using SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,14 +16,13 @@ using System.Windows.Shapes;
 namespace SIMS_HCI_Project.WPF.Views.Guest2Views
 {
     /// <summary>
-    /// Interaction logic for TourSearchView.xaml
+    /// Interaction logic for TourSuggestionsView.xaml
     /// </summary>
-    public partial class TourSearchView : Page
+    public partial class TourSuggestionsView : Page
     {
-        public TourSearchView(Guest2 guest, NavigationService navigationService)
+        public TourSuggestionsView()
         {
             InitializeComponent();
-            this.DataContext = new TourSearchViewModel(this, guest, navigationService);
         }
     }
 }

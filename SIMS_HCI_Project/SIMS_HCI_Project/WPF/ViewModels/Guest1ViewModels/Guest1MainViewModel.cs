@@ -14,6 +14,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using Xceed.Wpf.Toolkit.Primitives;
 using AccommodationReservation = SIMS_HCI_Project.Domain.Models.AccommodationReservation;
 using Guest1 = SIMS_HCI_Project.Domain.Models.Guest1;
 using Notification = SIMS_HCI_Project.Domain.Models.Notification;
@@ -40,6 +42,23 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public RelayCommand ShowRatingsCommand { get; set; }
         public RelayCommand ShowProfileCommand { get; set; }
         public RelayCommand LogoutCommand { get; set; }
+        public RelayCommand ChangePage { get; set; }
+        public Button Menu { get; set; }
+        public Grid grid;
+        public Grid Grid
+
+        {
+            get => grid;
+            set
+            {
+                if (value != grid)
+                {
+                    grid = value;
+                    OnPropertyChanged();
+                }
+            }
+
+        }
 
         private object _currentViewModel;
 
@@ -57,6 +76,16 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             }
 
         }
+        private int selected;
+        public int SelectedItem
+        {
+            get { return selected; }
+            set
+            {
+                selected = value;
+                OnPropertyChanged();
+            }
+        }
         public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -70,6 +99,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             InitCommands();
             CurrentViewModel = new ProfileViewModel(Guest);
             reservationsViewModel = new ReservationsViewModel(Guest);
+            Grid = Guest1MainView.GridMenu;
+            Menu = Guest1MainView.CloseMenuButton;
+            SelectedItem = -1;
         }
 
         public void LoadFromFiles()
@@ -96,19 +128,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _guestRatingService.ConnectRatingsWithReservations(_reservationService);
             _guestRatingService.FillAverageRatingAndSuperFlag(_ownerService);
         }
-        public void ExecutedShowReservationsCommand(object obj)
-        {
-            CurrentViewModel = new ReservationsViewModel(Guest);
-        }
-        public void ExecutedSearchAccommodationCommand(object obj)
-        {
-            CurrentViewModel = new AccommodationSearchViewModel(Guest);
-        }
-        public void ExecutedShowRatingsCommand(object obj)
-        {
-            CurrentViewModel = new MyRatingsViewModel(Guest);
-        }
-
         public bool CanExecute(object obj)
         {
             return true;
@@ -125,13 +144,42 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             CurrentViewModel = (object)new ProfileViewModel(Guest);
         }
+        private void ExecutedChangePageCommand(object obj)
+        {
+            if (SelectedItem == 0)
+            {
+                CurrentViewModel = new AccommodationSearchViewModel(Guest);
+                CustomizeGridSize();
+            }
+            else if (SelectedItem == 1)
+            {
+                CurrentViewModel = new ReservationsViewModel(Guest);
+                CustomizeGridSize();
+            }
+            else if (SelectedItem == 2)
+            {
+                CustomizeGridSize();
+            }
+            else if (SelectedItem == 3)
+            {
+                CustomizeGridSize();
+            }
+            else if (SelectedItem == 4)
+            {
+                CurrentViewModel = new MyRatingsViewModel(Guest);
+                CustomizeGridSize();
+            }
+        }
+        private void CustomizeGridSize()
+        {
+            if (Grid.Width == 200)
+                Menu.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+        }
         public void InitCommands()
         {
-            ShowReservationsCommand = new RelayCommand(ExecutedShowReservationsCommand, CanExecute);
-            SearchAccommodationCommand = new RelayCommand(ExecutedSearchAccommodationCommand, CanExecute);
             ShowProfileCommand = new RelayCommand(ExecutedShowProfileCommand, CanExecute);
             LogoutCommand = new RelayCommand(ExecutedLogoutCommand, CanExecute);
-            ShowRatingsCommand = new RelayCommand(ExecutedShowRatingsCommand, CanExecute);
+            ChangePage = new RelayCommand(ExecutedChangePageCommand, CanExecute);
         }
     }
 }

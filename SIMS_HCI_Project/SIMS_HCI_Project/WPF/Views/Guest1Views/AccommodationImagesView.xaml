@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest1Views"
              xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="#f5f5f5">
+             d:DesignHeight="702" d:DesignWidth="969" Background="#f5f5f5">
     <UserControl.Resources>
         <converters:ImageUrlConverter x:Key="ImageUrlConverter" />
     </UserControl.Resources>

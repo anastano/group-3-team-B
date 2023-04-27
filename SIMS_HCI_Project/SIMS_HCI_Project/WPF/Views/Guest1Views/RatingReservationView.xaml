@@ -6,7 +6,7 @@
       xmlns:views="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest1Views"
       xmlns:viewmodels="clr-namespace:SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels"
       mc:Ignorable="d" 
-      d:DesignHeight="550" d:DesignWidth="800"
+      d:DesignHeight="702" d:DesignWidth="969"
       Background="#f5f5f5">
     <UserControl.Resources>
         <Style x:Key="circleButtonStyle" TargetType="Button">

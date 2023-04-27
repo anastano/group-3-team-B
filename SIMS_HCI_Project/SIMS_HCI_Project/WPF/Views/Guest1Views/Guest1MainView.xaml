@@ -131,7 +131,7 @@
                 </ListView>
             </StackPanel>
         </Grid>
-        <ContentControl x:Name="UserControls" Content="{Binding CurrentViewModel}" Margin="55,50,0,0">
+        <ContentControl x:Name="UserControls" Content="{Binding CurrentViewModel}" Margin="55,50,10,0">
             <ContentControl.Resources>
                 <DataTemplate DataType="{x:Type viewmodels:ProfileViewModel}">
                     <views:ProfileView/>

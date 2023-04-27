@@ -8,7 +8,7 @@
              xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
              xmlns:local="clr-namespace:SIMS_HCI_Project.Domain.Models"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800" Background="#f5f5f5">
+             d:DesignHeight="702" d:DesignWidth="969" Background="#f5f5f5">
     <UserControl.Resources>
         <converters:ImageUrlConverter x:Key="ImageUrlConverter"/>
         <BooleanToVisibilityConverter x:Key="boolToVisConverter" />

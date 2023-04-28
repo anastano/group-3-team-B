@@ -6,8 +6,7 @@
         xmlns:views="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest1Views"
         xmlns:viewmodels="clr-namespace:SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
-        mc:Ignorable="d"
-        Title="Guest1MainView" Height="768" Width="1024"
+        mc:Ignorable="d" Height="768" Width="1024"
         WindowStartupLocation="CenterScreen">
 
     <Window.Resources>

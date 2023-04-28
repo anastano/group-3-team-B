@@ -13,9 +13,10 @@ namespace SIMS_HCI_Project.Repositories
         List<Accommodation> Search(string name, string country, string city, string type, int guestsNumber, int reservationDays);
         List<string> GetImages(int id);
         void NotifyObservers();
-        void Delete(Accommodation accommodation, Owner owner);
+        void Delete(Accommodation accommodation);
         void Save();
         void Subscribe(IObserver observer);
         void Unsubscribe(IObserver observer);
+        void Add(Accommodation accommodation);
     }
 }

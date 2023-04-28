@@ -7,93 +7,11 @@
         mc:Ignorable="d"
         Title="OwnerMainView" Height="680" Width="1280" WindowStartupLocation="CenterScreen">
     <Window.Resources>
-        <SolidColorBrush x:Key="clrPrimary" Color="Azure" />
-        <SolidColorBrush x:Key="clrSecondary" Color="Turquoise"/>
-
-        <Style x:Key="fancyButtonStyle" TargetType="Button">
-            <Setter Property="Width" Value="250"/>
-            <Setter Property="Height" Value="45"/>
-            <Setter Property="Margin" Value="0 5 0 5"/>
-            <Setter Property="Padding" Value="10"/>
-            <Setter Property="Foreground" Value="Azure"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="15"
-                            Background="Turquoise"
-                            BorderThickness="1">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"></ContentPresenter>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-            <Style.Triggers>
-                <Trigger Property="IsKeyboardFocused" Value="True">
-                    <Setter Property="Effect">
-                        <Setter.Value>
-                            <DropShadowEffect Color="LightBlue" Opacity="50" ShadowDepth="10"/>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style x:Key="fancyTitle" TargetType="TextBlock">
-            <Setter Property="Height" Value="40"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="30"/>
-            <Setter Property="Foreground" Value="Turquoise"/>
-            <Setter Property="TextAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="0 0 0 5"/>
-        </Style>
-
-        <Style x:Key="fancyNotifications" TargetType="TextBox">
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="Width" Value="420"/>
-            <Setter Property="FontSize" Value="13"/>
-            <Setter Property="Margin" Value="0 5 0 0 "/>
-            <Setter Property="TextWrapping" Value="Wrap"/>
-            <Setter Property="TextAlignment" Value="Center"/>
-            <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="Background" Value="Azure"/>
-            <Setter Property="BorderBrush" Value="Coral"/>
-            <Setter Property="Foreground" Value="Coral"/>
-            <Setter Property="IsReadOnly" Value="True"/>
-            <Setter Property="Focusable" Value="False"/>
-        </Style>
-
-        <Style TargetType="DataGrid">
-            <Setter Property="Background" Value="Azure"/>
-            <Setter Property="ColumnHeaderHeight" Value="30"/>
-            <Setter Property="FontSize" Value="13"/>
-        </Style>
-
-        <Style TargetType="DataGridCell">
-            <Style.Triggers>
-                <Trigger Property="IsSelected" Value="True">
-                    <Setter Property="Foreground" Value="Azure" />
-                    <Setter Property="Background" Value="Turquoise" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
-        <Style x:Key="fancyBorder" TargetType="Border">
-            <Setter Property="BorderBrush" Value="Turquoise"/>
-            <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="CornerRadius" Value="15"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-        </Style>
+        
         <Style TargetType="ListView">
             <Setter Property="Background" Value="Azure"/>
             <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="BorderBrush" Value="Coral"/>
-            <Setter Property="Foreground" Value="Coral"/>
-            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="BorderBrush" Value="Azure"/>
         </Style>
 
         <Style TargetType="GridViewColumnHeader">
@@ -101,76 +19,78 @@
         </Style>
     </Window.Resources>
 
-    <Grid Background="Azure">
 
-        <!-- GLAVNI STACK PANEL-->
+    <Grid Background="{StaticResource OwnerNeutralColor}">
+
+        <!-- MAIN STACK PANEL-->
         <StackPanel Orientation="Horizontal" Height="680">
-            <!-- GLAVNI LEVI STACK PANEL - My Options-->
+            <!-- MAIN LEFT STACK PANEL - My Options-->
             <StackPanel Margin="10 10 0 10" Width="280" HorizontalAlignment="Left">
                 <TextBlock x:Name="tblMyOptions" Text="My Options" 
-                       Style="{StaticResource ResourceKey=fancyTitle}">
+                       Style="{StaticResource OwnerTitleStyle}">
                 </TextBlock>
 
-                <Border Style="{StaticResource ResourceKey=fancyBorder}">
+                <Border Style="{StaticResource OwnerBorderStyle}">
                     <StackPanel Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center">
 
                         <Button x:Name="btnAccommodations" Content="My Accommodations         (1)" Command="{Binding ShowAccommodationsCommand}"
-                        Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                        Style="{StaticResource OwnerButtonStyle}">
                         </Button>
 
-                        <Button x:Name="btnReservations" Content="Guest Reservations            (2)" 
-                        Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                        <Button x:Name="btnReservations" Content="Guest Reservations            (2)" Command="{Binding ShowReservationsCommand}"
+                        Style="{StaticResource OwnerButtonStyle}">
                         </Button>
 
                         <Button x:Name="btnRenovations" Content="Renovations                       (3)" 
-                        Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                        Style="{StaticResource OwnerButtonStyle}">
                         </Button>
 
                         <Button x:Name="btnGuestRequests" Content="Guest Requests                 (4)" Command="{Binding ShowPendingRequestsCommand}"
-                        Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                        Style="{StaticResource OwnerButtonStyle}">
                         </Button>
 
                         <Button x:Name="btnGuestReviews" Content="Guest Reviews                  (5)" Command="{Binding ShowGuestReviewsCommand}"
-                        Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                        Style="{StaticResource OwnerButtonStyle}">
                         </Button>
 
                         <Button x:Name="btnRateGuests" Content="Rate Guests                     (6)"   Command="{Binding ShowUnratedReservationsCommand}"
-                        Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                        Style="{StaticResource OwnerButtonStyle}">
                         </Button>
 
                         <Button x:Name="btnStatistics" Content="Statistics                         (7)"
-                       Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                       Style="{StaticResource OwnerButtonStyle}">
                         </Button>
 
                         <Button x:Name="btnForums" Content="Forums                           (8)"
-                       Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                       Style="{StaticResource OwnerButtonStyle}">
                         </Button>
 
                         <Button x:Name="btnSuggestions" Content="Suggestions                    (9)"
-                       Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                       Style="{StaticResource OwnerButtonStyle}">
                         </Button>
 
                         <Button x:Name="btnDemo" Content="Demo                    (Ctrl+D)"
-                       Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                       Style="{StaticResource OwnerButtonStyle}">
                         </Button>
                     </StackPanel>
                 </Border>
             </StackPanel>
 
-            <!-- GLAVNI DESNI STACK PANEL-->
+            <!-- MAIN RIGHT STACK PANEL-->
             <StackPanel Margin="0 10 0 0" Width="980" HorizontalAlignment="Right" Orientation="Vertical">
-                <!-- DESNI GORNJI STACK PANEL - Reservations In Progress-->
+                <!-- RIGHT TOP STACK PANEL - Reservations In Progress-->
                 <StackPanel Margin="0 0 0 0">
                     <TextBlock x:Name="tblreservationsInProgress" Text="Reservations In Progress" 
-                           Style="{StaticResource ResourceKey=fancyTitle}">
+                           Style="{StaticResource OwnerTitleStyle}">
                     </TextBlock>
 
-                    <Border Style="{StaticResource ResourceKey=fancyBorder}">
+                    <Border Style="{StaticResource OwnerBorderStyle}">
                         <!-- DataGrid STACKPANEL-->
-                        <StackPanel Margin="0 0 0 0">
-                            
+                        <StackPanel>
+
                             <DataGrid x:Name = "dgReservations" AutoGenerateColumns="False" ItemsSource="{Binding Path=ReservationsInProgress, UpdateSourceTrigger=PropertyChanged}" 
-                                      IsReadOnly="True" Focusable="False" Width="900" Height="290" Margin="10 10 10 10">
+                                      IsReadOnly="True" Focusable="False" Width="930" Height="290" Margin="10 10 10 10"
+                                      Style="{StaticResource OwnerDatagridStyle}" CellStyle="{StaticResource OwnerDatagridCellStyle}">
 
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="0.3*"></DataGridTextColumn>
@@ -190,16 +110,16 @@
 
                 </StackPanel>
 
-                <!-- DESNI DONJI STACK PANEL-->
-                <StackPanel Margin="20 0 0 0" Width="960" Orientation="Horizontal">
+                <!-- RIGHT BOTTOM STACK PANEL-->
+                <StackPanel Width="960" Orientation="Horizontal">
                     <!-- My Profile STACK PANEL-->
-                    <StackPanel Margin="0 0 0 0" Width="470">
+                    <StackPanel Width="480">
                         <TextBlock x:Name="tblMyProfile" Text="My Profile" 
-                           Style="{StaticResource ResourceKey=fancyTitle}">
+                           Style="{StaticResource OwnerTitleStyle}">
                         </TextBlock>
-                        <Border Style="{StaticResource ResourceKey=fancyBorder}">
-                            <StackPanel Width="430" Height="210" Orientation="Horizontal">
-                                <Border Style="{StaticResource fancyBorder}" Margin="10">
+                        <Border Style="{StaticResource OwnerBorderStyle}">
+                            <StackPanel Width="460" Height="210" Orientation="Horizontal">
+                                <Border Style="{StaticResource OwnerBorderStyle}" Margin="10">
                                     <Grid>
                                         <Image Source="../../../Resources/Images/profil.png"  Width="150" Height="170" Margin="15 15 20 0"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
                                         <Image x:Name="imgSuperFlag" Source="../../../Resources/Images/goldenHouse.png"  Width="70" Height="70" HorizontalAlignment="Right" VerticalAlignment="Top"/>
@@ -208,75 +128,81 @@
                                 <StackPanel Orientation="Vertical" Width="210" Margin="10">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Name:  " FontSize="20" HorizontalAlignment="Left" Margin="0 10 0 0"
-                                        Style="{StaticResource ResourceKey=fancyTitle}">
+                                        Style="{StaticResource OwnerTitleStyle}">
                                         </TextBlock>
                                         <TextBlock  Text="{Binding Path = Owner.Name, UpdateSourceTrigger = PropertyChanged}" 
                                                     FontSize="20" HorizontalAlignment="Left" Margin="0 10 0 0"
-                                                    Style="{StaticResource ResourceKey=fancyTitle}">
+                                                    Style="{StaticResource OwnerTitleStyle}">
                                         </TextBlock>
                                     </StackPanel>
 
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Surname:  " FontSize="20" HorizontalAlignment="Left" Margin="0 0 0 0"
-                                        Style="{StaticResource ResourceKey=fancyTitle}">
+                                        Style="{StaticResource OwnerTitleStyle}">
                                         </TextBlock>
                                         <TextBlock  Text="{Binding Path = Owner.Surname, UpdateSourceTrigger = PropertyChanged}" 
                                                     FontSize="20" HorizontalAlignment="Left" Margin="0 0 0 0"
-                                                    Style="{StaticResource ResourceKey=fancyTitle}">
+                                                    Style="{StaticResource OwnerTitleStyle}">
                                         </TextBlock>
                                     </StackPanel>
 
-
-
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Rating:  " FontSize="20" HorizontalAlignment="Left" Margin="0 0 0 0"
-                                        Style="{StaticResource ResourceKey=fancyTitle}">
+                                        Style="{StaticResource OwnerTitleStyle}">
                                         </TextBlock>
                                         <TextBlock  Text="{Binding Owner.AverageRating, StringFormat=N2}" 
                                                     FontSize="25" FontWeight="Bold" HorizontalAlignment="Left" Margin="0 -5 0 0"
-                                                    Style="{StaticResource ResourceKey=fancyTitle}">
+                                                    Style="{StaticResource OwnerTitleStyle}">
                                         </TextBlock>
 
                                     </StackPanel>
 
                                     <Button x:Name="btnLogout" Content="Log out (Esc)" 
                                             HorizontalAlignment="Left" Margin="10 10 10 10" Command="{Binding LogoutCommand}"
-                                            Width="180" Style="{StaticResource ResourceKey=fancyButtonStyle}">
+                                            Width="180" Style="{StaticResource OwnerButtonStyle}">
                                     </Button>
-
 
                                 </StackPanel>
                             </StackPanel>
                         </Border>
                     </StackPanel>
                     <!-- Notifications STACK PANEL-->
-                    <StackPanel Margin="0 0 0 0" Width="450">
+                    <StackPanel Width="480">
                         <TextBlock x:Name="tblNotifications" Text="Notifications" 
-                           Style="{StaticResource ResourceKey=fancyTitle}">
+                           Style="{StaticResource OwnerTitleStyle}">
                         </TextBlock>
-                        <Border Style="{StaticResource ResourceKey=fancyBorder}">
-                            <StackPanel Width="450" Height="210">
+                        <Border Style="{StaticResource OwnerBorderStyle}">
+                            <StackPanel Width="460" Height="210" Orientation="Vertical">
                                 
                                 <StackPanel x:Name="spNotifications">
                                     <!--
                                     <TextBox x:Name ="txtUnratedGuestsNotifications" Text="You have unrated guests, please rate them."
-                                           Style="{StaticResource ResourceKey=fancyNotifications}">
+                                           Style="{StaticResource OwnerNotificationsColor}">
                                     </TextBox>
-                                    
-                                    
+                                                                  
                                     <TextBox x:Name ="txtGuestsRequestsNotifications" Text="You have new guest requests, check them out."
-                                           Style="{StaticResource ResourceKey=fancyNotifications}">
+                                           Style="{StaticResource OwnerNotificationsColor}">
                                     </TextBox>
                                     -->
+                                    
                                 </StackPanel>
 
-                                    <ListView x:Name="lvNotifications" Margin="10 10 10 10" Width="420" Height="190" ItemsSource="{Binding Notifications}">
-                                        <ListView.View>
-                                            <GridView>
-                                                <GridViewColumn Width="410" DisplayMemberBinding="{Binding Message}" />
-                                            </GridView>
-                                        </ListView.View>
+                                    <ListView x:Name="lvNotifications" ItemsSource="{Binding Notifications}" Height="190" Margin="5">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Id">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBox Text="{Binding Message}"
+                                                        Style="{StaticResource OwnerNotificationsStyle}" HorizontalAlignment="Center">
+                                                        </TextBox>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
                                     </ListView>
+                                
                             </StackPanel>
                         </Border>
                     </StackPanel>

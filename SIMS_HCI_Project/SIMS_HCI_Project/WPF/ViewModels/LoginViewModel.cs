@@ -48,7 +48,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels
                 {
                     case UserRole.OWNER:
                         Window ownerView = new OwnerMainView(new Owner(user));
-                        ownerView.Show();
+                        ownerView.ShowDialog();
                         break;
                     case UserRole.GUEST1:
                         Window guest1View = new Guest1MainView(new Guest1(user));

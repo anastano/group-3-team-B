@@ -90,6 +90,19 @@ namespace SIMS_HCI_Project.Repositories
             NotifyObservers();
         }
 
+        public List<AccommodationReservation> OwnerSearch(string accommodationName, string guestName, string guestSurname, int ownerId)
+        {
+            List<AccommodationReservation> reservations = GetByOwnerId(ownerId);
+
+            var filtered = from _reservation in reservations
+                           where (string.IsNullOrEmpty(accommodationName) || _reservation.Accommodation.Name.ToLower().Contains(accommodationName.ToLower()))
+                           && (string.IsNullOrEmpty(guestName) || _reservation.Guest.Name.ToLower().Contains(guestName.ToLower()))
+                           && (string.IsNullOrEmpty(guestSurname) || _reservation.Guest.Surname.ToLower().Contains(guestSurname.ToLower()))
+                           select _reservation;
+
+            return filtered.ToList();
+        }
+
         public void NotifyObservers()
         {
             foreach (var observer in _observers)

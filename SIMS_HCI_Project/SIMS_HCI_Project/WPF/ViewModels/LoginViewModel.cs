@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels;
 
 namespace SIMS_HCI_Project.WPF.ViewModels
 {
@@ -51,6 +52,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels
                         break;
                     case UserRole.GUEST1:
                         Window guest1View = new Guest1MainView(new Guest1(user));
+                        /*{
+                            DataContext = new Guest1MainViewModel(new Guest1(user))
+                        };*/
                         guest1View.Show();
                         //win.Show();
 
@@ -59,7 +63,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels
                         // Window guest2View = new Guest2View(new Guest2(user.Id, user.Username, user.Password, user.Role));
                         //Window guest2View = null;
                         //guest2View.Show();
-                        Window guest2View = new Guest2MainView(new Guest2(user));
+                        Window guest2View = new Guest2View(new Guest2(user));
                         guest2View.Show();
                         break;
                     case UserRole.GUIDE:

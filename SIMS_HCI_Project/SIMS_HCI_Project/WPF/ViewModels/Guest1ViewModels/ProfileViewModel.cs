@@ -16,11 +16,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         private NotificationService _notificationService;
         public ObservableCollection<Notification> Notifications { get; set; }
         public Guest1 Guest { get; set; }
-        public ProfileView ProfileView { get; set; }
-        public ProfileViewModel(ProfileView profileView, Guest1 guest)
+        public ProfileViewModel(Guest1 guest)
         {
             _notificationService = new NotificationService();
-            ProfileView = profileView;
             Guest = guest;
             Notifications = new ObservableCollection<Notification>(_notificationService.GetUnreadByUserId(Guest.Id));
         }

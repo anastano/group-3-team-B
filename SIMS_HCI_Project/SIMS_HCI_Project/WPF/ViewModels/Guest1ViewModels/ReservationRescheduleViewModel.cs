@@ -22,18 +22,25 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
     {
         private AccommodationReservationService _accommodationReservationService;
         private RescheduleRequestService _rescheduleRequestService;
-        public ReservationRescheduleView ReservationRescheduleView { get; set; }
-        public Guest1MainView Guest1MainView { get; set; }
-        public ReservationsView ReservationsView { get; set; }
         public AccommodationReservation Reservation { get; set; }
         public ObservableCollection<RescheduleRequest> RescheduleRequests { get; set; }
         public RelayCommand SendReservationRescheduleRequestCommand { get; set; }
 
-        private Frame _frame;
-        public Frame Frame
+        private object _currentViewModel;
+
+        public object CurrentViewModel
+
         {
-            get { return _frame; }
-            set { _frame = value; }
+            get => _currentViewModel;
+            set
+            {
+                if (value != _currentViewModel)
+                {
+                    _currentViewModel = value;
+                    OnPropertyChanged();
+                }
+            }
+
         }
 
         private DateTime _wantedStart;
@@ -62,17 +69,30 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
+        private bool _isClosed;
+        public bool IsClosed
+        {
+            get { return _isClosed; }
+            set
+            {
+                _isClosed = value;
+                OnPropertyChanged(nameof(IsClosed));
+                if (value)
+                {
+                    Closed?.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
+        public event EventHandler Closed;
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        public ReservationRescheduleViewModel(ReservationRescheduleView reservationRescheduleView, AccommodationReservationService reservationService, AccommodationReservation reservation)
+        public ReservationRescheduleViewModel(AccommodationReservation reservation)
         {
-            _accommodationReservationService = reservationService;
+            _accommodationReservationService = new AccommodationReservationService();
             _rescheduleRequestService = new RescheduleRequestService(); 
-            ReservationRescheduleView = reservationRescheduleView;
-            Frame = ReservationRescheduleView.ReservationRescheduleFrame;
             Reservation = reservation;
             RescheduleRequests = new ObservableCollection<RescheduleRequest>(_rescheduleRequestService.GetAllByOwnerId(Reservation.Accommodation.OwnerId));
             WantedStart = DateTime.Now.AddDays(1);
@@ -134,7 +154,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             if (result == MessageBoxResult.Yes && IsValid)
             {
                _rescheduleRequestService.Add(new RescheduleRequest(Reservation, WantedStart, WantedEnd));
-                this.Frame.Navigate(new ReservationsView(_accommodationReservationService, Reservation.Guest));
+               IsClosed = true;
 
             }
         }

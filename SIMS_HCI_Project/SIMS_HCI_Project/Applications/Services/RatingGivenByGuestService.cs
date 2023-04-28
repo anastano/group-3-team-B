@@ -28,7 +28,10 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return _ratingRepository.GetAll();
         }
-
+        public RatingGivenByGuest GetByReservationId(int reservationId)
+        {
+            return _ratingRepository.GetByReservationId(reservationId);
+        }
         public List<RatingGivenByGuest> GetByOwnerId(int ownerId)
         {
             return _ratingRepository.GetByOwnerId(ownerId);
@@ -65,7 +68,7 @@ namespace SIMS_HCI_Project.Applications.Services
                 rating.Reservation = reservationService.GetById(rating.ReservationId);
             }
         }
-
+        ///Obrisati ovo gdje popunjava samo kod jednog
         public void FillAverageRatingAndSuperFlag(Owner owner)
         {
             FillAverageRating(owner);
@@ -95,7 +98,15 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return (GetByOwnerId(owner.Id).Count >= 2 && owner.AverageRating > 4.5);
         }
-
+        ///Nova dodata
+        public void FillAverageRatingAndSuperFlag(OwnerService ownerService)
+        {
+            foreach(Owner owner in ownerService.GetAll())
+            {
+                FillAverageRating(owner);
+                FillSuperFlag(owner);
+            }
+        }
         public void NotifyObservers()
         {
             _ratingRepository.NotifyObservers();

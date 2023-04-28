@@ -10,6 +10,7 @@ namespace SIMS_HCI_Project.Repositories
         List<RatingGivenByOwner> GetAll();
         RatingGivenByOwner GetById(int id);
         RatingGivenByOwner GetByReservationId(int reservationId);
+        List<RatingGivenByOwner> GetByGuestId(int ownerId);
         void NotifyObservers();
         void Save();
         void Subscribe(IObserver observer);

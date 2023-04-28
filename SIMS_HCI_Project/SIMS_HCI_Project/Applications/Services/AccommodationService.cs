@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SIMS_HCI_Project.Controller;
+using System.Runtime.InteropServices;
 
 namespace SIMS_HCI_Project.Applications.Services
 {
@@ -30,12 +31,18 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return _accommodationRepository.GetAll();
         }
-
         public List<Accommodation> GetByOwnerId(int ownerId)
         {
             return _accommodationRepository.GetByOwnerId(ownerId);
         }
-
+        public List<Accommodation> GetAllSortedBySuperFlag()
+        {
+            return _accommodationRepository.GetAllSortedBySuperFlag();
+        }
+        public List<Accommodation> Search(string name, string country, string city, string type, int guestsNumber, int reservationDays)
+        {
+            return _accommodationRepository.Search(name, country, city, type, guestsNumber, reservationDays);
+        }
         public List<string> GetImages(int id)
         {
             return _accommodationRepository.GetImages(id);
@@ -81,8 +88,7 @@ namespace SIMS_HCI_Project.Applications.Services
         public void Unsubscribe(IObserver observer)
         {
             _accommodationRepository.Unsubscribe(observer);
-        }
-        
+        }   
 
     }
 }

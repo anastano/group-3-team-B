@@ -14,8 +14,9 @@ using SIMS_HCI_Project.Applications.Services;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;                   // TODO: dodaj logout i tada podesi notifikacije na procitane
+using System.Windows.Controls.Primitives;                   
 using System.Windows.Input;
+using System.Windows.Navigation;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels 
 {
@@ -92,6 +93,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public TourTime TourTime { get; set; }
         public GuestTourAttendance GuestTourAttendance { get; set; }
         public Guest2MainView Guest2MainView { get; set; }
+        public NavigationService NavigationService { get; set; }
         #region PropertyChanged
         public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -100,10 +102,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         }
         #endregion
 
-        public Guest2MainViewModel(Guest2MainView guest2MainView, Guest2 guest)
+        public Guest2MainViewModel(Guest2MainView guest2MainView, Guest2 guest, NavigationService navigationService)
         {
             Guest2MainView = guest2MainView;
             Guest = guest;
+            NavigationService = navigationService;
             LoadFromFiles();
             InitCommands();
             MakeNotificationsForAttendanceConfirmation();
@@ -135,37 +138,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
         public void InitCommands()
         {
-            RateVisitedTours = new RelayCommand(ExecutedRateVisitedTours, CanExecuteRateVisitedTours);
-            SearchAndReserve = new RelayCommand(ExecutedSearchAndReserve, CanExecuteSearchAndReserve);
             ConfirmAttendance = new RelayCommand(ExecutedConfirmAttendance, CanExecuteConfirmAttendance);
             Logout = new RelayCommand(ExecutedLogout, CanExecuteLogout);
         }
         #region Commands
-        public void ExecutedRateVisitedTours(object obj)
-        {
-            Window win = new TourRatingView(Guest);
-            win.Show();
-            Guest2MainView.Close();
-        }
-        public bool CanExecuteRateVisitedTours(object obj)
-        {
-            return true;
-        }
+        
 
-        public void ExecutedSearchAndReserve(object obj)
-        {
-            Window win = new TourSearchView(Guest);
-            win.Show();
-            Guest2MainView.Close();
-        }
-        public bool CanExecuteSearchAndReserve(object obj)
-        {
-            return true;
-        }
+        
 
         public void ExecutedConfirmAttendance(object obj)
         {
-            MessageBox.Show("Do you want to confirm attendance on this Tour for all reservations?"); //ili napravi konstruktor GTA koji prihvata i rezervaciju kao parametar pa trazi po rezervaciji? okej je ovako ipak
+            MessageBox.Show("Do you want to confirm attendance on this Tour for all reservations?");
             MessageBoxButton messageBoxButton = MessageBoxButton.OK;
             _guestTourAttendanceService.ConfirmAttendanceForTourTime(SelectedActiveReservation.Guest2Id, SelectedActiveReservation.TourTimeId);
                
@@ -176,13 +159,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         {
             return true;
         }
-        public void ExecutedLogout(object obj)
+        public void ExecutedLogout(object obj) // prebaci da ide na listu obavestenja u novi page, pa da tu moze da oznaci da je procitano i da vidi detalje
         {
             foreach (Notification notification in _notificationService.GetUnreadByUserId(Guest.Id))
             {
                 _notificationService.MarkAsRead(notification.Id);
             }
-            Guest2MainView.Close();
         }
 
         public bool CanExecuteLogout(object obj)

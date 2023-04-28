@@ -9,6 +9,8 @@ namespace SIMS_HCI_Project.Repositories
         Accommodation GetById(int id);
         List<Accommodation> GetAll();
         List<Accommodation> GetByOwnerId(int id);
+        List<Accommodation> GetAllSortedBySuperFlag();
+        List<Accommodation> Search(string name, string country, string city, string type, int guestsNumber, int reservationDays);
         List<string> GetImages(int id);
         void NotifyObservers();
         void Delete(Accommodation accommodation);

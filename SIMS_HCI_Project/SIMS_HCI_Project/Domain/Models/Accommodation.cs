@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Domain.Models
 {
-    public enum AccomodationType { APARTMENT, HOUSE, HUT };
+    public enum AccommodationType { APARTMENT, HOUSE, HUT };
 
     public class Accommodation : ISerializable
     {
@@ -17,7 +17,7 @@ namespace SIMS_HCI_Project.Domain.Models
         public string Name { get; set; }
         public int LocationId { get; set; }
         public Location Location { get; set; }
-        public AccomodationType Type { get; set; }
+        public AccommodationType Type { get; set; }
 
         public int MaxGuests { get; set; }
         public int MinimumReservationDays { get; set; }
@@ -29,13 +29,13 @@ namespace SIMS_HCI_Project.Domain.Models
 
         public Accommodation()
         {
+            Location = new Location();
             MaxGuests = 1;
             MinimumReservationDays = 1;
             CancellationDeadlineInDays = 1;
             Images = new List<string>();
             Reservations = new List<AccommodationReservation>();
         }
-
         public Accommodation(Accommodation accommodation)
         {
             Id = accommodation.Id;
@@ -74,7 +74,7 @@ namespace SIMS_HCI_Project.Domain.Models
             OwnerId = Convert.ToInt32(values[1]);
             Name = values[2];
             LocationId = int.Parse(values[3]);
-            Enum.TryParse(values[4], out AccomodationType type);
+            Enum.TryParse(values[4], out AccommodationType type);
             Type = type;
             MaxGuests = int.Parse(values[5]);
             MinimumReservationDays = int.Parse(values[6]);

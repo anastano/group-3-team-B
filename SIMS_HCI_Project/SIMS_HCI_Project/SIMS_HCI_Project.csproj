@@ -8,17 +8,39 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\booking.png" />
+    <None Remove="Resources\Images\chat.png" />
     <None Remove="Resources\Images\goldenHouse.png" />
+    <None Remove="Resources\Images\logout.png" />
+    <None Remove="Resources\Images\menu.png" />
     <None Remove="Resources\Images\profil.png" />
+    <None Remove="Resources\Images\rating.png" />
+    <None Remove="Resources\Images\reserve.png" />
+    <None Remove="Resources\Images\search.png" />
+    <None Remove="Resources\Images\user.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
+    <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Images\booking.png" />
+    <Resource Include="Resources\Images\chat.png" />
     <Resource Include="Resources\Images\goldenHouse.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\logout.png" />
+    <Resource Include="Resources\Images\menu.png" />
     <Resource Include="Resources\Images\profil.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\rating.png" />
+    <Resource Include="Resources\Images\reserve.png" />
+    <Resource Include="Resources\Images\search.png" />
+    <Resource Include="Resources\Images\user.png" />
   </ItemGroup>
 
   <ItemGroup>

@@ -17,6 +17,8 @@ using System.Windows.Controls;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using LiveCharts;
+using LiveCharts.Wpf;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
@@ -30,6 +32,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public ObservableCollection<AccommodationReservation> ActiveReservations { get; set; }
         public ObservableCollection<AccommodationReservation> PastReservations { get; set; }
         public ObservableCollection<AccommodationReservation> CanceledReservations { get; set; }
+        public ObservableCollection<AccommodationReservation> Reservations { get; set; }
         public AccommodationReservation SelectedReservation { get; set; }
 
         public RelayCommand CancelReservationCommand { get; set; }
@@ -50,6 +53,35 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
+        private ChartValues<int> _cancelledCount;
+        public ChartValues<int> CancelledCount
+
+        {
+            get => new ChartValues<int> { CanceledReservations.Count };  
+            set
+            {
+                if (value != _cancelledCount)
+                {
+                    _cancelledCount = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private ChartValues<int> _reservationsCount;
+        public ChartValues<int> ReservationsCount
+
+        {
+            get => new ChartValues<int> { Reservations.Count };
+            set
+            {
+                if (value != _reservationsCount)
+                {
+                    _reservationsCount = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -64,10 +96,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             AddRescheduledReservations();
             PastReservations = new ObservableCollection<AccommodationReservation>(_reservationService.GetAllByStatusAndGuestId(Guest.Id, AccommodationReservationStatus.COMPLETED));
             CanceledReservations = new ObservableCollection<AccommodationReservation>(_reservationService.GetAllByStatusAndGuestId(Guest.Id,AccommodationReservationStatus.CANCELLED));
+            Reservations = new ObservableCollection<AccommodationReservation>(_reservationService.GetByGuestId(Guest.Id));
             _reservationService.Subscribe(this);
             InitCommands();
+            CanceledReservations.CollectionChanged += (s, e) => UpdateChart();
+            Reservations.CollectionChanged += (s, e) => UpdateChart();
         }
-
+        private void UpdateChart()
+        {
+            CancelledCount = new ChartValues<int> { CanceledReservations.Count };
+            ReservationsCount = new ChartValues<int> { Reservations.Count };
+        }
         #region Commands
         public void ExecutedCancelReservationCommand(object obj)
         {

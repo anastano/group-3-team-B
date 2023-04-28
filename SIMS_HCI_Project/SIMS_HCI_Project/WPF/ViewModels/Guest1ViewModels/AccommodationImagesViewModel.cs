@@ -9,22 +9,65 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
-    internal class AccommodationImagesViewModel
+    internal class AccommodationImagesViewModel : INotifyPropertyChanged
     {
         private readonly AccommodationReservationService _reservationService;
         private int _currentImageIndex = 0;
         public Accommodation Accommodation { get; set; }
-        public String Image { get; set; }
+        public Guest1 Guest { get; set; }
+        public int DaysNumber { get; set; }
+        public int GuestsNumber { get; set; }
+        public String Name { get; set; }
+
+        private String _image;
+        public String Image
+        {
+            get => _image;
+            set
+            {
+                if (value != _image)
+                {
+                    _image = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
         public RelayCommand NextImageCommand { get; set; }
         public RelayCommand PreviousImageCommand { get; set; }
-        public AccommodationImagesViewModel(Accommodation accommodation)
+        public RelayCommand BackCommand { get; set; }
+        private object _currentViewModel;
+        public object CurrentViewModel
+
+        {
+            get => _currentViewModel;
+            set
+            {
+                if (value != _currentViewModel)
+                {
+                    _currentViewModel = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        public AccommodationImagesViewModel(Accommodation accommodation, Guest1 guest, int guests, int days, string name)
         {
             _reservationService = new AccommodationReservationService();
             Accommodation = accommodation;
             Image = Accommodation.Images[_currentImageIndex];
+            Guest = guest;
+            GuestsNumber = guests;
+            DaysNumber = days;
+            Name = name;
             InitCommands();
         }
         private void ChangeOutrangeCurrentImageIndex()
@@ -44,8 +87,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _currentImageIndex++;
             ChangeOutrangeCurrentImageIndex();
             Image = Accommodation.Images[_currentImageIndex];
-           
-
+        }
+        public void ExecutedBackCommand(object obj)
+        {
+            CurrentViewModel = new AccommodationSearchViewModel(Guest, GuestsNumber, DaysNumber);
         }
         public void ExecutedPreviousImageCommand(object obj)
         {
@@ -63,6 +108,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             NextImageCommand = new RelayCommand(ExecutedNextImageCommand, CanExecute);
             PreviousImageCommand = new RelayCommand(ExecutedPreviousImageCommand, CanExecute);
+            BackCommand = new RelayCommand(ExecutedBackCommand, CanExecute);
 
         }
 

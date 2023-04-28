@@ -6,7 +6,7 @@
       xmlns:views="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest1Views"
       xmlns:viewmodels="clr-namespace:SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels"
       mc:Ignorable="d" 
-      d:DesignHeight="550" d:DesignWidth="800"
+      d:DesignHeight="702" d:DesignWidth="969"
       Background="#f5f5f5">
     <UserControl.Resources>
         <Style x:Key="circleButtonStyle" TargetType="Button">
@@ -91,9 +91,21 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <ListBox x:Name="lbImages" ItemsSource="{Binding Path=Images, UpdateSourceTrigger=PropertyChanged}"
-                    SelectedItem="{Binding Path=SelectedUrl, UpdateSourceTrigger=PropertyChanged}" 
-                                  Height="80" Width="320" BorderBrush="Turquoise" FontSize="16" ScrollViewer.VerticalScrollBarVisibility="Visible">
+                <ListBox x:Name="lbImages" ItemsSource="{Binding Path=Images}" Width="298" Height="111">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="3" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{Binding}" Width="85" Height="80"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+
                 </ListBox>
 
                 <Button x:Name="btnRemoveImage" Command="{Binding DataContext.RemoveImageCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  Content="(Del)" 

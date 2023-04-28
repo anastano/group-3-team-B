@@ -30,6 +30,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public RelayCommand PlusDaysNumberCommand { get; set; }
         public RelayCommand MinusDaysNumberCommand { get; set; }
         public RelayCommand SearchCommand { get; set; }
+        public RelayCommand ShowImagesCommand { get; set; }
         public RelayCommand ReserveAccommodationCommand { get; set; }
 
         private Accommodation _accommodation;
@@ -134,6 +135,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             Accommodations = _accommodationService.GetAllSortedBySuperFlag();
             InitCommands();
         }
+        public AccommodationSearchViewModel(Guest1 guest, int guests, int days)
+        {
+            _accommodationService = new AccommodationService();
+            _accommodationReservationService = new AccommodationReservationService();
+            Accommodation = new Accommodation();
+            GuestsNumber = guests;
+            DaysNumber = days;
+            Guest = guest;
+            Accommodations = _accommodationService.GetAllSortedBySuperFlag();
+            InitCommands();
+        }
         public void ExecutedReserveAccommodationCommand(object obj)
         {
             if (SelectedAccommodation != null)
@@ -151,6 +163,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public void ExecutedSearchCommand(object obj)
         {
             Accommodations = _accommodationService.Search(Accommodation.Name, Accommodation.Location.Country, Accommodation.Location.City, SelectedAccommodationType, GuestsNumber, DaysNumber);
+        }
+        public void ExecutedShowImagesCommand(object obj)
+        {
+            if(SelectedAccommodation != null)
+            {
+                CurrentViewModel = new AccommodationImagesViewModel(SelectedAccommodation, Guest, GuestsNumber, DaysNumber, Accommodation.Name);
+            }
         }
         public void ExecutedMinusGuestNumberCommand(object obj)
         {
@@ -182,6 +201,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             ReserveAccommodationCommand = new RelayCommand(ExecutedReserveAccommodationCommand, CanExecute);
             SearchCommand = new RelayCommand(ExecutedSearchCommand, CanExecute);
+            ShowImagesCommand = new RelayCommand(ExecutedShowImagesCommand, CanExecute);
             MinusGuestNumberCommand = new RelayCommand(ExecutedMinusGuestNumberCommand, CanExecute);
             PlusGuestNumberCommand = new RelayCommand(ExecutedPlusGuestNumberCommand, CanExecute);
             MinusDaysNumberCommand = new RelayCommand(ExecutedMinusDaysNumberCommand, CanExecute);

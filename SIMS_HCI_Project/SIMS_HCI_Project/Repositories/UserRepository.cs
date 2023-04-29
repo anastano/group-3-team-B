@@ -1,4 +1,5 @@
-﻿using SIMS_HCI_Project.Domain.Models;
+﻿using Microsoft.Win32;
+using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.FileHandlers;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,17 @@ namespace SIMS_HCI_Project.Repositories
         public UserRepository()
         {
             _fileHandler = new UserFileHandler();
+            Load();
+        }
+
+        private void Load()
+        {
             _users = _fileHandler.Load();
+        }
+
+        private void Save()
+        {
+            _fileHandler.Save(_users);
         }
 
         public User GetById(int id)
@@ -24,14 +35,27 @@ namespace SIMS_HCI_Project.Repositories
             return _users.Find(u => u.Id == id);
         }
 
-        public List<User> GetAll()
+        public User GetByUsername(string username)
         {
-            return _users;
+            return _users.FirstOrDefault(u => u.Username == username);
         }
 
-        public User GetByUsernameAndPassword(string username, string password)
+        public bool CheckIfUsernameExists(string username)
         {
-            return _users.FirstOrDefault(u => u.Username == username && u.Password == password);
+            return _users.Any(u => u.Username.Equals(username));
+        }
+
+        private int GenerateId()
+        {
+            return _users.Count == 0 ? 1 : _users[_users.Count-1].Id + 1;
+        }
+
+        public void Add(User newUser)
+        {
+            newUser.Id = GenerateId();
+            _users.Add(newUser);
+
+            Save();
         }
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Domain.Models
 {
-    public class TourKeyPoint : ISerializable
+    public class TourKeyPoint
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -20,21 +20,9 @@ namespace SIMS_HCI_Project.Domain.Models
             Title = title;
         }
 
-        public override string? ToString()
+        public override string? ToString() // Hm what/why this
         {
             return Title;
-        }
-
-        public string[] ToCSV()
-        {
-            string[] csvValues = { Id.ToString(), Title};
-            return csvValues;
-        }
-
-        public void FromCSV(string[] values)
-        {
-            Id = Convert.ToInt32(values[0]);
-            Title = values[1];
         }
     }
 }

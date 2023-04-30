@@ -8,7 +8,7 @@ using SIMS_HCI_Project.Serializer;
 namespace SIMS_HCI_Project.Domain.Models
 {
     public enum TourReservationStatus { CANCELLED, GOING };
-    public class TourReservation : ISerializable
+    public class TourReservation
     {
         public int Id { get; set; }
         public TourTime TourTime { get; set; }
@@ -40,23 +40,6 @@ namespace SIMS_HCI_Project.Domain.Models
             PartySize = temp.PartySize;
             Status = temp.Status;
 
-        }
-
-        public string[] ToCSV()
-        {
-            string[] csvValues = { Id.ToString(), TourTimeId.ToString(), Guest2Id.ToString(), PartySize.ToString(), Status.ToString(), VoucherUsedId.ToString() };
-            return csvValues;
-        }
-
-        public void FromCSV(string[] values)
-        {
-            Id = Convert.ToInt32(values[0]);
-            TourTimeId = Convert.ToInt32(values[1]);
-            Guest2Id = Convert.ToInt32(values[2]);
-            PartySize = Convert.ToInt32(values[3]);
-            Enum.TryParse(values[4], out TourReservationStatus status);
-            Status = status;
-            VoucherUsedId= Convert.ToInt32(values[5]);
         }
     }
 }

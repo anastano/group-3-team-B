@@ -9,7 +9,7 @@ namespace SIMS_HCI_Project.Domain.Models
 {
     public enum UserRole { OWNER, GUEST1, GUIDE, GUEST2 };
 
-    public class User : ISerializable
+    public class User : ISerializable // ISerializable left here because Owner and Guest1 csv files
     {
         public int Id { get; set; }
         public string Username { get; set; }

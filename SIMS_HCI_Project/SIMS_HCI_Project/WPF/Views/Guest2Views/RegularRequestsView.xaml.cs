@@ -1,4 +1,5 @@
-﻿using SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels;
+﻿using SIMS_HCI_Project.Domain.Models;
+using SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,11 +22,10 @@ namespace SIMS_HCI_Project.WPF.Views.Guest2Views
     /// </summary>
     public partial class RegularRequestsView : Page
     {
-        public RegularRequestsView()
+        public RegularRequestsView(Guest2 guest2, NavigationService navigationService)
         {
             InitializeComponent();
-            CreateRequestFrame.Content = new CreateRegularRequestView();
-            this.DataContext = new RegularRequestsViewModel();
+            this.DataContext = new RegularRequestsViewModel(this, guest2, navigationService, CreateRequestFrame);
         }
     }
 }

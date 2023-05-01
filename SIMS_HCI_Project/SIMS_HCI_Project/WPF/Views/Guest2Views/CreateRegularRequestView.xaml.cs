@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
 namespace SIMS_HCI_Project.WPF.Views.Guest2Views
 {
     /// <summary>
@@ -22,10 +23,10 @@ namespace SIMS_HCI_Project.WPF.Views.Guest2Views
     /// </summary>
     public partial class CreateRegularRequestView : Page
     {
-        public CreateRegularRequestView()
+        public CreateRegularRequestView(Guest2 guest, NavigationService navigationService)
         {
             InitializeComponent();
-            this.DataContext = new CreateRegularRequestViewModel();
+            this.DataContext = new CreateRegularRequestViewModel(guest, navigationService, this);
         }
     }
 }

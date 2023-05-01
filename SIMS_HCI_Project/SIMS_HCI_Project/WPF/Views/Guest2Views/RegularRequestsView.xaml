@@ -4,15 +4,18 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest2Views"
+      xmlns:viewmodels="clr-namespace:SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels"
       mc:Ignorable="d" 
       d:DesignHeight="490" d:DesignWidth="1080"
       Title="RegularRequestsView">
 
     <Grid Background="Tomato">
-        <DataGrid  Margin="10,31,10,320"/>
+        <DataGrid  Margin="10,31,10,325"/>
         <Label Content="My requests:" FontSize="15" Foreground="Beige" HorizontalAlignment="Left" Margin="10,1,0,0" VerticalAlignment="Top" Height="30" Width="150"/>
 
-        <Frame Name="CreateRequestFrame" NavigationUIVisibility="Hidden" Margin="0,195,0,0"/>
+        <Frame x:Name="CreateRequestFrame" NavigationUIVisibility="Hidden" Margin="0,195,0,0"/>
+        <Button x:Name="createNewRequest" Content="CREATE NEW REQUEST" Command="{Binding DataContext.CreateRequest, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" 
+            HorizontalAlignment="Left" Margin="10,170,0,0" VerticalAlignment="Top" Height="25" Width="174"/>
 
     </Grid>
 </Page>

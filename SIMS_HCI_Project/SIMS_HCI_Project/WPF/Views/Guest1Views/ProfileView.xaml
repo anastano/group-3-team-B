@@ -191,7 +191,7 @@
                         <StackPanel Orientation="Vertical" Width="420" Margin="10">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="1.6*"></ColumnDefinition>
+                                    <ColumnDefinition Width="1.5*"></ColumnDefinition>
                                     <ColumnDefinition Width="2*"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
@@ -205,8 +205,8 @@
                                            Style="{StaticResource ResourceKey=fancyTitle}">
                                 </TextBlock>
                                 <TextBox  Grid.Column="1" Grid.Row="0" Text="{Binding Path = FullName, UpdateSourceTrigger = PropertyChanged}" 
-                                                    FontSize="20" HorizontalAlignment="Left" Margin="0,25,0,0"
-                                            Style="{StaticResource ResourceKey=fancyTitleTxtBx}" Width="223" VerticalAlignment="Top"/>
+                                                    FontSize="20" HorizontalAlignment="Left" Margin="3,25,0,0"
+                                            Style="{StaticResource ResourceKey=fancyTitleTxtBx}" Width="220" VerticalAlignment="Top"/>
 
 
                                 <TextBlock Grid.Column="0" Grid.Row="1" Text="Super-guest:  " FontSize="20" HorizontalAlignment="Left" Margin="0 0 0 0"
@@ -214,14 +214,14 @@
                                 </TextBlock>
                                 <TextBox Grid.Row="1" Text="{Binding Path = Guest.Super, UpdateSourceTrigger = PropertyChanged}" 
                                                     FontSize="20" HorizontalAlignment="Left"
-                                             Style="{StaticResource ResourceKey=fancyTitleTxtBx}" Width="224" Margin="186,0,0,0" Grid.ColumnSpan="2"/>
+                                             Style="{StaticResource ResourceKey=fancyTitleTxtBx}" Width="227" Margin="3,0,0,0" Grid.Column="1"/>
 
                                 <TextBlock Grid.Column="0" Grid.Row="2" Text="Bonus points:  " FontSize="20" HorizontalAlignment="Left" Margin="0 0 0 0"
                                            Style="{StaticResource ResourceKey=fancyTitle}">
                                 </TextBlock>
                                 <TextBox Grid.Row="2" Text="{Binding Path = Guest.BonusPoints, UpdateSourceTrigger = PropertyChanged}" 
                                                     FontSize="20" HorizontalAlignment="Left"
-                                             Style="{StaticResource ResourceKey=fancyTitleTxtBx}" Width="224" Grid.ColumnSpan="2" Margin="186,0,0,0"/>
+                                             Style="{StaticResource ResourceKey=fancyTitleTxtBx}" Width="227" Margin="3,0,0,0" Grid.Column="1"/>
                                 <TextBlock Grid.Column="0" Grid.Row="3" Text="Rating:  " FontSize="20" HorizontalAlignment="Left" Margin="0 0 0 0"
                                            Style="{StaticResource ResourceKey=fancyTitle}">
                                 </TextBlock>

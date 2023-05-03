@@ -16,7 +16,7 @@ namespace SIMS_HCI_Project.WPF.Converters
         {
             double averageNumber = (double)value;
             double starNumber = (double)parameter;
-            return starNumber <= averageNumber ? Brushes.Yellow : Brushes.Transparent;
+            return starNumber <= averageNumber ? Brushes.Yellow : Brushes.White;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

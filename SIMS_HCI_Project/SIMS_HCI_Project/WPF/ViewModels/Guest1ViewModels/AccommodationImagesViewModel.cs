@@ -70,6 +70,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             Name = name;
             InitCommands();
         }
+        public AccommodationImagesViewModel(Accommodation accommodation)
+        {
+            _reservationService = new AccommodationReservationService();
+            Accommodation = accommodation;
+            Image = Accommodation.Images[_currentImageIndex];
+            InitCommands();
+        }
         private void ChangeOutrangeCurrentImageIndex()
         {
             if (_currentImageIndex < 0)

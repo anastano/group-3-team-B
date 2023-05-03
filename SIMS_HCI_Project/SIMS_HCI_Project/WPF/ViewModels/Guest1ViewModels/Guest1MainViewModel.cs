@@ -142,7 +142,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         }
         public void ExecutedShowProfileCommand(object obj)
         {
-            CurrentViewModel = (object)new ProfileViewModel(Guest);
+            CurrentViewModel = new ProfileViewModel(Guest);
+            SelectedItem = -1;
         }
         private void ExecutedChangePageCommand(object obj)
         {

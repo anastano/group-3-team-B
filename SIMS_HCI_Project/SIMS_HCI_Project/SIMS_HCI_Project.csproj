@@ -13,6 +13,9 @@
     <None Remove="Resources\Images\goldenHouse.png" />
     <None Remove="Resources\Images\logout.png" />
     <None Remove="Resources\Images\menu.png" />
+    <None Remove="Resources\Images\patternCircle.jpg" />
+    <None Remove="Resources\Images\patternLines.png" />
+    <None Remove="Resources\Images\patternTriangle.jpg" />
     <None Remove="Resources\Images\profil.png" />
     <None Remove="Resources\Images\rating.png" />
     <None Remove="Resources\Images\reserve.png" />
@@ -21,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="DotNetProjects.WpfToolkit.DataVisualization" Version="6.1.94" />
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
@@ -34,6 +38,9 @@
     </Resource>
     <Resource Include="Resources\Images\logout.png" />
     <Resource Include="Resources\Images\menu.png" />
+    <Resource Include="Resources\Images\patternCircle.jpg" />
+    <Resource Include="Resources\Images\patternLines.png" />
+    <Resource Include="Resources\Images\patternTriangle.jpg" />
     <Resource Include="Resources\Images\profil.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

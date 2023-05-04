@@ -150,11 +150,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             if (SelectedItem == 0)
             {
                 CurrentViewModel = new AccommodationSearchViewModel(Guest);
+                SelectedItem = -1;
                 CustomizeGridSize();
             }
             else if (SelectedItem == 1)
             {
                 CurrentViewModel = new ReservationsViewModel(Guest);
+                SelectedItem = -1;
                 CustomizeGridSize();
             }
             else if (SelectedItem == 2)

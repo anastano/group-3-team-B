@@ -9,6 +9,7 @@
              xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:charting="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=DotNetProjects.DataVisualization.Toolkit"
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="702" d:DesignWidth="969" Background="#f5f5f5">
@@ -254,15 +255,15 @@
             </TabItem>
             
             <TabItem Header="Canceled">
-            <Grid>
+                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2.5*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <DataGrid Grid.Column="0" ItemsSource="{Binding Path=CanceledReservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="25" AutoGenerateColumns="False" IsReadOnly="True"
                       SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}" GridLinesVisibility="Horizontal" RowHeight="100">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Accommodation Name" Binding="{Binding Accommodation.Name}" Width="2*">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Accommodation Name" Binding="{Binding Accommodation.Name}" Width="2*">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style TargetType="{x:Type DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -277,7 +278,7 @@
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                        <DataGridTextColumn Header="Start" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="2*">
+                            <DataGridTextColumn Header="Start" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="2*">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style TargetType="{x:Type DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -292,7 +293,7 @@
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                        <DataGridTextColumn Header="End" Binding="{Binding End, StringFormat='{}{0:MM/dd/yyyy}'}" Width="2*">
+                            <DataGridTextColumn Header="End" Binding="{Binding End, StringFormat='{}{0:MM/dd/yyyy}'}" Width="2*">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style TargetType="{x:Type DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -307,7 +308,7 @@
                                     </Style>
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
-                        <DataGridTextColumn Header="Guests" Binding="{Binding GuestNumber}" Width="SizeToHeader">
+                            <DataGridTextColumn Header="Guests" Binding="{Binding GuestNumber}" Width="SizeToHeader">
                                 <DataGridTextColumn.HeaderStyle>
                                     <Style TargetType="{x:Type DataGridColumnHeader}">
                                         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -339,17 +340,19 @@
                                 </DataGridTextColumn.ElementStyle>
                             </DataGridTextColumn>
                         </DataGrid.Columns>
-                </DataGrid>
+                    </DataGrid>
+
                     <lvc:PieChart Grid.Column="1" Width="250" Height="250" Hoverable="True" InnerRadius="0">
                         <lvc:PieChart.Series>
                             <lvc:PieSeries Title="Cancelled reservations" DataLabels="True" Values="{Binding CancelledCount}" >
                             </lvc:PieSeries>
-                                <lvc:PieSeries Title="Other reservations" DataLabels="True" Values="{Binding ReservationsCount}"></lvc:PieSeries>
+                            <lvc:PieSeries Title="Other reservations" DataLabels="True" Values="{Binding ReservationsCount}"></lvc:PieSeries>
                         </lvc:PieChart.Series>
-                            <lvc:PieChart.DataTooltip>
+                        <lvc:PieChart.DataTooltip>
                             <lvc:DefaultTooltip BulletSize="20"/>
                         </lvc:PieChart.DataTooltip>
                     </lvc:PieChart>
+
                 </Grid>
     </TabItem>
         </TabControl>

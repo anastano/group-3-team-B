@@ -226,16 +226,21 @@
                                            Style="{StaticResource ResourceKey=fancyTitle}">
                                 </TextBlock>
                                 <StackPanel Grid.Column="1" Grid.Row="3" Width="234" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
-                                    <Path x:Name="Star1" Stroke="Black" StrokeThickness="1" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding AverageRate, Converter={converters:StarFillConverter},
-                                     ConverterParameter={StaticResource StarOne} }" Width="45" Height="45" />
-                                    <Path x:Name="Star2" Stroke="Black" StrokeThickness="1" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding AverageRate, Converter={converters:StarFillConverter},
-                                     ConverterParameter={StaticResource StarTwo} }" Width="45" Height="45"/>
-                                    <Path x:Name="Star3" Stroke="Black" StrokeThickness="1" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding AverageRate, Converter={converters:StarFillConverter},
-                                     ConverterParameter={StaticResource StarThree} }" Width="45" Height="45"/>
-                                    <Path x:Name="Star4" Stroke="Black" StrokeThickness="1" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding AverageRate, Converter={converters:StarFillConverter},
-                                     ConverterParameter={StaticResource StarFour} }" Width="45" Height="45"/>
-                                    <Path x:Name="Star5" Stroke="Black" StrokeThickness="1" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding AverageRate, Converter={converters:StarFillConverter},
-                                     ConverterParameter={StaticResource StarFive} }" Width="45" Height="45"/>
+                                    <Path x:Name="Star1" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding AverageRate, Converter={converters:StarFillConverter},
+                                     ConverterParameter={StaticResource StarOne} }"
+                                          StrokeThickness="{Binding AverageRate, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarOne}}" Width="45" Height="45" />
+                                    <Path x:Name="Star2" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding AverageRate, Converter={converters:StarFillConverter},
+                                     ConverterParameter={StaticResource StarTwo} }"
+                                          StrokeThickness="{Binding AverageRate, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarTwo}}" Width="45" Height="45"/>
+                                    <Path x:Name="Star3" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding AverageRate, Converter={converters:StarFillConverter},
+                                     ConverterParameter={StaticResource StarThree} }" 
+                                          StrokeThickness="{Binding AverageRate, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarThree}}" Width="45" Height="45"/>
+                                    <Path x:Name="Star4" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding AverageRate, Converter={converters:StarFillConverter},
+                                     ConverterParameter={StaticResource StarFour} }"
+                                          StrokeThickness="{Binding AverageRate, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarFour}}" Width="45" Height="45"/>
+                                    <Path x:Name="Star5" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding AverageRate, Converter={converters:StarFillConverter},
+                                     ConverterParameter={StaticResource StarFive} }"
+                                          StrokeThickness="{Binding AverageRate, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarFive}}" Width="45" Height="45"/>
                                 </StackPanel>
                             </Grid>
                         </StackPanel>

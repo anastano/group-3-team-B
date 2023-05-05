@@ -35,6 +35,11 @@ namespace SIMS_HCI_Project.Applications.Services
             return _regularTourRequestRepository.GetAllByGuestId(id);
         }
 
+        public List<RegularTourRequest> GetAllByGuestIdNotPartOfComplex(int guestId)
+        {
+            return _regularTourRequestRepository.GetAllByGuestIdNotPartOfComplex(guestId);
+        }
+
         public List<RegularTourRequest> GetByGuestIdAndStatus(int ig, RegularRequestStatus status)
         {
             return _regularTourRequestRepository.GetByGuestIdAndStatus(ig, status);

@@ -13,6 +13,7 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         List<RegularTourRequest> GetAll();
         RegularTourRequest GetById(int id);
         List<RegularTourRequest> GetAllByGuestId(int guestId);
+        List<RegularTourRequest> GetAllByGuestIdNotPartOfComplex(int guestId);
         List<RegularTourRequest> GetByGuestIdAndStatus(int guestId, RegularRequestStatus status);
         void Add(RegularTourRequest request);
         int GenerateId();

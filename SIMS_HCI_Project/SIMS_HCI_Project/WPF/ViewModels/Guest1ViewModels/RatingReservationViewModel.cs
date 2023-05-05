@@ -153,7 +153,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         }
         public void ExecutedRecommentRenovationCommand(object obj)
         {
-            CurrentViewModel = new RecommendRenovationViewModel();
+            CurrentViewModel = new RenovationRecommendationViewModel();
         }
         public void ExecutedCancelReviewCommand(object obj)
         {

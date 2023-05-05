@@ -17,6 +17,8 @@ namespace SIMS_HCI_Project.Domain.Models
         public int Correctness { get; set; }
         public string AdditionalComment { get; set; }
         public List<string> Images { get; set; }
+        public int RenovationRecommendationId { get; set; }
+        public RenovationRecommendation RenovationRecommendation { get; set; }
 
         public RatingGivenByGuest()
         {

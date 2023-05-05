@@ -60,7 +60,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels      //main window wi
         }
         private void ExecuteNavigateToStatistics(object sender)
         {
-
+            NavigationService.Navigate(new StatisticsView(Guest2, NavigationService));
         }
         private void ExecuteNavigateToProfile(object sender)
         {

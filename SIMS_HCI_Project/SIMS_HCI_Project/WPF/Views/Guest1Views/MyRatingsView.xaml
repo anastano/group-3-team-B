@@ -11,7 +11,7 @@
     <UserControl.Resources>
         <converters:FullNameConverter x:Key="FullNameConverter" />
     </UserControl.Resources>
-    <Grid Margin="20">
+    <Grid Margin="25">
         <Grid.RowDefinitions>
             <RowDefinition Height = "*"/>
             <RowDefinition Height="1.5*"/>
@@ -39,9 +39,23 @@
                 <lvc:DefaultTooltip BulletSize="20"/>
             </lvc:CartesianChart.DataTooltip>
         </lvc:CartesianChart>
-        <DataGrid  Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding Path=RatingsGivenByOwners, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True">
+        <DataGrid  Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding Path=RatingsGivenByOwners, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                   AutoGenerateColumns="False" IsReadOnly="True" RowHeight="100" GridLinesVisibility="Horizontal">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Owner" Width="SizeToCells">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Setter Property="TextWrapping" Value="Wrap" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="TextAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
                     <DataGridTextColumn.Binding>
                         <MultiBinding Converter="{StaticResource FullNameConverter}">
                             <Binding Path="Reservation.Accommodation.Owner.Name" />
@@ -49,10 +63,66 @@
                         </MultiBinding>
                     </DataGridTextColumn.Binding>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Reservation Id" Binding="{Binding ReservationId}" Width="*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Cleanliness" Binding="{Binding Cleanliness}" Width="SizeToHeader"></DataGridTextColumn>
-                <DataGridTextColumn Header="Following the rules" Binding="{Binding RuleCompliance}" Width="SizeToHeader"></DataGridTextColumn>
-                <DataGridTextColumn Header="Additional comment" Binding="{Binding AdditionalComment}" Width="6*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Reservation Id" Binding="{Binding ReservationId}" Width="*">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Setter Property="TextWrapping" Value="Wrap" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="TextAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Cleanliness" Binding="{Binding Cleanliness}" Width="SizeToHeader">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Setter Property="TextWrapping" Value="Wrap" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="TextAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Following the rules" Binding="{Binding RuleCompliance}" Width="SizeToHeader">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Setter Property="TextWrapping" Value="Wrap" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="TextAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Additional comment" Binding="{Binding AdditionalComment}" Width="6*">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Setter Property="TextWrapping" Value="Wrap" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="TextAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
             

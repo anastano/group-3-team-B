@@ -18,6 +18,7 @@ namespace SIMS_HCI_Project.Repositories
 
         public RegularTourRequestRepository()
         {
+
             _fileHandler = new RegularTourRequestFileHandler();
             _requests = _fileHandler.Load();
         }
@@ -47,13 +48,12 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _requests.FindAll(r => r.GuestId == guestId && r.Status == status);
         }
+
         public void Add(RegularTourRequest request)
         {
             request.Id = GenerateId();
-            request.Location = _locationRepository.GetOrAdd(request.Location);
-            request.LocationId = request.Location.Id;
-
             _requests.Add(request);
+
             Save();
         }
 

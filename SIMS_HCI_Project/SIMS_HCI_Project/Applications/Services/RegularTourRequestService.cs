@@ -12,10 +12,12 @@ namespace SIMS_HCI_Project.Applications.Services
     public class RegularTourRequestService
     {
         private readonly IRegularTourRequestRepository _regularTourRequestRepository;
+        private readonly ILocationRepository _locationRepository;
 
         public RegularTourRequestService()
         {
             _regularTourRequestRepository = Injector.Injector.CreateInstance<IRegularTourRequestRepository>();
+            _locationRepository = Injector.Injector.CreateInstance<ILocationRepository>();
         }
 
         public RegularTourRequest GetById(int id)
@@ -45,6 +47,10 @@ namespace SIMS_HCI_Project.Applications.Services
 
         public void Add(RegularTourRequest request)
         {
+            request.Id = _regularTourRequestRepository.GenerateId();
+            request.Location = _locationRepository.GetOrAdd(request.Location);
+            request.LocationId = request.Location.Id;
+
             _regularTourRequestRepository.Add(request);
         }
     }

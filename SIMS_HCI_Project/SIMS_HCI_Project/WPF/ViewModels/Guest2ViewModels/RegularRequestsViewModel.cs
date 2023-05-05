@@ -29,6 +29,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         #endregion
         public RelayCommand CreateRequest { get; set; }
         public NavigationService NavigationService { get; set; }
+        private RegularTourRequestService _regularTourRequestService { get; set; }
         public RegularRequestsView RegularRequestsView { get; set; }
         public Guest2 Guest { get; set; }
 
@@ -64,7 +65,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             LoadFromFiles();
             InitCommands();
 
-            MyRequests = new ObservableCollection<RegularTourRequest>(); //getallbyguestid (ali one koje nisu deo slozene, dodaj to kao flag)
+            MyRequests = new ObservableCollection<RegularTourRequest>(_regularTourRequestService.GetAllByGuestId(Guest.Id)); //getallbyguestid (ali one koje nisu deo slozene, dodaj to kao flag)
         }
 
         private void InitCommands()
@@ -84,7 +85,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
         private void LoadFromFiles()
         {
-            
+            _regularTourRequestService = new RegularTourRequestService();
         }
     }
 }

@@ -95,6 +95,11 @@ namespace SIMS_HCI_Project.Applications.Services
             _reservationRepository.EditReservation(request);
         }
 
+        public List<AccommodationReservation>  OwnerSearch(string accommodationName, string guestName, string guestSurname, int ownerId)
+        {
+            return _reservationRepository.OwnerSearch(accommodationName, guestName, guestSurname, ownerId);
+        }
+
         public void ConnectReservationsWithAccommodations(AccommodationService accommodationService)
         {
             foreach (AccommodationReservation reservation in GetAll())
@@ -110,10 +115,7 @@ namespace SIMS_HCI_Project.Applications.Services
                 reservation.Guest = guest1Service.GetById(reservation.GuestId);
             }
         }
-        public void FillOwnerReservationList(Owner owner)
-        {
-            owner.Reservations = GetByOwnerId(owner.Id);
-        }
+
 
         public void ConvertReservedReservationIntoCompleted(DateTime currentDate)
         {

@@ -1,0 +1,157 @@
+﻿<Window x:Class="SIMS_HCI_Project.WPF.Views.OwnerViews.AddAccommodationView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
+        mc:Ignorable="d"
+        Title="AddAccommodationView" Height="670" Width="700" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+    </Window.Resources>
+
+    <Grid Background="Azure">
+        <!-- MAIN STACK PANEL-->
+        <StackPanel Margin="0 10 0 0">
+
+            <TextBlock x:Name="tblWelcome" Text="Register New Accommodation" 
+                       Style="{StaticResource OwnerTitleStyle}">
+            </TextBlock>
+
+            <Border Style="{StaticResource OwnerBorderStyle}">
+                <Grid Width="550" Height="500" Margin="10 10 10 10">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2.5*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="3*" />
+                    </Grid.RowDefinitions>
+
+                    <!-- LABEL -->
+                    <Label Content="Name: " Grid.Row="0" Grid.Column="0" 
+                           Style="{StaticResource OwnerLabelStyle}"></Label>
+                    <Label Content="Country: " Grid.Row="1" Grid.Column="0" 
+                           Style="{StaticResource OwnerLabelStyle}"></Label>
+                    <Label Content="City: " Grid.Row="2" Grid.Column="0" 
+                           Style="{StaticResource OwnerLabelStyle}"></Label>
+                    <Label Content="Type: " Grid.Row="3" Grid.Column="0" 
+                           Style="{StaticResource OwnerLabelStyle}"></Label>
+                    <Label Content="Maximum guests: " Grid.Row="4" Grid.Column="0" 
+                           Style="{StaticResource OwnerLabelStyle}"></Label>
+                    <Label Content="Minimum days: " Grid.Row="5" Grid.Column="0" 
+                           Style="{StaticResource OwnerLabelStyle}"></Label>
+                    <Label Content="Cancellation days: " Grid.Row="6" Grid.Column="0" 
+                           Style="{StaticResource OwnerLabelStyle}"></Label>
+                    <Label Content="Image URLs: " Grid.Row="7" Grid.Column="0" VerticalAlignment="Top" 
+                           Style="{StaticResource OwnerLabelStyle}"></Label>
+
+                    <!-- TEXTBOX-->
+                    <TextBox x:Name="txtName" Grid.Row="0" Grid.Column="1" 
+                             Text="{Binding Path = Accommodation.Name}"
+                             Style="{StaticResource OwnerTextBoxStyle}">
+                    </TextBox>
+
+                    <TextBox x:Name="txtLocationCountry" Grid.Row="1" Grid.Column="1"
+                             Text="{Binding Path = Location.Country}"
+                             Style="{StaticResource OwnerTextBoxStyle}">
+                    </TextBox>
+
+                    <TextBox x:Name="txtLocationCity" Grid.Row="2" Grid.Column="1" 
+                             Text="{Binding Path = Location.City}"
+                             Style="{StaticResource OwnerTextBoxStyle}">
+                    </TextBox>
+
+                    <ComboBox x:Name="txtType" Grid.Row="3" Grid.Column="1" 
+                              SelectedValuePath="Content" SelectedValue ="{Binding Path = Accommodation.Type}" 
+                              Width="320" Height="30" BorderThickness="2" FontSize="16" HorizontalAlignment="Left" Margin="0 0 0 0" HorizontalContentAlignment="Center">
+
+                        <ComboBoxItem Content="APARTMENT"/>
+                        <ComboBoxItem Content="HOUSE"/>
+                        <ComboBoxItem Content="HUT"/>
+
+                    </ComboBox>
+
+                    <TextBox x:Name="txtMaxGuestNumber" Grid.Row="4" Grid.Column="1" 
+                             Text="{Binding Path = Accommodation.MaxGuests, Mode=TwoWay}"
+                             Style="{StaticResource OwnerTextBoxStyle}" Width="150">
+                    </TextBox>
+
+
+
+                    <TextBox x:Name="txtMinDaysNumber" Grid.Row="5" Grid.Column="1" 
+                             Text="{Binding Path = Accommodation.MinimumReservationDays}"
+                             Style="{StaticResource OwnerTextBoxStyle}" Width="150">
+                    </TextBox>
+
+
+
+                    <TextBox x:Name="txtCancellationDeadLineInDays" Grid.Row="6" Grid.Column="1"  
+                             Text="{Binding Path = Accommodation.CancellationDeadlineInDays}"
+                             Style="{StaticResource OwnerTextBoxStyle}" Width="150">
+                    </TextBox>
+
+                    <!-- Image TextBox and ListView STACK PANEL-->
+                    <StackPanel Grid.Row="7" Grid.Column="1">
+
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  >
+
+                            <TextBox x:Name="txtPictureURL"  
+                                    Text="{Binding Path = ImageURL}" FontSize="14"
+                                    Style="{StaticResource OwnerTextBoxStyle}" Width="320" Height="45" TextWrapping="Wrap">
+                            </TextBox>
+
+                            <Button x:Name="btnAddImage" Content="(Ins)" Command="{Binding AddAccommodationImageCommand}"
+                                     Style="{StaticResource OwnerCircleButtonStyle}">
+                            </Button>
+
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Margin="0 5 0 5 ">
+
+                            <ListBox x:Name="lbImages" ItemsSource="{Binding Path=Images}"
+                                  Style="{StaticResource OwnerListBoxStyle}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="3" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source="{Binding}" Width="85" Height="80"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                                
+                            </ListBox>
+
+                            <Button x:Name="btnRemoveImage"  Content="(Del)" Command="{Binding RemoveAccommodationImageCommand}"
+                                Style="{StaticResource OwnerCircleButtonStyle}">
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <!-- Buttons STACK PANEL-->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="btnRegister" Content="Register (Ctrl+R)" Command="{Binding RegisterNewAccommodationCommand}"
+                    Style ="{StaticResource OwnerButtonStyle}" >
+                </Button>
+                <Button x:Name="btnCancel" Content="Cancel (Esc)"
+                    Style ="{StaticResource OwnerButtonStyle}">
+                </Button>
+            </StackPanel>
+
+        </StackPanel>
+
+    </Grid>
+</Window>

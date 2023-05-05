@@ -142,18 +142,21 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         }
         public void ExecutedShowProfileCommand(object obj)
         {
-            CurrentViewModel = (object)new ProfileViewModel(Guest);
+            CurrentViewModel = new ProfileViewModel(Guest);
+            SelectedItem = -1;
         }
         private void ExecutedChangePageCommand(object obj)
         {
             if (SelectedItem == 0)
             {
                 CurrentViewModel = new AccommodationSearchViewModel(Guest);
+                SelectedItem = -1;
                 CustomizeGridSize();
             }
             else if (SelectedItem == 1)
             {
                 CurrentViewModel = new ReservationsViewModel(Guest);
+                SelectedItem = -1;
                 CustomizeGridSize();
             }
             else if (SelectedItem == 2)

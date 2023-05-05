@@ -15,20 +15,20 @@
         <converters:ButtonToEnableConverter x:Key="ButtonToEnableConverter"/>
     </UserControl.Resources>
     <Grid Margin="15, 15, 15, 15">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="0.5*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="0.5*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="1.5*" />
-                <RowDefinition Height="0.5*" />
-                <RowDefinition Height="5*" />
-            </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.5*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="1.5*" />
+            <RowDefinition Height="0.5*" />
+            <RowDefinition Height="5*" />
+        </Grid.RowDefinitions>
         <Button Grid.Row="0" Grid.Column="0" Command="{Binding DataContext.BackCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Margin="0,0,0,0" Content="Back" FontSize="18" Width="80" HorizontalAlignment="Left"/>
         <Label Grid.Row="1" Grid.ColumnSpan="5" Content="{Binding Accommodation.Name}" HorizontalAlignment="Center" FontSize="25" Width="770"/>
         <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="0">
@@ -73,7 +73,7 @@
             <Label HorizontalAlignment="Left" Width="144">Number of Days</Label>
             <StackPanel Orientation="Horizontal">
                 <Button  Command="{Binding DataContext.MinusDaysNumberCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
-                        Margin="0,1,0,0" Content="-" FontSize="18" Width="20">
+                        Margin="0,0,0,0" Content="-" FontSize="18" Width="30">
                     <Button.IsEnabled>
                         <MultiBinding Converter="{StaticResource ButtonToEnableConverter}">
                             <Binding Path="DaysNumber" />
@@ -81,17 +81,17 @@
                         </MultiBinding>
                     </Button.IsEnabled>
                 </Button>
-                <TextBox HorizontalAlignment="Left" IsReadOnly="True" Text="{Binding Path = DaysNumber, UpdateSourceTrigger = PropertyChanged, Mode=TwoWay}" TextWrapping="Wrap"  Width="100"/>
-                <Button Command="{Binding DataContext.PlusDaysNumberCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Margin="0,1,0,0" Content="+" FontSize="18" Width="20"/>
+                <TextBox HorizontalAlignment="Left" Text="{Binding Path = DaysNumber, UpdateSourceTrigger = PropertyChanged, Mode=TwoWay}" TextWrapping="Wrap"  Width="100"/>
+                <Button Command="{Binding DataContext.PlusDaysNumberCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Margin="0,0,0,0" Content="+" FontSize="18" Width="30"/>
             </StackPanel>
         </StackPanel>
         <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="3">
             <Label HorizontalAlignment="Left" Width="144">Number of Guests</Label>
             <StackPanel Orientation="Horizontal">
-                <Button Content="-" Command="{Binding DataContext.MinusGuestNumberCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Margin="0,1,0,0" FontSize="18" Width="20"
+                <Button Content="-" Command="{Binding DataContext.MinusGuestNumberCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Margin="0,0,0,0" FontSize="18" Width="30"
                         IsEnabled ="{Binding GuestsNumber, Converter={StaticResource ButtonMinusConverter}}"/>
-                <TextBox HorizontalAlignment="Left" IsReadOnly="True" Text="{Binding Path = GuestsNumber, UpdateSourceTrigger = PropertyChanged}" Name="txtGuestNumber" Height="28" Margin="0,1,0,0" TextWrapping="Wrap" Width="100"/>
-                <Button Content="+" Command="{Binding DataContext.PlusGuestNumberCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" FontSize="18" Margin="0,1,0,0" Width="20">
+                <TextBox HorizontalAlignment="Left" IsReadOnly="True" Text="{Binding Path = GuestsNumber, UpdateSourceTrigger = PropertyChanged}" Name="txtGuestNumber" Height="30" Margin="0,0,0,0" TextWrapping="Wrap" Width="100"/>
+                <Button Content="+" Command="{Binding DataContext.PlusGuestNumberCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" FontSize="18" Margin="0,0,0,0" Width="30">
                     <Button.IsEnabled>
                         <MultiBinding Converter="{StaticResource ButtonPlusConverter}">
                             <Binding Path="GuestsNumber" />
@@ -101,7 +101,7 @@
                 </Button>
             </StackPanel>
         </StackPanel>
-        <Button Grid.Row="2" Grid.Column="4" Content="Search" Command="{Binding DataContext.SearchFreeCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" HorizontalAlignment="Left" Margin="10, 20, 0, 20" Width="60" />
+        <Button Grid.Row="2" Grid.Column="4" Content="Search" Command="{Binding DataContext.SearchFreeCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" HorizontalAlignment="Left" Margin="0, 25, 0, 0" Width="60" Height="30" VerticalAlignment="Top" />
         <Label Grid.Row="3" Grid.ColumnSpan="5" Content="{Binding SpecialText}" HorizontalAlignment="Center" FontSize="25"/>
         <DataGrid Grid.ColumnSpan="5" Grid.Row="4"
                   ItemsSource="{Binding Path=AvailableAccommodations, UpdateSourceTrigger=PropertyChanged}"
@@ -130,7 +130,7 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <ContentControl x:Name="UserControls" Content="{Binding CurrentViewModel}">
+        <ContentControl x:Name="UserControls" Content="{Binding CurrentViewModel}" Grid.ColumnSpan="5" Margin="-15,-15,-15,-15" Grid.RowSpan="5">
             <ContentControl.Resources>
                 <DataTemplate DataType="{x:Type viewmodels:AccommodationSearchViewModel}">
                     <views:AccommodationSearchView/>

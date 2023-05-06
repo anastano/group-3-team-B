@@ -49,10 +49,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
                 UpdateTopTourByYear();
             }
         }
-
         public GuideNavigationCommands NavigationCommands { get; set; }
-
-        public AllToursStatisticsViewModel(Guide guide)
+        public AllToursStatisticsViewModel()
         {
             _tourStatisticsService = new TourStatisticsService();
             _tourService = new TourService();

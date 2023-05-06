@@ -45,12 +45,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         private TourService _tourService;
 
-        private Guide _guide;
-
-        public AllToursViewModel(TourService tourService, Guide guide)
+        public AllToursViewModel(TourService tourService)
         {
             _tourService = tourService;
-            _guide = guide;
 
             LoadAllTours();
             InitCommands();
@@ -58,7 +55,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         private void LoadAllTours()
         {
-            AllTours = new ObservableCollection<Tour>(_tourService.GetAllTourInformationByGuide(_guide.Id));
+            AllTours = new ObservableCollection<Tour>(_tourService.GetAllTourInformationByGuide(((User)App.Current.Properties["CurrentUser"]).Id));
         }
 
         private void InitCommands()

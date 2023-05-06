@@ -21,14 +21,11 @@ namespace SIMS_HCI_Project.WPF.Views.GuideViews
     /// </summary>
     public partial class GuideMainView : Window
     {
-        private Guide Guide;
-
-        public GuideMainView(Guide guide)
+        public GuideMainView()
         {
             InitializeComponent();
-            Guide = guide;
 
-            this.DataContext = new GuideMainViewModel(guide);
+            this.DataContext = new GuideMainViewModel();
         }
     }
 }

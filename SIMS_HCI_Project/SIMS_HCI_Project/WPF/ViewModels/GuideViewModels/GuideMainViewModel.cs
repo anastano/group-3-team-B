@@ -54,15 +54,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             }
         }
 
-        public Guide Guide { get; set; }
-
         private TourService _tourService;
         private GuestTourAttendanceService _guestTourAttendanceService;
 
-        public GuideMainViewModel(Guide guide)
+        public GuideMainViewModel()
         {
-            Guide = guide;
-
             _tourService = new TourService();
             _guestTourAttendanceService = new GuestTourAttendanceService();
 
@@ -78,12 +74,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         private void LoadTourInProgress()
         {
-            TourInProgress = _tourService.GetActiveTour(Guide.Id);
+            TourInProgress = _tourService.GetActiveTour(((User)App.Current.Properties["CurrentUser"]).Id);
         }
 
         private void LoadTodaysTours()
         {
-            TodaysTours = new ObservableCollection<TourTime>(_tourService.GetTodaysToursByGuide(Guide.Id));
+            TodaysTours = new ObservableCollection<TourTime>(_tourService.GetTodaysToursByGuide(((User)App.Current.Properties["CurrentUser"]).Id));
         }
     }
 }

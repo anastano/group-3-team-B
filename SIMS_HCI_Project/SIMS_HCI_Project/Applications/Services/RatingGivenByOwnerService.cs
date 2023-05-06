@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Guest1 = SIMS_HCI_Project.Domain.Models.Guest1;
 
 namespace SIMS_HCI_Project.Applications.Services
 {
@@ -36,7 +37,18 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return _ratingRepository.GetAll();
         }
+        public double GetGuestAverageRate(Guest1 guest)
+        {
+            int ratingsSum = 0;
+            int counter = 0;
 
+            foreach (RatingGivenByOwner rating in GetByGuestId(guest.Id))
+            {
+                ratingsSum += rating.Cleanliness + rating.RuleCompliance;
+                counter += 2;
+            }
+            return counter == 0 ? 0 : (double)ratingsSum / counter;
+        }
         public List<AccommodationReservation> GetUnratedReservations(int ownerId, AccommodationReservationService reservationService)
         {
             List<AccommodationReservation> unratedReservations = new List<AccommodationReservation>();

@@ -1,7 +1,5 @@
-﻿using SIMS_HCI_Project.Domain.Models;
-using SIMS_HCI_Project.Observer;
-using SIMS_HCI_Project.WPF.Commands;
-using SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels;
+﻿using SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels;
+using SIMS_HCI_Project.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,14 +19,14 @@ using System.Windows.Shapes;
 namespace SIMS_HCI_Project.WPF.Views.Guest2Views
 {
     /// <summary>
-    /// Interaction logic for RateSelectedReservation.xaml
+    /// Interaction logic for CreateRegularRequestView.xaml
     /// </summary>
-    public partial class RateSelectedReservationView : Page
+    public partial class CreateRegularRequestView : Page
     {
-        public RateSelectedReservationView(Guest2 guest2, TourReservation tourReservation, NavigationService navigationSetvice)
+        public CreateRegularRequestView(Guest2 guest, NavigationService navigationService)
         {
             InitializeComponent();
-            this.DataContext = new RateSelectedReservationViewModel( guest2, tourReservation, this, navigationSetvice);
+            this.DataContext = new CreateRegularRequestViewModel(guest, navigationService, this);
         }
     }
 }

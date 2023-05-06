@@ -21,6 +21,7 @@ namespace SIMS_HCI_Project.Applications.Services
         private readonly ITourVoucherRepository _tourVoucherRepository;
         private readonly ITourReservationRepository _tourReservationRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IRegularTourRequestRepository _regularTourRequestRepository;
 
         private static bool _connectionsLoaded = false;
 
@@ -35,6 +36,7 @@ namespace SIMS_HCI_Project.Applications.Services
             _tourVoucherRepository = Injector.Injector.CreateInstance<ITourVoucherRepository>();
             _userRepository = Injector.Injector.CreateInstance<IUserRepository>();
             _tourReservationRepository = Injector.Injector.CreateInstance<ITourReservationRepository>();
+            _regularTourRequestRepository = Injector.Injector.CreateInstance<IRegularTourRequestRepository>();
         }
 
         public void LoadConnections()
@@ -46,6 +48,7 @@ namespace SIMS_HCI_Project.Applications.Services
             ConnectGuestAttendanceFields();
             ConnectRatingFields();
             ConnectTourReservationFields();
+            ConnectRegularTourRequestFields();
             _connectionsLoaded = true;
         }
 
@@ -99,6 +102,15 @@ namespace SIMS_HCI_Project.Applications.Services
             {
                 tourReservation.TourTime = _tourTimeRepository.GetById(tourReservation.TourTimeId);
                 tourReservation.TourVoucher = _tourVoucherRepository.GetById(tourReservation.VoucherUsedId);
+            }
+        }
+
+        public void ConnectRegularTourRequestFields()
+        {
+            foreach(RegularTourRequest request in _regularTourRequestRepository.GetAll())
+            {
+                request.Location = _locationRepository.GetById(request.LocationId);
+                request.Guest = new Guest2(_userRepository.GetById(request.GuestId));
             }
         }
     }

@@ -120,8 +120,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         }
         private void OnCurrentViewModelChanged()
         {
-            CurrentViewModel = _navigationService._navigationStore.CurrentViewModel;
-            Title = _navigationService._navigationStore.Title;
+            CurrentViewModel = _navigationService.NavigationStore.CurrentViewModel;
+            Title = _navigationService.NavigationStore.Title;
             OnPropertyChanged(nameof(CurrentViewModel));
             OnPropertyChanged(nameof(Title));
         }

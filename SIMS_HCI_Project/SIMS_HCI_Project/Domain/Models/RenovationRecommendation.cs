@@ -38,7 +38,7 @@ namespace SIMS_HCI_Project.Domain.Models
 
         public RenovationRecommendation()
         {
-            
+            Comment = " ";
         }
         public RenovationRecommendation(RenovationRecommendation renovationRecommendation)
         {

@@ -11,6 +11,7 @@ namespace SIMS_HCI_Project.Repositories
     {
         RenovationRecommendation GetById(int id);
         List<RenovationRecommendation> GetAll();
+        void Add(RenovationRecommendation recommendation);
         void Save();
     }
 }

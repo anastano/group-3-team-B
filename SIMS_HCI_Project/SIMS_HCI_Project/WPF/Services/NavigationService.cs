@@ -12,37 +12,44 @@ namespace SIMS_HCI_Project.WPF.Services
 {
     public class NavigationService
     {
-        public NavigationStore _navigationStore;
+        public NavigationStore NavigationStore;
         public event Action CurrentViewModelChanged;
+        public event Action RecommendationChanged;
         public NavigationService()
         {
-            _navigationStore = new NavigationStore();
+            NavigationStore = new NavigationStore();
         }
         public void Navigate(object viewModel, string title)
         {
-            _navigationStore.PreviousTitle = _navigationStore.Title;
-            _navigationStore.Title = title;
-            _navigationStore.PreviousViewModel = _navigationStore.CurrentViewModel;
-            _navigationStore.CurrentViewModel = viewModel;
+            NavigationStore.PreviousTitle = NavigationStore.Title;
+            NavigationStore.Title = title;
+            NavigationStore.PreviousViewModel = NavigationStore.CurrentViewModel;
+            NavigationStore.CurrentViewModel = viewModel;
+            NavigationStore.Recommendation = null;
             OnCurrentViewModelChanged();
         }
         public void NavigateBack()
         {
-            _navigationStore.Title = _navigationStore.PreviousTitle;
-            object temp = _navigationStore.PreviousViewModel;
-            _navigationStore.PreviousViewModel = _navigationStore.CurrentViewModel;
-            _navigationStore.CurrentViewModel = temp;
+            NavigationStore.Title = NavigationStore.PreviousTitle;
+            object temp = NavigationStore.PreviousViewModel;
+            NavigationStore.PreviousViewModel = NavigationStore.CurrentViewModel;
+            NavigationStore.CurrentViewModel = temp;
             OnCurrentViewModelChanged();
         }
         public void ExecuteRecommendation(RenovationRecommendation recommendation)
         {
-            _navigationStore.Recommendation = recommendation;
+            NavigationStore.Recommendation = recommendation;
             NavigateBack();
             OnCurrentViewModelChanged();
+            OnRecommendationChanged();
         }
         private void OnCurrentViewModelChanged()
         {
             CurrentViewModelChanged?.Invoke();
+        }
+        private void OnRecommendationChanged()
+        {
+            RecommendationChanged?.Invoke();
         }
     }
 }

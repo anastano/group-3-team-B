@@ -36,10 +36,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        public RenovationRecommendationViewModel(NavigationService navigationService)
+        public RenovationRecommendationViewModel(NavigationService navigationService, RenovationRecommendation recommendation)
         {
             _navigationService = navigationService;
-            Recommendation = new RenovationRecommendation();
+            Recommendation = recommendation;
             InitCommands();
         }
         public void ExecutedRecommendRenovationCommand(object obj)
@@ -49,7 +49,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         }
         public void ExecutedCancelRecommendationCommand(object obj)
         {
-            //Recommendation = null;
+            //potencijalno napravili metodu koja canceluje ovo na null
+            _navigationService.NavigationStore.Recommendation = null;
             _navigationService.NavigateBack();
 
         }

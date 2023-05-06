@@ -1,5 +1,6 @@
 ﻿using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.FileHandlers;
+using SIMS_HCI_Project.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,12 @@ namespace SIMS_HCI_Project.Repositories
         public List<RenovationRecommendation> GetAll()
         {
             return _recommendations;
+        }
+        public void Add(RenovationRecommendation recommendation)
+        {
+            recommendation.Id = GenerateId();
+            _recommendations.Add(recommendation);
+            Save();
         }
     }
 }

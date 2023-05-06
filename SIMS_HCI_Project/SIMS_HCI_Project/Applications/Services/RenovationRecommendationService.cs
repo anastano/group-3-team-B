@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace SIMS_HCI_Project.Applications.Services
 {
@@ -25,6 +26,15 @@ namespace SIMS_HCI_Project.Applications.Services
         public List<RenovationRecommendation> GetAll()
         {
             return _recommendationRepository.GetAll();
+        }
+        public void Add(RenovationRecommendation recommendation, RatingGivenByGuest rating)
+        {
+            if (recommendation != null)
+            {
+                recommendation.RatingId = rating.Id;
+                recommendation.Rating = rating;
+                _recommendationRepository.Add(recommendation);
+            }
         }
         public void ConnectRecommendationsWithRatings(RatingGivenByGuestService ratingService)
         {

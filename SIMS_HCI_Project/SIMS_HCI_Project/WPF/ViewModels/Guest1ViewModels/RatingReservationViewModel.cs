@@ -14,6 +14,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.DataVisualization;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
@@ -22,28 +23,16 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         private NavigationService _navigationService;
         private AccommodationReservationService _accommodationReservationService;
         private RatingGivenByGuestService _ratingService;
+        private RenovationRecommendationService _recommendationService;
         public AccommodationReservation Reservation { get; set; }
         public RelayCommand ReviewReservationCommand { get; set; }
         public RelayCommand CancelReviewCommand { get; set; }
         public RelayCommand RemoveImageCommand { get; set; }
         public RelayCommand AddImageCommand { get; set; }
         public RelayCommand RecommendRenovationCommand { get; set; }
+        public RenovationRecommendation Recommendation { get; set; }
         public ObservableCollection<string> Images { get; set; }
         public String SelectedUrl { get; set; }
-        private object _currentViewModel;
-        public object CurrentViewModel
-
-        {
-            get => _currentViewModel;
-            set
-            {
-                if (value != _currentViewModel)
-                {
-                    _currentViewModel = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
         private String _owner;
         public String Owner
         {
@@ -70,7 +59,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
-
         private String _imageUrl;
         public String ImageUrl
         {
@@ -80,6 +68,19 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 if (value != _imageUrl)
                 {
                     _imageUrl = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private bool _isFilled;
+        public bool IsFilled
+        {
+            get => _isFilled;
+            set
+            {
+                if (value != _isFilled)
+                {
+                    _isFilled = value;
                     OnPropertyChanged();
                 }
             }
@@ -94,33 +95,48 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public RatingReservationViewModel(AccommodationReservation reservation, NavigationService navigationService)
         {
             _navigationService = navigationService;
+            _navigationService.RecommendationChanged += OnRecommendationChanged;
             _accommodationReservationService = new AccommodationReservationService();
             _ratingService = new RatingGivenByGuestService();
+            _recommendationService = new RenovationRecommendationService();
             Reservation = reservation;
             Images = new ObservableCollection<string>();
             Owner = Reservation.Accommodation.Owner.Name + " " + Reservation.Accommodation.Owner.Surname;
             Rating = new RatingGivenByGuest();
+            Rating.ReservationId = Reservation.Id;
+            Rating.Reservation = Reservation;
+            Recommendation = new RenovationRecommendation();
             InitialProperties(); 
             InitCommands();
+        }
+        private void OnRecommendationChanged()
+        {
+            Recommendation = _navigationService.NavigationStore.Recommendation;
+            IsFilled = true;
+
+
         }
         public void InitialProperties()
         {
             ImageUrl = " ";
+            IsFilled = false;
         }
         public void ExecutedReviewReservationCommand(object obj)
         {
-            //ovaj objekat cemo u konstruktor staviti
-            //Rating.RenovationRecommendation = _navigationService._navigationstore.Recommendation;
-            //_ratingService.RateReservation(_accommodationReservationService, new RatingGivenByGuest(Reservation.Id, Cleanliness, Correcntess, AdditionalComment, new List<string>(Images)));
+            RatingGivenByGuest addedRating = _ratingService.RateReservation(_accommodationReservationService, Rating);
+            _recommendationService.Add(_navigationService.NavigationStore.Recommendation, addedRating);
+            List<RatingGivenByGuest> addedRatingList = _ratingService.GetAll();
+            List<RenovationRecommendation> suggests = _recommendationService.GetAll();
             _navigationService.Navigate(new ReservationsViewModel(Reservation.Guest, _navigationService), "My Reservations");
         }
         public void ExecutedRecommendRenovationCommand(object obj)
         {
-            _navigationService.Navigate(new RenovationRecommendationViewModel(_navigationService), "Recommend renovation");
+            _navigationService.Navigate(new RenovationRecommendationViewModel(_navigationService, Recommendation), "Recommend renovation");
         }
         public void ExecutedCancelReviewCommand(object obj)
         {
-            _navigationService.NavigateBack();
+            //ne moze back jer ako smo usli u recommend onda nam je to prethodni
+            _navigationService.Navigate(new ReservationsViewModel(Reservation.Guest, _navigationService), "My Reservations");
         }
         public void ExecutedRemoveImageCommand(object obj)
         {
@@ -129,7 +145,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 Rating.Images.Remove(SelectedUrl);
                 Images.Remove(SelectedUrl);
             }
-
         }
         public void ExecutedAddImageCommand(object obj)
         {

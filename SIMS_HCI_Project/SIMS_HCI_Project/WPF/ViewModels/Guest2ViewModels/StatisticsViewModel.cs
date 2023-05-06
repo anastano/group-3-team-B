@@ -26,6 +26,54 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         private TourRequestsStatisticsService _tourRequestsStatisticsService;
         public TourRequestsStatisticsByStatus TourRequestsStatisticsByStatus { get; set; }
 
+        public int CountAccepted { get; set; }
+        public int CountPending { get; set; }
+        public int CountInvalid { get; set; }
+
+        private ChartValues<int> _acceptedCount;
+        public ChartValues<int> AcceptedCount
+
+        {
+            get => new ChartValues<int> { TourRequestsStatisticsByStatus.RequestsNumberByStatus[RegularRequestStatus.ACCEPTED] };
+            set
+            {
+                if (value != _acceptedCount)
+                {
+                    _acceptedCount = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private ChartValues<int> _invalidCount;
+        public ChartValues<int> InvalidCount
+
+        {
+            get => new ChartValues<int> { TourRequestsStatisticsByStatus.RequestsNumberByStatus[RegularRequestStatus.INVALID] };
+            set
+            {
+                if (value != _invalidCount)
+                {
+                    _invalidCount = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        private ChartValues<int> _pendingCount;
+        public ChartValues<int> PendingCount
+
+        {
+            get => new ChartValues<int> { TourRequestsStatisticsByStatus.RequestsNumberByStatus[RegularRequestStatus.PENDING] };
+            set
+            {
+                if (value != _pendingCount)
+                {
+                    _pendingCount = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         private int? _selectedYear;
         public int? SelectedYear
         {
@@ -102,9 +150,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
             TourRequestsStatisticsByStatus = _tourRequestsStatisticsService.GetTourRequestsStatisticsByStatus(Guest2.Id);
 
-            
+            CountAccepted = TourRequestsStatisticsByStatus.RequestsNumberByStatus[RegularRequestStatus.ACCEPTED];
+            CountPending = TourRequestsStatisticsByStatus.RequestsNumberByStatus[RegularRequestStatus.PENDING];
+            CountInvalid = TourRequestsStatisticsByStatus.RequestsNumberByStatus[RegularRequestStatus.INVALID];
 
-            _requestStatusSummary = new ObservableCollection<LiveCharts.Wpf.PieSeries>
+
+        //TourRequestsStatisticsByStatus.RequestsNumberByStatus();
+
+        _requestStatusSummary = new ObservableCollection<LiveCharts.Wpf.PieSeries>
         {
             new LiveCharts.Wpf.PieSeries
             {
@@ -124,6 +177,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         };
 
             Requests = new List<RegularTourRequest>(_regularTourRequestService.GetAllByGuestId(Guest2.Id));
+        }
+
+        public void GetFieldsByStatus(int guestId, RegularRequestStatus status)
+        {
+            
         }
 
         private void InitCommands()

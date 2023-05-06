@@ -19,51 +19,18 @@
             <ComboBoxItem Content="2022" />
             <ComboBoxItem Content="2021" />
         </ComboBox>
-        <!--lvc:PieChart Hoverable="True" Margin="242,74,631,282" Series="{Binding StatusSummary}">
-            <lvc:PieChart.Series>
-                <lvc:PieSeries Title="Accepted requests" DataLabels="True" Values="1.2" ></lvc:PieSeries>
-                <lvc:PieSeries Title="Invalid requests" DataLabels="True" Values="4"></lvc:PieSeries>
-                <lvc:PieSeries Title="Pending requests" DataLabels="True" Values="5"></lvc:PieSeries>
-            </lvc:PieChart.Series>
-            <lvc:PieChart.DataTooltip>
-                <lvc:DefaultTooltip BulletSize="15"/>
-            </lvc:PieChart.DataTooltip>
-        </lvc:PieChart-->
-
-        <lvc:PieChart x:Name="prvi" LegendLocation="Right" Margin="229,74,511,259" Background="Aquamarine" Visibility="Visible">
+        
+        <lvc:PieChart x:Name="drugi" Margin="249,87,540,235" LegendLocation="Right">
             <lvc:PieChart.Series >
-                <lvc:PieSeries Title="Accepted requests" DataLabels="True" Values="2.3" ></lvc:PieSeries>
-                <lvc:PieSeries Title="Invalid requests" DataLabels="True" Values="3.6"></lvc:PieSeries>
-                <lvc:PieSeries Title="Pending requests" DataLabels="True" Values="5.1"></lvc:PieSeries>
+                <lvc:PieSeries Title="Accepted requests" DataLabels="True" Values="{Binding AcceptedCount}" ></lvc:PieSeries>
+                <lvc:PieSeries Title="Invalid requests" DataLabels="True" Values="{Binding InvalidCount}"></lvc:PieSeries>
+                <lvc:PieSeries Title="Pending requests" DataLabels="True" Values="{Binding PendingCount}"></lvc:PieSeries>
             </lvc:PieChart.Series>
             <lvc:PieChart.DataTooltip>
                 <lvc:DefaultTooltip />
             </lvc:PieChart.DataTooltip>
         </lvc:PieChart>
 
-        <!--lvc:PieChart x:Name="drugi" Margin="626,58,84,204" LegendLocation="Bottom">
-            <lvc:PieChart.Series >
-                <lvc:PieSeries Title="Accepted requests" DataLabels="True" Values="{Binding RequestStatusSummaryAAA}" ></lvc:PieSeries>
-                <lvc:PieSeries Title="Invalid requests" DataLabels="True" Values="{Binding RequestStatusSummaryAAA}"></lvc:PieSeries>
-                <lvc:PieSeries Title="Pending requests" DataLabels="True" Values="{Binding RequestStatusSummaryAAA}"></lvc:PieSeries>
-            </lvc:PieChart.Series>
-            <lvc:PieChart.DataTooltip>
-                <lvc:DefaultTooltip />
-            </lvc:PieChart.DataTooltip>
-        </lvc:PieChart-->
-
-
-        <!--sbase:Chart Margin="10" Title="Tour Request Status Summary">
-            <base:Chart.Series>
-                <lvc:Series Title="Tour Request Status Summary" ItemsSource="{Binding RequestStatusSummary}">
-                    <lvc:Series.DataTemplate>
-                        <DataTemplate>
-                            <lvc:PieSeries Title="{Binding Title}" DataLabels="{Binding DataLabels}" ItemsSource="{Binding Values}" />
-                        </DataTemplate>
-                    </lvc:Series.DataTemplate>
-                </lvc:Series>
-            </base:Chart.Series>
-        </base:Chart-->
 
         <lvc:CartesianChart Name="AAA"  Hoverable="True" Margin="44,283,626,32" LegendLocation="Right">
             <lvc:CartesianChart.Series>

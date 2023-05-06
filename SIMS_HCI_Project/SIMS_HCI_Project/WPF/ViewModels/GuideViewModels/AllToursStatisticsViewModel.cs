@@ -49,7 +49,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             }
         }
 
-        public AllToursStatisticsViewModel(Guide guide)
+        public AllToursStatisticsViewModel()
         {
             _tourStatisticsService = new TourStatisticsService();
             _tourService = new TourService();

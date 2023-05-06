@@ -1,6 +1,7 @@
 ﻿using SIMS_HCI_Project.Applications.Services;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands;
+using SIMS_HCI_Project.WPF.Commands.Global;
 using SIMS_HCI_Project.WPF.Views.GuideViews;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 {
@@ -32,6 +34,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         public RelayCommand AddImage { get; set; }
         public RelayCommand RemoveImage { get; set; }
         public RelayCommand SubmitForm { get; set; }
+        public GuideNavigationCommands NavigationCommands { get; set; }
         #endregion
 
         #region newDepartureDate
@@ -118,6 +121,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             AddImage = new RelayCommand(ExecutedAddImageCommand, CanExecuteCommand);
             RemoveImage = new RelayCommand(ExecutedRemoveImageCommand, CanExecuteCommand);
             SubmitForm = new RelayCommand(ExecutedSubmitFormCommand, CanExecuteCommand);
+            NavigationCommands = new GuideNavigationCommands();
         }
 
         private void ExecutedAddKeyPointCommand(object obj)

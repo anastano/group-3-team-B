@@ -6,6 +6,13 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.GuideViews"
         mc:Ignorable="d"
         Title="TourStatisticsView" Height="550" Width="450"  WindowStartupLocation="CenterScreen" FontSize="20">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/GuideStyles.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <DataGrid ItemsSource="{Binding TourStatistics.GuestNumbersByAge}" Margin="58,23,49,326" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>

@@ -1,5 +1,6 @@
 ﻿using SIMS_HCI_Project.Applications.Services;
 using SIMS_HCI_Project.Domain.Models;
+using SIMS_HCI_Project.WPF.Commands.Global;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -48,7 +49,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
                 UpdateTopTourByYear();
             }
         }
-
+        public GuideNavigationCommands NavigationCommands { get; set; }
         public AllToursStatisticsViewModel()
         {
             _tourStatisticsService = new TourStatisticsService();
@@ -60,11 +61,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             SelectedYear = YearsWithTours.First();
 
             UpdateTopTourByYear();
+            InitCommands();
         }
 
         private void UpdateTopTourByYear()
         {
             SelectedYearTopTour = _tourStatisticsService.GetTopTourByYear(SelectedYear);
+        }
+
+        private void InitCommands()
+        {
+            NavigationCommands = new GuideNavigationCommands();
         }
     }
 }

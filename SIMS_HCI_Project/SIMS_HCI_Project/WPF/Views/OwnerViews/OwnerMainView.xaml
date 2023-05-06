@@ -41,7 +41,7 @@
                         Style="{StaticResource OwnerButtonStyle}">
                         </Button>
 
-                        <Button x:Name="btnRenovations" Content="Renovations                       (3)" 
+                        <Button x:Name="btnRenovations" Content="Renovations                       (3)" Command="{Binding ShowRenovationsCommand}"
                         Style="{StaticResource OwnerButtonStyle}">
                         </Button>
 

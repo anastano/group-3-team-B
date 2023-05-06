@@ -1,0 +1,85 @@
+﻿<Window x:Class="SIMS_HCI_Project.WPF.Views.OwnerViews.RenovationsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
+        mc:Ignorable="d"
+        Title="RenovationsView" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
+    <Grid Background="{StaticResource OwnerNeutralColor}">
+        <!-- MAIN STACK PANEL-->
+        <StackPanel Orientation="Vertical" Margin="10 5 10 5">
+            <!-- TOP STACK PANEL - Options-->
+            <StackPanel Margin="5 5 5 5">
+                <TextBlock x:Name="tblOptions" Text="Options" 
+                       Style="{StaticResource OwnerTitleStyle}">
+                </TextBlock>
+                <Border Style="{StaticResource OwnerBorderStyle}">
+                    <!-- Buttons STACK PANEL-->
+                    <StackPanel  Margin="5 0 5 5" Orientation="Horizontal">
+                        <Button x:Name="btnAddRenovation"  Content="         Add New &#xa;Renovation (Ctrl+A)"
+                            Style="{StaticResource OwnerButtonStyle}" Width="220">
+                        </Button>
+                        <Button x:Name="btnCancelRenovation"  Content="    Cancel Selected &#xa;Renovation (Ctrl+C)" 
+                            Style="{StaticResource OwnerButtonStyle}" Width="220">
+                        </Button>
+                        <Button x:Name="btnCreatePDFReport"  Content="Create PDF Report (Ctrl+R)" 
+                            Style="{StaticResource OwnerButtonStyle}" Width="220">
+                        </Button>
+                        <Button x:Name="btnClose"  Content="Close (Esc)"
+                            Style="{StaticResource OwnerButtonStyle}" Width="220">
+                        </Button>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+            <!-- MIDDLE STACK PANEL-->
+            <StackPanel Margin="5 0 5 0">
+
+                <TextBlock x:Name="tblRenovations" Text="My renovations" 
+                           Style="{StaticResource OwnerTitleStyle}">
+                </TextBlock>
+                <Border Style="{StaticResource OwnerBorderStyle}">
+                    <!-- DataGrid STACKPANEL-->
+                    <StackPanel Margin="0 0 0 0">
+                        <DataGrid x:Name = "dgRenovations" AutoGenerateColumns="False" ItemsSource="{Binding Path=Renovations, UpdateSourceTrigger=PropertyChanged}" 
+                                      SelectedItem="{Binding Path=SelectedRenovation, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Focusable="True"
+                                      Width="930" Height="330" Margin="10 10 10 10" CanUserSortColumns="True" SelectionMode="Single" IsTabStop="False"
+                                      Style="{StaticResource OwnerDatagridStyle}" CellStyle="{StaticResource OwnerDatagridCellStyle}">
+
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="0.4*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Accommodation Name" Binding="{Binding Accommodation.Name}" Width="2*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="City" Binding="{Binding Accommodation.Location.City}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Country" Binding="{Binding Accommodation.Location.Country}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Start" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="End" Binding="{Binding End , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"></DataGridTextColumn>
+                            </DataGrid.Columns>
+
+                        </DataGrid>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+            <!-- BOTTOM STACK PANEL-->
+            <StackPanel  Margin="5 0 5 0" HorizontalAlignment="Right">
+                <TextBlock x:Name="tblSort" Text=" Sort by selected column" FontSize="16" Foreground="Turquoise" Margin="0 0 0 0">
+                </TextBlock>
+
+                <Border Style="{StaticResource OwnerBorderStyle}">
+                    <!-- Sort STACK PANEL-->
+                    <StackPanel  Margin="5 5 5 5" Orientation="Horizontal">
+
+                        <Button x:Name="btnDescening"  Content="Descending (Ctrl+Down)" 
+                            Style="{StaticResource OwnerButtonStyle}" Width="200" Height="35">
+                        </Button>
+                        <Button x:Name="btnAscending"  Content="Ascending (Ctrl+Up)" 
+                            Style="{StaticResource OwnerButtonStyle}" Width="200" Height="35">
+                        </Button>
+
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+        </StackPanel>
+    </Grid>
+</Window>

@@ -27,6 +27,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         private NotificationService _notificationService;
         private RatingGivenByOwnerService _ownerRatingService;
         private RatingGivenByGuestService _guestRatingService;
+        private RenovationService _renovationService;
         #endregion
 
         public OwnerMainView OwnerMainView { get; set; }
@@ -35,6 +36,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public ObservableCollection<Notification> Notifications { get; set; }
         public RelayCommand ShowAccommodationsCommand { get; set; }
         public RelayCommand ShowReservationsCommand { get; set; }
+        public RelayCommand ShowRenovationsCommand { get; set; }
         public RelayCommand ShowPendingRequestsCommand { get; set; }
         public RelayCommand ShowUnratedReservationsCommand { get; set; }
         public RelayCommand ShowGuestReviewsCommand { get; set; }
@@ -67,6 +69,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             _notificationService = new NotificationService();
             _ownerRatingService = new RatingGivenByOwnerService();
             _guestRatingService = new RatingGivenByGuestService();
+            _renovationService = new RenovationService();
 
             _accommodationService.ConnectAccommodationsWithLocations(_locationService);
             _reservationService.ConnectReservationsWithAccommodations(_accommodationService);
@@ -74,6 +77,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             _requestService.ConnectRequestsWithReservations(_reservationService);
             _ownerRatingService.ConnectRatingsWithReservations(_reservationService);
             _guestRatingService.ConnectRatingsWithReservations(_reservationService);
+            _renovationService.ConnectRenovationsWithAccommodations(_accommodationService);
 
             _guestRatingService.FillAverageRatingAndSuperFlag(Owner);
         }
@@ -111,6 +115,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         }
 
         public bool CanExecute_ShowReservationsCommand(object obj)
+        {
+            return true;
+        }
+
+        public void Executed_ShowRenovationsCommand(object obj)
+        {
+            Window renovtionsView = new RenovationsView(_renovationService, Owner);
+            renovtionsView.ShowDialog();
+        }
+
+        public bool CanExecute_ShowRenovationsCommand(object obj)
         {
             return true;
         }
@@ -167,6 +182,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             ShowAccommodationsCommand = new RelayCommand(Executed_ShowAccommodationsCommand, CanExecute_ShowAccommodationsCommand);
             ShowReservationsCommand = new RelayCommand(Executed_ShowReservationsCommand, CanExecute_ShowReservationsCommand);
+            ShowRenovationsCommand = new RelayCommand(Executed_ShowRenovationsCommand, CanExecute_ShowRenovationsCommand);
             ShowPendingRequestsCommand = new RelayCommand(Executed_ShowPendingRequestsCommand, CanExecute_ShowPendingRequestsCommand);
             ShowUnratedReservationsCommand = new RelayCommand(Executed_ShowUnratedReservationsCommand, CanExecute_ShowUnratedReservationsCommand);
             ShowGuestReviewsCommand = new RelayCommand(Executed_ShowGuestReviewsCommand, CanExecute_ShowGuestReviewsCommand);

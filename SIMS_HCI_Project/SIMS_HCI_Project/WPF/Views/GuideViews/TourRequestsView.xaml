@@ -7,6 +7,13 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="TourRequestsView" Height="720" Width="1280" WindowStartupLocation="CenterScreen" FontSize="20">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/GuideStyles.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <StackPanel>
             <Grid HorizontalAlignment="Center">

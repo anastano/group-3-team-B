@@ -6,6 +6,13 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.GuideViews"
         mc:Ignorable="d"
         Title="MyProfileView" Height="450" Width="800" WindowStartupLocation="CenterScreen" FontSize="20">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/GuideStyles.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <StackPanel>
             <Grid HorizontalAlignment="Center">

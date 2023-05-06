@@ -24,7 +24,70 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    
     <Style x:Key="ButtonText" TargetType="TextBlock">
         <Setter Property="Margin" Value="5,5,5,5"></Setter>
+    </Style>
+    
+    <Style TargetType="DataGrid">
+        <Setter Property="BorderBrush" Value="White"></Setter>
+        <Setter Property="BorderThickness" Value="2"></Setter>
+    </Style>
+    <Style TargetType="DataGridColumnHeader">
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                    <GradientStop Offset="0" Color="White" />
+                    <GradientStop Offset="1" Color="LightBlue" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="DataGridCell">
+        <Setter Property="BorderBrush" Value="White"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                    <GradientStop Offset="0" Color="White" />
+                    <GradientStop Offset="2" Color="LightBlue" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style TargetType="ComboBox">
+        <Setter Property="BorderBrush" Value="White"></Setter>
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                    <GradientStop Offset="0" Color="White" />
+                    <GradientStop Offset="2" Color="LightBlue" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="ComboBoxItem">
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                    <GradientStop Offset="0" Color="White" />
+                    <GradientStop Offset="2" Color="LightBlue" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="H1" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="20"></Setter>
+    </Style>
+    <Style x:Key="H2" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="16"></Setter>
+    </Style>
+    <Style x:Key="H3" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="14"></Setter>
+    </Style>
+    <Style x:Key="TinyLetters" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="10"></Setter>
     </Style>
 </ResourceDictionary>

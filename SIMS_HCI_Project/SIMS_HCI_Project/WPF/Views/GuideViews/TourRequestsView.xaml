@@ -22,44 +22,68 @@
             <Grid>
                 <StackPanel Margin="20,20,20,20">
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
-                        <StackPanel Margin="20,0,45,0" Width="250">
+                        <StackPanel Margin="20,0,25,0" Width="220">
                             <TextBlock Text="Location"></TextBlock>
-                            <ComboBox></ComboBox>
+                            <ComboBox ItemsSource="{Binding AvailableLocations}" SelectedItem="{Binding Location}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0}, {1}">
+                                                    <Binding Path="City"/>
+                                                    <Binding Path="Country"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
                         </StackPanel>
                         <StackPanel Margin="10,0,10,0">
                             <TextBlock Text="Guest Number"></TextBlock>
-                            <TextBox></TextBox>
+                            <TextBox Text="{Binding GuestNumber}"></TextBox>
                         </StackPanel>
-                        <StackPanel Margin="10,0,40,0" Width="250">
+                        <StackPanel Margin="10,0,20,0" Width="220">
                             <TextBlock Text="Language"></TextBlock>
-                            <ComboBox></ComboBox>
+                            <ComboBox ItemsSource="{Binding AvailableLanguages}" SelectedItem="{Binding Language}"></ComboBox>
                         </StackPanel>
                         <StackPanel Margin="10,0,10,0">
                             <TextBlock Text="Date Range"></TextBlock>
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="From " VerticalAlignment="Center"></TextBlock>
-                                <DatePicker></DatePicker>
+                                <DatePicker SelectedDate="{Binding DateRange.Start}"></DatePicker>
                                 <TextBlock Text="To " VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
-                                <DatePicker></DatePicker>
+                                <DatePicker SelectedDate="{Binding DateRange.End}"></DatePicker>
                             </StackPanel>
                         </StackPanel>
-                        <Button Content="Filter" Margin="0,20,0,0"></Button>
+                        <Button Content="Filter" Margin="0,20,0,0" Command="{Binding FilterRequests}"></Button>
+                        <Button Content="D" Margin="0,20,0,0" Command="{Binding ResetFilter}"></Button>
                     </StackPanel>
-                    <DataGrid AutoGenerateColumns="False" IsReadOnly="True" Height="300">
+                    <DataGrid AutoGenerateColumns="False" IsReadOnly="True" Height="300" ItemsSource="{Binding TourRequests}" SelectedItem="{Binding SelectedTourRequest}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Location" Width="2*"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Guest Number" Width="1*"></DataGridTextColumn>
-                            <DataGridTextColumn Header="Language" Width="2*"></DataGridTextColumn>
-                            <DataGridTextColumn Header="DateRange" Width="2*"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Location" Width="2*" >
+                                <DataGridTextColumn.Binding>
+                                    <MultiBinding StringFormat="{}{0}, {1}">
+                                        <Binding Path="Location.City"></Binding>
+                                        <Binding Path="Location.Country"></Binding>
+                                    </MultiBinding>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Guest Number" Width="1*" Binding="{Binding GuestNumber}"/>
+                            <DataGridTextColumn Header="Language" Width="2*" Binding="{Binding Language}"/>
+                            <DataGridTextColumn Header="DateRange" Width="2*">
+                                <DataGridTextColumn.Binding>
+                                    <MultiBinding StringFormat="{}{0} - {1}">
+                                        <Binding Path="Start.Date"></Binding>
+                                        <Binding Path="End.Date"></Binding>
+                                    </MultiBinding>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
                             <DataGridTemplateColumn Header="Action" Width="2*">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Button Content="Accept Request" 
-                                    Command="{Binding RelativeSource={
-                                              RelativeSource Mode=FindAncestor,
-                                              AncestorType={x:Type Window}},
-                                              Path=DataContext.StartTour}">
-                                        </Button>
+                                    Command="{Binding DataContext.StartTour, RelativeSource={RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}}"/>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>

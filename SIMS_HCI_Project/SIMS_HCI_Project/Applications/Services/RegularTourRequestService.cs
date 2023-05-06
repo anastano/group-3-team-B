@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SIMS_HCI_Project.Domain.DTOs;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Domain.RepositoryInterfaces;
 using SIMS_HCI_Project.Repositories;
@@ -45,6 +46,11 @@ namespace SIMS_HCI_Project.Applications.Services
             return _regularTourRequestRepository.GetByGuestIdAndStatus(ig, status);
         }
 
+        public List<RegularTourRequest> GetByParams(Location location, int guestNumber, string language, DateRange dateRange)
+        {
+            return _regularTourRequestRepository.GetByParams(location, guestNumber, language, dateRange);
+        }
+
         public void EditStatus(int requestId, RegularRequestStatus status)
         {
             _regularTourRequestRepository.EditStatus(requestId, status);
@@ -52,7 +58,6 @@ namespace SIMS_HCI_Project.Applications.Services
 
         public void Add(RegularTourRequest request)
         {
-            request.Id = _regularTourRequestRepository.GenerateId();
             request.Location = _locationRepository.GetOrAdd(request.Location);
             request.LocationId = request.Location.Id;
 

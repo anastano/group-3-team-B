@@ -86,5 +86,15 @@ namespace SIMS_HCI_Project.Repositories
         {
             _fileHandler.Save(_requests);
         }
+
+        public int GetRequestsCountByStatus(RegularRequestStatus status, List<RegularTourRequest> requests) //delete later
+        {
+            return 1;
+        }
+
+        public int GetRequestsCountByStatus(RegularRequestStatus status, int guestId)
+        {
+            return _requests.Where(r => r.GuestId == guestId && r.Status==status).Count();
+        }
     }
 }

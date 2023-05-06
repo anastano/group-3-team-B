@@ -4,7 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest2Views"
-      xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+      xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf" xmlns:base="clr-namespace:LiveCharts.Wpf.Charts.Base;assembly=LiveCharts.Wpf"
       mc:Ignorable="d" 
       d:DesignHeight="518" d:DesignWidth="1080"
       Title="StatisticsView">
@@ -30,13 +30,63 @@
             </lvc:PieChart.DataTooltip>
         </lvc:PieChart-->
 
-        <lvc:PieChart Series="{Binding RequestStatusSummary}" LegendLocation="Right" Margin="229,74,511,259" Background="Aquamarine" Visibility="Visible">
+        <lvc:PieChart x:Name="prvi" LegendLocation="Right" Margin="229,74,511,259" Background="Aquamarine" Visibility="Visible">
+            <lvc:PieChart.Series >
+                <lvc:PieSeries Title="Accepted requests" DataLabels="True" Values="2.3" ></lvc:PieSeries>
+                <lvc:PieSeries Title="Invalid requests" DataLabels="True" Values="3.6"></lvc:PieSeries>
+                <lvc:PieSeries Title="Pending requests" DataLabels="True" Values="5.1"></lvc:PieSeries>
+            </lvc:PieChart.Series>
             <lvc:PieChart.DataTooltip>
                 <lvc:DefaultTooltip />
             </lvc:PieChart.DataTooltip>
         </lvc:PieChart>
 
+        <!--lvc:PieChart x:Name="drugi" Margin="626,58,84,204" LegendLocation="Bottom">
+            <lvc:PieChart.Series >
+                <lvc:PieSeries Title="Accepted requests" DataLabels="True" Values="{Binding RequestStatusSummaryAAA}" ></lvc:PieSeries>
+                <lvc:PieSeries Title="Invalid requests" DataLabels="True" Values="{Binding RequestStatusSummaryAAA}"></lvc:PieSeries>
+                <lvc:PieSeries Title="Pending requests" DataLabels="True" Values="{Binding RequestStatusSummaryAAA}"></lvc:PieSeries>
+            </lvc:PieChart.Series>
+            <lvc:PieChart.DataTooltip>
+                <lvc:DefaultTooltip />
+            </lvc:PieChart.DataTooltip>
+        </lvc:PieChart-->
 
+
+        <!--sbase:Chart Margin="10" Title="Tour Request Status Summary">
+            <base:Chart.Series>
+                <lvc:Series Title="Tour Request Status Summary" ItemsSource="{Binding RequestStatusSummary}">
+                    <lvc:Series.DataTemplate>
+                        <DataTemplate>
+                            <lvc:PieSeries Title="{Binding Title}" DataLabels="{Binding DataLabels}" ItemsSource="{Binding Values}" />
+                        </DataTemplate>
+                    </lvc:Series.DataTemplate>
+                </lvc:Series>
+            </base:Chart.Series>
+        </base:Chart-->
+
+        <lvc:CartesianChart Name="AAA"  Hoverable="True" Margin="44,283,626,32" LegendLocation="Right">
+            <lvc:CartesianChart.Series>
+                <lvc:ColumnSeries Title="English" DataLabels="True" Values="7" ></lvc:ColumnSeries>
+                <lvc:ColumnSeries Title="Serbian" DataLabels="True" Values="5" ></lvc:ColumnSeries>
+                <lvc:ColumnSeries Title="Japanese" DataLabels="True" Values="5" ></lvc:ColumnSeries>
+                <lvc:ColumnSeries Title="Chinese" DataLabels="True" Values="2" ></lvc:ColumnSeries>
+            </lvc:CartesianChart.Series>
+            <lvc:CartesianChart.DataTooltip>
+                <lvc:DefaultTooltip BulletSize="10"/>
+            </lvc:CartesianChart.DataTooltip>
+        </lvc:CartesianChart>
+
+        <lvc:CartesianChart Name="BBB" Hoverable="True" Margin="562,293,80,42" LegendLocation="Right">
+            <lvc:CartesianChart.Series>
+                <lvc:ColumnSeries Title="Novi Sad, Serbia" DataLabels="True" Values="2" ></lvc:ColumnSeries>
+                <lvc:ColumnSeries Title="Mali Zvornik, Serbia" DataLabels="True" Values="1"></lvc:ColumnSeries>
+                <lvc:ColumnSeries Title="Kraguhevac, Serbia" DataLabels="True" Values="3"></lvc:ColumnSeries>
+            </lvc:CartesianChart.Series>
+            <lvc:CartesianChart.DataTooltip>
+                <lvc:DefaultTooltip BulletSize="10"/>
+            </lvc:CartesianChart.DataTooltip>
+        </lvc:CartesianChart>
 
     </Grid>
 </Page>

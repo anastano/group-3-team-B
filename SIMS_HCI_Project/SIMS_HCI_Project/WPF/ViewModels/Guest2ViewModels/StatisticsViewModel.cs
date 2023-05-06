@@ -12,6 +12,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls.DataVisualization.Charting;
 using System.Windows.Navigation;
+using SIMS_HCI_Project.Domain.DTOs;
+
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 {
@@ -20,6 +22,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public Guest2 Guest2 { get; set; }  
         public NavigationService NavigationService { get; set; }
         private RegularTourRequestService _regularTourRequestService { get; set; }
+
+        private TourRequestsStatisticsService _tourRequestsStatisticsService;
+        public TourRequestsStatisticsByStatus TourRequestsStatisticsByStatus { get; set; }
 
         private int? _selectedYear;
         public int? SelectedYear
@@ -43,25 +48,19 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                 OnPropertyChanged();
             }
         }
+        private ObservableCollection<LiveCharts.Wpf.PieSeries> _requestStatusSummary;
 
-
-
-        /*public IEnumerable<PieChart> StatusSummary
+        public ObservableCollection<LiveCharts.Wpf.PieSeries> RequestStatusSummary
         {
-            get
+            get { return _requestStatusSummary; }
+            set
             {
-                var summary = Requests
-                    .GroupBy(request => request.Status)
-                    .Select(group => new LiveCharts.Wpf.PieSeries
-                    {
-                        Title = group.Key.ToString(), 
-                        Values = new ChartValues<double> { group.Count() }
-                    });
-
-                return summary;
+                _requestStatusSummary = value;
+                OnPropertyChanged(nameof(RequestStatusSummary));
             }
-        }*/
-        public IEnumerable<LiveCharts.Wpf.PieSeries> RequestStatusSummary
+        }
+
+        public IEnumerable<LiveCharts.Wpf.PieSeries> RequestStatusSummaryAAA
         {
             get
             {
@@ -82,7 +81,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
                 return seriesCollection as IEnumerable<LiveCharts.Wpf.PieSeries> ;
             }
-        }
+        } 
 
 
         #region PropertyChanged
@@ -100,12 +99,37 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
             LoadFromFiles();
             InitCommands();
+
+            TourRequestsStatisticsByStatus = _tourRequestsStatisticsService.GetTourRequestsStatisticsByStatus(Guest2.Id);
+
+            
+
+            _requestStatusSummary = new ObservableCollection<LiveCharts.Wpf.PieSeries>
+        {
+            new LiveCharts.Wpf.PieSeries
+            {
+                Title = "Pending",
+                Values = new ChartValues<int> { 10 }
+            },
+            new LiveCharts.Wpf.PieSeries
+            {
+                Title = "Accepted",
+                Values = new ChartValues<int> { 20 }
+            },
+            new LiveCharts.Wpf.PieSeries
+            {
+                Title = "Invalid",
+                Values = new ChartValues<int> { 5 }
+            }
+        };
+
             Requests = new List<RegularTourRequest>(_regularTourRequestService.GetAllByGuestId(Guest2.Id));
         }
 
         private void InitCommands()
         {
             _regularTourRequestService = new RegularTourRequestService();
+            _tourRequestsStatisticsService = new TourRequestsStatisticsService();
         }
 
         private void LoadFromFiles()

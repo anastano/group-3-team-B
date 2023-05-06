@@ -2,6 +2,7 @@
 using SIMS_HCI_Project.Controller;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands;
+using SIMS_HCI_Project.WPF.Services;
 using SIMS_HCI_Project.WPF.Views.Guest1Views;
 using System;
 using System.Collections;
@@ -20,28 +21,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
     internal class ReservationRescheduleViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
+        private NavigationService _navigationService;
         private AccommodationReservationService _accommodationReservationService;
         private RescheduleRequestService _rescheduleRequestService;
         public AccommodationReservation Reservation { get; set; }
         public ObservableCollection<RescheduleRequest> RescheduleRequests { get; set; }
         public RelayCommand SendReservationRescheduleRequestCommand { get; set; }
-
-        private object _currentViewModel;
-
-        public object CurrentViewModel
-
-        {
-            get => _currentViewModel;
-            set
-            {
-                if (value != _currentViewModel)
-                {
-                    _currentViewModel = value;
-                    OnPropertyChanged();
-                }
-            }
-
-        }
 
         private DateTime _wantedStart;
         public DateTime WantedStart
@@ -69,28 +54,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
-        private bool _isClosed;
-        public bool IsClosed
-        {
-            get { return _isClosed; }
-            set
-            {
-                _isClosed = value;
-                OnPropertyChanged(nameof(IsClosed));
-                if (value)
-                {
-                    Closed?.Invoke(this, EventArgs.Empty);
-                }
-            }
-        }
-        public event EventHandler Closed;
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        public ReservationRescheduleViewModel(AccommodationReservation reservation)
+        public ReservationRescheduleViewModel(NavigationService navigationService, AccommodationReservation reservation)
         {
+            _navigationService = navigationService;
             _accommodationReservationService = new AccommodationReservationService();
             _rescheduleRequestService = new RescheduleRequestService(); 
             Reservation = reservation;
@@ -154,8 +125,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             if (result == MessageBoxResult.Yes && IsValid)
             {
                _rescheduleRequestService.Add(new RescheduleRequest(Reservation, WantedStart, WantedEnd));
-               IsClosed = true;
-
+                _navigationService.NavigateBack();
             }
         }
         private MessageBoxResult ConfirmRescheduleRequest()

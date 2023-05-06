@@ -94,12 +94,5 @@
                 <DataGridTextColumn Header="Owner comment" Binding="{Binding OwnerComment}" Width="6*"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <ContentControl x:Name="UserControls" Content="{Binding CurrentViewModel}">
-        <ContentControl.Resources>
-            <DataTemplate DataType="{x:Type viewmodels:ReservationsViewModel}">
-                <views:ReservationsView/>
-            </DataTemplate>
-        </ContentControl.Resources>
-        </ContentControl>
     </Grid>
 </UserControl>

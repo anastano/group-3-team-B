@@ -130,12 +130,5 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <ContentControl x:Name="UserControls" Content="{Binding CurrentViewModel}" Grid.ColumnSpan="5" Margin="-15,-15,-15,-15" Grid.RowSpan="5">
-            <ContentControl.Resources>
-                <DataTemplate DataType="{x:Type viewmodels:AccommodationSearchViewModel}">
-                    <views:AccommodationSearchView/>
-                </DataTemplate>
-            </ContentControl.Resources>
-        </ContentControl>
     </Grid>
 </UserControl>

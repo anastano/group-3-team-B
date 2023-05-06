@@ -206,18 +206,5 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <ContentControl x:Name="UserControls" Content="{Binding CurrentViewModel}" Grid.RowSpan="4" Grid.ColumnSpan="3" Margin="-25,-25,-25,-25">
-            <ContentControl.Resources>
-                <DataTemplate DataType="{x:Type viewmodels:AccommodationReservationViewModel}">
-                    <views:AccommodationReservationView/>
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type viewmodels:AccommodationSearchViewModel}">
-                    <views:AccommodationSearchView/>
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type viewmodels:AccommodationImagesViewModel}">
-                    <views:AccommodationImagesView/>
-                </DataTemplate>
-            </ContentControl.Resources>
-        </ContentControl>
     </Grid>
 </UserControl>

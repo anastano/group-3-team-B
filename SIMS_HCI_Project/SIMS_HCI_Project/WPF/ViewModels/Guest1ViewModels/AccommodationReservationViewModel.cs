@@ -2,6 +2,7 @@
 using SIMS_HCI_Project.Controller;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands;
+using SIMS_HCI_Project.WPF.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -16,6 +17,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
     internal class AccommodationReservationViewModel : INotifyPropertyChanged
     {
+        private NavigationService _navigationService;
         private AccommodationReservationService _accommodationReservationService;
         public AccommodationReservation SelectedReservation { get; set; }
         public Accommodation Accommodation { get; }
@@ -95,29 +97,15 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
-        private bool _isClosed;
-        public bool IsClosed
-        {
-            get { return _isClosed; }
-            set
-            {
-                _isClosed = value;
-                OnPropertyChanged(nameof(IsClosed));
-                if (value)
-                {
-                    Closed?.Invoke(this, EventArgs.Empty);
-                }
-            }
-        }
-        public event EventHandler Closed;
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public AccommodationReservationViewModel(Accommodation accommodation, Guest1 guest)
+        public AccommodationReservationViewModel(Accommodation accommodation, Guest1 guest, NavigationService navigationService)
         {
+            _navigationService = navigationService;
             _accommodationReservationService = new AccommodationReservationService();
             Accommodation = accommodation;
             Guest = guest;
@@ -156,7 +144,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         }
         public void ExecutedBackCommand(object obj)
         {
-            IsClosed = true;
+            _navigationService.NavigateBack();
         }
         public void ExecutedMinusGuestNumberCommand(object obj)
         {

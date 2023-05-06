@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:views="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest1Views"
       xmlns:viewmodels="clr-namespace:SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels"
+      xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
       mc:Ignorable="d" 
       d:DesignHeight="702" d:DesignWidth="969"
       Background="#f5f5f5">
@@ -59,14 +60,14 @@
         <StackPanel Orientation="Horizontal"  Grid.Row="2" Grid.Column="1">
             <TextBox Text="{Binding ElementName=cleanlinessSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" 
                      Width="40"  Margin="0, 5, 0, 5"/>
-            <Slider x:Name="cleanlinessSlider" Value="{Binding Path=Cleanliness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <Slider x:Name="cleanlinessSlider" Value="{Binding Path=Rating.Cleanliness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     IsSnapToTickEnabled="True"  Minimum="1"  Maximum="5" Margin="20, 12, 0, 0"  Width="200"/>
         </StackPanel>
         <Label Content="Owner correctness (1-5):" Grid.Row="3" Grid.Column="0"></Label>
         <StackPanel Orientation="Horizontal"  Grid.Row="3" Grid.Column="1">
             <TextBox Text="{Binding ElementName=correctnessSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" 
                      Width="40"  Margin="0, 5, 0, 5"/>
-            <Slider x:Name="correctnessSlider" Value="{Binding Path=Correcntess, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            <Slider x:Name="correctnessSlider" Value="{Binding Path=Rating.Correctness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     IsSnapToTickEnabled="True"  Minimum="1"  Maximum="5" Margin="20, 12, 0, 0"  Width="200"/>
         </StackPanel>
         <Label Content="Image URLs:" Grid.Row="4" Grid.Column="0"></Label>
@@ -114,12 +115,17 @@
             </StackPanel>
         </StackPanel>
         <Label Content="Aditional comment:" Grid.Row="5" Grid.Column="0"></Label>
-        <TextBox x:Name="Comment" Grid.Row="5" Grid.Column="1" Text="{Binding Path=AdditionalComment, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox x:Name="Comment" Grid.Row="5" Grid.Column="1" Text="{Binding Path=Rating.AdditionalComment, UpdateSourceTrigger=PropertyChanged}"/>
         <Label Content="Recommend renovation:  &#xa;        (optional)" Grid.Row="6" Grid.Column="0"></Label>
         <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1">
             <Button Content="Recommend" Command="{Binding DataContext.RecommendRenovationCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
                     Margin="0, 10, 0, 0" Width="100"/>
-            <RadioButton Content="Filled" Margin="50, 20, 0, 0"></RadioButton>
+            <RadioButton Content="Filled" Margin="50, 0, 0, 0" VerticalAlignment="Center" HorizontalAlignment="Center"
+                         >
+                <RadioButton.LayoutTransform>
+                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                </RadioButton.LayoutTransform>
+            </RadioButton>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Center">
             <Button Content="Cancel" Command="{Binding DataContext.CancelReviewCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
@@ -127,23 +133,5 @@
             <Button Content="Review" Command="{Binding DataContext.ReviewReservationCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
                     Margin=" 5, 5, 55, 0"/>
         </StackPanel>
-        <ContentControl x:Name="UserControls" Content="{Binding CurrentViewModel}" Margin="-22,-19,-18,-20" Grid.RowSpan="8" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2">
-            <ContentControl.Resources>
-                <DataTemplate DataType="{x:Type viewmodels:ReservationsViewModel}">
-                    <views:ReservationsView/>
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type viewmodels:RenovationRecommendationViewModel}">
-                    <views:RenovationRecommendationView/>
-                </DataTemplate>
-            </ContentControl.Resources>
-            <ContentControl.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform AngleX="0.209"/>
-                    <RotateTransform/>
-                    <TranslateTransform X="1.796"/>
-                </TransformGroup>
-            </ContentControl.RenderTransform>
-        </ContentControl>
     </Grid>
 </UserControl>

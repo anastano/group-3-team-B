@@ -1,6 +1,7 @@
 ﻿using SIMS_HCI_Project.Applications.Services;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands;
+using SIMS_HCI_Project.WPF.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,19 +15,18 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
     public class RenovationRecommendationViewModel : INotifyPropertyChanged
     {
-        private RenovationRecommendationService _recommendationsService;
+        private NavigationService _navigationService;
         public RelayCommand CancelRecommendationCommand { get; set; }
         public RelayCommand RecommendRenovationCommand { get; set; }
-        //public RenovationRecommendation Recommend { get; set; }
-        private RenovationRecommendation _recommend;
-        public RenovationRecommendation Recommend
+        private RenovationRecommendation _recommendation;
+        public RenovationRecommendation Recommendation
         {
-            get => _recommend;
+            get => _recommendation;
             set
             {
-                if (value != _recommend)
+                if (value != _recommendation)
                 {
-                    _recommend = value;
+                    _recommendation = value;
                     OnPropertyChanged();
                 }
             }
@@ -36,22 +36,22 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        public RenovationRecommendationViewModel(/*AccommodationReservation reservation*/)
+        public RenovationRecommendationViewModel(NavigationService navigationService)
         {
-            _recommendationsService = new RenovationRecommendationService();
-            //_ratingService = new RatingGivenByGuestService();
-            //Reservation = reservation;
-            //InitialProperties();
-            Recommend = new RenovationRecommendation();
+            _navigationService = navigationService;
+            Recommendation = new RenovationRecommendation();
             InitCommands();
         }
-        public void ExecutedRecommentRenovationCommand(object obj)
+        public void ExecutedRecommendRenovationCommand(object obj)
         {
-            //CurrentViewModel = new RenovationRecommendationViewModel();
+            _navigationService.ExecuteRecommendation(Recommendation);
+            
         }
         public void ExecutedCancelRecommendationCommand(object obj)
         {
-            //IsClosed = true;
+            //Recommendation = null;
+            _navigationService.NavigateBack();
+
         }
         public bool CanExecute(object obj)
         {
@@ -60,7 +60,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public void InitCommands()
         {
             CancelRecommendationCommand = new RelayCommand(ExecutedCancelRecommendationCommand, CanExecute);
-            RecommendRenovationCommand = new RelayCommand(ExecutedRecommentRenovationCommand, CanExecute);
+            RecommendRenovationCommand = new RelayCommand(ExecutedRecommendRenovationCommand, CanExecute);
         }
     }
 }

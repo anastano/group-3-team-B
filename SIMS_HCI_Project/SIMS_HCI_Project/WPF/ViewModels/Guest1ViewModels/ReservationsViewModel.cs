@@ -19,15 +19,15 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using LiveCharts;
 using LiveCharts.Wpf;
+using SIMS_HCI_Project.WPF.Services;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
     internal class ReservationsViewModel : IObserver, INotifyPropertyChanged
     {
+        private NavigationService _navigationService;
         private readonly AccommodationReservationService _reservationService;
         private readonly NotificationService _notificationService;
-        private RatingReservationViewModel _ratingReservationViewModel;
-        private ReservationRescheduleViewModel _reservationRescheduleViewModel;
         public Guest1 Guest { get; set; }
         public ObservableCollection<AccommodationReservation> ActiveReservations { get; set; }
         public ObservableCollection<AccommodationReservation> PastReservations { get; set; }
@@ -39,21 +39,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public RelayCommand RescheduleReservationCommand { get; set; }
         public RelayCommand RateCommand { get; set; }
         public RelayCommand ShowImagesCommand { get; set; }
-
-        private object _currentViewModel;
-        public object CurrentViewModel
-
-        {
-            get => _currentViewModel;
-            set
-            {
-                if (value != _currentViewModel)
-                {
-                    _currentViewModel = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
         private ChartValues<int> _cancelledCount;
         public ChartValues<int> CancelledCount
 
@@ -113,8 +98,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        public ReservationsViewModel(Guest1 guest)
+        public ReservationsViewModel(Guest1 guest, NavigationService navigationService)
         {
+            _navigationService = navigationService;
             _reservationService = new AccommodationReservationService();
             _notificationService = new NotificationService();
             Guest = guest;
@@ -176,56 +162,39 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             if (SelectedReservation != null)
             {
-                _reservationRescheduleViewModel = new ReservationRescheduleViewModel(SelectedReservation);
-                _reservationRescheduleViewModel.Closed += UnloadUserControl;
-                CurrentViewModel = _reservationRescheduleViewModel;
+                _navigationService.Navigate(new ReservationRescheduleViewModel(_navigationService ,SelectedReservation), "Reschedule reservation");
             }
         }
         public void ExecutedRateCommand(object obj)
         {
             if (SelectedReservation != null)
             {
-                _ratingReservationViewModel = new RatingReservationViewModel(SelectedReservation);
-                _ratingReservationViewModel.Closed += UnloadUserControl;
-                CurrentViewModel = _ratingReservationViewModel;
+                _navigationService.Navigate(new RatingReservationViewModel(SelectedReservation, _navigationService), "Review");
             }
         }
         public void ExecutedShowImagesCommand(object obj)
         {
             if (SelectedReservation != null)
             {
-                CurrentViewModel = new AccommodationImagesViewModel(SelectedReservation.Accommodation);
+                _navigationService.Navigate(new AccommodationImagesViewModel(SelectedReservation.Accommodation, _navigationService), "Images");
             }
-        }
-        private void UnloadUserControl(object sender, EventArgs e)
-        {
-            CurrentViewModel = new ReservationsViewModel(Guest);
         }
         public bool CanExecute(object obj)
         {
             return true;
         }
         #endregion
-
         public void InitCommands()
         {
             CancelReservationCommand = new RelayCommand(ExecutedCancelReservationCommand, CanExecute);
             RescheduleReservationCommand = new RelayCommand(ExecutedRescheduleReservationCommand, CanExecute);
             RateCommand = new RelayCommand(ExecutedRateCommand, CanExecute);
             ShowImagesCommand = new RelayCommand(ExecutedShowImagesCommand, CanExecute);
-        }
-        
+        }  
         public void Update()
         {
             UpdateReservations();
         }
-        /*private void Image_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Image image = sender as Image;
-            
-
-        }*/
-
         public void UpdateReservations()
         {
             ActiveReservations.Clear();
@@ -246,7 +215,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 CanceledReservations.Add(reservation);
             }
         }
-
         private void AddRescheduledReservations()
         {
             foreach (AccommodationReservation reservation in _reservationService.GetAllByStatusAndGuestId(Guest.Id, AccommodationReservationStatus.RESCHEDULED))

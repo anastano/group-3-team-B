@@ -14,14 +14,15 @@ using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using SIMS_HCI_Project.WPF.Services;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
     internal class AccommodationSearchViewModel : INotifyPropertyChanged
     {
+        private NavigationService _navigationService;
         private readonly AccommodationService _accommodationService;
         private readonly AccommodationReservationService _accommodationReservationService;
-        private AccommodationReservationViewModel _accommodationReservationViewModel;
         public ObservableCollection<Location> Locations { get; set; }
         public Accommodation SelectedAccommodation { get; set; }
         public Guest1 Guest { get; set; }
@@ -105,27 +106,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
-        private object _currentViewModel;
-        public object CurrentViewModel
-
-        {
-            get => _currentViewModel;
-            set
-            {
-                if (value != _currentViewModel)
-                {
-                    _currentViewModel = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        public AccommodationSearchViewModel(Guest1 guest)
+        public AccommodationSearchViewModel(Guest1 guest, NavigationService navigationService)
         {
+            _navigationService = navigationService;
             _accommodationService = new AccommodationService();
             _accommodationReservationService = new AccommodationReservationService();
             Accommodation = new Accommodation();
@@ -149,16 +137,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public void ExecutedReserveAccommodationCommand(object obj)
         {
             if (SelectedAccommodation != null)
-            {
-                _accommodationReservationViewModel = new AccommodationReservationViewModel(SelectedAccommodation, Guest);
-                _accommodationReservationViewModel.Closed += UnloadUserControl;
-                CurrentViewModel = _accommodationReservationViewModel;
-                
+            { 
+                _navigationService.Navigate(new AccommodationReservationViewModel(SelectedAccommodation, Guest, _navigationService), "Accommodation reservation");
             }
-        }
-        private void UnloadUserControl(object sender, EventArgs e)
-        {
-            CurrentViewModel = new AccommodationSearchViewModel(Guest);
         }
         public void ExecutedSearchCommand(object obj)
         {
@@ -168,7 +149,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             if(SelectedAccommodation != null)
             {
-                CurrentViewModel = new AccommodationImagesViewModel(SelectedAccommodation, Guest, GuestsNumber, DaysNumber, Accommodation.Name);
+                _navigationService.Navigate(new AccommodationImagesViewModel(SelectedAccommodation, _navigationService), "Accommodation Images");
             }
         }
         public void ExecutedMinusGuestNumberCommand(object obj)

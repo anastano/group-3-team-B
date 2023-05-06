@@ -1,6 +1,7 @@
 ﻿using SIMS_HCI_Project.Applications.Services;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands;
+using SIMS_HCI_Project.WPF.Services;
 using SIMS_HCI_Project.WPF.Views.Guest1Views;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
     internal class RatingReservationViewModel : INotifyPropertyChanged
     {
+        private NavigationService _navigationService;
         private AccommodationReservationService _accommodationReservationService;
         private RatingGivenByGuestService _ratingService;
         public AccommodationReservation Reservation { get; set; }
@@ -55,45 +57,20 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
-        private int _cleanliness;
-        public int Cleanliness
+        private RatingGivenByGuest _rating;
+        public RatingGivenByGuest Rating
         {
-            get => _cleanliness;
+            get => _rating;
             set
             {
-                if (value != _cleanliness)
+                if (value != _rating)
                 {
-                    _cleanliness = value;
+                    _rating = value;
                     OnPropertyChanged();
                 }
             }
         }
-        private int _correctness;
-        public int Correcntess
-        {
-            get => _correctness;
-            set
-            {
-                if (value != _correctness)
-                {
-                    _correctness = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-        private String _additionalComment;
-        public String AdditionalComment
-        {
-            get => _additionalComment;
-            set
-            {
-                if (value != _additionalComment)
-                {
-                    _additionalComment = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
+
         private String _imageUrl;
         public String ImageUrl
         {
@@ -107,21 +84,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
-        private bool _isClosed;
-        public bool IsClosed
-        {
-            get { return _isClosed; }
-            set
-            {
-                _isClosed = value;
-                OnPropertyChanged(nameof(IsClosed));
-                if (value)
-                {
-                    Closed?.Invoke(this, EventArgs.Empty);
-                }
-            }
-        }
-        public event EventHandler Closed;
         private Regex urlRegex = new Regex("(http(s?)://.)([/|.|\\w|\\s|-])*\\.(?:jpg|gif|png)|(^$)");
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -129,40 +91,42 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        public RatingReservationViewModel(AccommodationReservation reservation)
+        public RatingReservationViewModel(AccommodationReservation reservation, NavigationService navigationService)
         {
+            _navigationService = navigationService;
             _accommodationReservationService = new AccommodationReservationService();
             _ratingService = new RatingGivenByGuestService();
             Reservation = reservation;
             Images = new ObservableCollection<string>();
             Owner = Reservation.Accommodation.Owner.Name + " " + Reservation.Accommodation.Owner.Surname;
-            InitialProperties();
+            Rating = new RatingGivenByGuest();
+            InitialProperties(); 
             InitCommands();
         }
         public void InitialProperties()
         {
             ImageUrl = " ";
-            AdditionalComment = " ";
-            Correcntess = 1;
-            Cleanliness = 1;
         }
         public void ExecutedReviewReservationCommand(object obj)
         {
-            _ratingService.RateReservation(_accommodationReservationService, new RatingGivenByGuest(Reservation.Id, Cleanliness, Correcntess, AdditionalComment, new List<string>(Images)));
-            IsClosed = true;
+            //ovaj objekat cemo u konstruktor staviti
+            //Rating.RenovationRecommendation = _navigationService._navigationstore.Recommendation;
+            //_ratingService.RateReservation(_accommodationReservationService, new RatingGivenByGuest(Reservation.Id, Cleanliness, Correcntess, AdditionalComment, new List<string>(Images)));
+            _navigationService.Navigate(new ReservationsViewModel(Reservation.Guest, _navigationService), "My Reservations");
         }
-        public void ExecutedRecommentRenovationCommand(object obj)
+        public void ExecutedRecommendRenovationCommand(object obj)
         {
-            CurrentViewModel = new RenovationRecommendationViewModel();
+            _navigationService.Navigate(new RenovationRecommendationViewModel(_navigationService), "Recommend renovation");
         }
         public void ExecutedCancelReviewCommand(object obj)
         {
-            IsClosed = true;
+            _navigationService.NavigateBack();
         }
         public void ExecutedRemoveImageCommand(object obj)
         {
             if (SelectedUrl != null)
             {
+                Rating.Images.Remove(SelectedUrl);
                 Images.Remove(SelectedUrl);
             }
 
@@ -172,6 +136,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             Match match = urlRegex.Match(ImageUrl);
             if (match.Success)
             {
+                Rating.Images.Add(ImageUrl);
                 Images.Add(ImageUrl);
                 ImageUrl = "";
                 //return "URL is not in valid format.";
@@ -187,7 +152,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             CancelReviewCommand = new RelayCommand(ExecutedCancelReviewCommand, CanExecute);
             RemoveImageCommand = new RelayCommand(ExecutedRemoveImageCommand, CanExecute);
             AddImageCommand = new RelayCommand(ExecutedAddImageCommand, CanExecute);
-            RecommendRenovationCommand = new RelayCommand(ExecutedRecommentRenovationCommand, CanExecute);
+            RecommendRenovationCommand = new RelayCommand(ExecutedRecommendRenovationCommand, CanExecute);
         }
     }
 }

@@ -253,7 +253,7 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
-            
+
             <TabItem Header="Canceled">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -354,23 +354,7 @@
                     </lvc:PieChart>
 
                 </Grid>
-    </TabItem>
+            </TabItem>
         </TabControl>
-        <ContentControl x:Name="UserControls" Content="{Binding CurrentViewModel}">
-            <ContentControl.Resources>
-                <DataTemplate DataType="{x:Type viewmodels:ReservationRescheduleViewModel}">
-                    <views:ReservationRescheduleView/>
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type viewmodels:RatingReservationViewModel}">
-                    <views:RatingReservationView/>
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type viewmodels:ReservationsViewModel}">
-                    <views:ReservationsView/>
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type viewmodels:AccommodationImagesViewModel}">
-                    <views:AccommodationImagesView/>
-                </DataTemplate>
-            </ContentControl.Resources>
-        </ContentControl>
     </Grid>
 </UserControl>

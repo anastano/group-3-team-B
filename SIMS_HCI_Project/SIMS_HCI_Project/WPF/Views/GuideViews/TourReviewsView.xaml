@@ -7,39 +7,46 @@
         mc:Ignorable="d"
          Title="TourReviews" Height="450" Width="800" WindowStartupLocation="CenterScreen" >
     <Grid>
-        <StackPanel Margin="20,20,20,20">
-            <TextBlock Text="{Binding Tour.Tour.Title}"></TextBlock>
-            <TextBlock Margin="0,0,0,40">
-                <TextBlock.Text>
-                    <MultiBinding StringFormat="{}{0} ({1})">
-                        <Binding Path="Tour.Tour.Location.City"></Binding>
-                        <Binding Path="Tour.Tour.Location.Country"></Binding>
-                    </MultiBinding>
-                </TextBlock.Text>
-            </TextBlock>
-            <ListBox Height="300" ItemsSource="{Binding TourRatings}" SelectedItem="{Binding SelectedRating}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Border BorderBrush="Black" BorderThickness="1" Width="700">
-                            <StackPanel Orientation="Vertical" Margin="10,10,10,10">
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                                    <TextBlock Text="-name-"/>
-                                    <TextBlock Text="{Binding GetAverageRating, StringFormat={} {0}/5}" Margin="40,0,0,0"/>
-                                    <TextBlock Text="{Binding Attendance.KeyPointJoined.Title, StringFormat=Joined at: \{0\}}" Margin="40,0,0,0"/>
-                                    <TextBlock Text="{Binding IsValid, StringFormat=Rating valid: \{0\}}" HorizontalAlignment="Right"  Margin="180,0,20,0"/>
-                                    <Button Content="Mark as invalid" 
+        <StackPanel>
+            <Grid HorizontalAlignment="Center">
+                <local:NavigationMenu></local:NavigationMenu>
+            </Grid>
+            <Grid>
+                <StackPanel Margin="20,20,20,20">
+                    <TextBlock Text="{Binding Tour.Tour.Title}"></TextBlock>
+                    <TextBlock Margin="0,0,0,40">
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0} ({1})">
+                                <Binding Path="Tour.Tour.Location.City"></Binding>
+                                <Binding Path="Tour.Tour.Location.Country"></Binding>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                    <ListBox Height="300" ItemsSource="{Binding TourRatings}" SelectedItem="{Binding SelectedRating}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border BorderBrush="Black" BorderThickness="1" Width="700">
+                                    <StackPanel Orientation="Vertical" Margin="10,10,10,10">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                            <TextBlock Text="-name-"/>
+                                            <TextBlock Text="{Binding GetAverageRating, StringFormat={} {0}/5}" Margin="40,0,0,0"/>
+                                            <TextBlock Text="{Binding Attendance.KeyPointJoined.Title, StringFormat=Joined at: \{0\}}" Margin="40,0,0,0"/>
+                                            <TextBlock Text="{Binding IsValid, StringFormat=Rating valid: \{0\}}" HorizontalAlignment="Right"  Margin="180,0,20,0"/>
+                                            <Button Content="Mark as invalid" 
                                     Command="{Binding DataContext.MarkRatingInvalid, RelativeSource={RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}}"/>
-                                </StackPanel>
-                                <Border BorderBrush="Black" BorderThickness="1" Width="400" Height="1" HorizontalAlignment="Left"/>
-                                <TextBlock Text="{Binding Comment}"/>
-                                <ListBox ItemsSource="{Binding Images}"/>
-                            </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-            <!--{Binding TourRatings}-->
+                                        </StackPanel>
+                                        <Border BorderBrush="Black" BorderThickness="1" Width="400" Height="1" HorizontalAlignment="Left"/>
+                                        <TextBlock Text="{Binding Comment}"/>
+                                        <ListBox ItemsSource="{Binding Images}"/>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <!--{Binding TourRatings}-->
 
+                </StackPanel>
+            </Grid>
         </StackPanel>
     </Grid>
 </Window>

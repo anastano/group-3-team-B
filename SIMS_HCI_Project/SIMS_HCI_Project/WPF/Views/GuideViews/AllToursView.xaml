@@ -4,49 +4,66 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.GuideViews"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="AllTours" Height="720" Width="1280" MinHeight="450" MinWidth="800" WindowStartupLocation="CenterScreen" FontSize="20">
     <Grid>
-        <DockPanel >
-            <StackPanel Orientation="Horizontal" Margin="20,20,20,20" DockPanel.Dock="Top">
-                <StackPanel Orientation="Vertical" Margin="0,0,40,0" VerticalAlignment="Bottom">
-                    <Label Content="Tour title"></Label>
-                    <TextBox Width="300"></TextBox>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" Margin="0,0,80,0" VerticalAlignment="Bottom">
-                    <Label Content="Location"></Label>
-                    <ComboBox Width="200"></ComboBox>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" Margin="0,0,40,0" VerticalAlignment="Bottom">
-                    <Label Content="Language"></Label>
-                    <ComboBox Width="150"></ComboBox>
-                </StackPanel>
-                <Button Content="Filter" Margin="0,0,40,0" VerticalAlignment="Bottom"></Button>
-            </StackPanel>
-            <Button Content="Create new" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="0,0,30,30" Command="{Binding AddNewTour}"></Button>
-            <DataGrid ItemsSource="{Binding Path=AllTours, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedTour}" Margin="20,20,20,20" AutoGenerateColumns="False" IsReadOnly="True">
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Title" Binding="{Binding Path=Title}" Width="2*"></DataGridTextColumn>
-                    <DataGridTextColumn Header="City" Binding="{Binding Path=Location.City}" Width="1*"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Country" Binding="{Binding Path=Location.Country}" Width="1*"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Language" Binding="{Binding Path=Language}" Width="1*"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Duration" Binding="{Binding Path=Duration}" Width="1*"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Max Guests" Binding="{Binding Path=MaxGuests}" Width="1*"></DataGridTextColumn>
-                    <DataGridTemplateColumn Header="More info" Width="*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="INFO" 
-                                    Command="{Binding RelativeSource={
+        <StackPanel>
+            <Grid HorizontalAlignment="Center">
+                <local:NavigationMenu></local:NavigationMenu>
+            </Grid>
+            <Grid>
+                <DockPanel >
+                    <StackPanel Orientation="Horizontal" Margin="20,20,20,20" DockPanel.Dock="Top">
+                        <StackPanel Orientation="Vertical" Margin="0,0,40,0" VerticalAlignment="Bottom">
+                            <Label Content="Tour title"></Label>
+                            <TextBox Width="300"></TextBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Margin="0,0,80,0" VerticalAlignment="Bottom">
+                            <Label Content="Location"></Label>
+                            <ComboBox Width="200"></ComboBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Margin="0,0,40,0" VerticalAlignment="Bottom">
+                            <Label Content="Language"></Label>
+                            <ComboBox Width="150"></ComboBox>
+                        </StackPanel>
+                        <Button Content="Filter" Margin="0,0,40,0" VerticalAlignment="Bottom"></Button>
+                    </StackPanel>
+                    <Button Content="Create new" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="0,0,30,30">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourInput}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    <DataGrid Height="450" ItemsSource="{Binding Path=AllTours, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedTour}" Margin="20,20,20,20" AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Title" Binding="{Binding Path=Title}" Width="2*"></DataGridTextColumn>
+                            <DataGridTextColumn Header="City" Binding="{Binding Path=Location.City}" Width="1*"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Country" Binding="{Binding Path=Location.Country}" Width="1*"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Language" Binding="{Binding Path=Language}" Width="1*"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Duration" Binding="{Binding Path=Duration}" Width="1*"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Max Guests" Binding="{Binding Path=MaxGuests}" Width="1*"></DataGridTextColumn>
+                            <DataGridTemplateColumn Header="More info" Width="*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="INFO">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourInformation}" CommandParameter="{Binding SelectedTour}" />
+                                                    <i:InvokeCommandAction Command="{Binding NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
                                               RelativeSource Mode=FindAncestor,
-                                              AncestorType={x:Type Window}},
-                                              Path=DataContext.SeeTourInfo}">
-                                </Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-        </DockPanel>
-
+                                              AncestorType={x:Type Window}}}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </Grid>
+        </StackPanel>
     </Grid>
 </Window>

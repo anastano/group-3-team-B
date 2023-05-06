@@ -5,9 +5,7 @@ using SIMS_HCI_Project.WPF.Commands.Global;
 using SIMS_HCI_Project.WPF.Views.GuideViews;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -16,7 +14,7 @@ using System.Windows;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 {
-    class AllToursViewModel : INotifyPropertyChanged
+    class NavigationMenuViewModel : INotifyPropertyChanged
     {
         #region PropertyChanged
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -26,39 +24,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         }
         #endregion
 
+
         #region Commands
         public GuideNavigationCommands NavigationCommands { get; set; }
         #endregion
 
-        private ObservableCollection<Tour> _allTours;
-        public ObservableCollection<Tour> AllTours
+        public NavigationMenuViewModel()
         {
-            get { return _allTours; }
-            set
-            {
-                _allTours = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public Tour SelectedTour { get; set; }
-
-        private TourService _tourService;
-
-        private Guide _guide;
-
-        public AllToursViewModel(TourService tourService, Guide guide)
-        {
-            _tourService = tourService;
-            _guide = guide;
-
-            LoadAllTours();
             InitCommands();
-        }
-
-        private void LoadAllTours()
-        {
-            AllTours = new ObservableCollection<Tour>(_tourService.GetAllTourInformationByGuide(_guide.Id));
         }
 
         private void InitCommands()

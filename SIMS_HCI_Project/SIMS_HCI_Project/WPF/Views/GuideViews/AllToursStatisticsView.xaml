@@ -4,86 +4,107 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.GuideViews"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="AllToursStatisticsView" Height="920" Width="1280"  WindowStartupLocation="CenterScreen" FontSize="20">
     <Grid>
-        <!--<Label Content="Top Tour" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top"/>
-        <StackPanel Margin="20,62,94,230">
-            <TextBlock Text="{Binding AllTimeTopTour.Tour.Title, StringFormat=Tour Title: {0}}"></TextBlock>
-            <TextBlock Text="{Binding AllTimeTopTour.Tour.Location.City, StringFormat=Location City: {0}}"></TextBlock>
-            <TextBlock Text="{Binding AllTimeTopTour.Tour.Location.Country, StringFormat=Location Country: {0}}"></TextBlock>
-            <TextBlock Text="{Binding AllTimeTopTour.Id, StringFormat=Tour Id: {0}}"></TextBlock>
-        </StackPanel>
-
-        <Label Content="Top Tour in" HorizontalAlignment="Left" Margin="10,214,0,0" VerticalAlignment="Top"/>
-        <ComboBox HorizontalAlignment="Left" Margin="138,214,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding YearsWithTours}"  SelectedItem="{Binding SelectedYear}"/>
-        <StackPanel Margin="20,269,94,38">
-            <TextBlock Text="{Binding SelectedYearTopTour.Tour.Title, StringFormat=Tour Title: {0}}"></TextBlock>
-            <TextBlock Text="{Binding SelectedYearTopTour.Tour.Location.City, StringFormat=Location City: {0}}"></TextBlock>
-            <TextBlock Text="{Binding SelectedYearTopTour.Tour.Location.Country, StringFormat=Location Country: {0}}"></TextBlock>
-            <TextBlock Text="{Binding SelectedYearTopTour.Id, StringFormat=Tour Id: {0}}"></TextBlock>
-        </StackPanel>-->
-        <StackPanel Margin="20,20,20,20">
-            <StackPanel>
-                <TextBlock Text="Top tour of all time" Margin="0,0,0,10"></TextBlock>
-                <Border BorderBrush="Black" BorderThickness="2" Height="300" Padding="20,30,20,30">
-                    <StackPanel Orientation="Horizontal">
-                        <StackPanel Margin="10,0,10,0">
-                            <Image Width="170" Height="170" Margin="0,0,0,30"></Image>
-                            <TextBlock Text="See tour information"></TextBlock>
-                        </StackPanel>
-                        <StackPanel Margin="10,0,10,0">
-                            <TextBlock Text="Special eve tour" Margin="0,0,0,10"></TextBlock>
-                            <TextBlock Text="Location, locationaaa"></TextBlock>
-                        </StackPanel>
-                        <StackPanel Margin="150,0,20,0">
-                            <TextBlock Text="Number of guests by age" Margin="0,0,0,10"></TextBlock>
-                            <DataGrid AutoGenerateColumns="False" IsReadOnly="True">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Age group"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="Guest number"></DataGridTextColumn>
-                                </DataGrid.Columns>
-                            </DataGrid>
-                        </StackPanel>
-                        <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" Margin="50,0,50,0">
-                            <TextBlock Text="THIS IS A CHART "></TextBlock>
-                            <TextBlock Text="guest with voucher ░" Margin="0,100,0,10"></TextBlock>
-                            <TextBlock Text="guest without voucher ▒"></TextBlock>
-                        </StackPanel>
-                    </StackPanel>
-                </Border>
-                <StackPanel Orientation="Horizontal"  Margin="0,50,0,10">
-                    <TextBlock Text="Top tour in" Margin="0,0,10,0"></TextBlock>
-                    <ComboBox Width="100"></ComboBox>
-                </StackPanel>
-                <Border BorderBrush="Black" BorderThickness="2" Height="300" Padding="20,30,20,30">
-                    <StackPanel Orientation="Horizontal">
-                        <StackPanel Margin="10,0,10,0">
-                            <Image Width="170" Height="170" Margin="0,0,0,30"></Image>
-                            <TextBlock Text="See tour information"></TextBlock>
-                        </StackPanel>
-                        <StackPanel Margin="10,0,10,0">
-                            <TextBlock Text="Special eve tour" Margin="0,0,0,10"></TextBlock>
-                            <TextBlock Text="Location, locationaaa"></TextBlock>
-                        </StackPanel>
-                        <StackPanel Margin="150,0,20,0">
-                            <TextBlock Text="Number of guests by age" Margin="0,0,0,10"></TextBlock>
-                            <DataGrid AutoGenerateColumns="False" IsReadOnly="True">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Age group"></DataGridTextColumn>
-                                    <DataGridTextColumn Header="Guest number"></DataGridTextColumn>
-                                </DataGrid.Columns>
-                            </DataGrid>
-                        </StackPanel>
-                        <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" Margin="50,0,50,0">
-                            <TextBlock Text="THIS IS A CHART "></TextBlock>
-                            <TextBlock Text="guest with voucher ░" Margin="0,100,0,10"></TextBlock>
-                            <TextBlock Text="guest without voucher ▒"></TextBlock>
-                        </StackPanel>
-                    </StackPanel>
-                </Border>
-                <TextBlock Text="Want to see statistics for specific tour? Go to -all tours- and choose one" Margin="00,50,0,0"></TextBlock>
+        <StackPanel>
+            <Grid HorizontalAlignment="Center">
+                <local:NavigationMenu></local:NavigationMenu>
+            </Grid>
+            <Grid>
+                <!--<Label Content="Top Tour" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top"/>
+            <StackPanel Margin="20,62,94,230">
+                <TextBlock Text="{Binding AllTimeTopTour.Tour.Title, StringFormat=Tour Title: {0}}"></TextBlock>
+                <TextBlock Text="{Binding AllTimeTopTour.Tour.Location.City, StringFormat=Location City: {0}}"></TextBlock>
+                <TextBlock Text="{Binding AllTimeTopTour.Tour.Location.Country, StringFormat=Location Country: {0}}"></TextBlock>
+                <TextBlock Text="{Binding AllTimeTopTour.Id, StringFormat=Tour Id: {0}}"></TextBlock>
             </StackPanel>
+
+            <Label Content="Top Tour in" HorizontalAlignment="Left" Margin="10,214,0,0" VerticalAlignment="Top"/>
+            <ComboBox HorizontalAlignment="Left" Margin="138,214,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding YearsWithTours}"  SelectedItem="{Binding SelectedYear}"/>
+            <StackPanel Margin="20,269,94,38">
+                <TextBlock Text="{Binding SelectedYearTopTour.Tour.Title, StringFormat=Tour Title: {0}}"></TextBlock>
+                <TextBlock Text="{Binding SelectedYearTopTour.Tour.Location.City, StringFormat=Location City: {0}}"></TextBlock>
+                <TextBlock Text="{Binding SelectedYearTopTour.Tour.Location.Country, StringFormat=Location Country: {0}}"></TextBlock>
+                <TextBlock Text="{Binding SelectedYearTopTour.Id, StringFormat=Tour Id: {0}}"></TextBlock>
+            </StackPanel>-->
+                <StackPanel Margin="20,20,20,20">
+                    <StackPanel>
+                        <TextBlock Text="Top tour of all time" Margin="0,0,0,10"></TextBlock>
+                        <Border BorderBrush="Black" BorderThickness="2" Height="300" Padding="20,30,20,30">
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel Margin="10,0,10,0">
+                                    <Image Width="170" Height="170" Margin="0,0,0,30"></Image>
+                                    <TextBlock Text="See tour information"></TextBlock>
+                                </StackPanel>
+                                <StackPanel Margin="10,0,10,0">
+                                    <TextBlock Text="Special eve tour" Margin="0,0,0,10"></TextBlock>
+                                    <TextBlock Text="Location, locationaaa"></TextBlock>
+                                </StackPanel>
+                                <StackPanel Margin="150,0,20,0">
+                                    <TextBlock Text="Number of guests by age" Margin="0,0,0,10"></TextBlock>
+                                    <DataGrid AutoGenerateColumns="False" IsReadOnly="True">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Age group"></DataGridTextColumn>
+                                            <DataGridTextColumn Header="Guest number"></DataGridTextColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" Margin="50,0,50,0">
+                                    <TextBlock Text="THIS IS A CHART "></TextBlock>
+                                    <TextBlock Text="guest with voucher ░" Margin="0,100,0,10"></TextBlock>
+                                    <TextBlock Text="guest without voucher ▒"></TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                        <StackPanel Orientation="Horizontal"  Margin="0,50,0,10">
+                            <TextBlock Text="Top tour in" Margin="0,0,10,0"></TextBlock>
+                            <ComboBox Width="100"></ComboBox>
+                        </StackPanel>
+                        <Border BorderBrush="Black" BorderThickness="2" Height="300" Padding="20,30,20,30">
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel Margin="10,0,10,0">
+                                    <Image Width="170" Height="170" Margin="0,0,0,30"></Image>
+                                    <TextBlock Text="See tour information"></TextBlock>
+                                </StackPanel>
+                                <StackPanel Margin="10,0,10,0">
+                                    <TextBlock Text="Special eve tour" Margin="0,0,0,10"></TextBlock>
+                                    <TextBlock Text="Location, locationaaa"></TextBlock>
+                                </StackPanel>
+                                <StackPanel Margin="150,0,20,0">
+                                    <TextBlock Text="Number of guests by age" Margin="0,0,0,10"></TextBlock>
+                                    <DataGrid AutoGenerateColumns="False" IsReadOnly="True">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Age group"></DataGridTextColumn>
+                                            <DataGridTextColumn Header="Guest number"></DataGridTextColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" Margin="50,0,50,0">
+                                    <TextBlock Text="THIS IS A CHART "></TextBlock>
+                                    <TextBlock Text="guest with voucher ░" Margin="0,100,0,10"></TextBlock>
+                                    <TextBlock Text="guest without voucher ▒"></TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Want to see statistics for specific tour? Go to " Margin="00,50,0,0"></TextBlock>
+                            <Button Content="all tours" VerticalAlignment="Bottom">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToAllTours}" />
+                                        <i:InvokeCommandAction Command="{Binding NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
+                                              RelativeSource Mode=FindAncestor,
+                                              AncestorType={x:Type Window}}}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                            <TextBlock Text=" and choose one " Margin="00,50,0,0"></TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
         </StackPanel>
     </Grid>
 </Window>

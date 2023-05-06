@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls.DataVisualization.Charting;
 using System.Windows.Navigation;
 using SIMS_HCI_Project.Domain.DTOs;
-
+using SIMS_HCI_Project.WPF.Commands;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 {
@@ -24,11 +24,23 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         private RegularTourRequestService _regularTourRequestService { get; set; }
 
         private TourRequestsStatisticsService _tourRequestsStatisticsService;
-        public TourRequestsStatisticsByStatus TourRequestsStatisticsByStatus { get; set; }
+        private TourRequestsStatisticsByStatus _tourRequestsStatisticsByStatus;
+        public TourRequestsStatisticsByStatus TourRequestsStatisticsByStatus
+        {
+            get { return _tourRequestsStatisticsByStatus; }
+            set 
+            {
+                if (value != _tourRequestsStatisticsByStatus)
+                {
+                    _tourRequestsStatisticsByStatus = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
-        public int CountAccepted { get; set; }
-        public int CountPending { get; set; }
-        public int CountInvalid { get; set; }
+        public ObservableCollection<int> AvailableYears { get; set; }
+
+
 
         private ChartValues<int> _acceptedCount;
         public ChartValues<int> AcceptedCount
@@ -71,6 +83,18 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                     _pendingCount = value;
                     OnPropertyChanged();
                 }
+            }
+        }
+
+        private int _selectedYearIndex; //ipak ovo?
+        public int SelectedYearIndex
+        {
+            get => _selectedYearIndex;
+            set
+            {
+                _selectedYearIndex = value;
+                OnPropertyChanged(nameof(SelectedYearIndex));
+                ExecuteSelectedYearChanged();
             }
         }
 
@@ -144,55 +168,62 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         {
             Guest2 = guest;
             NavigationService = navigationService;
+            AvailableYears = new ObservableCollection<int>();
 
             LoadFromFiles();
-            InitCommands();
+            FillAvailableYears();
+
+            SelectedYearIndex = 0;
 
             TourRequestsStatisticsByStatus = _tourRequestsStatisticsService.GetTourRequestsStatisticsByStatus(Guest2.Id);
 
-            CountAccepted = TourRequestsStatisticsByStatus.RequestsNumberByStatus[RegularRequestStatus.ACCEPTED];
-            CountPending = TourRequestsStatisticsByStatus.RequestsNumberByStatus[RegularRequestStatus.PENDING];
-            CountInvalid = TourRequestsStatisticsByStatus.RequestsNumberByStatus[RegularRequestStatus.INVALID];
-
-
-        //TourRequestsStatisticsByStatus.RequestsNumberByStatus();
-
-        _requestStatusSummary = new ObservableCollection<LiveCharts.Wpf.PieSeries>
-        {
-            new LiveCharts.Wpf.PieSeries
-            {
-                Title = "Pending",
-                Values = new ChartValues<int> { 10 }
-            },
-            new LiveCharts.Wpf.PieSeries
-            {
-                Title = "Accepted",
-                Values = new ChartValues<int> { 20 }
-            },
-            new LiveCharts.Wpf.PieSeries
-            {
-                Title = "Invalid",
-                Values = new ChartValues<int> { 5 }
-            }
-        };
 
             Requests = new List<RegularTourRequest>(_regularTourRequestService.GetAllByGuestId(Guest2.Id));
         }
 
-        public void GetFieldsByStatus(int guestId, RegularRequestStatus status)
+        public void FillAvailableYears()
         {
             
+            AvailableYears.Add(-1);
+            for (int year = 2020; year <= 2023; year++)
+            {
+                AvailableYears.Add(year);
+            }
         }
 
-        private void InitCommands()
+
+        private void ExecuteSelectedYearChanged()
+        {
+            if (SelectedYearIndex == 0)
+            {
+                TourRequestsStatisticsByStatus = _tourRequestsStatisticsService.GetTourRequestsStatisticsByStatus(Guest2.Id);
+                UpdateChart(TourRequestsStatisticsByStatus);
+                
+            }
+            else
+            {
+                //int selectedYear = AvailableYears[SelectedYearIndex];
+                int selectedYear = SelectedYearIndex+2020;
+                TourRequestsStatisticsByStatus = _tourRequestsStatisticsService.GetTourRequestsStatisticsByStatus(Guest2.Id, selectedYear);
+                UpdateChart(TourRequestsStatisticsByStatus);
+            }
+        }
+
+        private void UpdateChart(TourRequestsStatisticsByStatus TourRequestsStatisticsByStatus)
+        {
+            InvalidCount = new ChartValues<int> { TourRequestsStatisticsByStatus.RequestsNumberByStatus[RegularRequestStatus.INVALID] };
+            AcceptedCount = new ChartValues<int> { TourRequestsStatisticsByStatus.RequestsNumberByStatus[RegularRequestStatus.ACCEPTED] };
+            PendingCount = new ChartValues<int> { TourRequestsStatisticsByStatus.RequestsNumberByStatus[RegularRequestStatus.PENDING] };
+
+        }
+
+
+        private void LoadFromFiles()
         {
             _regularTourRequestService = new RegularTourRequestService();
             _tourRequestsStatisticsService = new TourRequestsStatisticsService();
         }
 
-        private void LoadFromFiles()
-        {
-
-        }
+        
     }
 }

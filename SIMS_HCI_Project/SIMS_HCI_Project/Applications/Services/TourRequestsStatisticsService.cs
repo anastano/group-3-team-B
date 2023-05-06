@@ -32,5 +32,19 @@ namespace SIMS_HCI_Project.Applications.Services
 
             return new TourRequestsStatisticsByStatus(requestsNumberByStatus);
         }
+
+        public TourRequestsStatisticsByStatus GetTourRequestsStatisticsByStatus(int guestId, int selectedYear) //get all by guest id
+        {
+            List<RegularRequestStatus> statuses = new List<RegularRequestStatus> { RegularRequestStatus.PENDING, RegularRequestStatus.ACCEPTED, RegularRequestStatus.INVALID };
+
+            Dictionary<RegularRequestStatus, int> requestsNumberByStatus = new Dictionary<RegularRequestStatus, int>();
+
+            foreach (RegularRequestStatus status in statuses)
+            {
+                requestsNumberByStatus.Add(status, _regularTourRequestRepository.GetRequestsCountByStatus(status, guestId, selectedYear));
+            }
+
+            return new TourRequestsStatisticsByStatus(requestsNumberByStatus);
+        }
     }
 }

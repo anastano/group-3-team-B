@@ -4,20 +4,35 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest2Views"
-      xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf" xmlns:base="clr-namespace:LiveCharts.Wpf.Charts.Base;assembly=LiveCharts.Wpf"
+      xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+      xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
+
       mc:Ignorable="d" 
       d:DesignHeight="518" d:DesignWidth="1080"
       Title="StatisticsView">
 
+    <Page.Resources>
+        <converters:AllTimeConverter x:Key="AllTimeConverter" />
+    </Page.Resources>
+
     <Grid Background="AliceBlue">
         <Label Content="Percentage of accepted requests:" HorizontalAlignment="Left" Margin="44,74,0,0" VerticalAlignment="Top"/>
         <Label Content="Statistics on my tour requests"  HorizontalAlignment="Left" Margin="332,10,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="37" Width="289" FontSize="20"/>
-        <ComboBox ItemsSource="{Binding Years}" SelectedIndex="{Binding SelectedYearIndex}" HorizontalAlignment="Left" Margin="75,133,0,0" VerticalAlignment="Top" Width="120"/>
-        <ComboBox x:Name="yearComboBox" SelectedIndex="0" Margin="75,171,885,318">
-            <ComboBoxItem Content="All Time" />
-            <ComboBoxItem Content="2023" />
-            <ComboBoxItem Content="2022" />
+
+        <ComboBox ItemsSource="{Binding AvailableYears, Converter={StaticResource AllTimeConverter}}" SelectedValue="{Binding SelectedYear, Mode=TwoWay}" HorizontalAlignment="Left" Margin="75,133,0,0" VerticalAlignment="Top" Width="120">
+            <!--ComboBoxItem Content="AllTime"/-->
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <ComboBox x:Name="yearComboBox" SelectedIndex="{Binding SelectedYearIndex}" Margin="75,171,885,318">
+            <ComboBoxItem Content="All Time"/>
             <ComboBoxItem Content="2021" />
+            <ComboBoxItem Content="2022" />
+            <ComboBoxItem Content="2023" />
         </ComboBox>
         
         <lvc:PieChart x:Name="drugi" Margin="249,87,540,235" LegendLocation="Right">

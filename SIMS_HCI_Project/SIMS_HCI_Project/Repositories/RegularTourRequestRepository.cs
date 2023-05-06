@@ -29,17 +29,6 @@ namespace SIMS_HCI_Project.Repositories
             return _requests.Count == 0 ? 1 : _requests[_requests.Count - 1].Id + 1;
         }
 
-        public void UpdateStatusForInvlid() //for those that arent part of complex, may edit when start working on complex tours
-        {
-            foreach (var request in _requests)
-            {
-                if (request.IsPartOfComplex == false && DateTime.Now > request.Start.AddHours(-48))
-                {
-                    request.Status = RegularRequestStatus.INVALID;
-                    Save();
-                }
-            }
-        }
 
         public List<RegularTourRequest> GetAll()
         {
@@ -67,12 +56,17 @@ namespace SIMS_HCI_Project.Repositories
             return _requests.FindAll(r => r.GuestId == guestId && r.Status == status);
         }
 
+
         public void Add(RegularTourRequest request)
         {
             request.Id = GenerateId();
             _requests.Add(request);
 
             Save();
+        }
+        public void Save()
+        {
+            _fileHandler.Save(_requests);
         }
 
         public void EditStatus(int requestId, RegularRequestStatus status)
@@ -81,20 +75,26 @@ namespace SIMS_HCI_Project.Repositories
             request.Status = status;
             Save();
         }
-
-        public void Save()
+        public void UpdateStatusForInvlid() //for those that arent part of complex, may edit when start working on complex tours
         {
-            _fileHandler.Save(_requests);
-        }
-
-        public int GetRequestsCountByStatus(RegularRequestStatus status, List<RegularTourRequest> requests) //delete later
-        {
-            return 1;
+            foreach (var request in _requests)
+            {
+                if (request.IsPartOfComplex == false && DateTime.Now > request.Start.AddHours(-48))
+                {
+                    request.Status = RegularRequestStatus.INVALID;
+                    Save();
+                }
+            }
         }
 
         public int GetRequestsCountByStatus(RegularRequestStatus status, int guestId)
         {
             return _requests.Where(r => r.GuestId == guestId && r.Status==status).Count();
+        }
+
+        public int GetRequestsCountByStatus(RegularRequestStatus status, int guestId, int selectedYear)
+        {
+            return _requests.Where(r => r.GuestId == guestId && r.Status == status && r.Start.Year == selectedYear).Count();
         }
     }
 }

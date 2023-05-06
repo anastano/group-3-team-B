@@ -53,13 +53,13 @@ namespace SIMS_HCI_Project.WPF.Commands.Global
 
         private void ExecutedNavigateToHomeCommand(object obj)
         {
-            Window home = new GuideMainView(new Guide(new User()));
+            Window home = new GuideMainView();
             home.Show();
         }
 
         private void ExecutedNavigateToAllToursCommand(object obj)
         {
-            Window tours = new AllToursView(new TourService(), new Guide(new User()));
+            Window tours = new AllToursView(new TourService());
             tours.Show();;
         }
 
@@ -70,7 +70,7 @@ namespace SIMS_HCI_Project.WPF.Commands.Global
 
         private void ExecutedNavigateToTourInputCommand(object obj)
         {
-            Window tourInput = new TourInputView(new TourService(), new Guide(new User()));
+            Window tourInput = new TourInputView(new TourService());
             tourInput.Show();
         }
 
@@ -94,7 +94,7 @@ namespace SIMS_HCI_Project.WPF.Commands.Global
 
         private void ExecutedNavigateToStatisticsCommand(object obj)
         {
-            Window tourStatistics = new AllToursStatisticsView(new Guide(new User()));
+            Window tourStatistics = new AllToursStatisticsView();
             tourStatistics.Show();
         }
 

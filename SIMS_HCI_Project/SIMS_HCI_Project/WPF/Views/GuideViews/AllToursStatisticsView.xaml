@@ -43,7 +43,16 @@
                             <StackPanel Orientation="Horizontal">
                                 <StackPanel Margin="10,0,10,0">
                                     <Image Width="170" Height="170" Margin="0,0,0,30"></Image>
-                                    <TextBlock Text="See tour information"></TextBlock>
+                                    <Button Content="See tour information">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourInformation}"></i:InvokeCommandAction>
+                                                <i:InvokeCommandAction Command="{Binding NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
+                                                          RelativeSource Mode=FindAncestor,
+                                                          AncestorType={x:Type Window}}}"></i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
                                 </StackPanel>
                                 <StackPanel Margin="10,0,10,0">
                                     <TextBlock Text="Special eve tour" Margin="0,0,0,10"></TextBlock>
@@ -73,7 +82,16 @@
                             <StackPanel Orientation="Horizontal">
                                 <StackPanel Margin="10,0,10,0">
                                     <Image Width="170" Height="170" Margin="0,0,0,30"></Image>
-                                    <TextBlock Text="See tour information"></TextBlock>
+                                    <Button Content="See tour information">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourInformation}"></i:InvokeCommandAction>
+                                                <i:InvokeCommandAction Command="{Binding NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
+                                                          RelativeSource Mode=FindAncestor,
+                                                          AncestorType={x:Type Window}}}"></i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
                                 </StackPanel>
                                 <StackPanel Margin="10,0,10,0">
                                     <TextBlock Text="Special eve tour" Margin="0,0,0,10"></TextBlock>

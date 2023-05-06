@@ -63,7 +63,7 @@
                                 <TextBlock TextWrapping="Wrap" Text="See guest list"/>
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Click">
-                                        <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourProgress}" />
+                                        <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourProgress}" CommandParameter="{Binding TourInProgress}"/>
                                         <i:InvokeCommandAction Command="{Binding NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
                                               RelativeSource Mode=FindAncestor,
                                               AncestorType={x:Type Window}}}"/>
@@ -112,8 +112,17 @@
                                         <Button Content="INFO">
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="Click">
-                                                    <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourInformation}" CommandParameter="{Binding SelectedTour}" />
-                                                    <i:InvokeCommandAction Command="{Binding NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
+                                                    <i:InvokeCommandAction Command="{Binding RelativeSource={
+                                                          RelativeSource Mode=FindAncestor,
+                                                          AncestorType={x:Type Window}},
+                                                          Path=DataContext.NavigationCommands.NavigateToTourInformation}" CommandParameter="{Binding RelativeSource={
+                                                          RelativeSource Mode=FindAncestor,
+                                                          AncestorType={x:Type DataGrid}},
+                                                          Path=SelectedItem.Tour}" />
+                                                    <i:InvokeCommandAction Command="{Binding RelativeSource={
+                                                          RelativeSource Mode=FindAncestor,
+                                                          AncestorType={x:Type Window}},
+                                                          Path=DataContext.NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
                                                           RelativeSource Mode=FindAncestor,
                                                           AncestorType={x:Type Window}}}"/>
                                                 </i:EventTrigger>

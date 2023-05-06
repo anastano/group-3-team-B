@@ -57,10 +57,19 @@
                                         <Button Content="INFO">
                                             <i:Interaction.Triggers>
                                                 <i:EventTrigger EventName="Click">
-                                                    <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourInformation}" CommandParameter="{Binding SelectedTour}" />
-                                                    <i:InvokeCommandAction Command="{Binding NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
-                                              RelativeSource Mode=FindAncestor,
-                                              AncestorType={x:Type Window}}}"/>
+                                                    <i:InvokeCommandAction Command="{Binding RelativeSource={
+                                                          RelativeSource Mode=FindAncestor,
+                                                          AncestorType={x:Type Window}},
+                                                          Path=DataContext.NavigationCommands.NavigateToTourInformation}" CommandParameter="{Binding RelativeSource={
+                                                          RelativeSource Mode=FindAncestor,
+                                                          AncestorType={x:Type DataGrid}},
+                                                          Path=SelectedItem}" />
+                                                    <i:InvokeCommandAction Command="{Binding RelativeSource={
+                                                          RelativeSource Mode=FindAncestor,
+                                                          AncestorType={x:Type Window}},
+                                                          Path=DataContext.NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
+                                                          RelativeSource Mode=FindAncestor,
+                                                          AncestorType={x:Type Window}}}"/>
                                                 </i:EventTrigger>
                                             </i:Interaction.Triggers>
                                         </Button>

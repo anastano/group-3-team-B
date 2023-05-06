@@ -7,54 +7,59 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="TourInformation" Height="820" Width="620" WindowStartupLocation="CenterScreen" FontSize="20">
-    
     <Window.Resources>
-        <Style x:Key="CancelButton" TargetType="Button">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding SelectedTourTime.IsCancellable}" Value="True">
-                    <Setter Property="IsEnabled" Value="True"></Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding SelectedTourTime.IsCancellable}" Value="False">
-                    <Setter Property="IsEnabled" Value="False"></Setter>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="StartButton" TargetType="Button">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding SelectedTourTime.IsStartable}" Value="True">
-                    <Setter Property="IsEnabled" Value="True"></Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding SelectedTourTime.IsStartable}" Value="False">
-                    <Setter Property="IsEnabled" Value="False"></Setter>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="FinishedButton" TargetType="Button">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding SelectedTourTime.IsFinished}" Value="True">
-                    <Setter Property="IsEnabled" Value="True"></Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding SelectedTourTime.IsFinished}" Value="False">
-                    <Setter Property="IsEnabled" Value="False"></Setter>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="HistoryButton" TargetType="Button">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding SelectedTourTime.Status}" Value="COMPLETED">
-                    <Setter Property="IsEnabled" Value="True"></Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding SelectedTourTime.Status}" Value="IN_PROGRESS">
-                    <Setter Property="IsEnabled" Value="True"></Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding SelectedTourTime.Status}" Value="NOT_STARTED">
-                    <Setter Property="IsEnabled" Value="False"></Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding SelectedTourTime.Status}" Value="CANCELLED">
-                    <Setter Property="IsEnabled" Value="False"></Setter>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/GuideStyles.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="CancelButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding SelectedTourTime.IsCancellable}" Value="True">
+                        <Setter Property="IsEnabled" Value="True"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding SelectedTourTime.IsCancellable}" Value="False">
+                        <Setter Property="IsEnabled" Value="False"></Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="StartButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding SelectedTourTime.IsStartable}" Value="True">
+                        <Setter Property="IsEnabled" Value="True"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding SelectedTourTime.IsStartable}" Value="False">
+                        <Setter Property="IsEnabled" Value="False"></Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="FinishedButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding SelectedTourTime.IsFinished}" Value="True">
+                        <Setter Property="IsEnabled" Value="True"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding SelectedTourTime.IsFinished}" Value="False">
+                        <Setter Property="IsEnabled" Value="False"></Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="HistoryButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding SelectedTourTime.Status}" Value="COMPLETED">
+                        <Setter Property="IsEnabled" Value="True"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding SelectedTourTime.Status}" Value="IN_PROGRESS">
+                        <Setter Property="IsEnabled" Value="True"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding SelectedTourTime.Status}" Value="NOT_STARTED">
+                        <Setter Property="IsEnabled" Value="False"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding SelectedTourTime.Status}" Value="CANCELLED">
+                        <Setter Property="IsEnabled" Value="False"></Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
     </Window.Resources>
     <Grid>
         <StackPanel>

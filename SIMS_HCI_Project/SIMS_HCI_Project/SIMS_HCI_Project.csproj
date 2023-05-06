@@ -21,6 +21,9 @@
     <None Remove="Resources\Images\reserve.png" />
     <None Remove="Resources\Images\search.png" />
     <None Remove="Resources\Images\user.png" />
+    <None Remove="WPF\Images\home.png" />
+    <None Remove="WPF\Images\mountain-city.png" />
+    <None Remove="WPF\Images\question-mark.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,6 +51,9 @@
     <Resource Include="Resources\Images\reserve.png" />
     <Resource Include="Resources\Images\search.png" />
     <Resource Include="Resources\Images\user.png" />
+    <Resource Include="WPF\Images\home.png" />
+    <Resource Include="WPF\Images\mountain-city.png" />
+    <Resource Include="WPF\Images\question-mark.png" />
   </ItemGroup>
 
   <ItemGroup>

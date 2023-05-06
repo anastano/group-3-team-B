@@ -1,6 +1,4 @@
-﻿using SIMS_HCI_Project.Applications.Services;
-using SIMS_HCI_Project.Domain.Models;
-using SIMS_HCI_Project.WPF.ViewModels.GuideViewModels;
+﻿using SIMS_HCI_Project.WPF.ViewModels.GuideViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,20 +11,21 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace SIMS_HCI_Project.WPF.Views.GuideViews
 {
     /// <summary>
-    /// Interaction logic for TourInputView.xaml
+    /// Interaction logic for NavigationMenu.xaml
     /// </summary>
-    public partial class TourInputView : Window
+    public partial class NavigationMenu : UserControl
     {
-        public TourInputView(TourService tourService)
+        public NavigationMenu()
         {
             InitializeComponent();
-
-            this.DataContext = new TourInputViewModel(tourService);
+            
+            this.DataContext = new NavigationMenuViewModel();
         }
     }
 }

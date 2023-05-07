@@ -9,7 +9,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="702" d:DesignWidth="969" Background="#f5f5f5">
     <UserControl.Resources>
-        <converters:ImageUrlConverter x:Key="ImageUrlConverter"/>
         <converters:ButtonMinusConverter x:Key="ButtonMinusConverter"/>
         <converters:ButtonPlusConverter x:Key="ButtonPlusConverter"/>
         <converters:ButtonToEnableConverter x:Key="ButtonToEnableConverter"/>
@@ -30,7 +29,7 @@
             <RowDefinition Height="5*" />
         </Grid.RowDefinitions>
         <Button Grid.Row="0" Grid.Column="0" Command="{Binding DataContext.BackCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Margin="0,0,0,0" Content="Back" FontSize="18" Width="80" HorizontalAlignment="Left"/>
-        <Label Grid.Row="1" Grid.ColumnSpan="5" Content="{Binding Accommodation.Name}" HorizontalAlignment="Center" FontSize="25" Width="770"/>
+        <Label Grid.Row="1" Grid.ColumnSpan="5" Content="{Binding Accommodation.Name}" HorizontalContentAlignment="Center" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="30" Width="940" Margin="0,0,0,0"/>
         <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="0">
             <Label HorizontalAlignment="Left" Width="144">Start</Label>
             <DatePicker SelectedDate="{Binding Start, StringFormat='{}{0:MM/dd/yyyy}', ValidatesOnDataErrors = True, NotifyOnValidationError = True}" 
@@ -101,27 +100,68 @@
                 </Button>
             </StackPanel>
         </StackPanel>
-        <Button Grid.Row="2" Grid.Column="4" Content="Search" Command="{Binding DataContext.SearchFreeCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" HorizontalAlignment="Left" Margin="0, 25, 0, 0" Width="60" Height="30" VerticalAlignment="Top" />
-        <Label Grid.Row="3" Grid.ColumnSpan="5" Content="{Binding SpecialText}" HorizontalAlignment="Center" FontSize="25"/>
+        <Button Grid.Row="2" Grid.Column="4" Content="Search" Command="{Binding DataContext.SearchCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" HorizontalAlignment="Left" Margin="0, 25, 0, 0" Width="60" Height="30" VerticalAlignment="Top" />
+        <Label Grid.Row="3" Grid.ColumnSpan="5" Content="{Binding SuggestionText}" HorizontalAlignment="Left" FontSize="25" Margin="0,0,0,0" Width="940" />
         <DataGrid Grid.ColumnSpan="5" Grid.Row="4"
-                  ItemsSource="{Binding Path=AvailableAccommodations, UpdateSourceTrigger=PropertyChanged}"
-                  SelectedItem="{Binding Path=SelectedAccommodation, UpdateSourceTrigger=PropertyChanged}"
-                  AutoGenerateColumns="False" IsReadOnly="True" Margin="0, 10, 0, 0">
+                  ItemsSource="{Binding Path=AvailableReservations, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}"
+                  AutoGenerateColumns="False" IsReadOnly="True" Margin="0, 10, 0, 0"
+                   GridLinesVisibility="Horizontal" RowHeight="100">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Image">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Image Source="{Binding Images, Converter={StaticResource ImageUrlConverter}}" Width="50" Height="50"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Country" Binding="{Binding Location.Country}" Width="SizeToCells"></DataGridTextColumn>
-                <DataGridTextColumn Header="City" Binding="{Binding Location.City}" Width="SizeToCells"></DataGridTextColumn>
-                <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Minimum Days" Binding="{Binding MinimumReservationDays}" Width="SizeToHeader"></DataGridTextColumn>
-                <DataGridTextColumn Header="Guest Capacity" Binding="{Binding MaxGuests}" Width="SizeToHeader"></DataGridTextColumn>
-                <DataGridTemplateColumn Header="Reserve">
+                <DataGridTextColumn Header="Start" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Setter Property="TextWrapping" Value="Wrap" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="TextAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="End" Binding="{Binding End , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Setter Property="TextWrapping" Value="Wrap" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="TextAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Number of guests" Binding="{Binding GuestNumber}" Width="0.5*">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Setter Property="TextWrapping" Value="Wrap" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="TextAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTemplateColumn Header="Reserve" Width="0.5*">
+                    <DataGridTemplateColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTemplateColumn.HeaderStyle>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Button Content="Reserve" Command="{Binding DataContext.ReserveAccommodationCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Margin="3, 3, 3, 3"/>

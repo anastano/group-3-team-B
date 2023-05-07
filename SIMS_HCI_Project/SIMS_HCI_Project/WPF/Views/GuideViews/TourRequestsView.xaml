@@ -74,8 +74,8 @@
                             <DataGridTextColumn Header="DateRange" Width="2*">
                                 <DataGridTextColumn.Binding>
                                     <MultiBinding StringFormat="{}{0} - {1}">
-                                        <Binding Path="Start.Date"></Binding>
-                                        <Binding Path="End.Date"></Binding>
+                                        <Binding Path="DateRange.Start.Date"></Binding>
+                                        <Binding Path="DateRange.End.Date"></Binding>
                                     </MultiBinding>
                                 </DataGridTextColumn.Binding>
                             </DataGridTextColumn>

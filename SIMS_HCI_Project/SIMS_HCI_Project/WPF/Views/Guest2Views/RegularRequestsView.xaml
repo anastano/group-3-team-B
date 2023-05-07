@@ -22,9 +22,9 @@
                 <DataGridTextColumn Header="SubmittingDate" Binding="{Binding SubmittingDate}" Width="160"/>
                 <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="140" />
 
-                <DataGridTextColumn Header="StartRange" Binding="{Binding Start, StringFormat='{}{0:MM/dd/yyyy}'}"  Width="*" />
+                <DataGridTextColumn Header="StartRange" Binding="{Binding DateRange.Start, StringFormat='{}{0:MM/dd/yyyy}'}"  Width="*" />
 
-                <DataGridTextColumn Header="EndRange" Binding="{Binding End, StringFormat='{}{0:MM/dd/yyyy}'}"    Width="*"/>
+                <DataGridTextColumn Header="EndRange" Binding="{Binding DateRange.End, StringFormat='{}{0:MM/dd/yyyy}'}"    Width="*"/>
 
             </DataGrid.Columns>
             

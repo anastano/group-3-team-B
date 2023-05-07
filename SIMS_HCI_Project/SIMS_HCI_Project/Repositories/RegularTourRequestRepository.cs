@@ -38,7 +38,7 @@ namespace SIMS_HCI_Project.Repositories
         {
             foreach (var request in _requests)
             {
-                if (request.IsPartOfComplex == false && DateTime.Now > request.Start.AddHours(-48))
+                if (request.IsPartOfComplex == false && DateTime.Now > request.DateRange.Start.AddHours(-48))
                 {
                     request.Status = RegularRequestStatus.INVALID;
                     Save();
@@ -78,7 +78,7 @@ namespace SIMS_HCI_Project.Repositories
             return _requests.FindAll(r => (location == null || r.Location.Equals(location))
                                         && (guestNumber == 0 || r.GuestNumber == guestNumber)
                                         && (language == null || language.Equals("") || r.Language.Equals(language))
-                                        && (dateRange == null || (r.Start > dateRange.Start && r.End < dateRange.End)));
+                                        && (dateRange == null || (r.DateRange.IsInside(dateRange))));
         }
 
         public void Add(RegularTourRequest request)

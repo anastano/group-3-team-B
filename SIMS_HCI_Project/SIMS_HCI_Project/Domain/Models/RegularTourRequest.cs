@@ -4,6 +4,7 @@ using System.Linq;
 using SIMS_HCI_Project.Serializer;
 using System.Text;
 using System.Threading.Tasks;
+using SIMS_HCI_Project.Domain.DTOs;
 
 namespace SIMS_HCI_Project.Domain.Models
 {
@@ -20,18 +21,17 @@ namespace SIMS_HCI_Project.Domain.Models
         public string Language { get; set; }
         public int GuestNumber { get; set; }
         public string Description { get; set; }
-        public DateTime Start { get; set; }
-        public DateTime End { get; set; }
+        public DateRange DateRange { get; set; }
         public DateTime SubmittingDate { get; set; }
         public bool IsPartOfComplex { get; set; } //discuss if needed, how will (parts of) complex requests be stored
 
 
         public RegularTourRequest()
         {
-
+            DateRange = new DateRange();
         }
 
-        public RegularTourRequest(int guestId, Guest2 guest, Location location, string language, int guestNumber, string description, DateTime start, DateTime end, bool isPartOfComplex)
+        public RegularTourRequest(int guestId, Guest2 guest, Location location, string language, int guestNumber, string description, DateRange dateRange, bool isPartOfComplex)
         {
             GuestId = guestId;
             Guest = guest;
@@ -39,8 +39,7 @@ namespace SIMS_HCI_Project.Domain.Models
             Language = language;
             GuestNumber = guestNumber;
             Description = description;
-            Start = start;
-            End = end;
+            DateRange = dateRange;
             IsPartOfComplex = isPartOfComplex;
 
             SubmittingDate = DateTime.Now;
@@ -59,8 +58,8 @@ namespace SIMS_HCI_Project.Domain.Models
                 Language.ToString(),
                 GuestNumber.ToString(),
                 Description.ToString(),
-                Start.ToString("MM/dd/yyyy"),
-                End.ToString("MM/dd/yyyy"),
+                DateRange.Start.ToString("MM/dd/yyyy"),
+                DateRange.End.ToString("MM/dd/yyyy"),
                 SubmittingDate.ToString("MM/dd/yyyy"),
                 IsPartOfComplex.ToString()
             };
@@ -77,8 +76,8 @@ namespace SIMS_HCI_Project.Domain.Models
             Language = values[4];
             GuestNumber = int.Parse(values[5]);
             Description = values[6];
-            Start = DateTime.ParseExact(values[7], "MM/dd/yyyy", null);
-            End = DateTime.ParseExact(values[8], "MM/dd/yyyy", null);
+            DateRange.Start = DateTime.ParseExact(values[7], "MM/dd/yyyy", null);
+            DateRange.End = DateTime.ParseExact(values[8], "MM/dd/yyyy", null);
             SubmittingDate = DateTime.ParseExact(values[9], "MM/dd/yyyy", null);
             IsPartOfComplex = bool.Parse(values[10]);
         }

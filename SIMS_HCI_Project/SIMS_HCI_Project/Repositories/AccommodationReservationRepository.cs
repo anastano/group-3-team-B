@@ -38,7 +38,6 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _reservations.Count == 0 ? 1 : _reservations[_reservations.Count - 1].Id + 1;
         }
-
         public void Save()
         {
             _fileHandler.Save(_reservations);

@@ -116,7 +116,6 @@ namespace SIMS_HCI_Project.Applications.Services
             }
         }
 
-
         public void ConvertReservedReservationIntoCompleted(DateTime currentDate)
         {
             _reservationRepository.ConvertReservedReservationIntoCompleted(currentDate);

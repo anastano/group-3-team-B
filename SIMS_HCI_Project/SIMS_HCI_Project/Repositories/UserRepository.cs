@@ -28,7 +28,6 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _users;
         }
-
         public User GetByUsernameAndPassword(string username, string password)
         {
             return _users.FirstOrDefault(u => u.Username == username && u.Password == password);

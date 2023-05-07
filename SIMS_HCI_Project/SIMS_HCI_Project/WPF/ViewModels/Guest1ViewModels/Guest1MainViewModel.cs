@@ -37,6 +37,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         private RatingGivenByGuestService _guestRatingService;
         private RatingGivenByOwnerService _ownerRatingService;
         private RenovationRecommendationService _recommendationService;
+        private SuperGuestTitleService _titleService;
         public Guest1MainView Guest1MainView { get; set; }
         private ReservationsViewModel reservationsViewModel;
         public Guest1 Guest { get; set; }
@@ -138,6 +139,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _guestRatingService = new RatingGivenByGuestService();
             _ownerRatingService = new RatingGivenByOwnerService();
             _recommendationService = new RenovationRecommendationService();
+            _titleService = new SuperGuestTitleService();
 
             _accommodationService.ConnectAccommodationsWithLocations(_locationService);
             _accommodationService.ConnectAccommodationsWithOwners(_ownerService);
@@ -151,6 +153,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _guestRatingService.ConnectRatingsWithReservations(_reservationService);
             _guestRatingService.FillAverageRatingAndSuperFlag(_ownerService);
             _recommendationService.ConnectRecommendationsWithRatings(_guestRatingService);
+            _titleService.ConvertActiveTitlesIntoExpired(DateTime.Now);
+            _titleService.ConnectTitlesWithGuests(_guest1Service);
         }
         public bool CanExecute(object obj)
         {

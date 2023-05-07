@@ -31,5 +31,9 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return _userRepository.GetByUsernameAndPassword(username, password);
         }
+        public string GetFullName(User user)
+        {
+            return user.Name + " " + user.Surname;
+        }
     }
 }

@@ -14,7 +14,6 @@ using System.Windows.Controls.DataVisualization.Charting;
 using System.Windows.Navigation;
 using SIMS_HCI_Project.Domain.DTOs;
 using SIMS_HCI_Project.WPF.Commands;
-using Axis = LiveCharts.Wpf.Axis;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 {
@@ -24,54 +23,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public NavigationService NavigationService { get; set; }
         private RegularTourRequestService _regularTourRequestService { get; set; }
         private LocationService _locationService { get; set; }
-
-        private TourRequestsStatisticsService _tourRequestsStatisticsService;
-        
-
-
-        #region StatsByLanguage
-        private Dictionary<string, int> _requestsByLanguage;
-
-        public Dictionary<string, int> RequestsByLanguage
-        {
-            get => _requestsByLanguage;
-            set
-            {
-                if (value != _requestsByLanguage)
-                {
-                    _requestsByLanguage = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-        public ChartValues<string> RequestsByLanguageKeys
-        {
-            get => new ChartValues<string>(_requestsByLanguage.Keys);
-        }
-
-        private ChartValues<int> _requestsByLanguageValues;
-
-        public ChartValues<int> RequestsByLanguageValues
-        {
-            get => _requestsByLanguageValues;
-            set
-            {
-                if (value != _requestsByLanguageValues)
-                {
-                    _requestsByLanguageValues = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public Func<ChartPoint, string> ColumnChartLabelPoint =>
-              chartPoint =>
-              {
-                  string language = RequestsByLanguageKeys[(int)chartPoint.X];
-                  var count = chartPoint.Y;
-                  return $"{language}: {count}";
-              };
-        #endregion
+        private TourRequestsStatisticsService _tourRequestsStatisticsService { get; set; }
 
         #region StatsByStatus
         private TourRequestsStatisticsByStatus _tourRequestsStatisticsByStatus;
@@ -143,6 +95,61 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                 ExecuteStatusSelectedYearChanged();
             }
         }
+
+        private List<RegularTourRequest> _requests;
+        public List<RegularTourRequest> Requests
+        {
+            get { return _requests; }
+            set
+            {
+                _requests = value;
+                OnPropertyChanged();
+            }
+        }
+        #endregion
+
+        #region StatsByLanguage
+        private Dictionary<string, int> _requestsByLanguage;
+
+        public Dictionary<string, int> RequestsByLanguage
+        {
+            get => _requestsByLanguage;
+            set
+            {
+                if (value != _requestsByLanguage)
+                {
+                    _requestsByLanguage = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        public ChartValues<string> RequestsByLanguageKeys
+        {
+            get => new ChartValues<string>(_requestsByLanguage.Keys);
+        }
+
+        private ChartValues<int> _requestsByLanguageValues;
+
+        public ChartValues<int> RequestsByLanguageValues
+        {
+            get => _requestsByLanguageValues;
+            set
+            {
+                if (value != _requestsByLanguageValues)
+                {
+                    _requestsByLanguageValues = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public Func<ChartPoint, string> ColumnChartLabelPoint =>
+              chartPoint =>
+              {
+                  string language = RequestsByLanguageKeys[(int)chartPoint.X];
+                  var count = chartPoint.Y;
+                  return $"{language}: {count}";
+              };
         #endregion
 
         #region StatsByLocation
@@ -190,18 +197,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                   return $"{locationString}: {count}";
               };
         #endregion
-
-        private List<RegularTourRequest> _requests;
-        public List<RegularTourRequest> Requests
-        {
-            get { return _requests; }
-            set
-            {
-                _requests = value;
-                OnPropertyChanged();
-            }
-        }
-
+        
+        #region AverageNumber
         private List<RegularTourRequest> _acceptedRequests;
         public List<RegularTourRequest> AcceptedRequests
         {
@@ -235,6 +232,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                 ExecuteAverageSelectedYearChanged();
             }
         }
+        #endregion
 
         #region PropertyChanged
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -244,37 +242,27 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         }
         #endregion
 
-        
-
         public StatisticsViewModel(Guest2 guest, NavigationService navigationService)
         {
             Guest2 = guest;
             NavigationService = navigationService;
 
             LoadFromFiles();
+        }
 
-            SelectedYearIndexStatus = 0;
-            SelectedYearIndexAverage = 0;
-            Requests = new List<RegularTourRequest>(_regularTourRequestService.GetAllByGuestId(Guest2.Id));
-
-            TourRequestsStatisticsByStatus = _tourRequestsStatisticsService.GetTourRequestsStatisticsByStatus(Guest2.Id);
-
-            RequestsByLanguage = new Dictionary<string, int>(_tourRequestsStatisticsService.GetTourRequestStatisticsByLanguages(Guest2.Id));
-            RequestsByLanguageValues = new ChartValues<int>(RequestsByLanguage.Values);
-
-            RequestsByLocation = new Dictionary<int, int>(_tourRequestsStatisticsService.GetTourRequestStatisticsByLocationId(Guest2.Id));
-            RequestsByLocationValues = new ChartValues<int>(RequestsByLocation.Values);
-
-            AcceptedRequests = new List<RegularTourRequest>(_regularTourRequestService.GetByGuestIdAndStatus(Guest2.Id, RegularRequestStatus.ACCEPTED));
-            if(AcceptedRequests.Count == 0)
+        private void ExecuteStatusSelectedYearChanged()
+        {
+            if (SelectedYearIndexStatus == 0)
             {
-                AverageNumberOfPeople = "There are no accepted requests for the selected period.";
+                TourRequestsStatisticsByStatus = _tourRequestsStatisticsService.GetTourRequestsStatisticsByStatus(Guest2.Id);
+                UpdateChart(TourRequestsStatisticsByStatus);
             }
             else
             {
-                AverageNumberOfPeople = AcceptedRequests.Average(r => r.GuestNumber).ToString();
+                int selectedYear = SelectedYearIndexStatus+2020;
+                TourRequestsStatisticsByStatus = _tourRequestsStatisticsService.GetTourRequestsStatisticsByStatus(Guest2.Id, selectedYear);
+                UpdateChart(TourRequestsStatisticsByStatus);
             }
-
         }
 
         public void ExecuteAverageSelectedYearChanged()
@@ -293,29 +281,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         }
         public void UpdateAverageNumberOfPeople()
         {
-            if (AcceptedRequests.Count == 0)
-            {
-                AverageNumberOfPeople = "There are no accepted requests for the selected period.";
-            }
-            else
-            {
-                AverageNumberOfPeople = AcceptedRequests.Average(r => r.GuestNumber).ToString();
-            }
-        }
-
-        private void ExecuteStatusSelectedYearChanged()
-        {
-            if (SelectedYearIndexStatus == 0)
-            {
-                TourRequestsStatisticsByStatus = _tourRequestsStatisticsService.GetTourRequestsStatisticsByStatus(Guest2.Id);
-                UpdateChart(TourRequestsStatisticsByStatus);
-            }
-            else
-            {
-                int selectedYear = SelectedYearIndexStatus+2020;
-                TourRequestsStatisticsByStatus = _tourRequestsStatisticsService.GetTourRequestsStatisticsByStatus(Guest2.Id, selectedYear);
-                UpdateChart(TourRequestsStatisticsByStatus);
-            }
+            _ = (AcceptedRequests.Count == 0) ? AverageNumberOfPeople = "There are no accepted requests for the selected period." : AverageNumberOfPeople = AcceptedRequests.Average(r => r.GuestNumber).ToString();
         }
 
         private void UpdateChart(TourRequestsStatisticsByStatus TourRequestsStatisticsByStatus)
@@ -325,14 +291,25 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             PendingCount = new ChartValues<int> { TourRequestsStatisticsByStatus.RequestsNumberByStatus[RegularRequestStatus.PENDING] };
         }
 
-
         private void LoadFromFiles()
         {
             _regularTourRequestService = new RegularTourRequestService();
             _tourRequestsStatisticsService = new TourRequestsStatisticsService();
             _locationService = new LocationService();
-        }
 
-        
+            SelectedYearIndexStatus = 0;
+            SelectedYearIndexAverage = 0;
+
+            Requests = new List<RegularTourRequest>(_regularTourRequestService.GetAllByGuestId(Guest2.Id));
+            TourRequestsStatisticsByStatus = _tourRequestsStatisticsService.GetTourRequestsStatisticsByStatus(Guest2.Id);
+
+            RequestsByLanguage = new Dictionary<string, int>(_tourRequestsStatisticsService.GetTourRequestStatisticsByLanguages(Guest2.Id));
+            RequestsByLanguageValues = new ChartValues<int>(RequestsByLanguage.Values);
+
+            RequestsByLocation = new Dictionary<int, int>(_tourRequestsStatisticsService.GetTourRequestStatisticsByLocationId(Guest2.Id));
+            RequestsByLocationValues = new ChartValues<int>(RequestsByLocation.Values);
+
+            AcceptedRequests = new List<RegularTourRequest>(_regularTourRequestService.GetByGuestIdAndStatus(Guest2.Id, RegularRequestStatus.ACCEPTED));
+        }
     }
 }

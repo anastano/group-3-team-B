@@ -19,6 +19,15 @@ namespace SIMS_HCI_Project.Domain.Models
         public int AvailablePoints { get; set; }
         public TitleStatus Status { get; set; }
         public SuperGuestTitle() { }
+        public SuperGuestTitle(Guest1 guest)
+        {
+            Id = -1;
+            GuestId = guest.Id;
+            Guest = guest;
+            ActivationDate = DateTime.Now;
+            AvailablePoints = 5;
+            Status = TitleStatus.ACTIVE;
+        }
 
         public string[] ToCSV()
         {

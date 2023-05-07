@@ -19,6 +19,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
     {
         private NavigationService _navigationService;
         private AccommodationReservationService _accommodationReservationService;
+        private SuperGuestTitleService _titleService;
         public AccommodationReservation SelectedReservation { get; set; }
         public Accommodation Accommodation { get; }
         public Guest1 Guest { get; set; }
@@ -122,6 +123,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             _navigationService = navigationService;
             _accommodationReservationService = new AccommodationReservationService();
+            _titleService = new SuperGuestTitleService();
             Accommodation = accommodation;
             Guest = guest;
             AvailableReservations = new List<AccommodationReservation>();
@@ -149,14 +151,21 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 MessageBoxResult result = ConfirmReservation();
                 if (result == MessageBoxResult.Yes)
                 {
-                    _accommodationReservationService.Add(new AccommodationReservation(Accommodation, Guest, Start, End, GuestsNumber));
+                    _accommodationReservationService.Add(new AccommodationReservation(SelectedReservation));
+                    _titleService.UpdateSuperGuestTitle(_accommodationReservationService ,Guest);
+                    UpdateAvailableReservations();
                 }
             }
         }
         public void ExecutedSearchCommand(object obj)
         {
+            UpdateAvailableReservations();
+
+        }
+        private void UpdateAvailableReservations()
+        {
             AvailableReservations = _accommodationReservationService.GetAvailableReservations(Accommodation, Guest, Start, End, DaysNumber, GuestsNumber);
-            if (_accommodationReservationService.CheckIfSuggestionIsNeeded(AvailableReservations) == true) 
+            if (_accommodationReservationService.CheckIfSuggestionIsNeeded(AvailableReservations) == true)
             {
                 SuggestionText = "There are no available reservations for the selected dates, here are a few recommendations for dates close to the selected ones";
                 AvailableReservations = _accommodationReservationService.GetSuggestedAvailableReservations(Accommodation, Guest, Start, End, DaysNumber, GuestsNumber);
@@ -165,8 +174,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             {
                 SuggestionText = "Available reservations for the selected days";
             }
-
         }
+
         public void ExecutedBackCommand(object obj)
         {
             _navigationService.NavigateBack();

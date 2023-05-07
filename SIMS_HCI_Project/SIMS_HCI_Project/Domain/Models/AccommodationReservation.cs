@@ -35,6 +35,16 @@ namespace SIMS_HCI_Project.Domain.Models
             GuestNumber = guestNumber;
             Status = AccommodationReservationStatus.RESERVED;
         }
+        public AccommodationReservation(AccommodationReservation reservation)
+        {
+            Id = reservation.Id;
+            AccommodationId = reservation.AccommodationId;
+            GuestId = reservation.GuestId;
+            Start = reservation.Start;
+            End = reservation.End;
+            GuestNumber = reservation.GuestNumber;
+            Status = reservation.Status;
+        }
 
         public string[] ToCSV()
         {

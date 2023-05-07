@@ -153,8 +153,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _guestRatingService.ConnectRatingsWithReservations(_reservationService);
             _guestRatingService.FillAverageRatingAndSuperFlag(_ownerService);
             _recommendationService.ConnectRecommendationsWithRatings(_guestRatingService);
-            _titleService.ConvertActiveTitlesIntoExpired(DateTime.Now);
             _titleService.ConnectTitlesWithGuests(_guest1Service);
+            _titleService.UpdateTitles(_reservationService);
+            _titleService.ConvertActiveTitlesIntoExpired(DateTime.Now);
         }
         public bool CanExecute(object obj)
         {

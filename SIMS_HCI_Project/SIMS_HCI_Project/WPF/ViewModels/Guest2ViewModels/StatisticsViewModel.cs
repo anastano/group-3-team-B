@@ -14,6 +14,7 @@ using System.Windows.Controls.DataVisualization.Charting;
 using System.Windows.Navigation;
 using SIMS_HCI_Project.Domain.DTOs;
 using SIMS_HCI_Project.WPF.Commands;
+using Axis = LiveCharts.Wpf.Axis;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 {
@@ -38,9 +39,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             }
         }
 
-       
-
-        //3
+      
         private Dictionary<string, int> _requestsByLanguage;
 
         public Dictionary<string, int> RequestsByLanguage
@@ -55,8 +54,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                 }
             }
         }
-
-        //public List<string> RequestsByLanguageKeys => RequestsByLanguage.Keys.ToList();
         public ChartValues<string> RequestsByLanguageKeys
         {
             get => new ChartValues<string>(_requestsByLanguage.Keys);
@@ -76,8 +73,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                 }
             }
         }
-
-        //3
 
 
         private ChartValues<int> _acceptedCount;
@@ -147,41 +142,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                 OnPropertyChanged();
             }
         }
-        /*private ObservableCollection<LiveCharts.Wpf.PieSeries> _requestStatusSummary;
-
-        public ObservableCollection<LiveCharts.Wpf.PieSeries> RequestStatusSummary
-        {
-            get { return _requestStatusSummary; }
-            set
-            {
-                _requestStatusSummary = value;
-                OnPropertyChanged(nameof(RequestStatusSummary));
-            }
-        }*/
-
-        /*public IEnumerable<LiveCharts.Wpf.PieSeries> RequestStatusSummaryAAA
-        {
-            get
-            {
-                var groupedList = Requests
-                    .GroupBy(r => r.Status)
-                    .Select(g => new { Status = g.Key, Count = g.Count() });
-
-                var seriesCollection = new SeriesCollection();
-                foreach (var group in groupedList)
-                {
-                    var series = new LiveCharts.Wpf.PieSeries
-                    {
-                        Title = group.Status.ToString(),
-                        Values = new ChartValues<double> { group.Count }
-                    };
-                    seriesCollection.Add(series);
-                }
-
-                return seriesCollection as IEnumerable<LiveCharts.Wpf.PieSeries> ;
-            }
-        } */
-
 
         #region PropertyChanged
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -190,6 +150,15 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
+
+        public Func<ChartPoint, string> ColumnChartLabelPoint =>
+              chartPoint =>
+              {
+                  string language = RequestsByLanguageKeys[(int)chartPoint.X];
+                  var count = chartPoint.Y;
+                  return $"{language}: {count}";
+              };
+
 
         public StatisticsViewModel(Guest2 guest, NavigationService navigationService)
         {
@@ -205,18 +174,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
             Requests = new List<RegularTourRequest>(_regularTourRequestService.GetAllByGuestId(Guest2.Id));
 
-            //3
-            RequestsByLanguage = new Dictionary<string, int>
-            {
-                { "English", 10 },
-                { "Spanish", 5 },
-                { "French", 3 },
-                { "Japanese", 6 },
-                { "Chinese", 2 },
-                { "Serbian", 14 }
-            };
+
+            RequestsByLanguage = new Dictionary<string, int>(_tourRequestsStatisticsService.GetTourRequestStatisticsByLanguages(Guest2.Id));
 
             RequestsByLanguageValues = new ChartValues<int>(RequestsByLanguage.Values);
+
+        
         }
 
         private void ExecuteSelectedYearChanged()

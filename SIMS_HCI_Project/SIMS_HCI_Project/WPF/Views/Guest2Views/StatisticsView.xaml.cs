@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.DataVisualization.Charting;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -26,6 +27,8 @@ namespace SIMS_HCI_Project.WPF.Views.Guest2Views
         {
             InitializeComponent();
             this.DataContext = new StatisticsViewModel(guest, navigationService);
+
+            
         }
     }
 }

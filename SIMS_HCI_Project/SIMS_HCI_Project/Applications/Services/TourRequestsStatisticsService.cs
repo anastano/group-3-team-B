@@ -46,5 +46,25 @@ namespace SIMS_HCI_Project.Applications.Services
 
             return new TourRequestsStatisticsByStatus(requestsNumberByStatus);
         }
+
+        public Dictionary<string, int> GetTourRequestStatisticsByLanguages(int id)
+        {
+            Dictionary<string, int> requestsNumberByLanguage = new Dictionary<string, int>();
+            foreach(RegularTourRequest request in _regularTourRequestRepository.GetAllByGuestId(id))
+            {
+                if (requestsNumberByLanguage.ContainsKey(request.Language))
+                {
+                    requestsNumberByLanguage[request.Language]++;
+                }
+                else
+                {
+                    requestsNumberByLanguage[request.Language] = 1;
+                }
+            }
+
+
+            return requestsNumberByLanguage;
+                
+        }
     }
 }

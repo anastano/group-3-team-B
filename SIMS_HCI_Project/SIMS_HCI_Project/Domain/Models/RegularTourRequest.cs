@@ -59,9 +59,9 @@ namespace SIMS_HCI_Project.Domain.Models
                 Language.ToString(),
                 GuestNumber.ToString(),
                 Description.ToString(),
-                Start.ToString("MM/dd/yyyy"),
-                End.ToString("MM/dd/yyyy"),
-                SubmittingDate.ToString("MM/dd/yyyy"),
+                Start.ToString("M/d/yyyy"),
+                End.ToString("M/d/yyyy"),
+                SubmittingDate.ToString("M/d/yyyy"),
                 IsPartOfComplex.ToString()
             };
             return csvValues;
@@ -77,9 +77,9 @@ namespace SIMS_HCI_Project.Domain.Models
             Language = values[4];
             GuestNumber = int.Parse(values[5]);
             Description = values[6];
-            Start = DateTime.ParseExact(values[7], "MM/dd/yyyy", null);
-            End = DateTime.ParseExact(values[8], "MM/dd/yyyy", null);
-            SubmittingDate = DateTime.ParseExact(values[9], "MM/dd/yyyy", null);
+            Start = DateTime.ParseExact(values[7], "M/d/yyyy", null);
+            End = DateTime.ParseExact(values[8], "M/d/yyyy", null);
+            SubmittingDate = DateTime.ParseExact(values[9], "M/d/yyyy", null);
             IsPartOfComplex = bool.Parse(values[10]);
         }
     }

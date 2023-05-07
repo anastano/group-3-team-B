@@ -132,15 +132,15 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             }
         }
 
-        private int _selectedYearIndex; 
-        public int SelectedYearIndex
+        private int _selectedYearIndexStatus; 
+        public int SelectedYearIndexStatus
         {
-            get => _selectedYearIndex;
+            get => _selectedYearIndexStatus;
             set
             {
-                _selectedYearIndex = value;
-                OnPropertyChanged(nameof(SelectedYearIndex));
-                ExecuteSelectedYearChanged();
+                _selectedYearIndexStatus = value;
+                OnPropertyChanged();
+                ExecuteStatusSelectedYearChanged();
             }
         }
         #endregion
@@ -180,7 +180,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             }
         }
 
-        public Func<ChartPoint, string> ColumnChartLabelPointLocation => //modify
+        public Func<ChartPoint, string> ColumnChartLabelPointLocation => 
               chartPoint =>
               {
                   int locationId = RequestsByLocationKeys[(int)chartPoint.X];
@@ -202,6 +202,40 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             }
         }
 
+        private List<RegularTourRequest> _acceptedRequests;
+        public List<RegularTourRequest> AcceptedRequests
+        {
+            get { return _acceptedRequests; }
+            set
+            {
+                _acceptedRequests = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _averageNumberOfPeople;
+        public string AverageNumberOfPeople 
+        {
+            get { return _averageNumberOfPeople; }
+            set
+            {
+                _averageNumberOfPeople = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private int _selectedYearIndexAverage;
+        public int SelectedYearIndexAverage
+        {
+            get => _selectedYearIndexAverage;
+            set
+            {
+                _selectedYearIndexAverage = value;
+                OnPropertyChanged();
+                ExecuteAverageSelectedYearChanged();
+            }
+        }
+
         #region PropertyChanged
         public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -219,7 +253,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
             LoadFromFiles();
 
-            SelectedYearIndex = 0;
+            SelectedYearIndexStatus = 0;
+            SelectedYearIndexAverage = 0;
             Requests = new List<RegularTourRequest>(_regularTourRequestService.GetAllByGuestId(Guest2.Id));
 
             TourRequestsStatisticsByStatus = _tourRequestsStatisticsService.GetTourRequestsStatisticsByStatus(Guest2.Id);
@@ -229,19 +264,55 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
             RequestsByLocation = new Dictionary<int, int>(_tourRequestsStatisticsService.GetTourRequestStatisticsByLocationId(Guest2.Id));
             RequestsByLocationValues = new ChartValues<int>(RequestsByLocation.Values);
-        
-        }
 
-        private void ExecuteSelectedYearChanged()
-        {
-            if (SelectedYearIndex == 0)
+            AcceptedRequests = new List<RegularTourRequest>(_regularTourRequestService.GetByGuestIdAndStatus(Guest2.Id, RegularRequestStatus.ACCEPTED));
+            if(AcceptedRequests.Count == 0)
             {
-                TourRequestsStatisticsByStatus = _tourRequestsStatisticsService.GetTourRequestsStatisticsByStatus(Guest2.Id);
-                UpdateChart(TourRequestsStatisticsByStatus); //needed here?
+                AverageNumberOfPeople = "There are no accepted requests for the selected period.";
             }
             else
             {
-                int selectedYear = SelectedYearIndex+2020;
+                AverageNumberOfPeople = AcceptedRequests.Average(r => r.GuestNumber).ToString();
+            }
+
+        }
+
+        public void ExecuteAverageSelectedYearChanged()
+        {
+            if (SelectedYearIndexAverage == 0)
+            {
+                AcceptedRequests = new List<RegularTourRequest>(_regularTourRequestService.GetByGuestIdAndStatus(Guest2.Id, RegularRequestStatus.ACCEPTED));
+            }
+            else
+            {
+                int selectedYear = SelectedYearIndexAverage + 2020;
+                AcceptedRequests = new List<RegularTourRequest>(_regularTourRequestService.GetByGuestIdAndStatusAndYear(Guest2.Id, RegularRequestStatus.ACCEPTED, selectedYear));
+            }
+            UpdateAverageNumberOfPeople();
+
+        }
+        public void UpdateAverageNumberOfPeople()
+        {
+            if (AcceptedRequests.Count == 0)
+            {
+                AverageNumberOfPeople = "There are no accepted requests for the selected period.";
+            }
+            else
+            {
+                AverageNumberOfPeople = AcceptedRequests.Average(r => r.GuestNumber).ToString();
+            }
+        }
+
+        private void ExecuteStatusSelectedYearChanged()
+        {
+            if (SelectedYearIndexStatus == 0)
+            {
+                TourRequestsStatisticsByStatus = _tourRequestsStatisticsService.GetTourRequestsStatisticsByStatus(Guest2.Id);
+                UpdateChart(TourRequestsStatisticsByStatus);
+            }
+            else
+            {
+                int selectedYear = SelectedYearIndexStatus+2020;
                 TourRequestsStatisticsByStatus = _tourRequestsStatisticsService.GetTourRequestsStatisticsByStatus(Guest2.Id, selectedYear);
                 UpdateChart(TourRequestsStatisticsByStatus);
             }

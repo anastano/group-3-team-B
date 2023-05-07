@@ -56,6 +56,11 @@ namespace SIMS_HCI_Project.Repositories
             return _requests.FindAll(r => r.GuestId == guestId && r.Status == status);
         }
 
+        public List<RegularTourRequest> GetByGuestIdAndStatusAndYear(int guestId, RegularRequestStatus status, int year)
+        {
+            return _requests.FindAll(r => r.GuestId == guestId && r.Status == status && r.SubmittingDate.Year == year);
+        }
+
 
         public void Add(RegularTourRequest request)
         {
@@ -79,7 +84,7 @@ namespace SIMS_HCI_Project.Repositories
         {
             foreach (var request in _requests)
             {
-                if (request.IsPartOfComplex == false && DateTime.Now > request.Start.AddHours(-48))
+                if (request.IsPartOfComplex == false && DateTime.Now > request.Start.AddHours(-48) && request.Status == RegularRequestStatus.PENDING)
                 {
                     request.Status = RegularRequestStatus.INVALID;
                     Save();

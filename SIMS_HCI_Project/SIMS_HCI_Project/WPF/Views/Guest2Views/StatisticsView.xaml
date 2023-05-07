@@ -21,7 +21,7 @@
 
 
         <Label Content="Select a period:" HorizontalAlignment="Left" Margin="29,107,0,0" VerticalAlignment="Top" Width="115"/>
-        <ComboBox x:Name="yearComboBox" SelectedIndex="{Binding SelectedYearIndex}" Margin="29,133,931,356">
+        <ComboBox x:Name="yearComboBox" SelectedIndex="{Binding SelectedYearIndexStatus}" Margin="29,133,931,356">
             <ComboBoxItem Content="All Time"/>
             <ComboBoxItem Content="2021" />
             <ComboBoxItem Content="2022" />
@@ -92,7 +92,15 @@
         </lvc:CartesianChart>
         <Label Content="Ratio of the number of requests to the locations:" HorizontalAlignment="Left" Margin="540,292,0,0" VerticalAlignment="Top"/>
 
-
+        <!--average-->
+        <Label Content="Select a period:" HorizontalAlignment="Left" Margin="618,107,0,0" VerticalAlignment="Top" Width="115"/>
+        <ComboBox x:Name="yearComboBoxAverage" SelectedIndex="{Binding SelectedYearIndexAverage}" Margin="613,133,347,356">
+            <ComboBoxItem Content="All Time"/>
+            <ComboBoxItem Content="2021" />
+            <ComboBoxItem Content="2022" />
+            <ComboBoxItem Content="2023" />
+        </ComboBox>
+        <TextBlock HorizontalAlignment="Left" Margin="773,120,0,0" TextWrapping="Wrap" Text="{Binding AverageNumberOfPeople}" VerticalAlignment="Top" Height="42" Width="233"/>
 
     </Grid>
 </Page>

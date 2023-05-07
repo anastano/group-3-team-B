@@ -45,6 +45,11 @@ namespace SIMS_HCI_Project.Applications.Services
             return _regularTourRequestRepository.GetByGuestIdAndStatus(ig, status);
         }
 
+        public List<RegularTourRequest> GetByGuestIdAndStatusAndYear(int ig, RegularRequestStatus status, int year)
+        {
+            return _regularTourRequestRepository.GetByGuestIdAndStatusAndYear(ig, status, year);
+        }
+
         public void EditStatus(int requestId, RegularRequestStatus status)
         {
             _regularTourRequestRepository.EditStatus(requestId, status);

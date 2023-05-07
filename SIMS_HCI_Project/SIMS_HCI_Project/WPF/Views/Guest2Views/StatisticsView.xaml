@@ -16,11 +16,12 @@
     </Page.Resources-->
 
     <Grid Background="AliceBlue">
-        <Label Content="Statistics by stsuses:" HorizontalAlignment="Left" Margin="57,87,0,0" VerticalAlignment="Top"/>
+        <Label Content="Statistics by statuses:" HorizontalAlignment="Left" Margin="16,69,0,0" VerticalAlignment="Top"/>
         <Label Content="Statistics on my tour requests"  HorizontalAlignment="Left" Margin="332,10,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="37" Width="289" FontSize="20"/>
 
 
-        <ComboBox x:Name="yearComboBox" SelectedIndex="{Binding SelectedYearIndex}" Margin="96,156,864,333">
+        <Label Content="Select a period:" HorizontalAlignment="Left" Margin="29,107,0,0" VerticalAlignment="Top" Width="115"/>
+        <ComboBox x:Name="yearComboBox" SelectedIndex="{Binding SelectedYearIndex}" Margin="29,133,931,356">
             <ComboBoxItem Content="All Time"/>
             <ComboBoxItem Content="2021" />
             <ComboBoxItem Content="2022" />
@@ -28,7 +29,7 @@
         </ComboBox>
 
         <!--requests by statuses and years-->
-        <lvc:PieChart x:Name="drugi" Margin="249,87,540,235" LegendLocation="Right">
+        <lvc:PieChart x:Name="drugi" Margin="154,82,635,240" LegendLocation="Right">
             <lvc:PieChart.Series >
                 <lvc:PieSeries Title="Accepted requests" DataLabels="True" Values="{Binding AcceptedCount}" ></lvc:PieSeries>
                 <lvc:PieSeries Title="Invalid requests" DataLabels="True" Values="{Binding InvalidCount}"></lvc:PieSeries>
@@ -40,9 +41,21 @@
         </lvc:PieChart>
 
         <!--requests grouped by languages-->
-        <lvc:CartesianChart Margin="57,318,572,24" >
+        <lvc:CartesianChart Margin="10,318,604,24" >
             <lvc:CartesianChart.Series>
-                <lvc:ColumnSeries Values="{Binding RequestsByLanguageValues}" DataLabels="True" LabelPoint="{Binding ColumnChartLabelPoint}"/>
+                <lvc:ColumnSeries Values="{Binding RequestsByLanguageValues}" DataLabels="True" LabelPoint="{Binding ColumnChartLabelPoint}">
+                    <lvc:ColumnSeries.Fill>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF7C14A5" Offset="0"/>
+                            <GradientStop Color="#FF3BE6D2" Offset="1"/>
+                            <GradientStop Color="#FF9728C3" Offset="0.008"/>
+                            <GradientStop Color="#FF9D42B3" Offset="0.383"/>
+                            <GradientStop Color="#FF664892" Offset="0.56"/>
+                            <GradientStop Color="#FFCA29C4" Offset="0.194"/>
+                            <GradientStop Color="#FF296492" Offset="0.786"/>
+                        </LinearGradientBrush>
+                    </lvc:ColumnSeries.Fill>
+                </lvc:ColumnSeries>
             </lvc:CartesianChart.Series>
             <lvc:CartesianChart.AxisX>
                 <lvc:Axis Title="Language" Labels="{Binding RequestsByLanguageKeys}" FontSize="10" />
@@ -51,18 +64,35 @@
                 <lvc:Axis Title="Number of Requests" />
             </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>
-        <Label Content="Ratio of the number of requests to the language:" HorizontalAlignment="Left" Margin="57,300,0,0" VerticalAlignment="Top"/>
+        <Label Content="Ratio of the number of requests to the language:" HorizontalAlignment="Left" Margin="10,292,0,0" VerticalAlignment="Top"/>
 
-        <lvc:CartesianChart Name="BBB" Hoverable="True" Margin="562,293,80,42" LegendLocation="Right">
+        <!--requests grouped by locations-->
+        <lvc:CartesianChart Margin="540,318,74,24" >
             <lvc:CartesianChart.Series>
-                <lvc:ColumnSeries Title="Novi Sad, Serbia" DataLabels="True" Values="2" ></lvc:ColumnSeries>
-                <lvc:ColumnSeries Title="Mali Zvornik, Serbia" DataLabels="True" Values="1"></lvc:ColumnSeries>
-                <lvc:ColumnSeries Title="Kraguhevac, Serbia" DataLabels="True" Values="3"></lvc:ColumnSeries>
+                <lvc:ColumnSeries Values="{Binding RequestsByLocationValues}" DataLabels="True" LabelPoint="{Binding ColumnChartLabelPointLocation}">
+                    <lvc:ColumnSeries.Fill>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF7C14A5" Offset="0"/>
+                            <GradientStop Color="#FF3BE6D2" Offset="1"/>
+                            <GradientStop Color="#FF9728C3" Offset="0.008"/>
+                            <GradientStop Color="#FF9D42B3" Offset="0.383"/>
+                            <GradientStop Color="#FF664892" Offset="0.56"/>
+                            <GradientStop Color="#FFCA29C4" Offset="0.194"/>
+                            <GradientStop Color="#FF296492" Offset="0.786"/>
+                        </LinearGradientBrush>
+                    </lvc:ColumnSeries.Fill>
+                </lvc:ColumnSeries>
             </lvc:CartesianChart.Series>
-            <lvc:CartesianChart.DataTooltip>
-                <lvc:DefaultTooltip BulletSize="10"/>
-            </lvc:CartesianChart.DataTooltip>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Location" Labels="{Binding RequestsByLocationKeys}" FontSize="10" />
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Number of Requests" />
+            </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>
+        <Label Content="Ratio of the number of requests to the locations:" HorizontalAlignment="Left" Margin="540,292,0,0" VerticalAlignment="Top"/>
+
+
 
     </Grid>
 </Page>

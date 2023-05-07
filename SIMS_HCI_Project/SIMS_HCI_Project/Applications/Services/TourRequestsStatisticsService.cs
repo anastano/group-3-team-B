@@ -61,10 +61,24 @@ namespace SIMS_HCI_Project.Applications.Services
                     requestsNumberByLanguage[request.Language] = 1;
                 }
             }
+            return requestsNumberByLanguage;  
+        }
 
-
-            return requestsNumberByLanguage;
-                
+        public Dictionary<int, int> GetTourRequestStatisticsByLocationId(int id)
+        {
+            Dictionary<int, int> requestsNumberByLocationId = new Dictionary<int, int>();
+            foreach (RegularTourRequest request in _regularTourRequestRepository.GetAllByGuestId(id))
+            {
+                if (requestsNumberByLocationId.ContainsKey(request.LocationId))
+                {
+                    requestsNumberByLocationId[request.LocationId]++;
+                }
+                else
+                {
+                    requestsNumberByLocationId[request.LocationId] = 1;
+                }
+            }
+            return requestsNumberByLocationId;
         }
     }
 }

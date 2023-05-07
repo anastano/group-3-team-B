@@ -23,23 +23,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public Guest2 Guest2 { get; set; }  
         public NavigationService NavigationService { get; set; }
         private RegularTourRequestService _regularTourRequestService { get; set; }
+        private LocationService _locationService { get; set; }
 
         private TourRequestsStatisticsService _tourRequestsStatisticsService;
-        private TourRequestsStatisticsByStatus _tourRequestsStatisticsByStatus;
-        public TourRequestsStatisticsByStatus TourRequestsStatisticsByStatus
-        {
-            get { return _tourRequestsStatisticsByStatus; }
-            set 
-            {
-                if (value != _tourRequestsStatisticsByStatus)
-                {
-                    _tourRequestsStatisticsByStatus = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
+        
 
-      
+
+        #region StatsByLanguage
         private Dictionary<string, int> _requestsByLanguage;
 
         public Dictionary<string, int> RequestsByLanguage
@@ -74,6 +64,29 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             }
         }
 
+        public Func<ChartPoint, string> ColumnChartLabelPoint =>
+              chartPoint =>
+              {
+                  string language = RequestsByLanguageKeys[(int)chartPoint.X];
+                  var count = chartPoint.Y;
+                  return $"{language}: {count}";
+              };
+        #endregion
+
+        #region StatsByStatus
+        private TourRequestsStatisticsByStatus _tourRequestsStatisticsByStatus;
+        public TourRequestsStatisticsByStatus TourRequestsStatisticsByStatus
+        {
+            get { return _tourRequestsStatisticsByStatus; }
+            set
+            {
+                if (value != _tourRequestsStatisticsByStatus)
+                {
+                    _tourRequestsStatisticsByStatus = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
 
         private ChartValues<int> _acceptedCount;
         public ChartValues<int> AcceptedCount
@@ -130,7 +143,53 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                 ExecuteSelectedYearChanged();
             }
         }
+        #endregion
 
+        #region StatsByLocation
+        private Dictionary<int, int> _requestsByLocation;
+
+        public Dictionary<int, int> RequestsByLocation
+        {
+            get => _requestsByLocation;
+            set
+            {
+                if (value != _requestsByLocation)
+                {
+                    _requestsByLocation = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        public ChartValues<int> RequestsByLocationKeys
+        {
+            get => new ChartValues<int>(_requestsByLocation.Keys);
+        }
+
+        private ChartValues<int> _requestsByLocationValues;
+
+        public ChartValues<int> RequestsByLocationValues
+        {
+            get => _requestsByLocationValues;
+            set
+            {
+                if (value != _requestsByLocationValues)
+                {
+                    _requestsByLocationValues = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public Func<ChartPoint, string> ColumnChartLabelPointLocation => //modify
+              chartPoint =>
+              {
+                  int locationId = RequestsByLocationKeys[(int)chartPoint.X];
+                  Location Location = _locationService.GetById(locationId);
+                  string locationString = Location.City + ", " + Location.Country;
+                  var count = chartPoint.Y;
+                  return $"{locationString}: {count}";
+              };
+        #endregion
 
         private List<RegularTourRequest> _requests;
         public List<RegularTourRequest> Requests
@@ -151,14 +210,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         }
         #endregion
 
-        public Func<ChartPoint, string> ColumnChartLabelPoint =>
-              chartPoint =>
-              {
-                  string language = RequestsByLanguageKeys[(int)chartPoint.X];
-                  var count = chartPoint.Y;
-                  return $"{language}: {count}";
-              };
-
+        
 
         public StatisticsViewModel(Guest2 guest, NavigationService navigationService)
         {
@@ -168,17 +220,15 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             LoadFromFiles();
 
             SelectedYearIndex = 0;
+            Requests = new List<RegularTourRequest>(_regularTourRequestService.GetAllByGuestId(Guest2.Id));
 
             TourRequestsStatisticsByStatus = _tourRequestsStatisticsService.GetTourRequestsStatisticsByStatus(Guest2.Id);
 
-
-            Requests = new List<RegularTourRequest>(_regularTourRequestService.GetAllByGuestId(Guest2.Id));
-
-
             RequestsByLanguage = new Dictionary<string, int>(_tourRequestsStatisticsService.GetTourRequestStatisticsByLanguages(Guest2.Id));
-
             RequestsByLanguageValues = new ChartValues<int>(RequestsByLanguage.Values);
 
+            RequestsByLocation = new Dictionary<int, int>(_tourRequestsStatisticsService.GetTourRequestStatisticsByLocationId(Guest2.Id));
+            RequestsByLocationValues = new ChartValues<int>(RequestsByLocation.Values);
         
         }
 
@@ -209,6 +259,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         {
             _regularTourRequestService = new RegularTourRequestService();
             _tourRequestsStatisticsService = new TourRequestsStatisticsService();
+            _locationService = new LocationService();
         }
 
         

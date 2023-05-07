@@ -63,7 +63,6 @@ namespace SIMS_HCI_Project.Repositories
             return _tours.Count == 0 ? 1 : _tours[_tours.Count - 1].Id + 1;
         }
 
-
         public List<Tour> Search(string country, string city, int duration, string language, int guestsNum)
         {
             var filtered = from _tour in _tours

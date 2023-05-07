@@ -11,10 +11,11 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 {
-    class TourRequestsViewModel : INotifyPropertyChanged
+    public class TourRequestsViewModel : INotifyPropertyChanged
     {
         #region PropertyChanged
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -27,10 +28,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         #region Commands
         public RelayCommand FilterRequests { get; set; }
         public RelayCommand ResetFilter { get; set; }
+        public RelayCommand AcceptRequest { get; set; }
+        public RelayCommand ConfirmPickedDate { get; set; }
         public GuideNavigationCommands NavigationCommands { get; set; }
         #endregion
 
         private RegularTourRequestService _regularTourRequestService;
+        private TourService _tourService;
 
         private ObservableCollection<RegularTourRequest> _tourRequests;
         public ObservableCollection<RegularTourRequest> TourRequests
@@ -108,10 +112,16 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             }
         }
 
+        public ObservableCollection<DateTime> UnavailableDates { get; set; }
+        public Tour Tour { get; set; }
+        public DateTime PickedDate { get; set; }
+
         public TourRequestsViewModel()
         {
             _regularTourRequestService = new RegularTourRequestService();
+            _tourService = new TourService();
             DateRange = new DateRange(DateTime.Now, DateTime.Now.AddMonths(6));
+            PickedDate = DateTime.Now;  
 
             InitCommands();
             LoadRequests();
@@ -127,13 +137,15 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         {
             FilterRequests = new RelayCommand(ExecutedFilterRequestsCommand, CanExecuteCommand);
             ResetFilter = new RelayCommand(ExecutedResetFilterCommand, CanExecuteCommand);
+            ConfirmPickedDate = new RelayCommand(ExecutedConfirmPickedDateCommand, CanExecuteCommand);
+            AcceptRequest = new RelayCommand(ExecutedAcceptRequestCommand, CanExecuteCommand);
 
             NavigationCommands = new GuideNavigationCommands();
         }
 
         private void LoadRequests()
         {
-            TourRequests = new ObservableCollection<RegularTourRequest>(_regularTourRequestService.GetByParams(Location, GuestNumber, Language, DateRange));
+            TourRequests = new ObservableCollection<RegularTourRequest>(_regularTourRequestService.GetValidByParams(Location, GuestNumber, Language, DateRange));
         }
 
         private void ExecutedFilterRequestsCommand(object obj)
@@ -148,6 +160,19 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             Language = null;
             DateRange.Start = DateTime.Now;
             DateRange.End = DateTime.Now.AddMonths(6);
+        }
+
+        private void ExecutedAcceptRequestCommand(object obj)
+        {
+            Tour = _regularTourRequestService.AcceptRequest(SelectedTourRequest);
+            Tour.GuideId = ((User)App.Current.Properties["CurrentUser"]).Id;
+            UnavailableDates = new ObservableCollection<DateTime>(_tourService.GetToursInDateRange(((User)App.Current.Properties["CurrentUser"]).Id, SelectedTourRequest.DateRange).Select(tt => tt.DepartureTime));
+            PickedDate = SelectedTourRequest.DateRange.Start;
+        }
+        
+        private void ExecutedConfirmPickedDateCommand(object obj)
+        {
+            Tour.DepartureTimes.Add(new TourTime(PickedDate));
         }
 
         private bool CanExecuteCommand(object obj)

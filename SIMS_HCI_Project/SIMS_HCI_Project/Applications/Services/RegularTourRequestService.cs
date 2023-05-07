@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,9 +47,9 @@ namespace SIMS_HCI_Project.Applications.Services
             return _regularTourRequestRepository.GetByGuestIdAndStatus(ig, status);
         }
 
-        public List<RegularTourRequest> GetByParams(Location location, int guestNumber, string language, DateRange dateRange)
+        public List<RegularTourRequest> GetValidByParams(Location location, int guestNumber, string language, DateRange dateRange)
         {
-            return _regularTourRequestRepository.GetByParams(location, guestNumber, language, dateRange);
+            return _regularTourRequestRepository.GetValidByParams(location, guestNumber, language, dateRange);
         }
 
         public void EditStatus(int requestId, RegularRequestStatus status)
@@ -62,6 +63,22 @@ namespace SIMS_HCI_Project.Applications.Services
             request.LocationId = request.Location.Id;
 
             _regularTourRequestRepository.Add(request);
+        }
+
+        public Tour AcceptRequest(RegularTourRequest request)
+        {
+            request.Status = RegularRequestStatus.ACCEPTED;
+
+            _regularTourRequestRepository.Update(request);
+
+            return new Tour()
+            {
+                Language = request.Language,
+                Location = request.Location,
+                LocationId = request.LocationId,
+                Description = request.Description,
+                MaxGuests = request.GuestNumber
+            };
         }
     }
 }

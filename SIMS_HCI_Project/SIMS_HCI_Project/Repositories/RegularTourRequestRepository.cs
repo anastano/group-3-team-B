@@ -73,18 +73,27 @@ namespace SIMS_HCI_Project.Repositories
         }
 
 
-        public List<RegularTourRequest> GetByParams(Location location, int guestNumber, string language, DateRange dateRange)
+        public List<RegularTourRequest> GetValidByParams(Location location, int guestNumber, string language, DateRange dateRange)
         {
             return _requests.FindAll(r => (location == null || r.Location.Equals(location))
                                         && (guestNumber == 0 || r.GuestNumber == guestNumber)
                                         && (language == null || language.Equals("") || r.Language.Equals(language))
-                                        && (dateRange == null || (r.DateRange.IsInside(dateRange))));
+                                        && (dateRange == null || (r.DateRange.IsInside(dateRange)))
+                                        && r.Status == RegularRequestStatus.PENDING);
         }
 
         public void Add(RegularTourRequest request)
         {
             request.Id = GenerateId();
             _requests.Add(request);
+
+            Save();
+        }
+
+        public void Update(RegularTourRequest request)
+        {
+            RegularTourRequest requestUpdated = GetById(request.Id);
+            requestUpdated = request;
 
             Save();
         }

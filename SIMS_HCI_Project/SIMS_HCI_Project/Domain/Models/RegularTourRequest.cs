@@ -25,7 +25,6 @@ namespace SIMS_HCI_Project.Domain.Models
         public DateTime SubmittingDate { get; set; }
         public bool IsPartOfComplex { get; set; } //discuss if needed, how will (parts of) complex requests be stored
 
-
         public RegularTourRequest()
         {
             DateRange = new DateRange();

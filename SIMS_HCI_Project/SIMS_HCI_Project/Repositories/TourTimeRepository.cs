@@ -1,4 +1,5 @@
-﻿using SIMS_HCI_Project.Domain.Models;
+﻿using SIMS_HCI_Project.Domain.DTOs;
+using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Domain.RepositoryInterfaces;
 using SIMS_HCI_Project.FileHandlers;
 using System;
@@ -47,6 +48,11 @@ namespace SIMS_HCI_Project.Repositories
         public List<TourTime> GetAllByGuideId(int guideId)
         {
             return _tourTimes.FindAll(tt => tt.Tour.GuideId == guideId);
+        }
+
+        public List<TourTime> GetAllInDateRange(int guideId, DateRange dateRange)
+        {
+            return _tourTimes.FindAll(tt => tt.Tour.GuideId == guideId && dateRange.HasInside(tt.DepartureTime));
         }
 
         public void Add(TourTime tourTime)

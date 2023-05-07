@@ -38,8 +38,46 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             }
         }
 
-        public ObservableCollection<int> AvailableYears { get; set; }
+       
 
+        //3
+        private Dictionary<string, int> _requestsByLanguage;
+
+        public Dictionary<string, int> RequestsByLanguage
+        {
+            get => _requestsByLanguage;
+            set
+            {
+                if (value != _requestsByLanguage)
+                {
+                    _requestsByLanguage = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        //public List<string> RequestsByLanguageKeys => RequestsByLanguage.Keys.ToList();
+        public ChartValues<string> RequestsByLanguageKeys
+        {
+            get => new ChartValues<string>(_requestsByLanguage.Keys);
+        }
+
+        private ChartValues<int> _requestsByLanguageValues;
+
+        public ChartValues<int> RequestsByLanguageValues
+        {
+            get => _requestsByLanguageValues;
+            set
+            {
+                if (value != _requestsByLanguageValues)
+                {
+                    _requestsByLanguageValues = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        //3
 
 
         private ChartValues<int> _acceptedCount;
@@ -86,7 +124,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             }
         }
 
-        private int _selectedYearIndex; //ipak ovo?
+        private int _selectedYearIndex; 
         public int SelectedYearIndex
         {
             get => _selectedYearIndex;
@@ -98,17 +136,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             }
         }
 
-        private int? _selectedYear;
-        public int? SelectedYear
-        {
-            get { return _selectedYear; }
-            set
-            {
-                _selectedYear = value;
-                OnPropertyChanged();
-                //UpdateStatistics();
-            }
-        }
 
         private List<RegularTourRequest> _requests;
         public List<RegularTourRequest> Requests
@@ -120,7 +147,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                 OnPropertyChanged();
             }
         }
-        private ObservableCollection<LiveCharts.Wpf.PieSeries> _requestStatusSummary;
+        /*private ObservableCollection<LiveCharts.Wpf.PieSeries> _requestStatusSummary;
 
         public ObservableCollection<LiveCharts.Wpf.PieSeries> RequestStatusSummary
         {
@@ -130,9 +157,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                 _requestStatusSummary = value;
                 OnPropertyChanged(nameof(RequestStatusSummary));
             }
-        }
+        }*/
 
-        public IEnumerable<LiveCharts.Wpf.PieSeries> RequestStatusSummaryAAA
+        /*public IEnumerable<LiveCharts.Wpf.PieSeries> RequestStatusSummaryAAA
         {
             get
             {
@@ -153,7 +180,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
                 return seriesCollection as IEnumerable<LiveCharts.Wpf.PieSeries> ;
             }
-        } 
+        } */
 
 
         #region PropertyChanged
@@ -168,10 +195,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         {
             Guest2 = guest;
             NavigationService = navigationService;
-            AvailableYears = new ObservableCollection<int>();
 
             LoadFromFiles();
-            FillAvailableYears();
 
             SelectedYearIndex = 0;
 
@@ -179,30 +204,30 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
 
             Requests = new List<RegularTourRequest>(_regularTourRequestService.GetAllByGuestId(Guest2.Id));
-        }
 
-        public void FillAvailableYears()
-        {
-            
-            AvailableYears.Add(-1);
-            for (int year = 2020; year <= 2023; year++)
+            //3
+            RequestsByLanguage = new Dictionary<string, int>
             {
-                AvailableYears.Add(year);
-            }
-        }
+                { "English", 10 },
+                { "Spanish", 5 },
+                { "French", 3 },
+                { "Japanese", 6 },
+                { "Chinese", 2 },
+                { "Serbian", 14 }
+            };
 
+            RequestsByLanguageValues = new ChartValues<int>(RequestsByLanguage.Values);
+        }
 
         private void ExecuteSelectedYearChanged()
         {
             if (SelectedYearIndex == 0)
             {
                 TourRequestsStatisticsByStatus = _tourRequestsStatisticsService.GetTourRequestsStatisticsByStatus(Guest2.Id);
-                UpdateChart(TourRequestsStatisticsByStatus);
-                
+                UpdateChart(TourRequestsStatisticsByStatus); //needed here?
             }
             else
             {
-                //int selectedYear = AvailableYears[SelectedYearIndex];
                 int selectedYear = SelectedYearIndex+2020;
                 TourRequestsStatisticsByStatus = _tourRequestsStatisticsService.GetTourRequestsStatisticsByStatus(Guest2.Id, selectedYear);
                 UpdateChart(TourRequestsStatisticsByStatus);
@@ -214,7 +239,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             InvalidCount = new ChartValues<int> { TourRequestsStatisticsByStatus.RequestsNumberByStatus[RegularRequestStatus.INVALID] };
             AcceptedCount = new ChartValues<int> { TourRequestsStatisticsByStatus.RequestsNumberByStatus[RegularRequestStatus.ACCEPTED] };
             PendingCount = new ChartValues<int> { TourRequestsStatisticsByStatus.RequestsNumberByStatus[RegularRequestStatus.PENDING] };
-
         }
 
 

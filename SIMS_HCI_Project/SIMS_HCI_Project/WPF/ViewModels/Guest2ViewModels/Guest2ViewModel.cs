@@ -34,7 +34,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels      //main window wi
             Guest2 = guest2;
             Guest2View = guest2View;
 
+            NavigationService.Navigate(new TourSearchView(Guest2, NavigationService));
             InitCommands();
+
         }
 
         public void InitCommands()

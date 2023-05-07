@@ -164,15 +164,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         private void ExecutedAcceptRequestCommand(object obj)
         {
-            Tour = _regularTourRequestService.AcceptRequest(SelectedTourRequest);
-            Tour.GuideId = ((User)App.Current.Properties["CurrentUser"]).Id;
             UnavailableDates = new ObservableCollection<DateTime>(_tourService.GetToursInDateRange(((User)App.Current.Properties["CurrentUser"]).Id, SelectedTourRequest.DateRange).Select(tt => tt.DepartureTime));
             PickedDate = SelectedTourRequest.DateRange.Start;
         }
         
         private void ExecutedConfirmPickedDateCommand(object obj)
         {
-            Tour.DepartureTimes.Add(new TourTime(PickedDate));
+            Tour = _regularTourRequestService.AcceptRequest(SelectedTourRequest, ((User)App.Current.Properties["CurrentUser"]).Id, PickedDate);
         }
 
         private bool CanExecuteCommand(object obj)

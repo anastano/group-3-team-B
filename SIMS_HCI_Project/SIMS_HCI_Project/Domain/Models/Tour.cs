@@ -35,6 +35,7 @@ namespace SIMS_HCI_Project.Domain.Models
             Images = new List<string>();
             DepartureTimes = new List<TourTime>();
             KeyPoints = new List<TourKeyPoint>();
+            KeyPointsIds = new List<int>();
         }
 
         public Tour(Guide guide)
@@ -47,6 +48,7 @@ namespace SIMS_HCI_Project.Domain.Models
             Images = new List<string>();
             DepartureTimes = new List<TourTime>();
             KeyPoints = new List<TourKeyPoint>();
+            KeyPointsIds = new List<int>();
         }
 
         public Tour(string title, int locationId, string description, string language, int maxGuestNumber, int duration)
@@ -62,6 +64,7 @@ namespace SIMS_HCI_Project.Domain.Models
             Images = new List<string>();
             DepartureTimes = new List<TourTime>();
             KeyPoints = new List<TourKeyPoint>();
+            KeyPointsIds = new List<int>();
         }
 
         public string[] ToCSV()

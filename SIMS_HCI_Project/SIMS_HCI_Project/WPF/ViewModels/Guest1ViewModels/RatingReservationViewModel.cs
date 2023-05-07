@@ -85,6 +85,19 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
+        private bool _isChecked;
+        public bool IsChecked
+        {
+            get => _isChecked;
+            set
+            {
+                if (value != _isChecked)
+                {
+                    _isChecked = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         private Regex urlRegex = new Regex("(http(s?)://.)([/|.|\\w|\\s|-])*\\.(?:jpg|gif|png)|(^$)");
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -124,9 +137,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public void ExecutedReviewReservationCommand(object obj)
         {
             RatingGivenByGuest addedRating = _ratingService.RateReservation(_accommodationReservationService, Rating);
-            _recommendationService.Add(_navigationService.NavigationStore.Recommendation, addedRating);
-            List<RatingGivenByGuest> addedRatingList = _ratingService.GetAll();
-            List<RenovationRecommendation> suggests = _recommendationService.GetAll();
+            if (IsChecked)
+            {
+                _recommendationService.Add(_navigationService.NavigationStore.Recommendation, addedRating);
+            }
             _navigationService.Navigate(new ReservationsViewModel(Reservation.Guest, _navigationService), "My Reservations");
         }
         public void ExecutedRecommendRenovationCommand(object obj)

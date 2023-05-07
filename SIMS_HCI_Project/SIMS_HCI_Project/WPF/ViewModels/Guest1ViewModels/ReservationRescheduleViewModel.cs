@@ -22,11 +22,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
     internal class ReservationRescheduleViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
         private NavigationService _navigationService;
+        private UserService _userService;
         private AccommodationReservationService _accommodationReservationService;
         private RescheduleRequestService _rescheduleRequestService;
         public AccommodationReservation Reservation { get; set; }
         public ObservableCollection<RescheduleRequest> RescheduleRequests { get; set; }
         public RelayCommand SendReservationRescheduleRequestCommand { get; set; }
+        public string FullName { get; set; }
 
         private DateTime _wantedStart;
         public DateTime WantedStart
@@ -64,8 +66,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _navigationService = navigationService;
             _accommodationReservationService = new AccommodationReservationService();
             _rescheduleRequestService = new RescheduleRequestService(); 
+            _userService = new UserService();
             Reservation = reservation;
             RescheduleRequests = new ObservableCollection<RescheduleRequest>(_rescheduleRequestService.GetAllByOwnerId(Reservation.Accommodation.OwnerId));
+            FullName = _userService.GetFullName(Reservation.Guest);
             WantedStart = DateTime.Now.AddDays(1);
             WantedEnd = DateTime.Now.AddDays(Reservation.Accommodation.MinimumReservationDays + 1);
             InitCommands();

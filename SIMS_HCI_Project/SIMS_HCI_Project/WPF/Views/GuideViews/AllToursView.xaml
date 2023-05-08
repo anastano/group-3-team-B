@@ -7,6 +7,9 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="AllTours" Height="720" Width="1280" MinHeight="450" MinWidth="800" WindowStartupLocation="CenterScreen" FontSize="20">
+    <Window.Background>
+        <ImageBrush ImageSource="pack://application:,,,/WPF/Images/guideBackground.png"></ImageBrush>
+    </Window.Background>
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

@@ -6,6 +6,9 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.GuideViews"
         mc:Ignorable="d"
         Title="TourStatisticsView" Height="550" Width="450"  WindowStartupLocation="CenterScreen" FontSize="20">
+    <Window.Background>
+        <ImageBrush ImageSource="pack://application:,,,/WPF/Images/guideBackground.png"></ImageBrush>
+    </Window.Background>
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

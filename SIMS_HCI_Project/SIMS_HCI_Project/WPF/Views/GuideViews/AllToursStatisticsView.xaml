@@ -7,6 +7,9 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="AllToursStatisticsView" Height="920" Width="1280"  WindowStartupLocation="CenterScreen" FontSize="20">
+    <Window.Background>
+        <ImageBrush ImageSource="pack://application:,,,/WPF/Images/guideBackground.png"></ImageBrush>
+    </Window.Background>
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -60,7 +63,7 @@
                                 </StackPanel>
                                 <StackPanel Margin="150,0,20,0">
                                     <TextBlock Text="Number of guests by age" Margin="0,0,0,10"></TextBlock>
-                                    <DataGrid AutoGenerateColumns="False" IsReadOnly="True">
+                                    <DataGrid AutoGenerateColumns="False" IsReadOnly="True" Height="200">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="Age group"></DataGridTextColumn>
                                             <DataGridTextColumn Header="Guest number"></DataGridTextColumn>
@@ -99,7 +102,7 @@
                                 </StackPanel>
                                 <StackPanel Margin="150,0,20,0">
                                     <TextBlock Text="Number of guests by age" Margin="0,0,0,10"></TextBlock>
-                                    <DataGrid AutoGenerateColumns="False" IsReadOnly="True">
+                                    <DataGrid AutoGenerateColumns="False" IsReadOnly="True" Height="200">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="Age group"></DataGridTextColumn>
                                             <DataGridTextColumn Header="Guest number"></DataGridTextColumn>

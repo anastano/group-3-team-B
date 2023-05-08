@@ -46,8 +46,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
                 OnPropertyChanged();
             }
         }
-
-
         public RegularTourRequest SelectedTourRequest { get; set; }
 
         private Location _location;
@@ -115,6 +113,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         public ObservableCollection<DateTime> UnavailableDates { get; set; }
         public Tour Tour { get; set; }
         public DateTime PickedDate { get; set; }
+        public DateTime PickedTime { get; set; }
 
         public TourRequestsViewModel()
         {
@@ -125,12 +124,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
             InitCommands();
             LoadRequests();
-
-            if(TourRequests != null)
-            {
-                AvailableLocations = new ObservableCollection<Location>(TourRequests.Select(t => t.Location).Distinct());
-                AvailableLanguages = new ObservableCollection<string>(TourRequests.Select(t => t.Language).Distinct());
-            }
+            LoadPossibleFilters();
         }
 
         private void InitCommands()
@@ -148,6 +142,15 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             TourRequests = new ObservableCollection<RegularTourRequest>(_regularTourRequestService.GetValidByParams(Location, GuestNumber, Language, DateRange));
         }
 
+        private void LoadPossibleFilters()
+        {
+            if (TourRequests != null)
+            {
+                AvailableLocations = new ObservableCollection<Location>(TourRequests.Select(t => t.Location).Distinct());
+                AvailableLanguages = new ObservableCollection<string>(TourRequests.Select(t => t.Language).Distinct());
+            }
+        }
+
         private void ExecutedFilterRequestsCommand(object obj)
         {
             LoadRequests();
@@ -158,19 +161,27 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             Location = null;
             GuestNumber = 0;
             Language = null;
-            DateRange.Start = DateTime.Now;
-            DateRange.End = DateTime.Now.AddMonths(6);
+            //DateRange.Start = DateTime.Now;
+            //DateRange.End = DateTime.Now.AddMonths(6);
+            DateRange = new DateRange(DateTime.Now, DateTime.Now.AddMonths(6));
+
+            LoadRequests();
         }
 
         private void ExecutedAcceptRequestCommand(object obj)
         {
-            UnavailableDates = new ObservableCollection<DateTime>(_tourService.GetToursInDateRange(((User)App.Current.Properties["CurrentUser"]).Id, SelectedTourRequest.DateRange).Select(tt => tt.DepartureTime));
             PickedDate = SelectedTourRequest.DateRange.Start;
         }
         
         private void ExecutedConfirmPickedDateCommand(object obj)
         {
-            Tour = _regularTourRequestService.AcceptRequest(SelectedTourRequest, ((User)App.Current.Properties["CurrentUser"]).Id, PickedDate);
+            Tour = _regularTourRequestService.AcceptRequest(SelectedTourRequest, ((User)App.Current.Properties["CurrentUser"]).Id, new DateTime(PickedDate.Year, PickedDate.Month, PickedDate.Day, PickedTime.Hour, PickedTime.Minute, 0));
+            if(Tour == null)
+            {
+                MessageBox.Show("You already have tour in that time slot.", "Acceptance failed", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.Yes);
+            }
+            LoadRequests();
+            LoadPossibleFilters();
         }
 
         private bool CanExecuteCommand(object obj)

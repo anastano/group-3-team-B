@@ -27,7 +27,7 @@ namespace SIMS_HCI_Project.WPF.Views.GuideViews
             this.DataContext = vm;
             InitializeComponent();
 
-            List<DateTime> blackoutDates = vm.UnavailableDates.ToList();
+            //List<DateTime> blackoutDates = vm.UnavailableDates.ToList();
 
             calDepartureTimePicker.DisplayDateStart = vm.SelectedTourRequest.DateRange.Start < DateTime.Now ? DateTime.Now : vm.SelectedTourRequest.DateRange.Start;
             calDepartureTimePicker.DisplayDateEnd = vm.SelectedTourRequest.DateRange.End;

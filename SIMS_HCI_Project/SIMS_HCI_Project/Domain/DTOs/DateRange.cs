@@ -19,6 +19,12 @@ namespace SIMS_HCI_Project.Domain.DTOs
             End = end;
         }
 
+        public DateRange(DateTime start, int durationHrs)
+        {
+            Start = start;
+            End = start.AddHours(durationHrs);
+        }
+
         /* DateRange */
         public bool DoesOverlap(DateRange dateRange)
         {

@@ -52,7 +52,7 @@ namespace SIMS_HCI_Project.Repositories
 
         public List<TourTime> GetAllInDateRange(int guideId, DateRange dateRange)
         {
-            return _tourTimes.FindAll(tt => tt.Tour.GuideId == guideId && dateRange.HasInside(tt.DepartureTime));
+            return _tourTimes.FindAll(tt => tt.Tour.GuideId == guideId && dateRange.DoesOverlap(new DateRange(tt.DepartureTime, tt.Tour.Duration)));
         }
 
         public void Add(TourTime tourTime)

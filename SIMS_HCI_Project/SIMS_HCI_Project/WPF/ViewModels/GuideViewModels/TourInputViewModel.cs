@@ -96,11 +96,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         public Tour NewTour { get; set; }
 
-        public TourInputViewModel(TourService tourService)
+        public TourInputViewModel(Tour tour = null)
         {
-            _tourService = tourService;
+            _tourService = new TourService();
 
-            NewTour = new Tour(new Guide(((User)App.Current.Properties["CurrentUser"])));
+            NewTour = tour == null ? new Tour(new Guide(((User)App.Current.Properties["CurrentUser"]))) : tour;
 
             DepartureDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
             DepartureTime = new TimeOnly();

@@ -33,5 +33,14 @@ namespace SIMS_HCI_Project.Domain.Models
             City = values[1];
             Country = values[2];
         }
+
+        public override bool Equals(object? obj)
+        {
+            var location = obj as Location;
+
+            if (location == null) return false;
+
+            return this.City.Equals(location.City) && this.Country.Equals(location.Country);
+        }
     }
 }

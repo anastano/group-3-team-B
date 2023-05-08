@@ -100,8 +100,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             RegularTourRequest.IsPartOfComplex = false;
             RegularTourRequest.SubmittingDate = DateTime.Now.AddDays(0);
             RegularTourRequest.Status = RegularRequestStatus.PENDING;
-            RegularTourRequest.Start = Start;
-            RegularTourRequest.End = End;
+            RegularTourRequest.DateRange.Start = Start;
+            RegularTourRequest.DateRange.End = End;
 
             _regularTourRequestService.Add(RegularTourRequest);
             MessageBox.Show("Tour request is submited. You can see it in the list of your regular tour requests list.");

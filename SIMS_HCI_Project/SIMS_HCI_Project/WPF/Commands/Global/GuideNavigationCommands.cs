@@ -1,5 +1,6 @@
 ﻿using SIMS_HCI_Project.Applications.Services;
 using SIMS_HCI_Project.Domain.Models;
+using SIMS_HCI_Project.WPF.ViewModels.GuideViewModels;
 using SIMS_HCI_Project.WPF.Views;
 using SIMS_HCI_Project.WPF.Views.GuideViews;
 using System;
@@ -25,6 +26,7 @@ namespace SIMS_HCI_Project.WPF.Commands.Global
         public RelayCommand NavigateToTourRequests { get; set; }
         public RelayCommand NavigateToTourRequestsStatistics { get; set; }
         public RelayCommand NavigateToProfileInformation { get; set; }
+        public RelayCommand NavigateToRequestDatePicker { get; set; }
         public RelayCommand SignOut { get; set; }
         public RelayCommand CloseCurrentWindow { get; set; }
         #endregion
@@ -47,6 +49,8 @@ namespace SIMS_HCI_Project.WPF.Commands.Global
             NavigateToTourRequests = new RelayCommand(ExecutedNavigateToTourRequestsCommand, CanExecuteCommand);
             NavigateToTourRequestsStatistics = new RelayCommand(ExecutedNavigateToTourRequestsStatisticsCommand, CanExecuteCommand);
             NavigateToProfileInformation = new RelayCommand(ExecutedNavigateToProfileInformationCommand, CanExecuteCommand);
+            NavigateToRequestDatePicker = new RelayCommand(ExecutedNavigateToRequestDatePickerCommand, CanExecuteCommand);
+
             SignOut = new RelayCommand(ExecutedSignOutCommand, CanExecuteCommand);
             CloseCurrentWindow = new RelayCommand(ExecutedCloseCurrentWindowCommand, CanExecuteCommand);
         }
@@ -70,7 +74,7 @@ namespace SIMS_HCI_Project.WPF.Commands.Global
 
         private void ExecutedNavigateToTourInputCommand(object obj)
         {
-            Window tourInput = new TourInputView(new TourService());
+            Window tourInput = new TourInputView(obj as Tour);
             tourInput.Show();
         }
 
@@ -114,6 +118,12 @@ namespace SIMS_HCI_Project.WPF.Commands.Global
         {
             Window profile = new MyProfileView();
             profile.Show();
+        }
+        
+        private void ExecutedNavigateToRequestDatePickerCommand(object obj)
+        {
+            Window datePicker = new TourRequestDatePickerView(obj as TourRequestsViewModel);
+            datePicker.ShowDialog();
         }
 
         private void ExecutedSignOutCommand(object obj)

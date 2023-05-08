@@ -22,11 +22,11 @@ namespace SIMS_HCI_Project.WPF.Views.GuideViews
     /// </summary>
     public partial class TourInputView : Window
     {
-        public TourInputView(TourService tourService)
+        public TourInputView(Tour tour = null)
         {
             InitializeComponent();
 
-            this.DataContext = new TourInputViewModel(tourService);
+            this.DataContext = new TourInputViewModel(tour);
         }
     }
 }

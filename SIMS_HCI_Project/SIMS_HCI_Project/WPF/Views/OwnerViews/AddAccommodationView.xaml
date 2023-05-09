@@ -6,10 +6,14 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         mc:Ignorable="d"
         Title="AddAccommodationView" Height="670" Width="700" WindowStartupLocation="CenterScreen">
-    <Window.Resources>
-    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Key="Insert" Command="{Binding AddAccommodationImageCommand}"/>
+        <KeyBinding Key="Delete" Command="{Binding RemoveAccommodationImageCommand}"/>
+        <KeyBinding Gesture="Ctrl+R" Command="{Binding RegisterNewAccommodationCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseAddAccommodationViewCommand}"/>
+    </Window.InputBindings>
 
-    <Grid Background="Azure">
+    <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=txtName}">
         <!-- MAIN STACK PANEL-->
         <StackPanel Margin="0 10 0 0">
 
@@ -147,7 +151,7 @@
                     Style ="{StaticResource OwnerButtonStyle}" >
                 </Button>
                 <Button x:Name="btnCancel" Content="Cancel (Esc)"
-                    Style ="{StaticResource OwnerButtonStyle}">
+                    Style ="{StaticResource OwnerButtonStyle}" Command="{Binding CloseAddAccommodationViewCommand}">
                 </Button>
             </StackPanel>
 

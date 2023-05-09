@@ -24,6 +24,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public RelayCommand AcceptRequestCommand { get; set; }
         public RelayCommand DeclineRequestCommand { get; set; }
+        public RelayCommand CloseRequestHandlerViewCommand { get; set; }
 
         public RequestHandlerViewModel(RequestHandlerView requestHandlerView, RescheduleRequestService requestService, 
             AccommodationReservationService reservationService, NotificationService notificationService, RescheduleRequest selectedRequest) 
@@ -43,8 +44,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         }
 
 
-            #region Commands
-            public void Executed_AcceptRequestCommand(object obj)
+        #region Commands
+        public void Executed_AcceptRequestCommand(object obj)
         {
             if (OverlappingReservations != null)
             {
@@ -78,12 +79,24 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             return true;
         }
+
+        public void Executed_CloseRequestHandlerViewCommand(object obj)
+        {
+            RequestHandlerView.Close();
+        }
+
+        public bool CanExecute_CloseRequestHandlerViewCommand(object obj)
+        {
+            return true;
+        }
+
         #endregion
 
         public void InitCommands()
         {
             AcceptRequestCommand = new RelayCommand(Executed_AcceptRequestCommand, CanExecute_AcceptRequestCommand);
             DeclineRequestCommand = new RelayCommand(Executed_DeclineRequestCommand, CanExecute_DeclineRequestCommand);
+            CloseRequestHandlerViewCommand = new RelayCommand(Executed_CloseRequestHandlerViewCommand, CanExecute_CloseRequestHandlerViewCommand);
         }
 
         public void ShowTextBox()

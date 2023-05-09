@@ -6,8 +6,10 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         mc:Ignorable="d"
         Title="GuestReviewsView" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
-    <Window.Resources>
-    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding ShowSelectedReviewCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseReviewsViewCommand}"/>
+    </Window.InputBindings>
 
     <Grid Background="{StaticResource OwnerNeutralColor}">
         <!-- MAIN STACK PANEL-->
@@ -32,7 +34,7 @@
             <!-- MIDDLE STACK PANEL-->
             <StackPanel Margin="5 0 5 0">
 
-                <TextBlock x:Name="tblGuestReviews" Text="GuestReviews" 
+                <TextBlock x:Name="tblGuestReviews" Text="Guest Reviews" 
                            Style="{StaticResource OwnerTitleStyle}">
                 </TextBlock>
                 <Border Style="{StaticResource OwnerBorderStyle}">

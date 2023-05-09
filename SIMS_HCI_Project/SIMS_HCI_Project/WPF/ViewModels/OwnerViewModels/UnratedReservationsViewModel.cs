@@ -24,6 +24,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public AccommodationReservation SelectedReservation { get; set; }
 
         public RelayCommand ShowSelectedUnratedReservationCommand { get; set; }
+        public RelayCommand CloseUnratedReservationsViewCommand { get; set; }
 
         public UnratedReservationsViewModel(UnratedReservationsView unratedReservationsView, AccommodationReservationService reservationService, 
             RatingGivenByOwnerService ownerRatingService, Owner owner) 
@@ -56,11 +57,22 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             return true;
         }
+
+        public void Executed_CloseUnratedReservationsViewCommand(object obj)
+        {
+            UnratedReservationsView.Close();
+        }
+
+        public bool CanExecute_CloseUnratedReservationsViewCommand(object obj)
+        {
+            return true;
+        }
         #endregion
 
         public void InitCommands()
         {
             ShowSelectedUnratedReservationCommand = new RelayCommand(Executed_ShowSelectedUnratedReservationCommand, CanExecute_ShowSelectedUnratedReservationCommand);
+            CloseUnratedReservationsViewCommand = new RelayCommand(Executed_CloseUnratedReservationsViewCommand, CanExecute_CloseUnratedReservationsViewCommand);
         }
 
         public void Update()

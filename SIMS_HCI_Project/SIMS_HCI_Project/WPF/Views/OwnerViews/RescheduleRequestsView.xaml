@@ -6,10 +6,12 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         mc:Ignorable="d"
         Title="RescheduleRequestsView" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
-    <Window.Resources>
-    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding ShowSelectedRequestCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseRescheduleRequestsViewCommand}"/>
+    </Window.InputBindings>
 
-    <Grid Background="Azure">
+    <Grid Background="{StaticResource OwnerNeutralColor}">
         <!-- MAIN STACK PANEL-->
         <StackPanel Orientation="Vertical" Margin="10 5 10 5">
             <!-- TOP STACK PANEL - Options-->
@@ -24,7 +26,7 @@
                             Style="{StaticResource OwnerButtonStyle}" Width="350">
                         </Button>
                         <Button x:Name="btnClose"  Content="Close (Esc)"
-                            Style="{StaticResource OwnerButtonStyle}" Width="350">
+                            Style="{StaticResource OwnerButtonStyle}" Width="350" Command="{Binding CloseRescheduleRequestsViewCommand}">
                         </Button>
                     </StackPanel>
                 </Border>

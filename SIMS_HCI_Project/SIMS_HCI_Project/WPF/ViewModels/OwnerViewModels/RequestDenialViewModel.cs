@@ -21,6 +21,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public RescheduleRequest Request { get; set; }
         
         public RelayCommand SubmitRequestDenialCommand { get; set; }
+        public RelayCommand CloseRequestDenialViewCommand { get; set; }
+        
 
         public RequestDenialViewModel(RequestHandlerView requestHandlerView, RequestDenialView requestDenialView, RescheduleRequestService requestService, 
             NotificationService notificationService, RescheduleRequest selectedRequest) 
@@ -51,11 +53,22 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             return true;
         }
+
+        public void Executed_CloseRequestDenialViewCommand(object obj)
+        {
+            RequestDenialView.Close();
+        }
+
+        public bool CanExecute_CloseRequestDenialViewCommand(object obj)
+        {
+            return true;
+        }
         #endregion
 
         public void InitCommands()
         {
             SubmitRequestDenialCommand = new RelayCommand(Executed_SubmitRequestDenialCommand, CanExecute_SubmitRequestDenialCommand);
+            CloseRequestDenialViewCommand = new RelayCommand(Executed_CloseRequestDenialViewCommand, CanExecute_CloseRequestDenialViewCommand);
         }
     }
 }

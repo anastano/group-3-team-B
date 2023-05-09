@@ -23,6 +23,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public ObservableCollection<RatingGivenByGuest> GuestReviews { get; set; }
         public RatingGivenByGuest SelectedReview { get; set; }
         public RelayCommand ShowSelectedReviewCommand { get; set; }
+        public RelayCommand CloseReviewsViewCommand { get; set; }
 
         public GuestReviewsViewModel(GuestReviewsView guestReviewsView, RatingGivenByGuestService guestRatingService,
             RatingGivenByOwnerService ownerRatingService, Owner owner)
@@ -42,7 +43,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             if (SelectedReview != null)
             {
-                Window selectedGuestReviewView = new SelectedGuestReviewView(SelectedReview);
+                Window selectedGuestReviewView = new SelectedGuestReviewView(GuestReviewsView, SelectedReview);
                 selectedGuestReviewView.Show();
             }
         }
@@ -51,11 +52,22 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             return true;
         }
+
+        public void Executed_CloseReviewsViewCommand(object obj)
+        {
+            GuestReviewsView.Close();
+        }
+
+        public bool CanExecute_CloseReviewsViewCommand(object obj)
+        {
+            return true;
+        }
         #endregion
 
         public void InitCommands()
         {
             ShowSelectedReviewCommand = new RelayCommand(Executed_ShowSelectedReviewCommand, CanExecute_ShowSelectedReviewCommand);
+            CloseReviewsViewCommand = new RelayCommand(Executed_CloseReviewsViewCommand, CanExecute_CloseReviewsViewCommand);
         }
 
     }

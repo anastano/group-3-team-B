@@ -6,10 +6,12 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         mc:Ignorable="d"
         Title="RateSelectedGuestView" Height="470" Width="600" WindowStartupLocation="CenterScreen">
-    <Window.Resources>
-
-    </Window.Resources>
-    <Grid Background="Azure">
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+R" Command="{Binding RateGuestCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseRateSelectedGuestViewCommand}"/>
+    </Window.InputBindings>
+    
+    <Grid Background="{StaticResource OwnerNeutralColor}">
         <StackPanel>
 
             <TextBlock x:Name="tblWelcome" Text="Rate Your Guest" 
@@ -78,7 +80,7 @@
                 </Button>
 
                 <Button x:Name="btnCancel" Content="Cancel (Esc)" 
-                Style="{StaticResource OwnerButtonStyle}">
+                Style="{StaticResource OwnerButtonStyle}" Command="{Binding CloseRateSelectedGuestViewCommand}">
                 </Button>
             </StackPanel>
 

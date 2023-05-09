@@ -6,7 +6,12 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         mc:Ignorable="d"
         Title="AccommodationImagesView" Height="450" Width="550" WindowStartupLocation="CenterScreen">
-    <Grid>
+    <Window.InputBindings>
+        <KeyBinding Key="Left" Command="{Binding PreviousAccommodationImageCommand}"/>
+        <KeyBinding Key="Right"  Command="{Binding NextAccommodationImageCommand}"/>
+        <KeyBinding Key="Esc"  Command="{Binding CloseAccommodationImageViewCommand}"/>
+    </Window.InputBindings>
+    <Grid Background="{StaticResource OwnerNeutralColor}">
         <StackPanel Margin="10 10 10 10">
             <Border Style="{StaticResource OwnerBorderStyle}" Padding="5" Margin="5">
                 <StackPanel>
@@ -14,9 +19,9 @@
                 </StackPanel>
             </Border>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="Previous" Command="{Binding PreviousAccommodationImageCommand}"
+                <Button Content="&lt;&lt;" Command="{Binding PreviousAccommodationImageCommand}"
                         Style="{StaticResource OwnerButtonStyle}"/>
-                <Button Content="Next" Command="{Binding NextAccommodationImageCommand}"
+                <Button Content="&gt;&gt;" Command="{Binding NextAccommodationImageCommand}"
                         Style="{StaticResource OwnerButtonStyle}"/>
             </StackPanel>
         </StackPanel>

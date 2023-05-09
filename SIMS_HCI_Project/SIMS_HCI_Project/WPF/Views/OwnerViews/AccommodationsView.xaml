@@ -6,8 +6,13 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         mc:Ignorable="d"
         Title="AccommodationsView" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
-
-    <Grid Background="{StaticResource OwnerNeutralColor}">
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+A" Command="{Binding AddAccommodationCommand}"/>
+        <KeyBinding Gesture="Ctrl+D" Command="{Binding DeleteAccommodationCommand}"/>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding ShowAccommodationImagesCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseAccommodationsViewCommand}"/>
+    </Window.InputBindings>
+    <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=btnAddAccommodation}">
         <!-- MAIN STACK PANEL-->
         <StackPanel Orientation="Vertical" Margin="10 5 10 5">
             <!-- TOP STACK PANEL - Options-->

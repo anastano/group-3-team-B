@@ -6,10 +6,11 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         mc:Ignorable="d"
         Title="UnratedReservationsView" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
-    <Window.Resources>
-
-    </Window.Resources>
-    <Grid Background="Azure">
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+R" Command="{Binding ShowSelectedUnratedReservationCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseUnratedReservationsViewCommand}"/>
+    </Window.InputBindings>
+    <Grid Background="{StaticResource OwnerNeutralColor}">
         <!-- GLAVNI STACK PANEL-->
         <StackPanel Orientation="Vertical" Margin="10 5 10 5">
             <!--GORNJI STACK PANEL - Options-->
@@ -24,7 +25,7 @@
                             Style="{StaticResource OwnerButtonStyle}" Width="350">
                         </Button>
                         <Button x:Name="btnClose"  Content="Close (Esc)"
-                            Style="{StaticResource OwnerButtonStyle}" Width="350">
+                            Style="{StaticResource OwnerButtonStyle}" Width="350" Command="{Binding CloseUnratedReservationsViewCommand}">
                         </Button>
 
                     </StackPanel>

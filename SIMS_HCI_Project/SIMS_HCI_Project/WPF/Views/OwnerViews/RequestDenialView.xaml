@@ -6,9 +6,10 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         mc:Ignorable="d"
         Title="RequestDenialView" Height="300" Width="500" WindowStartupLocation="CenterScreen">
-    <Window.Resources>
-
-    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding SubmitRequestDenialCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseRequestDenialViewCommand}"/>
+    </Window.InputBindings>
     
     <Grid Background="{StaticResource OwnerNeutralColor}">
         <StackPanel>
@@ -35,7 +36,7 @@
                         Style="{StaticResource OwnerButtonStyle}" Width="150" Height="35">
                 </Button>
 
-                <Button x:Name="btnCancel" Content="Cancel (Esc)"
+                <Button x:Name="btnCancel" Content="Cancel (Esc)" Command="{Binding CloseRequestDenialViewCommand}"
                         Style="{StaticResource OwnerButtonStyle}" Width="150" Height="35">
                 </Button>
             </StackPanel>

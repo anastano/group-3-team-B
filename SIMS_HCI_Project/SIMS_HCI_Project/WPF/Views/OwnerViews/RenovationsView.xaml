@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         mc:Ignorable="d"
         Title="RenovationsView" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
+
     <Grid Background="{StaticResource OwnerNeutralColor}">
         <!-- MAIN STACK PANEL-->
         <StackPanel Orientation="Vertical" Margin="10 5 10 5">

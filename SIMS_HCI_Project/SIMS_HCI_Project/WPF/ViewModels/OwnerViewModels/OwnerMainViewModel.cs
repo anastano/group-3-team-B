@@ -165,10 +165,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public void Executed_LogoutCommand(object obj)
         {
+            /*
             foreach (Notification notification in _notificationService.GetUnreadByUserId(Owner.Id))
             {
                 _notificationService.MarkAsRead(notification.Id);
             }
+            */
+
             OwnerMainView.Close();
         }
 

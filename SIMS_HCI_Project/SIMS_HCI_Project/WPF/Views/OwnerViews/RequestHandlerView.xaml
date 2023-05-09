@@ -6,9 +6,12 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         mc:Ignorable="d"
         Title="RequestHandlerView" Height="630" Width="600" WindowStartupLocation="CenterScreen">
-    <Window.Resources>
-
-    </Window.Resources>
+    
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+A" Command="{Binding AcceptRequestCommand}"/>
+        <KeyBinding Gesture="Ctrl+D" Command="{Binding DeclineRequestCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseRequestHandlerViewCommand}"/>
+    </Window.InputBindings>
     
     <Grid Background="{StaticResource OwnerNeutralColor}">
 
@@ -127,7 +130,7 @@
                             Style="{StaticResource OwnerButtonStyle}" Width="150">
                 </Button>
 
-                <Button x:Name="btnCancel"  Content="Cancel (Esc)"
+                <Button x:Name="btnCancel"  Content="Cancel (Esc)" Command="{Binding CloseRequestHandlerViewCommand}"
                             Style="{StaticResource OwnerButtonStyle}" Width="150">
                 </Button>
             </StackPanel>

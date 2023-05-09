@@ -40,6 +40,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public RelayCommand AddAccommodationImageCommand { get; set; }
         public RelayCommand RemoveAccommodationImageCommand { get; set; }
         public RelayCommand RegisterNewAccommodationCommand { get; set; }
+        public RelayCommand CloseAddAccommodationViewCommand { get; set; }
+        
 
         public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -104,6 +106,16 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             return true;
         }
+
+        public void Executed_CloseAddAccommodationViewCommand(object obj)
+        {
+            AddAccommodationView.Close();
+        }
+
+        public bool CanExecute_CloseAddAccommodationViewCommand(object obj)
+        {
+            return true;
+        }
         #endregion
 
         public void InitCommands()
@@ -111,6 +123,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             AddAccommodationImageCommand = new RelayCommand(Executed_AddAccommodationImageCommand, CanExecute_AddAccommodationImageCommand);
             RemoveAccommodationImageCommand = new RelayCommand(Executed_RemoveAccommodationImageCommand, CanExecute_RemoveAccommodationImageCommand);
             RegisterNewAccommodationCommand = new RelayCommand(Executed_RegisterNewAccommodationCommand, CanExecute_RegisterNewAccommodationCommand);
+            CloseAddAccommodationViewCommand = new RelayCommand(Executed_CloseAddAccommodationViewCommand, CanExecute_CloseAddAccommodationViewCommand);
         }
 
         }

@@ -20,6 +20,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public AccommodationReservation SelectedReservation { get; set; }
 
         public RelayCommand RateGuestCommand { get; set; }
+        public RelayCommand CloseRateSelectedGuestViewCommand { get; set; }
 
         public RateSelectedGuestViewModel(RateSelectedGuestView rateSelectedGuestView, RatingGivenByOwnerService ownerRatingService, 
             AccommodationReservation selectedReservation) 
@@ -44,11 +45,22 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             return true;
         }
+
+        public void Executed_CloseRateSelectedGuestViewCommand(object obj)
+        {
+            RateSelectedGuestView.Close();
+        }
+
+        public bool CanExecute_CloseRateSelectedGuestViewCommand(object obj)
+        {
+            return true;
+        }
         #endregion
 
         public void InitCommands()
         {
             RateGuestCommand = new RelayCommand(Executed_RateGuestCommand, CanExecute_RateGuestCommand);
+            CloseRateSelectedGuestViewCommand = new RelayCommand(Executed_CloseRateSelectedGuestViewCommand, CanExecute_CloseRateSelectedGuestViewCommand);
         }
 
         public void Update()

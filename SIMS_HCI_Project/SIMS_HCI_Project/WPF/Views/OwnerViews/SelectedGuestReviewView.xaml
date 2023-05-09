@@ -6,10 +6,12 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         mc:Ignorable="d"
         Title="SelectedGuestReviewView" Height="550" Width="1000" WindowStartupLocation="CenterScreen">
-    <Window.Resources>
-
-    </Window.Resources>
-    
+    <Window.InputBindings>
+        <KeyBinding Key="Left" Command="{Binding PreviousGuestReviewImageCommand}"/>
+        <KeyBinding Key="Right"  Command="{Binding NextGuestReviewImageCommand}"/>
+        <KeyBinding Gesture="Ctrl+H" Command="{Binding HomePageFromSelectedReviewCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseSelectedGuestReviewViewCommand}"/>
+    </Window.InputBindings>
     <Grid Background="{StaticResource OwnerNeutralColor}">
         <StackPanel>
             <StackPanel Orientation="Horizontal" Margin="5">
@@ -156,11 +158,11 @@
                                     <Image x:Name="imgGuestReviewImage" Height="280" Width="300" Margin="10"/>
                                 </Border>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <Button x:Name="btnPrevious" Content="Previous" Command="{Binding PreviousGuestReviewImageCommand}"
+                                    <Button x:Name="btnPrevious" Content="&lt;&lt;" Command="{Binding PreviousGuestReviewImageCommand}"
                                 Style="{StaticResource OwnerButtonStyle}" Width="120" Height="30">
                                     </Button>
 
-                                    <Button x:Name="btnNext" Content="Next"  Command="{Binding NextGuestReviewImageCommand}"
+                                    <Button x:Name="btnNext" Content="&gt;&gt;"  Command="{Binding NextGuestReviewImageCommand}"
                                 Style="{StaticResource OwnerButtonStyle}" Width="120" Height="30">
                                     </Button>
                                 </StackPanel>
@@ -173,11 +175,11 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="btnClose" Content="Close (Esc)" 
+                <Button x:Name="btnClose" Content="Close (Esc)" Command="{Binding CloseSelectedGuestReviewViewCommand}"
                 Style="{StaticResource OwnerButtonStyle}">
                 </Button>
 
-                <Button x:Name="btnHome" Content="Home (Ctrl+H)" 
+                <Button x:Name="btnHome" Content="Home (Ctrl+H)" Command="{Binding HomePageFromSelectedReviewCommand}"
                 Style="{StaticResource OwnerButtonStyle}">
                 </Button>
             </StackPanel>

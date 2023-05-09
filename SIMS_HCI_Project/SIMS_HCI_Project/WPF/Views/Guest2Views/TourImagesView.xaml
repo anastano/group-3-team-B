@@ -14,13 +14,23 @@
         <converters:ImageUrlConverter x:Key="ImageUrlConverter" />
     </Page.Resources>
 
-    <Grid Background="#FFD1E3F3">
+    <Grid Background="#FF525273">
         <Button Content="Back" Command="{Binding DataContext.BackCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Margin="10,10,0,475" HorizontalAlignment="Left" Width="75"/>
         <StackPanel Orientation="Vertical" Margin="264,57,264,55">
             <Image Source="{Binding Image}" Height="340" Width="557"/>
             <StackPanel Orientation="Horizontal" Height="63">
-                <Button Content="previous" Command="{Binding DataContext.PreviousImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Width="278"/>
-                <Button Content="next" Command="{Binding DataContext.NextImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Width="272"/>
+                <Button Content="previous" Command="{Binding DataContext.PreviousImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Width="278">
+                    <Button.InputBindings>
+                        <KeyBinding Key="Left" Command="{Binding DataContext.PreviousImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
+                    </Button.InputBindings>
+                    <Button.ToolTip>Left arrow key</Button.ToolTip>
+                </Button>
+                <Button Content="next" Command="{Binding DataContext.NextImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Width="272">
+                    <Button.InputBindings>
+                        <KeyBinding Key="Right" Command="{Binding DataContext.NextImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
+                    </Button.InputBindings>
+                    <Button.ToolTip>Right arrow key</Button.ToolTip>
+                </Button>
             </StackPanel>
         </StackPanel>
         <Button Content="Close" Command="{Binding DataContext.BackCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Margin="488,468,488,10"></Button>

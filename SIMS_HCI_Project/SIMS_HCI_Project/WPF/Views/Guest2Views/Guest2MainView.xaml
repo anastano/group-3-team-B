@@ -8,8 +8,8 @@
         Title="Guest2MainView" Height="518" Width="1080">
 
 
-    <Grid Background="Orange">
-        
+    <Grid >
+
 
         <!--My reservations-->
         <DataGrid x:Name="dgReservedTours" 

@@ -17,7 +17,7 @@ using System.Windows;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 {
-    public class CreateRegularRequestViewModel : INotifyPropertyChanged
+    public class CreateRegularRequestViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
         public NavigationService NavigationService { get; set; }
         private RegularTourRequestService _regularTourRequestService { get; set; }

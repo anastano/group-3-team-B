@@ -10,8 +10,8 @@
         <KeyBinding Gesture="Ctrl+S" Command="{Binding SubmitRequestDenialCommand}"/>
         <KeyBinding Key="Esc" Command="{Binding CloseRequestDenialViewCommand}"/>
     </Window.InputBindings>
-    
-    <Grid Background="{StaticResource OwnerNeutralColor}">
+
+    <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=txtComment}">
         <StackPanel>
             <TextBlock x:Name="tblWelcome" Text="Decline Request" 
                        Style="{StaticResource OwnerTitleStyle}">
@@ -23,7 +23,7 @@
                     <Label Content="Why are you declining this request?" Grid.Row="0" Grid.Column="0"
                            Style="{StaticResource OwnerLabelStyle}"></Label>
 
-                    <TextBox x:Name="txtCleanliness" Grid.Row="0" Grid.Column="1"
+                    <TextBox x:Name="txtComment" Grid.Row="0" Grid.Column="1"
                              Text="{Binding Path = Request.OwnerComment, UpdateSourceTrigger = PropertyChanged}"
                              Style="{StaticResource OwnerTextBoxStyle}" Width="300" Height="90">
                     </TextBox>

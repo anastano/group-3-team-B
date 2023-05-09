@@ -45,23 +45,39 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
 
         #region Commands
+
+        private MessageBoxResult ConfirmAcceptRequest()
+        {
+            string sMessageBoxText = $"Are you sure you want to accept this request?";
+            string sCaption = "Accept Request Confirmation";
+
+            MessageBoxButton btnMessageBox = MessageBoxButton.YesNo;
+            MessageBoxImage icnMessageBox = MessageBoxImage.Warning;
+
+            MessageBoxResult result = MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox, icnMessageBox);
+            return result;
+        }
+
         public void Executed_AcceptRequestCommand(object obj)
         {
-            if (OverlappingReservations != null)
+            if (ConfirmAcceptRequest() == MessageBoxResult.Yes)
             {
-                foreach (AccommodationReservation reservation in OverlappingReservations)
+                if (OverlappingReservations != null)
                 {
-                    _reservationService.EditStatus(reservation.Id, AccommodationReservationStatus.CANCELLED);
+                    foreach (AccommodationReservation reservation in OverlappingReservations)
+                    {
+                        _reservationService.EditStatus(reservation.Id, AccommodationReservationStatus.CANCELLED);
+                    }
                 }
+
+                _reservationService.EditReservation(Request);
+                _requestService.EditStatus(Request.Id, RescheduleRequestStatus.ACCEPTED);
+
+                String Message = "Request to reschedule the reservation for '" + Request.AccommodationReservation.Accommodation.Name + "' has been ACCEPTED";
+                _notificationService.Add(new Notification(Message, Request.AccommodationReservation.GuestId, false));
+
+                RequestHandlerView.Close();
             }
-
-            _reservationService.EditReservation(Request);
-            _requestService.EditStatus(Request.Id, RescheduleRequestStatus.ACCEPTED);
-
-            String Message = "Request to reschedule the reservation for '" + Request.AccommodationReservation.Accommodation.Name + "' has been ACCEPTED";
-            _notificationService.Add(new Notification(Message, Request.AccommodationReservation.GuestId, false));
-
-            RequestHandlerView.Close();           
         }
 
         public bool CanExecute_AcceptRequestCommand(object obj)

@@ -12,7 +12,7 @@
         <KeyBinding Gesture="Ctrl+H" Command="{Binding HomePageFromSelectedReviewCommand}"/>
         <KeyBinding Key="Esc" Command="{Binding CloseSelectedGuestReviewViewCommand}"/>
     </Window.InputBindings>
-    <Grid Background="{StaticResource OwnerNeutralColor}">
+    <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=btnClose}">
         <StackPanel>
             <StackPanel Orientation="Horizontal" Margin="5">
 

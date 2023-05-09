@@ -11,7 +11,7 @@
         <KeyBinding Key="Esc" Command="{Binding CloseReviewsViewCommand}"/>
     </Window.InputBindings>
 
-    <Grid Background="{StaticResource OwnerNeutralColor}">
+    <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=dgGuestReviews}">
         <!-- MAIN STACK PANEL-->
         <StackPanel Orientation="Vertical" Margin="10 5 10 5">
             <!-- TOP STACK PANEL - Options-->

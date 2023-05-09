@@ -12,8 +12,8 @@
         <KeyBinding Gesture="Ctrl+D" Command="{Binding DeclineRequestCommand}"/>
         <KeyBinding Key="Esc" Command="{Binding CloseRequestHandlerViewCommand}"/>
     </Window.InputBindings>
-    
-    <Grid Background="{StaticResource OwnerNeutralColor}">
+
+    <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=btnAcceptRequest}">
 
         <StackPanel>
             <StackPanel Margin="5 5 5 5">

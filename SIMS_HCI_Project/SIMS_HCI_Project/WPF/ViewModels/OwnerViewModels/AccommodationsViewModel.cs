@@ -42,11 +42,26 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         }
 
         #region Commands
+        private MessageBoxResult ConfirmDeleteAccommodation()
+        {
+            string sMessageBoxText = $"Are you sure you want to delete this accommodation?";
+            string sCaption = "Delete Accommodation Confirmation";
+
+            MessageBoxButton btnMessageBox = MessageBoxButton.YesNo;
+            MessageBoxImage icnMessageBox = MessageBoxImage.Warning;
+
+            MessageBoxResult result = MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox, icnMessageBox);
+            return result;
+        }
+
         public void Executed_DeleteAccommodationCommand(object obj)
         {
             if (SelectedAccommodation != null)
             {
-                _accommodationService.Delete(SelectedAccommodation);
+                if (ConfirmDeleteAccommodation() == MessageBoxResult.Yes)
+                {
+                    _accommodationService.Delete(SelectedAccommodation);
+                }
             }
         }
 

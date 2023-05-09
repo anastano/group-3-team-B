@@ -6,12 +6,22 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         mc:Ignorable="d"
         Title="RateSelectedGuestView" Height="470" Width="600" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <ControlTemplate x:Key="ValidationTemplate">
+            <StackPanel>
+                <!-- Placeholder for the TextBox itself -->
+                <AdornedElementPlaceholder x:Name="textBox" />
+                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" HorizontalAlignment="Center" />
+            </StackPanel>
+
+        </ControlTemplate>
+    </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Gesture="Ctrl+R" Command="{Binding RateGuestCommand}"/>
         <KeyBinding Key="Esc" Command="{Binding CloseRateSelectedGuestViewCommand}"/>
     </Window.InputBindings>
-    
-    <Grid Background="{StaticResource OwnerNeutralColor}">
+
+    <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=txtCleanliness}">
         <StackPanel>
 
             <TextBlock x:Name="tblWelcome" Text="Rate Your Guest" 
@@ -56,12 +66,14 @@
                                Style="{StaticResource OwnerLabelStyle}"></Label>
 
                         <TextBox x:Name="txtCleanliness" Grid.Row="0" Grid.Column="1"
-                                    Text="{Binding Path = Rating.Cleanliness}"
+                                    Text="{Binding Path = Cleanliness, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                    Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
                                     Style="{StaticResource OwnerTextBoxStyle}" Width="100" Height="30">
                         </TextBox>
 
                         <TextBox x:Name="txtRuleCompliance"  Grid.Row="1" Grid.Column="1"
-                                    Text="{Binding Path = Rating.RuleCompliance}"
+                                    Text="{Binding Path = RuleCompliance, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                    Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
                                     Style="{StaticResource OwnerTextBoxStyle}" Width="100" Height="30">
                         </TextBox>
 

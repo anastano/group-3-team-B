@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SIMS_HCI_Project.Domain.DTOs;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Domain.RepositoryInterfaces;
 using SIMS_HCI_Project.FileHandlers;
@@ -14,7 +15,6 @@ namespace SIMS_HCI_Project.Repositories
         private readonly RegularTourRequestFileHandler _fileHandler;
 
         private static List<RegularTourRequest> _requests;
-        private LocationRepository _locationRepository;
 
         public RegularTourRequestRepository()
         {
@@ -24,16 +24,21 @@ namespace SIMS_HCI_Project.Repositories
             UpdateStatusForInvlid();
         }
 
+        private void Save()
+        {
+            _fileHandler.Save(_requests);
+        }
+
         public int GenerateId()
         {
             return _requests.Count == 0 ? 1 : _requests[_requests.Count - 1].Id + 1;
         }
 
-
         public List<RegularTourRequest> GetAll()
         {
             return _requests;
         }
+
         public RegularTourRequest GetById(int id)
         {
             return _requests.Find(r => r.Id == id);
@@ -50,7 +55,6 @@ namespace SIMS_HCI_Project.Repositories
             return _requests.FindAll(r => r.GuestId == guestId && r.IsPartOfComplex == false);
         }
 
-
         public List<RegularTourRequest> GetByGuestIdAndStatus(int guestId, RegularRequestStatus status)
         {
             return _requests.FindAll(r => r.GuestId == guestId && r.Status == status);
@@ -62,6 +66,16 @@ namespace SIMS_HCI_Project.Repositories
         }
 
 
+
+        public List<RegularTourRequest> GetValidByParams(Location location, int guestNumber, string language, DateRange dateRange)
+        {
+            return _requests.FindAll(r => (location == null || r.Location.Equals(location))
+                                        && (guestNumber == 0 || r.GuestNumber == guestNumber)
+                                        && (language == null || language.Equals("") || r.Language.Equals(language))
+                                        && (dateRange == null || (r.DateRange.IsInside(dateRange)))
+                                        && r.Status == RegularRequestStatus.PENDING);
+        }
+
         public void Add(RegularTourRequest request)
         {
             request.Id = GenerateId();
@@ -69,9 +83,14 @@ namespace SIMS_HCI_Project.Repositories
 
             Save();
         }
-        public void Save()
+        
+
+        public void Update(RegularTourRequest request)
         {
-            _fileHandler.Save(_requests);
+            RegularTourRequest requestUpdated = GetById(request.Id);
+            requestUpdated = request;
+
+            Save();
         }
 
         public void EditStatus(int requestId, RegularRequestStatus status)
@@ -84,7 +103,7 @@ namespace SIMS_HCI_Project.Repositories
         {
             foreach (var request in _requests)
             {
-                if (request.IsPartOfComplex == false && DateTime.Now > request.Start.AddHours(-48) && request.Status == RegularRequestStatus.PENDING)
+                if (request.IsPartOfComplex == false && DateTime.Now > request.DateRange.Start.AddHours(-48) && request.Status == RegularRequestStatus.PENDING)
                 {
                     request.Status = RegularRequestStatus.INVALID;
                     Save();
@@ -99,7 +118,8 @@ namespace SIMS_HCI_Project.Repositories
 
         public int GetRequestsCountByStatus(RegularRequestStatus status, int guestId, int selectedYear)
         {
-            return _requests.Where(r => r.GuestId == guestId && r.Status == status && r.Start.Year == selectedYear).Count();
+            return _requests.Where(r => r.GuestId == guestId && r.Status == status && r.DateRange.Start.Year == selectedYear).Count();
         }
+
     }
 }

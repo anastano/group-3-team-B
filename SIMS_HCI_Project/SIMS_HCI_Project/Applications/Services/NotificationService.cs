@@ -38,7 +38,7 @@ namespace SIMS_HCI_Project.Applications.Services
             _notificationRepository.Add(notification);
         }
 
-        public  void MarkAsRead(int notificationId)
+        public void MarkAsRead(int notificationId)
         { 
             _notificationRepository.MarkAsRead(notificationId);
         }

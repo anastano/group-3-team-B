@@ -67,6 +67,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
+        /*
         private KeyValuePair<string, int>[] izvor;
         public KeyValuePair<string, int>[] Izvor {
             get => izvor;
@@ -91,14 +92,26 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                     OnPropertyChanged();
                 }
             }
+        }*/
+        private  int _selectedTabIndex;
+        public  int SelectedTabIndex
+        {
+            get => _selectedTabIndex;
+            set
+            {
+                if (value != _selectedTabIndex)
+                {
+                    _selectedTabIndex = value;
+                    OnPropertyChanged();
+                }
+            }
         }
-
         public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        public ReservationsViewModel(Guest1 guest, NavigationService navigationService)
+        public ReservationsViewModel(Guest1 guest, NavigationService navigationService, int selectedTabIndex)
         {
             _navigationService = navigationService;
             _reservationService = new AccommodationReservationService();
@@ -113,8 +126,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             InitCommands();
             CanceledReservations.CollectionChanged += (s, e) => UpdateChart();
             Reservations.CollectionChanged += (s, e) => UpdateChart();
-            LoadPieChartData();
+            SelectedTabIndex = selectedTabIndex;
+            //LoadPieChartData();
+            
         }
+        /*
         private void LoadPieChartData()
         {
             Izvor =
@@ -129,7 +145,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         //new KeyValuePair<string,int>("Other", 25),
 
         };
-        }
+        }*/
         private void UpdateChart()
         {
             CancelledCount = new ChartValues<int> { CanceledReservations.Count };
@@ -191,6 +207,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             RateCommand = new RelayCommand(ExecutedRateCommand, CanExecute);
             ShowImagesCommand = new RelayCommand(ExecutedShowImagesCommand, CanExecute);
         }  
+        // potencijalno mi vise ne treba jer nema observera??
         public void Update()
         {
             UpdateReservations();

@@ -5,6 +5,7 @@
     <SolidColorBrush x:Key="GuestButtonTextColor" Color="Black"/>
 
     <Style x:Key="GuestButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="LightGray" />
         <Setter Property="Width" Value="110"/>
         <Setter Property="Height" Value="45"/>
         <Setter Property="Margin" Value="5"/>
@@ -12,7 +13,8 @@
         <Setter Property="Foreground" Value="{StaticResource GuestButtonTextColor}"/>
         <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="FontSize" Value="16"/>
-        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="BorderThickness" Value="20"/>
+        <Setter Property="BorderBrush" Value="Black"></Setter>
 
         <Setter Property="Background">
             <Setter.Value>
@@ -29,7 +31,7 @@
                 <ControlTemplate TargetType="Button">
                     <Border CornerRadius="15"
                             Background="{TemplateBinding Background}"
-                            BorderThickness="1">
+                            BorderThickness="1" BorderBrush="Black">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"></ContentPresenter>
                     </Border>
                 </ControlTemplate>
@@ -115,11 +117,29 @@
     </Style>
     <!-- DATA GRID STYLE-->
     <Style x:Key="GuestDatagridStyle" TargetType="DataGrid" >
-        <Setter Property="Background" Value="{StaticResource GuestMainColor}"/>
+        <Setter Property="Background" Value="White"/>
         <Setter Property="ColumnHeaderHeight" Value="30"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="GridLinesVisibility" Value="Horizontal"></Setter>
+        <Setter Property="SelectionMode" Value="Single"></Setter>
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Foreground" Value="Black" />
+                <Setter Property="Background" Value="{StaticResource GuestMainColor}"/>
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style x:Key="DataGridRowStyle" TargetType="DataGridRow">
+        <Style.Triggers>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Background" Value="#cad9c4" />
+                <Setter Property="Foreground" Value="Black" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="GuestDatagridCellStyle" TargetType="DataGridCell">
@@ -130,6 +150,8 @@
                 <Setter Property="HorizontalAlignment" Value="Center" />
                 <Setter Property="VerticalAlignment" Value="Center" />
                 <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="BorderThickness" Value="0"></Setter>
+                <Setter Property="BorderBrush" Value="Transparent"></Setter>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -242,7 +264,7 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    <SolidColorBrush x:Key="ComboBoxNormalBorderBrush" Color="#e3e9ef" />
+    <SolidColorBrush x:Key="ComboBoxNormalBorderBrush" Color="black" />
     <SolidColorBrush x:Key="ComboBoxNormalBackgroundBrush" Color="#fff" />
     <SolidColorBrush x:Key="ComboBoxDisabledForegroundBrush" Color="#888" />
     <SolidColorBrush x:Key="ComboBoxDisabledBackgroundBrush" Color="#eee" />
@@ -313,7 +335,7 @@
                               ContentTemplate="{TemplateBinding ComboBox.SelectionBoxItemTemplate}"
                               ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"/>
                         <TextBox Name="PART_EditableTextBox" Margin="3, 3, 23, 3"                     
-                     IsReadOnly="{TemplateBinding IsReadOnly}"
+                     
                      Visibility="Hidden" Background="Transparent"
                      HorizontalAlignment="Left" VerticalAlignment="Center"
                      Focusable="True" >
@@ -361,8 +383,11 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style x:Key="TabControlStyle" TargetType="TabControl">
+        <Setter Property="Background" Value="#849F83" />
+    </Style>
     <Style x:Key="CustomTabItemStyle" TargetType="TabItem">
-        <Setter Property="Background" Value="#A4BFA3" />
+        <Setter Property="Background" Value="#cad9c4" />
         <Setter Property="Foreground" Value="#333" />
         <Setter Property="Padding" Value="10" />
         <Setter Property="Width" Value="130" />
@@ -385,7 +410,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter Property="Background" Value="#D9EAD3"></Setter>
+                            <Setter Property="Background" Value="#849F83"></Setter>
                             <Setter TargetName="contentPresenter" Property="TextBlock.FontWeight" Value="Bold" />
                         </Trigger>
                     </ControlTemplate.Triggers>

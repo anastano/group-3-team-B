@@ -78,18 +78,22 @@
         </StackPanel>
         <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="3">
             <Label HorizontalAlignment="Left" Width="144" Style="{StaticResource GuestLabelStyle}" >Number of Guests</Label>
-            <TextBox HorizontalAlignment="Left" IsReadOnly="True" Text="{Binding Path = GuestsNumber, UpdateSourceTrigger = PropertyChanged}"
-                     Style="{StaticResource GuestTextBoxStyle}" Margin="0,0,0,0" TextWrapping="Wrap" Width="150"/>
+            <TextBox HorizontalAlignment="Left" Text="{Binding Path = GuestsNumber, UpdateSourceTrigger = PropertyChanged, TargetNullValue=0, ValidatesOnDataErrors=True}"
+                     Style="{StaticResource GuestTextBoxStyle}" 
+                     Margin="0,0,0,0" TextWrapping="Wrap" Width="150" 
+                     Validation.ErrorTemplate="{StaticResource ValidationTemplate}" />
+
         </StackPanel>
         <Button Grid.Row="2" Grid.Column="4" Content="Search" Style="{StaticResource GuestButtonStyle}"
                 Command="{Binding DataContext.SearchCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" HorizontalAlignment="Left" Margin="0, 25, 0, 0"  VerticalAlignment="Top" />
         <Label Grid.Row="3" Grid.ColumnSpan="5" Style="{StaticResource fancyTitle}"
-               Content="{Binding SuggestionText}" HorizontalAlignment="Left" Margin="0,0,0,0" Width="940" />
+               Content="{Binding SuggestionText}" HorizontalAlignment="Left" Margin="0,0,0,0" Width="940" FontSize="15"/>
         <DataGrid Grid.ColumnSpan="5" Grid.Row="4"
                   ItemsSource="{Binding Path=AvailableReservations, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="False" IsReadOnly="True" Margin="0, 10, 0, 0" HorizontalScrollBarVisibility="Hidden"
-                   GridLinesVisibility="Horizontal" RowHeight="100" ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}">
+                   GridLinesVisibility="Horizontal" RowHeight="100" ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}"
+                  Style="{StaticResource GuestDatagridStyle}" RowStyle="{StaticResource DataGridRowStyle}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Start" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="250"
                                     ElementStyle="{StaticResource CustomTextBlockStyle}">

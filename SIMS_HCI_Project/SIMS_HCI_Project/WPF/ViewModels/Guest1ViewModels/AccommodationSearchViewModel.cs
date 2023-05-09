@@ -75,8 +75,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
-        private int _guestsNumber;
-        public int GuestsNumber
+        private string _guestsNumber;
+        public string GuestsNumber
         {
             get => _guestsNumber;
             set
@@ -90,8 +90,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             }
         }
 
-        private int _daysNumber;
-        public int DaysNumber
+        private string _daysNumber;
+        public string DaysNumber
         {
             get => _daysNumber;
             set
@@ -115,8 +115,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _accommodationService = new AccommodationService();
             _accommodationReservationService = new AccommodationReservationService();
             Accommodation = new Accommodation();
-            //GuestsNumber = 1;
-            DaysNumber = 1;
             Guest = guest;
             Accommodations = _accommodationService.GetAllSortedBySuperFlag();
             InitCommands();
@@ -129,20 +127,41 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             {
                 if (columnName == nameof(GuestsNumber))
                 {
-                    if (GuestsNumber >= 0 )
+                    int result;
+                    if (String.IsNullOrEmpty(GuestsNumber))
                     {
+                        GuestsNumber = 0.ToString();
                         return null;
                     }
-                    return "Only numbers are allowed";
+                    else if (!int.TryParse(GuestsNumber, out result))
+                    {
+                        return "Invalid input. Please enter a valid number.";
+                    }
+                    else if (result <= 0)
+                    {
+                        return "Only numbers bigger than 0";
+                    }
+                    return null;
                 }
                 else if (columnName == nameof(DaysNumber))
                 {
-                    if (DaysNumber >= 0)
+                    int result;
+                    if (String.IsNullOrEmpty(DaysNumber))
                     {
+                        DaysNumber = 0.ToString();
                         return null;
                     }
+                    else if (!int.TryParse(DaysNumber, out result))
+                    {
+                        return "Invalid input. Please enter a valid number.";
+                    }
+                    else if (result <= 0)
+                    {
+                        return "Only numbers bigger than 0";
+                    }
+                    return null;
                 }
-                return "Only numbers are allowed";
+                return null;
             }
         }
         private readonly string[] _validatedProperties = { "DaysNumber", "GuestsNumber" };
@@ -176,7 +195,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             if (IsValid)
             {
-                Accommodations = _accommodationService.Search(Accommodation.Name, Accommodation.Location.Country, Accommodation.Location.City, SelectedAccommodationType, GuestsNumber, DaysNumber);
+                Accommodations = _accommodationService.Search(Accommodation.Name, Accommodation.Location.Country, Accommodation.Location.City, SelectedAccommodationType, int.Parse(GuestsNumber), int.Parse(DaysNumber));
             }
         }
         public void ExecutedShowImagesCommand(object obj)

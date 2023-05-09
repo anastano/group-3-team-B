@@ -49,7 +49,10 @@ namespace SIMS_HCI_Project.Repositories
         public void UpdateAvailablePoints(int guestId)
         {
             SuperGuestTitle guestTitle = GetGuestActiveTitle(guestId);
-            guestTitle.AvailablePoints -= 1;
+            if(guestTitle.AvailablePoints > 0)
+            {
+                guestTitle.AvailablePoints -= 1;
+            }
             Save();
         }
         public void ConvertActiveTitlesIntoExpired(DateTime currentDate)

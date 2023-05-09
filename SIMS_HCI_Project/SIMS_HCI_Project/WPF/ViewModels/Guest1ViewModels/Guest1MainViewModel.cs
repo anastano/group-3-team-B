@@ -184,7 +184,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             }
             else if (SelectedItem == 1)
             {
-                _navigationService.Navigate(new ReservationsViewModel(Guest, _navigationService), "My Reservations");
+                _navigationService.Navigate(new ReservationsViewModel(Guest, _navigationService, 0), "My Reservations");
                 SelectedItem = -1;
                 CustomizeGridSize();
             }

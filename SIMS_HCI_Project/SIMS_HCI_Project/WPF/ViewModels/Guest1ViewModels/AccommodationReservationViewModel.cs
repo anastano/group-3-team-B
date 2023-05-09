@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -46,8 +47,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             }
         }
 
-        private int _guestsNumber;
-        public int GuestsNumber
+        private string _guestsNumber;
+        public string GuestsNumber
         {
             get => _guestsNumber;
             set
@@ -130,7 +131,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             Accommodation = accommodation;
             Guest = guest;
             AvailableReservations = new List<AccommodationReservation>();
-            GuestsNumber = accommodation.MaxGuests;
+            GuestsNumber = 1.ToString();
             DaysNumber = accommodation.MinimumReservationDays;
             Start = DateTime.Today.AddDays(1);
             End = DateTime.Today.AddDays(accommodation.MinimumReservationDays);
@@ -164,6 +165,23 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                         return $"Minimum reservation duration is {Accommodation.MinimumReservationDays} days.";
                     }
                 }
+                else if (columnName == nameof(GuestsNumber))
+                {
+                    int result;
+                    if (!int.TryParse(GuestsNumber, out result))
+                    {
+                        return "Invalid input. Please enter a valid number.";
+                    }
+                    else if(result <= 0)
+                    {
+                        return "Only numbers bigger than 0";
+                    }
+                    else if(result > Accommodation.MaxGuests)
+                    {
+                        return $"Max guests number is {Accommodation.MaxGuests}";
+                    }
+                    return null;
+                }
                 if (columnName == nameof(End) || columnName == nameof(Start))
                 {
                     if (Start > End)
@@ -193,7 +211,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 return null;
             }
         }
-        private readonly string[] _validatedProperties = { "DaysNumber", "Start", "End" };
+        private readonly string[] _validatedProperties = { "DaysNumber", "Start", "End", "GuestsNumber" };
 
         public bool IsValid
         {
@@ -249,11 +267,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         }
         private void UpdateAvailableReservations()
         {
-            AvailableReservations = _accommodationReservationService.GetAvailableReservations(Accommodation, Guest, Start, End, DaysNumber, GuestsNumber);
+            AvailableReservations = _accommodationReservationService.GetAvailableReservations(Accommodation, Guest, Start, End, DaysNumber, int.Parse(GuestsNumber));
             if (_accommodationReservationService.CheckIfSuggestionIsNeeded(AvailableReservations) == true)
             {
                 SuggestionText = "There are no available reservations for the selected dates, here are a few recommendations for dates close to the selected ones";
-                AvailableReservations = _accommodationReservationService.GetSuggestedAvailableReservations(Accommodation, Guest, Start, End, DaysNumber, GuestsNumber);
+                AvailableReservations = _accommodationReservationService.GetSuggestedAvailableReservations(Accommodation, Guest, Start, End, DaysNumber, int.Parse(GuestsNumber));
             }
             else
             {
@@ -265,14 +283,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             _navigationService.NavigateBack();
         }
-        public void ExecutedMinusGuestNumberCommand(object obj)
-        {
-           GuestsNumber -= 1;
-        }
-        public void ExecutedPlusGuestNumberCommand(object obj)
-        {
-           GuestsNumber += 1;
-        }
+
         public void ExecutedMinusDaysNumberCommand(object obj)
         {
            DaysNumber -= 1;
@@ -294,8 +305,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             ReserveAccommodationCommand = new RelayCommand(ExecutedReserveAccommodationCommand, CanExecute);
             SearchCommand = new RelayCommand(ExecutedSearchCommand, CanExecute);
-            MinusGuestNumberCommand = new RelayCommand(ExecutedMinusGuestNumberCommand, CanExecute);
-            PlusGuestNumberCommand = new RelayCommand(ExecutedPlusGuestNumberCommand, CanExecute);
             MinusDaysNumberCommand = new RelayCommand(ExecutedMinusDaysNumberCommand, CanExecute);
             PlusDaysNumberCommand = new RelayCommand(ExecutedPlusDaysNumberCommand, CanExecute);
             BackCommand = new RelayCommand(ExecutedBackCommand, CanBackExecute);

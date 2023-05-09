@@ -41,7 +41,7 @@
         </lvc:CartesianChart>
         <DataGrid  Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding Path=RatingsGivenByOwners, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                    AutoGenerateColumns="False" IsReadOnly="True" RowHeight="100" GridLinesVisibility="Horizontal" Style="{StaticResource GuestDatagridStyle}"
-                  ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}">
+                  ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}" RowStyle="{StaticResource DataGridRowStyle}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Owner" Width="90" ElementStyle="{StaticResource CustomTextBlockStyle}">
                     <DataGridTextColumn.Binding>

@@ -141,7 +141,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             {
                 _recommendationService.Add(_navigationService.NavigationStore.Recommendation, addedRating);
             }
-            _navigationService.Navigate(new ReservationsViewModel(Reservation.Guest, _navigationService), "My Reservations");
+            _navigationService.Navigate(new ReservationsViewModel(Reservation.Guest, _navigationService, 1), "My Reservations");
         }
         public void ExecutedRecommendRenovationCommand(object obj)
         {
@@ -150,7 +150,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public void ExecutedCancelReviewCommand(object obj)
         {
             //ne moze back jer ako smo usli u recommend onda nam je to prethodni
-            _navigationService.Navigate(new ReservationsViewModel(Reservation.Guest, _navigationService), "My Reservations");
+            _navigationService.Navigate(new ReservationsViewModel(Reservation.Guest, _navigationService, 1), "My Reservations");
         }
         public void ExecutedRemoveImageCommand(object obj)
         {

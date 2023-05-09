@@ -39,7 +39,9 @@ namespace SIMS_HCI_Project.Domain.Models
         {
             Id = reservation.Id;
             AccommodationId = reservation.AccommodationId;
+            Accommodation = reservation.Accommodation;
             GuestId = reservation.GuestId;
+            Guest = reservation.Guest;
             Start = reservation.Start;
             End = reservation.End;
             GuestNumber = reservation.GuestNumber;

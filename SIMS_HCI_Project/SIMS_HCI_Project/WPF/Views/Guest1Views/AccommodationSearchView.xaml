@@ -56,23 +56,23 @@
         </StackPanel>
         <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" >
             <Label HorizontalAlignment="Left" Style="{StaticResource GuestLabelStyle}">Number of Days</Label>
-            <TextBox Text="{Binding Path = DaysNumber, UpdateSourceTrigger = PropertyChanged, ValidatesOnDataErrors=True}" Name="txtReservationDays" TextWrapping="Wrap"
+            <TextBox Text="{Binding Path = DaysNumber, UpdateSourceTrigger = PropertyChanged, ValidatesOnDataErrors=True, Mode=OneWayToSource}" Name="txtReservationDays" TextWrapping="Wrap"
                       Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Style="{StaticResource GuestTextBoxStyle}"/>
             </StackPanel>
         <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="2">
             <Label HorizontalAlignment="Left" Style="{StaticResource GuestLabelStyle}">Number of Guests</Label>
-            <TextBox Text="{Binding Path = GuestsNumber, UpdateSourceTrigger = PropertyChanged, ValidatesOnDataErrors=True}" Margin="0,0,0,0" 
+            <TextBox Text="{Binding Path = GuestsNumber, UpdateSourceTrigger = PropertyChanged, ValidatesOnDataErrors=True, Mode=OneWayToSource}" Margin="0,0,0,0" 
                      TextWrapping="Wrap" Style="{StaticResource GuestTextBoxStyle}"
                       Validation.ErrorTemplate="{StaticResource ValidationTemplate}"/>
         </StackPanel>
         <Button Grid.Row="2" Grid.Column="3" Content="Search" Command="{Binding DataContext.SearchCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                HorizontalAlignment="Left" Margin="0, 10, 0, 0"
+                HorizontalAlignment="Left" Margin="20, 10, 0, 0"
                         Style="{StaticResource GuestButtonStyle}"/>
         <DataGrid Grid.ColumnSpan="4" Grid.Row="3" Style="{StaticResource GuestDatagridStyle}"
                   ItemsSource="{Binding Path=Accommodations, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding Path=SelectedAccommodation, UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="False" IsReadOnly="True" Margin="0, 30, 0, 0"
-                  GridLinesVisibility="Horizontal" HorizontalScrollBarVisibility="Hidden">
+                  GridLinesVisibility="Horizontal" HorizontalScrollBarVisibility="Hidden" RowStyle="{StaticResource DataGridRowStyle}">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Images">
                     <DataGridTemplateColumn.HeaderStyle>

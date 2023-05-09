@@ -93,7 +93,7 @@
                   SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="False" IsReadOnly="True" Margin="0, 10, 0, 0" HorizontalScrollBarVisibility="Hidden"
                    GridLinesVisibility="Horizontal" RowHeight="100" ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}"
-                  Style="{StaticResource GuestDatagridStyle}" RowStyle="{StaticResource DataGridRowStyle}">
+                  Style="{StaticResource GuestDatagridStyle}" RowStyle="{StaticResource DataGridRowStyle}" CellStyle="{StaticResource GuestDatagridCellStyle}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Start" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="250"
                                     ElementStyle="{StaticResource CustomTextBlockStyle}">

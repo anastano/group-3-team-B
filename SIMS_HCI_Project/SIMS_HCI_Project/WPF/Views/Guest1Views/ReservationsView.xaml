@@ -54,7 +54,8 @@
                 <DataGrid ItemsSource="{Binding Path=ActiveReservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="25" AutoGenerateColumns="False" IsReadOnly="True"
                       SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}"  
                           GridLinesVisibility="Horizontal" ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}"
-                          Style="{StaticResource GuestDatagridStyle}" RowStyle="{StaticResource DataGridRowStyle}">
+                          Style="{StaticResource GuestDatagridStyle}" RowStyle="{StaticResource DataGridRowStyle}"
+                          CellStyle="{StaticResource GuestDatagridCellStyle}">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Header="Images">
                             <DataGridTemplateColumn.CellTemplate>
@@ -115,7 +116,7 @@
                 <DataGrid ItemsSource="{Binding Path=PastReservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="25" AutoGenerateColumns="False" IsReadOnly="True"
                           SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}" GridLinesVisibility="Horizontal" RowHeight="100" 
                           ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}" Style="{StaticResource GuestDatagridStyle}"
-                          RowStyle="{StaticResource DataGridRowStyle}">
+                          RowStyle="{StaticResource DataGridRowStyle}" CellStyle="{StaticResource GuestDatagridCellStyle}">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Accommodation Name" Binding="{Binding Accommodation.Name}" Width="2*"
                                             ElementStyle="{StaticResource CustomTextBlockStyle}">
@@ -156,7 +157,8 @@
                     </Grid.ColumnDefinitions>
                     <DataGrid Grid.Column="0" ItemsSource="{Binding Path=CanceledReservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="25" AutoGenerateColumns="False" IsReadOnly="True"
                       SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}" GridLinesVisibility="Horizontal" RowHeight="100"
-                              ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}" Style="{StaticResource GuestDatagridStyle}" RowStyle="{StaticResource DataGridRowStyle}" >
+                              ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}" Style="{StaticResource GuestDatagridStyle}" RowStyle="{StaticResource DataGridRowStyle}"
+                              CellStyle="{StaticResource GuestDatagridCellStyle}">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Accommodation Name" Binding="{Binding Accommodation.Name}" Width="2*"
                                                  ElementStyle="{StaticResource CustomTextBlockStyle}">

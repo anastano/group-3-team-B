@@ -72,7 +72,8 @@
                   ItemsSource="{Binding Path=Accommodations, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding Path=SelectedAccommodation, UpdateSourceTrigger=PropertyChanged}"
                   AutoGenerateColumns="False" IsReadOnly="True" Margin="0, 30, 0, 0"
-                  GridLinesVisibility="Horizontal" HorizontalScrollBarVisibility="Hidden" RowStyle="{StaticResource DataGridRowStyle}">
+                  GridLinesVisibility="Horizontal" HorizontalScrollBarVisibility="Hidden"
+                  RowStyle="{StaticResource DataGridRowStyle}" CellStyle="{StaticResource GuestDatagridCellStyle}">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Images">
                     <DataGridTemplateColumn.HeaderStyle>

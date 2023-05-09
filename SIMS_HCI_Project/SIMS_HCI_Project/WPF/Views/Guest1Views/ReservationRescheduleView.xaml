@@ -80,7 +80,8 @@
         <DataGrid  Grid.Row="5" Grid.ColumnSpan="5" RowHeight="100"
                    ItemsSource="{Binding Path=RescheduleRequests, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True"
                    ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}" HorizontalScrollBarVisibility="Hidden" GridLinesVisibility="Horizontal"
-                   Style="{StaticResource GuestDatagridStyle}" RowStyle="{StaticResource DataGridRowStyle}">
+                   Style="{StaticResource GuestDatagridStyle}" RowStyle="{StaticResource DataGridRowStyle}"
+                   CellStyle="{StaticResource GuestDatagridCellStyle}">
             
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Guest" Width="100" 

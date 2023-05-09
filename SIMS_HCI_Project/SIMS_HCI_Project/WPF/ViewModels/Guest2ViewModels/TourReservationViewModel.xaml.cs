@@ -13,6 +13,7 @@ using SIMS_HCI_Project.Applications.Services;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
+using System.Windows.Navigation;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 {
@@ -25,15 +26,31 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         private TourVoucherService _tourVoucherService;
         #endregion
         #region Commands
-        public RelayCommand ShowSuggestions { get; set; }
-        public RelayCommand ConfirmReservation { get; set; }
+        public RelayCommand ShowSuggestionsCommand { get; set; }
+        public RelayCommand ConfirmReservationCommand { get; set; }
+        public RelayCommand ShowImagesCommand { get; set; }
         #endregion
 
+        private int _currentImageIndex = 0;
+        private String _image;
+        public String Image
+        {
+            get => _image;
+            set
+            {
+                if (value != _image)
+                {
+                    _image = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         public TourReservationView TourReservationView { get; set; }
         public TourVoucher TourVoucher { get; set; }
         public TourTime TourTime { get; set; }
         public Tour Tour { get; set; }
         public Guest2 Guest2 { get; set; }
+        public NavigationService NavigationService { get; set; }
         private int _requestedPartySize;
         public int RequestedPartySize
         {
@@ -108,12 +125,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
-        public TourReservationViewModel(Tour tour, Guest2 guest, TourReservationView tourReservationView)
+        public TourReservationViewModel(Tour tour, Guest2 guest, TourReservationView tourReservationView, NavigationService navigationservice)
         {
-
+            NavigationService = navigationservice;
             TourReservationView = tourReservationView;
             Tour = tour;
             Guest2 = guest;
+            Image = Tour.Images[_currentImageIndex];
 
             LoadFromFiles();
             InitCommands();
@@ -133,14 +151,20 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
         public void InitCommands()
         {
-            ConfirmReservation = new RelayCommand(ExecutedConfirmReservation, CanExecuteConfirmReservation);
+            ConfirmReservationCommand = new RelayCommand(ExecutedConfirmReservation, CanExecute);
+            ShowImagesCommand = new RelayCommand(ExecuteShowImagesCommand, CanExecute);
+        }
+
+        private void ExecuteShowImagesCommand(object obj)
+        {
+            NavigationService.Navigate(new TourImagesView(Guest2, NavigationService, Tour));
         }
         #region Commands
         private void ExecutedConfirmReservation(object sender) 
         {
             Reserve();
         }
-        public bool CanExecuteConfirmReservation(object sender)
+        public bool CanExecute(object sender)
         {
             return true;
         }

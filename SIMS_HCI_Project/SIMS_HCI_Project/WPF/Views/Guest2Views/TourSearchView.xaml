@@ -35,17 +35,11 @@
                 <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" Width="105"></DataGridTextColumn>
                 <DataGridTextColumn Header="Guest Capacity" Binding="{Binding MaxGuests}" Width="90"></DataGridTextColumn>
                 <DataGridTextColumn Header="Guide" Binding="{Binding GuideId}"  Width="*"></DataGridTextColumn>
-                <DataGridTemplateColumn Header="Images">
+                
+                <DataGridTemplateColumn Header="see details and reserve" Width="150">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Images" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Reserve">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="Reserve" Command="{Binding DataContext.Reserve, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
+                            <Button Content="see details and reserve" Command="{Binding DataContext.Reserve, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
 
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

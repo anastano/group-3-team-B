@@ -29,21 +29,9 @@ namespace SIMS_HCI_Project.Repositories
             _fileHandler.Save(_requests);
         }
 
-        private int GenerateId()
+        public int GenerateId()
         {
             return _requests.Count == 0 ? 1 : _requests[_requests.Count - 1].Id + 1;
-        }
-
-        public void UpdateStatusForInvlid() //for those that arent part of complex, may edit when start working on complex tours
-        {
-            foreach (var request in _requests)
-            {
-                if (request.IsPartOfComplex == false && DateTime.Now > request.DateRange.Start.AddHours(-48))
-                {
-                    request.Status = RegularRequestStatus.INVALID;
-                    Save();
-                }
-            }
         }
 
         public List<RegularTourRequest> GetAll()
@@ -72,6 +60,12 @@ namespace SIMS_HCI_Project.Repositories
             return _requests.FindAll(r => r.GuestId == guestId && r.Status == status);
         }
 
+        public List<RegularTourRequest> GetByGuestIdAndStatusAndYear(int guestId, RegularRequestStatus status, int year)
+        {
+            return _requests.FindAll(r => r.GuestId == guestId && r.Status == status && r.SubmittingDate.Year == year);
+        }
+
+
 
         public List<RegularTourRequest> GetValidByParams(Location location, int guestNumber, string language, DateRange dateRange)
         {
@@ -89,6 +83,7 @@ namespace SIMS_HCI_Project.Repositories
 
             Save();
         }
+        
 
         public void Update(RegularTourRequest request)
         {
@@ -104,5 +99,27 @@ namespace SIMS_HCI_Project.Repositories
             request.Status = status;
             Save();
         }
+        public void UpdateStatusForInvlid() //for those that arent part of complex, may edit when start working on complex tours
+        {
+            foreach (var request in _requests)
+            {
+                if (request.IsPartOfComplex == false && DateTime.Now > request.DateRange.Start.AddHours(-48) && request.Status == RegularRequestStatus.PENDING)
+                {
+                    request.Status = RegularRequestStatus.INVALID;
+                    Save();
+                }
+            }
+        }
+
+        public int GetRequestsCountByStatus(RegularRequestStatus status, int guestId)
+        {
+            return _requests.Where(r => r.GuestId == guestId && r.Status==status).Count();
+        }
+
+        public int GetRequestsCountByStatus(RegularRequestStatus status, int guestId, int selectedYear)
+        {
+            return _requests.Where(r => r.GuestId == guestId && r.Status == status && r.DateRange.Start.Year == selectedYear).Count();
+        }
+
     }
 }

@@ -1,0 +1,28 @@
+﻿<Page x:Class="SIMS_HCI_Project.WPF.Views.Guest2Views.TourImagesView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest2Views"
+      xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
+      xmlns:viewmodels="clr-namespace:SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels"
+      mc:Ignorable="d" 
+      d:DesignHeight="518" d:DesignWidth="1080"
+      Title="TourImagesView">
+
+    <Page.Resources>
+        <converters:ImageUrlConverter x:Key="ImageUrlConverter" />
+    </Page.Resources>
+
+    <Grid Background="#FFD1E3F3">
+        <Button Content="Back" Command="{Binding DataContext.BackCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Margin="10,10,0,475" HorizontalAlignment="Left" Width="75"/>
+        <StackPanel Orientation="Vertical" Margin="264,57,264,55">
+            <Image Source="{Binding Image}" Height="340" Width="557"/>
+            <StackPanel Orientation="Horizontal" Height="63">
+                <Button Content="previous" Command="{Binding DataContext.PreviousImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Width="278"/>
+                <Button Content="next" Command="{Binding DataContext.NextImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Width="272"/>
+            </StackPanel>
+        </StackPanel>
+        <Button Content="Close" Command="{Binding DataContext.BackCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Margin="488,468,488,10"></Button>
+    </Grid>
+</Page>

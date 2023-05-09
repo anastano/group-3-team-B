@@ -18,14 +18,14 @@ using System.Windows.Shapes;
 namespace SIMS_HCI_Project.WPF.Views.Guest2Views
 {
     /// <summary>
-    /// Interaction logic for TourReservationView.xaml
+    /// Interaction logic for TourImagesView.xaml
     /// </summary>
-    public partial class TourReservationView : Page
+    public partial class TourImagesView : Page
     {
-       public TourReservationView(Tour tour, Guest2 guest2, NavigationService navigationService)
+        public TourImagesView(Guest2 guest, NavigationService navigationService, Tour tour)
         {
             InitializeComponent();
-            this.DataContext = new TourReservationViewModel(tour, guest2, this, navigationService);
+            this.DataContext = new TourImagesViewModel(guest, navigationService, tour);
         }
     }
 }

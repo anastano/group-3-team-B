@@ -4,11 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest2Views"
-        xmlns:cvt="clr-namespace:SIMS_HCI_Project.View.Converters"
+        xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
         mc:Ignorable="d"
         Title="TourReservationView" Height="350" Width="1080" >
 
     <Page.Resources>
+        <converters:ImageUrlConverter x:Key="ImageUrlConverter" />
+
         <ControlTemplate x:Key="ValidationTemplate">
             <StackPanel>
                 <!-- Placeholder for the TextBox itself -->
@@ -92,7 +94,11 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Button Content="IMAGE" HorizontalAlignment="Left" Margin="359,11,0,0" VerticalAlignment="Top" Height="165" Width="245"/>
+        <Button Command="{Binding DataContext.ShowImagesCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
+                                    Background="White" Margin="359,11,476,175">
+            <Image Source="{Binding Image}" Width="227" Height="159"/>
+        </Button>
+
         <Border BorderBrush="#FF7375E8" BorderThickness="3" Margin="641,10,10,82" CornerRadius="15,15,15,15"/>
 
     </Grid>

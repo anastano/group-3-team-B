@@ -18,7 +18,7 @@ using SIMS_HCI_Project.WPF.Services;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
-    internal class AccommodationSearchViewModel : INotifyPropertyChanged
+    internal class AccommodationSearchViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
         private NavigationService _navigationService;
         private readonly AccommodationService _accommodationService;
@@ -26,10 +26,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public ObservableCollection<Location> Locations { get; set; }
         public Accommodation SelectedAccommodation { get; set; }
         public Guest1 Guest { get; set; }
-        public RelayCommand PlusGuestNumberCommand { get; set; }
-        public RelayCommand MinusGuestNumberCommand { get; set; }
-        public RelayCommand PlusDaysNumberCommand { get; set; }
-        public RelayCommand MinusDaysNumberCommand { get; set; }
         public RelayCommand SearchCommand { get; set; }
         public RelayCommand ShowImagesCommand { get; set; }
         public RelayCommand ReserveAccommodationCommand { get; set; }
@@ -88,7 +84,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 if (value != _guestsNumber)
                 {
                     _guestsNumber = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(GuestsNumber));
+                    Validate();
                 }
             }
         }
@@ -102,7 +99,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 if (value != _daysNumber)
                 {
                     _daysNumber = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(DaysNumber));
+                    Validate();
                 }
             }
         }
@@ -117,22 +115,55 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _accommodationService = new AccommodationService();
             _accommodationReservationService = new AccommodationReservationService();
             Accommodation = new Accommodation();
-            GuestsNumber = 1;
+            //GuestsNumber = 1;
             DaysNumber = 1;
             Guest = guest;
             Accommodations = _accommodationService.GetAllSortedBySuperFlag();
             InitCommands();
         }
-        public AccommodationSearchViewModel(Guest1 guest, int guests, int days)
+        public string Error => null;
+
+        public string this[string columnName]
         {
-            _accommodationService = new AccommodationService();
-            _accommodationReservationService = new AccommodationReservationService();
-            Accommodation = new Accommodation();
-            GuestsNumber = guests;
-            DaysNumber = days;
-            Guest = guest;
-            Accommodations = _accommodationService.GetAllSortedBySuperFlag();
-            InitCommands();
+            get
+            {
+                if (columnName == nameof(GuestsNumber))
+                {
+                    if (GuestsNumber >= 0 )
+                    {
+                        return null;
+                    }
+                    return "Only numbers are allowed";
+                }
+                else if (columnName == nameof(DaysNumber))
+                {
+                    if (DaysNumber >= 0)
+                    {
+                        return null;
+                    }
+                }
+                return "Only numbers are allowed";
+            }
+        }
+        private readonly string[] _validatedProperties = { "DaysNumber", "GuestsNumber" };
+
+        public bool IsValid
+        {
+            get
+            {
+                foreach (var property in _validatedProperties)
+                {
+                    if (this[property] != null)
+                        return false;
+                }
+
+                return true;
+            }
+        }
+        private void Validate()
+        {
+            OnPropertyChanged(nameof(GuestsNumber));
+            OnPropertyChanged(nameof(DaysNumber));
         }
         public void ExecutedReserveAccommodationCommand(object obj)
         {
@@ -143,7 +174,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         }
         public void ExecutedSearchCommand(object obj)
         {
-            Accommodations = _accommodationService.Search(Accommodation.Name, Accommodation.Location.Country, Accommodation.Location.City, SelectedAccommodationType, GuestsNumber, DaysNumber);
+            if (IsValid)
+            {
+                Accommodations = _accommodationService.Search(Accommodation.Name, Accommodation.Location.Country, Accommodation.Location.City, SelectedAccommodationType, GuestsNumber, DaysNumber);
+            }
         }
         public void ExecutedShowImagesCommand(object obj)
         {
@@ -151,28 +185,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             {
                 _navigationService.Navigate(new AccommodationImagesViewModel(SelectedAccommodation, _navigationService), "Accommodation Images");
             }
-        }
-        public void ExecutedMinusGuestNumberCommand(object obj)
-        {
-            if (GuestsNumber > 1)
-            {
-                GuestsNumber -= 1;
-            }
-        }
-        public void ExecutedPlusGuestNumberCommand(object obj)
-        {
-            GuestsNumber += 1;
-        }
-        public void ExecutedMinusDaysNumberCommand(object obj)
-        {
-            if (DaysNumber > 1)
-            {
-                DaysNumber -= 1;
-            }
-        }
-        public void ExecutedPlusDaysNumberCommand(object obj)
-        {
-            DaysNumber += 1;
         }
         public bool CanExecute(object obj)
         {
@@ -183,10 +195,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             ReserveAccommodationCommand = new RelayCommand(ExecutedReserveAccommodationCommand, CanExecute);
             SearchCommand = new RelayCommand(ExecutedSearchCommand, CanExecute);
             ShowImagesCommand = new RelayCommand(ExecutedShowImagesCommand, CanExecute);
-            MinusGuestNumberCommand = new RelayCommand(ExecutedMinusGuestNumberCommand, CanExecute);
-            PlusGuestNumberCommand = new RelayCommand(ExecutedPlusGuestNumberCommand, CanExecute);
-            MinusDaysNumberCommand = new RelayCommand(ExecutedMinusDaysNumberCommand, CanExecute);
-            PlusDaysNumberCommand = new RelayCommand(ExecutedPlusDaysNumberCommand, CanExecute);
         }
     }
 }

@@ -15,7 +15,7 @@ using System.Windows;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
-    internal class AccommodationReservationViewModel : INotifyPropertyChanged
+    internal class AccommodationReservationViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
         private NavigationService _navigationService;
         private AccommodationReservationService _accommodationReservationService;
@@ -70,6 +70,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 {
                     _daysNumber = value;
                     OnPropertyChanged(nameof(DaysNumber));
+                    Validate();
                 }
             }
         }
@@ -83,6 +84,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 {
                     _start = value;
                     OnPropertyChanged(nameof(Start));
+                    Validate();
                 }
             }
         }
@@ -96,6 +98,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 {
                     _end = value;
                     OnPropertyChanged(nameof(End));
+                    Validate();
                 }
             }
         }
@@ -129,10 +132,89 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             AvailableReservations = new List<AccommodationReservation>();
             GuestsNumber = accommodation.MaxGuests;
             DaysNumber = accommodation.MinimumReservationDays;
-            Start = DateTime.Now.AddDays(1);
-            End = DateTime.Now.AddDays(accommodation.MinimumReservationDays);
+            Start = DateTime.Today.AddDays(1);
+            End = DateTime.Today.AddDays(accommodation.MinimumReservationDays);
             InitCommands();
         }
+
+        public string Error => null;
+
+        public string this[string columnName]
+        {
+            get
+            {
+                if (columnName == nameof(Start))
+                {
+                    if (Start <= DateTime.Today)
+                    {
+                        return "Date must be after today.";
+                    }
+                }
+                else if (columnName == nameof(End))
+                {
+                    if (End <= DateTime.Today)
+                    {
+                        return "Date must be after today.";
+                    }
+                }
+                else if (columnName == nameof(DaysNumber))
+                {
+                    if ((DaysNumber >= Accommodation.MinimumReservationDays) == false)
+                    {
+                        return $"Minimum reservation duration is {Accommodation.MinimumReservationDays} days.";
+                    }
+                }
+                if (columnName == nameof(End) || columnName == nameof(Start))
+                {
+                    if (Start > End)
+                    {
+                        return "Start date must be before the end date.";
+                    }
+                    else
+                    {
+                        return null;
+                    }
+
+                }
+
+                // Custom cross-field validation
+                if (columnName == nameof(Start) || columnName == nameof(End) || columnName == nameof(DaysNumber))
+                {
+                    if (((End - Start).TotalDays + 1) >= DaysNumber || ((End - Start).TotalDays  == 0 && DaysNumber == 1))
+                    {
+                        return null;
+                    }
+                    else
+                    {
+                        return $"Start-end date range must be greater than number of days.";
+                    }
+                }
+
+                return null;
+            }
+        }
+        private readonly string[] _validatedProperties = { "DaysNumber", "Start", "End" };
+
+        public bool IsValid
+        {
+            get
+            {
+                foreach (var property in _validatedProperties)
+                {
+                    if (this[property] != null)
+                        return false;
+                }
+
+                return true;
+            }
+        }
+        private void Validate()
+        {
+            OnPropertyChanged(nameof(Start));
+            OnPropertyChanged(nameof(End));
+            OnPropertyChanged(nameof(DaysNumber));
+        }
+
         private MessageBoxResult ConfirmReservation()
         {
             string sMessageBoxText = $"This reservation will be made, are you sure?";
@@ -159,7 +241,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         }
         public void ExecutedSearchCommand(object obj)
         {
-            UpdateAvailableReservations();
+            if (IsValid)
+            {
+                UpdateAvailableReservations();
+            }
 
         }
         private void UpdateAvailableReservations()

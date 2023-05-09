@@ -50,7 +50,7 @@
                     <Setter Property="HorizontalAlignment" Value="Center" />
                 </Style>
             </TabControl.Resources>
-            <TabItem Header="Active">
+            <TabItem Header="Active" Style="{StaticResource CustomTabItemStyle}">
                 <DataGrid ItemsSource="{Binding Path=ActiveReservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="25" AutoGenerateColumns="False" IsReadOnly="True"
                       SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}"  GridLinesVisibility="Horizontal" ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}">
                     <DataGrid.Columns>
@@ -109,7 +109,7 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
-            <TabItem Header="Past">
+            <TabItem Header="Past" Style="{StaticResource CustomTabItemStyle}">
                 <DataGrid ItemsSource="{Binding Path=PastReservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="25" AutoGenerateColumns="False" IsReadOnly="True"
                           SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}" GridLinesVisibility="Horizontal" RowHeight="100" ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}">
                     <DataGrid.Columns>
@@ -144,7 +144,7 @@
                 </DataGrid>
             </TabItem>
 
-            <TabItem Header="Canceled">
+            <TabItem Header="Canceled" Style="{StaticResource CustomTabItemStyle}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2.5*"/>

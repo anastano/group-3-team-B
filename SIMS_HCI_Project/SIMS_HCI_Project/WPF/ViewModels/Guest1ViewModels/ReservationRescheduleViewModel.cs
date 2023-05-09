@@ -39,7 +39,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 if (value != _wantedStart)
                 {
                     _wantedStart = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(WantedStart));
+                    Validate();
                 }
             }
         }
@@ -52,7 +53,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 if (value != _wantedEnd)
                 {
                     _wantedEnd = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(WantedEnd));
+                    Validate();
                 }
             }
         }
@@ -80,34 +82,39 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             get
             {
-                string result = null;
+                if (columnName == nameof(WantedStart))
+                {
+                    if (WantedStart <= DateTime.Today)
+                    {
+                        return "Date must be after today.";
+                    }
+                }
+                else if (columnName == nameof(WantedEnd))
+                {
+                    if (WantedEnd <= DateTime.Today)
+                    {
+                        return "Date must be after today.";
+                    }
+                }
 
-                if (columnName == "WantedStart")
+                if (columnName == nameof(WantedEnd) || columnName == nameof(WantedStart))
                 {
-                    result = PassedDayErrorMessage(WantedStart);
-                    if(result == null)
-                        result = DateRangeErrorMessage();
+                    if (WantedStart > WantedEnd)
+                    {
+                        return "Start date must be before the end date.";
+                    }
+                    else if ( ((WantedEnd - WantedStart).Days + 1 ) < Reservation.Accommodation.MinimumReservationDays)
+                    {
+                        return $"Minimum days for reservation is {Reservation.Accommodation.MinimumReservationDays}";
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 }
-                else if(columnName == "WantedEnd")
-                {
-                    result = PassedDayErrorMessage(WantedStart);
-                    if (result == null)
-                        result = DateRangeErrorMessage();
-                }
-                return result;
+                return null;
             }
         }
-        private string DateRangeErrorMessage()
-        {
-            bool isDateRangeValid = ((WantedEnd - WantedStart).TotalDays < Reservation.Accommodation.MinimumReservationDays - 1);
-            return isDateRangeValid ? "Date range should be bigger, because of days for reseration" : null;
-        }
-
-        private string PassedDayErrorMessage(DateTime date)
-        {
-            return (date <= DateTime.Now) ? "Start cannot be a day that has already passed" : null;
-        }
-
         private readonly string[] _validatedProperties = { "WantedStart", "WantedEnd" };
 
         public bool IsValid
@@ -122,6 +129,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 
                 return true;
             }
+        }
+        private void Validate()
+        {
+            OnPropertyChanged(nameof(WantedStart));
+            OnPropertyChanged(nameof(WantedEnd));
         }
         public void ExecutedSendReservationRescheduleRequestCommand(object obj)
         {

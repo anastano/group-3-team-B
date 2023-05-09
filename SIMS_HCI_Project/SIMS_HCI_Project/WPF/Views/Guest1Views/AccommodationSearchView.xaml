@@ -10,6 +10,16 @@
              mc:Ignorable="d" 
              d:DesignHeight="702" d:DesignWidth="969" Background="#f5f5f5">
     <UserControl.Resources>
+        <ControlTemplate x:Key="ValidationTemplate">
+            <StackPanel>
+                <!-- Placeholder for the TextBox itself -->
+                <AdornedElementPlaceholder x:Name="textBox" />
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="../../../Resources/Images/warning.png" Width="18" Height="18" Margin="0, 0, 10, 0"  />
+                    <TextBlock Text="{Binding [0].ErrorContent}" TextWrapping="Wrap" Foreground="Red" Width="145" />
+                </StackPanel>
+            </StackPanel>
+        </ControlTemplate>
         <converters:ImageUrlConverter x:Key="ImageUrlConverter"/>
         <BooleanToVisibilityConverter x:Key="boolToVisConverter" />
     </UserControl.Resources>
@@ -32,7 +42,7 @@
         </StackPanel>
         <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="2">
             <Label HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource GuestLabelStyle}">Type</Label>
-            <ComboBox HorizontalAlignment="Left" Width="188" ItemsSource="{Binding AccommodationTypes}" Style="{StaticResource CustomComboBoxStyle}"
+            <ComboBox HorizontalAlignment="Left" ItemsSource="{Binding AccommodationTypes}" Style ="{StaticResource ComboBoxFlatStyle}"
                       SelectedItem="{Binding SelectedAccommodationType, UpdateSourceTrigger = PropertyChanged}" >
             </ComboBox>
         </StackPanel>
@@ -46,11 +56,14 @@
         </StackPanel>
         <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" >
             <Label HorizontalAlignment="Left" Style="{StaticResource GuestLabelStyle}">Number of Days</Label>
-            <TextBox Text="{Binding Path = DaysNumber, UpdateSourceTrigger = PropertyChanged}" Name="txtReservationDays" TextWrapping="Wrap" Style="{StaticResource GuestTextBoxStyle}"/>
+            <TextBox Text="{Binding Path = DaysNumber, UpdateSourceTrigger = PropertyChanged, ValidatesOnDataErrors=True}" Name="txtReservationDays" TextWrapping="Wrap"
+                      Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Style="{StaticResource GuestTextBoxStyle}"/>
             </StackPanel>
         <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="2">
             <Label HorizontalAlignment="Left" Style="{StaticResource GuestLabelStyle}">Number of Guests</Label>
-            <TextBox Text="{Binding Path = GuestsNumber, UpdateSourceTrigger = PropertyChanged}" Margin="0,0,0,0" TextWrapping="Wrap" Style="{StaticResource GuestTextBoxStyle}"/>
+            <TextBox Text="{Binding Path = GuestsNumber, UpdateSourceTrigger = PropertyChanged, ValidatesOnDataErrors=True}" Margin="0,0,0,0" 
+                     TextWrapping="Wrap" Style="{StaticResource GuestTextBoxStyle}"
+                      Validation.ErrorTemplate="{StaticResource ValidationTemplate}"/>
         </StackPanel>
         <Button Grid.Row="2" Grid.Column="3" Content="Search" Command="{Binding DataContext.SearchCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
                 HorizontalAlignment="Left" Margin="0, 10, 0, 0"
@@ -58,7 +71,7 @@
         <DataGrid Grid.ColumnSpan="4" Grid.Row="3" Style="{StaticResource GuestDatagridStyle}"
                   ItemsSource="{Binding Path=Accommodations, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding Path=SelectedAccommodation, UpdateSourceTrigger=PropertyChanged}"
-                  AutoGenerateColumns="False" IsReadOnly="True" Margin="0, 10, 0, 0"
+                  AutoGenerateColumns="False" IsReadOnly="True" Margin="0, 30, 0, 0"
                   GridLinesVisibility="Horizontal" HorizontalScrollBarVisibility="Hidden">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Images">

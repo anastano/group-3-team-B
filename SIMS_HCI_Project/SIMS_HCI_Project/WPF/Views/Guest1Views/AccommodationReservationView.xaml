@@ -6,12 +6,24 @@
              xmlns:views="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest1Views"
              xmlns:viewmodels="clr-namespace:SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels"
              xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
+             xmlns:validation="clr-namespace:SIMS_HCI_Project.WPF.Validations"
              mc:Ignorable="d" 
              d:DesignHeight="702" d:DesignWidth="969" Background="#f5f5f5">
     <UserControl.Resources>
         <converters:ButtonMinusConverter x:Key="ButtonMinusConverter"/>
         <converters:ButtonPlusConverter x:Key="ButtonPlusConverter"/>
         <converters:ButtonToEnableConverter x:Key="ButtonToEnableConverter"/>
+        <ControlTemplate x:Key="ValidationTemplate">
+            <StackPanel>
+                <!-- Placeholder for the TextBox itself -->
+                <AdornedElementPlaceholder x:Name="textBox" />
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="../../../Resources/Images/warning.png" Width="18" Height="18" Margin="0, 0, 10, 0"  />
+                    <TextBlock Text="{Binding [0].ErrorContent}" TextWrapping="Wrap" Foreground="Red" Width="125" />
+                </StackPanel>
+            </StackPanel>
+
+        </ControlTemplate>
     </UserControl.Resources>
     <Grid Margin="15, 15, 15, 15">
         <Grid.ColumnDefinitions>
@@ -19,13 +31,13 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="0.7*"/>
+            <ColumnDefinition Width="0.6*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="1.2*" />
-            <RowDefinition Height="1.5*" />
             <RowDefinition Height="0.5*" />
+            <RowDefinition Height="1.8*" />
+            <RowDefinition Height="0.4*" />
             <RowDefinition Height="5*" />
         </Grid.RowDefinitions>
         <Button Grid.Row="0" Grid.Column="0" Style="{StaticResource GuestButtonStyle}"
@@ -35,53 +47,39 @@
         <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="0">
             <Label HorizontalAlignment="Left" Style="{StaticResource GuestLabelStyle}">Start</Label>
             <DatePicker SelectedDate="{Binding Start, StringFormat='{}{0:MM/dd/yyyy}', ValidatesOnDataErrors = True, NotifyOnValidationError = True}" 
-                            SelectedDateFormat="Short" Height="25" Width="150" HorizontalAlignment="Left"
+                            SelectedDateFormat="Short" Width="150" HorizontalAlignment="Left" Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
                         Style="{StaticResource CustomDatePickerStyle}">
                 <DatePicker.Resources>
                     <Style TargetType="DatePickerTextBox">
                         <Setter Property="IsReadOnly" Value="True"/>
                     </Style>
                 </DatePicker.Resources>
-                <Validation.ErrorTemplate>
-                    <ControlTemplate>
-                        <StackPanel>
-                            <AdornedElementPlaceholder x:Name="textBox"/>
-                            <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
-                        </StackPanel>
-                    </ControlTemplate>
-                </Validation.ErrorTemplate>
             </DatePicker>
         </StackPanel>
         <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="1">
             <Label HorizontalAlignment="Left" Style="{StaticResource GuestLabelStyle}">End</Label>
             <DatePicker SelectedDate="{Binding End, StringFormat='{}{0:MM/dd/yyyy}', ValidatesOnDataErrors = True, NotifyOnValidationError = True}" 
-                            SelectedDateFormat="Short" Height="25" Width="150" HorizontalAlignment="Left"
-                        Style="{StaticResource CustomDatePickerStyle}">
+                            SelectedDateFormat="Short" Width="150" HorizontalAlignment="Left"
+                        Style="{StaticResource CustomDatePickerStyle}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}">
                 <DatePicker.Resources>
                     <Style TargetType="DatePickerTextBox">
                         <Setter Property="IsReadOnly" Value="True"/>
                     </Style>
                 </DatePicker.Resources>
-                <Validation.ErrorTemplate>
-                    <ControlTemplate>
-                        <StackPanel>
-                            <AdornedElementPlaceholder x:Name="textBox"/>
-                            <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
-                        </StackPanel>
-                    </ControlTemplate>
-                </Validation.ErrorTemplate>
             </DatePicker>
         </StackPanel>
-        <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="2" >
+        <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="2" Margin="0,0,0,1" >
             <Label HorizontalAlignment="Left" Width="144" Style="{StaticResource GuestLabelStyle}">Number of Days</Label>
             <TextBox HorizontalAlignment="Left" Style="{StaticResource GuestTextBoxStyle}"  Width="150"
-                     Text="{Binding Path = DaysNumber, UpdateSourceTrigger = PropertyChanged, Mode=TwoWay}" TextWrapping="Wrap"/>
-                
+                     Text="{Binding Path = DaysNumber, UpdateSourceTrigger = PropertyChanged, ValidatesOnDataErrors=True, Mode=TwoWay}" 
+                     Validation.ErrorTemplate="{StaticResource ValidationTemplate}" TextWrapping="Wrap">
+            </TextBox>
+
         </StackPanel>
         <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="3">
             <Label HorizontalAlignment="Left" Width="144" Style="{StaticResource GuestLabelStyle}" >Number of Guests</Label>
             <TextBox HorizontalAlignment="Left" IsReadOnly="True" Text="{Binding Path = GuestsNumber, UpdateSourceTrigger = PropertyChanged}"
-                     Style="{StaticResource GuestTextBoxStyle}" Height="30" Margin="0,0,0,0" TextWrapping="Wrap" Width="150"/>
+                     Style="{StaticResource GuestTextBoxStyle}" Margin="0,0,0,0" TextWrapping="Wrap" Width="150"/>
         </StackPanel>
         <Button Grid.Row="2" Grid.Column="4" Content="Search" Style="{StaticResource GuestButtonStyle}"
                 Command="{Binding DataContext.SearchCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" HorizontalAlignment="Left" Margin="0, 25, 0, 0"  VerticalAlignment="Top" />

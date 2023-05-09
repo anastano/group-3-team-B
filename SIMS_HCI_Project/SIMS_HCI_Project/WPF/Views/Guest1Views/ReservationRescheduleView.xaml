@@ -14,9 +14,13 @@
             <StackPanel>
                 <!-- Placeholder for the TextBox itself -->
                 <AdornedElementPlaceholder x:Name="textBox" />
-                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" />
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="../../../Resources/Images/warning.png" Width="18" Height="18" Margin="0, 0, 10, 0"  />
+                    <TextBlock Text="{Binding [0].ErrorContent}" TextWrapping="Wrap" Foreground="Red" Width="145" />
+                </StackPanel>
             </StackPanel>
         </ControlTemplate>
+        <converters:FullNameConverter x:Key="FullNameConverter" />
     </UserControl.Resources>
 
     <Grid Margin="30 30 30 30">
@@ -52,49 +56,41 @@
                Style="{StaticResource fancyTitle}"></Label>
         <Label Content="Wanted Start:" Grid.Row="3" Grid.Column="0" Style="{StaticResource GuestLabelStyle}"></Label>
         <DatePicker x:Name="WantedStartDatePicker" Grid.Row="3" Grid.Column="1" IsEnabled="True" SelectedDate="{Binding WantedStart, StringFormat='{}{0:MM/dd/yyyy}', ValidatesOnDataErrors = True, NotifyOnValidationError = True, Mode=TwoWay}"
-                    SelectedDateFormat="Short" Style="{StaticResource CustomDatePickerStyle}">
+                    SelectedDateFormat="Short" Style="{StaticResource CustomDatePickerStyle}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}">
             <DatePicker.Resources>
                 <Style TargetType="DatePickerTextBox">
                     <Setter Property="IsReadOnly" Value="True"/>
                 </Style>
             </DatePicker.Resources>
-            <Validation.ErrorTemplate>
-                <ControlTemplate>
-                    <StackPanel>
-                        <AdornedElementPlaceholder x:Name="textBox"/>
-                        <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
-                    </StackPanel>
-                </ControlTemplate>
-            </Validation.ErrorTemplate>
         </DatePicker>
         <Label Content="Wanted End:" Grid.Row="3" Grid.Column="2" Style="{StaticResource GuestLabelStyle}"></Label>
         <DatePicker x:Name="WantedEndDatePicker" Grid.Row="3" Grid.Column="3" IsEnabled="True" SelectedDate="{Binding WantedEnd, StringFormat='{}{0:MM/dd/yyyy}', ValidatesOnDataErrors = True, NotifyOnValidationError = True, Mode=TwoWay}"
-                    SelectedDateFormat="Short" Style="{StaticResource CustomDatePickerStyle}">
+                    SelectedDateFormat="Short" Style="{StaticResource CustomDatePickerStyle}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}">
             <DatePicker.Resources>
                 <Style TargetType="DatePickerTextBox">
                     <Setter Property="IsReadOnly" Value="True"/>
                 </Style>
             </DatePicker.Resources>
-            <Validation.ErrorTemplate>
-                <ControlTemplate>
-                    <StackPanel>
-                        <AdornedElementPlaceholder x:Name="textBox"/>
-                        <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
-                    </StackPanel>
-                </ControlTemplate>
-            </Validation.ErrorTemplate>
         </DatePicker>
         <Button Content="Send" Grid.Row="3" Grid.Column="4" Margin="0, 0, 0, 0" Style="{StaticResource GuestButtonStyle}"
                 Command="{Binding DataContext.SendReservationRescheduleRequestCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
 
         <Label Content="Other requests to reschedule this accommodation:" Grid.Row="4"  Grid.ColumnSpan="4" VerticalAlignment="Bottom"
                Style="{StaticResource fancyTitle}"></Label>
-        <DataGrid  Grid.Row="5" Grid.ColumnSpan="5" ItemsSource="{Binding Path=RescheduleRequests, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True"
-                   ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}" >
+        <DataGrid  Grid.Row="5" Grid.ColumnSpan="5" RowHeight="100"
+                   ItemsSource="{Binding Path=RescheduleRequests, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True"
+                   ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}" HorizontalScrollBarVisibility="Hidden" GridLinesVisibility="Horizontal">
             
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Guest" Binding="{Binding AccommodationReservation.Guest.Name}" Width="100" 
-                                   ElementStyle="{StaticResource CustomTextBlockStyle}" ></DataGridTextColumn>
+                <DataGridTextColumn Header="Guest" Width="100" 
+                                   ElementStyle="{StaticResource CustomTextBlockStyle}" >
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding Converter="{StaticResource FullNameConverter}">
+                            <Binding Path="AccommodationReservation.Guest.Name" />
+                            <Binding Path="AccommodationReservation.Guest.Surname" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="Initial Start" Binding="{Binding AccommodationReservation.Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="100"
                                     ElementStyle="{StaticResource CustomTextBlockStyle}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Initial End" Binding="{Binding AccommodationReservation.End, StringFormat='{}{0:MM/dd/yyyy}'}" Width="100"

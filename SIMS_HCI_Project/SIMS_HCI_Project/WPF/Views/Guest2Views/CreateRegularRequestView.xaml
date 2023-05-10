@@ -9,6 +9,14 @@
       Title="CreateRegularRequestView">
     <Page.Resources>
 
+        <ControlTemplate x:Key="ValidationTemplate">
+            <StackPanel>
+                <!-- Placeholder for the TextBox itself -->
+                <AdornedElementPlaceholder x:Name="textBox" />
+                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" HorizontalAlignment="Center" />
+            </StackPanel>
+        </ControlTemplate>
+        
         <Style TargetType="Label">
             <Setter Property="FontSize" Value="12"></Setter>
             <Setter Property="Foreground" Value="White"/>
@@ -31,11 +39,18 @@
         <Label Content="Language:" HorizontalAlignment="Left" Margin="10,66,0,0" VerticalAlignment="Top" Height="28" Width="128"/>
         <Label Content="Guest number:" HorizontalAlignment="Left" Margin="10,94,0,0" VerticalAlignment="Top" Height="30" Width="128"/>
         <Label Content="Description:" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Height="37" Width="128"/>
-        <TextBox HorizontalAlignment="Left" Text="{Binding RegularTourRequest.Location.City}" Margin="138,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="238" />
-        <TextBox HorizontalAlignment="Left" Text="{Binding RegularTourRequest.Location.Country}" Margin="138,38,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="238" />
-        <TextBox HorizontalAlignment="Left" Text="{Binding RegularTourRequest.Language}" Margin="138,66,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="238" />
-        <TextBox HorizontalAlignment="Left" Text="{Binding RegularTourRequest.GuestNumber}" Margin="138,94,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="238" />
-        <TextBox HorizontalAlignment="Left" Text="{Binding RegularTourRequest.Description}" Margin="138,134,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="238" Height="100" />
+        <TextBox HorizontalAlignment="Left"  
+                 Text="{Binding Path = City, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                             Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
+                 Margin="138,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="238" />
+        <TextBox HorizontalAlignment="Left" Text="{Binding Path = Country, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                             Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Margin="138,38,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="238" />
+        <TextBox HorizontalAlignment="Left" Text="{Binding Language, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                             Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Margin="138,66,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="238" />
+        <TextBox HorizontalAlignment="Left" Text="{Binding GuestNumber , UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                             Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Margin="138,94,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="238" />
+        <TextBox HorizontalAlignment="Left" Text="{Binding Description , UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                             Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Margin="138,134,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="238" Height="100" />
 
         <Label Content="Enter date range:" HorizontalAlignment="Left" Margin="657,34,0,0" VerticalAlignment="Top"/>
         <Label Content="Start:" HorizontalAlignment="Left" Margin="657,68,0,0" VerticalAlignment="Top"/>

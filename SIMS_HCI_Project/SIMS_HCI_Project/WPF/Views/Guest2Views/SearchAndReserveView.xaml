@@ -13,7 +13,7 @@
             <RowDefinition Height="350"/>
             <RowDefinition Height="168"/>
         </Grid.RowDefinitions>
-        <Button Content="Back" Command="{Binding Back}" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#FFB30808" BorderBrush="#FFEDDCDC" Height="33" Width="68"/>
+        <Button Content="Back" Command="{Binding Back}" HorizontalAlignment="Left" VerticalAlignment="Top"  BorderBrush="#FFEDDCDC" Height="33" Width="68"/>
         <Button Content="HELP"  HorizontalAlignment="Right" VerticalAlignment="Top" Height="33" Width="68"/>
 
         <Frame x:Name="TopFrame" Grid.Row="0" Width="1080" Margin="0,38,0,0"/>

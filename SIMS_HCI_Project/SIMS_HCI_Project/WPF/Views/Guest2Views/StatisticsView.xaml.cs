@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.DataVisualization.Charting;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -18,14 +19,16 @@ using System.Windows.Shapes;
 namespace SIMS_HCI_Project.WPF.Views.Guest2Views
 {
     /// <summary>
-    /// Interaction logic for TourReservationView.xaml
+    /// Interaction logic for StatisticsView.xaml
     /// </summary>
-    public partial class TourReservationView : Page
+    public partial class StatisticsView : Page
     {
-       public TourReservationView(Tour tour, Guest2 guest2, NavigationService navigationService)
+        public StatisticsView(Guest2 guest, NavigationService navigationService)
         {
             InitializeComponent();
-            this.DataContext = new TourReservationViewModel(tour, guest2, this, navigationService);
+            this.DataContext = new StatisticsViewModel(guest, navigationService);
+
+            
         }
     }
 }

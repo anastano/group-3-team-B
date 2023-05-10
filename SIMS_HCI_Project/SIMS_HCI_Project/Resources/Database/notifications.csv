@@ -13,4 +13,4 @@
 13|Reservation for Ime smestaja 0 with id: 10 has been cancelled|1|False|DEFAULT
 14|Reservation for Ime smestaja 0 with id: 1 has been cancelled|1|False|DEFAULT
 15|Reservation for Ime smestaja 0 with id: 1 has been cancelled|1|False|DEFAULT
-16|Your request number for tour was accepted. Departure time: 5/18/2023. Created tour number: [24].|4|False|TOUR_REQUEST_ACCEPTED
+16|Your request number for tour was accepted. Departure time: 5/19/2023. Created tour number: [24].|4|False|TOUR_REQUEST_ACCEPTED

@@ -3,19 +3,31 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
+
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest2Views"
         mc:Ignorable="d"
         Title="TourSearchView" Height="518" Width="1080">
 
+    
+    <Page.Resources>
+
+        <!--converters:FullNameConverter x:Key="FullNameConverter" /-->
+
+        <ResourceDictionary >
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/Guest2Styles.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
     <Grid >
-        <Grid.Background>
+        <!--Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                <GradientStop Color="Wheat" Offset="1"/>
-                <GradientStop Color="#FFF7390F" Offset="0"/>
-                <GradientStop Color="Tomato" Offset="0.373"/>
-                <GradientStop Color="Orange" Offset="0.72"/>
+                <GradientStop Color="Tomato" Offset="0"/>
+                <GradientStop Color="Orange" Offset="0.5"/>
+                <GradientStop Color="#FFE0E21D" Offset="1"/>
             </LinearGradientBrush>
-        </Grid.Background>
+        </Grid.Background-->
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="0*"/>
@@ -23,29 +35,34 @@
 
 
 
+
         <DataGrid x:Name="dgTours" 
                   ItemsSource="{Binding Path=Tours, UpdateSourceTrigger=PropertyChanged}"
-                  SelectedItem="{Binding Path=SelectedTour, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False"  Margin="10,66,172,10" >
+                  SelectedItem="{Binding Path=SelectedTour, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False"  Margin="10,69,217,10" 
+                  Style="{StaticResource Guest2DatagridStyle}" CellStyle="{StaticResource Guest2DatagridCellStyle}" >
+
 
             <DataGrid.Columns>
+                <DataGridTextColumn Header="id" Binding="{Binding Id}" Width="30"></DataGridTextColumn>
                 <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="110"></DataGridTextColumn>
                 <DataGridTextColumn Header="Country" Binding="{Binding Location.Country}" Width="110"></DataGridTextColumn>
                 <DataGridTextColumn Header="City" Binding="{Binding Location.City}" Width="110"></DataGridTextColumn>
                 <DataGridTextColumn Header="Language" Binding="{Binding Language}" Width="105"></DataGridTextColumn>
-                <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" Width="105"></DataGridTextColumn>
-                <DataGridTextColumn Header="Guest Capacity" Binding="{Binding MaxGuests}" Width="90"></DataGridTextColumn>
-                <DataGridTextColumn Header="Guide" Binding="{Binding GuideId}"  Width="*"></DataGridTextColumn>
-                <DataGridTemplateColumn Header="Images">
+                <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" Width="60"></DataGridTextColumn>
+                <DataGridTextColumn Header="Capacity" Binding="{Binding MaxGuests}" Width="60"></DataGridTextColumn>
+                <DataGridTextColumn Header="Guide Id"  Width="*" Binding="{Binding GuideId}">
+                    <!--DataGridTextColumn.Binding>
+                        <MultiBinding Converter="{StaticResource FullNameConverter}">
+                            <Binding Path="Guide.Name" />
+                            <Binding Path="Guide.Surname" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding-->
+                </DataGridTextColumn>
+
+                <DataGridTemplateColumn Header="see details and reserve" Width="150">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Images" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Reserve">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="Reserve" Command="{Binding DataContext.Reserve, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
+                            <Button Content="see details and reserve" Style="{StaticResource Guest2BtnGradientOrange}" Command="{Binding DataContext.Reserve, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
 
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -57,22 +74,34 @@
         <Grid>
             <TextBox x:Name="txtCountry" 
                 Text="{Binding Path=Country, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
-                     HorizontalAlignment="Right" Margin="0,65,11,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145" />
-            <TextBox x:Name="txtCity" Text="{Binding Path=City, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right"   Margin="0,123,11,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145"/>
-            <TextBox x:Name="txtDuration" Text="{Binding Path=Duration, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Margin="0,184,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145"/>
-            <TextBox x:Name="txtLanguage" Text="{Binding Path=Language, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Margin="0,245,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145"/>
-            <TextBox x:Name="txtGuestNumber" Text="{Binding Path=GuestNumber, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Margin="0,305,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="145"/>
+                     HorizontalAlignment="Right" Margin="0,136,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="117" />
+            <TextBox x:Name="txtCity" Text="{Binding Path=City, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right"   Margin="0,196,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="117"/>
+            <TextBox x:Name="txtDuration" Text="{Binding Path=Duration, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Margin="0,259,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="117"/>
+            <TextBox x:Name="txtLanguage" Text="{Binding Path=Language, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Margin="0,323,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="117"/>
+            <TextBox x:Name="txtGuestNumber" Text="{Binding Path=GuestNumber, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Margin="0,376,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="117" RenderTransformOrigin="0.49,2.714"/>
 
 
-            <Button Content="Search" HorizontalAlignment="Right" Margin="0,371,22,0" VerticalAlignment="Top" RenderTransformOrigin="0.278,0.553" Command="{Binding Search}" Width="111" Height="32" FontSize="14"/>
+            <Button Content="SEARCH" HorizontalAlignment="Right" Margin="0,428,22,0" VerticalAlignment="Top" RenderTransformOrigin="0.278,0.553" Command="{Binding Search}" Width="148" Height="32" FontSize="14">
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Tomato" Offset="0"/>
+                        <GradientStop Color="Orange" Offset="0.5"/>
+                        <GradientStop Color="#FFE0E21D" Offset="1"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+            </Button>
 
-            <TextBlock HorizontalAlignment="Right" Margin="0,49,111,0" TextWrapping="Wrap" Text="Country:" Foreground="Beige" VerticalAlignment="Top" />
-            <TextBlock HorizontalAlignment="Right" Margin="0,107,132,0" TextWrapping="Wrap" Text="City:" Foreground="Beige" VerticalAlignment="Top"/>
-            <TextBlock HorizontalAlignment="Right" Margin="0,168,82,0" TextWrapping="Wrap" Text="Max duration:" Foreground="Beige" VerticalAlignment="Top"/>
-            <TextBlock HorizontalAlignment="Right" Margin="0,229,100,0" TextWrapping="Wrap" Text="Language:" Foreground="Beige" VerticalAlignment="Top"/>
-            <TextBlock HorizontalAlignment="Right" Margin="0,289,77,0" TextWrapping="Wrap" Text="Guest number:" Foreground="Beige" VerticalAlignment="Top"/>
+            <TextBlock  Text="Country:" Style="{StaticResource Guest2TextBlockStyle}" Margin="873,136,122,347" />
+            <TextBlock HorizontalAlignment="Right" Margin="0,196,119,0" TextWrapping="Wrap" Text="City:" Foreground="Beige" VerticalAlignment="Top" Height="32" Width="88"/>
+            <TextBlock HorizontalAlignment="Right" Margin="0,258,132,0" TextWrapping="Wrap" Text="Maximal duration:" Foreground="Beige" VerticalAlignment="Top" Height="35" Width="75"/>
+            <TextBlock HorizontalAlignment="Right" Margin="0,324,119,0" TextWrapping="Wrap" Text="Language:" Foreground="Beige" VerticalAlignment="Top" Height="28" Width="88"/>
+            <TextBlock HorizontalAlignment="Right" Margin="0,376,122,0" TextWrapping="Wrap" Text="Minimal guest number:" Foreground="Beige" VerticalAlignment="Top" Height="43" Width="85"/>
 
-            <TextBlock  Text="Search and reserve tour:" Foreground="Beige" HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" FontSize="22" VerticalAlignment="Top" Height="38" Width="254"/>
+            <!--TextBlock  Text="Search and reserve tour:" Foreground="Beige" HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" FontSize="22" VerticalAlignment="Top" Height="38" Width="254"/-->
+            <Button Style="{StaticResource Guest2HelpBtn}">
+                <Image x:Name="help" Source="../../../Resources/Images/help.png"/>
+            </Button>
+            <Label Content="Search and reserve" Style="{StaticResource Guest2Header1Style}"/>
         </Grid>
 
     </Grid>

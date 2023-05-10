@@ -47,7 +47,7 @@
                             <TextBlock TextWrapping="Wrap" Text="{Binding Path=TourInProgress.Tour.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <TextBlock TextWrapping="Wrap">
                                 <TextBlock.Text>
-                                    <MultiBinding StringFormat="{}{0} ({1})">
+                                    <MultiBinding StringFormat="{}{0}, {1}">
                                         <Binding Path="TourInProgress.Tour.Location.City"></Binding>
                                         <Binding Path="TourInProgress.Tour.Location.Country"></Binding>
                                     </MultiBinding>

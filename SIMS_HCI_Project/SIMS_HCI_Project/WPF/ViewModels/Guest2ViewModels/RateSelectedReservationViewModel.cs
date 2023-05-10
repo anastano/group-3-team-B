@@ -37,6 +37,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public Guest2 Guest { get; set; }
         public TourRating TourRating { get; set; }
         public ObservableCollection<string> Images { get; set; }
+        public string SelectedTourInfo { get; set; }
 
         private string _imageURL;
         public string ImageURL
@@ -148,7 +149,15 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             InitCommands();
             LoadFromFiles();
 
+            SelectedTourInfo = GetSelectedTourInfo();
+
         }
+
+        private string GetSelectedTourInfo()
+        {
+            string message = "You are currently rating tour: " + TourReservation.TourTime.Tour.Title + ", on location: " + TourReservation.TourTime.Tour.Location.City + ", " + TourReservation.TourTime.Tour.Location.Country + ". Your guide was: " + TourReservation.TourTime.Tour.Guide.Name + " " + TourReservation.TourTime.Tour.Guide.Surname + ". Comment and images' url are optional.";
+            return message;
+                }
 
         public void LoadFromFiles()
         {

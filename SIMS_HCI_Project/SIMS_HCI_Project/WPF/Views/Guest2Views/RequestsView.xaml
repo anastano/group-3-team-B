@@ -9,13 +9,13 @@
 
     <Grid>
         <TabControl>
-            <TabItem Header="Regular requests" FontSize="20" Padding="10,5,10,5" >
-                <Grid Background="#FFE5E5E5">
+            <TabItem Header="Regular requests" FontSize="16" Padding="10,5,10,5" >
+                <Grid Background="Transparent">
                     <Frame x:Name="RegularRequests" NavigationUIVisibility="Hidden" />
                 </Grid>
             </TabItem>
-            <TabItem Header="Complex requests" FontSize="20" Padding="10,5,10,5">
-                <Grid Background="#FFE5E5E5">
+            <TabItem Header="Complex requests" FontSize="16" Padding="10,5,10,5">
+                <Grid Background="Transparent">
                     <Frame x:Name="ComplexRequests" NavigationUIVisibility="Hidden" />
                 </Grid>
             </TabItem>

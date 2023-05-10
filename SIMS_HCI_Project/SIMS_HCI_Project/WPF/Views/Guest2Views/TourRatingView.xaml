@@ -6,10 +6,31 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest2Views"
         mc:Ignorable="d"
         Title="TourRatingView" Height="518" Width="1080">
-    <Grid Background="OliveDrab">
+    <Page.Resources>
+        <Style x:Key="Guest2Header1Style" TargetType="Label">
+            <Setter Property="Foreground" Value="Orange"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+
+        <Style x:Key="Guest2BtnGradientOrange" TargetType="Button">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Tomato" Offset="0"/>
+                        <GradientStop Color="Orange" Offset="0.5"/>
+                        <GradientStop Color="#FFE0E21D" Offset="1"/>
+                    </LinearGradientBrush>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Label Content="Rate visited tours" Style="{StaticResource Guest2Header1Style}"/>
         <DataGrid Name="dgUnratedTours" 
         ItemsSource="{Binding Path=UnratedReservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-        SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" Margin="10,10,10,311">
+        SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" Margin="10,62,10,284">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="40"></DataGridTextColumn>
                 <DataGridTextColumn Header="Title" Binding="{Binding TourTime.Tour.Title}" Width="110"></DataGridTextColumn>
@@ -27,7 +48,7 @@
                 <DataGridTemplateColumn Header="Rate" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Rate" Command="{Binding DataContext.Rate, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
+                            <Button Content="Rate" Command="{Binding DataContext.Rate, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Style="{StaticResource Guest2BtnGradientOrange}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

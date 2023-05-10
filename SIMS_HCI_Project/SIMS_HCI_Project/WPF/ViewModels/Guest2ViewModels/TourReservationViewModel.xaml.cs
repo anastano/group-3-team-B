@@ -30,7 +30,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public RelayCommand ConfirmReservationCommand { get; set; }
         public RelayCommand ShowImagesCommand { get; set; }
         #endregion
-
+        public string LocationName { get; set; }
         private int _currentImageIndex = 0;
         private String _image;
         public String Image
@@ -132,6 +132,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             Tour = tour;
             Guest2 = guest;
             Image = Tour.Images[_currentImageIndex];
+            LocationName = Tour.Location.City + ", " + Tour.Location.Country;
 
             LoadFromFiles();
             InitCommands();

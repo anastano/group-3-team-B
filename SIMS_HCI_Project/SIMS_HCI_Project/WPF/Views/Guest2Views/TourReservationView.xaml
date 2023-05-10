@@ -10,75 +10,123 @@
 
     <Page.Resources>
         <converters:ImageUrlConverter x:Key="ImageUrlConverter" />
+        <converters:RatingConverter x:Key="RatingConverter"/>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Margin" Value="0 0 0 0"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="150"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Margin" Value="0 0 0 0"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="150"/>
+        </Style>
 
+        <Style TargetType="ListBox">
+            <Setter Property="BorderBrush" Value="Gray"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Background" Value="#FF686890"/>
+
+        </Style>
+        <Style TargetType="ListBoxItem">
+            <Setter Property="Height" Value="27"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="40"/>
+        </Style>
         <ControlTemplate x:Key="ValidationTemplate">
             <StackPanel>
                 <!-- Placeholder for the TextBox itself -->
                 <AdornedElementPlaceholder x:Name="textBox" />
                 <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" />
             </StackPanel>
-
         </ControlTemplate>
+
+        <Style x:Key="Guest2Header1Style" TargetType="Label">
+            <Setter Property="Foreground" Value="Orange"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+
+        <ResourceDictionary x:Key="guest2">
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/Guest2Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        
     </Page.Resources>
 
-    <Grid Background="#FFB3B0F5" HorizontalAlignment="Center" Width="1080" Margin="0,0,0,0">
-        <Label Content="Title" HorizontalAlignment="Left" Margin="15,11,0,0" VerticalAlignment="Top"/>
-        <Label HorizontalAlignment="Left" Margin="81,11,0,0" 
-                 Content="{Binding Path=Tour.Title}" Foreground="#FF0A0A08"
-                  VerticalAlignment="Top" Width="244" Height="26" Background="#FFF5F0F0"/>
-        <Label Content="Location" HorizontalAlignment="Left" Margin="10,44,0,0" VerticalAlignment="Top"/>
-        <Label  HorizontalAlignment="Left" Margin="81,44,0,0" 
-                 Content="{Binding Path =Tour.Location.City}"
-                  Foreground="#FF0A0A08"
-                 VerticalAlignment="Top" Width="97" Height="31" Background="#FFF1EDED"/>
-        <Label  HorizontalAlignment="Left" Margin="190,44,0,0" 
-                 Content="{Binding Path=Tour.Location.Country}"
-                 VerticalAlignment="Top" Width="135" Height="32" Foreground="Black" Background="#FFF1EDED"/>
-        <TextBlock  HorizontalAlignment="Left" Margin="15,204,0,0" TextWrapping="Wrap" Foreground="Black" Background="#FFF1EDED"
-                 Text="{Binding Path=Tour.Description}" 
-              
-                 VerticalAlignment="Top" Width="310" Height="103"/>
-        <Label Content="Language" HorizontalAlignment="Left" Margin="15,85,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.21,0.618"/>
-        <TextBlock  HorizontalAlignment="Left" Margin="83,86,0,0" TextWrapping="Wrap" Foreground="Black"
-                 Text="{Binding Path=Tour.Language}" 
-                  Background="#FFF1EDED" 
-                 VerticalAlignment="Top" Width="242" Height="26"/>
-        <Label Content="Max number of guests" Margin="10,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-        <TextBlock  HorizontalAlignment="Left" Margin="160,161,0,0" TextWrapping="Wrap" Foreground="Black"
-                 Text="{Binding Path=Tour.MaxGuests}"
-                 VerticalAlignment="Top" Width="165" Height="31" Background="#FFF7E3E3"/>
+    <Grid HorizontalAlignment="Center" Width="1080" Margin="0,0,0,0">
+        <Border BorderBrush="#FF7375E8" BorderThickness="3" Margin="642,44,10,85" CornerRadius="15,15,15,15"/>
+
+        <Label Content="Title:" HorizontalAlignment="Left" Margin="8,51,0,0" VerticalAlignment="Top" Width="103" />
+        <Label HorizontalAlignment="Left" Margin="116,51,0,0" 
+                 Content="{Binding Tour.Title}" 
+                  VerticalAlignment="Top" Width="182" />
+        <Label Content="Location:" HorizontalAlignment="Left" Margin="10,77,0,0" VerticalAlignment="Top" Width="101"/>
+        <Label  HorizontalAlignment="Left" Margin="116,77,0,0" 
+                 Content="{Binding LocationName}"
+                 VerticalAlignment="Top" Width="206"  />
+        <TextBlock  HorizontalAlignment="Left" Margin="10,222,0,0" TextWrapping="Wrap" 
+                 Text="{Binding Tour.Description}" 
+                 VerticalAlignment="Top" Width="288" Height="104" />
+        <Label Content="Language:" HorizontalAlignment="Left" Margin="10,107,0,0" VerticalAlignment="Top" Width="101" />
+        <TextBlock  HorizontalAlignment="Left" Margin="116,107,0,0" TextWrapping="Wrap"
+                 Text="{Binding Tour.Language}"  
+                 VerticalAlignment="Top" Width="182" />
+        <Label Content="Capacity:" Margin="10,167,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="101"/>
+        <TextBlock  HorizontalAlignment="Left" Margin="116,167,0,0" TextWrapping="Wrap" 
+                 Text="{Binding Tour.MaxGuests}"
+                 VerticalAlignment="Top" Width="127" Height="31" />
 
 
-        <Label Content="Duration [hours]" HorizontalAlignment="Left" Margin="10,122,0,0" VerticalAlignment="Top"/>
-        <TextBlock HorizontalAlignment="Left" Margin="160,122,0,0" TextWrapping="Wrap" Foreground="Black"
-                 Text="{Binding Path=Tour.Duration}" 
-                 VerticalAlignment="Top" Width="165" Height="30" RenderTransformOrigin="0.333,0.042" Background="#FFECDEDE"/>
+        <Label Content="Duration [h]:" HorizontalAlignment="Left" Margin="10,137,0,0" VerticalAlignment="Top" Width="101"/>
+        <TextBlock HorizontalAlignment="Left" Margin="116,140,0,0" TextWrapping="Wrap" 
+                 Text="{Binding Tour.Duration}" 
+                 VerticalAlignment="Top" Width="127" Height="30" RenderTransformOrigin="0.333,0.042" />
 
-        <Label Content="Key Points:" HorizontalAlignment="Left" Margin="359,204,0,0" VerticalAlignment="Top"/>
+        <Label Content="Key Points:" HorizontalAlignment="Left" Margin="340,210,0,0" VerticalAlignment="Top" Width="124"/>
 
         <ListBox x:Name="lbKeyPoints" 
-                 ItemsSource="{Binding Path=Tour.KeyPoints}" 
-                  Margin="431,204,476,43"
-            ScrollViewer.VerticalScrollBarVisibility="Visible"/>
+                 ItemsSource="{Binding Tour.KeyPoints}" 
+                  Margin="411,214,476,43"
+           />
 
-        <DataGrid x:Name="dgDepartureTimes" ItemsSource="{Binding Path=Tour.DepartureTimes, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectedItem="{Binding SelectedTourTime}"  Margin="656,24,217,208" AutoGenerateColumns="False" IsReadOnly="True">
+        <DataGrid x:Name="dgDepartureTimes" ItemsSource="{Binding Tour.DepartureTimes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedTourTime}"  Margin="656,56,217,175" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Departure Time" Binding="{Binding DepartureTime}" CanUserResize="False" IsReadOnly="True" Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Departure Time" Binding="{Binding DepartureTime}" CanUserResize="False" IsReadOnly="True" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
 
 
-        <Button Content="SUBMIT RESERVATION" Padding="7" Name="btnConfirmReservation" Command="{Binding ConfirmReservation}" HorizontalAlignment="Left" Margin="819,273,0,0" VerticalAlignment="Top" Height="34" BorderBrush="#FF7D79EA" BorderThickness="2" />
+        <Button Content="SUBMIT RESERVATION" Padding="7" x:Name="btnConfirmReservation" Command="{Binding ConfirmReservation}" HorizontalAlignment="Left" Margin="819,273,0,0" VerticalAlignment="Top" Height="34" BorderBrush="#FF7D79EA" BorderThickness="2" >
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Tomato" Offset="0"/>
+                    <GradientStop Color="Orange" Offset="0.5"/>
+                    <GradientStop Color="#FFE0E21D" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
 
-        <Label Content="Available" HorizontalAlignment="Left" Margin="805,173,0,0" VerticalAlignment="Top"/>
+        <Label Foreground="Orange" Content="Available places:" HorizontalAlignment="Left" Margin="731,190,0,0" VerticalAlignment="Top"/>
 
-        <TextBlock x:Name="tblAvailable" Text="{Binding Path=SelectedTourTime.Available, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                 HorizontalAlignment="Left" Margin="876,173,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="64" Height="35" Foreground="Black" FontSize="14" Background="#FFF3EFEF"/>
+        <TextBlock x:Name="tblAvailable" Text="{Binding SelectedTourTime.Available, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Top"  Foreground="Orange" FontSize="14"  Margin="881,190,0,0" Width="137" />
 
-        <Label Content="Enter number of pople:" HorizontalAlignment="Left" Margin="731,212,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.455,-1.509"/>
-        <TextBox Name="txtRequestedPartySize"  HorizontalAlignment="Left" Margin="876,217,0,0"
-            Text="{Binding Path=RequestedPartySize, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                 TextWrapping="Wrap" VerticalAlignment="Top" Width="64" Height="39">
+        <Label Content="Enter number of pople:" Foreground="Orange" HorizontalAlignment="Left" Margin="731,228,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.455,-1.509"/>
+        <TextBox x:Name="txtRequestedPartySize" Foreground="Orange"  HorizontalAlignment="Left" Margin="881,228,0,0"
+            Text="{Binding RequestedPartySize, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                 TextWrapping="Wrap" VerticalAlignment="Top" Height="27" Width="137" >
             <Validation.ErrorTemplate>
                 <ControlTemplate>
                     <StackPanel>
@@ -88,18 +136,17 @@
                 </ControlTemplate>
             </Validation.ErrorTemplate>
         </TextBox>
-        <DataGrid Name="dgVouchers" ItemsSource="{Binding Path=Vouchers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path= SelectedVoucher, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" Margin="868,24,22,208" >
+        <DataGrid x:Name="dgVouchers" ItemsSource="{Binding Vouchers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedVoucher, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" Margin="868,56,22,175" >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="*" CanUserResize="False" IsReadOnly="True"  ></DataGridTextColumn>
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="*" CanUserResize="False" IsReadOnly="True"  />
             </DataGrid.Columns>
         </DataGrid>
 
         <Button Command="{Binding DataContext.ShowImagesCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
-                                    Background="White" Margin="359,11,476,175">
-            <Image Source="{Binding Image}" Width="227" Height="159"/>
+                                    Background="White" Margin="340,56,476,158">
+            <Image Source="{Binding Image}" Width="188" Height="119"/>
         </Button>
-
-        <Border BorderBrush="#FF7375E8" BorderThickness="3" Margin="641,10,10,82" CornerRadius="15,15,15,15"/>
+        <Label Content="Make reservation" Style="{StaticResource Guest2Header1Style}"/>
 
     </Grid>
 </Page>

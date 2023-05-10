@@ -56,12 +56,12 @@
         </StackPanel>
         <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" >
             <Label HorizontalAlignment="Left" Style="{StaticResource GuestLabelStyle}">Number of Days</Label>
-            <TextBox Text="{Binding Path = DaysNumber, UpdateSourceTrigger = PropertyChanged, ValidatesOnDataErrors=True, Mode=OneWayToSource}" Name="txtReservationDays" TextWrapping="Wrap"
+            <TextBox Text="{Binding Path = DaysNumber, UpdateSourceTrigger = PropertyChanged, ValidatesOnDataErrors=True, Mode=TwoWay}" Name="txtReservationDays" TextWrapping="Wrap"
                       Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Style="{StaticResource GuestTextBoxStyle}"/>
             </StackPanel>
         <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="2">
             <Label HorizontalAlignment="Left" Style="{StaticResource GuestLabelStyle}">Number of Guests</Label>
-            <TextBox Text="{Binding Path = GuestsNumber, UpdateSourceTrigger = PropertyChanged, ValidatesOnDataErrors=True, Mode=OneWayToSource}" Margin="0,0,0,0" 
+            <TextBox Text="{Binding Path = GuestsNumber, UpdateSourceTrigger = PropertyChanged, ValidatesOnDataErrors=True, Mode=TwoWay}" Margin="0,0,0,0" 
                      TextWrapping="Wrap" Style="{StaticResource GuestTextBoxStyle}"
                       Validation.ErrorTemplate="{StaticResource ValidationTemplate}"/>
         </StackPanel>

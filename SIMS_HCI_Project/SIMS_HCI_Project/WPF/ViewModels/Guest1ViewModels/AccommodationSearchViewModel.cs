@@ -130,7 +130,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                     int result;
                     if (String.IsNullOrEmpty(GuestsNumber))
                     {
-                        GuestsNumber = 0.ToString();
                         return null;
                     }
                     else if (!int.TryParse(GuestsNumber, out result))
@@ -148,7 +147,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                     int result;
                     if (String.IsNullOrEmpty(DaysNumber))
                     {
-                        DaysNumber = 0.ToString();
                         return null;
                     }
                     else if (!int.TryParse(DaysNumber, out result))
@@ -187,7 +185,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public void ExecutedReserveAccommodationCommand(object obj)
         {
             if (SelectedAccommodation != null)
-            { 
+            {
                 _navigationService.Navigate(new AccommodationReservationViewModel(SelectedAccommodation, Guest, _navigationService), "Accommodation reservation");
             }
         }
@@ -195,7 +193,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             if (IsValid)
             {
-                Accommodations = _accommodationService.Search(Accommodation.Name, Accommodation.Location.Country, Accommodation.Location.City, SelectedAccommodationType, int.Parse(GuestsNumber), int.Parse(DaysNumber));
+                Accommodations = _accommodationService.Search(Accommodation.Name, Accommodation.Location.Country, Accommodation.Location.City, SelectedAccommodationType, GuestsNumber, DaysNumber);
             }
         }
         public void ExecutedShowImagesCommand(object obj)

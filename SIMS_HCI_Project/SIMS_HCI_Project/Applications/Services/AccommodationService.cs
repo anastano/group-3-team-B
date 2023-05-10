@@ -39,7 +39,7 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return _accommodationRepository.GetAllSortedBySuperFlag();
         }
-        public List<Accommodation> Search(string name, string country, string city, string type, int guestsNumber, int reservationDays)
+        public List<Accommodation> Search(string name, string country, string city, string type, string guestsNumber, string reservationDays)
         {
             return _accommodationRepository.Search(name, country, city, type, guestsNumber, reservationDays);
         }

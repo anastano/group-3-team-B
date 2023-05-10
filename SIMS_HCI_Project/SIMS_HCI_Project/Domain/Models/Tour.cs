@@ -99,6 +99,14 @@ namespace SIMS_HCI_Project.Domain.Models
                         if (string.IsNullOrEmpty(Title))
                             return "Title is required";
                         break;
+                    case "City":
+                        if (string.IsNullOrEmpty(Location.City))
+                            return "City is required";
+                        break;
+                    case "Country":
+                        if (string.IsNullOrEmpty(Location.Country))
+                            return "Country is required";
+                        break;
                     case "Description":
                         if (string.IsNullOrEmpty(Description))
                             return "Description is required";
@@ -113,7 +121,7 @@ namespace SIMS_HCI_Project.Domain.Models
                         break;
                     case "Duration":
                         if (Duration < 1)
-                            return "Duration is required and cannot be less than 1h";
+                            return "Duration is required";
                         break;
                     case "DepartureTimes":
                         if (DepartureTimes.Count < 1)

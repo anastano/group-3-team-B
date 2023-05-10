@@ -102,15 +102,23 @@
         <Setter Property="Background" Value="{StaticResource OwnerNeutralColor}"/>
         <Setter Property="ColumnHeaderHeight" Value="30"/>
         <Setter Property="FontSize" Value="13"/>
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="Continue"/>
+        <Setter Property="SelectionMode" Value="Single"/>
+        <Setter Property="GridLinesVisibility" Value="Horizontal"/>
     </Style>
 
     <Style x:Key="OwnerDatagridCellStyle" TargetType="DataGridCell">
+        <Setter Property="Height" Value="30"/>
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Foreground" Value="Black" />
-                <Setter Property="Background" Value="{StaticResource OwnerMainColor}"/>
+                <Setter Property="Background" Value="LightGray"/>
             </Trigger>
         </Style.Triggers>
+    </Style>
+
+    <Style x:Key="OwnerDataGridColumnHeaderStyle" TargetType="DataGridColumnHeader">
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
     </Style>
 
     <!-- BORDER STYLE -->

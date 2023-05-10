@@ -51,6 +51,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
                 Window requestHandlerView = new RequestHandlerView(_requestService, _reservationService, _notificationService, SelectedRequest);
                 requestHandlerView.Show();
             }
+            else
+            {
+                MessageBox.Show("No request has been selected");
+            }
         }
 
         public bool CanExecute_ShowSelectedRequestCommand(object obj)

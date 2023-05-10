@@ -105,15 +105,57 @@
                         <DataGrid x:Name = "dgReservations" AutoGenerateColumns="False" ItemsSource="{Binding Path= OverlappingReservations}" 
                                   IsReadOnly="True" Focusable="False" IsTabStop="False"  FocusVisualStyle="{x:Null}" 
                                   Style="{StaticResource OwnerDatagridStyle}" CellStyle="{StaticResource OwnerDatagridCellStyle}" 
+                                  ColumnHeaderStyle="{StaticResource OwnerDataGridColumnHeaderStyle}"
                                   Width="500" Height="150" Margin="10 10 10 10">
 
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="0.4*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Guest Name" Binding="{Binding Guest.Name}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Guest Surname" Binding="{Binding Guest.Surname}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Start" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="End" Binding="{Binding End , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*"></DataGridTextColumn>
+                                <DataGridTemplateColumn Width="0.4*" Header="Id">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Id}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Guest Name">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Guest.Name}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Guest Surname">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Guest.Surname}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Start">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="End">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding End , StringFormat='{}{0:MM/dd/yyyy}'}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Status">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Status}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn> 
                             </DataGrid.Columns>
 
                         </DataGrid>

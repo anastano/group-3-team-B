@@ -63,6 +63,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
                     _accommodationService.Delete(SelectedAccommodation);
                 }
             }
+            else 
+            {
+                MessageBox.Show("No accommodation has been selected");
+            }
         }
 
         public bool CanExecute_DeleteAccommodationCommand(object obj)
@@ -87,6 +91,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             {
                 Window accommodationImagesView = new AccommodationImagesView(_accommodationService, SelectedAccommodation);
                 accommodationImagesView.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("No accommodation has been selected");
             }
         }
 

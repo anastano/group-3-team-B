@@ -50,7 +50,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
                 Window rateSelectedGuestView = new RateSelectedGuestView(_ownerRatingService, SelectedReservation);
                 rateSelectedGuestView.Show();
             }
-            
+            else 
+            {
+                MessageBox.Show("No guest has been selected");
+            }
+
+
         }
 
         public bool CanExecute_ShowSelectedUnratedReservationCommand(object obj)

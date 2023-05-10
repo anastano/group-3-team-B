@@ -43,18 +43,83 @@
                         <DataGrid x:Name = "dgRequests" AutoGenerateColumns="False" ItemsSource="{Binding Path= PendingRequests, UpdateSourceTrigger=PropertyChanged}" 
                                       SelectedItem="{Binding Path=SelectedRequest, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Focusable="True"
                                       Width="930" Height="330" Margin="10 10 10 10" CanUserSortColumns="True" SelectionMode="Single" IsTabStop="False"
-                                      Style="{StaticResource OwnerDatagridStyle}" CellStyle="{StaticResource OwnerDatagridCellStyle}">
+                                      Style="{StaticResource OwnerDatagridStyle}" CellStyle="{StaticResource OwnerDatagridCellStyle}"
+                                      ColumnHeaderStyle="{StaticResource OwnerDataGridColumnHeaderStyle}">
 
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Guest Name" Binding="{Binding AccommodationReservation.Guest.Name}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Guest Surname" Binding="{Binding AccommodationReservation.Guest.Surname}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Reservation Id" Binding="{Binding AccommodationReservationId}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Accommodation Name" Binding="{Binding AccommodationReservation.Accommodation.Name}" Width="2*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Inital Start" Binding="{Binding AccommodationReservation.Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Inital End" Binding="{Binding AccommodationReservation.End , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Wanted Start" Binding="{Binding WantedStart , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Wanted End" Binding="{Binding WantedEnd , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*"></DataGridTextColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Guest Name">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding AccommodationReservation.Guest.Name}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Guest Surname">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding AccommodationReservation.Guest.Surname}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Reservation Id">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding AccommodationReservationId}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="2*" Header="Accommodation Name">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding AccommodationReservation.Accommodation.Name}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Inital Start">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding AccommodationReservation.Start , StringFormat='{}{0:MM/dd/yyyy}'}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Inital End">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding AccommodationReservation.End , StringFormat='{}{0:MM/dd/yyyy}'}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Wanted Start">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding WantedStart , StringFormat='{}{0:MM/dd/yyyy}'}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Wanted End">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding WantedEnd , StringFormat='{}{0:MM/dd/yyyy}'}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Status">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Status}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                
                             </DataGrid.Columns>
 
                         </DataGrid>

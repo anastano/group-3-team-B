@@ -46,6 +46,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
                 Window selectedGuestReviewView = new SelectedGuestReviewView(GuestReviewsView, SelectedReview);
                 selectedGuestReviewView.Show();
             }
+            else
+            {
+                MessageBox.Show("No review has been selected");
+            }
         }
 
         public bool CanExecute_ShowSelectedReviewCommand(object obj)

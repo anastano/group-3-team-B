@@ -43,16 +43,58 @@
                         <DataGrid x:Name = "dgGuestReviews" AutoGenerateColumns="False" ItemsSource="{Binding Path=GuestReviews, UpdateSourceTrigger=PropertyChanged}" 
                                       SelectedItem="{Binding Path=SelectedReview, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Focusable="True"
                                       Background="{StaticResource OwnerNeutralColor}" Width="930" Height="330" Margin="10 10 10 10" CanUserSortColumns="True" SelectionMode="Single" IsTabStop="False"
-                                        Style="{StaticResource OwnerDatagridStyle}" CellStyle="{StaticResource OwnerDatagridCellStyle}">
+                                        Style="{StaticResource OwnerDatagridStyle}" CellStyle="{StaticResource OwnerDatagridCellStyle}"
+                                        ColumnHeaderStyle="{StaticResource OwnerDataGridColumnHeaderStyle}">
 
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Guest Id" Binding="{Binding Reservation.GuestId}" Width="0.5*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Guest Name" Binding="{Binding Reservation.Guest.Name}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Guest Surname" Binding="{Binding Reservation.Guest.Surname}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Reservation Id" Binding="{Binding ReservationId}" Width="0.8*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Accommodation Name" Binding="{Binding Reservation.Accommodation.Name}" Width="2*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Cleanliness" Binding="{Binding Cleanliness}" Width="0.6*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Correctness" Binding="{Binding Correctness}" Width="0.6*"></DataGridTextColumn>
+                                <DataGridTemplateColumn Width="*" Header="Guest Name">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Reservation.Guest.Name}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Guest Surname">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Reservation.Guest.Surname}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="0.8*" Header="Reservation Id">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding ReservationId}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="2*" Header="Accommodation Name">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Reservation.Accommodation.Name}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="0.6*" Header="Cleanliness">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Cleanliness}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="0.6*" Header="Correctness">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Correctness}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
                             </DataGrid.Columns>
 
                         </DataGrid>

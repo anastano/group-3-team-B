@@ -93,14 +93,21 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         }
         public void Executed_RateGuestCommand(object obj)
         {
-            if (ConfirmRateGuest() == MessageBoxResult.Yes)
+            if (IsValid)
             {
-                Rating.ReservationId = SelectedReservation.Id;
-                Rating.Cleanliness = Cleanliness ?? 0;
-                Rating.RuleCompliance = RuleCompliance ?? 0;
-                Rating.Reservation = SelectedReservation;
-                _ownerRatingService.Add(Rating);
-                RateSelectedGuestView.Close();
+                if (ConfirmRateGuest() == MessageBoxResult.Yes)
+                {
+                    Rating.ReservationId = SelectedReservation.Id;
+                    Rating.Cleanliness = Cleanliness ?? 0;
+                    Rating.RuleCompliance = RuleCompliance ?? 0;
+                    Rating.Reservation = SelectedReservation;
+                    _ownerRatingService.Add(Rating);
+                    RateSelectedGuestView.Close();
+                }
+            }
+            else 
+            {
+                MessageBox.Show("Not all fields are filled in correctly");
             }
         }
 
@@ -161,7 +168,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             }
         }
 
-        private readonly string[] _validatedProperties = { "Name", "Country", "City" };
+        private readonly string[] _validatedProperties = { "Cleanliness", "RuleCompliance"};
 
         public bool IsValid
         {

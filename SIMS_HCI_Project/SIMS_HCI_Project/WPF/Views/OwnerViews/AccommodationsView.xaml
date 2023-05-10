@@ -50,7 +50,18 @@
                         <DataGrid x:Name = "dgAccommodation" AutoGenerateColumns="False" ItemsSource="{Binding Path=Accommodations, UpdateSourceTrigger=PropertyChanged}" 
                                       SelectedItem="{Binding Path=SelectedAccommodation, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Focusable="True"
                                       Width="930" Height="330" Margin="10 10 10 10" CanUserSortColumns="True" SelectionMode="Single" IsTabStop="False"
-                                      Style="{StaticResource OwnerDatagridStyle}" CellStyle="{StaticResource OwnerDatagridCellStyle}">
+                                      Style="{StaticResource OwnerDatagridStyle}" ColumnHeaderStyle="{StaticResource OwnerDataGridColumnHeaderStyle}">
+                            <DataGrid.CellStyle>
+                                <Style TargetType="DataGridCell" >
+                                    <Setter Property="Height" Value="100"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Foreground" Value="Black" />
+                                            <Setter Property="Background" Value="LightGray"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.CellStyle>
 
                             <DataGrid.Columns>
                                

@@ -42,19 +42,72 @@
                 <Border Style="{StaticResource OwnerBorderStyle}">
                     <!-- DataGrid STACKPANEL-->
                     <StackPanel Margin="0 0 0 0">
-                        <DataGrid x:Name = "dgRenovations" AutoGenerateColumns="False" ItemsSource="{Binding Path=Renovations, UpdateSourceTrigger=PropertyChanged}" 
-                                      SelectedItem="{Binding Path=SelectedRenovation, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Focusable="True"
-                                      Width="930" Height="330" Margin="10 10 10 10" CanUserSortColumns="True" SelectionMode="Single" IsTabStop="False"
-                                      Style="{StaticResource OwnerDatagridStyle}" CellStyle="{StaticResource OwnerDatagridCellStyle}">
-
+                        <DataGrid x:Name = "dgRenovations" AutoGenerateColumns="False" ItemsSource="{Binding Renovations, UpdateSourceTrigger=PropertyChanged}" 
+                                      SelectedItem="{Binding SelectedRenovation, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Focusable="True"
+                                      Width="930" Height="330" CanUserSortColumns="True" SelectionMode="Single" IsTabStop="False" Margin="10 10 10 10"
+                                      Style="{StaticResource OwnerDatagridStyle}" ColumnHeaderStyle="{StaticResource OwnerDataGridColumnHeaderStyle}">
+                            <DataGrid.CellStyle>
+                                <Style TargetType="DataGridCell" >
+                                    <Setter Property="Height" Value="60"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Foreground" Value="Black" />
+                                            <Setter Property="Background" Value="LightGray"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.CellStyle>
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="0.4*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Accommodation Name" Binding="{Binding Accommodation.Name}" Width="2*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="City" Binding="{Binding Accommodation.Location.City}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Country" Binding="{Binding Accommodation.Location.Country}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Start" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="End" Binding="{Binding End , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"></DataGridTextColumn>
+
+
+                                <DataGridTemplateColumn Width="2*" Header="Accommodation Name">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Accommodation.Name}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="City">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Accommodation.Location.City}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Country">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Accommodation.Location.Country}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Start">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Start, StringFormat=\{0:MM/dd/yyyy\}}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="End">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding End, StringFormat=\{0:MM/dd/yyyy\}}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="2.5*" Header="Description">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Description}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
                             </DataGrid.Columns>
 
                         </DataGrid>

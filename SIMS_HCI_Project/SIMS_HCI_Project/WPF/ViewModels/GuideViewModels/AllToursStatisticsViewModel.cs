@@ -1,4 +1,5 @@
 ﻿using SIMS_HCI_Project.Applications.Services;
+using SIMS_HCI_Project.Domain.DTOs;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands.Global;
 using System;
@@ -20,6 +21,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
+
+        public GuideNavigationCommands NavigationCommands { get; set; }
 
         private TourStatisticsService _tourStatisticsService;
         private TourService _tourService;
@@ -49,7 +52,42 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
                 UpdateTopTourByYear();
             }
         }
-        public GuideNavigationCommands NavigationCommands { get; set; }
+
+        private TourStatisticsInfo _allTimeTopTourStatistics;
+        public TourStatisticsInfo AllTimeTopTourStatistics
+        {
+            get { return _allTimeTopTourStatistics; }
+            set
+            {
+                _allTimeTopTourStatistics = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private TourStatisticsInfo _selectedYearTopTourStatistics;
+        public TourStatisticsInfo SelectedYearTopTourStatistics
+        {
+            get { return _selectedYearTopTourStatistics; }
+            set
+            {
+                _selectedYearTopTourStatistics = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public String AllTimeTopTourImage { get; set; }
+
+        public String _selectedYearTopTourImage;
+        public String SelectedYearTopTourImage
+        {
+            get { return _selectedYearTopTourImage; }
+            set
+            {
+                _selectedYearTopTourImage = value;
+                OnPropertyChanged();
+            }
+        }
+
         public AllToursStatisticsViewModel()
         {
             _tourStatisticsService = new TourStatisticsService();
@@ -58,7 +96,15 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             AllTimeTopTour = _tourStatisticsService.GetTopTour();
             YearsWithTours = _tourService.GetAllTourInstances().Where(tt => tt.Status == TourStatus.COMPLETED)
                                                                 .Select(tt => tt.DepartureTime.Year).Distinct().ToList();
-            SelectedYear = YearsWithTours.First();
+            if (YearsWithTours != null)
+            {
+                SelectedYear = YearsWithTours.First();
+            }
+
+            AllTimeTopTourStatistics = _tourStatisticsService.GetTourStatistics(AllTimeTopTour.Id);
+            SelectedYearTopTourStatistics = _tourStatisticsService.GetTourStatistics(SelectedYearTopTour.Id);
+
+            AllTimeTopTourImage = AllTimeTopTour.Tour.Images.First();
 
             UpdateTopTourByYear();
             InitCommands();
@@ -67,6 +113,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         private void UpdateTopTourByYear()
         {
             SelectedYearTopTour = _tourStatisticsService.GetTopTourByYear(SelectedYear);
+            SelectedYearTopTourStatistics = _tourStatisticsService.GetTourStatistics(SelectedYearTopTour.Id);
+            SelectedYearTopTourImage = SelectedYearTopTour.Tour.Images.First();
         }
 
         private void InitCommands()

@@ -43,6 +43,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             }
         }
 
+        private string _tourInProgressImage;
+        public string TourInProgressImage
+        {
+            get { return _tourInProgressImage; }
+            set
+            {
+                _tourInProgressImage = value;
+                OnPropertyChanged();
+            }
+        }
+
         private ObservableCollection<TourTime> _todaysTours;
         public ObservableCollection<TourTime> TodaysTours
         {
@@ -75,6 +86,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         private void LoadTourInProgress()
         {
             TourInProgress = _tourService.GetActiveTour(((User)App.Current.Properties["CurrentUser"]).Id);
+            TourInProgressImage = TourInProgress.Tour.Images.First();
         }
 
         private void LoadTodaysTours()

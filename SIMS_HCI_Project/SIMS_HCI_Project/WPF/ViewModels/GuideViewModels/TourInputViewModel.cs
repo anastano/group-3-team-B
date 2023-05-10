@@ -94,7 +94,27 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         private readonly TourService _tourService;
 
-        public Tour NewTour { get; set; }
+        private Tour _newTour;
+        public Tour NewTour
+        {
+            get { return _newTour; }
+            set
+            {
+                _newTour = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isSubmitButtonEnabled;
+        public bool IsSubmitButtonEnabled
+        {
+            get { return _isSubmitButtonEnabled; }
+            set
+            {
+                _isSubmitButtonEnabled = value;
+                OnPropertyChanged();
+            }
+        }
 
         public TourInputViewModel(Tour tour = null)
         {

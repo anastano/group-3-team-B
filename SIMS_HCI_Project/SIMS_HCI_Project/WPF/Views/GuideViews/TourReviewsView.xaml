@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.GuideViews"
         mc:Ignorable="d"
-         Title="TourReviews" Height="450" Width="800" WindowStartupLocation="CenterScreen" >
+         Title="TourReviews" Height="720" Width="1280" WindowStartupLocation="CenterScreen" FontSize="20">
+    <Window.Background>
+        <ImageBrush ImageSource="pack://application:,,,/WPF/Images/guideBackground.png"></ImageBrush>
+    </Window.Background>
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -29,22 +32,33 @@
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>
-                    <ListBox Height="300" ItemsSource="{Binding TourRatings}" SelectedItem="{Binding SelectedRating}">
+                    <ListBox Height="500" ItemsSource="{Binding TourRatings}" SelectedItem="{Binding SelectedRating}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Border BorderBrush="Black" BorderThickness="1" Width="700">
+                                <Border BorderBrush="Black" BorderThickness="1" Width="1200">
                                     <StackPanel Orientation="Vertical" Margin="10,10,10,10">
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                             <TextBlock Text="-name-"/>
                                             <TextBlock Text="{Binding GetAverageRating, StringFormat={} {0}/5}" Margin="40,0,0,0"/>
                                             <TextBlock Text="{Binding Attendance.KeyPointJoined.Title, StringFormat=Joined at: \{0\}}" Margin="40,0,0,0"/>
-                                            <TextBlock Text="{Binding IsValid, StringFormat=Rating valid: \{0\}}" HorizontalAlignment="Right"  Margin="180,0,20,0"/>
-                                            <Button Content="Mark as invalid" 
+                                            <TextBlock Text="{Binding IsValid, StringFormat=Rating valid: \{0\}}" HorizontalAlignment="Right"  Margin="420,0,20,0"/>
+                                            <Button Content="Mark as invalid" Margin="30,0,0,0" 
                                     Command="{Binding DataContext.MarkRatingInvalid, RelativeSource={RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}}"/>
                                         </StackPanel>
                                         <Border BorderBrush="Black" BorderThickness="1" Width="400" Height="1" HorizontalAlignment="Left"/>
                                         <TextBlock Text="{Binding Comment}"/>
-                                        <ListBox ItemsSource="{Binding Images}"/>
+                                        <ListBox ItemsSource="{Binding Images}" Background="Transparent" BorderThickness="0">
+                                            <ListBox.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Horizontal"/>
+                                                </ItemsPanelTemplate>
+                                            </ListBox.ItemsPanel>
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Image Width="100" Height="100"  Source="{Binding}"></Image>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>

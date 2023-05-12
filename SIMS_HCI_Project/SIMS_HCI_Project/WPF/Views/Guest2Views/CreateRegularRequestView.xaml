@@ -7,25 +7,65 @@
       mc:Ignorable="d" 
       d:DesignHeight="295" d:DesignWidth="1080"
       Title="CreateRegularRequestView">
+    <Page.Resources>
 
-    <Grid Background="#FFF5735B">
+        <ControlTemplate x:Key="ValidationTemplate">
+            <StackPanel>
+                <!-- Placeholder for the TextBox itself -->
+                <AdornedElementPlaceholder x:Name="textBox" />
+                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" HorizontalAlignment="Center" />
+            </StackPanel>
+        </ControlTemplate>
+        
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Margin" Value="0 0 0 0"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="150"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Margin" Value="0 0 0 0"/>
+            <Setter Property="Width" Value="140" />
+        </Style>
+    </Page.Resources>
+    <Grid>
         <Label Content="City:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="28" Width="128"/>
         <Label Content="Country:" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top" Height="28" Width="128"/>
         <Label Content="Language:" HorizontalAlignment="Left" Margin="10,66,0,0" VerticalAlignment="Top" Height="28" Width="128"/>
         <Label Content="Guest number:" HorizontalAlignment="Left" Margin="10,94,0,0" VerticalAlignment="Top" Height="30" Width="128"/>
         <Label Content="Description:" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Height="37" Width="128"/>
-        <TextBox HorizontalAlignment="Left" Text="{Binding RegularTourRequest.Location.City}" Margin="138,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="269" Height="28"/>
-        <TextBox HorizontalAlignment="Left" Text="{Binding RegularTourRequest.Location.Country}" Margin="138,38,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="269" Height="28"/>
-        <TextBox HorizontalAlignment="Left" Text="{Binding RegularTourRequest.Language}" Margin="138,66,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="269" Height="28"/>
-        <TextBox HorizontalAlignment="Left" Text="{Binding RegularTourRequest.GuestNumber}" Margin="138,94,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="269" Height="28"/>
-        <TextBox HorizontalAlignment="Left" Text="{Binding RegularTourRequest.Description}" Margin="138,138,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="269" Height="92"/>
+        <TextBox HorizontalAlignment="Left"  
+                 Text="{Binding Path = City, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                             Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
+                 Margin="138,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="238" />
+        <TextBox HorizontalAlignment="Left" Text="{Binding Path = Country, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                             Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Margin="138,38,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="238" />
+        <TextBox HorizontalAlignment="Left" Text="{Binding Language, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                             Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Margin="138,66,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="238" />
+        <TextBox HorizontalAlignment="Left" Text="{Binding GuestNumber , UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                             Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Margin="138,94,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="238" />
+        <TextBox HorizontalAlignment="Left" Text="{Binding Description , UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                             Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Margin="138,134,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="238" Height="100" />
 
         <Label Content="Enter date range:" HorizontalAlignment="Left" Margin="657,34,0,0" VerticalAlignment="Top"/>
         <Label Content="Start:" HorizontalAlignment="Left" Margin="657,68,0,0" VerticalAlignment="Top"/>
         <Label Content="Finish:" HorizontalAlignment="Left" Margin="657,94,0,0" VerticalAlignment="Top"/>
         <DatePicker Name="StartRange" IsEnabled="True" SelectedDate="{Binding Start, Mode=TwoWay, StringFormat='{}{0:MM/dd/yyyy}'}" SelectedDateFormat="Short" HorizontalAlignment="Left" Margin="719,68,0,0" VerticalAlignment="Top" Height="37" Width="149"/>
         <DatePicker Name="EndRange" IsEnabled="True" SelectedDate="{Binding End, Mode=TwoWay, StringFormat='{}{0:MM/dd/yyyy}'}" SelectedDateFormat="Short" HorizontalAlignment="Left" Margin="719,105,0,0" VerticalAlignment="Top" Height="37" Width="149"/>
-        <Button Content="COMPLETE TOUR REQUEST" Command="{Binding CompleteRequest}" HorizontalAlignment="Left" Margin="700,184,0,0" VerticalAlignment="Top" Height="26" Width="186"/>
+        <Button Content="COMPLETE TOUR REQUEST" Command="{Binding CompleteRequest}" HorizontalAlignment="Left" Margin="700,184,0,0" VerticalAlignment="Top" Height="26" Width="186">
+            <Button.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="Tomato" Offset="0"/>
+                    <GradientStop Color="Orange" Offset="0.5"/>
+                    <GradientStop Color="#FFE0E21D" Offset="1"/>
+                </LinearGradientBrush>
+            </Button.Background>
+        </Button>
         <Button Content="QUIT TOUR REQUEST" Command="{Binding QuitRequest}" HorizontalAlignment="Left" Margin="928,221,0,0" VerticalAlignment="Top" Height="26" Width="142"/>
 
 

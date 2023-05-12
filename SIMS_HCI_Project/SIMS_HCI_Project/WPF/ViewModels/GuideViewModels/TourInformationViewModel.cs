@@ -1,6 +1,7 @@
 ﻿using SIMS_HCI_Project.Applications.Services;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands;
+using SIMS_HCI_Project.WPF.Commands.Global;
 using SIMS_HCI_Project.WPF.Views.GuideViews;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         public RelayCommand CancelTour { get; set; }
         public RelayCommand StartTour { get; set; }
         public RelayCommand SeeTourProgress { get; set; }
+        public GuideNavigationCommands NavigationCommands { get; set; }
         #endregion
 
         public Tour Tour { get; set; }
@@ -58,22 +60,15 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         private void InitCommands()
         {
             SeeStatistics = new RelayCommand(ExecutedSeeStatisticsCommand, CanExecuteCommand);
-            SeeReviews = new RelayCommand(ExecutedSeeReviewsCommand, CanExecuteCommand);
             CancelTour = new RelayCommand(ExecutedCancelTourCommand, CanExecuteCommand);
             StartTour = new RelayCommand(ExecutedStartTourCommand, CanExecuteCommand);
-            SeeTourProgress = new RelayCommand(ExecutedSeeTourProgressCommand, CanExecuteCommand);
+            NavigationCommands = new GuideNavigationCommands();
         }
 
         private void ExecutedSeeStatisticsCommand(object obj)
         {
             Window tourStatistics = new TourStatisticsView(SelectedTourTime);
             tourStatistics.Show();
-        }
-
-        private void ExecutedSeeReviewsCommand(object obj)
-        {
-            Window tourReviews = new TourReviewsView(SelectedTourTime);
-            tourReviews.Show();
         }
 
         private void ExecutedCancelTourCommand(object obj)
@@ -85,12 +80,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         {
             _tourLifeCycleService.StartTour(SelectedTourTime);
                 
-            Window tourProgress = new TourProgressView(SelectedTourTime);
-            tourProgress.Show();
-        }
-        
-        private void ExecutedSeeTourProgressCommand(object obj)
-        {
             Window tourProgress = new TourProgressView(SelectedTourTime);
             tourProgress.Show();
         }

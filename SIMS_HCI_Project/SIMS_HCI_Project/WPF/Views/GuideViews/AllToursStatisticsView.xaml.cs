@@ -21,11 +21,11 @@ namespace SIMS_HCI_Project.WPF.Views.GuideViews
     /// </summary>
     public partial class AllToursStatisticsView : Window
     {
-        public AllToursStatisticsView(Guide guide)
+        public AllToursStatisticsView()
         {
             InitializeComponent();
 
-            this.DataContext = new AllToursStatisticsViewModel(guide);
+            this.DataContext = new AllToursStatisticsViewModel();
         }
     }
 }

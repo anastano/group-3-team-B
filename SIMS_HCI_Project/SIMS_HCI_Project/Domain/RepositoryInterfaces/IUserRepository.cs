@@ -5,8 +5,10 @@ namespace SIMS_HCI_Project.Repositories
 {
     public interface IUserRepository
     {
-        List<User> GetAll();
         User GetById(int id);
-        User GetByUsernameAndPassword(string username, string password);
+        User GetByUsername(string username);
+        bool CheckIfUsernameExists(string username);
+
+        void Add(User newUser);
     }
 }

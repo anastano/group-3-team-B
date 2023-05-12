@@ -4,111 +4,155 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.GuideViews"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="TourInformation" Height="820" Width="620" WindowStartupLocation="CenterScreen" FontSize="20">
+    <Window.Background>
+        <ImageBrush ImageSource="pack://application:,,,/WPF/Images/guideBackground.png"></ImageBrush>
+    </Window.Background>
     <Window.Resources>
-        <Style x:Key="CancelButton" TargetType="Button">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding SelectedTourTime.IsCancellable}" Value="True">
-                    <Setter Property="IsEnabled" Value="True"></Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding SelectedTourTime.IsCancellable}" Value="False">
-                    <Setter Property="IsEnabled" Value="False"></Setter>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="StartButton" TargetType="Button">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding SelectedTourTime.IsStartable}" Value="True">
-                    <Setter Property="IsEnabled" Value="True"></Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding SelectedTourTime.IsStartable}" Value="False">
-                    <Setter Property="IsEnabled" Value="False"></Setter>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="FinishedButton" TargetType="Button">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding SelectedTourTime.IsFinished}" Value="True">
-                    <Setter Property="IsEnabled" Value="True"></Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding SelectedTourTime.IsFinished}" Value="False">
-                    <Setter Property="IsEnabled" Value="False"></Setter>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-        <Style x:Key="HistoryButton" TargetType="Button">
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding SelectedTourTime.Status}" Value="COMPLETED">
-                    <Setter Property="IsEnabled" Value="True"></Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding SelectedTourTime.Status}" Value="IN_PROGRESS">
-                    <Setter Property="IsEnabled" Value="True"></Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding SelectedTourTime.Status}" Value="NOT_STARTED">
-                    <Setter Property="IsEnabled" Value="False"></Setter>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding SelectedTourTime.Status}" Value="CANCELLED">
-                    <Setter Property="IsEnabled" Value="False"></Setter>
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/GuideStyles.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="CancelButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding SelectedTourTime.IsCancellable}" Value="True">
+                        <Setter Property="IsEnabled" Value="True"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding SelectedTourTime.IsCancellable}" Value="False">
+                        <Setter Property="IsEnabled" Value="False"></Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="StartButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding SelectedTourTime.IsStartable}" Value="True">
+                        <Setter Property="IsEnabled" Value="True"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding SelectedTourTime.IsStartable}" Value="False">
+                        <Setter Property="IsEnabled" Value="False"></Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="FinishedButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding SelectedTourTime.IsFinished}" Value="True">
+                        <Setter Property="IsEnabled" Value="True"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding SelectedTourTime.IsFinished}" Value="False">
+                        <Setter Property="IsEnabled" Value="False"></Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="HistoryButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding SelectedTourTime.Status}" Value="COMPLETED">
+                        <Setter Property="IsEnabled" Value="True"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding SelectedTourTime.Status}" Value="IN_PROGRESS">
+                        <Setter Property="IsEnabled" Value="True"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding SelectedTourTime.Status}" Value="NOT_STARTED">
+                        <Setter Property="IsEnabled" Value="False"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding SelectedTourTime.Status}" Value="CANCELLED">
+                        <Setter Property="IsEnabled" Value="False"></Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
     </Window.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="3*"></RowDefinition>
-            <RowDefinition Height="2*"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" Orientation="Vertical" Margin="20,20,20,20">
-                <TextBlock Text="{Binding Tour.Title}" Margin="0,0,0,10"></TextBlock>
-                <TextBlock Margin="0,0,0,30">
-                    <TextBlock.Text>
-                        <MultiBinding StringFormat="{}{0} ({1})">
-                            <Binding Path="Tour.Location.City"></Binding>
-                            <Binding Path="Tour.Location.Country"></Binding>
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
-                <TextBlock Text="{Binding Tour.Description}" Margin="0,0,0,40" TextWrapping="Wrap"></TextBlock>
-                <TextBlock Text="{Binding Tour.Language, StringFormat=Language: {0}}"></TextBlock>
-                <TextBlock Text="{Binding Tour.Duration, StringFormat=Duration: {0}}"></TextBlock>
-                <TextBlock Text="{Binding Tour.MaxGuests, StringFormat=Max Guests: {0}}" Margin="0,0,0,30"></TextBlock>
-                <StackPanel Orientation="Horizontal">
-                    <Button Content="See Stats" Margin="0,0,40,0" Command="{Binding SeeStatistics}" Style="{StaticResource FinishedButton}"></Button>
-                    <Button Content="See Reviews" Command="{Binding SeeReviews}"  Style="{StaticResource FinishedButton}"></Button>
-                </StackPanel>
-            </StackPanel>
-            <ListBox Grid.Column="1" ItemsSource="{Binding Tour.Images}" Margin="20,20,20,20">
-            </ListBox>
-        </Grid>
-        <Grid Grid.Row="1" Margin="20,10,20,20">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Vertical" Margin="0,0,-15,76" Grid.ColumnSpan="2">
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="Departure Times" Margin="0,0,40,0"></Label>
-                    <Button Content="Add Time"></Button>
-                </StackPanel>
-                <DataGrid FontSize="15" ItemsSource="{Binding Tour.DepartureTimes}" SelectedItem="{Binding SelectedTourTime}" AutoGenerateColumns="False" IsReadOnly="True" Height="155" Width="570" Margin="0,10,0,0">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Departure Time" Binding="{Binding DepartureTime}" Width="5*"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Status"  Binding="{Binding Status}" Width="4*"></DataGridTextColumn>
-                        <DataGridCheckBoxColumn Header="IsCancellable" Binding="{Binding IsCancellable, Mode=OneWay}" Width="3*"></DataGridCheckBoxColumn>
-                        <DataGridCheckBoxColumn Header="IsStartable" Binding="{Binding IsStartable, Mode=OneWay}" Width="3*"></DataGridCheckBoxColumn>
-                        <DataGridCheckBoxColumn Header="IsFinished" Binding="{Binding IsFinished, Mode=OneWay}" Width="3*"></DataGridCheckBoxColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
-            </StackPanel>
-            <Button Content="Cancel" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20,0,0,20" Command="{Binding CancelTour}" Style="{StaticResource CancelButton}"></Button>
-            <Button Content="Start Tour" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,20,20" Command="{Binding StartTour}" Style="{StaticResource StartButton}"></Button>
-            <Button Content="See History" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,42,20" Command="{Binding SeeTourProgress}" Style="{StaticResource HistoryButton}"/>
-        </Grid>
+        <StackPanel>
+            <Grid HorizontalAlignment="Center">
+                <local:NavigationMenu></local:NavigationMenu>
+            </Grid>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="3*"></RowDefinition>
+                    <RowDefinition Height="2*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Orientation="Vertical" Margin="20,20,20,20">
+                        <TextBlock Text="{Binding Tour.Title}" Margin="0,0,0,10"></TextBlock>
+                        <TextBlock Margin="0,0,0,30">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} ({1})">
+                                    <Binding Path="Tour.Location.City"></Binding>
+                                    <Binding Path="Tour.Location.Country"></Binding>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <TextBlock Text="{Binding Tour.Description}" Margin="0,0,0,40" TextWrapping="Wrap"></TextBlock>
+                        <TextBlock Text="{Binding Tour.Language, StringFormat=Language: {0}}"></TextBlock>
+                        <TextBlock Text="{Binding Tour.Duration, StringFormat=Duration: {0}}"></TextBlock>
+                        <TextBlock Text="{Binding Tour.MaxGuests, StringFormat=Max Guests: {0}}" Margin="0,0,0,30"></TextBlock>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="See Stats" Margin="0,0,40,0" Command="{Binding SeeStatistics}" Style="{StaticResource FinishedButton}"></Button>
+                            <Button Content="See Reviews" Style="{StaticResource FinishedButton}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToReviews}" CommandParameter="{Binding SelectedTourTime}"/>
+                                        <i:InvokeCommandAction Command="{Binding NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
+                                              RelativeSource Mode=FindAncestor,
+                                              AncestorType={x:Type Window}}}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                    <ListBox Grid.Column="1" ItemsSource="{Binding Tour.Images}" Margin="20,20,20,20">
+                    </ListBox>
+                </Grid>
+                <Grid Grid.Row="1" Margin="20,10,20,20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Orientation="Vertical" Margin="0,0,-15,76" Grid.ColumnSpan="2">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Departure Times" Margin="0,0,40,0"></Label>
+                            <Button Content="Add Time"></Button>
+                        </StackPanel>
+                        <DataGrid FontSize="15" ItemsSource="{Binding Tour.DepartureTimes}" SelectedItem="{Binding SelectedTourTime}" AutoGenerateColumns="False" IsReadOnly="True" Height="155" Width="570" Margin="0,10,0,0">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Departure Time" Binding="{Binding DepartureTime}" Width="5*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Status"  Binding="{Binding Status}" Width="4*"></DataGridTextColumn>
+                                <DataGridCheckBoxColumn Header="IsCancellable" Binding="{Binding IsCancellable, Mode=OneWay}" Width="3*"></DataGridCheckBoxColumn>
+                                <DataGridCheckBoxColumn Header="IsStartable" Binding="{Binding IsStartable, Mode=OneWay}" Width="3*"></DataGridCheckBoxColumn>
+                                <DataGridCheckBoxColumn Header="IsFinished" Binding="{Binding IsFinished, Mode=OneWay}" Width="3*"></DataGridCheckBoxColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                    <Button Content="Cancel" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="20,0,0,20" Command="{Binding CancelTour}" Style="{StaticResource CancelButton}"></Button>
+                    <Button Content="Start Tour" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,20,20" Style="{StaticResource StartButton}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding StartTour}" />
+                                <i:InvokeCommandAction Command="{Binding NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
+                                              RelativeSource Mode=FindAncestor,
+                                              AncestorType={x:Type Window}}}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                    <Button Content="See History" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,42,20" Style="{StaticResource HistoryButton}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Click">
+                                <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourProgress}" CommandParameter="{Binding SelectedTourTime}" />
+                                <i:InvokeCommandAction Command="{Binding NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
+                                              RelativeSource Mode=FindAncestor,
+                                              AncestorType={x:Type Window}}}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </Button>
+                </Grid>
+            </Grid>
+        </StackPanel>
     </Grid>
 </Window>

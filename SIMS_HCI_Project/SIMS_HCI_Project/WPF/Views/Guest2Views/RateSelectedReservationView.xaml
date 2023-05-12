@@ -30,106 +30,107 @@
 
     <Grid >
 
+        <Border BorderBrush="Orange" BorderThickness="2"  CornerRadius="15" />
+
         <Label Content="OverallExperience" Margin="10,37,946,193" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
         <!--<TextBox x:Name="owerall" Text="{Binding Path= TourRating.OverallExperience, UpdateSourceTrigger=PropertyChanged}" Margin="218,37,657,194" BorderThickness="0,0,0,0" />-->
         <StackPanel Orientation="Horizontal" Margin="218,37,657,194">
-            <RadioButton Content="1" IsChecked="{Binding Path=TourRating.OverallExperience, Converter={StaticResource RatingConverter}, ConverterParameter=1}" />
+            <RadioButton Content="1" IsChecked="{Binding TourRating.OverallExperience, ConverterParameter=1, Converter={StaticResource RatingConverter}}" />
             <Label Content="   " Width="18"/>
-            <RadioButton Content="2" IsChecked="{Binding Path=TourRating.OverallExperience, Converter={StaticResource RatingConverter}, ConverterParameter=2}" />
+            <RadioButton Content="2" IsChecked="{Binding TourRating.OverallExperience, ConverterParameter=2, Converter={StaticResource RatingConverter}}" />
             <Label Content="   " Width="18"/>
-            <RadioButton Content="3" IsChecked="{Binding Path=TourRating.OverallExperience, Converter={StaticResource RatingConverter}, ConverterParameter=3}" />
+            <RadioButton Content="3" IsChecked="{Binding TourRating.OverallExperience, ConverterParameter=3, Converter={StaticResource RatingConverter}}" />
             <Label Content="   " Width="18"/>
-            <RadioButton Content="4" IsChecked="{Binding Path=TourRating.OverallExperience, Converter={StaticResource RatingConverter}, ConverterParameter=4}" />
+            <RadioButton Content="4" IsChecked="{Binding TourRating.OverallExperience, ConverterParameter=4, Converter={StaticResource RatingConverter}}" />
             <Label Content="   " Width="18"/>
-            <RadioButton Content="5" IsChecked="{Binding Path=TourRating.OverallExperience, Converter={StaticResource RatingConverter}, ConverterParameter=5}" />
+            <RadioButton Content="5" IsChecked="{Binding TourRating.OverallExperience, ConverterParameter=5, Converter={StaticResource RatingConverter}}" />
         </StackPanel>
 
         <Label Content="Organisation" Margin="10,66,940,155" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
         <!--TextBox x:Name="Organisation" Text="{Binding Path= TourRating.Organisation, UpdateSourceTrigger=PropertyChanged}" Margin="218,70,657,155" BorderThickness="0,0,0,0"/-->
         <StackPanel Orientation="Horizontal" Margin="218,70,657,155">
-            <RadioButton Content="1" IsChecked="{Binding Path=TourRating.Organisation, Converter={StaticResource RatingConverter}, ConverterParameter=1}" />
+            <RadioButton Content="1" IsChecked="{Binding TourRating.Organisation, ConverterParameter=1, Converter={StaticResource RatingConverter}}" />
             <Label Content="   " Width="18"/>
 
-            <RadioButton Content="2" IsChecked="{Binding Path=TourRating.Organisation, Converter={StaticResource RatingConverter}, ConverterParameter=2}" />
+            <RadioButton Content="2" IsChecked="{Binding TourRating.Organisation, ConverterParameter=2, Converter={StaticResource RatingConverter}}" />
             <Label Content="   " Width="18"/>
 
-            <RadioButton Content="3" IsChecked="{Binding Path=TourRating.Organisation, Converter={StaticResource RatingConverter}, ConverterParameter=3}" />
+            <RadioButton Content="3" IsChecked="{Binding TourRating.Organisation, ConverterParameter=3, Converter={StaticResource RatingConverter}}" />
             <Label Content="   " Width="18"/>
 
-            <RadioButton Content="4" IsChecked="{Binding Path=TourRating.Organisation, Converter={StaticResource RatingConverter}, ConverterParameter=4}" />
+            <RadioButton Content="4" IsChecked="{Binding TourRating.Organisation, ConverterParameter=4, Converter={StaticResource RatingConverter}}" />
             <Label Content="   " Width="18"/>
 
-            <RadioButton Content="5" IsChecked="{Binding Path=TourRating.Organisation, Converter={StaticResource RatingConverter}, ConverterParameter=5}" />
+            <RadioButton Content="5" IsChecked="{Binding TourRating.Organisation, ConverterParameter=5, Converter={StaticResource RatingConverter}}" />
         </StackPanel>
 
 
         <Label Content="Interestingness" Margin="10,109,931,115" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
         <!--<TextBox x:Name="Interestingness" Text="{Binding Path= TourRating.Interestingness, UpdateSourceTrigger=PropertyChanged}" Margin="218,109,657,115"  BorderThickness="0,0,0,0"/>-->
         <StackPanel Orientation="Horizontal" Margin="218,109,657,115">
-            <RadioButton Content="1" IsChecked="{Binding Path=TourRating.Interestingness, Converter={StaticResource RatingConverter}, ConverterParameter=1}" />
+            <RadioButton Content="1" IsChecked="{Binding TourRating.Interestingness, ConverterParameter=1, Converter={StaticResource RatingConverter}}" />
             <Label Content="   " Width="18"/>
 
-            <RadioButton Content="2" IsChecked="{Binding Path=TourRating.Interestingness, Converter={StaticResource RatingConverter}, ConverterParameter=2}" />
+            <RadioButton Content="2" IsChecked="{Binding TourRating.Interestingness, ConverterParameter=2, Converter={StaticResource RatingConverter}}" />
             <Label Content="   " Width="18"/>
 
-            <RadioButton Content="3" IsChecked="{Binding Path=TourRating.Interestingness, Converter={StaticResource RatingConverter}, ConverterParameter=3}" />
+            <RadioButton Content="3" IsChecked="{Binding TourRating.Interestingness, ConverterParameter=3, Converter={StaticResource RatingConverter}}" />
             <Label Content="   " Width="18"/>
 
-            <RadioButton Content="4" IsChecked="{Binding Path=TourRating.Interestingness, Converter={StaticResource RatingConverter}, ConverterParameter=4}" />
+            <RadioButton Content="4" IsChecked="{Binding TourRating.Interestingness, ConverterParameter=4, Converter={StaticResource RatingConverter}}" />
             <Label Content="   " Width="18"/>
 
-            <RadioButton Content="5" IsChecked="{Binding Path=TourRating.Interestingness, Converter={StaticResource RatingConverter}, ConverterParameter=5}" />
+            <RadioButton Content="5" IsChecked="{Binding TourRating.Interestingness, ConverterParameter=5, Converter={StaticResource RatingConverter}}" />
         </StackPanel>
 
         <Label Content="GuidesKnowledge" Margin="10,153,920,81" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
         <!--<TextBox x:Name="GuidesKnowledge" Text="{Binding Path= TourRating.GuidesKnowledge, UpdateSourceTrigger=PropertyChanged}" Margin="218,149,657,77"  BorderThickness="0,0,0,0"/>-->
         <StackPanel Orientation="Horizontal" Margin="218,149,657,77">
-            <RadioButton Content="1" IsChecked="{Binding Path=TourRating.GuidesKnowledge, Converter={StaticResource RatingConverter}, ConverterParameter=1}" />
+            <RadioButton Content="1" IsChecked="{Binding TourRating.GuidesKnowledge, ConverterParameter=1, Converter={StaticResource RatingConverter}}" />
             <Label Content="   " Width="18"/>
 
-            <RadioButton Content="2" IsChecked="{Binding Path=TourRating.GuidesKnowledge, Converter={StaticResource RatingConverter}, ConverterParameter=2}" />
+            <RadioButton Content="2" IsChecked="{Binding TourRating.GuidesKnowledge, ConverterParameter=2, Converter={StaticResource RatingConverter}}" />
             <Label Content="   " Width="18"/>
 
-            <RadioButton Content="3" IsChecked="{Binding Path=TourRating.GuidesKnowledge, Converter={StaticResource RatingConverter}, ConverterParameter=3}" />
+            <RadioButton Content="3" IsChecked="{Binding TourRating.GuidesKnowledge, ConverterParameter=3, Converter={StaticResource RatingConverter}}" />
             <Label Content="   " Width="18"/>
 
-            <RadioButton Content="4" IsChecked="{Binding Path=TourRating.GuidesKnowledge, Converter={StaticResource RatingConverter}, ConverterParameter=4}" />
+            <RadioButton Content="4" IsChecked="{Binding TourRating.GuidesKnowledge, ConverterParameter=4, Converter={StaticResource RatingConverter}}" />
             <Label Content="   " Width="18"/>
 
-            <RadioButton Content="5" IsChecked="{Binding Path=TourRating.GuidesKnowledge, Converter={StaticResource RatingConverter}, ConverterParameter=5}" />
+            <RadioButton Content="5" IsChecked="{Binding TourRating.GuidesKnowledge, ConverterParameter=5, Converter={StaticResource RatingConverter}}" />
         </StackPanel>
 
         <Label Content="GuidesLanguage" Margin="10,187,931,47" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
         <!--<TextBox x:Name="GuidesLanguage" Text="{Binding Path= TourRating.GuidesLanguage, UpdateSourceTrigger=PropertyChanged}" Margin="218,187,657,47" BorderThickness="0,0,0,0"/>-->
         <StackPanel Orientation="Horizontal" Margin="218,187,657,47" >
-            <RadioButton Content="1" IsChecked="{Binding Path=TourRating.GuidesLanguage, Converter={StaticResource RatingConverter}, ConverterParameter=1}" />
+            <RadioButton Content="1" IsChecked="{Binding TourRating.GuidesLanguage, ConverterParameter=1, Converter={StaticResource RatingConverter}}" />
             <Label Content="   " Width="18"/>
 
-            <RadioButton Content="2" IsChecked="{Binding Path=TourRating.GuidesLanguage, Converter={StaticResource RatingConverter}, ConverterParameter=2}" />
+            <RadioButton Content="2" IsChecked="{Binding TourRating.GuidesLanguage, ConverterParameter=2, Converter={StaticResource RatingConverter}}" />
             <Label Content="   " Width="18"/>
 
-            <RadioButton Content="3" IsChecked="{Binding Path=TourRating.GuidesLanguage, Converter={StaticResource RatingConverter}, ConverterParameter=3}" />
+            <RadioButton Content="3" IsChecked="{Binding TourRating.GuidesLanguage, ConverterParameter=3, Converter={StaticResource RatingConverter}}" />
             <Label Content="   " Width="18"/>
 
-            <RadioButton Content="4" IsChecked="{Binding Path=TourRating.GuidesLanguage, Converter={StaticResource RatingConverter}, ConverterParameter=4}" />
+            <RadioButton Content="4" IsChecked="{Binding TourRating.GuidesLanguage, ConverterParameter=4, Converter={StaticResource RatingConverter}}" />
             <Label Content="   " Width="18"/>
 
-            <RadioButton Content="5" IsChecked="{Binding Path=TourRating.GuidesLanguage, Converter={StaticResource RatingConverter}, ConverterParameter=5}" />
+            <RadioButton Content="5" IsChecked="{Binding TourRating.GuidesLanguage, ConverterParameter=5, Converter={StaticResource RatingConverter}}" />
         </StackPanel>
 
         <Label Content="Additional comment" Margin="507,47,450,187" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
-        <TextBox x:Name="Comment" Text="{Binding Path= TourRating.Comment, UpdateSourceTrigger=PropertyChanged}" Margin="626,37,40,155" BorderThickness="0,0,0,0" />
+        <TextBox x:Name="Comment" Text="{Binding TourRating.Comment, UpdateSourceTrigger=PropertyChanged}" Margin="626,37,40,155" BorderThickness="0,0,0,0" />
 
         <Label Content="Images URL" Margin="520,109,410,125" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
-        <TextBox x:Name="Images" Text="{Binding Path=ImageURL, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="626,109,117,129" BorderThickness="0,0,0,0"/>
-        <Button Command="{Binding AddImage}" Background="Yellow" HorizontalAlignment="Left" Margin="968,109,0,0" VerticalAlignment="Top" Height="21" Width="35" BorderThickness="0,0,0,0">
-            <Button.ToolTip>Add image URL to list</Button.ToolTip>
-            <Button.Content>+</Button.Content>
+        <TextBox x:Name="Images" Text="{Binding ImageURL, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="626,109,117,129" BorderThickness="0,0,0,0"/>
+        <Button Command="{Binding AddImageCommand}" Background="Yellow" HorizontalAlignment="Left" Margin="968,109,0,0" VerticalAlignment="Top" Height="21" Width="35" BorderThickness="0,0,0,0">
+            <Button.ToolTip>Add image URL to list</Button.ToolTip> +
         </Button>
-        <ListBox ItemsSource="{Binding Path= Images, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="626,130,117,77"/>
+        <ListBox ItemsSource="{Binding Images, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="626,130,117,77"/>
 
-        <Button Content="Confirm rating" Background="Orange" Command="{Binding ConfirmRating}" HorizontalAlignment="Left" Margin="704,200,0,0" VerticalAlignment="Top" Height="36" Width="158"/>
-        <Button Content="Quit rating" Command="{Binding Cancel}" HorizontalAlignment="Left" Margin="928,200,0,0" VerticalAlignment="Top" Height="36" Width="125"/>
+        <Button Content="Confirm rating" Background="Orange" Command="{Binding ConfirmRatingCommand}" HorizontalAlignment="Left" Margin="704,200,0,0" VerticalAlignment="Top" Height="36" Width="158"/>
+        <Button Content="Quit rating" Command="{Binding QuitRatingCommand}" HorizontalAlignment="Left" Margin="928,200,0,0" VerticalAlignment="Top" Height="36" Width="125"/>
 
         <!--Label Content="{Binding Path=TourReservation.Title}" HorizontalAlignment="Left" Margin="231,0,0,0" VerticalAlignment="Top" Height="27" Width="132" Foreground="White"/>
         <Label Content="{Binding Path=TourReservation.TourTime.Tour.Location.City}" HorizontalAlignment="Left" Margin="293,10,0,0" VerticalAlignment="Top"  Height="27" Width="182" Foreground="White"/>
@@ -139,7 +140,7 @@
         <Label Content="{Binding LocationName}" HorizontalAlignment="Left" Margin="293,10,0,0" VerticalAlignment="Top"  Height="27" Width="182" Foreground="White"/>
         <Label Content=", on location: " HorizontalAlignment="Left" Margin="17,0,0,0" VerticalAlignment="Top" Height="27" Width="214" Foreground="White"/-->
 
-        <TextBlock Text="{Binding SelectedTourInfo}" Foreground="Orange" Margin="10,0,10,227" HorizontalAlignment="Center"/>
+        <TextBlock Text="{Binding SelectedTourInfo}"  Foreground="Orange" Margin="10,5,10,227" HorizontalAlignment="Center" FontSize="14"/>
 
 
 

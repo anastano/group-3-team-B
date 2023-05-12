@@ -57,7 +57,17 @@
         <Setter Property="Width" Value="35"/>
         <Setter Property="HorizontalAlignment" Value="Right"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="ToolTip" Value="Help"/>
         <!--Image Source="../../../Resources/Images/help.png" /-->
+    </Style>
+
+    <!--back button-->
+    <Style x:Key="Guest2BackBtn" TargetType="Button">
+        <Setter Property="Height" Value="35"/>
+        <Setter Property="Width" Value="35"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="ToolTip" Value="Back"/>
     </Style>
 
     <!--data grid-->

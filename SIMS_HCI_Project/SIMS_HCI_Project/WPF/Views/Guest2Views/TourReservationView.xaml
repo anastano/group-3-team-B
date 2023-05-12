@@ -27,7 +27,13 @@
             <Setter Property="Height" Value="25"/>
             <Setter Property="Width" Value="150"/>
         </Style>
-
+        <Style x:Key="Guest2HelpBtn" TargetType="Button">
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Width" Value="35"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="ToolTip" Value="Help"/>
+        </Style>
         <Style TargetType="ListBox">
             <Setter Property="BorderBrush" Value="Gray"/>
             <Setter Property="FontSize" Value="12"/>
@@ -57,7 +63,7 @@
             <Setter Property="VerticalAlignment" Value="Top"/>
         </Style>
 
-        <ResourceDictionary x:Key="guest2">
+        <ResourceDictionary x:Key="Guest2Styles">
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Styles/Guest2Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
@@ -148,5 +154,6 @@
         </Button>
         <Label Content="Make reservation" Style="{StaticResource Guest2Header1Style}"/>
 
+        
     </Grid>
 </Page>

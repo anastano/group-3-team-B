@@ -27,10 +27,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         private TourRatingService _tourRatingService;
         #endregion
         #region Commands
-        public RelayCommand Back { get; set; }
-        public RelayCommand ConfirmRating { get; set; }
-        public RelayCommand Cancel { get; set; }
-        public RelayCommand AddImage { get; set; }
+        public RelayCommand ConfirmRatingCommand { get; set; }
+        public RelayCommand QuitRatingCommand { get; set; }
+        public RelayCommand AddImageCommand { get; set; }
         #endregion
         public RateSelectedReservationView RateSelectedReservationView { get; set; }
         public TourReservation TourReservation { get; set; }
@@ -170,14 +169,25 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         }
         public void InitCommands()
         {
-            Cancel = new RelayCommand(ExecutedCancel, CanExecuteCancel);
-            ConfirmRating = new RelayCommand(ExecutedConfirmRating, CanExecuteConfirmRating);
-            AddImage = new RelayCommand(ExecutedAddImage, CanExecuteAddImage);
+            QuitRatingCommand = new RelayCommand(ExecuteQuitRating, CanExecuteCancel);
+            ConfirmRatingCommand = new RelayCommand(ExecutedConfirmRating, CanExecuteConfirmRating);
+            AddImageCommand = new RelayCommand(ExecutedAddImage, CanExecuteAddImage);
         }
         #region Commands
+        private MessageBoxResult ConfirmAddImage()
+        {
+            string sMessageBoxText = $"Are you sure you want to add this image?";
+            string sCaption = $"Add image";
+            MessageBoxButton btnMessageBox = MessageBoxButton.YesNo;
+            MessageBoxImage icnMessageBox = MessageBoxImage.Question;
+
+            MessageBoxResult result = MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox, icnMessageBox);
+            return result;
+        }
         private void ExecutedAddImage(object sender)
         {
-            if (ImageURL != "")
+
+            if (ImageURL != "" & ConfirmAddImage() == MessageBoxResult.Yes)
             {
                 Images.Add(ImageURL);
                 ImageURL = "";
@@ -187,9 +197,19 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         {
             return true;
         }
-        
-        private void ExecutedCancel(object sender)
+        private MessageBoxResult ConfirmQuit()
         {
+            string sMessageBoxText = $"Are you sure you want to quit?";
+            string sCaption = $"Quit";
+            MessageBoxButton btnMessageBox = MessageBoxButton.YesNo;
+            MessageBoxImage icnMessageBox = MessageBoxImage.Question;
+
+            MessageBoxResult result = MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox, icnMessageBox);
+            return result;
+        }
+        private void ExecuteQuitRating(object sender)
+        {
+            if(ConfirmQuit() == MessageBoxResult.Yes)
             NavigationService.Navigate(new TourRatingView(Guest, NavigationService));
         }
         public bool CanExecuteCancel(object sender)
@@ -197,19 +217,32 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             return true;
         }
 
+        private MessageBoxResult ConfirmRating()
+        {
+            string sMessageBoxText = $"Are you sure you want to submit thit this rating?";
+            string sCaption = $"Rating submission";
+            MessageBoxButton btnMessageBox = MessageBoxButton.YesNo;
+            MessageBoxImage icnMessageBox = MessageBoxImage.Question;
+
+            MessageBoxResult result = MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox, icnMessageBox);
+            return result;
+        }
+
         private void ExecutedConfirmRating(object sender)
         {
-            TourRating.ReservationId = TourReservation.Id;
-            TourRating.GuideId = TourReservation.TourTime.Tour.GuideId;
-            TourRating.GuestId = Guest.Id;
-            TourRating.TourReservation = TourReservation;
-            TourRating.Attendance = _guestTourAttendanceService.GetByGuestAndTourTimeIds(TourRating.GuestId, TourRating.TourReservation.TourTimeId);
-            TourRating.Images = Images.ToList();
+            if (ConfirmRating() == MessageBoxResult.Yes)
+            {
+                TourRating.ReservationId = TourReservation.Id;
+                TourRating.GuideId = TourReservation.TourTime.Tour.GuideId;
+                TourRating.GuestId = Guest.Id;
+                TourRating.TourReservation = TourReservation;
+                TourRating.Attendance = _guestTourAttendanceService.GetByGuestAndTourTimeIds(TourRating.GuestId, TourRating.TourReservation.TourTimeId);
+                TourRating.Images = Images.ToList();
 
-            _tourRatingService.Add(TourRating);
-            MessageBox.Show("Tour rating is submited.");
-            NavigationService.Navigate(new TourRatingView(Guest, NavigationService));
-         
+                _tourRatingService.Add(TourRating);
+                MessageBox.Show("Tour rating is submited.");
+                NavigationService.Navigate(new TourRatingView(Guest, NavigationService));
+            }
         }
         public bool CanExecuteConfirmRating(object sender)
         {

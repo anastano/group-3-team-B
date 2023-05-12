@@ -8,9 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\back.png" />
     <None Remove="Resources\Images\booking.png" />
     <None Remove="Resources\Images\chat.png" />
     <None Remove="Resources\Images\goldenHouse.png" />
+    <None Remove="Resources\Images\help.png" />
     <None Remove="Resources\Images\logout.png" />
     <None Remove="Resources\Images\menu.png" />
     <None Remove="Resources\Images\patternCircle.jpg" />
@@ -27,6 +29,11 @@
     <None Remove="WPF\Images\mountain-city.png" />
     <None Remove="WPF\Images\question-mark.png" />
     <None Remove="WPF\Images\star.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Images\back.png" />
+    <Resource Include="Resources\Images\help.png" />
   </ItemGroup>
 
   <ItemGroup>

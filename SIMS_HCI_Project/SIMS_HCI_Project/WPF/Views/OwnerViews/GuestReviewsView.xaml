@@ -42,7 +42,7 @@
                     <StackPanel Margin="0 0 0 0">
                         <DataGrid x:Name = "dgGuestReviews" AutoGenerateColumns="False" ItemsSource="{Binding Path=GuestReviews, UpdateSourceTrigger=PropertyChanged}" 
                                       SelectedItem="{Binding Path=SelectedReview, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Focusable="True"
-                                      Background="{StaticResource OwnerNeutralColor}" Width="930" Height="330" Margin="10 10 10 10" CanUserSortColumns="True" SelectionMode="Single" IsTabStop="False"
+                                      Background="{StaticResource OwnerNeutralColor}" Width="930" Height="400" Margin="10 10 10 10" CanUserSortColumns="True" SelectionMode="Single" IsTabStop="False"
                                         Style="{StaticResource OwnerDatagridStyle}" CellStyle="{StaticResource OwnerDatagridCellStyle}"
                                         ColumnHeaderStyle="{StaticResource OwnerDataGridColumnHeaderStyle}">
 
@@ -98,25 +98,6 @@
                             </DataGrid.Columns>
 
                         </DataGrid>
-                    </StackPanel>
-                </Border>
-            </StackPanel>
-            <!-- BOTTOM STACK PANEL-->
-            <StackPanel  Margin="5 0 5 0" HorizontalAlignment="Right">
-                <TextBlock x:Name="tblSort" Text=" Sort by selected column" FontSize="16" Foreground="Turquoise" Margin="0 0 0 0">
-                </TextBlock>
-
-                <Border Style="{StaticResource OwnerBorderStyle}">
-                    <!-- Sort STACK PANEL-->
-                    <StackPanel  Margin="5 5 5 5" Orientation="Horizontal">
-
-                        <Button x:Name="btnDescening"  Content="Descending (Ctrl+Down)" 
-                            Style="{StaticResource OwnerButtonStyle}" Width="200" Height="35">
-                        </Button>
-                        <Button x:Name="btnAscending"  Content="Ascending (Ctrl+Up)" 
-                            Style="{StaticResource OwnerButtonStyle}" Width="200" Height="35">
-                        </Button>
-
                     </StackPanel>
                 </Border>
             </StackPanel>

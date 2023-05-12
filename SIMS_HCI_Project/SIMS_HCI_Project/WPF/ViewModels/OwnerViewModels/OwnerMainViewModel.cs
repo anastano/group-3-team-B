@@ -121,7 +121,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public void Executed_ShowRenovationsCommand(object obj)
         {
-            Window renovtionsView = new RenovationsView(_renovationService, Owner);
+            Window renovtionsView = new RenovationsView(_renovationService, _reservationService, _accommodationService, Owner);
             renovtionsView.ShowDialog();
         }
 

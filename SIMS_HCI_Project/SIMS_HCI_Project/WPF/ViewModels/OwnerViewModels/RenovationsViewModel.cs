@@ -16,7 +16,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
     public class RenovationsViewModel : IObserver
     {
         private readonly RenovationService _renovationService;
-
+        private readonly AccommodationService _accommodationService;
+        private readonly AccommodationReservationService _reservationService;
         public RenovationsView RenovationsView { get; set; }
         public Owner Owner { get; set; }
         public ObservableCollection<Renovation> Renovations { get; set; }
@@ -27,11 +28,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public RelayCommand CreatePDFReportCommand { get; set; }
         public RelayCommand CloseRenovationsViewCommand { get; set; }
 
-        public RenovationsViewModel(RenovationsView renovationsView, RenovationService renovationService, Owner owner)
+        public RenovationsViewModel(RenovationsView renovationsView, RenovationService renovationService, AccommodationReservationService reservationService,
+            AccommodationService accommodationService, Owner owner)
         {
             InitCommands();
 
             _renovationService = renovationService;
+            _accommodationService = accommodationService;
+            _reservationService = reservationService;
 
             RenovationsView = renovationsView;
             Owner = owner;
@@ -43,7 +47,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         #region Commands
         public void Executed_CancelRenovationCommand(object obj)
         {
-
+            if (_renovationService.CancelRenovation(SelectedRenovation))
+            {
+                MessageBox.Show("Renovation cancelled successfully");
+            }
+            else 
+            {
+                MessageBox.Show("Renovation can't be cancelled");
+            }
         }
 
         public bool CanExecute_CancelRenovationCommand(object obj)
@@ -53,7 +64,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public void Executed_AddRenovationCommand(object obj)
         {
-
+            Window seelctAccommodationForRenovation = new SelectAccommodationForRenovationView(_accommodationService, _renovationService, _reservationService, Owner);
+            seelctAccommodationForRenovation.ShowDialog();
         }
 
         public bool CanExecute_AddRenovationCommand(object obj)
@@ -97,7 +109,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public void UpdateRenovations()
         {
-
+            Renovations.Clear();
+            foreach (Renovation renovation in _renovationService.GetByOwnerId(Owner.Id))
+            {
+                Renovations.Add(renovation);
+            }
         }
     }
 }

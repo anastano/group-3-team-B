@@ -18,10 +18,10 @@
                 <Border Style="{StaticResource OwnerBorderStyle}">
                     <!-- Buttons STACK PANEL-->
                     <StackPanel  Margin="5 0 5 5" Orientation="Horizontal">
-                        <Button x:Name="btnAddRenovation"  Content="         Add New &#xa;Renovation (Ctrl+A)"
+                        <Button x:Name="btnAddRenovation"  Content="         Add New &#xa;Renovation (Ctrl+A)" Command="{Binding AddRenovationCommand}"
                             Style="{StaticResource OwnerButtonStyle}" Width="220">
                         </Button>
-                        <Button x:Name="btnCancelRenovation"  Content="    Cancel Selected &#xa;Renovation (Ctrl+C)" 
+                        <Button x:Name="btnCancelRenovation"  Content="    Cancel Selected &#xa;Renovation (Ctrl+C)" Command="{Binding CancelRenovationCommand}"
                             Style="{StaticResource OwnerButtonStyle}" Width="220">
                         </Button>
                         <Button x:Name="btnCreatePDFReport"  Content="Create PDF Report (Ctrl+R)" 
@@ -44,7 +44,7 @@
                     <StackPanel Margin="0 0 0 0">
                         <DataGrid x:Name = "dgRenovations" AutoGenerateColumns="False" ItemsSource="{Binding Renovations, UpdateSourceTrigger=PropertyChanged}" 
                                       SelectedItem="{Binding SelectedRenovation, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Focusable="True"
-                                      Width="930" Height="330" CanUserSortColumns="True" SelectionMode="Single" IsTabStop="False" Margin="10 10 10 10"
+                                      Width="930" Height="400" CanUserSortColumns="True" SelectionMode="Single" IsTabStop="False" Margin="10 10 10 10"
                                       Style="{StaticResource OwnerDatagridStyle}" ColumnHeaderStyle="{StaticResource OwnerDataGridColumnHeaderStyle}">
                             <DataGrid.CellStyle>
                                 <Style TargetType="DataGridCell" >
@@ -114,26 +114,6 @@
                     </StackPanel>
                 </Border>
             </StackPanel>
-            <!-- BOTTOM STACK PANEL-->
-            <StackPanel  Margin="5 0 5 0" HorizontalAlignment="Right">
-                <TextBlock x:Name="tblSort" Text=" Sort by selected column" FontSize="16" Foreground="Turquoise" Margin="0 0 0 0">
-                </TextBlock>
-
-                <Border Style="{StaticResource OwnerBorderStyle}">
-                    <!-- Sort STACK PANEL-->
-                    <StackPanel  Margin="5 5 5 5" Orientation="Horizontal">
-
-                        <Button x:Name="btnDescening"  Content="Descending (Ctrl+Down)" 
-                            Style="{StaticResource OwnerButtonStyle}" Width="200" Height="35">
-                        </Button>
-                        <Button x:Name="btnAscending"  Content="Ascending (Ctrl+Up)" 
-                            Style="{StaticResource OwnerButtonStyle}" Width="200" Height="35">
-                        </Button>
-
-                    </StackPanel>
-                </Border>
-            </StackPanel>
-
         </StackPanel>
     </Grid>
 </Window>

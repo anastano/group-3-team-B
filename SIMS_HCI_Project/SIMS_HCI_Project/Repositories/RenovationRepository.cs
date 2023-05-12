@@ -49,6 +49,26 @@ namespace SIMS_HCI_Project.Repositories
             return _renovations.FindAll(r => r.Accommodation.OwnerId == ownerId);
         }
 
+        public List<Renovation> GetByAccommodationId(int accommodationId)
+        {
+            return _renovations.FindAll(r => r.AccommodationId == accommodationId);
+        }
+
+        public void Add(Renovation renovation)
+        {
+            renovation.Id = GenerateId();
+            _renovations.Add(renovation);
+            NotifyObservers();
+            Save();
+        }
+
+        public void Delete(Renovation renovation)
+        {
+            _renovations.Remove(renovation);
+            NotifyObservers();
+            Save();
+        }
+
         public void NotifyObservers()
         {
             foreach (var observer in _observers)
@@ -66,5 +86,7 @@ namespace SIMS_HCI_Project.Repositories
         {
             _observers.Remove(observer);
         }
+
+
     }
 }

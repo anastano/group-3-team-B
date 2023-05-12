@@ -18,14 +18,15 @@ using System.Windows.Shapes;
 namespace SIMS_HCI_Project.WPF.Views.OwnerViews
 {
     /// <summary>
-    /// Interaction logic for RenovationsView.xaml
+    /// Interaction logic for SelectAccommodationForRenovationView.xaml
     /// </summary>
-    public partial class RenovationsView : Window
+    public partial class SelectAccommodationForRenovationView : Window
     {
-        public RenovationsView(RenovationService renovationService, AccommodationReservationService reservationService,AccommodationService accommodationService, Owner owner)
+        public SelectAccommodationForRenovationView(AccommodationService accommodationService, RenovationService renovationService, 
+            AccommodationReservationService reservationService,Owner owner)
         {
             InitializeComponent();
-            this.DataContext = new RenovationsViewModel(this, renovationService, reservationService, accommodationService, owner);
+            this.DataContext = new SelectAccommodationForRenovationViewModel(this, accommodationService, renovationService, reservationService,owner);
         }
     }
 }

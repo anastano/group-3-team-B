@@ -18,12 +18,12 @@ namespace SIMS_HCI_Project.Domain.Models
 
         public Renovation() { }
 
-        public Renovation(int accommodationId, DateTime start, DateTime end, string description) 
+        public Renovation(int accommodationId, DateTime start, DateTime end) 
         { 
             AccommodationId = accommodationId;
             Start= start;
             End= end;
-            Description= description;
+            Description= "";
         }
 
         public Renovation(Renovation renovation)

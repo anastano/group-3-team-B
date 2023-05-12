@@ -1,4 +1,5 @@
-﻿using SIMS_HCI_Project.Domain.Models;
+﻿using SIMS_HCI_Project.Applications.Services;
+using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels;
 using System;
 using System.Collections.Generic;
@@ -17,14 +18,14 @@ using System.Windows.Shapes;
 namespace SIMS_HCI_Project.WPF.Views.OwnerViews
 {
     /// <summary>
-    /// Interaction logic for SelectedGuestReviewView.xaml
+    /// Interaction logic for RenovationsView.xaml
     /// </summary>
-    public partial class SelectedGuestReviewView : Window
+    public partial class RenovationsView : Window
     {
-        public SelectedGuestReviewView(GuestReviewsView GuestReviewsView, RatingGivenByGuest selectedReview)
+        public RenovationsView(RenovationService renovationService, AccommodationReservationService reservationService,AccommodationService accommodationService, Owner owner)
         {
             InitializeComponent();
-            this.DataContext = new SelectedGuestReviewViewModel(this, GuestReviewsView, selectedReview);
+            this.DataContext = new RenovationsViewModel(this, renovationService, reservationService, accommodationService, owner);
         }
     }
 }

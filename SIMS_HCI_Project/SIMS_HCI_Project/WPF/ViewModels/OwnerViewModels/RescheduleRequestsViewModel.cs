@@ -25,6 +25,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public RescheduleRequest SelectedRequest { get; set; }
 
         public RelayCommand ShowSelectedRequestCommand { get; set; }
+        public RelayCommand CloseRescheduleRequestsViewCommand { get; set; }
 
         public RescheduleRequestsViewModel(RescheduleRequestsView requestsView, RescheduleRequestService rescheduleRequestService, 
             AccommodationReservationService reservationSevice, NotificationService notificationService, Owner owner)
@@ -50,9 +51,23 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
                 Window requestHandlerView = new RequestHandlerView(_requestService, _reservationService, _notificationService, SelectedRequest);
                 requestHandlerView.Show();
             }
+            else
+            {
+                MessageBox.Show("No request has been selected");
+            }
         }
 
         public bool CanExecute_ShowSelectedRequestCommand(object obj)
+        {
+            return true;
+        }
+
+        public void Executed_CloseRescheduleRequestsViewCommand(object obj)
+        {
+            RequestsView.Close();
+        }
+
+        public bool CanExecute_CloseRescheduleRequestsViewCommand(object obj)
         {
             return true;
         }
@@ -61,6 +76,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public void InitCommands()
         {
             ShowSelectedRequestCommand = new RelayCommand(Executed_ShowSelectedRequestCommand, CanExecute_ShowSelectedRequestCommand);
+            CloseRescheduleRequestsViewCommand = new RelayCommand(Executed_CloseRescheduleRequestsViewCommand, CanExecute_CloseRescheduleRequestsViewCommand);
         }
 
         public void Update()

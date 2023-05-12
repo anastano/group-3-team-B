@@ -1,18 +1,12 @@
-﻿<Window x:Class="SIMS_HCI_Project.WPF.Views.OwnerViews.AccommodationsView"
+﻿<Window x:Class="SIMS_HCI_Project.WPF.Views.OwnerViews.SelectAccommodationForRenovationView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         mc:Ignorable="d"
-        Title="AccommodationsView" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
-    <Window.InputBindings>
-        <KeyBinding Gesture="Ctrl+A" Command="{Binding AddAccommodationCommand}"/>
-        <KeyBinding Gesture="Ctrl+D" Command="{Binding DeleteAccommodationCommand}"/>
-        <KeyBinding Gesture="Ctrl+S" Command="{Binding ShowAccommodationImagesCommand}"/>
-        <KeyBinding Key="Esc" Command="{Binding CloseAccommodationsViewCommand}"/>
-    </Window.InputBindings>
-    <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=btnAddAccommodation}">
+        Title="SelectAccommodationForRenovationView" Height="600" Width="900" WindowStartupLocation="CenterScreen">
+    <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=dgAccommodation}">
         <!-- MAIN STACK PANEL-->
         <StackPanel Orientation="Vertical" Margin="10 5 10 5">
             <!-- TOP STACK PANEL - Options-->
@@ -23,17 +17,12 @@
                 <Border Style="{StaticResource OwnerBorderStyle}">
                     <!-- Buttons STACK PANEL-->
                     <StackPanel  Margin="5 0 5 5" Orientation="Horizontal">
-                        <Button x:Name="btnAddAccommodation"  Content="            Add New &#xa;Accommodation (Ctrl+A)" Command="{Binding AddAccommodationCommand}"
-                            Style="{StaticResource OwnerButtonStyle}" Width="220">
+                        <Button x:Name="btnSelectAccommodationForRenovation"  Content="Select Accommodation &#xa;For Renovation (Ctrl+S)" 
+                                Command="{Binding SelectAccommodationForRenovationCommand}"
+                            Style="{StaticResource OwnerButtonStyle}" Width="300">
                         </Button>
-                        <Button x:Name="btnDeleteAccommodation"  Content="       Delete Selected &#xa;Accommodation (Ctrl+D)" Command="{Binding DeleteAccommodationCommand}"
-                            Style="{StaticResource OwnerButtonStyle}" Width="220">
-                        </Button>
-                        <Button x:Name="btnShowImages"  Content="Show Images (Ctrl+S)" Command="{Binding ShowAccommodationImagesCommand}"
-                            Style="{StaticResource OwnerButtonStyle}" Width="220">
-                        </Button>
-                        <Button x:Name="btnClose"  Content="Close (Esc)" Command="{Binding CloseAccommodationsViewCommand}"
-                            Style="{StaticResource OwnerButtonStyle}" Width="220">
+                        <Button x:Name="btnClose"  Content="Close (Esc)" Command="{Binding CloseSelectAccommodationForRenovationViewCommand}"
+                            Style="{StaticResource OwnerButtonStyle}" Width="300">
                         </Button>
                     </StackPanel>
                 </Border>
@@ -41,7 +30,7 @@
             <!-- MIDDLE STACK PANEL-->
             <StackPanel Margin="5 0 5 0">
 
-                <TextBlock x:Name="tblAccommodations" Text="My accommodations" 
+                <TextBlock x:Name="tblAccommodations" Text="Select Accommodation For Renovation" 
                            Style="{StaticResource OwnerTitleStyle}">
                 </TextBlock>
                 <Border Style="{StaticResource OwnerBorderStyle}">
@@ -49,7 +38,7 @@
                     <StackPanel Margin="0 0 0 0">
                         <DataGrid x:Name = "dgAccommodation" AutoGenerateColumns="False" ItemsSource="{Binding Path=Accommodations, UpdateSourceTrigger=PropertyChanged}" 
                                       SelectedItem="{Binding Path=SelectedAccommodation, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Focusable="True"
-                                      Width="930" Height="400" Margin="10 10 10 10" CanUserSortColumns="True" SelectionMode="Single" IsTabStop="False"
+                                      Width="820" Height="350" Margin="10 10 10 10" CanUserSortColumns="True" SelectionMode="Single" IsTabStop="False"
                                       Style="{StaticResource OwnerDatagridStyle}" ColumnHeaderStyle="{StaticResource OwnerDataGridColumnHeaderStyle}">
                             <DataGrid.CellStyle>
                                 <Style TargetType="DataGridCell" >
@@ -64,14 +53,6 @@
                             </DataGrid.CellStyle>
 
                             <DataGrid.Columns>
-
-                                <DataGridTemplateColumn Width="1.3*">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Image Source="{Binding FirstImage}" Height="100" Width="150"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
 
                                 <DataGridTemplateColumn Width="1.5*" Header="Name">
                                     <DataGridTemplateColumn.CellTemplate>
@@ -101,30 +82,6 @@
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding Type}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-
-                                <DataGridTemplateColumn Width="0.7*" Header="Max guests">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding MaxGuests}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-
-                                <DataGridTemplateColumn Width="0.6*" Header="Min days">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding MinimumReservationDays}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-
-                                <DataGridTemplateColumn Width="*" Header="Cancellation days">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding CancellationDeadlineInDays}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>

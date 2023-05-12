@@ -22,6 +22,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public RelayCommand PreviousAccommodationImageCommand { get; set; }
         public RelayCommand NextAccommodationImageCommand { get; set; }
+        public RelayCommand CloseAccommodationImageViewCommand { get; set; }
 
         public AccommodationImagesViewModel(AccommodationImagesView accommodationsImagesView, AccommodationService accommodationService, Accommodation accommodation )
         {
@@ -110,13 +111,23 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             return true;
         }
 
+        public void Executed_CloseAccommodationImageViewCommand(object obj)
+        {
+            AccommodationImagesView.Close();
+        }
+
+        public bool CanExecute_CloseAccommodationImageViewCommand(object obj)
+        {
+            return true;
+        }
+
         #endregion
 
         public void InitCommands()
         {
             PreviousAccommodationImageCommand = new RelayCommand(Executed_PreviousAccommodationImageCommand, CanExecute_PreviousAccommodationImageCommand);
             NextAccommodationImageCommand = new RelayCommand(Executed_NextAccommodationImageCommand, CanExecute_NextAccommodationImageCommand);
-
+            CloseAccommodationImageViewCommand = new RelayCommand(Executed_CloseAccommodationImageViewCommand, CanExecute_CloseAccommodationImageViewCommand);
         }
     }
 }

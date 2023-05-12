@@ -41,23 +41,23 @@ namespace SIMS_HCI_Project.Applications.Services
             return _regularTourRequestRepository.GetAllByGuestId(id);
         }
 
-        public List<RegularTourRequest> GetAllByGuestIdNotPartOfComplex(int guestId)
+        public List<RegularTourRequest> GetAllByGuestThatArentPartOfComplex(int guestId)
         {
-            return _regularTourRequestRepository.GetAllByGuestIdNotPartOfComplex(guestId);
+            return _regularTourRequestRepository.GetAllByGuestThatArentPartOfComplex(guestId);
         }
 
-        public List<RegularTourRequest> GetByGuestIdAndStatus(int ig, RegularRequestStatus status)
+        public List<RegularTourRequest> GetAllByGuestIdAndStatus(int ig, RegularRequestStatus status)
         {
-            return _regularTourRequestRepository.GetByGuestIdAndStatus(ig, status);
+            return _regularTourRequestRepository.GetAllByGuestIdAndStatus(ig, status);
         }
 
-        public List<RegularTourRequest> GetByGuestIdAndStatusAndYear(int ig, RegularRequestStatus status, int year)
+        public List<RegularTourRequest> GetAllByGuestIdAndStatusAndYear(int ig, RegularRequestStatus status, int year)
         {
-            return _regularTourRequestRepository.GetByGuestIdAndStatusAndYear(ig, status, year);
+            return _regularTourRequestRepository.GetAllByGuestIdAndStatusAndYear(ig, status, year);
         }
-        public List<RegularTourRequest> GetValidByParams(Location location, int guestNumber, string language, DateRange dateRange)
+        public List<RegularTourRequest> GetAllValidByParams(Location location, int guestNumber, string language, DateRange dateRange)
         {
-            return _regularTourRequestRepository.GetValidByParams(location, guestNumber, language, dateRange);
+            return _regularTourRequestRepository.GetAllValidByParams(location, guestNumber, language, dateRange);
         }
 
         public void EditStatus(int requestId, RegularRequestStatus status)

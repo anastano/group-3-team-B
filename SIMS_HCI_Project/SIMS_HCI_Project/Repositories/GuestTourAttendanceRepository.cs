@@ -102,7 +102,7 @@ namespace SIMS_HCI_Project.Repositories
         }
 
         
-        public List<GuestTourAttendance> GetByConfirmationRequestedStatus(int guestId)
+        public List<GuestTourAttendance> GetWithConfirmationRequestedStatus(int guestId)
         {
             var result = new List<GuestTourAttendance>();
             foreach(var gta in GetAllByGuestId(guestId))

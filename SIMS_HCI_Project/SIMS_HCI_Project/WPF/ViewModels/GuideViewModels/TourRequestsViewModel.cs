@@ -139,7 +139,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         private void LoadRequests()
         {
-            TourRequests = new ObservableCollection<RegularTourRequest>(_regularTourRequestService.GetValidByParams(Location, GuestNumber, Language, DateRange));
+            TourRequests = new ObservableCollection<RegularTourRequest>(_regularTourRequestService.GetAllValidByParams(Location, GuestNumber, Language, DateRange));
         }
 
         private void LoadPossibleFilters()

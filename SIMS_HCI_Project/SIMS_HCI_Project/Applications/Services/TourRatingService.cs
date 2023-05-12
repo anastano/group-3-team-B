@@ -19,9 +19,9 @@ namespace SIMS_HCI_Project.Applications.Services
             _tourRatingRepository = Injector.Injector.CreateInstance<ITourRatingRepository>();
         }
 
-        public List<TourRating> GetByTourId(int tourTimeId)
+        public List<TourRating> GetAllByTourId(int tourTimeId)
         {
-            return _tourRatingRepository.GetByTourId(tourTimeId);
+            return _tourRatingRepository.GetAllByTourId(tourTimeId);
         }
 
         public bool IsRated(int reservationId)
@@ -38,21 +38,6 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             tourRating.IsValid = false;
             _tourRatingRepository.Update(tourRating);
-        }
-
-        public void NotifyObservers()
-        {
-            _tourRatingRepository.NotifyObservers();
-        }
-
-        public void Subscribe(IObserver observer)
-        {
-            _tourRatingRepository.Subscribe(observer);
-        }
-
-        public void Unsubscribe(IObserver observer)
-        {
-            _tourRatingRepository.Unsubscribe(observer);
         }
     }
 }

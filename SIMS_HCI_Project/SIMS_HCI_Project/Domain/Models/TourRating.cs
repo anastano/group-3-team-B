@@ -21,7 +21,6 @@ namespace SIMS_HCI_Project.Domain.Models
         public int GuidesLanguage { get; set; }
         public string Comment { get; set; }
         public List<string> Images { get; set; }
-        public string Image { get; set; }
         public bool IsValid { get; set; }
         public GuestTourAttendance Attendance { get; set; } 
 
@@ -34,44 +33,6 @@ namespace SIMS_HCI_Project.Domain.Models
             GuidesLanguage = 5;
             Comment = "";
             Images = new List<string>();
-            IsValid = true;
-        }
-
-        public TourRating( int guestId, int reservationId, int guideId, TourReservation tourReservation, int overallExperience, int organisation, int interestingness, int guidesKnowledge, int guidesLanguage, string comment, List<string> image)
-        {
-            
-            GuestId = guestId;
-            ReservationId = reservationId;
-            GuideId = guideId;
-            OverallExperience = overallExperience;
-            Organisation = organisation;
-            Interestingness = interestingness;
-            GuidesKnowledge = guidesKnowledge;
-            GuidesLanguage = guidesLanguage;
-            Comment = comment;
-
-            TourReservation = new TourReservation();
-            Images = new List<string>();
-            IsValid = true;
-            //Images.Add(image);
-        }
-
-        public TourRating(int guestId, int reservationId, int guideId, TourReservation tourReservation, int overallExperience, int organisation, int interestingness, int guidesKnowledge, int guidesLanguage, string comment, string image)
-        {
-
-            GuestId = guestId;
-            ReservationId = reservationId;
-            GuideId = guideId;
-            OverallExperience = overallExperience;
-            Organisation = organisation;
-            Interestingness = interestingness;
-            GuidesKnowledge = guidesKnowledge;
-            GuidesLanguage = guidesLanguage;
-            Comment = comment;
-
-            TourReservation = new TourReservation();
-            Images = new List<string>();
-            Images.Add(image);
             IsValid = true;
         }
 

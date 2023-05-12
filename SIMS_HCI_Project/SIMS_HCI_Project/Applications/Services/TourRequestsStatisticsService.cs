@@ -41,7 +41,7 @@ namespace SIMS_HCI_Project.Applications.Services
 
             foreach (RegularRequestStatus status in statuses)
             {
-                requestsNumberByStatus.Add(status, _regularTourRequestRepository.GetRequestsCountByStatus(status, guestId, selectedYear));
+                requestsNumberByStatus.Add(status, _regularTourRequestRepository.GetRequestsCountByStatusAndYear(status, guestId, selectedYear));
             }
 
             return new TourRequestsStatisticsByStatus(requestsNumberByStatus);

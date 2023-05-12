@@ -49,25 +49,25 @@ namespace SIMS_HCI_Project.Repositories
             return _requests.FindAll(r => r.GuestId == guestId);
         }
 
-        public List<RegularTourRequest> GetAllByGuestIdNotPartOfComplex(int guestId)
+        public List<RegularTourRequest> GetAllByGuestThatArentPartOfComplex(int guestId)
         {
             UpdateStatusForInvlid();
             return _requests.FindAll(r => r.GuestId == guestId && r.IsPartOfComplex == false);
         }
 
-        public List<RegularTourRequest> GetByGuestIdAndStatus(int guestId, RegularRequestStatus status)
+        public List<RegularTourRequest> GetAllByGuestIdAndStatus(int guestId, RegularRequestStatus status)
         {
             return _requests.FindAll(r => r.GuestId == guestId && r.Status == status);
         }
 
-        public List<RegularTourRequest> GetByGuestIdAndStatusAndYear(int guestId, RegularRequestStatus status, int year)
+        public List<RegularTourRequest> GetAllByGuestIdAndStatusAndYear(int guestId, RegularRequestStatus status, int year)
         {
             return _requests.FindAll(r => r.GuestId == guestId && r.Status == status && r.SubmittingDate.Year == year);
         }
 
 
 
-        public List<RegularTourRequest> GetValidByParams(Location location, int guestNumber, string language, DateRange dateRange)
+        public List<RegularTourRequest> GetAllValidByParams(Location location, int guestNumber, string language, DateRange dateRange)
         {
             return _requests.FindAll(r => (location == null || r.Location.Equals(location))
                                         && (guestNumber == 0 || r.GuestNumber == guestNumber)
@@ -116,7 +116,7 @@ namespace SIMS_HCI_Project.Repositories
             return _requests.Where(r => r.GuestId == guestId && r.Status==status).Count();
         }
 
-        public int GetRequestsCountByStatus(RegularRequestStatus status, int guestId, int selectedYear)
+        public int GetRequestsCountByStatusAndYear(RegularRequestStatus status, int guestId, int selectedYear)
         {
             return _requests.Where(r => r.GuestId == guestId && r.Status == status && r.DateRange.Start.Year == selectedYear).Count();
         }

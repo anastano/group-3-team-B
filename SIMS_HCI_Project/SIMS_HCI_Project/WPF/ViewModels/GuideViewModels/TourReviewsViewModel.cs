@@ -71,7 +71,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         private void LoadRatings()
         {
-            TourRatings = new ObservableCollection<TourRating>(_tourRatingService.GetByTourId(Tour.Id));
+            TourRatings = new ObservableCollection<TourRating>(_tourRatingService.GetAllByTourId(Tour.Id));
         }
     }
 }

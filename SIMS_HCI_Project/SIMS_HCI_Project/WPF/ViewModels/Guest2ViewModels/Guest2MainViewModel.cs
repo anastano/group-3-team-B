@@ -182,7 +182,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         #endregion
         public void MakeNotificationsForAttendanceConfirmation()
         {
-            Attendances = _guestTourAttendanceService.GetByConfirmationRequestedStatus(Guest.Id);
+            Attendances = _guestTourAttendanceService.GetWithConfirmationRequestedStatus(Guest.Id);
             foreach (GuestTourAttendance attendance in Attendances)
             {
                 if( _notificationService.GetAll().Select(n => n.Message).ToList().Contains(attendance.TourTimeId.ToString()) == false)

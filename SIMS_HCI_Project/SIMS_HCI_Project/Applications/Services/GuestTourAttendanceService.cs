@@ -23,34 +23,9 @@ namespace SIMS_HCI_Project.Applications.Services
             _tourTimeRepository = Injector.Injector.CreateInstance<ITourTimeRepository>();
         }
 
-        public void Add(GuestTourAttendance guestTourAttendance)
-        {
-            _guestTourAttendanceRepository.Add(guestTourAttendance);
-        }
-
-        public GuestTourAttendance GetById(int id)
-        {
-            return _guestTourAttendanceRepository.GetById(id);
-        }
-
-        public List<GuestTourAttendance> GetAll()
-        {
-            return _guestTourAttendanceRepository.GetAll();
-        }
-        
-        public List<GuestTourAttendance> GetAllByTourId(int id)
-        {
-            return _guestTourAttendanceRepository.GetAllByTourId(id);
-        }
-
         public GuestTourAttendance GetByGuestAndTourTimeIds(int guestId, int tourTimeId)
         {
             return _guestTourAttendanceRepository.GetByGuestAndTourTimeIds(guestId, tourTimeId);
-        }
-
-        public bool IsPresent(int guestId, int tourTimeId)
-        {
-            return _guestTourAttendanceRepository.IsPresent(guestId, tourTimeId);
         }
 
         public List<TourTime> GetTourTimesWhereGuestWasPresent(int guestId)  // Simplify with LINQ
@@ -76,9 +51,9 @@ namespace SIMS_HCI_Project.Applications.Services
             }
         }
 
-        public List<GuestTourAttendance> GetByConfirmationRequestedStatus(int guestId)
+        public List<GuestTourAttendance> GetWithConfirmationRequestedStatus(int guestId)
         {
-            return _guestTourAttendanceRepository.GetByConfirmationRequestedStatus(guestId);
+            return _guestTourAttendanceRepository.GetWithConfirmationRequestedStatus(guestId);
         }
 
         public void MarkGuestAsPresent(GuestTourAttendance guestTourAttendance)

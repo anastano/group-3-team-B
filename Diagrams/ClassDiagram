@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-05-12T14:05:29.779Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" etag="pWM0wDb0CoqmLitlAY6O" version="21.2.9" type="github">
+<mxfile host="app.diagrams.net" modified="2023-05-12T14:25:37.406Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36" etag="JyLedR82WSec6LaJdEHH" version="21.2.9" type="github">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
-    <mxGraphModel dx="640" dy="574" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="10" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="578" dy="574" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="10" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
@@ -252,7 +252,7 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="6zklGD068XPegNdRS1HT-96" value="GuestTourAttendanceRepository" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
-          <mxGeometry x="590" y="1620" width="390" height="602" as="geometry" />
+          <mxGeometry x="620" y="1620" width="390" height="622" as="geometry" />
         </mxCell>
         <mxCell id="6zklGD068XPegNdRS1HT-97" value="- _fileHandler:&amp;nbsp;GuestTourAttendanceFileHandler" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="6zklGD068XPegNdRS1HT-96">
           <mxGeometry y="26" width="390" height="34" as="geometry" />
@@ -302,17 +302,47 @@
         <mxCell id="6zklGD068XPegNdRS1HT-112" value="+&amp;nbsp;GetAllByGuestId(guestId: int):&amp;nbsp;List&amp;lt;GuestTourAttendance&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="6zklGD068XPegNdRS1HT-96">
           <mxGeometry y="450" width="390" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="6zklGD068XPegNdRS1HT-113" value="+&amp;nbsp;GetByConfirmationRequestedStatus(guestId: int):&amp;nbsp;List&amp;lt;GuestTourAttendance&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="6zklGD068XPegNdRS1HT-96">
+        <mxCell id="6zklGD068XPegNdRS1HT-113" value="+&amp;nbsp;GetWithConfirmationRequestedStatus(guestId: int):&amp;nbsp;List&amp;lt;GuestTourAttendance&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="6zklGD068XPegNdRS1HT-96">
           <mxGeometry y="476" width="390" height="48" as="geometry" />
         </mxCell>
         <mxCell id="6zklGD068XPegNdRS1HT-114" value="+&amp;nbsp;GetGuestCountByAgeGroup(ageGroup: AgeGroup, tourTimeId: int): int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="6zklGD068XPegNdRS1HT-96">
-          <mxGeometry y="524" width="390" height="26" as="geometry" />
+          <mxGeometry y="524" width="390" height="46" as="geometry" />
         </mxCell>
         <mxCell id="6zklGD068XPegNdRS1HT-115" value="+&amp;nbsp;GetGuestsWithVoucherCount(tourTimeId: int): int" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="6zklGD068XPegNdRS1HT-96">
-          <mxGeometry y="550" width="390" height="26" as="geometry" />
+          <mxGeometry y="570" width="390" height="26" as="geometry" />
         </mxCell>
         <mxCell id="6zklGD068XPegNdRS1HT-116" value="+&amp;nbsp;IsPresent(guestId: int, tourTimeId: int): bool" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="6zklGD068XPegNdRS1HT-96">
-          <mxGeometry y="576" width="390" height="26" as="geometry" />
+          <mxGeometry y="596" width="390" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="6zklGD068XPegNdRS1HT-117" value="GuestTourAttendanceService" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="120" y="1620" width="390" height="340" as="geometry" />
+        </mxCell>
+        <mxCell id="6zklGD068XPegNdRS1HT-118" value="- _guestTourAttendanceRepository:&amp;nbsp;IGuestTourAttendanceRepository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="6zklGD068XPegNdRS1HT-117">
+          <mxGeometry y="26" width="390" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="6zklGD068XPegNdRS1HT-119" value="- _tourTimeRepository:&amp;nbsp;_tourTimeRepository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="6zklGD068XPegNdRS1HT-117">
+          <mxGeometry y="60" width="390" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="6zklGD068XPegNdRS1HT-120" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="6zklGD068XPegNdRS1HT-117">
+          <mxGeometry y="100" width="390" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="6zklGD068XPegNdRS1HT-121" value="+&amp;nbsp;GuestTourAttendanceService()" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="6zklGD068XPegNdRS1HT-117">
+          <mxGeometry y="108" width="390" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="6zklGD068XPegNdRS1HT-132" value="+&amp;nbsp;GetByGuestAndTourTimeIds(guestId: int, tourTimeId: int):&amp;nbsp;GuestTourAttendance" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="6zklGD068XPegNdRS1HT-117">
+          <mxGeometry y="134" width="390" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="6zklGD068XPegNdRS1HT-134" value="+ GetTourTimesWhereGuestWasPresent(guestId: int):&amp;nbsp;List&amp;lt;GuestTourAttendance&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="6zklGD068XPegNdRS1HT-117">
+          <mxGeometry y="174" width="390" height="48" as="geometry" />
+        </mxCell>
+        <mxCell id="6zklGD068XPegNdRS1HT-136" value="+&amp;nbsp;ConfirmAttendanceForTourTime(guestId: int, tourTimeId: int): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="6zklGD068XPegNdRS1HT-117">
+          <mxGeometry y="222" width="390" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="6zklGD068XPegNdRS1HT-138" value="+&amp;nbsp;GetWithConfirmationRequestedStatus(gurstId: int):&amp;nbsp;List&amp;lt;GuestTourAttendance&amp;gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="6zklGD068XPegNdRS1HT-117">
+          <mxGeometry y="248" width="390" height="42" as="geometry" />
+        </mxCell>
+        <mxCell id="6zklGD068XPegNdRS1HT-139" value="+&amp;nbsp;MarkGuestAsPresent(guestTourAttendance: GuestTourAttendance): void" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="6zklGD068XPegNdRS1HT-117">
+          <mxGeometry y="290" width="390" height="50" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>

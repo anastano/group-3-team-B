@@ -13,16 +13,16 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 {
     public class SearchAndReserveViewModel
     {
-        private NavigationService NavigationService;
-        public Guest2 Guest2 { get; set; }
+        public NavigationService NavigationService { get; set; }
+        public Guest2 Guest { get; set; }
         public SearchAndReserveView SearchAndReserveView { get; set; }
         public RelayCommand Back { get; set; }
         public RelayCommand Help { get; set; }
         
         public Tour SelectedTour { get; set; }
-        public SearchAndReserveViewModel( Guest2 guest2, Tour selectedTour, SearchAndReserveView searchAndReserveView, NavigationService navigationService)
+        public SearchAndReserveViewModel( Guest2 guest, Tour selectedTour, SearchAndReserveView searchAndReserveView, NavigationService navigationService)
         {
-            Guest2 = guest2;
+            Guest = guest;
             SelectedTour = selectedTour;
             SearchAndReserveView = searchAndReserveView;
             NavigationService = navigationService;
@@ -38,7 +38,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
         public void ExecuteBack(object sender)
         {
-            NavigationService.Navigate(new TourSearchView(Guest2, NavigationService));
+            NavigationService.Navigate(new TourSearchView(Guest, NavigationService));
         }
         public bool CanExecute(object sender)
         {

@@ -22,10 +22,10 @@ namespace SIMS_HCI_Project.WPF.Views.Guest2Views
     /// </summary>
     public partial class ProfileMainView : Page
     {
-        public ProfileMainView(Guest2 guest, NavigationService navigationService)
+        public ProfileMainView(Guest2 guest, NavigationService navigationService, Frame ProfileFrame)
         {
             InitializeComponent();
-            this.DataContext = new ProfileMainViewModel(guest, navigationService);
+            this.DataContext = new ProfileMainViewModel(guest, navigationService, ProfileFrame);
         }
     }
 }

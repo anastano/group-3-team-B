@@ -5,10 +5,21 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest2Views"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="518" d:DesignWidth="912"
       Title="ProfileNotificationsView">
 
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/Guest2Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    
     <Grid>
+        <Button Style="{StaticResource Guest2BackBtn}" Command="{Binding BackCommand}">
+            <Image x:Name="back" Source="../../../Resources/Images/back.png"/>
+        </Button>
         
     </Grid>
 </Page>

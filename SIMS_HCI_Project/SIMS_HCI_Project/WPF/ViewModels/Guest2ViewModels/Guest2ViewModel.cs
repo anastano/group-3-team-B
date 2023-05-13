@@ -66,7 +66,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels      //main window wi
         }
         private void ExecuteNavigateToProfile(object sender)
         {
-            NavigationService.Navigate(new Guest2MainView(Guest2, NavigationService));
+            //NavigationService.Navigate(new Guest2MainView(Guest2, NavigationService));
+            NavigationService.Navigate(new ProfileView(Guest2, NavigationService));
         }
         private void ExecuteLogout(object sender)
         {

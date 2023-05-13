@@ -25,8 +25,8 @@ namespace SIMS_HCI_Project.WPF.Views.Guest2Views
         public ProfileView(Guest2 guest, NavigationService navigationService)
         {
             InitializeComponent();
-            ProfileFrame.Content = new ProfileMainView(guest, navigationService);
-            this.DataContext = new ProfileViewModel(guest, navigationService);
+            ProfileFrame.Content = new ProfileMainView(guest, navigationService, ProfileFrame);
+            this.DataContext = new ProfileViewModel(guest, navigationService, ProfileFrame);
         }
     }
 }

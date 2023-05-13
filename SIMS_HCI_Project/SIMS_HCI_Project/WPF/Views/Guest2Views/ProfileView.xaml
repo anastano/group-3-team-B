@@ -8,12 +8,21 @@
       d:DesignHeight="518" d:DesignWidth="1080"
       Title="ProfileView">
 
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/Guest2Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+
     <Grid>
         <Image Source="../../../Resources/Images/profil.png" Margin="10,72,938,300" Width="120" Height="120"/>
         <Frame x:Name="ProfileFrame" NavigationUIVisibility="Hidden" Margin="168,0,0,0" Grid.ColumnSpan="2"/>
         <Border BorderBrush="White" CornerRadius="5" BorderThickness="1" Margin="16,87,944,315"/>
-        <TextBox Grid.Row="0" Text="{Binding Path = Username, UpdateSourceTrigger = PropertyChanged}" FontSize="20" Margin="16,239,944,239"/>
-        <TextBox Grid.Row="0" Text="{Binding Path = FullName, UpdateSourceTrigger = PropertyChanged}" FontSize="20" Margin="16,305,944,173"/>
-        <TextBox Grid.Row="0" Text="{Binding Path = Age, UpdateSourceTrigger = PropertyChanged}" FontSize="20" Margin="16,365,944,113"/>
+        <Label Style="{StaticResource Guest2LabelStyle}" Content="{Binding Path = Guest.Username}" Margin="16,224,944,259" HorizontalContentAlignment="Center"/>
+        <Label Style="{StaticResource Guest2LabelStyle}" Content="{Binding Path = FullName}"  Margin="16,259,944,224" HorizontalContentAlignment="Center"/>
+        <Label Style="{StaticResource Guest2LabelStyle}" Content="{Binding Path = Guest.Age}" Margin="16,299,944,184" HorizontalContentAlignment="Center"/>
     </Grid>
 </Page>

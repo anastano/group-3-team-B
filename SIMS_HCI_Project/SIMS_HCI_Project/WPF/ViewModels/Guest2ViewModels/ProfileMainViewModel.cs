@@ -10,12 +10,14 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Navigation;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 {
     public class ProfileMainViewModel : INotifyPropertyChanged
     {
+        //912, 518
         #region PropertyChanged
         public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -31,6 +33,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         private GuestTourAttendanceService _guestTourAttendanceService;
         private NotificationService _notificationService;
         #endregion
+
+        #region Properties
 
         public List<GuestTourAttendance> Attendances { get; set; }
         public GuestTourAttendance GuestTourAttendance { get; set; }
@@ -78,16 +82,20 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                 OnPropertyChanged();
             }
         }
+        #endregion
 
+        public string UnreadNotificationsMessage { get; set; }
+        public Frame ProfileFrame { get; set; }
         #region Commands
         public RelayCommand ShowNotificationsCommand { get; set; }
+        //TODO HELP CMD
 
         #endregion
-        public ProfileMainViewModel(Guest2 guest, NavigationService navigationService)
+        public ProfileMainViewModel(Guest2 guest, NavigationService navigationService, Frame profileFrame)
         {
             Guest = guest;
             NavigationService = navigationService;
-
+            ProfileFrame = profileFrame;
             InitCommands();
             LoadFromFiles();
             ShowNotificationsCount();
@@ -111,7 +119,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
         public void ShowNotificationsCount()
         {
-            //todo
+            //uradi kao labela bindovana
+            int unreadCount = _notificationService.GetUnreadByUserId(Guest.Id).Count();
+            UnreadNotificationsMessage = "You have " + unreadCount + " unread notifications.";
         }
 
 
@@ -130,7 +140,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
         private void ExecuteShowNotifications(object obj)
         {
-            NavigationService.Navigate(new ProfileNotificationsView(Guest, NavigationService)); //check if ok?
+            ProfileFrame.NavigationService.Navigate(new ProfileNotificationsView(Guest, NavigationService, ProfileFrame)); //check if ok?
         }
 
         private bool CanExecute(object obj)

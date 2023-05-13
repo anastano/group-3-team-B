@@ -16,5 +16,6 @@ namespace SIMS_HCI_Project.Repositories
         void Save();
         void Subscribe(IObserver observer);
         void Unsubscribe(IObserver observer);
+        List<RescheduleRequest> GetByAccommodationId(int accommodaitonId);
     }
 }

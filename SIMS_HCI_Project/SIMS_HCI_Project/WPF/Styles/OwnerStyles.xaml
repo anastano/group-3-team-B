@@ -109,6 +109,7 @@
 
     <Style x:Key="OwnerDatagridCellStyle" TargetType="DataGridCell">
         <Setter Property="Height" Value="30"/>
+        <Setter Property="Background" Value="{StaticResource OwnerNeutralColor}"/>
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Foreground" Value="Black" />

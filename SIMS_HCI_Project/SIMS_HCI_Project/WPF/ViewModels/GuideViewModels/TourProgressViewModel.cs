@@ -45,6 +45,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         private TourService _tourService;
         private TourLifeCycleService _tourLifeCycleService;
         private GuestTourAttendanceService _guestTourAttendanceService;
+        private NotificationService _notificationService;
 
         public TourProgressViewModel(TourTime tour)
         {
@@ -53,6 +54,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             _tourLifeCycleService = new TourLifeCycleService();
             _guestTourAttendanceService = new GuestTourAttendanceService();
             _tourService = new TourService();
+            _notificationService = new NotificationService();
 
             InitCommands();
         }
@@ -67,6 +69,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         private void ExecutedMarkGuestPresentCommand(object obj)
         {
             _guestTourAttendanceService.MarkGuestAsPresent(SelectedGuest);
+            //check if ok
+            string Message = "You have request to confirm your attendance for tour with id: [" + Tour.Id + "].";
+            _notificationService.Add(new Notification(Message, SelectedGuest.Id, false, NotificationType.CONFIRM_ATTENDANCE));
+            //
             LoadTour();
         }
 

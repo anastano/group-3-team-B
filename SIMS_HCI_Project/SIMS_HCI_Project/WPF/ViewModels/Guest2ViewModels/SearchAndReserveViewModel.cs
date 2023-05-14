@@ -38,7 +38,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
         public void ExecuteBack(object sender)
         {
-            NavigationService.Navigate(new TourSearchView(Guest, NavigationService));
+            //NavigationService.Navigate(new TourSearchView(Guest, NavigationService));
+            NavigationService.GoBack(); //because of notifications details
+
         }
         public bool CanExecute(object sender)
         {

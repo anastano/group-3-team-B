@@ -16,11 +16,13 @@ namespace SIMS_HCI_Project.Applications.Services
     {
         private readonly IGuestTourAttendanceRepository _guestTourAttendanceRepository;
         private readonly ITourTimeRepository _tourTimeRepository;
+        private readonly ITourReservationRepository _tourReservationRepository;
 
         public GuestTourAttendanceService()
         {
             _guestTourAttendanceRepository = Injector.Injector.CreateInstance<IGuestTourAttendanceRepository>();
             _tourTimeRepository = Injector.Injector.CreateInstance<ITourTimeRepository>();
+            _tourReservationRepository = Injector.Injector.CreateInstance<ITourReservationRepository>();
         }
 
         public void Add(GuestTourAttendance guestTourAttendance)
@@ -48,6 +50,7 @@ namespace SIMS_HCI_Project.Applications.Services
             return _guestTourAttendanceRepository.GetByGuestAndTourTimeIds(guestId, tourTimeId);
         }
 
+
         public bool IsPresent(int guestId, int tourTimeId)
         {
             return _guestTourAttendanceRepository.IsPresent(guestId, tourTimeId);
@@ -66,7 +69,7 @@ namespace SIMS_HCI_Project.Applications.Services
             return tourTimes;
         }
 
-        public void ConfirmAttendanceForTourTime(int guestId, int tourTimeId)
+        public void ConfirmAttendanceForTourTime(int guestId, int tourTimeId) //old
         {
             GuestTourAttendance attendance = _guestTourAttendanceRepository.GetByGuestAndTourTimeIds(guestId, tourTimeId);
             if (attendance.Status == AttendanceStatus.CONFIRMATION_REQUESTED)
@@ -74,6 +77,22 @@ namespace SIMS_HCI_Project.Applications.Services
                 attendance.Status = AttendanceStatus.PRESENT;
                 _guestTourAttendanceRepository.Update(attendance);
             }
+        }
+
+        public void ConfirmAttendance(int guestId, int tourId) //new
+        {
+            List<TourReservation> reservations = _tourReservationRepository.GetAllByGuestIdAndTourId(guestId, tourId);
+            foreach(TourReservation reservation in reservations)
+            {
+                GuestTourAttendance attendance = _guestTourAttendanceRepository.GetByGuestAndTourTimeIds(guestId, reservation.TourTimeId);
+                if (attendance.Status == AttendanceStatus.CONFIRMATION_REQUESTED)
+                {
+                    attendance.Status = AttendanceStatus.PRESENT;
+                    _guestTourAttendanceRepository.Update(attendance);
+                }
+            }
+
+            //List<TourReservation> rees = _tourReservationRepository.GetAllByGuestId(guestId);
         }
 
         public List<GuestTourAttendance> GetByConfirmationRequestedStatus(int guestId)

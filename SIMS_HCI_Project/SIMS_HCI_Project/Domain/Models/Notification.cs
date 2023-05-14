@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Domain.Models
 {
-    public enum NotificationType { DEFAULT, TOUR_REQUEST_ACCEPTED}
+    public enum NotificationType { DEFAULT, TOUR_REQUEST_ACCEPTED, NEW_TOUR, CONFIRM_ATTENDANCE}
 
     public class Notification : ISerializable
     {

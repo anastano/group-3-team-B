@@ -39,6 +39,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public List<GuestTourAttendance> Attendances { get; set; }
         public GuestTourAttendance GuestTourAttendance { get; set; }
 
+        private int _unreadCount;
+        public int UnreadCount
+        {
+            get { return _unreadCount; }
+            set
+            {
+                _unreadCount = value;
+                OnPropertyChanged();
+            }
+        }
+
         private ObservableCollection<TourReservation> _reservations;
         public ObservableCollection<TourReservation> Reservations
         {
@@ -110,18 +121,19 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             ActiveTours = new ObservableCollection<TourReservation>(_tourReservationService.GetActiveByGuestId(guest.Id));
 
             Notifications = new ObservableCollection<Notification>(_notificationService.GetUnreadByUserId(Guest.Id)); //izmeni da prosledi sve notifikacije tog gosta u novi prof Notif page, a ne samo neporcitane,
-            //ili ovo ne treba uopste, vec da samo prikaze broj enporcitanih, a u narednom ce sam napraviti ovu listu notifikacija na osnovu id gosta
-                                                                                //a da u ovom page prikaze broj neprocitanih
+                                                                                                                      //ili ovo ne treba uopste, vec da samo prikaze broj enporcitanih, a u narednom ce sam napraviti ovu listu notifikacija na osnovu id gosta
+                                                                                                                      //a da u ovom page prikaze broj neprocitanih
 
             //sredi xaml kod za ovaj frame
-
+            //MakeNotificationsForAttendanceConfirmation();
+            //makeNotifPls();
         }
 
         public void ShowNotificationsCount()
         {
             //uradi kao labela bindovana
-            int unreadCount = _notificationService.GetUnreadByUserId(Guest.Id).Count();
-            UnreadNotificationsMessage = "You have " + unreadCount + " unread notifications.";
+            UnreadCount = _notificationService.GetUnreadByUserId(Guest.Id).Count();
+            UnreadNotificationsMessage = "You have " + UnreadCount + " unread notifications.";
         }
 
 
@@ -146,6 +158,32 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         private bool CanExecute(object obj)
         {
             return true;
+        }
+
+        public void MakeNotificationsForAttendanceConfirmation()
+        {
+            //move to where guide sends invitaton
+            Attendances = _guestTourAttendanceService.GetByConfirmationRequestedStatus(Guest.Id);
+            foreach (GuestTourAttendance attendance in Attendances)
+            {
+                if (_notificationService.GetAll().Select(n => n.Message).ToList().Contains(attendance.TourTimeId.ToString()) == false)
+                {
+
+                    string Message = "You have request to confirm your attendance for tour with id: [" + attendance.TourTimeId + "].";
+                    _notificationService.Add(new Notification(Message, Guest.Id, false, NotificationType.CONFIRM_ATTENDANCE));
+                }
+            }
+        }
+        public void makeNotifPls()
+        {
+            foreach (TourReservation reservation in Reservations)
+            {
+                if (reservation.TourTime.Status == TourStatus.IN_PROGRESS)
+                {
+                    string Message = "You have request to confirm your attendance for tour with id: [" + reservation.TourTimeId + "].";
+                    _notificationService.Add(new Notification(Message, Guest.Id, false, NotificationType.CONFIRM_ATTENDANCE));
+                }
+            }
         }
     }
 }

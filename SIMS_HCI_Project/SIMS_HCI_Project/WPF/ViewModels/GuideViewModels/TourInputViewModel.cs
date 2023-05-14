@@ -191,6 +191,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         {
             NewTour.Images.AddRange(Images);
             _tourService.Add(NewTour);
+            //todo: add function for notifications NEW_TOUR, ide kroz sve zahteve i ako tura sadrzi jezik ili id lokacije kao u zahtevu pravi obavestenje
         }
 
         private bool CanExecuteCommand(object obj)

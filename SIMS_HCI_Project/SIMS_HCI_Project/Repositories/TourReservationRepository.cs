@@ -56,6 +56,11 @@ namespace SIMS_HCI_Project.Repositories
             return _reservations.FindAll(r => r.TourTimeId == id);
         }
 
+        public List<TourReservation> GetAllByGuestIdAndTourId(int guestId, int tourId)
+        {
+            return _reservations.FindAll(r => r.Guest2Id == guestId && r.TourTime.Tour.Id == tourId);
+        }
+
         public TourReservation GetByGuestAndTour(int guestId, int tourTimeId)
         {
             return _reservations.Where(tr => tr.Guest2Id == guestId && tr.TourTimeId == tourTimeId).First();

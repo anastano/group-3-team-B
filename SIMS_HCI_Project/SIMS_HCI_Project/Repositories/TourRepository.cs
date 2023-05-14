@@ -63,7 +63,6 @@ namespace SIMS_HCI_Project.Repositories
             return _tours.Count == 0 ? 1 : _tours[_tours.Count - 1].Id + 1;
         }
 
-
         public List<Tour> Search(string country, string city, int duration, string language, int guestsNum)
         {
             var filtered = from _tour in _tours
@@ -84,6 +83,11 @@ namespace SIMS_HCI_Project.Repositories
                          && (_tour.Location.City.ToLower().Contains(city.ToLower()))
                          select _tour;
             return result.ToList();
+        }
+
+        public List<Tour> SearchByGuide(int guideId, string country, string city, int duration, string language, int guestsNum)
+        {
+            return Search(country, city, duration, language, guestsNum).Where(t => t.GuideId == guideId).ToList();
         }
     }
 }

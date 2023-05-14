@@ -6,8 +6,13 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         mc:Ignorable="d"
         Title="AccommodationsView" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
-
-    <Grid Background="{StaticResource OwnerNeutralColor}">
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+A" Command="{Binding AddAccommodationCommand}"/>
+        <KeyBinding Gesture="Ctrl+D" Command="{Binding DeleteAccommodationCommand}"/>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding ShowAccommodationImagesCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseAccommodationsViewCommand}"/>
+    </Window.InputBindings>
+    <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=btnAddAccommodation}">
         <!-- MAIN STACK PANEL-->
         <StackPanel Orientation="Vertical" Margin="10 5 10 5">
             <!-- TOP STACK PANEL - Options-->
@@ -44,11 +49,22 @@
                     <StackPanel Margin="0 0 0 0">
                         <DataGrid x:Name = "dgAccommodation" AutoGenerateColumns="False" ItemsSource="{Binding Path=Accommodations, UpdateSourceTrigger=PropertyChanged}" 
                                       SelectedItem="{Binding Path=SelectedAccommodation, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Focusable="True"
-                                      Width="930" Height="330" Margin="10 10 10 10" CanUserSortColumns="True" SelectionMode="Single" IsTabStop="False"
-                                      Style="{StaticResource OwnerDatagridStyle}" CellStyle="{StaticResource OwnerDatagridCellStyle}">
+                                      Width="930" Height="400" Margin="10 10 10 10" CanUserSortColumns="True" SelectionMode="Single" IsTabStop="False"
+                                      Style="{StaticResource OwnerDatagridStyle}" ColumnHeaderStyle="{StaticResource OwnerDataGridColumnHeaderStyle}">
+                            <DataGrid.CellStyle>
+                                <Style TargetType="DataGridCell" >
+                                    <Setter Property="Height" Value="100"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Foreground" Value="Black" />
+                                            <Setter Property="Background" Value="LightGray"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.CellStyle>
 
                             <DataGrid.Columns>
-                               
+
                                 <DataGridTemplateColumn Width="1.3*">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
@@ -116,25 +132,6 @@
                             </DataGrid.Columns>
 
                         </DataGrid>
-                    </StackPanel>
-                </Border>
-            </StackPanel>
-            <!-- BOTTOM STACK PANEL-->
-            <StackPanel  Margin="5 0 5 0" HorizontalAlignment="Right">
-                <TextBlock x:Name="tblSort" Text=" Sort by selected column" FontSize="16" Foreground="Turquoise" Margin="0 0 0 0">
-                </TextBlock>
-
-                <Border Style="{StaticResource OwnerBorderStyle}">
-                    <!-- Sort STACK PANEL-->
-                    <StackPanel  Margin="5 5 5 5" Orientation="Horizontal">
-
-                        <Button x:Name="btnDescening"  Content="Descending (Ctrl+Down)" 
-                            Style="{StaticResource OwnerButtonStyle}" Width="200" Height="35">
-                        </Button>
-                        <Button x:Name="btnAscending"  Content="Ascending (Ctrl+Up)" 
-                            Style="{StaticResource OwnerButtonStyle}" Width="200" Height="35">
-                        </Button>
-
                     </StackPanel>
                 </Border>
             </StackPanel>

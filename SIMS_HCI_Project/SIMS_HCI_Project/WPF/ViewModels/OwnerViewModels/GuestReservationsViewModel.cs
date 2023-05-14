@@ -5,14 +5,16 @@ using SIMS_HCI_Project.WPF.Views.OwnerViews;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 {
-    public class GuestReservationsViewModel
+    public class GuestReservationsViewModel : INotifyPropertyChanged
     {
         private readonly AccommodationReservationService _reservationService;
 
@@ -20,11 +22,59 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public Owner Owner { get; set; }
         public ObservableCollection<AccommodationReservation> Reservations { get; set; }
         public AccommodationReservation SelectedReservation { get; set; }
-        public string AccommodationName { get; set; }
-        public string GuestName { get; set; }
-        public string GuestSurname { get; set; }
+
+        private string _accommodationName; 
+        public string AccommodationName
+        {
+            get => _accommodationName;
+            set
+            {
+                if (value != _accommodationName)
+                {
+
+                    _accommodationName = value;
+                    OnPropertyChanged(nameof(AccommodationName));
+                }
+            }
+        }
+
+        private string _guestName;
+        public string GuestName 
+        {
+            get => _guestName;
+            set
+            {
+                if (value != _guestName)
+                {
+
+                    _guestName = value;
+                    OnPropertyChanged(nameof(GuestName));
+                }
+            }
+        }
+
+        private string _guestSurame;
+        public string GuestSurname 
+        {
+            get => _guestSurame;
+            set
+            {
+                if (value != _guestSurame)
+                {
+
+                    _guestSurame = value;
+                    OnPropertyChanged(nameof(GuestSurname));
+                }
+            }
+        }
         public RelayCommand SearchReservationsCommand { get; set; }
         public RelayCommand CloseReservationsViewCommand { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         public GuestReservationsViewModel(GuestReservationsView accommodationsView, AccommodationReservationService reservationService, Owner owner)
         {

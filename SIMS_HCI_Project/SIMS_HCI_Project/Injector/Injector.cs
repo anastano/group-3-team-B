@@ -23,6 +23,7 @@ namespace SIMS_HCI_Project.Injector
             { typeof(IRatingGivenByOwnerRepository), new RatingGivenByOwnerRepository() },
             { typeof(IRenovationRecommendationRepository), new RenovationRecommendationRepository() },
             { typeof(ISuperGuestTitleRepository), new SuperGuestTitleRepository() },
+            { typeof(IRenovationRepository), new RenovationRepository() },
             { typeof(INotificationRepository), new NotificationRepository() },
             { typeof(ITourReservationRepository), new TourReservationRepository() },
             { typeof(ITourTimeRepository), new TourTimeRepository() },
@@ -30,7 +31,8 @@ namespace SIMS_HCI_Project.Injector
             { typeof(ITourRepository), new TourRepository() },
             { typeof(ITourKeyPointRepository), new TourKeyPointRepository() },
             { typeof(IGuestTourAttendanceRepository), new GuestTourAttendanceRepository() },
-            { typeof(ITourRatingRepository), new TourRatingRepository() }
+            { typeof(ITourRatingRepository), new TourRatingRepository() },
+            { typeof(IRegularTourRequestRepository), new RegularTourRequestRepository() }
         };
 
         public static T CreateInstance<T>()

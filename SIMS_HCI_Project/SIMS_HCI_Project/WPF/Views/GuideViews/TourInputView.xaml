@@ -4,8 +4,25 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.GuideViews"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="Tour Input" Height="700" Width="650">
+        Title="Tour Input" Height="850" Width="700" WindowStartupLocation="CenterScreen" FontSize="16">
+    <Window.Background>
+        <ImageBrush ImageSource="pack://application:,,,/WPF/Images/guideBackground.png"></ImageBrush>
+    </Window.Background>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/GuideStyles.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+            <ControlTemplate x:Key="ValidationTemplate">
+                <StackPanel>
+                    <AdornedElementPlaceholder x:Name="textBox" />
+                    <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" FontSize="13px" />
+                </StackPanel>
+            </ControlTemplate>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"></ColumnDefinition>
@@ -13,75 +30,86 @@
             <ColumnDefinition Width="2*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="53*"></RowDefinition>
-            <RowDefinition Height="52.618"></RowDefinition>
-            <RowDefinition Height="158*"></RowDefinition>
-            <RowDefinition Height="53*"></RowDefinition>
-            <RowDefinition Height="53*"></RowDefinition>
-            <RowDefinition Height="263*"></RowDefinition>
-            <RowDefinition Height="53*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="5*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="8*"></RowDefinition>
+            <RowDefinition Height="1.5*"></RowDefinition>
         </Grid.RowDefinitions>
         <TextBlock Text="Title" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
         <TextBlock Text="Location" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
         <TextBlock Text="Description" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top"></TextBlock>
         <TextBlock Text="Language" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center"></TextBlock>
-        <TextBlock Text="Max Number Of Guests" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Width="75"></TextBlock>
+        <TextBlock Text="Max Number Of Guests" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Width="125"></TextBlock>
         <TextBlock Text="Add Key Points" Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,30,0,0"></TextBlock>
 
-        <TextBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Path=NewTour.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="180" Margin="15,0,0,0"/>
+        <TextBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Path=NewTour.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" VerticalAlignment="Center" Width="240" Margin="15,0,0,0"/>
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
             <StackPanel Orientation="Vertical" Margin="15,0,10,0">
                 <TextBlock Text="City" HorizontalAlignment="Center"></TextBlock>
-                <TextBox HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding Path=NewTour.Location.City, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="85"/>
+                <TextBox HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding Path=NewTour.Location.City, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" VerticalAlignment="Center" Width="115"/>
+                <TextBlock Text="{Binding NewTour.ValidationErrors[City]}" Foreground="Red" FontSize="13px" />
             </StackPanel>
             <StackPanel Orientation="Vertical" Margin="0,0,10,0">
                 <TextBlock Text="Country" HorizontalAlignment="Center"></TextBlock>
-                <TextBox HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding Path=NewTour.Location.Country, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="85"/>
+                <TextBox HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding Path=NewTour.Location.Country, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" VerticalAlignment="Center" Width="115"/>
             </StackPanel>
         </StackPanel>
-        <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Path=NewTour.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="180" Margin="15,0,0,0" Height="130"/>
-        <TextBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Path=NewTour.Language, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="180" Margin="15,0,0,0"/>
-        <TextBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Path=NewTour.MaxGuests, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="50" Margin="15,0,0,0"/>
+        <TextBox Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Path=NewTour.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" VerticalAlignment="Top" Width="240" Margin="15,0,0,0" Height="170"/>
+        <TextBox Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Path=NewTour.Language, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" VerticalAlignment="Center" Width="240" Margin="15,0,0,0"/>
+        <TextBox Grid.Row="4" Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Path=NewTour.MaxGuests, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" VerticalAlignment="Center" Width="50" Margin="15,0,0,0"/>
         <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Vertical">
             <StackPanel Orientation="Horizontal" Margin="0,30,0,0">
-                <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Path=KeyPointTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="155" Margin="15,0,0,0"/>
-                <Button Content="+" Margin="5,0,0,0" Width="20" Command="{Binding AddKeyPoint}"/>
+                <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Path=KeyPointTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" VerticalAlignment="Center" Width="205" Margin="15,0,0,0"/>
+                <Button Content="+" Margin="5,0,0,0" Width="30" Command="{Binding AddKeyPoint}"/>
             </StackPanel>
-            <ListBox ItemsSource="{Binding KeyPoints}" Margin="15,15,0,0" Height="200" Width="180" VerticalAlignment="Center" HorizontalAlignment="Left"></ListBox>
+            <ListBox ItemsSource="{Binding KeyPoints}" Margin="15,15,0,0" Height="180" Width="240" VerticalAlignment="Center" HorizontalAlignment="Left"></ListBox>
         </StackPanel>
         <Button Grid.Row="5" Grid.Column="1" Content="Remove" Margin="0,0,10,0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Command="{Binding RemoveKeyPoint}"></Button>
         <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
             <TextBlock Text="Duration" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding Path=NewTour.Duration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="50" Margin="15,0,0,0"></TextBox>
-            <TextBlock Text="h" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+            <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding Path=NewTour.Duration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Width="50" Margin="15,0,0,0"></TextBox>
+            <TextBlock Text="h" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="3,0,0,0"></TextBlock>
         </StackPanel>
         <StackPanel  Grid.Row="2" Grid.Column="2" Orientation="Vertical">
             <TextBlock Text="Departure" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
             <StackPanel Orientation="Horizontal">
                 <StackPanel Orientation="Vertical" VerticalAlignment="Bottom">
                     <TextBlock Text="Date" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
-                    <DatePicker SelectedDate="{Binding Path=DepartureDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DatePicker>
+                    <DatePicker SelectedDate="{Binding Path=DepartureDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="10,0,0,0" FontSize="16" Width="125"></DatePicker>
                 </StackPanel>
                 <StackPanel Margin="15,0,0,0" VerticalAlignment="Bottom">
                     <TextBlock Text="Time" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
-                    <TextBox Width="90" Text="{Binding Path=DepartureTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                    <TextBox Width="65" Text="{Binding Path=DepartureTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                 </StackPanel>
-                <Button Content="+" Margin="10,0,0,0" VerticalAlignment="Bottom" HorizontalAlignment="Center" Command="{Binding AddDepartureTime}"></Button>
+                <Button Content="+" Margin="10,0,0,0" Width="30" VerticalAlignment="Bottom" HorizontalAlignment="Center" Command="{Binding AddDepartureTime}"></Button>
             </StackPanel>
-            <ListBox ItemsSource="{Binding DepartureTimes}" Height="80" Margin="10,10,10,10" Width="180" HorizontalAlignment="Left"></ListBox>
+            <ListBox ItemsSource="{Binding DepartureTimes}" Height="85" Margin="10,10,10,10" Width="205" HorizontalAlignment="Left"></ListBox>
 
         </StackPanel>
 
-        <Button Grid.Row="2" Grid.Column="2" Margin="0,0,10,0" Content="Remove" VerticalAlignment="Bottom" HorizontalAlignment="Right" Command="{Binding RemoveDepartureTime}"></Button>
+        <Button Grid.Row="3" Grid.Column="2" Margin="0,0,30,0" Content="Remove" VerticalAlignment="Top" HorizontalAlignment="Right" Command="{Binding RemoveDepartureTime}"></Button>
         <StackPanel Grid.Row="5" Grid.Column="2" Orientation="Vertical">
-            <StackPanel Orientation="Horizontal" Margin="0,30,0,0">
-                <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Path=ImageURL, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="155" Margin="15,0,0,0"/>
-                <Button Content="+" Margin="5,0,0,0" Width="20" Command="{Binding AddImage}"/>
+            <TextBlock Text="Images" HorizontalAlignment="Center" Margin="0,8,0,0"></TextBlock>
+            <StackPanel Orientation="Horizontal">
+                <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Path=ImageURL, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="205" Margin="15,0,0,0"/>
+                <Button Content="+" Margin="5,0,0,0" Width="30" Command="{Binding AddImage}"/>
             </StackPanel>
-            <ListBox ItemsSource="{Binding Images}" Margin="15,15,0,0" Height="200" Width="180" VerticalAlignment="Center" HorizontalAlignment="Left"></ListBox>
+            <ListBox ItemsSource="{Binding Images}" Margin="15,15,0,0" Height="180" Width="240" VerticalAlignment="Center" HorizontalAlignment="Left"></ListBox>
         </StackPanel>
 
         <Button Grid.Row="5" Grid.Column="2" Content="Remove" Margin="0,0,10,0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Command="{Binding RemoveImage}"></Button>
-        <Button Grid.Row="6" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Submit" Command="{Binding SubmitForm}"></Button>
+        <Button Grid.Row="6" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Submit" IsEnabled="True">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="Click">
+                    <i:InvokeCommandAction Command="{Binding SubmitForm}" />
+                    <i:InvokeCommandAction Command="{Binding NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
+                                              RelativeSource Mode=FindAncestor,
+                                              AncestorType={x:Type Window}}}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </Button>
     </Grid>
 </Window>

@@ -17,19 +17,21 @@ namespace SIMS_HCI_Project.Applications.Services
             _userRepository= Injector.Injector.CreateInstance<IUserRepository>();
         }
 
-        public User GetById(int id)
+        public User LogIn(string username, string password)
         {
-            return _userRepository.GetById(id);
+            User user = _userRepository.GetByUsername(username);
+
+            if (user == null || password != user.Password) return null; // [Update] separate to return some Sucess DTO holding User info and Error info, to indicate what went wrong
+
+            return user;
         }
 
-        public List<User> GetAll()
+        public bool SignIn(User newUser)
         {
-            return _userRepository.GetAll();
-        }
+            if (_userRepository.CheckIfUsernameExists(newUser.Username)) return false;
 
-        public User GetByUsernameAndPassword(string username, string password)
-        {
-            return _userRepository.GetByUsernameAndPassword(username, password);
+            _userRepository.Add(newUser);
+            return true;
         }
         public string GetFullName(User user)
         {

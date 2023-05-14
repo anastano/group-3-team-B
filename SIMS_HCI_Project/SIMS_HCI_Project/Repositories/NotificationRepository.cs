@@ -58,6 +58,14 @@ namespace SIMS_HCI_Project.Repositories
             NotifyObservers();
         }
 
+        public void Update(Notification notification)
+        {
+            Notification notificationUpdated = GetById(notification.Id);
+            notificationUpdated = notification;
+
+            Save();
+        }
+
         public void MarkAsRead(int notificationId)
         { 
             Notification notification = _notifications.Find(n => n.Id == notificationId);

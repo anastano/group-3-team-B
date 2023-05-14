@@ -24,6 +24,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public RelayCommand AcceptRequestCommand { get; set; }
         public RelayCommand DeclineRequestCommand { get; set; }
+        public RelayCommand CloseRequestHandlerViewCommand { get; set; }
 
         public RequestHandlerViewModel(RequestHandlerView requestHandlerView, RescheduleRequestService requestService, 
             AccommodationReservationService reservationService, NotificationService notificationService, RescheduleRequest selectedRequest) 
@@ -43,24 +44,40 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         }
 
 
-            #region Commands
-            public void Executed_AcceptRequestCommand(object obj)
+        #region Commands
+
+        private MessageBoxResult ConfirmAcceptRequest()
         {
-            if (OverlappingReservations != null)
+            string sMessageBoxText = $"Are you sure you want to accept this request?";
+            string sCaption = "Accept Request Confirmation";
+
+            MessageBoxButton btnMessageBox = MessageBoxButton.YesNo;
+            MessageBoxImage icnMessageBox = MessageBoxImage.Warning;
+
+            MessageBoxResult result = MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox, icnMessageBox);
+            return result;
+        }
+
+        public void Executed_AcceptRequestCommand(object obj)
+        {
+            if (ConfirmAcceptRequest() == MessageBoxResult.Yes)
             {
-                foreach (AccommodationReservation reservation in OverlappingReservations)
+                if (OverlappingReservations != null)
                 {
-                    _reservationService.EditStatus(reservation.Id, AccommodationReservationStatus.CANCELLED);
+                    foreach (AccommodationReservation reservation in OverlappingReservations)
+                    {
+                        _reservationService.EditStatus(reservation.Id, AccommodationReservationStatus.CANCELLED);
+                    }
                 }
+
+                _reservationService.EditReservation(Request);
+                _requestService.EditStatus(Request.Id, RescheduleRequestStatus.ACCEPTED);
+
+                String Message = "Request to reschedule the reservation for '" + Request.AccommodationReservation.Accommodation.Name + "' has been ACCEPTED";
+                _notificationService.Add(new Notification(Message, Request.AccommodationReservation.GuestId, false));
+
+                RequestHandlerView.Close();
             }
-
-            _reservationService.EditReservation(Request);
-            _requestService.EditStatus(Request.Id, RescheduleRequestStatus.ACCEPTED);
-
-            String Message = "Request to reschedule the reservation for '" + Request.AccommodationReservation.Accommodation.Name + "' has been ACCEPTED";
-            _notificationService.Add(new Notification(Message, Request.AccommodationReservation.GuestId, false));
-
-            RequestHandlerView.Close();           
         }
 
         public bool CanExecute_AcceptRequestCommand(object obj)
@@ -78,12 +95,24 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             return true;
         }
+
+        public void Executed_CloseRequestHandlerViewCommand(object obj)
+        {
+            RequestHandlerView.Close();
+        }
+
+        public bool CanExecute_CloseRequestHandlerViewCommand(object obj)
+        {
+            return true;
+        }
+
         #endregion
 
         public void InitCommands()
         {
             AcceptRequestCommand = new RelayCommand(Executed_AcceptRequestCommand, CanExecute_AcceptRequestCommand);
             DeclineRequestCommand = new RelayCommand(Executed_DeclineRequestCommand, CanExecute_DeclineRequestCommand);
+            CloseRequestHandlerViewCommand = new RelayCommand(Executed_CloseRequestHandlerViewCommand, CanExecute_CloseRequestHandlerViewCommand);
         }
 
         public void ShowTextBox()

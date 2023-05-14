@@ -21,10 +21,10 @@ namespace SIMS_HCI_Project.WPF.Views.OwnerViews
     /// </summary>
     public partial class SelectedGuestReviewView : Window
     {
-        public SelectedGuestReviewView(RatingGivenByGuest selectedReview)
+        public SelectedGuestReviewView(GuestReviewsView GuestReviewsView, RatingGivenByGuest selectedReview)
         {
             InitializeComponent();
-            this.DataContext = new SelectedGuestReviewViewModel(this, selectedReview);
+            this.DataContext = new SelectedGuestReviewViewModel(this, GuestReviewsView, selectedReview);
         }
     }
 }

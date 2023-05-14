@@ -1,6 +1,7 @@
 ﻿using SIMS_HCI_Project.Applications.Services;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands;
+using SIMS_HCI_Project.WPF.Commands.Global;
 using SIMS_HCI_Project.WPF.Views.GuideViews;
 using System;
 using System.Collections.Generic;
@@ -26,9 +27,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         #endregion
 
         #region Commands
-        public RelayCommand AddNewTour { get; set; }
-        public RelayCommand SeeTourInfo { get; set; }
+        public RelayCommand FilterTours { get; set; }
+        public RelayCommand ResetFilter { get; set; }
+        public GuideNavigationCommands NavigationCommands { get; set; }
         #endregion
+
+        private TourService _tourService;
 
         private ObservableCollection<Tour> _allTours;
         public ObservableCollection<Tour> AllTours
@@ -40,44 +44,107 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
                 OnPropertyChanged();
             }
         }
-
         public Tour SelectedTour { get; set; }
 
-        private TourService _tourService;
+        private string _title;
+        public string Title
+        {
+            get { return _title; }
+            set
+            {
+                _title = value;
+                OnPropertyChanged();
+            }
+        }
+        private Location _location;
+        public Location Location
+        {
+            get { return _location; }
+            set
+            {
+                _location = value;
+                OnPropertyChanged();
+            }
+        }
+        public string _language;
+        public string Language
+        {
+            get { return _language; }
+            set
+            {
+                _language = value;
+                OnPropertyChanged();
+            }
+        }
 
-        private Guide _guide;
+        private ObservableCollection<Location> _availableLocations;
+        public ObservableCollection<Location> AvailableLocations
+        {
+            get { return _availableLocations; }
+            set
+            {
+                _availableLocations = value;
+                OnPropertyChanged();
+            }
+        }
+        private ObservableCollection<string> _availableLanguages;
+        public ObservableCollection<string> AvailableLanguages
+        {
+            get { return _availableLanguages; }
+            set
+            {
+                _availableLanguages = value;
+                OnPropertyChanged();
+            }
+        }
 
-        public AllToursViewModel(TourService tourService, Guide guide)
+        public AllToursViewModel(TourService tourService)
         {
             _tourService = tourService;
-            _guide = guide;
+
+            Location = new Location();
+            Title = "";
 
             LoadAllTours();
             InitCommands();
+            LoadPossibleFilters();
         }
 
         private void LoadAllTours()
         {
-            AllTours = new ObservableCollection<Tour>(_tourService.GetAllTourInformationByGuide(_guide.Id));
+            AllTours = new ObservableCollection<Tour>(_tourService.GetAllTourInformationByGuide(((User)App.Current.Properties["CurrentUser"]).Id));
         }
 
         private void InitCommands()
         {
-            AddNewTour = new RelayCommand(ExecutedAddNewTourCommand, CanExecuteCommand);
-            SeeTourInfo = new RelayCommand(ExecutedSeeTourInfoCommand, CanExecuteCommand);
+            FilterTours = new RelayCommand(ExecutedFilterToursCommand, CanExecuteCommand);
+            ResetFilter = new RelayCommand(ExecutedResetFilterCommand, CanExecuteCommand);
+            NavigationCommands = new GuideNavigationCommands();
         }
 
-        private void ExecutedAddNewTourCommand(object obj)
+        private void LoadPossibleFilters()
         {
-            Window tourInput = new TourInputView(_tourService, _guide);
-            tourInput.Show();
+            if (AllTours != null)
+            {
+                AvailableLocations = new ObservableCollection<Location>(AllTours.Select(t => t.Location).Distinct());
+                AvailableLanguages = new ObservableCollection<string>(AllTours.Select(t => t.Language).Distinct());
+            }
         }
 
-        private void ExecutedSeeTourInfoCommand(object obj)
+        private void ExecutedFilterToursCommand(object obj)
         {
-            Trace.Write("aaaa");
-            Window tourInfo = new TourInformationView(SelectedTour);
-            tourInfo.Show();
+            if (Location == null) Location = new Location(); // E: kada se ispravi search obrisati
+
+            AllTours = new ObservableCollection<Tour>(_tourService.SearchByGuide(((User)App.Current.Properties["CurrentUser"]).Id, country: Location.Country, city: Location.City, language: Language).Where(t => t.Title.ToLower().Contains(Title.ToLower()))); // E: temporary filtriranje i ovde zbog hci, srediti za sims
+        }
+
+        private void ExecutedResetFilterCommand(object obj)
+        {
+            Location = null;
+            Language = null;
+            Title = "";
+
+            LoadAllTours();
         }
 
         private bool CanExecuteCommand(object obj)

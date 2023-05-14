@@ -127,17 +127,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             Recommendation = _navigationService.NavigationStore.Recommendation;
             IsFilled = true;
 
-
         }
         public void InitialProperties()
         {
             ImageUrl = " ";
             IsFilled = false;
+            IsChecked = false;
         }
         public void ExecutedReviewReservationCommand(object obj)
         {
             RatingGivenByGuest addedRating = _ratingService.RateReservation(_accommodationReservationService, Rating);
-            if (IsChecked)
+            if (IsChecked && IsFilled)
             {
                 _recommendationService.Add(_navigationService.NavigationStore.Recommendation, addedRating);
             }

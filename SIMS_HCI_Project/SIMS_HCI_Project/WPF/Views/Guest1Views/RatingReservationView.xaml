@@ -5,8 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:views="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest1Views"
       xmlns:viewmodels="clr-namespace:SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels"
-      xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
-      mc:Ignorable="d" 
+      xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters" xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+             mc:Ignorable="d" 
       d:DesignHeight="702" d:DesignWidth="969"
       Background="#f5f5f5">
     <UserControl.Resources>
@@ -16,6 +16,11 @@
                 <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" FontSize="12" HorizontalAlignment="Center"/>
             </StackPanel>
         </ControlTemplate>
+        <sys:Double x:Key="StarOne">1</sys:Double>
+        <sys:Double x:Key="StarTwo">1.5</sys:Double>
+        <sys:Double x:Key="StarThree">2.5</sys:Double>
+        <sys:Double x:Key="StarFour">3.5</sys:Double>
+        <sys:Double x:Key="StarFive">4.5</sys:Double>
     </UserControl.Resources>
 
     <Grid Margin="20 20 20 20">
@@ -29,20 +34,31 @@
             <RowDefinition Height="63*" />
             <RowDefinition Height="63" />
             <RowDefinition Height="189*" />
-            <RowDefinition Height="126*" />
-            <RowDefinition Height="73*" />
-            <RowDefinition Height="50*"/>
+            <RowDefinition Height="116*" />
+            <RowDefinition Height="80*" />
+            <RowDefinition Height="80*"/>
         </Grid.RowDefinitions>
         <Label Content="Review owner and accommodation (required): " Grid.Row="0" Grid.ColumnSpan="2" FontSize="16" Style="{StaticResource fancyTitle}"></Label>
         <Label Content="Owner: " Grid.Row="1" Grid.Column="0" Style="{StaticResource GuestLabelStyle}"></Label>
         <TextBox x:Name="Owner" Grid.Row="1" Grid.Column="1" Text="{Binding Path=Owner, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"
-                 Style="{StaticResource GuestTextBoxStyle}" Margin="0,16,0,17" Width="255"/>
+                 Style="{StaticResource GuestTextBoxStyle}" Width="255"/>
         <Label Content="Accommodation cleanliness (1-5): " Grid.Row="2" Grid.Column="0" Style="{StaticResource GuestLabelStyle}" Margin="0,14,0,14" Width="236"></Label>
-        <StackPanel Orientation="Horizontal"  Grid.Row="2" Grid.Column="1">
-            <TextBox Text="{Binding ElementName=cleanlinessSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" 
-                     Width="40"  Margin="0, 5, 0, 5" Height="30" BorderBrush="Black" BorderThickness="1"/>
-            <Slider x:Name="cleanlinessSlider" Value="{Binding Path=Rating.Cleanliness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    IsSnapToTickEnabled="True"  Minimum="1"  Maximum="5" Margin="20, 0, 0, 0"  Width="200" VerticalAlignment="Center"/>
+        <StackPanel Grid.Column="1" Grid.Row="2" Width="234" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,0">
+            <Path x:Name="Star1" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding AverageRate, Converter={converters:StarFillConverter},
+                                     ConverterParameter={StaticResource StarOne} }"
+                                          StrokeThickness="{Binding AverageRate, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarOne}}" Width="45" Height="45" />
+            <Path x:Name="Star2" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding AverageRate, Converter={converters:StarFillConverter},
+                                     ConverterParameter={StaticResource StarTwo} }"
+                                          StrokeThickness="{Binding AverageRate, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarTwo}}" Width="45" Height="45"/>
+            <Path x:Name="Star3" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding AverageRate, Converter={converters:StarFillConverter},
+                                     ConverterParameter={StaticResource StarThree} }" 
+                                          StrokeThickness="{Binding AverageRate, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarThree}}" Width="45" Height="45"/>
+            <Path x:Name="Star4" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding AverageRate, Converter={converters:StarFillConverter},
+                                     ConverterParameter={StaticResource StarFour} }"
+                                          StrokeThickness="{Binding AverageRate, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarFour}}" Width="45" Height="45"/>
+            <Path x:Name="Star5" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding AverageRate, Converter={converters:StarFillConverter},
+                                     ConverterParameter={StaticResource StarFive} }"
+                                          StrokeThickness="{Binding AverageRate, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarFive}}" Width="45" Height="45"/>
         </StackPanel>
         <Label Content="Owner correctness (1-5):" Grid.Row="3" Grid.Column="0" Style="{StaticResource GuestLabelStyle}"></Label>
         <StackPanel Orientation="Horizontal"  Grid.Row="3" Grid.Column="1">
@@ -50,7 +66,7 @@
                      Width="40"  Margin="0, 5, 0, 5" Height="30" BorderBrush="Black" BorderThickness="1"/>
             <Slider x:Name="correctnessSlider" Value="{Binding Path=Rating.Correctness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     IsSnapToTickEnabled="True"  Minimum="1"  Maximum="5" Margin="20, 0, 0, 0"  Width="200" VerticalAlignment="Center">
-                
+
             </Slider>
         </StackPanel>
         <Label Content="Image URLs:" Grid.Row="4" Grid.Column="0" Style="{StaticResource GuestLabelStyle}" VerticalAlignment="Top"></Label>
@@ -58,7 +74,7 @@
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  >
                 <StackPanel Orientation="Vertical">
-                    <TextBox x:Name="txtPictureURL" Width="256" Height="40" TextWrapping="Wrap">
+                    <TextBox x:Name="txtPictureURL" Width="400" Height="30" TextWrapping="Wrap">
                         <TextBox.Text>
                             <Binding  Path="ImageUrl" UpdateSourceTrigger="PropertyChanged">
                             </Binding>
@@ -73,7 +89,7 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <ListBox x:Name="lbImages" ItemsSource="{Binding Path=Images}" Width="298" Height="111">
+                <ListBox x:Name="lbImages" ItemsSource="{Binding Path=Images}" Width="400" Height="100">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid Columns="3" />
@@ -96,7 +112,8 @@
             </StackPanel>
         </StackPanel>
         <Label Content="Additional comment:" Grid.Row="5" Grid.Column="0" Style="{StaticResource GuestLabelStyle}" VerticalAlignment="Top"></Label>
-        <TextBox x:Name="Comment" Grid.Row="5" Grid.Column="1" Text="{Binding Path=Rating.AdditionalComment, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBox x:Name="Comment" Grid.Row="5" Grid.Column="1" Text="{Binding Path=Rating.AdditionalComment, UpdateSourceTrigger=PropertyChanged}"
+                 Width="400" HorizontalAlignment="Left"/>
         <Label Content="Recommend renovation:  &#xa;        (optional)" Grid.Row="6" Grid.Column="0"></Label>
         <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1">
             <Button Content="Recommend" Command="{Binding DataContext.RecommendRenovationCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
@@ -115,7 +132,7 @@
             </CheckBox>
             <Label Content="Check to apply recommendation" FontSize="16" Grid.Row="5" Grid.Column="0" Style="{StaticResource GuestLabelStyle}" VerticalAlignment="Center" Width="239"/>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.ColumnSpan="2" HorizontalAlignment="Center">
+        <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,72,0,0" Grid.RowSpan="2" Width="444">
             <Button Content="Cancel" Command="{Binding DataContext.CancelReviewCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
                     Margin=" 5, 0, 55, 0"  Style="{StaticResource GuestButtonStyle}"/>
             <Button Content="Review" Command="{Binding DataContext.ReviewReservationCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"

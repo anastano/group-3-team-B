@@ -40,6 +40,11 @@ namespace SIMS_HCI_Project.Domain.Models
         {
             Comment = " ";
         }
+        public RenovationRecommendation(string comment, UrgencyRenovationLevel level)
+        {
+            Comment = comment;
+            UrgencyLevel = level;
+        }
         public RenovationRecommendation(RenovationRecommendation renovationRecommendation)
         {
             Id = renovationRecommendation.Id;

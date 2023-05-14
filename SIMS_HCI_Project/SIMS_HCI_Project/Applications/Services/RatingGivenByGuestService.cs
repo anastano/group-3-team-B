@@ -54,13 +54,14 @@ namespace SIMS_HCI_Project.Applications.Services
             }
             return ratedByOwnerId;
         }
-
-        public void RateReservation(AccommodationReservationService reservationService, RatingGivenByGuest rating)
+        /// pogledati malo da li je ovo dobro definisano
+        public RatingGivenByGuest RateReservation(AccommodationReservationService reservationService, RatingGivenByGuest rating)
         {
-            _ratingRepository.Add(rating);
+            RatingGivenByGuest addedRating = _ratingRepository.Add(rating);
             reservationService.GetById(rating.ReservationId).isRated = true;
+            return addedRating;
+            
         }
-
         public void ConnectRatingsWithReservations(AccommodationReservationService reservationService)
         {
             foreach (RatingGivenByGuest rating in _ratingRepository.GetAll())

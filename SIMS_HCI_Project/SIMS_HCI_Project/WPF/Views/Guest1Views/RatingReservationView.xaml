@@ -17,10 +17,10 @@
             </StackPanel>
         </ControlTemplate>
         <sys:Double x:Key="StarOne">1</sys:Double>
-        <sys:Double x:Key="StarTwo">1.5</sys:Double>
-        <sys:Double x:Key="StarThree">2.5</sys:Double>
-        <sys:Double x:Key="StarFour">3.5</sys:Double>
-        <sys:Double x:Key="StarFive">4.5</sys:Double>
+        <sys:Double x:Key="StarTwo">2</sys:Double>
+        <sys:Double x:Key="StarThree">3</sys:Double>
+        <sys:Double x:Key="StarFour">4</sys:Double>
+        <sys:Double x:Key="StarFive">5</sys:Double>
     </UserControl.Resources>
 
     <Grid Margin="20 20 20 20">
@@ -44,30 +44,107 @@
                  Style="{StaticResource GuestTextBoxStyle}" Width="255"/>
         <Label Content="Accommodation cleanliness (1-5): " Grid.Row="2" Grid.Column="0" Style="{StaticResource GuestLabelStyle}" Margin="0,14,0,14" Width="236"></Label>
         <StackPanel Grid.Column="1" Grid.Row="2" Width="234" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,0">
-            <Path x:Name="Star1" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding AverageRate, Converter={converters:StarFillConverter},
+            <Button Command="{Binding DataContext.StarRateCleanlinessCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  CommandParameter="{StaticResource StarOne}"
+                                                           BorderThickness="0">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Path x:Name="Star1" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding SelectedStarCleanliness, Converter={converters:StarFillConverter},
                                      ConverterParameter={StaticResource StarOne} }"
-                                          StrokeThickness="{Binding AverageRate, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarOne}}" Width="45" Height="45" />
-            <Path x:Name="Star2" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding AverageRate, Converter={converters:StarFillConverter},
+                                          StrokeThickness="{Binding SelectedStarCleanliness, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarOne}}" Width="45" Height="45" />
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Command="{Binding DataContext.StarRateCleanlinessCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  CommandParameter="{StaticResource StarTwo}"  BorderThickness="0">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Path x:Name="Star2" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding SelectedStarCleanliness, Converter={converters:StarFillConverter},
                                      ConverterParameter={StaticResource StarTwo} }"
-                                          StrokeThickness="{Binding AverageRate, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarTwo}}" Width="45" Height="45"/>
-            <Path x:Name="Star3" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding AverageRate, Converter={converters:StarFillConverter},
+                                          StrokeThickness="{Binding SelectedStarCleanliness, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarTwo}}" Width="45" Height="45"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Command="{Binding DataContext.StarRateCleanlinessCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  CommandParameter="{StaticResource StarThree}"
+                                                           BorderThickness="0">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Path x:Name="Star3" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding SelectedStarCleanliness, Converter={converters:StarFillConverter},
                                      ConverterParameter={StaticResource StarThree} }" 
-                                          StrokeThickness="{Binding AverageRate, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarThree}}" Width="45" Height="45"/>
-            <Path x:Name="Star4" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding AverageRate, Converter={converters:StarFillConverter},
+                                          StrokeThickness="{Binding SelectedStarCleanliness, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarThree}}" Width="45" Height="45"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Command="{Binding DataContext.StarRateCleanlinessCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  CommandParameter="{StaticResource StarFour}"
+                                                           BorderThickness="0">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Path x:Name="Star4" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding SelectedStarCleanliness, Converter={converters:StarFillConverter},
                                      ConverterParameter={StaticResource StarFour} }"
-                                          StrokeThickness="{Binding AverageRate, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarFour}}" Width="45" Height="45"/>
-            <Path x:Name="Star5" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding AverageRate, Converter={converters:StarFillConverter},
+                                          StrokeThickness="{Binding SelectedStarCleanliness, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarFour}}" Width="45" Height="45"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Command="{Binding DataContext.StarRateCleanlinessCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  CommandParameter="{StaticResource StarFive}"
+                                                           BorderThickness="0">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Path x:Name="Star5" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding SelectedStarCleanliness, Converter={converters:StarFillConverter},
                                      ConverterParameter={StaticResource StarFive} }"
-                                          StrokeThickness="{Binding AverageRate, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarFive}}" Width="45" Height="45"/>
+                                          StrokeThickness="{Binding SelectedStarCleanliness, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarFive}}" Width="45" Height="45"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
         </StackPanel>
         <Label Content="Owner correctness (1-5):" Grid.Row="3" Grid.Column="0" Style="{StaticResource GuestLabelStyle}"></Label>
         <StackPanel Orientation="Horizontal"  Grid.Row="3" Grid.Column="1">
-            <TextBox Text="{Binding ElementName=correctnessSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" 
-                     Width="40"  Margin="0, 5, 0, 5" Height="30" BorderBrush="Black" BorderThickness="1"/>
-            <Slider x:Name="correctnessSlider" Value="{Binding Path=Rating.Correctness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    IsSnapToTickEnabled="True"  Minimum="1"  Maximum="5" Margin="20, 0, 0, 0"  Width="200" VerticalAlignment="Center">
-
-            </Slider>
+            <Button Command="{Binding DataContext.StarRateCorrectnessCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  CommandParameter="{StaticResource StarOne}"
+                                                           BorderThickness="0">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Path x:Name="Star1" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding SelectedStarCorrectness, Converter={converters:StarFillConverter},
+                                     ConverterParameter={StaticResource StarOne} }"
+                                          StrokeThickness="{Binding SelectedStarCorrectness, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarOne}}" Width="45" Height="45" />
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Command="{Binding DataContext.StarRateCorrectnessCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  CommandParameter="{StaticResource StarTwo}"  BorderThickness="0">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Path x:Name="Star2" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding SelectedStarCorrectness, Converter={converters:StarFillConverter},
+                                     ConverterParameter={StaticResource StarTwo} }"
+                                          StrokeThickness="{Binding SelectedStarCorrectness, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarTwo}}" Width="45" Height="45"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Command="{Binding DataContext.StarRateCorrectnessCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  CommandParameter="{StaticResource StarThree}"
+                                                           BorderThickness="0">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Path x:Name="Star3" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding SelectedStarCorrectness, Converter={converters:StarFillConverter},
+                                     ConverterParameter={StaticResource StarThree} }" 
+                                          StrokeThickness="{Binding SelectedStarCorrectness, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarThree}}" Width="45" Height="45"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Command="{Binding DataContext.StarRateCorrectnessCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  CommandParameter="{StaticResource StarFour}"
+                                                           BorderThickness="0">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Path x:Name="Star4" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding SelectedStarCorrectness, Converter={converters:StarFillConverter},
+                                     ConverterParameter={StaticResource StarFour} }"
+                                          StrokeThickness="{Binding SelectedStarCorrectness, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarFour}}" Width="45" Height="45"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Command="{Binding DataContext.StarRateCorrectnessCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  CommandParameter="{StaticResource StarFive}"
+                                                           BorderThickness="0">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Path x:Name="Star5" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding SelectedStarCorrectness, Converter={converters:StarFillConverter},
+                                     ConverterParameter={StaticResource StarFive} }"
+                                          StrokeThickness="{Binding SelectedStarCorrectness, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarFive}}" Width="45" Height="45"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
         </StackPanel>
         <Label Content="Image URLs:" Grid.Row="4" Grid.Column="0" Style="{StaticResource GuestLabelStyle}" VerticalAlignment="Top"></Label>
         <StackPanel Grid.Row="4" Grid.Column="1">

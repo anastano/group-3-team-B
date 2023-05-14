@@ -30,6 +30,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public RelayCommand RemoveImageCommand { get; set; }
         public RelayCommand AddImageCommand { get; set; }
         public RelayCommand RecommendRenovationCommand { get; set; }
+        public RelayCommand StarRateCorrectnessCommand { get; set; }
+        public RelayCommand StarRateCleanlinessCommand { get; set; }
         public RenovationRecommendation Recommendation { get; set; }
         public ObservableCollection<string> Images { get; set; }
         public String SelectedUrl { get; set; }
@@ -98,6 +100,32 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
+        private double _selectedStarCleanliness;
+        public double  SelectedStarCleanliness
+        {
+            get => _selectedStarCleanliness;
+            set
+            {
+                if (value != _selectedStarCleanliness)
+                {
+                    _selectedStarCleanliness = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private double _selectedStarCorrectness;
+        public double SelectedStarCorrectness
+        {
+            get => _selectedStarCorrectness;
+            set
+            {
+                if (value != _selectedStarCorrectness)
+                {
+                    _selectedStarCorrectness = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         private Regex urlRegex = new Regex("(http(s?)://.)([/|.|\\w|\\s|-])*\\.(?:jpg|gif|png)|(^$)");
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -121,6 +149,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             Recommendation = new RenovationRecommendation();
             InitialProperties(); 
             InitCommands();
+            SelectedStarCleanliness = 0;
+            SelectedStarCorrectness = 0;
         }
         private void OnRecommendationChanged()
         {
@@ -171,6 +201,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 //return "URL is not in valid format.";
             }
         }
+        public void ExecutedStarCleanlinessCommand(object obj)
+        {
+            SelectedStarCleanliness  = Convert.ToDouble(obj);
+        }
+        public void ExecutedStarCorrectnessCommand(object obj)
+        {
+            SelectedStarCorrectness = Convert.ToDouble(obj);
+        }
         public bool CanExecute(object obj)
         {
             return true;
@@ -182,6 +220,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             RemoveImageCommand = new RelayCommand(ExecutedRemoveImageCommand, CanExecute);
             AddImageCommand = new RelayCommand(ExecutedAddImageCommand, CanExecute);
             RecommendRenovationCommand = new RelayCommand(ExecutedRecommendRenovationCommand, CanExecute);
+            StarRateCleanlinessCommand = new RelayCommand(ExecutedStarCleanlinessCommand, CanExecute);
+            StarRateCorrectnessCommand = new RelayCommand(ExecutedStarCorrectnessCommand, CanExecute);
         }
     }
 }

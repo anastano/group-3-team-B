@@ -19,8 +19,10 @@ namespace SIMS_HCI_Project.Repositories
         public NotificationRepository()
         {
             _fileHandler = new NotificationFileHandler();
-            _notifications = _fileHandler.Load();
-
+            if(_notifications == null)
+            {
+                _notifications = _fileHandler.Load();
+            }
             _observers = new List<IObserver>();
 
         }

@@ -8,7 +8,7 @@ using System.Xml.Linq;
 
 namespace SIMS_HCI_Project.Domain.Models
 {
-    public class RatingGivenByGuest : ISerializable
+    public class RatingGivenByGuest
     {
         public int Id { get; set; }
         public int ReservationId { get; set; }
@@ -42,31 +42,6 @@ namespace SIMS_HCI_Project.Domain.Models
             Correctness = temp.Correctness;
             AdditionalComment= temp.AdditionalComment;
             Images = new List<string>();
-        }
-
-        public string[] ToCSV()
-        {
-            string[] csvValues =
-            {
-                Id.ToString(),
-                ReservationId.ToString(),
-                Cleanliness.ToString(),
-                Correctness.ToString(),
-                AdditionalComment,
-                string.Join(",", Images)
-
-            };
-            return csvValues;
-        }
-
-        public void FromCSV(string[] values)
-        {
-            Id = int.Parse(values[0]);
-            ReservationId = int.Parse(values[1]);
-            Cleanliness = int.Parse(values[2]);
-            Correctness = int.Parse(values[3]);
-            AdditionalComment = values[4];
-            Images = new List<string>(values[5].Split(","));
         }
     }
 }

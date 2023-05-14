@@ -18,8 +18,11 @@ namespace SIMS_HCI_Project.Repositories
 
         public AccommodationReservationRepository()
         {
-            _fileHandler = new AccommodationReservationFileHandler();          
-            _reservations = _fileHandler.Load();
+            _fileHandler = new AccommodationReservationFileHandler(); 
+            if(_reservations == null)
+            {
+                _reservations = _fileHandler.Load();
+            }
 
             _observers = new List<IObserver>();
         }

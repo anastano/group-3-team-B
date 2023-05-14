@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.FileHandlers
@@ -11,23 +12,55 @@ namespace SIMS_HCI_Project.FileHandlers
     internal class RatingGivenByGuestFileHandler
     {
         private const string path = "../../../Resources/Database/ratingsGivenByGuest.csv";
-
-        private readonly Serializer<RatingGivenByGuest> _serializer;
-
+        private const char Delimiter = '|';
 
         public RatingGivenByGuestFileHandler()
         {
-            _serializer = new Serializer<RatingGivenByGuest>();
+            
         }
-
         public List<RatingGivenByGuest> Load()
         {
-            return _serializer.FromCSV(path);
+            List<RatingGivenByGuest> ratings = new List<RatingGivenByGuest>();
+
+            foreach (string line in File.ReadLines(path))
+            {
+                string[] csvValues = line.Split(Delimiter);
+                RatingGivenByGuest rating = new RatingGivenByGuest();
+
+                rating.Id = int.Parse(csvValues[0]);
+                rating.ReservationId = int.Parse(csvValues[1]);
+                rating.Cleanliness = int.Parse(csvValues[2]);
+                rating.Correctness = int.Parse(csvValues[3]);
+                rating.AdditionalComment = csvValues[4];
+                rating.Images = new List<string>(csvValues[5].Split(","));
+
+                ratings.Add(rating);
+            }
+
+            return ratings;
         }
 
         public void Save(List<RatingGivenByGuest> ratings)
         {
-            _serializer.ToCSV(path, ratings);
+            StringBuilder csv = new StringBuilder();
+
+            foreach (RatingGivenByGuest rating in ratings)
+            {
+                string[] csvValues =
+                {
+                    rating.Id.ToString(),
+                    rating.ReservationId.ToString(),
+                    rating.Cleanliness.ToString(),
+                    rating.Correctness.ToString(),
+                    rating.AdditionalComment,
+                    string.Join(",", rating.Images)
+                };
+
+                string line = string.Join(Delimiter.ToString(), csvValues);
+                csv.AppendLine(line);
+            }
+
+            File.WriteAllText(path, csv.ToString());
         }
     }
 }

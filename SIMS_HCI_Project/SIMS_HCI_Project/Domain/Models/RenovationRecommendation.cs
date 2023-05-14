@@ -28,7 +28,7 @@ namespace SIMS_HCI_Project.Domain.Models
         [Description("Level 5 - The accommodation is in very bad condition and it's not worth renting unless it's renovated.")]
         LEVEL5
     }
-    public class RenovationRecommendation : ISerializable
+    public class RenovationRecommendation
     {
         public int Id { get; set; }
         public int RatingId { get; set; }
@@ -48,26 +48,7 @@ namespace SIMS_HCI_Project.Domain.Models
             UrgencyLevel = renovationRecommendation.UrgencyLevel;
             Comment = renovationRecommendation.Comment;
         }
-        public string[] ToCSV()
-        {
-            string[] csvValues =
-            {
-                Id.ToString(),
-                RatingId.ToString(),
-                UrgencyLevel.ToString(),
-                Comment
-            };
-            return csvValues;
-        }
 
-        public void FromCSV(string[] values)
-        {
-            Id = int.Parse(values[0]);
-            RatingId =int.Parse(values[1]);
-            Enum.TryParse(values[2], out UrgencyRenovationLevel level);
-            UrgencyLevel = level;
-            Comment = values[3];
-        }
         public static string ToDescriptionString(UrgencyRenovationLevel value)
         {
             FieldInfo field = value.GetType().GetField(value.ToString());

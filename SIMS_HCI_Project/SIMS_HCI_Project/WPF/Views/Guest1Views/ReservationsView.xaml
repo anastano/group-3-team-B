@@ -182,18 +182,21 @@
                             </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-
-                    <lvc:PieChart Grid.Column="1" Width="250" Height="250" Hoverable="True" InnerRadius="0">
-                        <lvc:PieChart.Series>
-                            <lvc:PieSeries Title="Cancelled reservations" DataLabels="True" Values="{Binding CancelledCount}" >
-                            </lvc:PieSeries>
-                            <lvc:PieSeries Title="Other reservations" DataLabels="True" Values="{Binding ReservationsCount}"></lvc:PieSeries>
-                        </lvc:PieChart.Series>
-                        <lvc:PieChart.DataTooltip>
-                            <lvc:DefaultTooltip BulletSize="20"/>
-                        </lvc:PieChart.DataTooltip>
-                    </lvc:PieChart>
-
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <lvc:PieChart Width="250" Height="250" Hoverable="True" InnerRadius="0">
+                            <lvc:PieChart.Series>
+                                <lvc:PieSeries Title="Cancelled reservations" FontSize="18" Foreground="black"  DataLabels="True" Values="{Binding CancelledCount}" Fill="#D754E8">
+                                </lvc:PieSeries>
+                                <lvc:PieSeries Title="Other reservations" FontSize="18" Foreground="black"  DataLabels="True" Values="{Binding ReservationsCount}" Fill="#Fff5a8"></lvc:PieSeries>
+                            </lvc:PieChart.Series>
+                            <lvc:PieChart.DataTooltip>
+                                <lvc:DefaultTooltip BulletSize="30"/>
+                            </lvc:PieChart.DataTooltip>
+                        </lvc:PieChart>
+                        <TextBlock x:Name="tblNotifications" Text="The percetange of canceled reservations in relation to the total number of reservations" 
+                           Style="{StaticResource CustomTextBlockStyle }" FontSize="18" Margin="0 50 0 0" Foreground="Black">
+                        </TextBlock>
+                    </StackPanel>
                 </Grid>
             </TabItem>
         </TabControl>

@@ -11,11 +11,13 @@ using System.Windows.Input;
 using System.Windows;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using SIMS_HCI_Project.WPF.Services;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
     internal class AccommodationImagesViewModel : INotifyPropertyChanged
     {
+        private NavigationService _navigationService;
         private readonly AccommodationReservationService _reservationService;
         private int _currentImageIndex = 0;
         public Accommodation Accommodation { get; set; }
@@ -70,6 +72,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             Name = name;
             InitCommands();
         }
+        public AccommodationImagesViewModel(Accommodation accommodation, NavigationService navigationService)
+        {
+            _navigationService = navigationService;
+            _reservationService = new AccommodationReservationService();
+            Accommodation = accommodation;
+            Image = Accommodation.Images[_currentImageIndex];
+            InitCommands();
+        }
         private void ChangeOutrangeCurrentImageIndex()
         {
             if (_currentImageIndex < 0)
@@ -90,7 +100,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         }
         public void ExecutedBackCommand(object obj)
         {
-            CurrentViewModel = new AccommodationSearchViewModel(Guest, GuestsNumber, DaysNumber);
+            //da puta koristim da vidim kako da izmjenim naslov
+            _navigationService.NavigateBack();
         }
         public void ExecutedPreviousImageCommand(object obj)
         {

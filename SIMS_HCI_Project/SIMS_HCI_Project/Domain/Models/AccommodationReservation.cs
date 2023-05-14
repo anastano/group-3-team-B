@@ -22,24 +22,26 @@ namespace SIMS_HCI_Project.Domain.Models
         public AccommodationReservationStatus Status { get; set; }
         public bool isRated { get; set; }
 
-        public AccommodationReservation() { }
-
-        public AccommodationReservation(int accommodationId, int guestId, DateTime start, DateTime end, int guestNumber)
+        public AccommodationReservation() { }  
+        public AccommodationReservation(Accommodation accommodation, Guest1 guest, DateTime start, DateTime end, int guestNumber)
         {
             Id = -1;
-            AccommodationId = accommodationId;
-            GuestId = guestId;
+            AccommodationId = accommodation.Id;
+            Accommodation = accommodation;
+            GuestId = guest.Id;
+            Guest = guest;
             Start = start;
             End = end;
             GuestNumber = guestNumber;
             Status = AccommodationReservationStatus.RESERVED;
         }
-
         public AccommodationReservation(AccommodationReservation reservation)
         {
             Id = reservation.Id;
             AccommodationId = reservation.AccommodationId;
+            Accommodation = reservation.Accommodation;
             GuestId = reservation.GuestId;
+            Guest = reservation.Guest;
             Start = reservation.Start;
             End = reservation.End;
             GuestNumber = reservation.GuestNumber;

@@ -4,25 +4,179 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.GuideViews"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
-        Title="AllToursStatisticsView" Height="450" Width="800"  WindowStartupLocation="CenterScreen" FontSize="20">
+        Title="AllToursStatisticsView" Height="920" Width="1280"  WindowStartupLocation="CenterScreen" FontSize="20">
+    <Window.Background>
+        <ImageBrush ImageSource="pack://application:,,,/WPF/Images/guideBackground.png"></ImageBrush>
+    </Window.Background>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/GuideStyles.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
-        <Label Content="Top Tour" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top"/>
-        <StackPanel Margin="20,62,94,230">
-            <TextBlock Text="{Binding AllTimeTopTour.Tour.Title, StringFormat=Tour Title: {0}}"></TextBlock>
-            <TextBlock Text="{Binding AllTimeTopTour.Tour.Location.City, StringFormat=Location City: {0}}"></TextBlock>
-            <TextBlock Text="{Binding AllTimeTopTour.Tour.Location.Country, StringFormat=Location Country: {0}}"></TextBlock>
-            <TextBlock Text="{Binding AllTimeTopTour.Id, StringFormat=Tour Id: {0}}"></TextBlock>
-        </StackPanel>
+        <StackPanel>
+            <Grid HorizontalAlignment="Center">
+                <local:NavigationMenu></local:NavigationMenu>
+            </Grid>
+            <Grid>
+                <!--<Label Content="Top Tour" HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top"/>
+            <StackPanel Margin="20,62,94,230">
+                <TextBlock Text="{Binding AllTimeTopTour.Tour.Title, StringFormat=Tour Title: {0}}"></TextBlock>
+                <TextBlock Text="{Binding AllTimeTopTour.Tour.Location.City, StringFormat=Location City: {0}}"></TextBlock>
+                <TextBlock Text="{Binding AllTimeTopTour.Tour.Location.Country, StringFormat=Location Country: {0}}"></TextBlock>
+                <TextBlock Text="{Binding AllTimeTopTour.Id, StringFormat=Tour Id: {0}}"></TextBlock>
+            </StackPanel>
 
-        <Label Content="Top Tour in" HorizontalAlignment="Left" Margin="10,214,0,0" VerticalAlignment="Top"/>
-        <ComboBox HorizontalAlignment="Left" Margin="138,214,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding YearsWithTours}"  SelectedItem="{Binding SelectedYear}"/>
-        <StackPanel Margin="20,269,94,38">
-            <TextBlock Text="{Binding SelectedYearTopTour.Tour.Title, StringFormat=Tour Title: {0}}"></TextBlock>
-            <TextBlock Text="{Binding SelectedYearTopTour.Tour.Location.City, StringFormat=Location City: {0}}"></TextBlock>
-            <TextBlock Text="{Binding SelectedYearTopTour.Tour.Location.Country, StringFormat=Location Country: {0}}"></TextBlock>
-            <TextBlock Text="{Binding SelectedYearTopTour.Id, StringFormat=Tour Id: {0}}"></TextBlock>
-        </StackPanel>
+            <Label Content="Top Tour in" HorizontalAlignment="Left" Margin="10,214,0,0" VerticalAlignment="Top"/>
+            <ComboBox HorizontalAlignment="Left" Margin="138,214,0,0" VerticalAlignment="Top" Width="120" ItemsSource="{Binding YearsWithTours}"  SelectedItem="{Binding SelectedYear}"/>
+            <StackPanel Margin="20,269,94,38">
+                <TextBlock Text="{Binding SelectedYearTopTour.Tour.Title, StringFormat=Tour Title: {0}}"></TextBlock>
+                <TextBlock Text="{Binding SelectedYearTopTour.Tour.Location.City, StringFormat=Location City: {0}}"></TextBlock>
+                <TextBlock Text="{Binding SelectedYearTopTour.Tour.Location.Country, StringFormat=Location Country: {0}}"></TextBlock>
+                <TextBlock Text="{Binding SelectedYearTopTour.Id, StringFormat=Tour Id: {0}}"></TextBlock>
+            </StackPanel>-->
+                <StackPanel Margin="20,20,20,20">
+                    <StackPanel>
+                        <TextBlock FontSize="21"  Text="Top tour of all time" Margin="0,0,0,10"></TextBlock>
+                        <Border BorderBrush="Black" BorderThickness="0" Height="300" Padding="20,30,20,30">
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel Margin="10,0,10,0">
+                                    <Image Width="170" Height="170" Margin="0,0,0,30" Source="{Binding AllTimeTopTourImage}"></Image>
+                                    <Button Content="See tour information">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourInformation}"></i:InvokeCommandAction>
+                                                <i:InvokeCommandAction Command="{Binding NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
+                                                          RelativeSource Mode=FindAncestor,
+                                                          AncestorType={x:Type Window}}}"></i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+                                </StackPanel>
+                                <StackPanel Margin="10,0,10,0" Width="200">
+                                    <TextBlock Text="{Binding AllTimeTopTour.Tour.Title }" Margin="0,0,0,10"></TextBlock>
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0}, {1}">
+                                                <Binding Path="AllTimeTopTour.Tour.Location.City"></Binding>
+                                                <Binding Path="AllTimeTopTour.Tour.Location.Country"></Binding>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </StackPanel>
+                                <StackPanel Margin="100,0,20,0">
+                                    <TextBlock Text="Number of guests by age" Margin="0,0,0,10"></TextBlock>
+                                    <DataGrid AutoGenerateColumns="False" IsReadOnly="True" Height="200" Width="250"  ItemsSource="{Binding AllTimeTopTourStatistics.GuestNumbersByAge}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Age group" Width="1*">
+                                                <DataGridTextColumn.Binding>
+                                                    <MultiBinding StringFormat="{}{0} - {1}">
+                                                        <Binding Path="Key.MinAge"></Binding>
+                                                        <Binding Path="Key.MaxAge"></Binding>
+                                                    </MultiBinding>
+                                                </DataGridTextColumn.Binding>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="Guest number" Binding="{Binding Value}" Width="1.2*"></DataGridTextColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" Margin="50,0,50,0">
+                                    <lvc:PieChart Height="150" Width="150" x:Name="pieChart">
+                                        <lvc:PieChart.Series>
+                                            <lvc:PieSeries x:Name="with" Title="with voucher" DataLabels="True" Values="40" Fill="DimGray" ></lvc:PieSeries>
+                                            <lvc:PieSeries x:Name="without" Title="without voucher" DataLabels="True" Values="60" Fill="DarkSlateGray"></lvc:PieSeries>
+                                        </lvc:PieChart.Series>
+                                    </lvc:PieChart>
+                                    <TextBlock  FontSize="19" Text="guest with voucher ░" Margin="0,10,0,10"></TextBlock>
+                                    <TextBlock  FontSize="19" Text="guest without voucher ▒"></TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                        <StackPanel Orientation="Horizontal"  Margin="0,50,0,10">
+                            <TextBlock FontSize="21"  Text="Top tour in" Margin="0,0,10,0"></TextBlock>
+                            <ComboBox Width="100" ItemsSource="{Binding YearsWithTours}" SelectedItem="{Binding SelectedYear}"></ComboBox>
+                        </StackPanel>
+                        <Border BorderBrush="Black" BorderThickness="0" Height="300" Padding="20,30,20,30">
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel Margin="10,0,10,0">
+                                    <Image Width="170" Height="170" Margin="0,0,0,30" Source="{Binding SelectedYearTopTourImage}"></Image>
+                                    <Button Content="See tour information">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Click">
+                                                <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourInformation}"></i:InvokeCommandAction>
+                                                <i:InvokeCommandAction Command="{Binding NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
+                                                          RelativeSource Mode=FindAncestor,
+                                                          AncestorType={x:Type Window}}}"></i:InvokeCommandAction>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Button>
+                                </StackPanel>
+                                <StackPanel Margin="10,0,10,0" Width="200">
+                                    <TextBlock Text="{Binding SelectedYearTopTour.Tour.Title }" Margin="0,0,0,10"></TextBlock>
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0}, {1}">
+                                                <Binding Path="SelectedYearTopTour.Tour.Location.City"></Binding>
+                                                <Binding Path="SelectedYearTopTour.Tour.Location.Country"></Binding>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
+                                </StackPanel>
+                                <StackPanel Margin="100,0,20,0">
+                                    <TextBlock Text="Number of guests by age" Margin="0,0,0,10"></TextBlock>
+                                    <DataGrid AutoGenerateColumns="False" IsReadOnly="True" Height="200" Width="250"  ItemsSource="{Binding SelectedYearTopTourStatistics.GuestNumbersByAge}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Age group" Width="1*">
+                                                <DataGridTextColumn.Binding>
+                                                    <MultiBinding StringFormat="{}{0} - {1}">
+                                                        <Binding Path="Key.MinAge"></Binding>
+                                                        <Binding Path="Key.MaxAge"></Binding>
+                                                    </MultiBinding>
+                                                </DataGridTextColumn.Binding>
+                                            </DataGridTextColumn>
+                                            <DataGridTextColumn Header="Guest number" Binding="{Binding Value}" Width="1.2*"></DataGridTextColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Bottom" Margin="50,0,50,0">
+                                    <lvc:PieChart Height="150" Width="150">
+                                        <lvc:PieChart.Series>
+                                            <lvc:PieSeries Title="with voucher" DataLabels="True" Values="50" Fill="DimGray" ></lvc:PieSeries>
+                                            <lvc:PieSeries Title="without voucher" DataLabels="True" Values="30" Fill="DarkSlateGray"></lvc:PieSeries>
+                                        </lvc:PieChart.Series>
+                                    </lvc:PieChart>
+                                    <TextBlock FontSize="19" Text="guest with voucher ░" Margin="0,10,0,10"></TextBlock>
+                                    <TextBlock FontSize="19" Text="guest without voucher ▒"></TextBlock>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontSize="19"  Text="Want to see statistics for specific tour? Go to " Margin="00,50,0,0"></TextBlock>
+                            <Button  FontSize="19" Content="all tours" VerticalAlignment="Bottom" Style="{StaticResource LinkButton}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToAllTours}" />
+                                        <i:InvokeCommandAction Command="{Binding NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
+                                              RelativeSource Mode=FindAncestor,
+                                              AncestorType={x:Type Window}}}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                            <TextBlock  FontSize="19" Text=" and choose one " Margin="00,50,0,0"></TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
 
+                <StackPanel Panel.ZIndex="-10">
+                    <Border Background="White" Opacity="0.5" CornerRadius="20" Panel.ZIndex="-10" VerticalAlignment="Top" Height="300" Margin="20,60,20,20"></Border>
+                    <Border Background="White" Opacity="0.5" CornerRadius="20" Panel.ZIndex="-10" VerticalAlignment="Top" Height="300" Margin="20,70,20,20"></Border>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
     </Grid>
 </Window>

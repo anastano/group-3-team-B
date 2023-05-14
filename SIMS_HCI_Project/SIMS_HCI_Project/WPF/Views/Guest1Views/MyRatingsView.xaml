@@ -11,7 +11,7 @@
     <UserControl.Resources>
         <converters:FullNameConverter x:Key="FullNameConverter" />
     </UserControl.Resources>
-    <Grid Margin="20">
+    <Grid Margin="25">
         <Grid.RowDefinitions>
             <RowDefinition Height = "*"/>
             <RowDefinition Height="1.5*"/>
@@ -39,9 +39,12 @@
                 <lvc:DefaultTooltip BulletSize="20"/>
             </lvc:CartesianChart.DataTooltip>
         </lvc:CartesianChart>
-        <DataGrid  Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding Path=RatingsGivenByOwners, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True">
+        <DataGrid  Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding Path=RatingsGivenByOwners, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                   AutoGenerateColumns="False" IsReadOnly="True" RowHeight="100" GridLinesVisibility="Horizontal" Style="{StaticResource GuestDatagridStyle}"
+                  ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}" CellStyle="{StaticResource GuestDatagridCellStyle}"
+                   RowStyle="{StaticResource DataGridRowStyle}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Owner" Width="SizeToCells">
+                <DataGridTextColumn Header="Owner" Width="90" ElementStyle="{StaticResource CustomTextBlockStyle}">
                     <DataGridTextColumn.Binding>
                         <MultiBinding Converter="{StaticResource FullNameConverter}">
                             <Binding Path="Reservation.Accommodation.Owner.Name" />
@@ -49,10 +52,21 @@
                         </MultiBinding>
                     </DataGridTextColumn.Binding>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Reservation Id" Binding="{Binding ReservationId}" Width="*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Cleanliness" Binding="{Binding Cleanliness}" Width="SizeToHeader"></DataGridTextColumn>
-                <DataGridTextColumn Header="Following the rules" Binding="{Binding RuleCompliance}" Width="SizeToHeader"></DataGridTextColumn>
-                <DataGridTextColumn Header="Additional comment" Binding="{Binding AdditionalComment}" Width="6*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Reservation Id" Binding="{Binding ReservationId}" Width="*"
+                                    ElementStyle="{StaticResource CustomTextBlockStyle}">
+                   
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Cleanliness" Binding="{Binding Cleanliness}" Width="120"
+                                    ElementStyle="{StaticResource CustomTextBlockStyle}">
+                    
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Following the rules" Binding="{Binding RuleCompliance}" Width="90"
+                                    ElementStyle="{StaticResource CustomTextBlockStyle}">
+                    
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Additional comment" Binding="{Binding AdditionalComment}" Width="6*"
+                                    ElementStyle="{StaticResource CustomTextBlockStyle}">
+                </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
             

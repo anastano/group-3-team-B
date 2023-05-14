@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Domain.Models
 {
+    public enum NotificationType { DEFAULT, TOUR_REQUEST_ACCEPTED}
+
     public class Notification
     {
         public int Id { get; set; }
@@ -14,16 +16,21 @@ namespace SIMS_HCI_Project.Domain.Models
         public int UserId { get; set; }
         public User User { get; set; }
         public bool IsRead { get; set; }
+        public NotificationType Type { get; set; }
+
         public Notification()
         {
             Message = " ";
             IsRead = false;
+            Type = NotificationType.DEFAULT;
         }
-        public Notification(string message, int userId, bool isRead)
+
+        public Notification(string message, int userId, bool isRead, NotificationType type = NotificationType.DEFAULT)
         {
             Message = message;
             UserId = userId;
             IsRead = isRead;
+            Type = type;
         }
 
         public Notification(Notification notification)
@@ -33,6 +40,7 @@ namespace SIMS_HCI_Project.Domain.Models
             UserId = notification.UserId;
             User = notification.User;
             IsRead = notification.IsRead;
+            Type = notification.Type;
         }
     }
 }

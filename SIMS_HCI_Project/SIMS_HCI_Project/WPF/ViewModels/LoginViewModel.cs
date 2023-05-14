@@ -39,9 +39,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels
         public void Executed_LoginCommand(object obj)
         {
             LoginWindow.lblErrorMessage.Content = "";
-            User user = _userService.GetByUsernameAndPassword(Username, LoginWindow.pbPassword.Password);
+            User user = _userService.LogIn(Username, LoginWindow.pbPassword.Password); // this line was left since I didn't update roles besides guide
+            App.Current.Properties["CurrentUser"] = _userService.LogIn(Username, LoginWindow.pbPassword.Password);
 
-            if (user != null)
+            if (App.Current.Properties["CurrentUser"] != null)
             {
                 _startupService.LoadConnections();
                 switch (user.Role)
@@ -67,7 +68,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels
                         guest2View.Show();
                         break;
                     case UserRole.GUIDE:
-                        Window guideWindow = new GuideMainView(new Guide(user));
+                        Window guideWindow = new GuideMainView();
                         guideWindow.Show();
                         break;
                 }

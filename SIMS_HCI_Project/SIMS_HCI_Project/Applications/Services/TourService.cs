@@ -1,4 +1,5 @@
-﻿using SIMS_HCI_Project.Domain.Models;
+﻿using SIMS_HCI_Project.Domain.DTOs;
+using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Domain.RepositoryInterfaces;
 using SIMS_HCI_Project.Repositories;
 using System;
@@ -70,6 +71,11 @@ namespace SIMS_HCI_Project.Applications.Services
             return _tourRepository.Search(city, country);
         }
 
+        public List<Tour> SearchByGuide(int guideId, string country = null, string city = null, int duration = 0, string language = null, int guestsNum = 0)
+        {
+            return _tourRepository.SearchByGuide(guideId, country, city, duration, language, guestsNum);
+        }
+
         public TourTime GetActiveTour(int guideId)
         {
             List<TourTime> guideTours = GetToursByGuide(guideId);
@@ -88,6 +94,11 @@ namespace SIMS_HCI_Project.Applications.Services
 
             _tourTimeRepository.AssignTourToTourTimes(tour, tour.DepartureTimes);
             _tourTimeRepository.AddMultiple(tour.DepartureTimes);
+        }
+
+        public List<TourTime> GetToursInDateRange(int guideId, DateRange dateRange)
+        {
+            return _tourTimeRepository.GetAllInDateRange(guideId, dateRange);
         }
     }
 }

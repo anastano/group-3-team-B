@@ -1,0 +1,129 @@
+﻿<Page x:Class="SIMS_HCI_Project.WPF.Views.Guest2Views.StatisticsView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest2Views"
+      xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+      xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
+      xmlns:guest2viewmodels="clr-namespace:SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels" d:DataContext="{d:DesignInstance Type=guest2viewmodels:StatisticsViewModel}"
+      mc:Ignorable="d" 
+      d:DesignHeight="518" d:DesignWidth="1080"
+      Title="StatisticsView">
+
+    <Page.Resources>
+        <!--<converters:AllTimeConverter x:Key="AllTimeConverter" />-->
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Margin" Value="0 0 0 0"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="150"/>
+        </Style>
+
+        <Style x:Key="Guest2Header1Style" TargetType="Label">
+            <Setter Property="Foreground" Value="Orange"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+    </Page.Resources>
+
+    <Grid >
+        <Label Content="Statistics by statuses:" Foreground="Orange" FontSize="14" HorizontalAlignment="Left" Margin="16,69,0,0" VerticalAlignment="Top" Height="33"/>
+        <!--<Label Content="Statistics on my tour requests"  HorizontalAlignment="Left" Margin="332,10,0,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Height="37" Width="289" FontSize="20"/>-->
+        <Label Content="Statistics on my tour requests" Style="{StaticResource Guest2Header1Style}"/>
+
+
+
+        <Label Content="Select a period:" HorizontalAlignment="Left" Margin="29,107,0,0" VerticalAlignment="Top" Width="115"/>
+        <ComboBox x:Name="yearComboBox" SelectedIndex="{Binding SelectedYearIndexStatus}" Margin="29,133,931,356">
+            <ComboBoxItem Content="All Time"/>
+            <ComboBoxItem Content="2021" />
+            <ComboBoxItem Content="2022" />
+            <ComboBoxItem Content="2023" />
+        </ComboBox>
+
+        <!--requests by statuses and years-->
+        <lvc:PieChart x:Name="drugi" Margin="154,82,635,240" LegendLocation="Right" Foreground="Wheat">
+            <lvc:PieChart.Series >
+                <lvc:PieSeries Title="Accepted requests" DataLabels="True" Values="{Binding AcceptedCount}" ></lvc:PieSeries>
+                <lvc:PieSeries Title="Invalid requests" DataLabels="True" Values="{Binding InvalidCount}"></lvc:PieSeries>
+                <lvc:PieSeries Title="Pending requests" DataLabels="True" Values="{Binding PendingCount}"></lvc:PieSeries>
+            </lvc:PieChart.Series>
+            <lvc:PieChart.DataTooltip>
+                <lvc:DefaultTooltip />
+            </lvc:PieChart.DataTooltip>
+        </lvc:PieChart>
+
+        <!--requests grouped by languages-->
+        <lvc:CartesianChart Margin="10,318,604,24" >
+            <lvc:CartesianChart.Series>
+                <lvc:ColumnSeries Foreground="Wheat" FontSize="12" FontStyle="Italic" Values="{Binding RequestsByLanguageValues}" DataLabels="True" LabelPoint="{Binding ColumnChartLabelPoint}">
+                    <lvc:ColumnSeries.Fill>
+                        <LinearGradientBrush>
+                            <GradientStop Color="Tomato" Offset="0"/>
+                            <GradientStop Color="Orange" Offset="1"/>
+                        </LinearGradientBrush>
+                        <!--<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF7C14A5" Offset="0"/>
+                            <GradientStop Color="#FF3BE6D2" Offset="1"/>
+                            <GradientStop Color="#FF9728C3" Offset="0.008"/>
+                            <GradientStop Color="#FF9D42B3" Offset="0.383"/>
+                            <GradientStop Color="#FF664892" Offset="0.56"/>
+                            <GradientStop Color="#FFCA29C4" Offset="0.194"/>
+                            <GradientStop Color="#FF296492" Offset="0.786"/>
+                        </LinearGradientBrush>-->
+                    </lvc:ColumnSeries.Fill>
+                </lvc:ColumnSeries>
+            </lvc:CartesianChart.Series>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Language" Labels="{Binding RequestsByLanguageKeys}" FontSize="10" />
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Number of Requests" />
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
+        <Label Content="Ratio of the number of requests to the language:" Foreground="Orange" FontSize="14" HorizontalAlignment="Left" Margin="10,283,0,0" VerticalAlignment="Top" Width="353" Height="34"/>
+
+        <!--requests grouped by locations-->
+        <lvc:CartesianChart Margin="540,318,74,24" >
+            <lvc:CartesianChart.Series>
+                <lvc:ColumnSeries Foreground="Wheat" FontSize="12" FontStyle="Italic" Values="{Binding RequestsByLocationValues}" DataLabels="True" LabelPoint="{Binding ColumnChartLabelPointLocation}">
+                    <lvc:ColumnSeries.Fill>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Tomato" Offset="0"/>
+                            <GradientStop Color="Orange" Offset="1"/>
+                            <!--<GradientStop Color="#FF9728C3" Offset="0.008"/>
+                            <GradientStop Color="#FF9D42B3" Offset="0.383"/>
+                            <GradientStop Color="#FF664892" Offset="0.56"/>
+                            <GradientStop Color="#FFCA29C4" Offset="0.194"/>
+                            <GradientStop Color="#FF296492" Offset="0.786"/>-->
+                        </LinearGradientBrush>
+                    </lvc:ColumnSeries.Fill>
+                </lvc:ColumnSeries>
+            </lvc:CartesianChart.Series>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Location" Labels="{Binding RequestsByLocationKeys}" FontSize="10" />
+            </lvc:CartesianChart.AxisX>
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="Number of Requests" />
+            </lvc:CartesianChart.AxisY>
+        </lvc:CartesianChart>
+        <Label Content="Ratio of the number of requests to the locations:" Foreground="Orange" FontSize="14"  HorizontalAlignment="Left" Margin="540,283,0,0" VerticalAlignment="Top" Height="34" Width="345"/>
+
+        <!--average-->
+        <Label Content="Select a period:" HorizontalAlignment="Left" Margin="618,107,0,0" VerticalAlignment="Top" Width="115"/>
+        <Label Content="Average number of people in accepted requests:" Foreground="Orange" FontSize="14" HorizontalAlignment="Left" Margin="540,69,0,0" VerticalAlignment="Top" Width="318" Height="33"/>
+
+        <ComboBox x:Name="yearComboBoxAverage" SelectedIndex="{Binding SelectedYearIndexAverage}" Margin="613,133,347,356">
+            <ComboBoxItem Content="All Time"/>
+            <ComboBoxItem Content="2021" />
+            <ComboBoxItem Content="2022" />
+            <ComboBoxItem Content="2023" />
+        </ComboBox>
+        <TextBlock HorizontalAlignment="Left" Margin="818,69,0,0" TextWrapping="Wrap" Text="{Binding AverageNumberOfPeople}" VerticalAlignment="Top" Height="42" Width="233" FontSize="14"/>
+
+    </Grid>
+</Page>

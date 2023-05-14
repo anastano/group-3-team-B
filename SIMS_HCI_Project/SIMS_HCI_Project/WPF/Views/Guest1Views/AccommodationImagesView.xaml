@@ -11,25 +11,26 @@
              d:DesignHeight="702" d:DesignWidth="969" Background="#f5f5f5">
     <UserControl.Resources>
         <converters:ImageUrlConverter x:Key="ImageUrlConverter" />
+        <Style x:Key="fancyTitleMain" TargetType="TextBlock">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="30"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0 0 0 5"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <StackPanel Orientation="Vertical">
-            <Button Content="Back" Command="{Binding DataContext.BackCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Margin="60,60,10,10" HorizontalAlignment="Left" Width="60"/>
-            <Image Source="{Binding Image}" Stretch="Uniform" Height="400" Margin="100 50 100 30" />
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top"  Height="51" Margin="0 0 0 10">
-                <Button Content="Previous" Command="{Binding DataContext.PreviousImageCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Margin="10,10,50,10" Width="60"/>
-                <Button Content="Next" Command="{Binding DataContext.NextImageCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Margin="150,10,10,10" Width="60"/>
+            <Button Content="Back" Command="{Binding DataContext.BackCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Margin="60,60,10,20" HorizontalAlignment="Left" Style="{StaticResource GuestButtonStyle}"/>
+            <TextBlock Text="{Binding Accommodation.Name}" Style="{StaticResource ResourceKey=fancyTitleMain}" Width="966"></TextBlock>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="&lt;&lt;" Command="{Binding DataContext.PreviousImageCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Style="{StaticResource GuestButtonImagesStyle }" />
+                <Image Source="{Binding Image}" Height="450" Width="500"/>
+                <Button Content=">>" Command="{Binding DataContext.NextImageCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Style="{StaticResource GuestButtonImagesStyle }"/>
             </StackPanel>
         </StackPanel>
-        <ContentControl x:Name="UserControls" Content="{Binding CurrentViewModel}" Grid.RowSpan="4" Grid.ColumnSpan="2">
-            <ContentControl.Resources>
-                <DataTemplate DataType="{x:Type viewmodels:AccommodationSearchViewModel}">
-                    <views:AccommodationSearchView/>
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type viewmodels:AccommodationImagesViewModel}">
-                    <views:AccommodationImagesView/>
-                </DataTemplate>
-            </ContentControl.Resources>
-        </ContentControl>
     </Grid>
 </UserControl>

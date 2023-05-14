@@ -55,15 +55,15 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _accommodations.OrderByDescending(a => a.Owner.SuperFlag).ToList();
         }
-        public List<Accommodation> Search(string name, string country, string city, string type, int guestsNumber, int reservationDays)
+        public List<Accommodation> Search(string name, string country, string city, string type, string guestsNumber, string reservationDays)
         {
             var filtered = from accommodation in _accommodations
                            where (string.IsNullOrEmpty(name) || accommodation.Name.ToLower().Contains(name.ToLower()))
                            && (string.IsNullOrEmpty(country) || accommodation.Location.Country.ToLower().Contains(country.ToLower()))
                            && (string.IsNullOrEmpty(city) || accommodation.Location.City.ToLower().Contains(city.ToLower()))
                            && (string.IsNullOrEmpty(type) || Enum.GetName(accommodation.Type).Equals(type))
-                           && (guestsNumber == 0 || guestsNumber <= accommodation.MaxGuests)
-                           && (reservationDays == 0 || reservationDays >= accommodation.MinimumReservationDays)
+                           && (string.IsNullOrEmpty(guestsNumber) || int.Parse(guestsNumber) <= accommodation.MaxGuests)
+                           && (string.IsNullOrEmpty(reservationDays) || int.Parse(reservationDays) >= accommodation.MinimumReservationDays)
                            orderby accommodation.Owner.SuperFlag descending
                            select accommodation;
             return filtered.ToList();

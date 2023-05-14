@@ -13,14 +13,25 @@
     <None Remove="Resources\Images\goldenHouse.png" />
     <None Remove="Resources\Images\logout.png" />
     <None Remove="Resources\Images\menu.png" />
+    <None Remove="Resources\Images\patternCircle.jpg" />
+    <None Remove="Resources\Images\patternLines.png" />
+    <None Remove="Resources\Images\patternTriangle.jpg" />
     <None Remove="Resources\Images\profil.png" />
     <None Remove="Resources\Images\rating.png" />
     <None Remove="Resources\Images\reserve.png" />
     <None Remove="Resources\Images\search.png" />
     <None Remove="Resources\Images\user.png" />
+    <None Remove="Resources\Images\warning.png" />
+    <None Remove="WPF\Images\avatar.png" />
+    <None Remove="WPF\Images\guideBackground.png" />
+    <None Remove="WPF\Images\home.png" />
+    <None Remove="WPF\Images\mountain-city.png" />
+    <None Remove="WPF\Images\question-mark.png" />
+    <None Remove="WPF\Images\star.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="DotNetProjects.WpfToolkit.DataVisualization" Version="6.1.94" />
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
@@ -34,6 +45,9 @@
     </Resource>
     <Resource Include="Resources\Images\logout.png" />
     <Resource Include="Resources\Images\menu.png" />
+    <Resource Include="Resources\Images\patternCircle.jpg" />
+    <Resource Include="Resources\Images\patternLines.png" />
+    <Resource Include="Resources\Images\patternTriangle.jpg" />
     <Resource Include="Resources\Images\profil.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -41,6 +55,13 @@
     <Resource Include="Resources\Images\reserve.png" />
     <Resource Include="Resources\Images\search.png" />
     <Resource Include="Resources\Images\user.png" />
+    <Resource Include="Resources\Images\warning.png" />
+    <Resource Include="WPF\Images\avatar.png" />
+    <Resource Include="WPF\Images\guideBackground.png" />
+    <Resource Include="WPF\Images\home.png" />
+    <Resource Include="WPF\Images\mountain-city.png" />
+    <Resource Include="WPF\Images\question-mark.png" />
+    <Resource Include="WPF\Images\star.png" />
   </ItemGroup>
 
   <ItemGroup>

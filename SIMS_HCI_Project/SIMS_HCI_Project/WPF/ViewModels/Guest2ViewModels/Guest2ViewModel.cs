@@ -34,7 +34,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels      //main window wi
             Guest2 = guest2;
             Guest2View = guest2View;
 
+            NavigationService.Navigate(new TourSearchView(Guest2, NavigationService));
             InitCommands();
+
         }
 
         public void InitCommands()
@@ -56,11 +58,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels      //main window wi
         }
         private void ExecuteNavigateToRequests(object sender)
         {
-
+            NavigationService.Navigate(new RequestsView(Guest2, NavigationService));
         }
         private void ExecuteNavigateToStatistics(object sender)
         {
-
+            NavigationService.Navigate(new StatisticsView(Guest2, NavigationService));
         }
         private void ExecuteNavigateToProfile(object sender)
         {

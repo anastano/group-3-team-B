@@ -73,9 +73,29 @@ namespace SIMS_HCI_Project {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] patternLines {
+            get {
+                object obj = ResourceManager.GetObject("patternLines", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] profil {
             get {
                 object obj = ResourceManager.GetObject("profil", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] warning {
+            get {
+                object obj = ResourceManager.GetObject("warning", resourceCulture);
                 return ((byte[])(obj));
             }
         }

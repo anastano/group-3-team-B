@@ -121,7 +121,13 @@
   <data name="goldenHouse" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Images\goldenHouse.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="patternLines" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\images\patternlines.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="profil" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Images\profil.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="warning" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>resources\images\warning.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

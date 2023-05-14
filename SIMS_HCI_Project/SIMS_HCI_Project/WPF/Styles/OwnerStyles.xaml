@@ -102,15 +102,23 @@
         <Setter Property="Background" Value="{StaticResource OwnerNeutralColor}"/>
         <Setter Property="ColumnHeaderHeight" Value="30"/>
         <Setter Property="FontSize" Value="13"/>
+        <Setter Property="KeyboardNavigation.TabNavigation" Value="Continue"/>
+        <Setter Property="SelectionMode" Value="Single"/>
+        <Setter Property="GridLinesVisibility" Value="Horizontal"/>
     </Style>
 
     <Style x:Key="OwnerDatagridCellStyle" TargetType="DataGridCell">
+        <Setter Property="Height" Value="30"/>
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Foreground" Value="Black" />
-                <Setter Property="Background" Value="{StaticResource OwnerMainColor}"/>
+                <Setter Property="Background" Value="LightGray"/>
             </Trigger>
         </Style.Triggers>
+    </Style>
+
+    <Style x:Key="OwnerDataGridColumnHeaderStyle" TargetType="DataGridColumnHeader">
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
     </Style>
 
     <!-- BORDER STYLE -->
@@ -132,13 +140,13 @@
 
     <!-- CIRCLE BUTTON STYLE -->
     <Style x:Key="OwnerCircleButtonStyle" TargetType="Button">
-        <Setter Property="Width" Value="40"/>
-        <Setter Property="Height" Value="40"/>
+        <Setter Property="Width" Value="65"/>
+        <Setter Property="Height" Value="45"/>
         <Setter Property="Margin" Value="5 0 0 0"/>
         <Setter Property="Padding" Value="10"/>
         <Setter Property="Foreground" Value="{StaticResource OwnerButtonTextColor}"/>
         <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontSize" Value="14"/>
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -155,7 +163,7 @@
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <TextBlock Text="{Binding}" FontSize="16" FontWeight="Bold">
+                    <TextBlock Text="{Binding}" FontSize="14" FontWeight="Bold">
                         <TextBlock.Effect>
                             <DropShadowEffect Color="DarkGray" Direction="330" ShadowDepth="2" Opacity="0.5"/>
                         </TextBlock.Effect>

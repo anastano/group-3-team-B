@@ -1,0 +1,119 @@
+﻿<Window x:Class="SIMS_HCI_Project.WPF.Views.OwnerViews.RenovationsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
+        mc:Ignorable="d"
+        Title="RenovationsView" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
+
+    <Grid Background="{StaticResource OwnerNeutralColor}">
+        <!-- MAIN STACK PANEL-->
+        <StackPanel Orientation="Vertical" Margin="10 5 10 5">
+            <!-- TOP STACK PANEL - Options-->
+            <StackPanel Margin="5 5 5 5">
+                <TextBlock x:Name="tblOptions" Text="Options" 
+                       Style="{StaticResource OwnerTitleStyle}">
+                </TextBlock>
+                <Border Style="{StaticResource OwnerBorderStyle}">
+                    <!-- Buttons STACK PANEL-->
+                    <StackPanel  Margin="5 0 5 5" Orientation="Horizontal">
+                        <Button x:Name="btnAddRenovation"  Content="         Add New &#xa;Renovation (Ctrl+A)" Command="{Binding AddRenovationCommand}"
+                            Style="{StaticResource OwnerButtonStyle}" Width="220">
+                        </Button>
+                        <Button x:Name="btnCancelRenovation"  Content="    Cancel Selected &#xa;Renovation (Ctrl+C)" Command="{Binding CancelRenovationCommand}"
+                            Style="{StaticResource OwnerButtonStyle}" Width="220">
+                        </Button>
+                        <Button x:Name="btnCreatePDFReport"  Content="Create PDF Report (Ctrl+R)" 
+                            Style="{StaticResource OwnerButtonStyle}" Width="220">
+                        </Button>
+                        <Button x:Name="btnClose"  Content="Close (Esc)"
+                            Style="{StaticResource OwnerButtonStyle}" Width="220">
+                        </Button>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+            <!-- MIDDLE STACK PANEL-->
+            <StackPanel Margin="5 0 5 0">
+
+                <TextBlock x:Name="tblRenovations" Text="My renovations" 
+                           Style="{StaticResource OwnerTitleStyle}">
+                </TextBlock>
+                <Border Style="{StaticResource OwnerBorderStyle}">
+                    <!-- DataGrid STACKPANEL-->
+                    <StackPanel Margin="0 0 0 0">
+                        <DataGrid x:Name = "dgRenovations" AutoGenerateColumns="False" ItemsSource="{Binding Renovations, UpdateSourceTrigger=PropertyChanged}" 
+                                      SelectedItem="{Binding SelectedRenovation, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Focusable="True"
+                                      Width="930" Height="400" CanUserSortColumns="True" SelectionMode="Single" IsTabStop="False" Margin="10 10 10 10"
+                                      Style="{StaticResource OwnerDatagridStyle}" ColumnHeaderStyle="{StaticResource OwnerDataGridColumnHeaderStyle}">
+                            <DataGrid.CellStyle>
+                                <Style TargetType="DataGridCell" >
+                                    <Setter Property="Height" Value="60"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Foreground" Value="Black" />
+                                            <Setter Property="Background" Value="LightGray"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.CellStyle>
+                            <DataGrid.Columns>
+
+
+                                <DataGridTemplateColumn Width="2*" Header="Accommodation Name">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Accommodation.Name}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="City">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Accommodation.Location.City}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Country">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Accommodation.Location.Country}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Start">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Start, StringFormat=\{0:MM/dd/yyyy\}}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="End">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding End, StringFormat=\{0:MM/dd/yyyy\}}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="2.5*" Header="Description">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Description}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                            </DataGrid.Columns>
+
+                        </DataGrid>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

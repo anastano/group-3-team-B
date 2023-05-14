@@ -5,13 +5,14 @@
              StartupUri="WPF/Views/LoginWindow.xaml">
     
     <Application.Resources>
-        
+
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="WPF/Styles/OwnerStyles.xaml"/>
+                <ResourceDictionary Source="WPF/Styles/Guest1Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-        
+
     </Application.Resources>
     
 </Application>

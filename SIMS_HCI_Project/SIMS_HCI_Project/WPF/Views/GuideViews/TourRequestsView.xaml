@@ -119,11 +119,19 @@
                             <StackPanel Margin="10,10,10,10">
                                 <Image Width="30" Height="30" Source="pack://application:,,,/WPF/Images/star.png" HorizontalAlignment="Left"></Image>
                                 <TextBlock Text="Most Requested Location" HorizontalAlignment="Center" Margin="0,0,0,5"></TextBlock>
-                                <TextBlock Text="Athens, Greece" HorizontalAlignment="Center"></TextBlock>
+                                <TextBlock HorizontalAlignment="Center">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0}, {1}">
+                                            <Binding Path="TopLocation.City"></Binding>
+                                            <Binding Path="TopLocation.Country"></Binding>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
                                 <Button Content="Create tour for this location" Margin="0,10,0,0">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourInput}" />
+                                            <i:InvokeCommandAction Command="{Binding CreateTourFromTopLocation}" />
+                                            <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourInput}" CommandParameter="{Binding TourByStatistics}"/>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </Button>
@@ -133,11 +141,12 @@
                             <StackPanel Margin="10,10,10,10">
                                 <Image Width="30" Height="30" Source="pack://application:,,,/WPF/Images/star.png" HorizontalAlignment="Left"></Image>
                                 <TextBlock Text="Most Requested Language" HorizontalAlignment="Center" Margin="0,0,0,5"></TextBlock>
-                                <TextBlock Text="Spanish" HorizontalAlignment="Center"></TextBlock>
+                                <TextBlock Text="{Binding TopLanguage}" HorizontalAlignment="Center"></TextBlock>
                                 <Button Content="Create tour for this location" Margin="0,10,0,0">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourInput}" />
+                                            <i:InvokeCommandAction Command="{Binding CreateTourFromTopLanguage}" />
+                                            <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourInput}" CommandParameter="{Binding TourByStatistics}"/>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </Button>

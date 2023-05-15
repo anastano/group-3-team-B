@@ -22,6 +22,8 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         int GetRequestsCountByStatus(RegularRequestStatus status, int guestId, int selectedYear);
         int GetCountByYear(int year, string language = null, Location location = null);
         int GetCountByMonthInYear(int year, int month, string language = null, Location location = null);
+        Location GetTopLocation();
+        string GetTopLanguage();
 
         List<RegularTourRequest> GetValidByParams(Location location, int guestNumber, string language, DateRange dateRange);
         void Update(RegularTourRequest request);

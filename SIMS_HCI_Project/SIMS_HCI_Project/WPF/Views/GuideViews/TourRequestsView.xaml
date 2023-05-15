@@ -130,7 +130,8 @@
                                 <Button Content="Create tour for this location" Margin="0,10,0,0">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourInput}" />
+                                            <i:InvokeCommandAction Command="{Binding CreateTourFromTopLocation}" />
+                                            <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourInput}" CommandParameter="{Binding TourByStatistics}"/>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </Button>
@@ -144,7 +145,8 @@
                                 <Button Content="Create tour for this location" Margin="0,10,0,0">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
-                                            <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourInput}" />
+                                            <i:InvokeCommandAction Command="{Binding CreateTourFromTopLanguage}" />
+                                            <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourInput}" CommandParameter="{Binding TourByStatistics}"/>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </Button>

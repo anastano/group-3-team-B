@@ -30,6 +30,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         public RelayCommand ResetFilter { get; set; }
         public RelayCommand AcceptRequest { get; set; }
         public RelayCommand ConfirmPickedDate { get; set; }
+        public RelayCommand CreateTourFromTopLanguage { get; set; }
+        public RelayCommand CreateTourFromTopLocation { get; set; }
         public GuideNavigationCommands NavigationCommands { get; set; }
         #endregion
 
@@ -119,6 +121,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         public Location TopLocation { get; set; }
         public string TopLanguage { get; set; }
 
+        public Tour TourFromStatistics { get; set; }
+
         public TourRequestsViewModel()
         {
             _regularTourRequestService = new RegularTourRequestService();
@@ -126,7 +130,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             _tourRequestsStatisticsService = new TourRequestsStatisticsService();
 
             DateRange = new DateRange(DateTime.Now, DateTime.Now.AddMonths(6));
-            PickedDate = DateTime.Now;  
+            PickedDate = DateTime.Now;
+
+            TourFromStatistics = new Tour();
 
             InitCommands();
             LoadRequests();
@@ -140,6 +146,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             ResetFilter = new RelayCommand(ExecutedResetFilterCommand, CanExecuteCommand);
             ConfirmPickedDate = new RelayCommand(ExecutedConfirmPickedDateCommand, CanExecuteCommand);
             AcceptRequest = new RelayCommand(ExecutedAcceptRequestCommand, CanExecuteCommand);
+            CreateTourFromTopLanguage = new RelayCommand(ExecutedCreateTourFromTopLanguageCommand, CanExecuteCommand);
+            CreateTourFromTopLocation = new RelayCommand(ExecutedCreateTourFromTopLocatoinCommand, CanExecuteCommand);
 
             NavigationCommands = new GuideNavigationCommands();
         }
@@ -195,6 +203,16 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             }
             LoadRequests();
             LoadPossibleFilters();
+        }
+
+        private void ExecutedCreateTourFromTopLanguageCommand(object obj)
+        {
+            TourFromStatistics.Language = TopLanguage;
+        }
+
+        private void ExecutedCreateTourFromTopLocatoinCommand(object obj)
+        {
+            TourFromStatistics.Location = TopLocation;
         }
 
         private bool CanExecuteCommand(object obj)

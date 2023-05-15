@@ -128,5 +128,15 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _requests.Where(r => r.SubmittingDate.Year == year && r.SubmittingDate.Month == month && (language == null || r.Language.Equals(language)) && (location == null || r.Location.Equals(location))).Count();
         }
+
+        public Location GetTopLocation()
+        {
+            return _requests.GroupBy(r => r.LocationId).OrderByDescending(r => r.Count()).First().First().Location;
+        }
+
+        public string GetTopLanguage()
+        {
+            return _requests.GroupBy(r => r.Language).OrderByDescending(r => r.Count()).First().First().Language;
+        }
     }
 }

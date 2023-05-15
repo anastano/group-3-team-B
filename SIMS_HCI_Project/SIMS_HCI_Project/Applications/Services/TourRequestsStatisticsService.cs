@@ -109,5 +109,15 @@ namespace SIMS_HCI_Project.Applications.Services
 
             return requestPerMonth;
         }
+
+        public Location GetTopLocation()
+        {
+            return _regularTourRequestRepository.GetTopLocation();
+        }
+
+        public string GetTopLanguage()
+        {
+            return _regularTourRequestRepository.GetTopLanguage();
+        }
     }
 }

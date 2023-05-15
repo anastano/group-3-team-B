@@ -35,6 +35,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         private RegularTourRequestService _regularTourRequestService;
         private TourService _tourService;
+        private TourRequestsStatisticsService _tourRequestsStatisticsService;
 
         private ObservableCollection<RegularTourRequest> _tourRequests;
         public ObservableCollection<RegularTourRequest> TourRequests
@@ -115,16 +116,22 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         public DateTime PickedDate { get; set; }
         public DateTime PickedTime { get; set; }
 
+        public Location TopLocation { get; set; }
+        public string TopLanguage { get; set; }
+
         public TourRequestsViewModel()
         {
             _regularTourRequestService = new RegularTourRequestService();
             _tourService = new TourService();
+            _tourRequestsStatisticsService = new TourRequestsStatisticsService();
+
             DateRange = new DateRange(DateTime.Now, DateTime.Now.AddMonths(6));
             PickedDate = DateTime.Now;  
 
             InitCommands();
             LoadRequests();
             LoadPossibleFilters();
+            LoadTopLanguageAndLocation();
         }
 
         private void InitCommands()
@@ -149,6 +156,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
                 AvailableLocations = new ObservableCollection<Location>(TourRequests.Select(t => t.Location).Distinct());
                 AvailableLanguages = new ObservableCollection<string>(TourRequests.Select(t => t.Language).Distinct());
             }
+        }
+
+        private void LoadTopLanguageAndLocation()
+        {
+            TopLanguage = _tourRequestsStatisticsService.GetTopLanguage();
+            TopLocation = _tourRequestsStatisticsService.GetTopLocation();
         }
 
         private void ExecutedFilterRequestsCommand(object obj)

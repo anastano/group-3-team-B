@@ -107,7 +107,7 @@
                     <Button Content="See Statistics" HorizontalAlignment="Right" Margin="0,30,0,0">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToStatistics}" />
+                                <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourRequestsStatistics}" />
                                 <i:InvokeCommandAction Command="{Binding NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
                                               RelativeSource Mode=FindAncestor,
                                               AncestorType={x:Type Window}}}"/>

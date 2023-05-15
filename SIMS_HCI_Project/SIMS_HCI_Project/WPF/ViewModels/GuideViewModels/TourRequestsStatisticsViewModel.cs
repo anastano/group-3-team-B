@@ -39,6 +39,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             set
             {
                 _selectedLanguage = value;
+                if (_selectedLanguage != null) SelectedLocation = null;
                 OnPropertyChanged();
                 LoadRequestsCount();
             }
@@ -51,6 +52,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             set
             {
                 _selectedLocation = value;
+                if (_selectedLocation != null) SelectedLanguage = null;
                 OnPropertyChanged();
                 LoadRequestsCount();
             }

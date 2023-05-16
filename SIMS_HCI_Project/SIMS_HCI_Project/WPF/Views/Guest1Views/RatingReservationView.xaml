@@ -5,93 +5,168 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:views="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest1Views"
       xmlns:viewmodels="clr-namespace:SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels"
-      mc:Ignorable="d" 
+      xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters" xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+             mc:Ignorable="d" 
       d:DesignHeight="702" d:DesignWidth="969"
       Background="#f5f5f5">
     <UserControl.Resources>
-        <Style x:Key="circleButtonStyle" TargetType="Button">
-            <Setter Property="Width" Value="40"/>
-            <Setter Property="Height" Value="40"/>
-            <Setter Property="Margin" Value="5 0 0 0"/>
-            <Setter Property="Padding" Value="10"/>
-            <Setter Property="Foreground" Value="Azure"/>
-            <Setter Property="FontSize" Value="16"/>
-            <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border CornerRadius="15"
-                            Background="Turquoise"
-                            BorderThickness="1">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"></ContentPresenter>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
         <ControlTemplate x:Key="ValidationTemplate">
             <StackPanel>
                 <AdornedElementPlaceholder x:Name="textBox" />
                 <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" FontSize="12" HorizontalAlignment="Center"/>
             </StackPanel>
         </ControlTemplate>
+        <sys:Double x:Key="StarOne">1</sys:Double>
+        <sys:Double x:Key="StarTwo">2</sys:Double>
+        <sys:Double x:Key="StarThree">3</sys:Double>
+        <sys:Double x:Key="StarFour">4</sys:Double>
+        <sys:Double x:Key="StarFive">5</sys:Double>
     </UserControl.Resources>
 
     <Grid Margin="20 20 20 20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="1.5*"/>
+            <ColumnDefinition Width="1.8*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="3*" />
-            <RowDefinition Height="2*" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="39*" />
+            <RowDefinition Height="63*" />
+            <RowDefinition Height="63*" />
+            <RowDefinition Height="63" />
+            <RowDefinition Height="189*" />
+            <RowDefinition Height="116*" />
+            <RowDefinition Height="80*" />
+            <RowDefinition Height="80*"/>
         </Grid.RowDefinitions>
-        <Label Content="Review owner and accommodation (required): " Grid.Row="0" FontSize="16"></Label>
-        <Label Content="Owner: " Grid.Row="1" Grid.Column="0"></Label>
-        <TextBox x:Name="Owner" Grid.Row="1" Grid.Column="1" Text="{Binding Path=Owner, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
-        <Label Content="Accommodation cleanliness (1-5): " Grid.Row="2" Grid.Column="0"></Label>
-        <StackPanel Orientation="Horizontal"  Grid.Row="2" Grid.Column="1">
-            <TextBox Text="{Binding ElementName=cleanlinessSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" 
-                     Width="40"  Margin="0, 5, 0, 5"/>
-            <Slider x:Name="cleanlinessSlider" Value="{Binding Path=Cleanliness, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    IsSnapToTickEnabled="True"  Minimum="1"  Maximum="5" Margin="20, 12, 0, 0"  Width="200"/>
+        <Label Content="Review owner and accommodation (required): " Grid.Row="0" Grid.ColumnSpan="2" FontSize="16" Style="{StaticResource fancyTitle}"></Label>
+        <Label Content="Owner: " Grid.Row="1" Grid.Column="0" Style="{StaticResource GuestLabelStyle}"></Label>
+        <TextBox x:Name="Owner" Grid.Row="1" Grid.Column="1" Text="{Binding Path=Owner, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"
+                 Style="{StaticResource GuestTextBoxStyle}" Width="255"/>
+        <Label Content="Accommodation cleanliness (1-5): " Grid.Row="2" Grid.Column="0" Style="{StaticResource GuestLabelStyle}" Margin="0,14,0,14" Width="236"></Label>
+        <StackPanel Grid.Column="1" Grid.Row="2" Width="234" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,0">
+            <Button Command="{Binding DataContext.StarRateCleanlinessCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  CommandParameter="{StaticResource StarOne}"
+                                                           BorderThickness="0">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Path x:Name="Star1" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding SelectedStarCleanliness, Converter={converters:StarFillConverter},
+                                     ConverterParameter={StaticResource StarOne} }"
+                                          StrokeThickness="{Binding SelectedStarCleanliness, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarOne}}" Width="45" Height="45" />
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Command="{Binding DataContext.StarRateCleanlinessCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  CommandParameter="{StaticResource StarTwo}"  BorderThickness="0">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Path x:Name="Star2" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding SelectedStarCleanliness, Converter={converters:StarFillConverter},
+                                     ConverterParameter={StaticResource StarTwo} }"
+                                          StrokeThickness="{Binding SelectedStarCleanliness, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarTwo}}" Width="45" Height="45"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Command="{Binding DataContext.StarRateCleanlinessCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  CommandParameter="{StaticResource StarThree}"
+                                                           BorderThickness="0">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Path x:Name="Star3" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding SelectedStarCleanliness, Converter={converters:StarFillConverter},
+                                     ConverterParameter={StaticResource StarThree} }" 
+                                          StrokeThickness="{Binding SelectedStarCleanliness, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarThree}}" Width="45" Height="45"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Command="{Binding DataContext.StarRateCleanlinessCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  CommandParameter="{StaticResource StarFour}"
+                                                           BorderThickness="0">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Path x:Name="Star4" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding SelectedStarCleanliness, Converter={converters:StarFillConverter},
+                                     ConverterParameter={StaticResource StarFour} }"
+                                          StrokeThickness="{Binding SelectedStarCleanliness, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarFour}}" Width="45" Height="45"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Command="{Binding DataContext.StarRateCleanlinessCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  CommandParameter="{StaticResource StarFive}"
+                                                           BorderThickness="0">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Path x:Name="Star5" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding SelectedStarCleanliness, Converter={converters:StarFillConverter},
+                                     ConverterParameter={StaticResource StarFive} }"
+                                          StrokeThickness="{Binding SelectedStarCleanliness, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarFive}}" Width="45" Height="45"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
         </StackPanel>
-        <Label Content="Owner correctness (1-5):" Grid.Row="3" Grid.Column="0"></Label>
+        <Label Content="Owner correctness (1-5):" Grid.Row="3" Grid.Column="0" Style="{StaticResource GuestLabelStyle}"></Label>
         <StackPanel Orientation="Horizontal"  Grid.Row="3" Grid.Column="1">
-            <TextBox Text="{Binding ElementName=correctnessSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" 
-                     Width="40"  Margin="0, 5, 0, 5"/>
-            <Slider x:Name="correctnessSlider" Value="{Binding Path=Correcntess, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    IsSnapToTickEnabled="True"  Minimum="1"  Maximum="5" Margin="20, 12, 0, 0"  Width="200"/>
+            <Button Command="{Binding DataContext.StarRateCorrectnessCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  CommandParameter="{StaticResource StarOne}"
+                                                           BorderThickness="0">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Path x:Name="Star1" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding SelectedStarCorrectness, Converter={converters:StarFillConverter},
+                                     ConverterParameter={StaticResource StarOne} }"
+                                          StrokeThickness="{Binding SelectedStarCorrectness, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarOne}}" Width="45" Height="45" />
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Command="{Binding DataContext.StarRateCorrectnessCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  CommandParameter="{StaticResource StarTwo}"  BorderThickness="0">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Path x:Name="Star2" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding SelectedStarCorrectness, Converter={converters:StarFillConverter},
+                                     ConverterParameter={StaticResource StarTwo} }"
+                                          StrokeThickness="{Binding SelectedStarCorrectness, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarTwo}}" Width="45" Height="45"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Command="{Binding DataContext.StarRateCorrectnessCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  CommandParameter="{StaticResource StarThree}"
+                                                           BorderThickness="0">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Path x:Name="Star3" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding SelectedStarCorrectness, Converter={converters:StarFillConverter},
+                                     ConverterParameter={StaticResource StarThree} }" 
+                                          StrokeThickness="{Binding SelectedStarCorrectness, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarThree}}" Width="45" Height="45"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Command="{Binding DataContext.StarRateCorrectnessCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  CommandParameter="{StaticResource StarFour}"
+                                                           BorderThickness="0">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Path x:Name="Star4" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding SelectedStarCorrectness, Converter={converters:StarFillConverter},
+                                     ConverterParameter={StaticResource StarFour} }"
+                                          StrokeThickness="{Binding SelectedStarCorrectness, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarFour}}" Width="45" Height="45"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Command="{Binding DataContext.StarRateCorrectnessCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  CommandParameter="{StaticResource StarFive}"
+                                                           BorderThickness="0">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Path x:Name="Star5" Stroke="Black" Data="M 20,0 L 16,16 L 0,16 L 12,28 L 8,44 L 20,36 L 24,36 L 36,44 L 32,28 L 44,16 L 28,16 L 20,0" Fill="{Binding SelectedStarCorrectness, Converter={converters:StarFillConverter},
+                                     ConverterParameter={StaticResource StarFive} }"
+                                          StrokeThickness="{Binding SelectedStarCorrectness, Converter={converters:StarStrokeConverter}, ConverterParameter={StaticResource StarFive}}" Width="45" Height="45"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
         </StackPanel>
-        <Label Content="Image URLs:" Grid.Row="4" Grid.Column="0"></Label>
+        <Label Content="Image URLs:" Grid.Row="4" Grid.Column="0" Style="{StaticResource GuestLabelStyle}" VerticalAlignment="Top"></Label>
         <StackPanel Grid.Row="4" Grid.Column="1">
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  >
                 <StackPanel Orientation="Vertical">
-                    <TextBox x:Name="txtPictureURL" Width="300" Height="40" TextWrapping="Wrap">
+                    <TextBox x:Name="txtPictureURL" Width="400" Height="30" TextWrapping="Wrap">
                         <TextBox.Text>
                             <Binding  Path="ImageUrl" UpdateSourceTrigger="PropertyChanged">
                             </Binding>
                         </TextBox.Text>
                     </TextBox>
-                    <TextBox x:Name="txtPictureURLs" Text="URL format should be http(s)://......(.jpg/.png/.gif)" FontSize="10"
-                             Height="15" TextAlignment="Center" Foreground="Red" Width="300" TextWrapping="Wrap" IsReadOnly="True"/>
                 </StackPanel>
 
-                <Button x:Name="btnAddImage" Command="{Binding DataContext.AddImageCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Content="(Ins)" 
-                                     Style="{StaticResource ResourceKey=circleButtonStyle}">
+                <Button x:Name="btnAddImage" Command="{Binding DataContext.AddImageCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Content="Add" 
+                                     Style="{StaticResource GuestCircleButtonStyle}">
                 </Button>
 
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <ListBox x:Name="lbImages" ItemsSource="{Binding Path=Images}" Width="298" Height="111">
+                <ListBox x:Name="lbImages" ItemsSource="{Binding Path=Images}" Width="400" Height="100">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid Columns="3" />
@@ -108,31 +183,37 @@
 
                 </ListBox>
 
-                <Button x:Name="btnRemoveImage" Command="{Binding DataContext.RemoveImageCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  Content="(Del)" 
-                                     Style="{StaticResource ResourceKey=circleButtonStyle}">
+                <Button x:Name="btnRemoveImage" Command="{Binding DataContext.RemoveImageCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  Content="Del" 
+                                     Style="{StaticResource GuestCircleButtonStyle}" VerticalAlignment="Top">
                 </Button>
             </StackPanel>
         </StackPanel>
-        <Label Content="Aditional comment:" Grid.Row="5" Grid.Column="0"></Label>
-        <TextBox x:Name="Comment" Grid.Row="5" Grid.Column="1" Text="{Binding Path=AdditionalComment, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Content="Additional comment:" Grid.Row="5" Grid.Column="0" Style="{StaticResource GuestLabelStyle}" VerticalAlignment="Top"></Label>
+        <TextBox x:Name="Comment" Grid.Row="5" Grid.Column="1" Text="{Binding Path=Rating.AdditionalComment, UpdateSourceTrigger=PropertyChanged}"
+                 Width="400" HorizontalAlignment="Left"/>
         <Label Content="Recommend renovation:  &#xa;        (optional)" Grid.Row="6" Grid.Column="0"></Label>
         <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1">
             <Button Content="Recommend" Command="{Binding DataContext.RecommendRenovationCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                    Margin="0, 10, 0, 0" Width="100"/>
-            <RadioButton Content="Filled" Margin="50, 20, 0, 0"></RadioButton>
+                    Margin="0, 0, 0, 0" Width="123" Style="{StaticResource GuestButtonStyle}"/>
+            <RadioButton Content="Filled" Margin="15, 0, 95, 0" VerticalAlignment="Center" HorizontalAlignment="Center"
+                       IsChecked="{Binding IsFilled}"  >
+                <RadioButton.LayoutTransform>
+                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                </RadioButton.LayoutTransform>
+            </RadioButton>
+            <CheckBox x:Name="cb1" Grid.Row="1" Margin="5,0,0,0"  VerticalAlignment="Center" IsThreeState="True"
+            IsChecked="{Binding IsChecked}" Width="15" >
+                <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="2.5" ScaleY="2.5" />
+                </CheckBox.LayoutTransform>
+            </CheckBox>
+            <Label Content="Check to apply recommendation" FontSize="16" Grid.Row="5" Grid.Column="0" Style="{StaticResource GuestLabelStyle}" VerticalAlignment="Center" Width="239"/>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Center">
+        <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,72,0,0" Grid.RowSpan="2" Width="444">
             <Button Content="Cancel" Command="{Binding DataContext.CancelReviewCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                    Margin=" 5, 5, 55, 0"/>
+                    Margin=" 5, 0, 55, 0"  Style="{StaticResource GuestButtonStyle}"/>
             <Button Content="Review" Command="{Binding DataContext.ReviewReservationCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                    Margin=" 5, 5, 55, 0"/>
+                    Margin=" 155, 0, 55, 0"  Style="{StaticResource GuestButtonStyle}"/>
         </StackPanel>
-        <ContentControl x:Name="UserControls" Content="{Binding CurrentViewModel}">
-            <ContentControl.Resources>
-                <DataTemplate DataType="{x:Type viewmodels:ReservationsViewModel}">
-                    <views:ReservationsView/>
-                </DataTemplate>
-            </ContentControl.Resources>
-        </ContentControl>
     </Grid>
 </UserControl>

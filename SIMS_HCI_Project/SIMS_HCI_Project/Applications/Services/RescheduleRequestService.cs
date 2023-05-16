@@ -42,7 +42,7 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             List<AccommodationReservation> overlappingReservations = new List<AccommodationReservation>();
 
-            foreach (AccommodationReservation reservation in reservationService.GetByAccommodationId(request.AccommodationReservation.AccommodationId))
+            foreach (AccommodationReservation reservation in reservationService.GetAllReserevedByAccommodationId(request.AccommodationReservation.AccommodationId))
             {
                 if (IsDateRangeOverlapping(reservation, request) && reservationService.IsReservedOrRescheduled(reservation) && reservation.Id != request.AccommodationReservationId)
                 {

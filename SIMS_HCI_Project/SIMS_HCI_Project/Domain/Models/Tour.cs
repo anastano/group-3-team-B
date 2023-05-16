@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Domain.Models
 {
-    public class Tour : ISerializable, IDataErrorInfo
+    public class Tour : IDataErrorInfo
     {
         public int Id { get; set; }
         public int GuideId { get; set; }
@@ -65,26 +65,6 @@ namespace SIMS_HCI_Project.Domain.Models
             DepartureTimes = new List<TourTime>();
             KeyPoints = new List<TourKeyPoint>();
             KeyPointsIds = new List<int>();
-        }
-
-        public string[] ToCSV()
-        {
-            string[] csvValues = { Id.ToString(), GuideId.ToString(), Title, LocationId.ToString(), Description, Language, MaxGuests.ToString(), string.Join(",", KeyPointsIds), Duration.ToString(), string.Join(",", Images)};
-            return csvValues;
-        }
-
-        public void FromCSV(string[] values)
-        {
-            Id = Convert.ToInt32(values[0]);
-            GuideId = Convert.ToInt32(values[1]);
-            Title = values[2];
-            LocationId = Convert.ToInt32(values[3]);
-            Description = values[4];
-            Language = values[5];
-            MaxGuests = Convert.ToInt32(values[6]);
-            KeyPointsIds = new List<int>(Array.ConvertAll(values[7].Split(","), Convert.ToInt32));
-            Duration = Convert.ToInt32(values[8]);
-            Images = new List<string>(values[9].Split(","));
         }
 
         public string Error => null;

@@ -12,7 +12,7 @@ namespace SIMS_HCI_Project.Domain.Models
 {
     public enum AttendanceStatus { NOT_PRESENT, CONFIRMATION_REQUESTED, PRESENT, NEVER_SHOWED_UP}
 
-    public class GuestTourAttendance : ISerializable
+    public class GuestTourAttendance
     {
         public int Id { get; set; }
         public int GuestId { get; set; }
@@ -31,22 +31,6 @@ namespace SIMS_HCI_Project.Domain.Models
             GuestId = guestId;
             TourTimeId = tourTimeId;
             Status = AttendanceStatus.NOT_PRESENT;
-        }
-
-        public string[] ToCSV()
-        {
-            string[] csvValues = { Id.ToString(), GuestId.ToString(), TourTimeId.ToString(), Status.ToString(), KeyPointJoinedId.ToString()};
-            return csvValues;
-        }
-
-        public void FromCSV(string[] values)
-        {
-            Id = Convert.ToInt32(values[0]);
-            GuestId = Convert.ToInt32(values[1]);
-            TourTimeId = Convert.ToInt32(values[2]);
-            Enum.TryParse(values[3], out AttendanceStatus status);
-            Status = status;
-            KeyPointJoinedId = Convert.ToInt32(values[4]);
         }
     }
 }

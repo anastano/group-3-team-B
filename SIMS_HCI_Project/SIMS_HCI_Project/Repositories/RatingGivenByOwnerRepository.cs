@@ -19,7 +19,10 @@ namespace SIMS_HCI_Project.Repositories
         public RatingGivenByOwnerRepository()
         {
             _fileHandler = new RatingGivenByOwnerFileHandler();
-            _ratings = _fileHandler.Load();
+            if(_ratings == null)
+            {
+                _ratings = _fileHandler.Load();
+            }
             _observers = new List<IObserver>();
         }
 
@@ -56,6 +59,25 @@ namespace SIMS_HCI_Project.Repositories
             _ratings.Add(rating);
             Save();
             NotifyObservers();
+        }
+        public int GetRatingCountForCategory(int guestId, string categoryName, int ratingValue)
+        {
+            if(categoryName.ToLower() == "rulecompliance")
+            {
+                return GetRatingCountForRuleCompliance(guestId, ratingValue);
+            }
+            else
+            {
+                return GetRatingCountForCleanliness(guestId, ratingValue);
+            }
+        }
+        public int GetRatingCountForCleanliness(int guestId, int ratingValue)
+        {
+            return _ratings.FindAll(r => r.Reservation.GuestId == guestId && r.Cleanliness == ratingValue).Count;
+        }
+        public int GetRatingCountForRuleCompliance(int guestId, int ratingValue)
+        {
+            return _ratings.FindAll(r => r.Reservation.GuestId == guestId && r.RuleCompliance == ratingValue).Count;
         }
         public void NotifyObservers()
         {

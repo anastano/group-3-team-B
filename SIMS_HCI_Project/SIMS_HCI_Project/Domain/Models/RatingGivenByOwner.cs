@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Domain.Models
 {
-    public class RatingGivenByOwner : ISerializable
+    public class RatingGivenByOwner
     {
         public int Id { get; set; }
         public int ReservationId { get; set; }
@@ -38,29 +38,6 @@ namespace SIMS_HCI_Project.Domain.Models
             Cleanliness = rating.Cleanliness;
             RuleCompliance = rating.RuleCompliance;
             AdditionalComment = rating.AdditionalComment;
-        }
-
-        public string[] ToCSV()
-        {
-            string[] csvValues =
-            {
-                Id.ToString(),
-                ReservationId.ToString(),
-                Cleanliness.ToString(),
-                RuleCompliance.ToString(),
-                AdditionalComment
-
-            };
-            return csvValues;
-        }
-
-        public void FromCSV(string[] values)
-        {
-            Id = int.Parse(values[0]);
-            ReservationId = int.Parse(values[1]);
-            Cleanliness = int.Parse(values[2]);
-            RuleCompliance = int.Parse(values[3]);
-            AdditionalComment = values[4];
         }
     }
 }

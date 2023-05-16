@@ -17,7 +17,7 @@
         <converters:ImageUrlConverter x:Key="ImageUrlConverter" />
     </UserControl.Resources>
     <Grid>
-        <TabControl Margin="25">
+        <TabControl Margin="25" SelectedIndex="{Binding SelectedTabIndex}" Style="{StaticResource TabControlStyle}">
             <TabControl.Resources>
                 <Style TargetType="{x:Type TabItem}">
                     <Setter Property="HeaderTemplate">
@@ -50,16 +50,14 @@
                     <Setter Property="HorizontalAlignment" Value="Center" />
                 </Style>
             </TabControl.Resources>
-            <TabItem Header="Active">
+            <TabItem Header="Active" Style="{StaticResource CustomTabItemStyle}">
                 <DataGrid ItemsSource="{Binding Path=ActiveReservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="25" AutoGenerateColumns="False" IsReadOnly="True"
-                      SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}"  GridLinesVisibility="Horizontal">
+                      SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}"  
+                          GridLinesVisibility="Horizontal" ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}"
+                          Style="{StaticResource GuestDatagridStyle}" RowStyle="{StaticResource DataGridRowStyle}"
+                          CellStyle="{StaticResource GuestDatagridCellStyle}">
                     <DataGrid.Columns>
                         <DataGridTemplateColumn Header="Images">
-                            <DataGridTemplateColumn.HeaderStyle>
-                                <Style TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTemplateColumn.HeaderStyle>
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Command="{Binding DataContext.ShowImagesCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Width="100" Height="100"
@@ -69,76 +67,27 @@
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="Accommodation Name" Binding="{Binding Accommodation.Name}" Width="2*">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="HorizontalAlignment" Value="Center" />
-                                    <Setter Property="TextWrapping" Value="Wrap" />
-                                    <Setter Property="VerticalAlignment" Value="Center" />
-                                    <Setter Property="TextAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
+                        <DataGridTextColumn Header="Accommodation Name" Binding="{Binding Accommodation.Name}" Width="150"
+                                            ElementStyle="{StaticResource CustomTextBlockStyle}">
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Start" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="2*">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="HorizontalAlignment" Value="Center" />
-                                    <Setter Property="TextWrapping" Value="Wrap" />
-                                    <Setter Property="VerticalAlignment" Value="Center" />
-                                    <Setter Property="TextAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
+                        <DataGridTextColumn Header="Start" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="100"
+                                            ElementStyle="{StaticResource CustomTextBlockStyle}">
+                          
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="End" Binding="{Binding End, StringFormat='{}{0:MM/dd/yyyy}'}" Width="2*">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="HorizontalAlignment" Value="Center" />
-                                    <Setter Property="TextWrapping" Value="Wrap" />
-                                    <Setter Property="VerticalAlignment" Value="Center" />
-                                    <Setter Property="TextAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
+                        <DataGridTextColumn Header="End" Binding="{Binding End, StringFormat='{}{0:MM/dd/yyyy}'}" Width="100"
+                                            ElementStyle="{StaticResource CustomTextBlockStyle}">
+                            
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Guests" Binding="{Binding GuestNumber}" Width="SizeToHeader">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="HorizontalAlignment" Value="Center" />
-                                    <Setter Property="TextWrapping" Value="Wrap" />
-                                    <Setter Property="VerticalAlignment" Value="Center" />
-                                    <Setter Property="TextAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
+                        <DataGridTextColumn Header="Guests" Binding="{Binding GuestNumber}" Width="SizeToHeader"
+                                            ElementStyle="{StaticResource CustomTextBlockStyle}">
+                            
                         </DataGridTextColumn>
                         <DataGridTemplateColumn Header="Cancellation" Width="*">
-                            <DataGridTemplateColumn.HeaderStyle>
-                                <Style TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTemplateColumn.HeaderStyle>
+                           
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Content="Cancellation" Command="{Binding DataContext.CancelReservationCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                                            Margin="0, 25, 0, 25">
+                                            Margin="0, 0, 0, 0" Style="{StaticResource GuestButtonStyle}">
                                         <Button.Visibility>
                                             <MultiBinding Converter="{local1:CancellationButtonVisibilityConverter}">
                                                 <Binding Path="Accommodation.CancellationDeadlineInDays" />
@@ -150,15 +99,12 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTemplateColumn Header="Reschedule" Width="*">
-                            <DataGridTemplateColumn.HeaderStyle>
-                                <Style TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTemplateColumn.HeaderStyle>
+                            
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Content="Reschedule" Command="{Binding DataContext.RescheduleReservationCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                                        Visibility ="{Binding Start, Converter={local1:RescheduleButtonVisibilityConverter}}" Margin="0, 25, 0, 25">
+                                        Visibility ="{Binding Start, Converter={local1:RescheduleButtonVisibilityConverter}}" Margin="0, 0, 0, 0"
+                                            Style="{StaticResource GuestButtonStyle}" >
                                     </Button>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
@@ -166,80 +112,29 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
-            <TabItem Header="Past">
+            <TabItem Header="Past" Style="{StaticResource CustomTabItemStyle}" >
                 <DataGrid ItemsSource="{Binding Path=PastReservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="25" AutoGenerateColumns="False" IsReadOnly="True"
-                          SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}" GridLinesVisibility="Horizontal" RowHeight="100">
+                          SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}" GridLinesVisibility="Horizontal" RowHeight="100" 
+                          ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}" Style="{StaticResource GuestDatagridStyle}"
+                          RowStyle="{StaticResource DataGridRowStyle}" CellStyle="{StaticResource GuestDatagridCellStyle}">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Accommodation Name" Binding="{Binding Accommodation.Name}" Width="2*">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="HorizontalAlignment" Value="Center" />
-                                    <Setter Property="TextWrapping" Value="Wrap" />
-                                    <Setter Property="VerticalAlignment" Value="Center" />
-                                    <Setter Property="TextAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
+                        <DataGridTextColumn Header="Accommodation Name" Binding="{Binding Accommodation.Name}" Width="2*"
+                                            ElementStyle="{StaticResource CustomTextBlockStyle}">
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Start" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="2*">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="HorizontalAlignment" Value="Center" />
-                                    <Setter Property="TextWrapping" Value="Wrap" />
-                                    <Setter Property="VerticalAlignment" Value="Center" />
-                                    <Setter Property="TextAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
+                        <DataGridTextColumn Header="Start" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="2*"
+                                            ElementStyle="{StaticResource CustomTextBlockStyle}">
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="End" Binding="{Binding End, StringFormat='{}{0:MM/dd/yyyy}'}" Width="2*">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="HorizontalAlignment" Value="Center" />
-                                    <Setter Property="TextWrapping" Value="Wrap" />
-                                    <Setter Property="VerticalAlignment" Value="Center" />
-                                    <Setter Property="TextAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
+                        <DataGridTextColumn Header="End" Binding="{Binding End, StringFormat='{}{0:MM/dd/yyyy}'}" Width="2*"
+                                            ElementStyle="{StaticResource CustomTextBlockStyle}">
                         </DataGridTextColumn>
-                        <DataGridTextColumn Header="Guests" Binding="{Binding GuestNumber}" Width="SizeToHeader">
-                            <DataGridTextColumn.HeaderStyle>
-                                <Style TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.HeaderStyle>
-                            <DataGridTextColumn.ElementStyle>
-                                <Style TargetType="TextBlock">
-                                    <Setter Property="HorizontalAlignment" Value="Center" />
-                                    <Setter Property="TextWrapping" Value="Wrap" />
-                                    <Setter Property="VerticalAlignment" Value="Center" />
-                                    <Setter Property="TextAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTextColumn.ElementStyle>
+                        <DataGridTextColumn Header="Guests" Binding="{Binding GuestNumber}" Width="SizeToHeader"
+                                            ElementStyle="{StaticResource CustomTextBlockStyle}">
                         </DataGridTextColumn>
-                        <DataGridTemplateColumn Header="Rate" Width="*">
-                            <DataGridTemplateColumn.HeaderStyle>
-                                <Style TargetType="{x:Type DataGridColumnHeader}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                </Style>
-                            </DataGridTemplateColumn.HeaderStyle>
+                        <DataGridTemplateColumn Header="Rate" Width="120" >
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Content="Rate"  Command="{Binding DataContext.RateCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                                            Margin="0, 25, 0, 25">
+                                            Margin="0, 25, 0, 25" Style="{StaticResource GuestButtonStyle}" >
                                         <Button.Visibility>
                                             <MultiBinding Converter="{local1:RateButtonVisibilityConverter}">
                                                 <Binding Path="End" />
@@ -253,124 +148,57 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </TabItem>
-            
-            <TabItem Header="Canceled">
+
+            <TabItem Header="Canceled" Style="{StaticResource CustomTabItemStyle}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2.5*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <DataGrid Grid.Column="0" ItemsSource="{Binding Path=CanceledReservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="25" AutoGenerateColumns="False" IsReadOnly="True"
-                      SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}" GridLinesVisibility="Horizontal" RowHeight="100">
+                      SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}" GridLinesVisibility="Horizontal" RowHeight="100"
+                              ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}" Style="{StaticResource GuestDatagridStyle}" RowStyle="{StaticResource DataGridRowStyle}"
+                              CellStyle="{StaticResource GuestDatagridCellStyle}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Accommodation Name" Binding="{Binding Accommodation.Name}" Width="2*">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="HorizontalAlignment" Value="Center" />
-                                        <Setter Property="TextWrapping" Value="Wrap" />
-                                        <Setter Property="VerticalAlignment" Value="Center" />
-                                        <Setter Property="TextAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
+                            <DataGridTextColumn Header="Accommodation Name" Binding="{Binding Accommodation.Name}" Width="2*"
+                                                 ElementStyle="{StaticResource CustomTextBlockStyle}">
+                               
                             </DataGridTextColumn>
-                            <DataGridTextColumn Header="Start" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="2*">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="HorizontalAlignment" Value="Center" />
-                                        <Setter Property="TextWrapping" Value="Wrap" />
-                                        <Setter Property="VerticalAlignment" Value="Center" />
-                                        <Setter Property="TextAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
+                            <DataGridTextColumn Header="Start" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="2*"
+                                                 ElementStyle="{StaticResource CustomTextBlockStyle}">
+                               
                             </DataGridTextColumn>
-                            <DataGridTextColumn Header="End" Binding="{Binding End, StringFormat='{}{0:MM/dd/yyyy}'}" Width="2*">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="HorizontalAlignment" Value="Center" />
-                                        <Setter Property="TextWrapping" Value="Wrap" />
-                                        <Setter Property="VerticalAlignment" Value="Center" />
-                                        <Setter Property="TextAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
+                            <DataGridTextColumn Header="End" Binding="{Binding End, StringFormat='{}{0:MM/dd/yyyy}'}" Width="2*"
+                                                 ElementStyle="{StaticResource CustomTextBlockStyle}">
+                               
                             </DataGridTextColumn>
-                            <DataGridTextColumn Header="Guests" Binding="{Binding GuestNumber}" Width="SizeToHeader">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="HorizontalAlignment" Value="Center" />
-                                        <Setter Property="TextWrapping" Value="Wrap" />
-                                        <Setter Property="VerticalAlignment" Value="Center" />
-                                        <Setter Property="TextAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
+                            <DataGridTextColumn Header="Guests" Binding="{Binding GuestNumber}" Width="SizeToHeader"
+                                                 ElementStyle="{StaticResource CustomTextBlockStyle}">
+                               
                             </DataGridTextColumn>
-                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100">
-                                <DataGridTextColumn.HeaderStyle>
-                                    <Style TargetType="{x:Type DataGridColumnHeader}">
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </DataGridTextColumn.HeaderStyle>
-                                <DataGridTextColumn.ElementStyle>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="HorizontalAlignment" Value="Center" />
-                                        <Setter Property="TextWrapping" Value="Wrap" />
-                                        <Setter Property="VerticalAlignment" Value="Center" />
-                                        <Setter Property="TextAlignment" Value="Center" />
-
-                                    </Style>
-                                </DataGridTextColumn.ElementStyle>
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100"
+                                                 ElementStyle="{StaticResource CustomTextBlockStyle}">
+                                
                             </DataGridTextColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-
-                    <lvc:PieChart Grid.Column="1" Width="250" Height="250" Hoverable="True" InnerRadius="0">
-                        <lvc:PieChart.Series>
-                            <lvc:PieSeries Title="Cancelled reservations" DataLabels="True" Values="{Binding CancelledCount}" >
-                            </lvc:PieSeries>
-                            <lvc:PieSeries Title="Other reservations" DataLabels="True" Values="{Binding ReservationsCount}"></lvc:PieSeries>
-                        </lvc:PieChart.Series>
-                        <lvc:PieChart.DataTooltip>
-                            <lvc:DefaultTooltip BulletSize="20"/>
-                        </lvc:PieChart.DataTooltip>
-                    </lvc:PieChart>
-
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <lvc:PieChart Width="250" Height="250" Hoverable="True" InnerRadius="0">
+                            <lvc:PieChart.Series>
+                                <lvc:PieSeries Title="Cancelled reservations" FontSize="18" Foreground="black"  DataLabels="True" Values="{Binding CancelledCount}" Fill="#D754E8">
+                                </lvc:PieSeries>
+                                <lvc:PieSeries Title="Other reservations" FontSize="18" Foreground="black"  DataLabels="True" Values="{Binding ReservationsCount}" Fill="#Fff5a8"></lvc:PieSeries>
+                            </lvc:PieChart.Series>
+                            <lvc:PieChart.DataTooltip>
+                                <lvc:DefaultTooltip BulletSize="30"/>
+                            </lvc:PieChart.DataTooltip>
+                        </lvc:PieChart>
+                        <TextBlock x:Name="tblNotifications" Text="The percetange of canceled reservations in relation to the total number of reservations" 
+                           Style="{StaticResource CustomTextBlockStyle }" FontSize="18" Margin="0 50 0 0" Foreground="Black">
+                        </TextBlock>
+                    </StackPanel>
                 </Grid>
-    </TabItem>
+            </TabItem>
         </TabControl>
-        <ContentControl x:Name="UserControls" Content="{Binding CurrentViewModel}">
-            <ContentControl.Resources>
-                <DataTemplate DataType="{x:Type viewmodels:ReservationRescheduleViewModel}">
-                    <views:ReservationRescheduleView/>
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type viewmodels:RatingReservationViewModel}">
-                    <views:RatingReservationView/>
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type viewmodels:ReservationsViewModel}">
-                    <views:ReservationsView/>
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type viewmodels:AccommodationImagesViewModel}">
-                    <views:AccommodationImagesView/>
-                </DataTemplate>
-            </ContentControl.Resources>
-        </ContentControl>
     </Grid>
 </UserControl>

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Domain.Models
 {
-    public class TourRating : ISerializable
+    public class TourRating
     {
         public int Id { get; set; }
         public int GuestId { get; set; }
@@ -37,6 +37,7 @@ namespace SIMS_HCI_Project.Domain.Models
             IsValid = true;
         }
 
+        // for anastano: let's clean this up, no need for two constructors
         public TourRating( int guestId, int reservationId, int guideId, TourReservation tourReservation, int overallExperience, int organisation, int interestingness, int guidesKnowledge, int guidesLanguage, string comment, List<string> image)
         {
             
@@ -75,48 +76,6 @@ namespace SIMS_HCI_Project.Domain.Models
             IsValid = true;
         }
 
-        public string[] ToCSV()
-        {
-            string[] csvValues =
-            {
-                Id.ToString(),
-                GuestId.ToString(),
-                ReservationId.ToString(),
-                GuideId.ToString(),
-                OverallExperience.ToString(),
-                Organisation.ToString(),
-                Interestingness.ToString(),
-                GuidesKnowledge.ToString(),
-                GuidesLanguage.ToString(),
-                Comment,
-                string.Join(",", Images),
-                IsValid.ToString()
-            };
-            return csvValues;
-        }
-
-        public void FromCSV(string[] values)
-        {
-            Id = int.Parse(values[0]);
-            GuestId = int.Parse(values[1]);
-            ReservationId = int.Parse(values[2]);
-            GuideId = int.Parse(values[3]);
-            OverallExperience = int.Parse(values[4]);
-            Organisation = int.Parse(values[5]);
-            Interestingness = int.Parse(values[6]);
-            GuidesKnowledge = int.Parse(values[7]);
-            GuidesLanguage = int.Parse(values[8]);
-            Comment = values[9];
-            Images = new List<string>(values[10].Split(","));
-            IsValid = bool.Parse(values[11]);
-        }
-
-        public double GetAverageRating
-        {
-            get
-            {
-                return (double)(OverallExperience + Organisation + Interestingness + GuidesKnowledge + GuidesLanguage) / 5;
-            }
-        }
+        public double GetAverageRating => (double)(OverallExperience + Organisation + Interestingness + GuidesKnowledge + GuidesLanguage) / 5;
     }
 }

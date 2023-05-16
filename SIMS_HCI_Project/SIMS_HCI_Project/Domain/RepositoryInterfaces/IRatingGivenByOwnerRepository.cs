@@ -11,6 +11,9 @@ namespace SIMS_HCI_Project.Repositories
         RatingGivenByOwner GetById(int id);
         RatingGivenByOwner GetByReservationId(int reservationId);
         List<RatingGivenByOwner> GetByGuestId(int ownerId);
+        int GetRatingCountForCategory(int guestId, string categoryName, int ratingValue);
+        int GetRatingCountForCleanliness(int guestId, int ratingValue);
+        int GetRatingCountForRuleCompliance(int guestId, int ratingValue);
         void NotifyObservers();
         void Save();
         void Subscribe(IObserver observer);

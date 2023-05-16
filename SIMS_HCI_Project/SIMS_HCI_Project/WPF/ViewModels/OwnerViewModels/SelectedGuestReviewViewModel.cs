@@ -16,18 +16,22 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
     public class SelectedGuestReviewViewModel
     {
         public SelectedGuestReviewView SelectedGuestReviewView { get; set; }
+        public GuestReviewsView GuestReviewsView { get; set; }
         public RatingGivenByGuest SelectedReview { get; set; }
         public int CurrentImageIndex;
 
-        public RelayCommand CloseSelectedGuestReviewCommand { get; set; }
+        public RelayCommand CloseSelectedGuestReviewViewCommand { get; set; }
+        public RelayCommand HomePageFromSelectedReviewCommand { get; set; }
+        
         public RelayCommand NextGuestReviewImageCommand { get; set; }
         public RelayCommand PreviousGuestReviewImageCommand { get; set; }
 
-        public SelectedGuestReviewViewModel(SelectedGuestReviewView selectedGuestReviewView, RatingGivenByGuest selectedReview) 
+        public SelectedGuestReviewViewModel(SelectedGuestReviewView selectedGuestReviewView, GuestReviewsView guestReviewsView, RatingGivenByGuest selectedReview) 
         {
             InitCommands();
 
             SelectedGuestReviewView = selectedGuestReviewView;
+            GuestReviewsView = guestReviewsView;
             SelectedReview = selectedReview;
 
             LoadImage();
@@ -57,12 +61,23 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             return true;
         }
 
-        public void Executed_CloseSelectedGuestReviewCommand(object obj)
-        { 
-        
+        public void Executed_CloseSelectedGuestReviewViewCommand(object obj)
+        {
+            SelectedGuestReviewView.Close();
         }
 
-        public bool CanExecute_CloseSelectedGuestReviewCommand(object obj)
+        public bool CanExecute_CloseSelectedGuestReviewViewCommand(object obj)
+        {
+            return true;
+        }
+
+        public void Executed_HomePageFromSelectedReviewCommand(object obj)
+        {
+            SelectedGuestReviewView.Close();
+            GuestReviewsView.Close();
+        }
+
+        public bool CanExecute_HomePageFromSelectedReviewCommand(object obj)
         {
             return true;
         }
@@ -70,7 +85,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public void InitCommands()
         {
-            CloseSelectedGuestReviewCommand = new RelayCommand(Executed_CloseSelectedGuestReviewCommand, CanExecute_CloseSelectedGuestReviewCommand);
+            CloseSelectedGuestReviewViewCommand = new RelayCommand(Executed_CloseSelectedGuestReviewViewCommand, CanExecute_CloseSelectedGuestReviewViewCommand);
+            HomePageFromSelectedReviewCommand = new RelayCommand(Executed_HomePageFromSelectedReviewCommand, CanExecute_HomePageFromSelectedReviewCommand);
             NextGuestReviewImageCommand = new RelayCommand(Executed_NextGuestReviewImageCommand, CanExecute_NextGuestReviewImageCommand);
             PreviousGuestReviewImageCommand = new RelayCommand(Executed_PreviousGuestReviewImageCommand, CanExecute_PreviousGuestReviewImageCommand);
         }

@@ -6,56 +6,103 @@
              xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest1Views"
              xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
              xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:toolkit="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=DotNetProjects.DataVisualization.Toolkit" xmlns:toolkit1="clr-namespace:System.Windows.Controls.DataVisualization.Charting.Primitives;assembly=DotNetProjects.DataVisualization.Toolkit" xmlns:toolkitprimitives="clr-namespace:System.Windows.Controls.DataVisualization;assembly=DotNetProjects.DataVisualization.Toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="702" d:DesignWidth="969" Background="#f5f5f5">
     <UserControl.Resources>
         <converters:FullNameConverter x:Key="FullNameConverter" />
+        <converters:GraphBrushConverter x:Key="GraphBrushConverter"/>
     </UserControl.Resources>
     <Grid Margin="25">
         <Grid.RowDefinitions>
-            <RowDefinition Height = "*"/>
-            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height = "234*"/>
+            <RowDefinition Height = "64.999"/>
+            <RowDefinition Height="353*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width = "*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="0.3*"/>
+            <ColumnDefinition Width="0.5*"/>
         </Grid.ColumnDefinitions>
-        <lvc:PieChart Grid.Row="0" Grid.Column="0" Width="250" Height="200" Hoverable="True">
-            <lvc:PieChart.Series>
-                <lvc:PieSeries Title="Cancelled reservations" DataLabels="True" Values="3" ></lvc:PieSeries>
-                <lvc:PieSeries Title="Other reservations" DataLabels="True" Values="4"></lvc:PieSeries>
-            </lvc:PieChart.Series>
-            <lvc:PieChart.DataTooltip>
-                <lvc:DefaultTooltip BulletSize="20"/>
-            </lvc:PieChart.DataTooltip>
-        </lvc:PieChart>
-        <lvc:CartesianChart Grid.Row="0" Grid.Column="1" Width="250" Height="200" Hoverable="True">
-            <lvc:CartesianChart.Series>
-                <lvc:ColumnSeries Title="Cancelled reservations" DataLabels="True" Values="4" ></lvc:ColumnSeries>
-                <lvc:ColumnSeries Title="Other reservations" DataLabels="True" Values="5"></lvc:ColumnSeries>
-            </lvc:CartesianChart.Series>
-            <lvc:CartesianChart.DataTooltip>
-                <lvc:DefaultTooltip BulletSize="20"/>
-            </lvc:CartesianChart.DataTooltip>
-        </lvc:CartesianChart>
-        <DataGrid  Grid.Row="1" Grid.ColumnSpan="3" ItemsSource="{Binding Path=RatingsGivenByOwners, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                   AutoGenerateColumns="False" IsReadOnly="True" RowHeight="100" GridLinesVisibility="Horizontal">
+        <toolkit:Chart Grid.Row="0" Grid.Column="0" Name="firstChart" BorderThickness="0" Margin="0,-30, 10,0">
+            <toolkit:Chart.LegendStyle>
+                <Style TargetType="Control">
+                    <Setter Property="Width" Value="0"/>
+                    <Setter Property="Height" Value="0"/>
+                </Style>
+            </toolkit:Chart.LegendStyle>
+            <toolkit:Chart.Axes>
+                <toolkit:CategoryAxis Title="Ratings" Orientation="X" FontSize="16"/>
+                <toolkit:LinearAxis Title="Count" Orientation="Y" FontSize="16"/>
+            </toolkit:Chart.Axes>
+            <toolkit:Chart.Series>
+                <toolkit:ColumnSeries ItemsSource="{Binding CleanlinessStatistics}" IndependentValueBinding="{Binding Path=Key}" DependentValueBinding="{Binding Path=Value}">
+                    <!-- Series data -->
+                    <toolkit:ColumnSeries.DataPointStyle>
+                        <Style TargetType="toolkit:ColumnDataPoint">
+                            <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Self}, Converter={StaticResource GraphBrushConverter}}"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="toolkit:ColumnDataPoint">
+                                        <Grid>
+                                            <Rectangle Fill="{TemplateBinding Background}" Stroke="Black"/>
+                                            <Grid Margin="0 -20 0 0" HorizontalAlignment="Center" VerticalAlignment="Top">
+                                                <TextBlock Text="{TemplateBinding FormattedDependentValue}" Margin="2" FontSize="16"/>
+                                            </Grid>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </toolkit:ColumnSeries.DataPointStyle>
+                </toolkit:ColumnSeries>
+            </toolkit:Chart.Series>
+        </toolkit:Chart>
+        <Label Grid.Row="1" Content="Statistics for cleanliness" Style="{StaticResource fancyTitle}" HorizontalContentAlignment="Center" Margin="58,3,0,0" VerticalAlignment="Top" Width="290" Height="40"/>
+        <toolkit:Chart  Grid.Row="0" Grid.Column="1" Name="secondChart" BorderThickness="0" Margin="0,-30, 10,0">
+            <toolkit:Chart.LegendStyle>
+                <Style TargetType="Control">
+                    <Setter Property="Width" Value="0"/>
+                    <Setter Property="Height" Value="0"/>
+                </Style>
+            </toolkit:Chart.LegendStyle>
+            <toolkit:Chart.Axes>
+                <toolkit:CategoryAxis Title="Ratings" Orientation="X" ShowGridLines="False" FontSize="16" />
+                <toolkit:LinearAxis Title="Count" Orientation="Y" FontSize="16"/>
+            </toolkit:Chart.Axes>
+            <toolkit:Chart.Series>
+                <toolkit:ColumnSeries ItemsSource="{Binding RuleComplianceStatistics}" IndependentValueBinding="{Binding Path=Key}" DependentValueBinding="{Binding Path=Value}" Margin="0,0,0,0">
+                    <toolkit:ColumnSeries.DataPointStyle>
+                        <Style TargetType="toolkit:ColumnDataPoint">
+                            <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Self}, Converter={StaticResource GraphBrushConverter}}"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="toolkit:ColumnDataPoint">
+                                        <Grid>
+                                            <Rectangle Fill="{TemplateBinding Background}" Stroke="Black"/>
+                                            <Grid Margin="0 -20 0 0" HorizontalAlignment="Center" VerticalAlignment="Top">
+                                                <TextBlock Text="{TemplateBinding FormattedDependentValue}" Margin="2" FontSize="16"/>
+                                            </Grid>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </toolkit:ColumnSeries.DataPointStyle>
+                </toolkit:ColumnSeries>
+            </toolkit:Chart.Series>
+        </toolkit:Chart>
+        <Label Grid.Row="1" Grid.Column="1" Content="Statistics for rule compilance" Style="{StaticResource fancyTitle }" HorizontalContentAlignment="Center" Margin="58,3,0,0" VerticalAlignment="Top" Width="289" Height="40"></Label>
+        <StackPanel  Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">
+            <TextBlock Text="Generate pdf report for my ratings" Style="{StaticResource CustomTextBlockStyle}" FontSize="18" Margin="0 0 0 10"></TextBlock>
+            <Button Content="PDF" Grid.RowSpan="2" Grid.Column="2" Style="{StaticResource GuestButtonStyle}" ></Button>
+        </StackPanel>
+        <DataGrid  Grid.Row="2" Grid.ColumnSpan="3" ItemsSource="{Binding Path=RatingsGivenByOwners, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                   AutoGenerateColumns="False" IsReadOnly="True" RowHeight="100" GridLinesVisibility="Horizontal" Style="{StaticResource GuestDatagridStyle}"
+                  ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}" CellStyle="{StaticResource GuestDatagridCellStyle}"
+                   RowStyle="{StaticResource DataGridRowStyle}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Owner" Width="SizeToCells">
-                    <DataGridTextColumn.HeaderStyle>
-                        <Style TargetType="{x:Type DataGridColumnHeader}">
-                            <Setter Property="HorizontalContentAlignment" Value="Center" />
-                        </Style>
-                    </DataGridTextColumn.HeaderStyle>
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="HorizontalAlignment" Value="Center" />
-                            <Setter Property="TextWrapping" Value="Wrap" />
-                            <Setter Property="VerticalAlignment" Value="Center" />
-                            <Setter Property="TextAlignment" Value="Center" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
+                <DataGridTextColumn Header="Owner" Width="90" ElementStyle="{StaticResource CustomTextBlockStyle}">
                     <DataGridTextColumn.Binding>
                         <MultiBinding Converter="{StaticResource FullNameConverter}">
                             <Binding Path="Reservation.Accommodation.Owner.Name" />
@@ -63,68 +110,23 @@
                         </MultiBinding>
                     </DataGridTextColumn.Binding>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Reservation Id" Binding="{Binding ReservationId}" Width="*">
-                    <DataGridTextColumn.HeaderStyle>
-                        <Style TargetType="{x:Type DataGridColumnHeader}">
-                            <Setter Property="HorizontalContentAlignment" Value="Center" />
-                        </Style>
-                    </DataGridTextColumn.HeaderStyle>
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="HorizontalAlignment" Value="Center" />
-                            <Setter Property="TextWrapping" Value="Wrap" />
-                            <Setter Property="VerticalAlignment" Value="Center" />
-                            <Setter Property="TextAlignment" Value="Center" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
+                <DataGridTextColumn Header="Reservation Id" Binding="{Binding ReservationId}" Width="*"
+                                    ElementStyle="{StaticResource CustomTextBlockStyle}">
+
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Cleanliness" Binding="{Binding Cleanliness}" Width="SizeToHeader">
-                    <DataGridTextColumn.HeaderStyle>
-                        <Style TargetType="{x:Type DataGridColumnHeader}">
-                            <Setter Property="HorizontalContentAlignment" Value="Center" />
-                        </Style>
-                    </DataGridTextColumn.HeaderStyle>
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="HorizontalAlignment" Value="Center" />
-                            <Setter Property="TextWrapping" Value="Wrap" />
-                            <Setter Property="VerticalAlignment" Value="Center" />
-                            <Setter Property="TextAlignment" Value="Center" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
+                <DataGridTextColumn Header="Cleanliness" Binding="{Binding Cleanliness}" Width="120"
+                                    ElementStyle="{StaticResource CustomTextBlockStyle}">
+
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Following the rules" Binding="{Binding RuleCompliance}" Width="SizeToHeader">
-                    <DataGridTextColumn.HeaderStyle>
-                        <Style TargetType="{x:Type DataGridColumnHeader}">
-                            <Setter Property="HorizontalContentAlignment" Value="Center" />
-                        </Style>
-                    </DataGridTextColumn.HeaderStyle>
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="HorizontalAlignment" Value="Center" />
-                            <Setter Property="TextWrapping" Value="Wrap" />
-                            <Setter Property="VerticalAlignment" Value="Center" />
-                            <Setter Property="TextAlignment" Value="Center" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
+                <DataGridTextColumn Header="Following the rules" Binding="{Binding RuleCompliance}" Width="90"
+                                    ElementStyle="{StaticResource CustomTextBlockStyle}">
+
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Additional comment" Binding="{Binding AdditionalComment}" Width="6*">
-                    <DataGridTextColumn.HeaderStyle>
-                        <Style TargetType="{x:Type DataGridColumnHeader}">
-                            <Setter Property="HorizontalContentAlignment" Value="Center" />
-                        </Style>
-                    </DataGridTextColumn.HeaderStyle>
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="HorizontalAlignment" Value="Center" />
-                            <Setter Property="TextWrapping" Value="Wrap" />
-                            <Setter Property="VerticalAlignment" Value="Center" />
-                            <Setter Property="TextAlignment" Value="Center" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
+                <DataGridTextColumn Header="Additional comment" Binding="{Binding AdditionalComment}" Width="6*"
+                                    ElementStyle="{StaticResource CustomTextBlockStyle}">
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-            
+
     </Grid>
 </UserControl>

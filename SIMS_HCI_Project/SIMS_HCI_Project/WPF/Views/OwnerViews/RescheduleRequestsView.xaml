@@ -6,10 +6,12 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         mc:Ignorable="d"
         Title="RescheduleRequestsView" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
-    <Window.Resources>
-    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding ShowSelectedRequestCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseRescheduleRequestsViewCommand}"/>
+    </Window.InputBindings>
 
-    <Grid Background="Azure">
+    <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=dgRequests}">
         <!-- MAIN STACK PANEL-->
         <StackPanel Orientation="Vertical" Margin="10 5 10 5">
             <!-- TOP STACK PANEL - Options-->
@@ -24,7 +26,7 @@
                             Style="{StaticResource OwnerButtonStyle}" Width="350">
                         </Button>
                         <Button x:Name="btnClose"  Content="Close (Esc)"
-                            Style="{StaticResource OwnerButtonStyle}" Width="350">
+                            Style="{StaticResource OwnerButtonStyle}" Width="350" Command="{Binding CloseRescheduleRequestsViewCommand}">
                         </Button>
                     </StackPanel>
                 </Border>
@@ -40,45 +42,90 @@
                     <StackPanel Margin="0 0 0 0">
                         <DataGrid x:Name = "dgRequests" AutoGenerateColumns="False" ItemsSource="{Binding Path= PendingRequests, UpdateSourceTrigger=PropertyChanged}" 
                                       SelectedItem="{Binding Path=SelectedRequest, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Focusable="True"
-                                      Width="930" Height="330" Margin="10 10 10 10" CanUserSortColumns="True" SelectionMode="Single" IsTabStop="False"
-                                      Style="{StaticResource OwnerDatagridStyle}" CellStyle="{StaticResource OwnerDatagridCellStyle}">
+                                      Width="930" Height="400" Margin="10 10 10 10" CanUserSortColumns="True" SelectionMode="Single" IsTabStop="False"
+                                      Style="{StaticResource OwnerDatagridStyle}" CellStyle="{StaticResource OwnerDatagridCellStyle}"
+                                      ColumnHeaderStyle="{StaticResource OwnerDataGridColumnHeaderStyle}">
 
                             <DataGrid.Columns>
-                                <DataGridTextColumn Header="Guest Name" Binding="{Binding AccommodationReservation.Guest.Name}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Guest Surname" Binding="{Binding AccommodationReservation.Guest.Surname}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Reservation Id" Binding="{Binding AccommodationReservationId}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Accommodation Name" Binding="{Binding AccommodationReservation.Accommodation.Name}" Width="2*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Inital Start" Binding="{Binding AccommodationReservation.Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Inital End" Binding="{Binding AccommodationReservation.End , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Wanted Start" Binding="{Binding WantedStart , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Wanted End" Binding="{Binding WantedEnd , StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"></DataGridTextColumn>
-                                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="*"></DataGridTextColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Guest Name">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding AccommodationReservation.Guest.Name}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Guest Surname">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding AccommodationReservation.Guest.Surname}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Reservation Id">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding AccommodationReservationId}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="2*" Header="Accommodation Name">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding AccommodationReservation.Accommodation.Name}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Inital Start">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding AccommodationReservation.Start , StringFormat='{}{0:MM/dd/yyyy}'}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Inital End">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding AccommodationReservation.End , StringFormat='{}{0:MM/dd/yyyy}'}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Wanted Start">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding WantedStart , StringFormat='{}{0:MM/dd/yyyy}'}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Wanted End">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding WantedEnd , StringFormat='{}{0:MM/dd/yyyy}'}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Status">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Status}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
                             </DataGrid.Columns>
 
                         </DataGrid>
                     </StackPanel>
                 </Border>
             </StackPanel>
-            <!-- BOTTOM STACK PANEL-->
-            <StackPanel  Margin="5 0 5 0" HorizontalAlignment="Right">
-                <TextBlock x:Name="tblSort" Text=" Sort by selected column" FontSize="16" Foreground="Turquoise" Margin="0 0 0 0">
-                </TextBlock>
-
-                <Border Style="{StaticResource OwnerBorderStyle}">
-                    <!-- Sort STACK PANEL-->
-                    <StackPanel  Margin="5 5 5 5" Orientation="Horizontal">
-
-                        <Button x:Name="btnDescening"  Content="Descending (Ctrl+Down)" 
-                            Style="{StaticResource OwnerButtonStyle}" Width="200" Height="35">
-                        </Button>
-                        <Button x:Name="btnAscending"  Content="Ascending (Ctrl+Up)" 
-                            Style="{StaticResource OwnerButtonStyle}" Width="200" Height="35">
-                        </Button>
-
-                    </StackPanel>
-                </Border>
-            </StackPanel>
-
         </StackPanel>
     </Grid>
     

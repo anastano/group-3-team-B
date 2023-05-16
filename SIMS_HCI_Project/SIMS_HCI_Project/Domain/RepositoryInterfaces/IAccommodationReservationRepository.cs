@@ -11,8 +11,9 @@ namespace SIMS_HCI_Project.Repositories
         AccommodationReservation GetById(int id);
         List<AccommodationReservation> GetByOwnerId(int id);
         List<AccommodationReservation> GetByGuestId(int id);
-        List<AccommodationReservation> GetByAccommodationId(int accommodationId);
+        List<AccommodationReservation> GetAllReservedByAccommodationId(int accommodationId);
         List<AccommodationReservation> GetAllByStatusAndGuestId(int id, AccommodationReservationStatus status);
+        void Add(AccommodationReservation reservation);
         void EditStatus(int id, AccommodationReservationStatus status);
         void EditReservation(RescheduleRequest request);
         void ConvertReservedReservationIntoCompleted(DateTime currentDate);
@@ -21,5 +22,6 @@ namespace SIMS_HCI_Project.Repositories
         void Subscribe(IObserver observer);
         void Unsubscribe(IObserver observer);
         List<AccommodationReservation> OwnerSearch(string accommodationName, string guestName, string guestSurname, int ownerId);
+        List<AccommodationReservation> GetByAccommodationId(int accommodationId);
     }
 }

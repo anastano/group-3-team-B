@@ -9,7 +9,7 @@ namespace SIMS_HCI_Project.Domain.Models
 {
     public enum NotificationType { DEFAULT, TOUR_REQUEST_ACCEPTED, NEW_TOUR, CONFIRM_ATTENDANCE}
 
-    public class Notification : ISerializable
+    public class Notification
     {
         public int Id { get; set; }
         public String Message { get; set; }
@@ -41,29 +41,6 @@ namespace SIMS_HCI_Project.Domain.Models
             User = notification.User;
             IsRead = notification.IsRead;
             Type = notification.Type;
-        }
-
-        public string[] ToCSV()
-        {
-            string[] csvValues =
-            {
-                Id.ToString(),
-                Message.ToString(),
-                UserId.ToString(),
-                IsRead.ToString(),
-                Type.ToString()
-            };
-            return csvValues;
-        }
-
-        public void FromCSV(string[] values)
-        {
-            Id = int.Parse(values[0]);
-            Message = values[1];
-            UserId = int.Parse(values[2]);
-            IsRead = bool.Parse(values[3]);
-            Enum.TryParse(values[4], out NotificationType type);
-            Type = type;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using SIMS_HCI_Project.Applications.Services;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands;
+using SIMS_HCI_Project.WPF.Services;
 using SIMS_HCI_Project.WPF.Views.Guest1Views;
 using System;
 using System.Collections.Generic;
@@ -13,35 +14,27 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.DataVisualization;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
     internal class RatingReservationViewModel : INotifyPropertyChanged
     {
+        private NavigationService _navigationService;
         private AccommodationReservationService _accommodationReservationService;
         private RatingGivenByGuestService _ratingService;
+        private RenovationRecommendationService _recommendationService;
         public AccommodationReservation Reservation { get; set; }
         public RelayCommand ReviewReservationCommand { get; set; }
         public RelayCommand CancelReviewCommand { get; set; }
         public RelayCommand RemoveImageCommand { get; set; }
         public RelayCommand AddImageCommand { get; set; }
         public RelayCommand RecommendRenovationCommand { get; set; }
+        public RelayCommand StarRateCorrectnessCommand { get; set; }
+        public RelayCommand StarRateCleanlinessCommand { get; set; }
+        public RenovationRecommendation Recommendation { get; set; }
         public ObservableCollection<string> Images { get; set; }
         public String SelectedUrl { get; set; }
-        private object _currentViewModel;
-        public object CurrentViewModel
-
-        {
-            get => _currentViewModel;
-            set
-            {
-                if (value != _currentViewModel)
-                {
-                    _currentViewModel = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
         private String _owner;
         public String Owner
         {
@@ -55,41 +48,15 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
-        private int _cleanliness;
-        public int Cleanliness
+        private RatingGivenByGuest _rating;
+        public RatingGivenByGuest Rating
         {
-            get => _cleanliness;
+            get => _rating;
             set
             {
-                if (value != _cleanliness)
+                if (value != _rating)
                 {
-                    _cleanliness = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-        private int _correctness;
-        public int Correcntess
-        {
-            get => _correctness;
-            set
-            {
-                if (value != _correctness)
-                {
-                    _correctness = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-        private String _additionalComment;
-        public String AdditionalComment
-        {
-            get => _additionalComment;
-            set
-            {
-                if (value != _additionalComment)
-                {
-                    _additionalComment = value;
+                    _rating = value;
                     OnPropertyChanged();
                 }
             }
@@ -107,21 +74,58 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
-        private bool _isClosed;
-        public bool IsClosed
+        private bool _isFilled;
+        public bool IsFilled
         {
-            get { return _isClosed; }
+            get => _isFilled;
             set
             {
-                _isClosed = value;
-                OnPropertyChanged(nameof(IsClosed));
-                if (value)
+                if (value != _isFilled)
                 {
-                    Closed?.Invoke(this, EventArgs.Empty);
+                    _isFilled = value;
+                    OnPropertyChanged();
                 }
             }
         }
-        public event EventHandler Closed;
+        private bool _isChecked;
+        public bool IsChecked
+        {
+            get => _isChecked;
+            set
+            {
+                if (value != _isChecked)
+                {
+                    _isChecked = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private double _selectedStarCleanliness;
+        public double  SelectedStarCleanliness
+        {
+            get => _selectedStarCleanliness;
+            set
+            {
+                if (value != _selectedStarCleanliness)
+                {
+                    _selectedStarCleanliness = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private double _selectedStarCorrectness;
+        public double SelectedStarCorrectness
+        {
+            get => _selectedStarCorrectness;
+            set
+            {
+                if (value != _selectedStarCorrectness)
+                {
+                    _selectedStarCorrectness = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         private Regex urlRegex = new Regex("(http(s?)://.)([/|.|\\w|\\s|-])*\\.(?:jpg|gif|png)|(^$)");
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -129,53 +133,81 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        public RatingReservationViewModel(AccommodationReservation reservation)
+        public RatingReservationViewModel(AccommodationReservation reservation, NavigationService navigationService)
         {
+            _navigationService = navigationService;
+            _navigationService.RecommendationChanged += OnRecommendationChanged;
             _accommodationReservationService = new AccommodationReservationService();
             _ratingService = new RatingGivenByGuestService();
+            _recommendationService = new RenovationRecommendationService();
             Reservation = reservation;
             Images = new ObservableCollection<string>();
             Owner = Reservation.Accommodation.Owner.Name + " " + Reservation.Accommodation.Owner.Surname;
-            InitialProperties();
+            Rating = new RatingGivenByGuest();
+            Rating.ReservationId = Reservation.Id;
+            Rating.Reservation = Reservation;
+            Recommendation = new RenovationRecommendation();
+            InitialProperties(); 
             InitCommands();
+            SelectedStarCleanliness = 0;
+            SelectedStarCorrectness = 0;
+        }
+        private void OnRecommendationChanged()
+        {
+            Recommendation = _navigationService.NavigationStore.Recommendation;
+            IsFilled = true;
+
         }
         public void InitialProperties()
         {
             ImageUrl = " ";
-            AdditionalComment = " ";
-            Correcntess = 1;
-            Cleanliness = 1;
+            IsFilled = false;
+            IsChecked = false;
         }
         public void ExecutedReviewReservationCommand(object obj)
         {
-            _ratingService.RateReservation(_accommodationReservationService, new RatingGivenByGuest(Reservation.Id, Cleanliness, Correcntess, AdditionalComment, new List<string>(Images)));
-            IsClosed = true;
+            RatingGivenByGuest addedRating = _ratingService.RateReservation(_accommodationReservationService, Rating);
+            if (IsChecked && IsFilled)
+            {
+                _recommendationService.Add(_navigationService.NavigationStore.Recommendation, addedRating);
+            }
+            _navigationService.Navigate(new ReservationsViewModel(Reservation.Guest, _navigationService, 1), "My Reservations");
         }
-        public void ExecutedRecommentRenovationCommand(object obj)
+        public void ExecutedRecommendRenovationCommand(object obj)
         {
-            CurrentViewModel = new RecommendRenovationViewModel();
+            _navigationService.Navigate(new RenovationRecommendationViewModel(_navigationService, Recommendation), "Recommend renovation");
         }
         public void ExecutedCancelReviewCommand(object obj)
         {
-            IsClosed = true;
+            //ne moze back jer ako smo usli u recommend onda nam je to prethodni
+            _navigationService.Navigate(new ReservationsViewModel(Reservation.Guest, _navigationService, 1), "My Reservations");
         }
         public void ExecutedRemoveImageCommand(object obj)
         {
             if (SelectedUrl != null)
             {
+                Rating.Images.Remove(SelectedUrl);
                 Images.Remove(SelectedUrl);
             }
-
         }
         public void ExecutedAddImageCommand(object obj)
         {
             Match match = urlRegex.Match(ImageUrl);
             if (match.Success)
             {
+                Rating.Images.Add(ImageUrl);
                 Images.Add(ImageUrl);
                 ImageUrl = "";
                 //return "URL is not in valid format.";
             }
+        }
+        public void ExecutedStarCleanlinessCommand(object obj)
+        {
+            SelectedStarCleanliness  = Convert.ToDouble(obj);
+        }
+        public void ExecutedStarCorrectnessCommand(object obj)
+        {
+            SelectedStarCorrectness = Convert.ToDouble(obj);
         }
         public bool CanExecute(object obj)
         {
@@ -187,7 +219,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             CancelReviewCommand = new RelayCommand(ExecutedCancelReviewCommand, CanExecute);
             RemoveImageCommand = new RelayCommand(ExecutedRemoveImageCommand, CanExecute);
             AddImageCommand = new RelayCommand(ExecutedAddImageCommand, CanExecute);
-            RecommendRenovationCommand = new RelayCommand(ExecutedRecommentRenovationCommand, CanExecute);
+            RecommendRenovationCommand = new RelayCommand(ExecutedRecommendRenovationCommand, CanExecute);
+            StarRateCleanlinessCommand = new RelayCommand(ExecutedStarCleanlinessCommand, CanExecute);
+            StarRateCorrectnessCommand = new RelayCommand(ExecutedStarCorrectnessCommand, CanExecute);
         }
     }
 }

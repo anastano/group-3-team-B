@@ -49,6 +49,11 @@ namespace SIMS_HCI_Project.Repositories
             return _requests.FindAll(r => r.AccommodationReservation.Accommodation.OwnerId == ownerId);
         }
 
+        public List<RescheduleRequest> GetByAccommodationId(int accommodaitonId)
+        {
+            return _requests.FindAll(r => r.AccommodationReservation.AccommodationId == accommodaitonId);
+        }
+
         public List<RescheduleRequest> GetPendingByOwnerId(int ownerId)
         {
             return _requests.FindAll(r => r.AccommodationReservation.Accommodation.OwnerId == ownerId && r.Status == RescheduleRequestStatus.PENDING);

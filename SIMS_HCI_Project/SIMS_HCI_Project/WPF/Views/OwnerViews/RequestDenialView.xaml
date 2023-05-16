@@ -6,11 +6,12 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         mc:Ignorable="d"
         Title="RequestDenialView" Height="300" Width="500" WindowStartupLocation="CenterScreen">
-    <Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding SubmitRequestDenialCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseRequestDenialViewCommand}"/>
+    </Window.InputBindings>
 
-    </Window.Resources>
-    
-    <Grid Background="{StaticResource OwnerNeutralColor}">
+    <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=txtComment}">
         <StackPanel>
             <TextBlock x:Name="tblWelcome" Text="Decline Request" 
                        Style="{StaticResource OwnerTitleStyle}">
@@ -22,7 +23,7 @@
                     <Label Content="Why are you declining this request?" Grid.Row="0" Grid.Column="0"
                            Style="{StaticResource OwnerLabelStyle}"></Label>
 
-                    <TextBox x:Name="txtCleanliness" Grid.Row="0" Grid.Column="1"
+                    <TextBox x:Name="txtComment" Grid.Row="0" Grid.Column="1"
                              Text="{Binding Path = Request.OwnerComment, UpdateSourceTrigger = PropertyChanged}"
                              Style="{StaticResource OwnerTextBoxStyle}" Width="300" Height="90">
                     </TextBox>
@@ -35,7 +36,7 @@
                         Style="{StaticResource OwnerButtonStyle}" Width="150" Height="35">
                 </Button>
 
-                <Button x:Name="btnCancel" Content="Cancel (Esc)"
+                <Button x:Name="btnCancel" Content="Cancel (Esc)" Command="{Binding CloseRequestDenialViewCommand}"
                         Style="{StaticResource OwnerButtonStyle}" Width="150" Height="35">
                 </Button>
             </StackPanel>

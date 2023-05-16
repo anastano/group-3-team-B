@@ -1,6 +1,7 @@
 ﻿using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Domain.RepositoryInterfaces;
 using SIMS_HCI_Project.FileHandlers;
+using SIMS_HCI_Project.Model;
 using SIMS_HCI_Project.Observer;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,10 @@ namespace SIMS_HCI_Project.Repositories
         public RatingGivenByGuestRepository()
         {
             _fileHandler = new RatingGivenByGuestFileHandler();
-            _ratings = _fileHandler.Load();
+            if (_ratings == null)
+            {
+                _ratings = _fileHandler.Load();
+            }
             _observers = new List<IObserver>();
         }
         public int GenerateId()
@@ -53,12 +57,13 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _ratings.Any(r => r.ReservationId == reservationId);
         }
-        public void Add(RatingGivenByGuest rating)
+        public RatingGivenByGuest Add(RatingGivenByGuest rating)
         {
             rating.Id = GenerateId();
             _ratings.Add(rating);
             Save();
             NotifyObservers();
+            return rating;
         }
         public void NotifyObservers()
         {

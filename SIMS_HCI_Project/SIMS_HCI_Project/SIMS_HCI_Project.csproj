@@ -14,6 +14,7 @@
     <None Remove="Resources\Images\goldenHouse.png" />
     <None Remove="Resources\Images\help.png" />
     <None Remove="Resources\Images\logout.png" />
+    <None Remove="Resources\Images\maintenance.png" />
     <None Remove="Resources\Images\menu.png" />
     <None Remove="Resources\Images\patternCircle.jpg" />
     <None Remove="Resources\Images\patternLines.png" />
@@ -52,6 +53,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\logout.png" />
+    <Resource Include="Resources\Images\maintenance.png" />
     <Resource Include="Resources\Images\menu.png" />
     <Resource Include="Resources\Images\patternCircle.jpg" />
     <Resource Include="Resources\Images\patternLines.png" />

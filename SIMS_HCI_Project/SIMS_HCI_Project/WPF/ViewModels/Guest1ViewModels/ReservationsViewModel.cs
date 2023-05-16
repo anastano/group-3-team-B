@@ -92,7 +92,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _notificationService = new NotificationService();
             Guest = guest;
             ActiveReservations = new ObservableCollection<AccommodationReservation>(_reservationService.GetAllByStatusAndGuestId(Guest.Id, AccommodationReservationStatus.RESERVED));
-            AddRescheduledReservations();
             PastReservations = new ObservableCollection<AccommodationReservation>(_reservationService.GetAllByStatusAndGuestId(Guest.Id, AccommodationReservationStatus.COMPLETED));
             CanceledReservations = new ObservableCollection<AccommodationReservation>(_reservationService.GetAllByStatusAndGuestId(Guest.Id,AccommodationReservationStatus.CANCELLED));
             Reservations = new ObservableCollection<AccommodationReservation>(_reservationService.GetByGuestId(Guest.Id));
@@ -176,7 +175,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             {
                 ActiveReservations.Add(reservation);
             }
-            AddRescheduledReservations();
             PastReservations.Clear();
             foreach (AccommodationReservation reservation in _reservationService.GetAllByStatusAndGuestId(Guest.Id, AccommodationReservationStatus.COMPLETED))
             {
@@ -189,18 +187,5 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 CanceledReservations.Add(reservation);
             }
         }
-
-        /************************ TO BE CHANGED ********************************/
-        private void AddRescheduledReservations()
-        {
-            foreach (AccommodationReservation reservation in _reservationService.GetAllByStatusAndGuestId(Guest.Id, AccommodationReservationStatus.RESERVED)) //this needs to be changed(I put RESERVED instead of RESCHEDULED that doesnt exist anymore)
-            {
-                if (_reservationService.IsReservationActive(reservation))
-                {
-                    ActiveReservations.Add(reservation);
-                }
-            }
-        }
-        /********************************************************/
     }
 }

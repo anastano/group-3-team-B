@@ -36,12 +36,5 @@ namespace SIMS_HCI_Project.Applications.Services
                 _recommendationRepository.Add(recommendation);
             }
         }
-        public void ConnectRecommendationsWithRatings(RatingGivenByGuestService ratingService)
-        {
-            foreach (RenovationRecommendation recommendation in GetAll())
-            {
-                recommendation.Rating = ratingService.GetById(recommendation.RatingId);
-            }
-        }
     }
 }

@@ -64,14 +64,6 @@ namespace SIMS_HCI_Project.Applications.Services
             return addedRating;
             
         }
-        public void ConnectRatingsWithReservations(AccommodationReservationService reservationService)
-        {
-            foreach (RatingGivenByGuest rating in _ratingRepository.GetAll())
-            {
-                rating.Reservation = reservationService.GetById(rating.ReservationId);
-            }
-        }
-
         public void FillAverageRatingAndSuperFlag(Owner owner)
         {
             FillAverageRating(owner);

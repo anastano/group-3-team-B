@@ -60,24 +60,7 @@ namespace SIMS_HCI_Project.Applications.Services
         public void Delete(Accommodation accommodation)
         {
             _accommodationRepository.Delete(accommodation);
-        }
-
-        public void ConnectAccommodationsWithLocations()
-        {
-            foreach (Accommodation accommodation in GetAll())
-            {
-                accommodation.Location = _locationRepository.GetById(accommodation.LocationId);
-            }
-        }
-        public void ConnectAccommodationsWithOwners()
-        {
-            foreach (Accommodation accommodation in GetAll())
-            {
-                accommodation.Owner = (Owner)_userRepository.GetById(accommodation.OwnerId);
-            }
-        }
-
-        
+        }  
         public void FillAccommodationRatings(RatingGivenByGuestService ratingService)
         {
             foreach (Accommodation accommodation in GetAll())
@@ -85,8 +68,6 @@ namespace SIMS_HCI_Project.Applications.Services
                 ratingService.FillAverageRatingAndSuperFlag(accommodation.Owner);
             }
         }
-        
-
         public void NotifyObservers()
         {
             _accommodationRepository.NotifyObservers();

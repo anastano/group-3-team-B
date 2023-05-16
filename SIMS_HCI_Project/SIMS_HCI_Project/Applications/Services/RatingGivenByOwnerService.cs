@@ -55,7 +55,7 @@ namespace SIMS_HCI_Project.Applications.Services
 
             foreach (AccommodationReservation reservation in reservationService.GetByOwnerId(ownerId))
             {
-                if (reservationService.IsCompleted(reservation) && reservationService.IsWithinFiveDaysAfterCheckout(reservation) && !IsReservationRated(reservation))
+                if (reservationService.IsWithinFiveDaysAfterCheckout(reservation) && !IsReservationRated(reservation))
                 {
                     unratedReservations.Add(reservation);
                 }
@@ -84,14 +84,6 @@ namespace SIMS_HCI_Project.Applications.Services
         public void Add(RatingGivenByOwner rating)
         {
             _ratingRepository.Add(rating);
-        }
-
-        public void ConnectRatingsWithReservations(AccommodationReservationService reservationService)
-        {
-            foreach (RatingGivenByOwner rating in _ratingRepository.GetAll())
-            {
-                rating.Reservation = reservationService.GetById(rating.ReservationId);
-            }
         }
         /// <summary>
         /// dodajem novu metodu dodaj je u class diagram

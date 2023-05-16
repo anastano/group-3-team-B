@@ -36,13 +36,6 @@ namespace SIMS_HCI_Project.Applications.Services
                 }
             }
         }
-        public void ConnectTitlesWithGuests()
-        {
-            foreach (SuperGuestTitle title in GetAll())
-            {
-                title.Guest = (Guest1)_userRepository.GetById(title.GuestId);
-            }
-        }
         public void ConvertActiveTitlesIntoExpired(DateTime currentDate)
         {
             _titleRepository.ConvertActiveTitlesIntoExpired(currentDate);

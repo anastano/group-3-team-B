@@ -44,7 +44,7 @@ namespace SIMS_HCI_Project.Applications.Services
 
             foreach (AccommodationReservation reservation in reservationService.GetAllReserevedByAccommodationId(request.AccommodationReservation.AccommodationId))
             {
-                if (IsDateRangeOverlapping(reservation, request) && reservationService.IsReserved(reservation) && reservation.Id != request.AccommodationReservationId)
+                if (IsDateRangeOverlapping(reservation, request) && reservation.Id != request.AccommodationReservationId)
                 {
                     overlappingReservations.Add(reservation);
                 }
@@ -63,13 +63,6 @@ namespace SIMS_HCI_Project.Applications.Services
         public void EditStatus(int requestId, RescheduleRequestStatus status)
         {
             _requestRepository.EditStatus(requestId, status);
-        }
-        public void ConnectRequestsWithReservations(AccommodationReservationService reservationService)
-        {
-            foreach (RescheduleRequest request in _requestRepository.GetAll())
-            {
-                request.AccommodationReservation = reservationService.GetById(request.AccommodationReservationId);
-            }
         }
         public void Add(RescheduleRequest rescheduleRequest)
         {

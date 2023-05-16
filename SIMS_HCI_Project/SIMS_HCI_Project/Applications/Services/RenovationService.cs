@@ -1,4 +1,5 @@
-﻿using SIMS_HCI_Project.Domain.Models;
+﻿using SIMS_HCI_Project.Domain.DTOs;
+using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Observer;
 using SIMS_HCI_Project.Repositories;
 using System;
@@ -75,7 +76,7 @@ namespace SIMS_HCI_Project.Applications.Services
 
             foreach (AccommodationReservation reservation in reservationService.GetAllReserevedByAccommodationId(accommodation.Id))
             {
-                if (reservationService.IsDateRangeOverlapping(potentialStart, potentialEnd, reservation))
+                if ((new DateRange(potentialStart, potentialEnd)).DoesOverlap(new DateRange(reservation.Start, reservation.End)))
                 {
                     return true;
                 }
@@ -106,15 +107,17 @@ namespace SIMS_HCI_Project.Applications.Services
 
             return false;
         }
-
-        public void ConnectRenovationsWithAccommodations(AccommodationService accommodationService)
+        public bool IsAccommodationRenovated(int accommodationId)
         {
-            foreach (Renovation renovation in GetAll())
+            foreach(Renovation renovation in GetByAccommodationId(accommodationId))
             {
-                renovation.Accommodation = accommodationService.GetById(renovation.AccommodationId);
+                if(renovation.End.AddYears(1) >= DateTime.Today)
+                {
+                    return true;
+                }
             }
+            return false;
         }
-
         public void NotifyObservers()
         {
             _renovationRepository.NotifyObservers();

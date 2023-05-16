@@ -73,23 +73,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             Notifications = new ObservableCollection<Notification>(_notificationService.GetUnreadByUserId(Guest.Id));
             Tour = new Tour();
             Attendances = new List<GuestTourAttendance>();
-            //MakeNotificationsForAttendanceConfirmation();
-
-        }
-
-        public int ExtractTourId(Notification notification)
-        {
-            var regex = new Regex(@"\[(\d+)\]");
-            var match = regex.Match(notification.Message);
-            if (match.Success)
-            {
-                var tourIdString = match.Groups[1].Value;
-                if (int.TryParse(tourIdString, out int tourId))
-                {
-                    return tourId;
-                }
-            }
-            return 0;
         }
 
         public void NavigateToNotification()
@@ -100,30 +83,24 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                 switch (SelectedNotification.Type)
                 {
                     case NotificationType.TOUR_REQUEST_ACCEPTED:
-                        tourId = ExtractTourId(SelectedNotification);
+                        tourId = SelectedNotification.ExtractTourId(SelectedNotification);
                         Tour = _tourService.GetTourInformation(tourId);
-                        //NavigationService.Navigate(new TourReservationView(Tour, Guest, NavigationService));
                         NavigationService.Navigate(new SearchAndReserveView(Guest, Tour, NavigationService));
                         break;
                     case NotificationType.NEW_TOUR:
-                        tourId = ExtractTourId(SelectedNotification);
+                        tourId = SelectedNotification.ExtractTourId(SelectedNotification);
                         Tour = _tourService.GetTourInformation(tourId);
-                        //NavigationService.Navigate(new TourReservationView(Tour, Guest, NavigationService));
                         NavigationService.Navigate(new SearchAndReserveView(Guest, Tour, NavigationService));
-
                         break;
                     case NotificationType.CONFIRM_ATTENDANCE:
-                        tourId = ExtractTourId(SelectedNotification);
+                        tourId = SelectedNotification.ExtractTourId(SelectedNotification);
                         TourTime tourTime = _tourService.GetTourInstance(tourId);
-                        //Tour = _tourService.GetTourInformation(tourId);
-                        //ConfirmRequestSubmission(Tour.Id);
                         if(ConfirmRequestSubmission(tourTime.Id) == MessageBoxResult.Yes)
                         {
                             _guestTourAttendanceService.ConfirmAttendance(Guest.Id, tourTime.Id);
                             MessageBox.Show("Your tour attendance is confirmed.");
                         }
                         SelectedNotification.IsRead = true;
-
                         break;
                     default:
                         break;
@@ -167,20 +144,5 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         {
             return true;
         }
-
-        //public void MakeNotificationsForAttendanceConfirmation()
-        //{
-        //    //move to where guide sends invitaton
-        //    Attendances = _guestTourAttendanceService.GetByConfirmationRequestedStatus(Guest.Id);
-        //    foreach (GuestTourAttendance attendance in Attendances)
-        //    {
-        //        if (_notificationService.GetAll().Select(n => n.Message).ToList().Contains(attendance.TourTimeId.ToString()) == false)
-        //        {
-
-        //            string Message = "You have request to confirm your attendance for tour with id: " + attendance.TourTimeId + ". Confirm your attendance on that tour in the list of active tours.";
-        //            _notificationService.Add(new Notification(Message, Guest.Id, false, NotificationType.CONFIRM_ATTENDANCE));
-        //        }
-        //    }
-        //}
     }
 }

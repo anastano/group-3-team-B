@@ -106,6 +106,9 @@ namespace SIMS_HCI_Project.Applications.Services
             guestTourAttendance.KeyPointJoined = guestTourAttendance.TourReservation.TourTime.CurrentKeyPoint;
             guestTourAttendance.KeyPointJoinedId = guestTourAttendance.TourReservation.TourTime.CurrentKeyPoint.Id;
             _guestTourAttendanceRepository.Update(guestTourAttendance);
+            NotificationService notificationService = new NotificationService();
+            string Message = "You have request to confirm your attendance for tour with id: [" + guestTourAttendance.TourTimeId + "].";
+            notificationService.Add(new Notification(Message, guestTourAttendance.GuestId, false, NotificationType.CONFIRM_ATTENDANCE));
         }
     }
 

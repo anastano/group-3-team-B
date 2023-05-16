@@ -74,6 +74,12 @@ namespace SIMS_HCI_Project.Repositories
                                         && r.Status == RegularRequestStatus.PENDING);
         }
 
+        public List<RegularTourRequest> GetInvalidByParams(int locationId, string language)
+        {
+            return _requests.FindAll(r => (r.LocationId == locationId || r.Language == language)
+                                    && ( r.Status == RegularRequestStatus.INVALID ));
+        }
+
         public void Add(RegularTourRequest request)
         {
             request.Id = GenerateId();
@@ -138,5 +144,7 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _requests.Where(r => r.SubmittingDate > DateTime.Now.AddYears(-1)).GroupBy(r => r.Language).OrderByDescending(r => r.Count()).First().First().Language;
         }
+
+        
     }
 }

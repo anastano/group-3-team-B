@@ -69,10 +69,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         private void ExecutedMarkGuestPresentCommand(object obj)
         {
             _guestTourAttendanceService.MarkGuestAsPresent(SelectedGuest);
-            //check if ok
-            string Message = "You have request to confirm your attendance for tour with id: [" + Tour.Id + "].";
-            _notificationService.Add(new Notification(Message, SelectedGuest.Id, false, NotificationType.CONFIRM_ATTENDANCE));
-            //
             LoadTour();
         }
 

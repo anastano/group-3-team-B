@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Domain.Models
@@ -41,6 +42,21 @@ namespace SIMS_HCI_Project.Domain.Models
             User = notification.User;
             IsRead = notification.IsRead;
             Type = notification.Type;
+        }
+
+        public int ExtractTourId(Notification notification) //add to class diagram
+        {
+            var regex = new Regex(@"\[(\d+)\]");
+            var match = regex.Match(notification.Message);
+            if (match.Success)
+            {
+                var tourIdString = match.Groups[1].Value;
+                if (int.TryParse(tourIdString, out int tourId))
+                {
+                    return tourId;
+                }
+            }
+            return 0;
         }
     }
 }

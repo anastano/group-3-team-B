@@ -53,7 +53,7 @@
                 <lvc:PieSeries Title="Pending requests" DataLabels="True" Values="{Binding PendingCount}"></lvc:PieSeries>
             </lvc:PieChart.Series>
             <lvc:PieChart.DataTooltip>
-                <lvc:DefaultTooltip />
+                <lvc:DefaultTooltip Foreground="Black"/>
             </lvc:PieChart.DataTooltip>
         </lvc:PieChart>
 
@@ -123,7 +123,7 @@
             <ComboBoxItem Content="2022" />
             <ComboBoxItem Content="2023" />
         </ComboBox>
-        <TextBlock HorizontalAlignment="Left" Margin="818,69,0,0" TextWrapping="Wrap" Text="{Binding AverageNumberOfPeople}" VerticalAlignment="Top" Height="42" Width="233" FontSize="14"/>
+        <TextBlock HorizontalAlignment="Left" Foreground="White" Margin="858,74,0,0" TextWrapping="Wrap" Text="{Binding AverageNumberOfPeople}" VerticalAlignment="Top" Height="79" Width="193" FontSize="14"/>
 
     </Grid>
 </Page>

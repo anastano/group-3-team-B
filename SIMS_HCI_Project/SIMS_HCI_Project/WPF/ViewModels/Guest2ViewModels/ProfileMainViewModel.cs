@@ -160,7 +160,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             return true;
         }
 
-        public void MakeNotificationsForAttendanceConfirmation()
+        public void MakeNotificationsForAttendanceConfirmation() //delete, not used here
         {
             //move to where guide sends invitaton
             Attendances = _guestTourAttendanceService.GetByConfirmationRequestedStatus(Guest.Id);
@@ -174,7 +174,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                 }
             }
         }
-        public void makeNotifPls()
+        public void makeNotifPls() //delete, not used here
         {
             foreach (TourReservation reservation in Reservations)
             {

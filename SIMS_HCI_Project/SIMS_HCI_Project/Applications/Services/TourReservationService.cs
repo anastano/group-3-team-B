@@ -78,20 +78,5 @@ namespace SIMS_HCI_Project.Applications.Services
 
             tourTime.Available -= requestedPartySize;
         }
-
-        public void NotifyObservers()
-        {
-            _tourReservationRepository.NotifyObservers();
-        }
-
-        public void Subscribe(IObserver observer)
-        {
-            _tourReservationRepository.Subscribe(observer);
-        }
-
-        public void Unsubscribe(IObserver observer)
-        {
-            _tourReservationRepository.Unsubscribe(observer);
-        }
     }
 }

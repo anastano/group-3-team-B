@@ -121,8 +121,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
             ShowNotifications(); //izmeni da prikaze broj neprocitanih i da klikom vodi na page za notif
 
-            _tourReservationService.Subscribe(this); //brisi
-            _tourVoucherService.Subscribe(this); //brisi
         }
 
 

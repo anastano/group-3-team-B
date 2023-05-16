@@ -11,7 +11,7 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
 
         void Add(Tour tour);
         List<Tour> Search(string country, string city, int duration, string language, int guestsNum);
-        List<Tour> Search(string city, string country);
         public List<Tour> SearchByGuide(int guideId, string country, string city, int duration, string language, int guestsNum);
+        List<Tour> SearchByLocation(Location location);
     }
 }

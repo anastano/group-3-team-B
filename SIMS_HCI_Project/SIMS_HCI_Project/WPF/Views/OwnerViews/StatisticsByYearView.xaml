@@ -1,0 +1,192 @@
+﻿<Window x:Class="SIMS_HCI_Project.WPF.Views.OwnerViews.StatisticsByYearView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
+        xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
+        mc:Ignorable="d"
+        Title="StatisticsByYear" Height="650" Width="700" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <converters:MultiplyCountConverter x:Key="MultiplyCountConverter"/>
+    </Window.Resources>
+    <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=listAccommodationYears}">
+        <!-- MIDDLE STACK PANEL-->
+        <StackPanel Margin="5 0 5 0">
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="{Binding Accommodation.Name}" 
+                           Style="{StaticResource OwnerTitleStyle}">
+                </TextBlock>
+            </StackPanel>
+
+            <Border Style="{StaticResource OwnerBorderStyle}" Width="650">
+                <!-- DataGrid STACKPANEL-->
+
+                <StackPanel Margin="0 0 0 0">
+                    <StackPanel Width="650" Margin="195 10 10 10" Orientation="Horizontal">
+                        <Border Style="{StaticResource OwnerBorderStyle}" Margin="10" Padding="0 5 10 0">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                                <TextBlock Text="  The Best Year: " 
+                                        Style="{StaticResource OwnerTitleStyle}" FontSize="22" Margin="5">
+                                </TextBlock>
+
+                                <TextBlock Text="{Binding BestYear}" 
+                                        Style="{StaticResource OwnerTitleStyle}" FontSize="22" Margin="5">
+                                </TextBlock>
+                            </StackPanel>
+                        </Border>
+
+                        <Grid HorizontalAlignment="Right" Margin="50 0 0 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.1*"/>
+                                    <ColumnDefinition Width="2.5*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <Rectangle Grid.Row="0" Grid.Column="0" Height="15" Width="15" Fill="#9FE2BF"/>
+                                <Rectangle Grid.Row="1" Grid.Column="0" Height="15" Width="15" Fill="#008080"/>
+                                <Rectangle Grid.Row="2" Grid.Column="0" Height="15" Width="15" Fill="#968E85"/>
+
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text="reservation count" Margin="0"
+                                        Style="{StaticResource OwnerTitleStyle}" FontSize="14" Width="130" Height="18">
+                                </TextBlock>
+
+                                <TextBlock Grid.Row="1" Grid.Column="1" Text="cancellation count" Margin="0"
+                                        Style="{StaticResource OwnerTitleStyle}" FontSize="14" Width="130" Height="18">
+                                </TextBlock>
+                                
+                                <TextBlock Grid.Row="2" Grid.Column="1" Text="resheduling count" Margin="0"
+                                        Style="{StaticResource OwnerTitleStyle}" FontSize="14" Width="130" Height="18">
+                                </TextBlock>
+                            </Grid>
+
+                    </StackPanel>
+                    <!--
+                    <DataGrid x:Name = "dgAccommodationYears" AutoGenerateColumns="False" ItemsSource="{Binding Path=AccommodationYears, UpdateSourceTrigger=PropertyChanged}" 
+                                      SelectedItem="{Binding Path=SelectedYear, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Focusable="True"
+                                      Width="550" Height="400" Margin="10 10 10 10" CanUserSortColumns="True" SelectionMode="Single" IsTabStop="False"
+                                      Style="{StaticResource OwnerDatagridStyle}" ColumnHeaderStyle="{StaticResource OwnerDataGridColumnHeaderStyle}"
+                                      CellStyle="{StaticResource OwnerDatagridCellStyle}">
+
+
+                        <DataGrid.Columns>
+
+                            <DataGridTemplateColumn Width="*" Header="Year">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Year}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Width="*" Header="Reservations">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ReservationCount}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Width="*" Header="Cancellations">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding CancellationCount}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTemplateColumn Width="*" Header="Reschedulings">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ReschedulingCount}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+                    -->
+
+                    <StackPanel>
+                        <ListBox x:Name="listAccommodationYears" FontSize="20" ItemsSource="{Binding AccommodationYears}" Height="395" Width="Auto" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                 SelectedItem="{Binding SelectedYear}">
+
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                                
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+
+                                    <StackPanel Orientation="Vertical">
+                                        <Border BorderThickness="1" BorderBrush="Black" CornerRadius="10">
+                                            <StackPanel Orientation="Horizontal" Height="200">
+                                                <StackPanel VerticalAlignment="Bottom">
+                                                    <Border BorderThickness="0 0 0 2" BorderBrush="Black">
+                                                        <Rectangle Height="{Binding ReservationCount, Converter ={StaticResource MultiplyCountConverter}}" Width="20" Fill="#9FE2BF"  VerticalAlignment="Bottom" Margin="1"/>
+                                                    </Border>
+                                                    <TextBlock Text="{Binding ReservationCount}" Margin="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                </StackPanel>
+
+                                                <StackPanel VerticalAlignment="Bottom">
+                                                    <Border BorderThickness="0 0 0 2" BorderBrush="Black">
+                                                        <Rectangle Height="{Binding CancellationCount, Converter ={StaticResource MultiplyCountConverter}}" Width="20" Fill="#008080"  VerticalAlignment="Bottom" Margin="1"/>
+                                                    </Border>
+                                                    <TextBlock Text="{Binding CancellationCount}" Margin="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                </StackPanel>
+
+                                                <StackPanel VerticalAlignment="Bottom">
+                                                    <Border BorderThickness="0 0 0 2" BorderBrush="Black">
+                                                        <Rectangle Height="{Binding ReschedulingCount, Converter ={StaticResource MultiplyCountConverter}}" Width="20" Fill="#968E85"  VerticalAlignment="Bottom" Margin="1"/>
+                                                    </Border>
+                                                    <TextBlock Text="{Binding ReschedulingCount}" Margin="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                </StackPanel>
+
+                                            </StackPanel>
+                                        </Border>
+
+                                        <Label Content="{Binding Year}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="60" FontFamily="16">
+                                            <Label.LayoutTransform>
+                                                <TransformGroup>
+                                                    <RotateTransform Angle="100" />
+                                                    <ScaleTransform ScaleX="-1" ScaleY="-1"/>
+                                                </TransformGroup>
+                                            </Label.LayoutTransform>
+                                        </Label>
+                                    </StackPanel>
+
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+
+                        </ListBox>
+                    </StackPanel>
+
+                </StackPanel>
+            </Border>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="btnSelectYear" Content="Statistics For Selected &#xa;        Year (Ctrl+S)"
+                        Command="{Binding SelectYearForStatisticsCommand}"
+                        Style="{StaticResource OwnerButtonStyle}" Width="200">
+                </Button>
+
+                <Button x:Name="btnCancel" Content="Close (Esc)" 
+                        Style="{StaticResource OwnerButtonStyle}" Width="200">
+                </Button>
+
+                <Button x:Name="btnHome" Content="Home (Ctrl+H)" 
+                        Style="{StaticResource OwnerButtonStyle}" Width="200">
+                </Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

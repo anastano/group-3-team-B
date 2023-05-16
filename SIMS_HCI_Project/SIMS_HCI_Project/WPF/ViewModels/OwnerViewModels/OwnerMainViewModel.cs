@@ -28,6 +28,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         private RatingGivenByOwnerService _ownerRatingService;
         private RatingGivenByGuestService _guestRatingService;
         private RenovationService _renovationService;
+        private AccommodationStatisticsService _statisticsService;
         #endregion
 
         public OwnerMainView OwnerMainView { get; set; }
@@ -40,6 +41,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public RelayCommand ShowPendingRequestsCommand { get; set; }
         public RelayCommand ShowUnratedReservationsCommand { get; set; }
         public RelayCommand ShowGuestReviewsCommand { get; set; }
+        public RelayCommand ShowStatisticsCommand { get; set; }
+        
         public RelayCommand LogoutCommand { get; set; }
 
         public OwnerMainViewModel(OwnerMainView ownerMainView, Owner owner) 
@@ -70,6 +73,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             _ownerRatingService = new RatingGivenByOwnerService();
             _guestRatingService = new RatingGivenByGuestService();
             _renovationService = new RenovationService();
+            _statisticsService = new AccommodationStatisticsService();
 
             _accommodationService.ConnectAccommodationsWithLocations(_locationService);
             _reservationService.ConnectReservationsWithAccommodations(_accommodationService);
@@ -163,6 +167,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             return true;
         }
 
+        public void Executed_ShowStatisticsCommand(object obj)
+        {
+            Window statisticsView = new SelectAccommodationForStatisticsView(_accommodationService, _reservationService, _statisticsService, Owner);
+            statisticsView.ShowDialog();
+        }
+
+        public bool CanExecute_ShowStatisticsCommand(object obj)
+        {
+            return true;
+        }
+
         public void Executed_LogoutCommand(object obj)
         {
             /*
@@ -189,6 +204,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             ShowPendingRequestsCommand = new RelayCommand(Executed_ShowPendingRequestsCommand, CanExecute_ShowPendingRequestsCommand);
             ShowUnratedReservationsCommand = new RelayCommand(Executed_ShowUnratedReservationsCommand, CanExecute_ShowUnratedReservationsCommand);
             ShowGuestReviewsCommand = new RelayCommand(Executed_ShowGuestReviewsCommand, CanExecute_ShowGuestReviewsCommand);
+            ShowStatisticsCommand = new RelayCommand(Executed_ShowStatisticsCommand, CanExecute_ShowStatisticsCommand);
+
             LogoutCommand = new RelayCommand(Executed_LogoutCommand, CanExecute_LogoutCommand);
         }
 

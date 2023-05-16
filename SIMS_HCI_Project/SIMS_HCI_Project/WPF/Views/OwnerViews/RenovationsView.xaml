@@ -49,6 +49,7 @@
                             <DataGrid.CellStyle>
                                 <Style TargetType="DataGridCell" >
                                     <Setter Property="Height" Value="60"/>
+                                    <Setter Property="Background" Value="{StaticResource OwnerNeutralColor}"/>
                                     <Style.Triggers>
                                         <Trigger Property="IsSelected" Value="True">
                                             <Setter Property="Foreground" Value="Black" />

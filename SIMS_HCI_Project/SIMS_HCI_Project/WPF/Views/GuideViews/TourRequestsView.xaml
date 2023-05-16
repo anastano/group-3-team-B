@@ -131,7 +131,7 @@
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
                                             <i:InvokeCommandAction Command="{Binding CreateTourFromTopLocation}" />
-                                            <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourInput}" CommandParameter="{Binding TourByStatistics}"/>
+                                            <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourInput}" CommandParameter="{Binding TourFromStatistics}"/>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </Button>
@@ -146,7 +146,7 @@
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="Click">
                                             <i:InvokeCommandAction Command="{Binding CreateTourFromTopLanguage}" />
-                                            <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourInput}" CommandParameter="{Binding TourByStatistics}"/>
+                                            <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourInput}" CommandParameter="{Binding TourFromStatistics}"/>
                                         </i:EventTrigger>
                                     </i:Interaction.Triggers>
                                 </Button>

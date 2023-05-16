@@ -101,7 +101,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                             _guestTourAttendanceService.ConfirmAttendance(Guest.Id, tourTime.Id);
                             MessageBox.Show("Your tour attendance is confirmed.");
                         }
-                        SelectedNotification.IsRead = true;
+                        _notificationService.MarkAsRead(SelectedNotification.Id);
                         break;
                     default:
                         break;

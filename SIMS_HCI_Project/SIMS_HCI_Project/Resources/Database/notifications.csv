@@ -1,6 +1,6 @@
 1|Reservation for Hotel Zelengora with id: 3 has been cancelled|1|False|DEFAULT
 2|Request to reschedule the reservation for 'Ime smestaja 0' has been ACCEPTED|3|True|DEFAULT
-3|You have request to confirm your attendance for tour with id: [13]. Confirm your attendance on that tour in the list of active tours.|4|False|CONFIRM_ATTENDANCE
+3|You have request to confirm your attendance for tour with id: [13]. Confirm your attendance on that tour in the list of active tours.|4|True|CONFIRM_ATTENDANCE
 4|You have request to confirm your attendance for tour with id: [13]. Confirm your attendance on that tour in the list of active tours.|4|True|CONFIRM_ATTENDANCE
 5|You have request to confirm your attendance for tour with id: [13]. Confirm your attendance on that tour in the list of active tours.|4|True|CONFIRM_ATTENDANCE
 6|You have request to confirm your attendance for tour with id: [43]. Confirm your attendance on that tour in the list of active tours.|4|True|CONFIRM_ATTENDANCE
@@ -14,5 +14,6 @@
 14|Reservation for Ime smestaja 0 with id: 1 has been cancelled|1|False|DEFAULT
 15|Reservation for Ime smestaja 0 with id: 1 has been cancelled|1|False|DEFAULT
 16|Your request number for tour was accepted. Departure time: 5/19/2023. Created tour number: [24].|4|False|TOUR_REQUEST_ACCEPTED
-17|You have request to confirm your attendance for tour with id: [43].|4|False|CONFIRM_ATTENDANCE
+17|You have request to confirm your attendance for tour with id: [43].|4|True|CONFIRM_ATTENDANCE
 18|You have request to confirm your attendance for tour with id: [43].|44|False|CONFIRM_ATTENDANCE
+19|Created new tour which fulfills some of your requirements from your unfulfilled requests. Tour is created with id: [27]. Click to see details|4|False|NEW_TOUR

@@ -101,11 +101,12 @@ namespace SIMS_HCI_Project.Applications.Services
             List<AccommodationReservation> availableReservations = new List<AccommodationReservation>();
             DateTime potentialStart = start;
             DateTime potentialEnd = start.AddDays(daysNumber - 1);
+            DateRange potentialDateRange = new DateRange(potentialStart, potentialEnd);
             while (potentialEnd <= end)
             {
                 while (potentialEnd <= end)
                 {
-                    if (!OverlapsWithRenovations(accommodation, new DateRange(potentialStart, potentialEnd)) && !OverlapsWithReservations(accommodation, new DateRange(potentialStart, potentialEnd)))
+                    if (!OverlapsWithRenovations(accommodation, potentialDateRange) && !OverlapsWithReservations(accommodation, potentialDateRange))
                     {
                         availableReservations.Add(new AccommodationReservation(accommodation, guest, potentialStart, potentialEnd, guestsNumber));
                     }

@@ -107,6 +107,17 @@ namespace SIMS_HCI_Project.Applications.Services
 
             return false;
         }
+        public bool IsAccommodationRenovated(int accommodationId)
+        {
+            foreach(Renovation renovation in GetByAccommodationId(accommodationId))
+            {
+                if(renovation.End.AddYears(1) >= DateTime.Today)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
         public void NotifyObservers()
         {
             _renovationRepository.NotifyObservers();

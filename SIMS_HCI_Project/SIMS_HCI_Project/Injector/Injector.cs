@@ -13,8 +13,6 @@ namespace SIMS_HCI_Project.Injector
         private static Dictionary<Type, object> _implementations = new Dictionary<Type, object>
         {
             { typeof(IUserRepository), new UserRepository() },
-            { typeof(IOwnerRepository), new OwnerRepository() },
-            { typeof(IGuest1Repository), new Guest1Repository() },
             { typeof(ILocationRepository), new LocationRepository() },
             { typeof(IAccommodationRepository), new AccommodationRepository() },
             { typeof(IAccommodationReservationRepository), new AccommodationReservationRepository() },

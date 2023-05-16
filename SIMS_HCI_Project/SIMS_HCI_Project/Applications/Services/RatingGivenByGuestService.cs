@@ -13,10 +13,12 @@ namespace SIMS_HCI_Project.Applications.Services
     public class RatingGivenByGuestService
     {
         private readonly IRatingGivenByGuestRepository _ratingRepository;
+        private readonly IUserRepository _userRepository;
 
         public RatingGivenByGuestService()
         {
             _ratingRepository = Injector.Injector.CreateInstance<IRatingGivenByGuestRepository>();
+            _userRepository = Injector.Injector.CreateInstance<IUserRepository>();
         }
 
         public RatingGivenByGuest GetById(int id)
@@ -69,14 +71,14 @@ namespace SIMS_HCI_Project.Applications.Services
                 rating.Reservation = reservationService.GetById(rating.ReservationId);
             }
         }
-        ///Obrisati ovo gdje popunjava samo kod jednog
+
         public void FillAverageRatingAndSuperFlag(Owner owner)
         {
             FillAverageRating(owner);
             FillSuperFlag(owner);
         }
 
-        private void FillAverageRating(Owner owner)
+        public void FillAverageRating(Owner owner)
         {
             int ratingsSum = 0;
             int counter = 0;
@@ -90,24 +92,16 @@ namespace SIMS_HCI_Project.Applications.Services
             owner.AverageRating = (double)ratingsSum / counter;
         }
 
-        private void FillSuperFlag(Owner owner)
+        public void FillSuperFlag(Owner owner)
         {
             owner.SuperFlag = IsSuperFlag(owner) ? true : false;
         }
 
-        private bool IsSuperFlag(Owner owner)
+        public bool IsSuperFlag(Owner owner)
         {
             return (GetByOwnerId(owner.Id).Count >= 2 && owner.AverageRating > 4.5);
         }
-        ///Nova dodata
-        public void FillAverageRatingAndSuperFlag(OwnerService ownerService)
-        {
-            foreach(Owner owner in ownerService.GetAll())
-            {
-                FillAverageRating(owner);
-                FillSuperFlag(owner);
-            }
-        }
+
         public void NotifyObservers()
         {
             _ratingRepository.NotifyObservers();

@@ -27,9 +27,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
     internal class Guest1MainViewModel : INotifyPropertyChanged
     {
         private NavigationService _navigationService;
-        private Guest1Service _guest1Service;
-        private OwnerService _ownerService;
-        private LocationService _locationService;
         private AccommodationService _accommodationService;
         private AccommodationReservationService _reservationService;
         private RescheduleRequestService _requestService;
@@ -129,9 +126,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 
         public void LoadFromFiles()
         {
-            _guest1Service = new Guest1Service();
-            _ownerService = new OwnerService();
-            _locationService = new LocationService();
             _accommodationService = new AccommodationService();
             _reservationService = new AccommodationReservationService();
             _requestService = new RescheduleRequestService();
@@ -141,19 +135,18 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _recommendationService = new RenovationRecommendationService();
             _titleService = new SuperGuestTitleService();
 
-            _accommodationService.ConnectAccommodationsWithLocations(_locationService);
-            _accommodationService.ConnectAccommodationsWithOwners(_ownerService);
+            _accommodationService.ConnectAccommodationsWithLocations();
+            _accommodationService.ConnectAccommodationsWithOwners();
             _reservationService.ConnectReservationsWithAccommodations(_accommodationService);
-            _reservationService.ConnectReservationsWithGuests(_guest1Service);
             _reservationService.ConvertReservedReservationIntoCompleted(DateTime.Now);
-            _reservationService.ConnectReservationsWithGuests(_guest1Service);
+            _reservationService.ConnectReservationsWithGuests();
             _requestService.ConnectRequestsWithReservations(_reservationService);
             _reservationService.ConvertReservationsIntoRated(_guestRatingService);
             _ownerRatingService.ConnectRatingsWithReservations(_reservationService);
             _guestRatingService.ConnectRatingsWithReservations(_reservationService);
-            _guestRatingService.FillAverageRatingAndSuperFlag(_ownerService);
             _recommendationService.ConnectRecommendationsWithRatings(_guestRatingService);
-            _titleService.ConnectTitlesWithGuests(_guest1Service);
+            _accommodationService.FillAccommodationRatings(_guestRatingService);
+            _titleService.ConnectTitlesWithGuests();
             _titleService.UpdateTitles(_reservationService);
             _titleService.ConvertActiveTitlesIntoExpired(DateTime.Now);
         }

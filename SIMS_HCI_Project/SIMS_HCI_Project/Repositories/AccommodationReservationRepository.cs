@@ -98,7 +98,6 @@ namespace SIMS_HCI_Project.Repositories
             AccommodationReservation reservation = _reservations.Find(r => r.Id == request.AccommodationReservationId);
             reservation.Start = request.WantedStart;
             reservation.End = request.WantedEnd;
-            reservation.Status = AccommodationReservationStatus.RESCHEDULED;
             Save();
             NotifyObservers();
         }

@@ -1,5 +1,6 @@
 ﻿using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Domain.RepositoryInterfaces;
+using SIMS_HCI_Project.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,11 @@ namespace SIMS_HCI_Project.Applications.Services
     public class SuperGuestTitleService
     {
         private readonly ISuperGuestTitleRepository _titleRepository;
+        private readonly IUserRepository _userRepository;
         public SuperGuestTitleService()
         {
             _titleRepository = Injector.Injector.CreateInstance<ISuperGuestTitleRepository>();
+            _userRepository = Injector.Injector.CreateInstance<IUserRepository>();
         }
         public SuperGuestTitle GetGuestActiveTitle(int gudestId)
         {
@@ -33,11 +36,11 @@ namespace SIMS_HCI_Project.Applications.Services
                 }
             }
         }
-        public void ConnectTitlesWithGuests(Guest1Service guest1Service)
+        public void ConnectTitlesWithGuests()
         {
             foreach (SuperGuestTitle title in GetAll())
             {
-                title.Guest = guest1Service.GetById(title.GuestId);
+                title.Guest = (Guest1)_userRepository.GetById(title.GuestId);
             }
         }
         public void ConvertActiveTitlesIntoExpired(DateTime currentDate)

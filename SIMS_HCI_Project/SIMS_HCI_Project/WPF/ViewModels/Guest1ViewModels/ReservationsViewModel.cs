@@ -189,9 +189,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 CanceledReservations.Add(reservation);
             }
         }
+
+        /************************ TO BE CHANGED ********************************/
         private void AddRescheduledReservations()
         {
-            foreach (AccommodationReservation reservation in _reservationService.GetAllByStatusAndGuestId(Guest.Id, AccommodationReservationStatus.RESCHEDULED))
+            foreach (AccommodationReservation reservation in _reservationService.GetAllByStatusAndGuestId(Guest.Id, AccommodationReservationStatus.RESERVED)) //this needs to be changed(I put RESERVED instead of RESCHEDULED that doesnt exist anymore)
             {
                 if (_reservationService.IsReservationActive(reservation))
                 {
@@ -199,5 +201,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
+        /********************************************************/
     }
 }

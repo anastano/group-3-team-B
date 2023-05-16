@@ -114,6 +114,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _navigationService = navigationService;
             _accommodationService = new AccommodationService();
             _accommodationReservationService = new AccommodationReservationService();
+
             Accommodation = new Accommodation();
             Guest = guest;
             Accommodations = _accommodationService.GetAllSortedBySuperFlag();

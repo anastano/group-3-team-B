@@ -15,11 +15,13 @@ namespace SIMS_HCI_Project.Applications.Services
     {
         private readonly IAccommodationRepository _accommodationRepository;
         private readonly ILocationRepository _locationRepository;
+        private readonly IUserRepository _userRepository;
 
         public AccommodationService()
         {
             _accommodationRepository = Injector.Injector.CreateInstance<IAccommodationRepository>();
             _locationRepository = Injector.Injector.CreateInstance<ILocationRepository>();
+            _userRepository = Injector.Injector.CreateInstance<IUserRepository>();
         }
 
         public Accommodation GetById(int id)
@@ -60,20 +62,30 @@ namespace SIMS_HCI_Project.Applications.Services
             _accommodationRepository.Delete(accommodation);
         }
 
-        public void ConnectAccommodationsWithLocations(LocationService locationService)
+        public void ConnectAccommodationsWithLocations()
         {
             foreach (Accommodation accommodation in GetAll())
             {
-                accommodation.Location = locationService.GetById(accommodation.LocationId);
+                accommodation.Location = _locationRepository.GetById(accommodation.LocationId);
             }
         }
-        public void ConnectAccommodationsWithOwners(OwnerService ownerService)
+        public void ConnectAccommodationsWithOwners()
         {
             foreach (Accommodation accommodation in GetAll())
             {
-                accommodation.Owner = ownerService.GetById(accommodation.OwnerId);
+                accommodation.Owner = (Owner)_userRepository.GetById(accommodation.OwnerId);
             }
         }
+
+        
+        public void FillAccommodationRatings(RatingGivenByGuestService ratingService)
+        {
+            foreach (Accommodation accommodation in GetAll())
+            {
+                ratingService.FillAverageRatingAndSuperFlag(accommodation.Owner);
+            }
+        }
+        
 
         public void NotifyObservers()
         {

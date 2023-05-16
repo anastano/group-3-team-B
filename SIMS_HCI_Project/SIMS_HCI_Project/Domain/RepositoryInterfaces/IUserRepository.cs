@@ -10,5 +10,6 @@ namespace SIMS_HCI_Project.Repositories
         bool CheckIfUsernameExists(string username);
 
         void Add(User newUser);
+        List<User> GetByUserRole(UserRole userRole);
     }
 }

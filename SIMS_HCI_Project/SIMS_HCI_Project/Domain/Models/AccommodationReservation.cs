@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Domain.Models
 {
-    public enum AccommodationReservationStatus { RESERVED, CANCELLED, RESCHEDULED, COMPLETED };
+    public enum AccommodationReservationStatus { RESERVED, CANCELLED, COMPLETED };
 
     public class AccommodationReservation
     {

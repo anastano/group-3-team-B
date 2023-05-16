@@ -18,9 +18,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
     public class OwnerMainViewModel: IObserver
     {
         #region Service Fields
-        private OwnerService _ownerService;
-        private Guest1Service _guest1Service;
-        private LocationService _locationService;
         private AccommodationService _accommodationService;
         private AccommodationReservationService _reservationService;
         private RescheduleRequestService _requestService;
@@ -63,9 +60,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public void LoadFromFiles()
         {
-            _ownerService = new OwnerService();
-            _guest1Service = new Guest1Service();
-            _locationService = new LocationService();
             _accommodationService = new AccommodationService();
             _reservationService = new AccommodationReservationService();
             _requestService = new RescheduleRequestService();
@@ -75,9 +69,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             _renovationService = new RenovationService();
             _statisticsService = new AccommodationStatisticsService();
 
-            _accommodationService.ConnectAccommodationsWithLocations(_locationService);
+            _accommodationService.ConnectAccommodationsWithLocations();
             _reservationService.ConnectReservationsWithAccommodations(_accommodationService);
-            _reservationService.ConnectReservationsWithGuests(_guest1Service);
+            _reservationService.ConnectReservationsWithGuests();
             _requestService.ConnectRequestsWithReservations(_reservationService);
             _ownerRatingService.ConnectRatingsWithReservations(_reservationService);
             _guestRatingService.ConnectRatingsWithReservations(_reservationService);

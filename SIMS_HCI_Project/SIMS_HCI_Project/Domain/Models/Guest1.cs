@@ -40,6 +40,7 @@ namespace SIMS_HCI_Project.Domain.Models
             Name = user.Name;
             Surname = user.Surname;
             Age = user.Age;
+            Role = user.Role;
 
             Reservations = new List<AccommodationReservation>();
         }

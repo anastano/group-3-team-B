@@ -1,4 +1,5 @@
 ﻿using SIMS_HCI_Project.Domain.Models;
+using SIMS_HCI_Project.Injector;
 using SIMS_HCI_Project.Observer;
 using SIMS_HCI_Project.Repositories;
 using System;
@@ -13,10 +14,12 @@ namespace SIMS_HCI_Project.Applications.Services
     public class AccommodationReservationService
     {
         private readonly IAccommodationReservationRepository _reservationRepository;
+        private readonly IUserRepository _userRepository;
 
         public AccommodationReservationService()
         {
             _reservationRepository = Injector.Injector.CreateInstance<IAccommodationReservationRepository>();
+            _userRepository = Injector.Injector.CreateInstance<IUserRepository>();
         }
 
         public AccommodationReservation GetById(int id)
@@ -54,7 +57,7 @@ namespace SIMS_HCI_Project.Applications.Services
 
             foreach (AccommodationReservation reservation in GetByOwnerId(ownerId))
             {
-                if (IsInProgress(reservation) && IsReservedOrRescheduled(reservation))
+                if (IsInProgress(reservation) && IsReserved(reservation))
                 {
                     reservationsInProgress.Add(reservation);
                 }
@@ -71,9 +74,9 @@ namespace SIMS_HCI_Project.Applications.Services
             return reservation.End >= DateTime.Today;
         }
 
-        public bool IsReservedOrRescheduled(AccommodationReservation reservation)
+        public bool IsReserved(AccommodationReservation reservation)
         {
-            return reservation.Status == AccommodationReservationStatus.RESERVED || reservation.Status == AccommodationReservationStatus.RESCHEDULED;
+            return reservation.Status == AccommodationReservationStatus.RESERVED;
         }
 
         public bool IsCompleted(AccommodationReservation reservation)
@@ -99,7 +102,7 @@ namespace SIMS_HCI_Project.Applications.Services
             _reservationRepository.EditReservation(request);
         }
 
-        public List<AccommodationReservation>  OwnerSearch(string accommodationName, string guestName, string guestSurname, int ownerId)
+        public List<AccommodationReservation> OwnerSearch(string accommodationName, string guestName, string guestSurname, int ownerId)
         {
             return _reservationRepository.OwnerSearch(accommodationName, guestName, guestSurname, ownerId);
         }
@@ -112,11 +115,11 @@ namespace SIMS_HCI_Project.Applications.Services
             }
         }
 
-        public void ConnectReservationsWithGuests(Guest1Service guest1Service)
+        public void ConnectReservationsWithGuests()
         {
             foreach (AccommodationReservation reservation in GetAll())
             {
-                reservation.Guest = guest1Service.GetById(reservation.GuestId);
+                reservation.Guest = (Guest1)(_userRepository.GetById(reservation.GuestId));
             }
         }
 

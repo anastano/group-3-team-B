@@ -42,32 +42,45 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             List<Renovation> availableRenovations = new List<Renovation>();
             DateTime potentialStart = enteredStart;
-            DateTime endDate = enteredEnd;
+            DateTime potentialEnd = enteredStart.AddDays(daysNumber - 1);
 
-            while (potentialStart <= endDate)
+            while (potentialEnd <= enteredEnd)
             {
-                DateTime potentialEnd = potentialStart.AddDays(daysNumber - 1);
-
-                if (potentialEnd > endDate) return availableRenovations;
-                bool dateRangeOverlaps = false;
-
-                foreach (Renovation renovation in GetByAccommodationId(accommodation.Id))
-                {
-                    if (IsDateRangeOverlapping(potentialStart, potentialEnd, renovation))
-                    {
-                        dateRangeOverlaps = true;
-                        break;
-                    }
-                }
-
-                if (!dateRangeOverlaps)
+                if (!OverlapsWithRenovations(accommodation, potentialStart, potentialEnd) && !OverlapsWithReservations(accommodation, potentialStart, potentialEnd))
                 {
                     availableRenovations.Add(new Renovation(accommodation.Id, potentialStart, potentialEnd));
                 }
-                potentialStart = potentialStart.AddDays(1);
 
+                potentialStart = potentialStart.AddDays(1);
+                potentialEnd = potentialStart.AddDays(daysNumber - 1);
             }
             return availableRenovations;
+        }
+
+        public bool OverlapsWithRenovations(Accommodation accommodation, DateTime potentialStart, DateTime potentialEnd)
+        {
+            foreach (Renovation renovation in GetByAccommodationId(accommodation.Id))
+            {
+                if (IsDateRangeOverlapping(potentialStart, potentialEnd, renovation))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool OverlapsWithReservations(Accommodation accommodation, DateTime potentialStart, DateTime potentialEnd)
+        {
+            AccommodationReservationService reservationService = new AccommodationReservationService();
+
+            foreach (AccommodationReservation reservation in reservationService.GetAllReserevedByAccommodationId(accommodation.Id))
+            {
+                if (reservationService.IsDateRangeOverlapping(potentialStart, potentialEnd, reservation))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public bool IsDateRangeOverlapping(DateTime potentialStart, DateTime potentialEnd, Renovation renovation)

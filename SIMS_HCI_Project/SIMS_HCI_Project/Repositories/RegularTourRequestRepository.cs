@@ -76,7 +76,7 @@ namespace SIMS_HCI_Project.Repositories
 
         public List<RegularTourRequest> GetInvalidByParams(int locationId, string language)
         {
-            return _requests.FindAll(r => (r.LocationId == locationId || r.Language == language)
+            return _requests.FindAll(r => (r.LocationId == locationId || r.Language.Contains(language))
                                     && ( r.Status == RegularRequestStatus.INVALID ));
         }
 

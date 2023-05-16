@@ -85,14 +85,6 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             _ratingRepository.Add(rating);
         }
-
-        public void ConnectRatingsWithReservations(AccommodationReservationService reservationService)
-        {
-            foreach (RatingGivenByOwner rating in _ratingRepository.GetAll())
-            {
-                rating.Reservation = reservationService.GetById(rating.ReservationId);
-            }
-        }
         /// <summary>
         /// dodajem novu metodu dodaj je u class diagram
         /// </summary>

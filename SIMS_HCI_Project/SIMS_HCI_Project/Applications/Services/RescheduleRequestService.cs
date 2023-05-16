@@ -64,13 +64,6 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             _requestRepository.EditStatus(requestId, status);
         }
-        public void ConnectRequestsWithReservations(AccommodationReservationService reservationService)
-        {
-            foreach (RescheduleRequest request in _requestRepository.GetAll())
-            {
-                request.AccommodationReservation = reservationService.GetById(request.AccommodationReservationId);
-            }
-        }
         public void Add(RescheduleRequest rescheduleRequest)
         {
             _requestRepository.Add(rescheduleRequest);

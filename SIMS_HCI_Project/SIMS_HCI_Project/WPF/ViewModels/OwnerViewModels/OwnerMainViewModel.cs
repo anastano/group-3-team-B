@@ -69,14 +69,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             _renovationService = new RenovationService();
             _statisticsService = new AccommodationStatisticsService();
 
-            _accommodationService.ConnectAccommodationsWithLocations();
-            _reservationService.ConnectReservationsWithAccommodations(_accommodationService);
-            _reservationService.ConnectReservationsWithGuests();
-            _requestService.ConnectRequestsWithReservations(_reservationService);
-            _ownerRatingService.ConnectRatingsWithReservations(_reservationService);
-            _guestRatingService.ConnectRatingsWithReservations(_reservationService);
-            _renovationService.ConnectRenovationsWithAccommodations(_accommodationService);
-
             _guestRatingService.FillAverageRatingAndSuperFlag(Owner);
         }
 

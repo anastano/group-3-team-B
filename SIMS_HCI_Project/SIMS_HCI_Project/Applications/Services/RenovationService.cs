@@ -106,15 +106,6 @@ namespace SIMS_HCI_Project.Applications.Services
 
             return false;
         }
-
-        public void ConnectRenovationsWithAccommodations(AccommodationService accommodationService)
-        {
-            foreach (Renovation renovation in GetAll())
-            {
-                renovation.Accommodation = accommodationService.GetById(renovation.AccommodationId);
-            }
-        }
-
         public void NotifyObservers()
         {
             _renovationRepository.NotifyObservers();

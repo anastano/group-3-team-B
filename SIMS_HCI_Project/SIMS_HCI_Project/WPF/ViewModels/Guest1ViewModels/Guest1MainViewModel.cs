@@ -106,7 +106,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             _navigationService = new NavigationService();
             _navigationService.CurrentViewModelChanged += OnCurrentViewModelChanged;
-           
             Guest1MainView = guest1MainView;
             Guest = guest;
             LoadFromFiles();
@@ -135,18 +134,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _recommendationService = new RenovationRecommendationService();
             _titleService = new SuperGuestTitleService();
 
-            _accommodationService.ConnectAccommodationsWithLocations();
-            _accommodationService.ConnectAccommodationsWithOwners();
-            _reservationService.ConnectReservationsWithAccommodations(_accommodationService);
             _reservationService.ConvertReservedReservationIntoCompleted(DateTime.Now);
-            _reservationService.ConnectReservationsWithGuests();
-            _requestService.ConnectRequestsWithReservations(_reservationService);
             _reservationService.ConvertReservationsIntoRated(_guestRatingService);
-            _ownerRatingService.ConnectRatingsWithReservations(_reservationService);
-            _guestRatingService.ConnectRatingsWithReservations(_reservationService);
-            _recommendationService.ConnectRecommendationsWithRatings(_guestRatingService);
             _accommodationService.FillAccommodationRatings(_guestRatingService);
-            _titleService.ConnectTitlesWithGuests();
             _titleService.UpdateTitles(_reservationService);
             _titleService.ConvertActiveTitlesIntoExpired(DateTime.Now);
         }

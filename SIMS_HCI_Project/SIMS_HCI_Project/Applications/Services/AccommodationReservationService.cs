@@ -73,12 +73,10 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return reservation.End >= DateTime.Today;
         }
-
         public bool IsReserved(AccommodationReservation reservation)
         {
             return reservation.Status == AccommodationReservationStatus.RESERVED;
         }
-
         public bool IsCompleted(AccommodationReservation reservation)
         {
             return reservation.Status == AccommodationReservationStatus.COMPLETED;
@@ -96,33 +94,14 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             _reservationRepository.EditStatus(reservationId, status);
         }
-
         public void EditReservation(RescheduleRequest request)
         {
             _reservationRepository.EditReservation(request);
         }
-
         public List<AccommodationReservation> OwnerSearch(string accommodationName, string guestName, string guestSurname, int ownerId)
         {
             return _reservationRepository.OwnerSearch(accommodationName, guestName, guestSurname, ownerId);
         }
-
-        public void ConnectReservationsWithAccommodations(AccommodationService accommodationService)
-        {
-            foreach (AccommodationReservation reservation in GetAll())
-            {
-                reservation.Accommodation = accommodationService.GetById(reservation.AccommodationId);
-            }
-        }
-
-        public void ConnectReservationsWithGuests()
-        {
-            foreach (AccommodationReservation reservation in GetAll())
-            {
-                reservation.Guest = (Guest1)(_userRepository.GetById(reservation.GuestId));
-            }
-        }
-
         public void ConvertReservedReservationIntoCompleted(DateTime currentDate)
         {
             _reservationRepository.ConvertReservedReservationIntoCompleted(currentDate);

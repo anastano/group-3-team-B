@@ -66,9 +66,9 @@ namespace SIMS_HCI_Project.Applications.Services
             return _tourRepository.Search(country, city, duration, language, guestsNum);
         }
 
-        public List<Tour> Search(string city, string country)
+        public List<Tour> SearchByLocation(Location location)
         {
-            return _tourRepository.Search(city, country);
+            return _tourRepository.SearchByLocation(location);
         }
 
         public List<Tour> SearchByGuide(int guideId, string country = null, string city = null, int duration = 0, string language = null, int guestsNum = 0)
@@ -94,6 +94,9 @@ namespace SIMS_HCI_Project.Applications.Services
 
             _tourTimeRepository.AssignTourToTourTimes(tour, tour.DepartureTimes);
             _tourTimeRepository.AddMultiple(tour.DepartureTimes);
+
+            NotificationService notificationService = new NotificationService();
+            notificationService.NotifyGuestsWithSimilarRequests(tour);
         }
 
         public List<TourTime> GetToursInDateRange(int guideId, DateRange dateRange)

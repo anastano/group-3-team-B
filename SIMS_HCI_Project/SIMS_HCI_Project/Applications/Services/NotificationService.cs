@@ -1,4 +1,5 @@
 ﻿using SIMS_HCI_Project.Domain.Models;
+using SIMS_HCI_Project.Domain.RepositoryInterfaces;
 using SIMS_HCI_Project.Observer;
 using SIMS_HCI_Project.Repositories;
 using System;
@@ -12,10 +13,12 @@ namespace SIMS_HCI_Project.Applications.Services
     public class NotificationService
     {
         private readonly INotificationRepository _notificationRepository;
+        private readonly IRegularTourRequestRepository _regularTourRequestRepository;
 
         public NotificationService()
         {
             _notificationRepository = Injector.Injector.CreateInstance<INotificationRepository>();
+            _regularTourRequestRepository = Injector.Injector.CreateInstance<IRegularTourRequestRepository>();
         }
 
         public Notification GetById(int id)
@@ -43,19 +46,13 @@ namespace SIMS_HCI_Project.Applications.Services
             _notificationRepository.MarkAsRead(notificationId);
         }
 
-        public void NotifyObservers()
+        public void NotifyGuestsWithSimilarRequests(Tour tour)
         {
-            _notificationRepository.NotifyObservers();
-        }
-
-        public void Subscribe(IObserver observer)
-        {
-            _notificationRepository.Subscribe(observer);
-        }
-
-        public void Unsubscribe(IObserver observer)
-        {
-            _notificationRepository.Unsubscribe(observer);
+            foreach (RegularTourRequest regularTourRequest in _regularTourRequestRepository.GetInvalidByParams(tour.LocationId, tour.Language))
+            {
+                string Message = "Created new tour which fulfills some of your requirements from your unfulfilled requests. Tour is created with id: [" + tour.Id + "]. Click to see details";
+                _notificationRepository.Add(new Notification(Message, regularTourRequest.GuestId, false, NotificationType.NEW_TOUR));
+            }
         }
     }
 }

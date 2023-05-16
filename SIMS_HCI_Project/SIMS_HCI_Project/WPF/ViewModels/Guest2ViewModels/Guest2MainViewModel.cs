@@ -119,10 +119,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             ActiveTours = new ObservableCollection<TourReservation>(_tourReservationService.GetActiveByGuestId(guest.Id));
             Notifications = new ObservableCollection<Notification>(_notificationService.GetUnreadByUserId(Guest.Id));
 
-            ShowNotifications();
+            ShowNotifications(); //izmeni da prikaze broj neprocitanih i da klikom vodi na page za notif
 
-            _tourReservationService.Subscribe(this);
-            _tourVoucherService.Subscribe(this);
         }
 
 
@@ -133,13 +131,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             _tourService = new TourService();
             _locationService = new LocationService();
             _guestTourAttendanceService = new GuestTourAttendanceService();
-            _notificationService = new NotificationService();
+            _notificationService = new NotificationService(); //proveri da li je u startap servisu sve povezano za obavestenja 
         }
 
         public void InitCommands()
         {
-            ConfirmAttendance = new RelayCommand(ExecutedConfirmAttendance, CanExecuteConfirmAttendance);
-            Logout = new RelayCommand(ExecutedLogout, CanExecuteLogout);
+            ConfirmAttendance = new RelayCommand(ExecutedConfirmAttendance, CanExecuteConfirmAttendance); // to notif page move
+            Logout = new RelayCommand(ExecutedLogout, CanExecuteLogout); //not needed?
         }
         #region Commands
         
@@ -148,6 +146,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
         public void ExecutedConfirmAttendance(object obj)
         {
+            //move to notif profile page
             MessageBox.Show("Do you want to confirm attendance on this Tour for all reservations?");
             MessageBoxButton messageBoxButton = MessageBoxButton.OK;
             _guestTourAttendanceService.ConfirmAttendanceForTourTime(SelectedActiveReservation.Guest2Id, SelectedActiveReservation.TourTimeId);
@@ -177,11 +176,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public void ShowNotifications()
         {
             int otherNotificationsNumber = Notifications.Count;
+            //count treba da prikaze broj neprocitanih, izmeni da bude za neprocitane neka metoda
+            //zavisibility ne treba sada
             Guest2MainView.lvNotifications.Visibility = otherNotificationsNumber != 0 ? Visibility.Visible : Visibility.Collapsed;
         }
         #endregion
         public void MakeNotificationsForAttendanceConfirmation()
         {
+            //move to where guide sends invitaton
             Attendances = _guestTourAttendanceService.GetByConfirmationRequestedStatus(Guest.Id);
             foreach (GuestTourAttendance attendance in Attendances)
             {

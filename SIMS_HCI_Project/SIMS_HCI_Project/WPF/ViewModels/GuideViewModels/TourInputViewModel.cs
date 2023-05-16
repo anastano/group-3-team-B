@@ -93,6 +93,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         public string SelectedImage { get; set; }
 
         private readonly TourService _tourService;
+        private readonly NotificationService _notificationService;
 
         private Tour _newTour;
         public Tour NewTour
@@ -119,6 +120,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         public TourInputViewModel(Tour tour = null)
         {
             _tourService = new TourService();
+            _notificationService = new NotificationService();
 
             NewTour = tour == null ? new Tour(new Guide(((User)App.Current.Properties["CurrentUser"]))) : tour;
 

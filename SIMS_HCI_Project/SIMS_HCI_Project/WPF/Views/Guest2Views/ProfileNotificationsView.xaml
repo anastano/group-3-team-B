@@ -1,0 +1,43 @@
+﻿<Page x:Class="SIMS_HCI_Project.WPF.Views.Guest2Views.ProfileNotificationsView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest2Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="518" d:DesignWidth="912"
+      Title="ProfileNotificationsView">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/Guest2Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    
+    <Grid>
+        <Button Style="{StaticResource Guest2BackBtn}" Command="{Binding BackCommand}">
+            <Image x:Name="back" Source="../../../Resources/Images/back.png"/>
+        </Button>
+        
+        <!--notifications list-->
+        <ListBox ItemsSource="{Binding Notifications}" SelectedItem="{Binding SelectedNotification}" Margin="52,87,50,73">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Message}" Height="25" TextWrapping="Wrap" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <!--ItemsControl ItemsSource="{Binding Notifications}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <TextBlock Text="{Binding Message}" />
+                        <Button Content="View" Margin="5" Command="{Binding DataContext.NotificationSelectedCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl-->
+    </Grid>
+</Page>

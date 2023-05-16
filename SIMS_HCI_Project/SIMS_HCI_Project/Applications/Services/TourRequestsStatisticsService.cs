@@ -52,14 +52,7 @@ namespace SIMS_HCI_Project.Applications.Services
             Dictionary<string, int> requestsNumberByLanguage = new Dictionary<string, int>();
             foreach(RegularTourRequest request in _regularTourRequestRepository.GetAllByGuestId(guestId))
             {
-                if (requestsNumberByLanguage.ContainsKey(request.Language))
-                {
-                    requestsNumberByLanguage[request.Language]++;
-                }
-                else
-                {
-                    requestsNumberByLanguage[request.Language] = 1;
-                }
+                requestsNumberByLanguage[request.Language] = requestsNumberByLanguage.ContainsKey(request.Language) ? requestsNumberByLanguage[request.Language] + 1 : 1;
             }
             return requestsNumberByLanguage;  
         }
@@ -69,14 +62,7 @@ namespace SIMS_HCI_Project.Applications.Services
             Dictionary<int, int> requestsNumberByLocationId = new Dictionary<int, int>();
             foreach (RegularTourRequest request in _regularTourRequestRepository.GetAllByGuestId(guestId))
             {
-                if (requestsNumberByLocationId.ContainsKey(request.LocationId))
-                {
-                    requestsNumberByLocationId[request.LocationId]++;
-                }
-                else
-                {
-                    requestsNumberByLocationId[request.LocationId] = 1;
-                }
+                requestsNumberByLocationId[request.LocationId] = requestsNumberByLocationId.ContainsKey(request.LocationId) ? requestsNumberByLocationId[request.LocationId] + 1 : 1;
             }
             return requestsNumberByLocationId;
         }

@@ -7,7 +7,16 @@
       mc:Ignorable="d" 
        Height="518" Width="1080" >
 
+    <Page.Resources>
+        <Style x:Key="Guest2Header1Style" TargetType="Label">
+            <Setter Property="Foreground" Value="Orange"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+    </Page.Resources>
     <Grid>
+        <Label Content="My requests" Style="{StaticResource Guest2Header1Style}"/>
         <TabControl>
             <TabItem Header="Regular requests" FontSize="16" Padding="10,5,10,5" >
                 <Grid Background="Transparent">

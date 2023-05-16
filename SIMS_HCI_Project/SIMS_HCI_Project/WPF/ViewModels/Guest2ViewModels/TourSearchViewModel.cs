@@ -14,6 +14,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
 using System.Windows.Navigation;
+using SIMS_HCI_Project.WPF.Views.Guest2Views.Help;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 {
@@ -26,9 +27,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         private TourVoucherService _tourVoucherService;
         #endregion
         #region Commands
-        public RelayCommand Search { get; set; }
-        public RelayCommand ShowImages { get; set; }
-        public RelayCommand Reserve { get; set; }
+        public RelayCommand SearchCommand { get; set; }
+        public RelayCommand SeeDetailsAndReserveCommand { get; set; }
+        public RelayCommand ResetSearchCommand { get; set; }
+        public RelayCommand HelpCommand { get; set;}
         #endregion
         public TourSearchView  TourSearchView { get; set; }
         public Guest2 Guest { get; set; }
@@ -140,8 +142,20 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         }
         public void InitCommands()
         {
-            Reserve = new RelayCommand(ExecutedReserve, CanExecute);
-            Search = new RelayCommand(ExecuteSearch, CanExecute);
+            SeeDetailsAndReserveCommand = new RelayCommand(ExecutedReserve, CanExecute);
+            SearchCommand = new RelayCommand(ExecuteSearch, CanExecute);
+            ResetSearchCommand = new RelayCommand(ExecuteResetSearchCommand, CanExecute);
+            HelpCommand = new RelayCommand(ExecuteHelp, CanExecute);
+        }
+
+        private void ExecuteHelp(object obj)
+        {
+            NavigationService.Navigate(new TourSearchHelpView(Guest, NavigationService));
+        }
+
+        private void ExecuteResetSearchCommand(object obj)
+        {
+            Tours = new List<Tour>(_tourService.GetAllTourInformation());
         }
         #region Commands
         public void ExecuteSearch(object sender)

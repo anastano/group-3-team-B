@@ -131,7 +131,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             TourReservationView = tourReservationView;
             Tour = tour;
             Guest2 = guest;
-            Image = Tour.Images[_currentImageIndex];
+            if(Tour.Images.Count != 0) //fix later
+            {
+                Image = Tour.Images[_currentImageIndex];
+            }
+            else
+            {
+                Image = "https://thumbs.dreamstime.com/z/no-image-available-icon-photo-camera-flat-vector-illustration-132483141.jpg";
+            }
             LocationName = Tour.Location.City + ", " + Tour.Location.Country;
 
             LoadFromFiles();

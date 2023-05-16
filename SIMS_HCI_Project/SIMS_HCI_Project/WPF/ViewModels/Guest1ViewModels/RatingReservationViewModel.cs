@@ -167,6 +167,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public void ExecutedReviewReservationCommand(object obj)
         {
             RatingGivenByGuest addedRating = _ratingService.RateReservation(_accommodationReservationService, Rating);
+            addedRating.Cleanliness = (int)SelectedStarCleanliness;
+            addedRating.Correctness = (int)SelectedStarCorrectness;
             if (IsChecked && IsFilled)
             {
                 _recommendationService.Add(_navigationService.NavigationStore.Recommendation, addedRating);

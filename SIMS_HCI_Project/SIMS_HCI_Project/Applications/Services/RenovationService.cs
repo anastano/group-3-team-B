@@ -1,4 +1,5 @@
-﻿using SIMS_HCI_Project.Domain.Models;
+﻿using SIMS_HCI_Project.Domain.DTOs;
+using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Observer;
 using SIMS_HCI_Project.Repositories;
 using System;
@@ -75,7 +76,7 @@ namespace SIMS_HCI_Project.Applications.Services
 
             foreach (AccommodationReservation reservation in reservationService.GetAllReserevedByAccommodationId(accommodation.Id))
             {
-                if (reservationService.IsDateRangeOverlapping(potentialStart, potentialEnd, reservation))
+                if ((new DateRange(potentialStart, potentialEnd)).DoesOverlap(new DateRange(reservation.Start, reservation.End)))
                 {
                     return true;
                 }

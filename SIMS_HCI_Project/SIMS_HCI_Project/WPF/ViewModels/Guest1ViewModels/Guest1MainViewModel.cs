@@ -29,12 +29,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         private NavigationService _navigationService;
         private AccommodationService _accommodationService;
         private AccommodationReservationService _reservationService;
-        private RescheduleRequestService _requestService;
         private NotificationService _notificationService;
-        private RatingGivenByGuestService _guestRatingService;
-        private RatingGivenByOwnerService _ownerRatingService;
-        private RenovationRecommendationService _recommendationService;
         private SuperGuestTitleService _titleService;
+        private RatingGivenByGuestService _ratingGivenByGuestService;
         public Guest1MainView Guest1MainView { get; set; }
         private ReservationsViewModel reservationsViewModel;
         public Guest1 Guest { get; set; }
@@ -127,16 +124,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             _accommodationService = new AccommodationService();
             _reservationService = new AccommodationReservationService();
-            _requestService = new RescheduleRequestService();
             _notificationService = new NotificationService();
-            _guestRatingService = new RatingGivenByGuestService();
-            _ownerRatingService = new RatingGivenByOwnerService();
-            _recommendationService = new RenovationRecommendationService();
             _titleService = new SuperGuestTitleService();
+            _ratingGivenByGuestService = new RatingGivenByGuestService();
 
             _reservationService.ConvertReservedReservationIntoCompleted(DateTime.Now);
-            _reservationService.ConvertReservationsIntoRated(_guestRatingService);
-            _accommodationService.FillAccommodationRatings(_guestRatingService);
+            _reservationService.ConvertReservationsIntoRated(_ratingGivenByGuestService);
+            _accommodationService.FillAccommodationRatings(_ratingGivenByGuestService);
             _titleService.UpdateTitles(_reservationService);
             _titleService.ConvertActiveTitlesIntoExpired(DateTime.Now);
         }

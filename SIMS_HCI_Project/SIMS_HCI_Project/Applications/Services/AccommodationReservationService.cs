@@ -1,4 +1,5 @@
-﻿using SIMS_HCI_Project.Domain.Models;
+﻿using SIMS_HCI_Project.Domain.DTOs;
+using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Injector;
 using SIMS_HCI_Project.Observer;
 using SIMS_HCI_Project.Repositories;
@@ -26,12 +27,6 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return _reservationRepository.GetById(id);
         }
-
-        public List<AccommodationReservation> GetAll()
-        {
-            return _reservationRepository.GetAll();
-        }
-
         public List<AccommodationReservation> GetByOwnerId(int ownerId)
         {
             return _reservationRepository.GetByOwnerId(ownerId);
@@ -50,38 +45,20 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return _reservationRepository.GetByGuestId(id);
         }
-
         public List<AccommodationReservation> GetInProgressByOwnerId(int ownerId)
         {
             List<AccommodationReservation> reservationsInProgress = new List<AccommodationReservation>();
 
             foreach (AccommodationReservation reservation in GetByOwnerId(ownerId))
             {
-                if (IsInProgress(reservation) && IsReserved(reservation))
+                if ((new DateRange(reservation.Start, reservation.End)).IsInProgress())
                 {
                     reservationsInProgress.Add(reservation);
                 }
             }
             return reservationsInProgress;
-        }
-        
-        public bool IsInProgress(AccommodationReservation reservation)
-        {
-            return DateTime.Today >= reservation.Start && DateTime.Today <= reservation.End;
-        }
-        public bool IsReservationActive(AccommodationReservation reservation)
-        {
-            return reservation.End >= DateTime.Today;
-        }
-        public bool IsReserved(AccommodationReservation reservation)
-        {
-            return reservation.Status == AccommodationReservationStatus.RESERVED;
-        }
-        public bool IsCompleted(AccommodationReservation reservation)
-        {
-            return reservation.Status == AccommodationReservationStatus.COMPLETED;
-        }
-
+        } 
+        //move this to DateRange class
         public bool IsWithinFiveDaysAfterCheckout(AccommodationReservation reservation)
         {
             return DateTime.Today <= reservation.End.AddDays(5);
@@ -113,55 +90,58 @@ namespace SIMS_HCI_Project.Applications.Services
                 reservation.isRated = ratingGivenByGuestService.IsReservationRated(reservation.Id);
             }
         }
-
         public void CancelReservation(NotificationService notificationService, AccommodationReservation reservation)
         {
             String Message = "Reservation for " + reservation.Accommodation.Name + " with id: " + reservation.Id + " has been cancelled";
             notificationService.Add(new Notification(Message, reservation.Accommodation.OwnerId, false));
             _reservationRepository.EditStatus(reservation.Id, AccommodationReservationStatus.CANCELLED);
         }
-        ///////////  provjeriti da li je sve na dobro mjestu jer je ovo poslovna logika
-        /////////////////////////////////////////////////////////
         public List<AccommodationReservation> GetAvailableReservations(Accommodation accommodation, Guest1 guest, DateTime start, DateTime end, int daysNumber, int guestsNumber)
         {
             List<AccommodationReservation> availableReservations = new List<AccommodationReservation>();
             DateTime potentialStart = start;
-            DateTime endDate = end;
-            while (potentialStart <= endDate)
+            DateTime potentialEnd = start.AddDays(daysNumber - 1);
+            while (potentialEnd <= end)
             {
-                DateTime potentialEnd = potentialStart.AddDays(daysNumber - 1);
-
-                if (potentialEnd > endDate) return availableReservations;
-                bool dateRangeOverlaps = false;
-
-                foreach (AccommodationReservation reservation in GetAllReserevedByAccommodationId(accommodation.Id))
+                while (potentialEnd <= end)
                 {
-                    if (IsDateRangeOverlapping(potentialStart, potentialEnd, reservation))
+                    if (!OverlapsWithRenovations(accommodation, new DateRange(potentialStart, potentialEnd)) && !OverlapsWithReservations(accommodation, new DateRange(potentialStart, potentialEnd)))
                     {
-                        dateRangeOverlaps = true;
-                        break;
+                        availableReservations.Add(new AccommodationReservation(accommodation, guest, potentialStart, potentialEnd, guestsNumber));
                     }
-                }
-                if (!dateRangeOverlaps)
-                {
-                    availableReservations.Add(new AccommodationReservation(accommodation, guest, potentialStart, potentialEnd, guestsNumber));
-                }
-                potentialStart = potentialStart.AddDays(1);
 
+                    potentialStart = potentialStart.AddDays(1);
+                    potentialEnd = potentialStart.AddDays(daysNumber - 1);
+                }
             }
             return availableReservations;
         }
-        public bool IsDateRangeOverlapping(DateTime potentialStart, DateTime potentialEnd, AccommodationReservation reservation)
+        public bool OverlapsWithRenovations(Accommodation accommodation, DateRange potentialDateRange)
         {
-            bool isPotentialStartOverlap = potentialStart >= reservation.Start && potentialStart <= reservation.End;
-            bool isPotentialEndOverlap = potentialEnd >= reservation.Start && potentialEnd <= reservation.End;
-            bool isPotentialRangeOverlap = potentialStart <= reservation.Start && potentialEnd >= reservation.End;
-            return isPotentialStartOverlap || isPotentialEndOverlap || isPotentialRangeOverlap;
+            RenovationService renovationService = new RenovationService();
+            foreach (Renovation renovation in renovationService.GetByAccommodationId(accommodation.Id))
+            {
+                if (potentialDateRange.DoesOverlap(new DateRange(renovation.Start, renovation.End)))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool OverlapsWithReservations(Accommodation accommodation, DateRange potentialDateRange)
+        {
+            foreach (AccommodationReservation reservation in GetAllReserevedByAccommodationId(accommodation.Id))
+            {
+                if (potentialDateRange.DoesOverlap(new DateRange(reservation.Start, reservation.End)))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
         public bool CheckIfSuggestionIsNeeded(List<AccommodationReservation> availableReservations)
         {
-            if (availableReservations.Count == 0) return true;
-            return false;
+            return (availableReservations.Count == 0) ? true : false;
         }
         public List<AccommodationReservation> GetSuggestedAvailableReservations(Accommodation accommodation, Guest1 guest, DateTime start, DateTime end, int daysNumber, int guestsNumber)
         {

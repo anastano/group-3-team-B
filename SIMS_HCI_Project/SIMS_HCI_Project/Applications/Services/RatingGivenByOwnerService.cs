@@ -55,7 +55,7 @@ namespace SIMS_HCI_Project.Applications.Services
 
             foreach (AccommodationReservation reservation in reservationService.GetByOwnerId(ownerId))
             {
-                if (reservationService.IsCompleted(reservation) && reservationService.IsWithinFiveDaysAfterCheckout(reservation) && !IsReservationRated(reservation))
+                if (reservationService.IsWithinFiveDaysAfterCheckout(reservation) && !IsReservationRated(reservation))
                 {
                     unratedReservations.Add(reservation);
                 }

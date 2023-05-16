@@ -60,6 +60,12 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _reservations.FindAll(r => r.Accommodation.OwnerId == ownerId);
         }
+
+        public List<AccommodationReservation> GetByAccommodationId(int accommodationId)
+        {
+            return _reservations.FindAll(r => r.Accommodation.Id == accommodationId);
+        }
+
         public List<AccommodationReservation> GetByGuestId(int guestId)
         {
             return _reservations.FindAll(r => r.GuestId == guestId);

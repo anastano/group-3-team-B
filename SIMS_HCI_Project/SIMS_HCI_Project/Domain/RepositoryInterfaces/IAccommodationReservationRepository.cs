@@ -22,5 +22,6 @@ namespace SIMS_HCI_Project.Repositories
         void Subscribe(IObserver observer);
         void Unsubscribe(IObserver observer);
         List<AccommodationReservation> OwnerSearch(string accommodationName, string guestName, string guestSurname, int ownerId);
+        List<AccommodationReservation> GetByAccommodationId(int accommodationId);
     }
 }

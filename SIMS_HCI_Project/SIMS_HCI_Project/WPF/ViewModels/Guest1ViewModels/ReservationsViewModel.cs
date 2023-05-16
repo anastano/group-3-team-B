@@ -67,32 +67,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
-        /*
-        private KeyValuePair<string, int>[] izvor;
-        public KeyValuePair<string, int>[] Izvor {
-            get => izvor;
-            set
-            {
-                if (value != izvor)
-                {
-                    izvor = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-        private KeyValuePair<string, int>[] izvor1;
-        public KeyValuePair<string, int>[] Izvor1
-        {
-            get => izvor1;
-            set
-            {
-                if (value != izvor1)
-                {
-                    izvor1 = value;
-                    OnPropertyChanged();
-                }
-            }
-        }*/
         private  int _selectedTabIndex;
         public  int SelectedTabIndex
         {
@@ -127,25 +101,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             CanceledReservations.CollectionChanged += (s, e) => UpdateChart();
             Reservations.CollectionChanged += (s, e) => UpdateChart();
             SelectedTabIndex = selectedTabIndex;
-            //LoadPieChartData();
             
         }
-        /*
-        private void LoadPieChartData()
-        {
-            Izvor =
-                new KeyValuePair<string, int>[]{
-        new KeyValuePair<string,int>("Cancelled", 12),
-        new KeyValuePair<string,int>("Others", 25),
-
-        };
-            Izvor1 =
-                new KeyValuePair<string, int>[]{
-        new KeyValuePair<string,int>("Others", 30),
-        //new KeyValuePair<string,int>("Other", 25),
-
-        };
-        }*/
         private void UpdateChart()
         {
             CancelledCount = new ChartValues<int> { CanceledReservations.Count };

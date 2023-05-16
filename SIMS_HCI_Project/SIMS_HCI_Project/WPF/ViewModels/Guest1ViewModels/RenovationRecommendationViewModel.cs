@@ -18,15 +18,28 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         private NavigationService _navigationService;
         public RelayCommand CancelRecommendationCommand { get; set; }
         public RelayCommand RecommendRenovationCommand { get; set; }
-        private RenovationRecommendation _recommendation;
-        public RenovationRecommendation Recommendation
+        private String _comment;
+        public String Comment
         {
-            get => _recommendation;
+            get => _comment;
             set
             {
-                if (value != _recommendation)
+                if (value != _comment)
                 {
-                    _recommendation = value;
+                    _comment = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private UrgencyRenovationLevel _urgencyLevel;
+        public UrgencyRenovationLevel UrgencyLevel
+        {
+            get => _urgencyLevel;
+            set
+            {
+                if (value != _urgencyLevel)
+                {
+                    _urgencyLevel = value;
                     OnPropertyChanged();
                 }
             }
@@ -39,18 +52,20 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public RenovationRecommendationViewModel(NavigationService navigationService, RenovationRecommendation recommendation)
         {
             _navigationService = navigationService;
-            Recommendation = recommendation;
+            Comment = recommendation.Comment;
+            UrgencyLevel = recommendation.UrgencyLevel;
             InitCommands();
         }
         public void ExecutedRecommendRenovationCommand(object obj)
         {
-            _navigationService.ExecuteRecommendation(Recommendation);
+            _navigationService.ExecuteRecommendation(new RenovationRecommendation(Comment, UrgencyLevel));
             
         }
         public void ExecutedCancelRecommendationCommand(object obj)
         {
             //potencijalno napravili metodu koja canceluje ovo na null
-            _navigationService.NavigationStore.Recommendation = null;
+            //ne moze na null sta ako je htjela nesto da promjeni
+            //_navigationService.NavigationStore.Recommendation = null;
             _navigationService.NavigateBack();
 
         }

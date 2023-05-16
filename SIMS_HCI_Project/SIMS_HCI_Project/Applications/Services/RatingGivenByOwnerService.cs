@@ -93,7 +93,19 @@ namespace SIMS_HCI_Project.Applications.Services
                 rating.Reservation = reservationService.GetById(rating.ReservationId);
             }
         }
-
+        /// <summary>
+        /// dodajem novu metodu dodaj je u class diagram
+        /// </summary>
+        
+        public List<KeyValuePair<int, int>> GetRatingStatisticsForCategory(int guestId, string categoryName)
+        {
+            List<KeyValuePair<int, int>> statstics = new List<KeyValuePair<int, int>>();
+            for (int i = 1; i <= 5; i++)
+            {
+                statstics.Add(new KeyValuePair<int, int>(i, _ratingRepository.GetRatingCountForCategory(guestId, categoryName, i)));
+            }
+            return statstics;
+        }
         public void NotifyObservers()
         {
             _ratingRepository.NotifyObservers();

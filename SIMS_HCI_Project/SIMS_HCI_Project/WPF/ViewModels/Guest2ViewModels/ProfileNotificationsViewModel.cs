@@ -46,7 +46,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             set
             {
                 _selectedNotification = value;
-                OnPropertyChanged(nameof(SelectedNotification));
+                OnPropertyChanged();
                 NavigateToNotification();
             }
         }
@@ -68,6 +68,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             Guest = guest;
             NavigationService = navigationService;
             ProfileFrame = profileFrame;
+            //SelectedNotification = new Notification();
             LoadFromFiles();
             InitCommands();
             Notifications = new ObservableCollection<Notification>(_notificationService.GetUnreadByUserId(Guest.Id));

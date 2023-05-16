@@ -61,9 +61,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels
 
                         break;
                     case UserRole.GUEST2:
-                        // Window guest2View = new Guest2View(new Guest2(user.Id, user.Username, user.Password, user.Role));
-                        //Window guest2View = null;
-                        //guest2View.Show();
                         Window guest2View = new Guest2View(new Guest2(user));
                         guest2View.Show();
                         break;

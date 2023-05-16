@@ -31,6 +31,8 @@ namespace SIMS_HCI_Project.FileHandlers
                 notification.Message = csvValues[1];
                 notification.UserId = int.Parse(csvValues[2]);
                 notification.IsRead = bool.Parse(csvValues[3]);
+                Enum.TryParse(csvValues[4], out NotificationType status);
+                notification.Type = status;
 
                 notifications.Add(notification);
             }
@@ -49,7 +51,8 @@ namespace SIMS_HCI_Project.FileHandlers
                     notification.Id.ToString(),
                     notification.Message.ToString(),
                     notification.UserId.ToString(),
-                    notification.IsRead.ToString()
+                    notification.IsRead.ToString(),
+                    notification.Type.ToString()
                 };
 
                 string line = string.Join(Delimiter.ToString(), csvValues);

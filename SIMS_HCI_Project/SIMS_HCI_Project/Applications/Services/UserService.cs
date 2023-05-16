@@ -33,5 +33,9 @@ namespace SIMS_HCI_Project.Applications.Services
             _userRepository.Add(newUser);
             return true;
         }
+        public string GetFullName(User user)
+        {
+            return user.Name + " " + user.Surname;
+        }
     }
 }

@@ -36,23 +36,24 @@
     </Window.Triggers>
 
     <Grid x:Name="MainGrid" Width="1024">
-        <Grid
+        <StackPanel Orientation="Horizontal"
             Height="50"
             VerticalAlignment="Top"
             Background="#cad9c4">
 
-            <StackPanel VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Left" Margin="907,0,0,0" Width="117">
-                <Button x:Name="Profile" Margin="5, 0, 20, 0" VerticalAlignment="Center" Width="35" 
-                        Height="35" Background="{x:Null}" BorderThickness="0" HorizontalAlignment="Left" 
+            <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Width="1024">
+                <Label Content="{Binding Title}" Margin="59,0,0,0" HorizontalContentAlignment="Center" FontSize="30" FontWeight="Bold" />
+                <Button x:Name="Profile" Margin="905,0,0,0" VerticalAlignment="Center" Width="35" 
+                        Height="36" Background="{x:Null}" BorderThickness="0" HorizontalAlignment="Left" 
                         Command="{Binding ShowProfileCommand}">
                     <Image x:Name="profile" Source="../../../Resources/Images/user.png" />
                 </Button>
-                <Button x:Name="Help" Margin="5, 0, 20, 0" VerticalAlignment="Center" Width="35" Height="34" Background="{x:Null}" 
+                <Button x:Name="Help" Margin="966,0,23,0" VerticalAlignment="Center" Width="35" Height="34" Background="{x:Null}" 
                         BorderThickness="0" Command="{Binding LogoutCommand}" >
                     <Image x:Name="logout" Source="../../../Resources/Images/logout.png"/>
                 </Button>
-            </StackPanel>
-        </Grid>
+            </Grid>
+        </StackPanel>
 
         <Grid x:Name="GridMenu" Panel.ZIndex="1" Background="#cad9c4" HorizontalAlignment="Left"
               Width="55">
@@ -143,6 +144,21 @@
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type viewmodels:AccommodationSearchViewModel}">
                     <views:AccommodationSearchView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:AccommodationReservationViewModel}">
+                    <views:AccommodationReservationView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:AccommodationImagesViewModel}">
+                    <views:AccommodationImagesView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:RatingReservationViewModel}">
+                    <views:RatingReservationView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:RenovationRecommendationViewModel}">
+                    <views:RenovationRecommendationView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:ReservationRescheduleViewModel}">
+                    <views:ReservationRescheduleView/>
                 </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>

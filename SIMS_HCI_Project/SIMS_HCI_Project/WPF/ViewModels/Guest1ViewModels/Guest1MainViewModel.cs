@@ -3,6 +3,7 @@ using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Model;
 using SIMS_HCI_Project.Observer;
 using SIMS_HCI_Project.WPF.Commands;
+using SIMS_HCI_Project.WPF.Services;
 using SIMS_HCI_Project.WPF.Views.Guest1Views;
 using SIMS_HCI_Project.WPF.Views.OwnerViews;
 using System;
@@ -25,6 +26,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
     internal class Guest1MainViewModel : INotifyPropertyChanged
     {
+        private NavigationService _navigationService;
         private Guest1Service _guest1Service;
         private OwnerService _ownerService;
         private LocationService _locationService;
@@ -34,6 +36,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         private NotificationService _notificationService;
         private RatingGivenByGuestService _guestRatingService;
         private RatingGivenByOwnerService _ownerRatingService;
+        private RenovationRecommendationService _recommendationService;
+        private SuperGuestTitleService _titleService;
         public Guest1MainView Guest1MainView { get; set; }
         private ReservationsViewModel reservationsViewModel;
         public Guest1 Guest { get; set; }
@@ -86,6 +90,16 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 OnPropertyChanged();
             }
         }
+        private string _title;
+        public string Title
+        {
+            get { return _title; }
+            set
+            {
+                _title = value;
+                OnPropertyChanged();
+            }
+        }
         public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -93,15 +107,24 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         }
         public Guest1MainViewModel(Guest1MainView guest1MainView, Guest1 guest)
         {
+            _navigationService = new NavigationService();
+            _navigationService.CurrentViewModelChanged += OnCurrentViewModelChanged;
+           
             Guest1MainView = guest1MainView;
             Guest = guest;
             LoadFromFiles();
             InitCommands();
-            CurrentViewModel = new ProfileViewModel(Guest);
-            reservationsViewModel = new ReservationsViewModel(Guest);
             Grid = Guest1MainView.GridMenu;
             Menu = Guest1MainView.CloseMenuButton;
+            _navigationService.Navigate(new ProfileViewModel(Guest), "My profile");
             SelectedItem = -1;
+        }
+        private void OnCurrentViewModelChanged()
+        {
+            CurrentViewModel = _navigationService.NavigationStore.CurrentViewModel;
+            Title = _navigationService.NavigationStore.Title;
+            OnPropertyChanged(nameof(CurrentViewModel));
+            OnPropertyChanged(nameof(Title));
         }
 
         public void LoadFromFiles()
@@ -115,6 +138,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _notificationService = new NotificationService();
             _guestRatingService = new RatingGivenByGuestService();
             _ownerRatingService = new RatingGivenByOwnerService();
+            _recommendationService = new RenovationRecommendationService();
+            _titleService = new SuperGuestTitleService();
 
             _accommodationService.ConnectAccommodationsWithLocations(_locationService);
             _accommodationService.ConnectAccommodationsWithOwners(_ownerService);
@@ -127,6 +152,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _ownerRatingService.ConnectRatingsWithReservations(_reservationService);
             _guestRatingService.ConnectRatingsWithReservations(_reservationService);
             _guestRatingService.FillAverageRatingAndSuperFlag(_ownerService);
+            _recommendationService.ConnectRecommendationsWithRatings(_guestRatingService);
+            _titleService.ConnectTitlesWithGuests(_guest1Service);
+            _titleService.UpdateTitles(_reservationService);
+            _titleService.ConvertActiveTitlesIntoExpired(DateTime.Now);
         }
         public bool CanExecute(object obj)
         {
@@ -142,20 +171,20 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         }
         public void ExecutedShowProfileCommand(object obj)
         {
-            CurrentViewModel = new ProfileViewModel(Guest);
+            _navigationService.Navigate(new ProfileViewModel(Guest), "My profile");
             SelectedItem = -1;
         }
         private void ExecutedChangePageCommand(object obj)
         {
             if (SelectedItem == 0)
             {
-                CurrentViewModel = new AccommodationSearchViewModel(Guest);
+                _navigationService.Navigate(new AccommodationSearchViewModel(Guest, _navigationService), "Search Accommodations");
                 SelectedItem = -1;
                 CustomizeGridSize();
             }
             else if (SelectedItem == 1)
             {
-                CurrentViewModel = new ReservationsViewModel(Guest);
+                _navigationService.Navigate(new ReservationsViewModel(Guest, _navigationService, 0), "My Reservations");
                 SelectedItem = -1;
                 CustomizeGridSize();
             }
@@ -169,7 +198,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             }
             else if (SelectedItem == 4)
             {
-                CurrentViewModel = new MyRatingsViewModel(Guest);
+                _navigationService.Navigate(new MyRatingsViewModel(Guest), "My rating");
                 CustomizeGridSize();
             }
         }

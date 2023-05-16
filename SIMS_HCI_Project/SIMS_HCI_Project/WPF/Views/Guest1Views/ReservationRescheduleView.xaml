@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:views="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest1Views"
       xmlns:viewmodels="clr-namespace:SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels"
+      xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
       mc:Ignorable="d" 
       d:DesignHeight="702" d:DesignWidth="969"
       Background="#f5f5f5">
@@ -13,18 +14,21 @@
             <StackPanel>
                 <!-- Placeholder for the TextBox itself -->
                 <AdornedElementPlaceholder x:Name="textBox" />
-                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" />
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="../../../Resources/Images/warning.png" Width="18" Height="18" Margin="0, 0, 10, 0"  />
+                    <TextBlock Text="{Binding [0].ErrorContent}" TextWrapping="Wrap" Foreground="Red" Width="145" />
+                </StackPanel>
             </StackPanel>
-
         </ControlTemplate>
+        <converters:FullNameConverter x:Key="FullNameConverter" />
     </UserControl.Resources>
 
     <Grid Margin="30 30 30 30">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2.5*"/>
-            <ColumnDefinition Width="2.5*"/>
-            <ColumnDefinition Width="2.5*"/>
-            <ColumnDefinition Width="2.5*"/>
+            <ColumnDefinition Width="1.2*"/>
+            <ColumnDefinition Width="2.3*"/>
+            <ColumnDefinition Width="1.2*"/>
+            <ColumnDefinition Width="2.3*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -35,71 +39,73 @@
             <RowDefinition Height="1.5*" />
             <RowDefinition Height="6*" />
         </Grid.RowDefinitions>
-        <Label Content="Guest: " Grid.Row="0" Grid.Column="0"></Label>
-        <TextBox x:Name="Guest"  Grid.Row="0" Grid.Column="1" Text="{Binding Path=Reservation.Guest.Name, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
-        <Label Content="Accommodation: " Grid.Row="0" Grid.Column="2"></Label>
-        <TextBox x:Name="Accommodation" Grid.Row="0" Grid.Column="3" Text="{Binding Path=Reservation.Accommodation.Name, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"/>
-        <Label Content="Initial Start: " Grid.Row="1" Grid.Column="0"></Label>
-        <DatePicker x:Name="Start"  Grid.Row="1" Grid.Column="1" IsEnabled="False" SelectedDate="{Binding Reservation.Start}"/>
-        <Label Content="Initial End: " Grid.Row="1" Grid.Column="2"></Label>
-        <DatePicker x:Name="End"  Grid.Row="1" Grid.Column="3" IsEnabled="False" SelectedDate="{Binding Reservation.End}"/>
+        <Label Content="Guest: " Grid.Row="0" Grid.Column="0" Style="{StaticResource GuestLabelStyle}"></Label>
+        <TextBox x:Name="Guest"  Grid.Row="0" Grid.Column="1" Text="{Binding Path=FullName, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"
+                 Style="{StaticResource GuestTextBoxStyle}"/>
+        <Label Content="Accommodation: " Grid.Row="0" Grid.Column="2" Style="{StaticResource GuestLabelStyle}"></Label>
+        <TextBox x:Name="Accommodation" Grid.Row="0" Grid.Column="3" Text="{Binding Path=Reservation.Accommodation.Name, UpdateSourceTrigger=PropertyChanged}"
+                 Style="{StaticResource GuestTextBoxStyle}" IsReadOnly="True"/>
+        <Label Content="Initial Start: " Grid.Row="1" Grid.Column="0" Style="{StaticResource GuestLabelStyle}"></Label>
+        <DatePicker x:Name="Start"  Grid.Row="1" Grid.Column="1" IsEnabled="False" SelectedDate="{Binding Reservation.Start}"
+                    Style="{StaticResource CustomDatePickerStyle}"/>
+        <Label Content="Initial End: " Grid.Row="1" Grid.Column="2" Style="{StaticResource GuestLabelStyle}"></Label>
+        <DatePicker x:Name="End"  Grid.Row="1" Grid.Column="3" IsEnabled="False" SelectedDate="{Binding Reservation.End}"
+                    Style="{StaticResource CustomDatePickerStyle}"/>
 
-        <Label Content="My request for reschedule:" Grid.Row="2" Grid.ColumnSpan="4" FontSize="16" VerticalAlignment="Bottom"></Label>
-        <Label Content="Wanted Start:" Grid.Row="3" Grid.Column="0"></Label>
+        <Label Content="My request for reschedule:" Grid.Row="2" Grid.ColumnSpan="4" VerticalAlignment="Bottom"
+               Style="{StaticResource fancyTitle}"></Label>
+        <Label Content="Wanted Start:" Grid.Row="3" Grid.Column="0" Style="{StaticResource GuestLabelStyle}"></Label>
         <DatePicker x:Name="WantedStartDatePicker" Grid.Row="3" Grid.Column="1" IsEnabled="True" SelectedDate="{Binding WantedStart, StringFormat='{}{0:MM/dd/yyyy}', ValidatesOnDataErrors = True, NotifyOnValidationError = True, Mode=TwoWay}"
-                    SelectedDateFormat="Short">
+                    SelectedDateFormat="Short" Style="{StaticResource CustomDatePickerStyle}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}">
             <DatePicker.Resources>
                 <Style TargetType="DatePickerTextBox">
                     <Setter Property="IsReadOnly" Value="True"/>
                 </Style>
             </DatePicker.Resources>
-            <Validation.ErrorTemplate>
-                <ControlTemplate>
-                    <StackPanel>
-                        <AdornedElementPlaceholder x:Name="textBox"/>
-                        <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
-                    </StackPanel>
-                </ControlTemplate>
-            </Validation.ErrorTemplate>
         </DatePicker>
-        <Label Content="Wanted End:" Grid.Row="3" Grid.Column="2"></Label>
+        <Label Content="Wanted End:" Grid.Row="3" Grid.Column="2" Style="{StaticResource GuestLabelStyle}"></Label>
         <DatePicker x:Name="WantedEndDatePicker" Grid.Row="3" Grid.Column="3" IsEnabled="True" SelectedDate="{Binding WantedEnd, StringFormat='{}{0:MM/dd/yyyy}', ValidatesOnDataErrors = True, NotifyOnValidationError = True, Mode=TwoWay}"
-                    SelectedDateFormat="Short">
+                    SelectedDateFormat="Short" Style="{StaticResource CustomDatePickerStyle}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}">
             <DatePicker.Resources>
                 <Style TargetType="DatePickerTextBox">
                     <Setter Property="IsReadOnly" Value="True"/>
                 </Style>
             </DatePicker.Resources>
-            <Validation.ErrorTemplate>
-                <ControlTemplate>
-                    <StackPanel>
-                        <AdornedElementPlaceholder x:Name="textBox"/>
-                        <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
-                    </StackPanel>
-                </ControlTemplate>
-            </Validation.ErrorTemplate>
         </DatePicker>
-        <Button Content="Send" Grid.Row="3" Grid.Column="4" Margin="20, 0, 0, 0"
+        <Button Content="Send" Grid.Row="3" Grid.Column="4" Margin="0, 0, 0, 0" Style="{StaticResource GuestButtonStyle}"
                 Command="{Binding DataContext.SendReservationRescheduleRequestCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
 
-        <Label Content="Other requests to reschedule this accommodation:" Grid.Row="4"  Grid.ColumnSpan="4" FontSize="16" VerticalAlignment="Bottom"></Label>
-        <DataGrid  Grid.Row="5" Grid.ColumnSpan="5" ItemsSource="{Binding Path=RescheduleRequests, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True">
+        <Label Content="Other requests to reschedule this accommodation:" Grid.Row="4"  Grid.ColumnSpan="4" VerticalAlignment="Bottom"
+               Style="{StaticResource fancyTitle}"></Label>
+        <DataGrid  Grid.Row="5" Grid.ColumnSpan="5" RowHeight="100"
+                   ItemsSource="{Binding Path=RescheduleRequests, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True"
+                   ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}" HorizontalScrollBarVisibility="Hidden" GridLinesVisibility="Horizontal"
+                   Style="{StaticResource GuestDatagridStyle}" RowStyle="{StaticResource DataGridRowStyle}"
+                   CellStyle="{StaticResource GuestDatagridCellStyle}">
+            
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Guest" Binding="{Binding AccommodationReservation.Guest.Name}" Width="Auto"></DataGridTextColumn>
-                <DataGridTextColumn Header="Initial Start" Binding="{Binding AccommodationReservation.Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="SizeToCells"></DataGridTextColumn>
-                <DataGridTextColumn Header="Initial End" Binding="{Binding AccommodationReservation.End, StringFormat='{}{0:MM/dd/yyyy}'}" Width="SizeToCells"></DataGridTextColumn>
-                <DataGridTextColumn Header="Wanted Start" Binding="{Binding WantedStart , StringFormat='{}{0:MM/dd/yyyy}'}" Width="SizeToCells"></DataGridTextColumn>
-                <DataGridTextColumn Header="Wanted End" Binding="{Binding WantedEnd, StringFormat='{}{0:MM/dd/yyyy}'}" Width="SizeToCells"></DataGridTextColumn>
-                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="2*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Owner comment" Binding="{Binding OwnerComment}" Width="6*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Guest" Width="100" 
+                                   ElementStyle="{StaticResource CustomTextBlockStyle}" >
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding Converter="{StaticResource FullNameConverter}">
+                            <Binding Path="AccommodationReservation.Guest.Name" />
+                            <Binding Path="AccommodationReservation.Guest.Surname" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Initial Start" Binding="{Binding AccommodationReservation.Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="100"
+                                    ElementStyle="{StaticResource CustomTextBlockStyle}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Initial End" Binding="{Binding AccommodationReservation.End, StringFormat='{}{0:MM/dd/yyyy}'}" Width="100"
+                                    ElementStyle="{StaticResource CustomTextBlockStyle}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Wanted Start" Binding="{Binding WantedStart , StringFormat='{}{0:MM/dd/yyyy}'}" Width="100"
+                                    ElementStyle="{StaticResource CustomTextBlockStyle}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Wanted End" Binding="{Binding WantedEnd, StringFormat='{}{0:MM/dd/yyyy}'}" Width="100"
+                                    ElementStyle="{StaticResource CustomTextBlockStyle}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="2*"
+                                    ElementStyle="{StaticResource CustomTextBlockStyle}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Owner comment" Binding="{Binding OwnerComment}" Width="4*"
+                                    ElementStyle="{StaticResource CustomTextBlockStyle}"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <ContentControl x:Name="UserControls" Content="{Binding CurrentViewModel}">
-        <ContentControl.Resources>
-            <DataTemplate DataType="{x:Type viewmodels:ReservationsViewModel}">
-                <views:ReservationsView/>
-            </DataTemplate>
-        </ContentControl.Resources>
-        </ContentControl>
     </Grid>
 </UserControl>

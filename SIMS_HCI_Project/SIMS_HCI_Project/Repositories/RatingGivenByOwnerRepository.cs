@@ -19,7 +19,10 @@ namespace SIMS_HCI_Project.Repositories
         public RatingGivenByOwnerRepository()
         {
             _fileHandler = new RatingGivenByOwnerFileHandler();
-            _ratings = _fileHandler.Load();
+            if(_ratings == null)
+            {
+                _ratings = _fileHandler.Load();
+            }
             _observers = new List<IObserver>();
         }
 

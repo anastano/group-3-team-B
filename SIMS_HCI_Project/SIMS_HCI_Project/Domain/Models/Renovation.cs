@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Domain.Models
 {
-    public class Renovation : ISerializable
+    public class Renovation
     {
         public int Id { get; set; }
         public int AccommodationId { get; set; }
@@ -32,29 +32,6 @@ namespace SIMS_HCI_Project.Domain.Models
             Start= renovation.Start;
             End= renovation.End;
             Description= renovation.Description;
-        }
-
-        public string[] ToCSV()
-        {
-            string[] csvValues =
-            {
-                Id.ToString(),
-                AccommodationId.ToString(),
-                Start.ToString("MM/dd/yyyy"),
-                End.ToString("MM/dd/yyyy"),
-                Description
-
-            };
-            return csvValues;
-        }
-
-        public void FromCSV(string[] values)
-        {
-            Id = int.Parse(values[0]);
-            AccommodationId = int.Parse(values[1]);
-            Start = DateTime.ParseExact(values[2], "MM/dd/yyyy", null);
-            End = DateTime.ParseExact(values[3], "MM/dd/yyyy", null);
-            Description = values[4];
         }
     }
 }

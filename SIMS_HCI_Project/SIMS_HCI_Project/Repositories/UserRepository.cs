@@ -39,7 +39,6 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _users.FirstOrDefault(u => u.Username == username);
         }
-
         public bool CheckIfUsernameExists(string username)
         {
             return _users.Any(u => u.Username.Equals(username));

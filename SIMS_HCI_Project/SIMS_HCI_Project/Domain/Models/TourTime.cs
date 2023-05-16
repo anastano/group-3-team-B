@@ -13,7 +13,7 @@ namespace SIMS_HCI_Project.Domain.Models
 {
     public enum TourStatus { NOT_STARTED, IN_PROGRESS, COMPLETED, CANCELED };
 
-    public class TourTime : ISerializable
+    public class TourTime
     {
         public int Id { get; set; }
         public int TourId { get; set; }
@@ -46,60 +46,10 @@ namespace SIMS_HCI_Project.Domain.Models
             GuestAttendances = new List<GuestTourAttendance>();
         }
 
-        public string[] ToCSV()
-        {
-            string[] csvValues = { Id.ToString(), TourId.ToString(), DepartureTime.ToString("M/d/yyyy h:mm:ss tt"), Status.ToString(), CurrentKeyPointIndex.ToString() };
-            return csvValues;
-        }
-
-        public void FromCSV(string[] values)
-        {
-            Id = Convert.ToInt32(values[0]);
-            TourId = Convert.ToInt32(values[1]);
-            DepartureTime = DateTime.ParseExact(values[2], "M/d/yyyy h:mm:ss tt", null);
-            Enum.TryParse(values[3], out TourStatus status);
-            Status = status;
-            CurrentKeyPointIndex = Convert.ToInt32(values[4]);
-        }
-
-        public bool IsAtLastKeyPoint
-        {
-            get
-            {
-                return this.CurrentKeyPointIndex >= this.Tour.KeyPoints.Count - 1;
-            }
-        }
-
-        public bool IsCancellable
-        {
-            get
-            {
-                return DateTime.Now.AddDays(2) < this.DepartureTime;
-            }
-        }
-
-        public bool IsCompleted
-        {
-            get 
-            { 
-                return this.Status == TourStatus.COMPLETED; 
-            }
-        }
-
-        public bool IsStartable
-        {
-            get
-            {
-                return this.Status == TourStatus.NOT_STARTED && this.DepartureTime.Date == DateTime.Today;
-            }
-        }
-
-        public bool IsFinished
-        {
-            get
-            {
-                return this.Status == TourStatus.COMPLETED;
-            }
-        }
+        public bool IsAtLastKeyPoint => this.CurrentKeyPointIndex >= this.Tour.KeyPoints.Count - 1;
+        public bool IsCancellable => DateTime.Now.AddDays(2) < this.DepartureTime;
+        public bool IsCompleted => this.Status == TourStatus.COMPLETED; 
+        public bool IsStartable => this.Status == TourStatus.NOT_STARTED && this.DepartureTime.Date == DateTime.Today;
+        public bool IsFinished => this.Status == TourStatus.COMPLETED;
     }
 }

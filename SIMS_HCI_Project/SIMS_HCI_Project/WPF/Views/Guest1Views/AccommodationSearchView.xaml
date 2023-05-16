@@ -10,14 +10,25 @@
              mc:Ignorable="d" 
              d:DesignHeight="702" d:DesignWidth="969" Background="#f5f5f5">
     <UserControl.Resources>
+        <ControlTemplate x:Key="ValidationTemplate">
+            <StackPanel>
+                <!-- Placeholder for the TextBox itself -->
+                <AdornedElementPlaceholder x:Name="textBox" />
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="../../../Resources/Images/warning.png" Width="18" Height="18" Margin="0, 0, 10, 0"  />
+                    <TextBlock Text="{Binding [0].ErrorContent}" TextWrapping="Wrap" Foreground="Red" Width="145" />
+                </StackPanel>
+            </StackPanel>
+        </ControlTemplate>
         <converters:ImageUrlConverter x:Key="ImageUrlConverter"/>
         <BooleanToVisibilityConverter x:Key="boolToVisConverter" />
     </UserControl.Resources>
     <Grid Margin="25">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="187*"/>
-            <ColumnDefinition Width="196*"/>
-            <ColumnDefinition Width="536*"/>
+            <ColumnDefinition Width="280*"/>
+            <ColumnDefinition Width="250*"/>
+            <ColumnDefinition Width="400*"/>
+            <ColumnDefinition Width="200*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -25,66 +36,90 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="5*" />
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,536,81" Grid.RowSpan="2">
-            <Label HorizontalAlignment="Left" Width="144">Accommodation Name</Label>
-            <TextBox HorizontalAlignment="Left" Text="{Binding Path = Accommodation.Name, UpdateSourceTrigger =PropertyChanged}" Name="txtName" Height="25" Margin="0,0,0,0" TextWrapping="Wrap" Width="188"/>
+        <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+            <Label HorizontalAlignment="Left" Style="{StaticResource GuestLabelStyle}" >Accommodation Name</Label>
+            <TextBox Text="{Binding Path = Accommodation.Name, UpdateSourceTrigger =PropertyChanged}" Style="{StaticResource GuestTextBoxStyle}"/>
         </StackPanel>
-        <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="2" Margin="0,0,0,81" Grid.RowSpan="2">
-            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Width="188">Type</Label>
-            <ComboBox HorizontalAlignment="Left" Width="188" ItemsSource="{Binding AccommodationTypes}"
+        <StackPanel Orientation="Vertical" Grid.Row="0" Grid.Column="2">
+            <Label HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource GuestLabelStyle}">Type</Label>
+            <ComboBox HorizontalAlignment="Left" ItemsSource="{Binding AccommodationTypes}" Style ="{StaticResource ComboBoxFlatStyle}"
                       SelectedItem="{Binding SelectedAccommodationType, UpdateSourceTrigger = PropertyChanged}" >
             </ComboBox>
         </StackPanel>
-        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,536,0">
-            <Label HorizontalAlignment="Left" Width="144">Country</Label>
-            <TextBox HorizontalAlignment="Left" Text="{Binding Path = Accommodation.Location.Country, UpdateSourceTrigger =PropertyChanged}" Margin="0,0,0,0" TextWrapping="Wrap" Width="188" Height="25"/>
+        <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+            <Label HorizontalAlignment="Left" Style="{StaticResource GuestLabelStyle}">Country</Label>
+            <TextBox Text="{Binding Path = Accommodation.Location.Country, UpdateSourceTrigger =PropertyChanged}" TextWrapping="Wrap" Style="{StaticResource GuestTextBoxStyle}"/>
         </StackPanel>
         <StackPanel Orientation="Vertical" Grid.Row="1" Grid.Column="2">
-            <Label HorizontalAlignment="Left" Width="144">City</Label>
-            <TextBox HorizontalAlignment="Left" Text="{Binding Path = Accommodation.Location.City, UpdateSourceTrigger =PropertyChanged}" TextWrapping="Wrap" Width="188" Height="26"/>
+            <Label HorizontalAlignment="Left" Style="{StaticResource GuestLabelStyle}">City</Label>
+            <TextBox Text="{Binding Path = Accommodation.Location.City, UpdateSourceTrigger =PropertyChanged}" TextWrapping="Wrap" Style="{StaticResource GuestTextBoxStyle}"/>
         </StackPanel>
-        <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,0,536,0" >
-            <Label HorizontalAlignment="Left" Width="144">Number of Days</Label>
-            <StackPanel Orientation="Horizontal">
-                <Button Command="{Binding DataContext.MinusDaysNumberCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Margin="0,0,0,0" Content="-" FontSize="18" Width="30"/>
-                <TextBox HorizontalAlignment="Left" Text="{Binding Path = DaysNumber, UpdateSourceTrigger = PropertyChanged}" Name="txtReservationDays" TextWrapping="Wrap"  Width="124"/>
-                <Button Command="{Binding DataContext.PlusDaysNumberCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Margin="0,0,0,0" Content="+" FontSize="18" Width="30"/>
+        <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" >
+            <Label HorizontalAlignment="Left" Style="{StaticResource GuestLabelStyle}">Number of Days</Label>
+            <TextBox Text="{Binding Path = DaysNumber, UpdateSourceTrigger = PropertyChanged, ValidatesOnDataErrors=True, Mode=TwoWay}" Name="txtReservationDays" TextWrapping="Wrap"
+                      Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Style="{StaticResource GuestTextBoxStyle}"/>
             </StackPanel>
-        </StackPanel>
         <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="2">
-            <Label HorizontalAlignment="Left" Width="144">Number of Guests</Label>
-            <StackPanel Orientation="Horizontal">
-                <Button Content="-" Command="{Binding DataContext.MinusGuestNumberCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Margin="0,0,0,0" FontSize="18" Width="30"/>
-                <TextBox HorizontalAlignment="Left" Text="{Binding Path = GuestsNumber, UpdateSourceTrigger = PropertyChanged}" Name="txtGuestNumber" Height="28" Margin="0,0,0,0" TextWrapping="Wrap" Width="124"/>
-                <Button Content="+" Command="{Binding DataContext.PlusGuestNumberCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" FontSize="18" Margin="0,0,0,0" Width="30"/>
-                <Button Content="Search" Command="{Binding DataContext.SearchCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" HorizontalAlignment="Left" Margin="90, 0, 0, 0" Width="109" />
-            </StackPanel>
+            <Label HorizontalAlignment="Left" Style="{StaticResource GuestLabelStyle}">Number of Guests</Label>
+            <TextBox Text="{Binding Path = GuestsNumber, UpdateSourceTrigger = PropertyChanged, ValidatesOnDataErrors=True, Mode=TwoWay}" Margin="0,0,0,0" 
+                     TextWrapping="Wrap" Style="{StaticResource GuestTextBoxStyle}"
+                      Validation.ErrorTemplate="{StaticResource ValidationTemplate}"/>
         </StackPanel>
-        <DataGrid Grid.ColumnSpan="3" Grid.Row="3"
+        <Button Grid.Row="2" Grid.Column="3" Content="Search" Command="{Binding DataContext.SearchCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                HorizontalAlignment="Left" Margin="20, 10, 0, 0"
+                        Style="{StaticResource GuestButtonStyle}"/>
+        <DataGrid Grid.ColumnSpan="4" Grid.Row="3" Style="{StaticResource GuestDatagridStyle}"
                   ItemsSource="{Binding Path=Accommodations, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding Path=SelectedAccommodation, UpdateSourceTrigger=PropertyChanged}"
-                  AutoGenerateColumns="False" IsReadOnly="True" Margin="0, 10, 0, 0"
-                  GridLinesVisibility="Horizontal">
+                  AutoGenerateColumns="False" IsReadOnly="True" Margin="0, 30, 0, 0"
+                  GridLinesVisibility="Horizontal" HorizontalScrollBarVisibility="Hidden"
+                  RowStyle="{StaticResource DataGridRowStyle}" CellStyle="{StaticResource GuestDatagridCellStyle}">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Images">
                     <DataGridTemplateColumn.HeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="FontSize" Value="14"/>
+                            <Setter Property="Height" Value="45"></Setter>
+                            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                            <Setter Property="Background" Value="#cad9c4"></Setter>
+                            <Setter Property="TextBlock.FontWeight" Value="DemiBold"></Setter>
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" TextWrapping="Wrap" TextAlignment="Center"/>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
                         </Style>
                     </DataGridTemplateColumn.HeaderStyle>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Command="{Binding DataContext.ShowImagesCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Width="140" Height="140"
-                                    Background="White">
-                                <Image Source="{Binding Images, Converter={StaticResource ImageUrlConverter}}" Width="140" Height="140"/>
+                            <Button Command="{Binding DataContext.ShowImagesCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Width="130" Height="130"
+                                    Background="White" BorderBrush="White">
+                                <Image Source="{Binding Images, Converter={StaticResource ImageUrlConverter}}" Width="130" Height="130"/>
                             </Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="150" CanUserSort="True" >
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="100" CanUserSort="True" >
                     <DataGridTextColumn.HeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="FontSize" Value="14"/>
+                            <Setter Property="Height" Value="45"></Setter>
+                            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                            <Setter Property="Background" Value="#cad9c4"></Setter>
+                            <Setter Property="TextBlock.FontWeight" Value="DemiBold"></Setter>
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" TextWrapping="Wrap" TextAlignment="Center"/>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
                     <DataGridTextColumn.ElementStyle>
@@ -96,10 +131,23 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Country" Binding="{Binding Location.Country}" Width="SizeToCells" CanUserSort="True">
+                <DataGridTextColumn Header="Country" Binding="{Binding Location.Country}" Width="100" CanUserSort="True">
                     <DataGridTextColumn.HeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="FontSize" Value="14"/>
+                            <Setter Property="Height" Value="45"></Setter>
+                            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                            <Setter Property="Background" Value="#cad9c4"></Setter>
+                            <Setter Property="TextBlock.FontWeight" Value="DemiBold"></Setter>
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" TextWrapping="Wrap" TextAlignment="Center"/>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
                     <DataGridTextColumn.ElementStyle>
@@ -115,6 +163,19 @@
                     <DataGridTextColumn.HeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="FontSize" Value="14"/>
+                            <Setter Property="Height" Value="45"></Setter>
+                            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                            <Setter Property="Background" Value="#cad9c4"></Setter>
+                            <Setter Property="TextBlock.FontWeight" Value="DemiBold"></Setter>
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" TextWrapping="Wrap" TextAlignment="Center"/>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
                     <DataGridTextColumn.ElementStyle>
@@ -126,10 +187,23 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="100" CanUserSort="True">
+                <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="90" CanUserSort="True">
                     <DataGridTextColumn.HeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="FontSize" Value="14"/>
+                            <Setter Property="Height" Value="45"></Setter>
+                            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                            <Setter Property="Background" Value="#cad9c4"></Setter>
+                            <Setter Property="TextBlock.FontWeight" Value="DemiBold"></Setter>
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" TextWrapping="Wrap" TextAlignment="Center"/>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
                     <DataGridTextColumn.ElementStyle>
@@ -141,10 +215,23 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Minimum Days" Binding="{Binding MinimumReservationDays}" Width="SizeToHeader" CanUserSort="True">
+                <DataGridTextColumn Header="Minimum Days" Binding="{Binding MinimumReservationDays}" Width="70" CanUserSort="True">
                     <DataGridTextColumn.HeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="FontSize" Value="14"/>
+                            <Setter Property="Height" Value="45"></Setter>
+                            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                            <Setter Property="Background" Value="#cad9c4"></Setter>
+                            <Setter Property="TextBlock.FontWeight" Value="DemiBold"></Setter>
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" TextWrapping="Wrap" TextAlignment="Center"/>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
                     <DataGridTextColumn.ElementStyle>
@@ -156,10 +243,23 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="Guest Capacity" Binding="{Binding MaxGuests}" Width="SizeToHeader" CanUserSort="True">
+                <DataGridTextColumn Header="Guest Capacity" Binding="{Binding MaxGuests}" Width="70" CanUserSort="True">
                     <DataGridTextColumn.HeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="FontSize" Value="14"/>
+                            <Setter Property="Height" Value="45"></Setter>
+                            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                            <Setter Property="Background" Value="#cad9c4"></Setter>
+                            <Setter Property="TextBlock.FontWeight" Value="DemiBold"></Setter>
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" TextWrapping="Wrap" TextAlignment="Center"/>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
 
@@ -172,10 +272,23 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTemplateColumn Header="Super-owner" CanUserSort="True">
+                <DataGridTemplateColumn Header="Super-owner" CanUserSort="True" Width="93">
                     <DataGridTemplateColumn.HeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">
                             <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="FontSize" Value="14"/>
+                            <Setter Property="Height" Value="45"></Setter>
+                            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                            <Setter Property="Background" Value="#cad9c4"></Setter>
+                            <Setter Property="TextBlock.FontWeight" Value="DemiBold"></Setter>
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" TextWrapping="Wrap" TextAlignment="Center"/>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
                         </Style>
                     </DataGridTemplateColumn.HeaderStyle>
                     <DataGridTemplateColumn.CellTemplate>
@@ -196,28 +309,33 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Reserve" Width="*">
+                <DataGridTemplateColumn Header="Reserve" Width="130">
+                    <DataGridTemplateColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="FontSize" Value="14"/>
+                            <Setter Property="Height" Value="45"></Setter>
+                            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                            <Setter Property="Background" Value="#cad9c4"></Setter>
+                            <Setter Property="TextBlock.FontWeight" Value="DemiBold"></Setter>
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding}" TextWrapping="Wrap" TextAlignment="Center"/>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTemplateColumn.HeaderStyle>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Reserve" Command="{Binding DataContext.ReserveAccommodationCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Height="40"
-                                   />
+                            <Button Content="Reserve" Command="{Binding DataContext.ReserveAccommodationCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                  Style="{StaticResource GuestButtonStyle}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <ContentControl x:Name="UserControls" Content="{Binding CurrentViewModel}" Grid.RowSpan="4" Grid.ColumnSpan="3" Margin="-25,-25,-25,-25">
-            <ContentControl.Resources>
-                <DataTemplate DataType="{x:Type viewmodels:AccommodationReservationViewModel}">
-                    <views:AccommodationReservationView/>
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type viewmodels:AccommodationSearchViewModel}">
-                    <views:AccommodationSearchView/>
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type viewmodels:AccommodationImagesViewModel}">
-                    <views:AccommodationImagesView/>
-                </DataTemplate>
-            </ContentControl.Resources>
-        </ContentControl>
     </Grid>
 </UserControl>

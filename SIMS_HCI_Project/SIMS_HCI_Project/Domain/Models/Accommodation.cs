@@ -9,7 +9,7 @@ namespace SIMS_HCI_Project.Domain.Models
 {
     public enum AccommodationType { APARTMENT, HOUSE, HUT };
 
-    public class Accommodation : ISerializable
+    public class Accommodation
     {
         public int Id { get; set; }
         public int OwnerId { get; set; }
@@ -49,38 +49,6 @@ namespace SIMS_HCI_Project.Domain.Models
             CancellationDeadlineInDays = accommodation.CancellationDeadlineInDays;
             Images = new List<string>();
             Reservations = new List<AccommodationReservation>();
-        }
-
-        public string[] ToCSV()
-        {
-            string[] csvValues =
-            {
-                Id.ToString(),
-                OwnerId.ToString(),
-                Name,
-                LocationId.ToString(),
-                Type.ToString(),
-                MaxGuests.ToString(),
-                MinimumReservationDays.ToString(),
-                CancellationDeadlineInDays.ToString(),
-                string.Join(",", Images)
-            };
-            return csvValues;
-        }
-
-        public void FromCSV(string[] values)
-        {
-            Id = int.Parse(values[0]);
-            OwnerId = Convert.ToInt32(values[1]);
-            Name = values[2];
-            LocationId = int.Parse(values[3]);
-            Enum.TryParse(values[4], out AccommodationType type);
-            Type = type;
-            MaxGuests = int.Parse(values[5]);
-            MinimumReservationDays = int.Parse(values[6]);
-            CancellationDeadlineInDays = int.Parse(values[7]);
-            Images = new List<string>(values[8].Split(","));
-            FirstImage = Images.FirstOrDefault();
         }
     }
 }

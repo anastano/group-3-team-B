@@ -131,7 +131,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             TourReservationView = tourReservationView;
             Tour = tour;
             Guest2 = guest;
-            if(Tour.Images.Count != 0)
+            if(Tour.Images.Count != 0) //fix later
             {
                 Image = Tour.Images[_currentImageIndex];
             }

@@ -22,10 +22,10 @@
         </Button>
         
         <!--notifications list-->
-        <ListBox ItemsSource="{Binding Notifications}" SelectedItem="{Binding SelectedNotification}" Margin="168,128,160,73">
+        <ListBox ItemsSource="{Binding Notifications}" SelectedItem="{Binding SelectedNotification}" Margin="52,87,50,73">
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Message}" />
+                    <TextBlock Text="{Binding Message}" Height="25" TextWrapping="Wrap" />
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

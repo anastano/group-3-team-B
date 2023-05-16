@@ -28,7 +28,7 @@ namespace SIMS_HCI_Project.WPF.Views.Guest2Views
         {
             InitializeComponent();
             this.RegularRequests.Content = new RegularRequestsView(guest2, navigationService);
-            //ComplexRequests.Content dodaj za kompleksne
+            this.ComplexRequests.Content = new ComplexRequestsView(guest2, navigationService);
             this.DataContext = new RequestsViewModel(guest2, navigationService, this);
         }
     }

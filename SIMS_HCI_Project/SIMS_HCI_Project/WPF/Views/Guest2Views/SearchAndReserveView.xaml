@@ -19,10 +19,10 @@
             <RowDefinition Height="350"/>
             <RowDefinition Height="168"/>
         </Grid.RowDefinitions>
-        <Button Style="{StaticResource Guest2BackBtn}" Command="{Binding Back}">
+        <Button Style="{StaticResource Guest2BackBtn}" Command="{Binding BackCommand}">
             <Image x:Name="back" Source="../../../Resources/Images/back.png"/>
         </Button>
-        <Button Style="{StaticResource Guest2HelpBtn}">
+        <Button Style="{StaticResource Guest2HelpBtn}" Command="{Binding HelpCommand}">
             <Image x:Name="help" Source="../../../Resources/Images/help.png"/>
         </Button>
         <Frame x:Name="TopFrame" Grid.Row="0" Width="1080" Margin="0,38,0,0"/>

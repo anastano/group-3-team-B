@@ -16,7 +16,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    <Grid Background="#FF686890">
+    <Grid Background="#FF686890" Height="490" VerticalAlignment="Bottom">
         <DataGrid  Margin="10,31,10,325" 
                    ItemsSource="{Binding Path=MyRequests, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False">
             <DataGrid.Columns>

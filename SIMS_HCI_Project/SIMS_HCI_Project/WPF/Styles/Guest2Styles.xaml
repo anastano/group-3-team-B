@@ -85,7 +85,7 @@
         </Style.Triggers>
     </Style>
     
-    <!--g-->
+    <!--gradient color-->
     <Style x:Key="Guest2BtnGradientOrange" TargetType="Button">
         <Setter Property="Background">
             <Setter.Value>

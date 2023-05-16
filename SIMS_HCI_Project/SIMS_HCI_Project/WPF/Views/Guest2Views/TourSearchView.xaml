@@ -98,7 +98,7 @@
             <TextBlock HorizontalAlignment="Right" Margin="0,376,122,0" TextWrapping="Wrap" Text="Minimal guest number:" Foreground="Beige" VerticalAlignment="Top" Height="43" Width="85"/>
 
             <!--TextBlock  Text="Search and reserve tour:" Foreground="Beige" HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" FontSize="22" VerticalAlignment="Top" Height="38" Width="254"/-->
-            <Button Style="{StaticResource Guest2HelpBtn}">
+            <Button Style="{StaticResource Guest2HelpBtn}" Command="{Binding HelpCommand}">
                 <Image x:Name="help" Source="../../../Resources/Images/help.png"/>
             </Button>
             <Label Content="Search and reserve" Style="{StaticResource Guest2Header1Style}" />

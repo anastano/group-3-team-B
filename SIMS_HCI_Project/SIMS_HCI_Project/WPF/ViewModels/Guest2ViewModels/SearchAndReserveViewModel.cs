@@ -16,8 +16,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public NavigationService NavigationService { get; set; }
         public Guest2 Guest { get; set; }
         public SearchAndReserveView SearchAndReserveView { get; set; }
-        public RelayCommand Back { get; set; }
-        public RelayCommand Help { get; set; }
+        public RelayCommand BackCommand { get; set; }
+        public RelayCommand HelpCommand { get; set; }
         
         public Tour SelectedTour { get; set; }
         public SearchAndReserveViewModel( Guest2 guest, Tour selectedTour, SearchAndReserveView searchAndReserveView, NavigationService navigationService)
@@ -33,7 +33,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
         public void InitCommands()
         {
-            Back = new RelayCommand(ExecuteBack, CanExecute);
+            BackCommand = new RelayCommand(ExecuteBack, CanExecute);
+            //HelpCommand
         }
 
         public void ExecuteBack(object sender)

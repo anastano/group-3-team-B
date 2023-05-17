@@ -42,13 +42,24 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-
     </Page.Resources>
     <Grid>
         <Label Content="Rate visited tours" Style="{StaticResource Guest2Header1Style}"/>
         <DataGrid Name="dgUnratedTours" 
         ItemsSource="{Binding Path=UnratedReservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
         SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" Margin="10,62,10,284" Style="{StaticResource Guest2DatagridStyle}" CellStyle="{StaticResource Guest2DatagridCellStyle}">
+            <DataGrid.Resources>
+                <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="Background" >
+                        <Setter.Value>
+                            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                <GradientStop Color="Tomato" Offset="0"/>
+                                <GradientStop Color="Orange" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="40"></DataGridTextColumn>
                 <DataGridTextColumn Header="Title" Binding="{Binding TourTime.Tour.Title}" Width="110"></DataGridTextColumn>

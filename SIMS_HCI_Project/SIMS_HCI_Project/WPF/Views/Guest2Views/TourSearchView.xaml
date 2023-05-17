@@ -47,7 +47,6 @@
                             <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
                                 <GradientStop Color="Tomato" Offset="0"/>
                                 <GradientStop Color="Orange" Offset="1"/>
-                                <!--<GradientStop Color="Yellow" Offset="1"/>-->
                             </LinearGradientBrush>
                         </Setter.Value>
                     </Setter>

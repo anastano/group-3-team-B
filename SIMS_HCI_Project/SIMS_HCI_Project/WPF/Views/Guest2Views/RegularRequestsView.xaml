@@ -36,7 +36,7 @@
             </DataGrid.Columns>
 
         </DataGrid>
-        <Label Content="My requests:" FontSize="15" Foreground="Beige" HorizontalAlignment="Center" Margin="0,1,0,0" VerticalAlignment="Top" Height="30" Width="94"/>
+        <Label Content="My requests:" FontSize="15" Foreground="Beige" HorizontalAlignment="Left" Margin="0,1,0,0" VerticalAlignment="Top" Height="30" Width="94"/>
 
         <Frame x:Name="CreateRequestFrame" NavigationUIVisibility="Hidden" Margin="0,195,0,0"/>
         <Button x:Name="createNewRequest" Style="{StaticResource Guest2BtnGradientOrange}" Content="CREATE NEW REQUEST" Command="{Binding DataContext.CreateRequest, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" 

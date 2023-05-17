@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest2Views"
-                   xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
+        xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
 
         mc:Ignorable="d"
         Title="TourRatingView" Height="518" Width="1080">
@@ -29,11 +29,11 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <!--datagrid style-->
         <Style x:Key="Guest2DatagridStyle" TargetType="DataGrid" >
             <Setter Property="ColumnHeaderHeight" Value="30"/>
             <Setter Property="FontSize" Value="12"/>
         </Style>
-
         <Style x:Key="Guest2DatagridCellStyle" TargetType="DataGridCell">
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">

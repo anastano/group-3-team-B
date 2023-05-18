@@ -1,6 +1,5 @@
 ﻿using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.FileHandlers;
-using SIMS_HCI_Project.Observer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Repositories
 {
-    public class RescheduleRequestRepository : ISubject, IRescheduleRequestRepository
+    public class RescheduleRequestRepository : IRescheduleRequestRepository
     {
-        private readonly List<IObserver> _observers;
         private readonly RescheduleRequestFileHandler _fileHandler;
 
         private static List<RescheduleRequest> _requests;
@@ -20,9 +18,6 @@ namespace SIMS_HCI_Project.Repositories
         {
             _fileHandler = new RescheduleRequestFileHandler();
             _requests = _fileHandler.Load();
-
-            _observers = new List<IObserver>();
-
         }
 
         public int GenerateId()
@@ -59,36 +54,28 @@ namespace SIMS_HCI_Project.Repositories
             return _requests.FindAll(r => r.AccommodationReservation.Accommodation.OwnerId == ownerId && r.Status == RescheduleRequestStatus.PENDING);
         }
 
+        public int GetReshedulingCountByYearAndAccommodationId(int year, int accommodationId)
+        {
+            return GetByAccommodationId(accommodationId).FindAll(r => r.AccommodationReservation.Start.Year == year && r.Status == RescheduleRequestStatus.ACCEPTED).Count();
+        }
+
+        public int GetReshedulingCountByMonthAndAccommodationId(int monthIndex, int year, int accommodationId)
+        {
+            return GetByAccommodationId(accommodationId).FindAll(r => r.AccommodationReservation.Start.Year == year
+                         && r.AccommodationReservation.Start.Month == monthIndex && r.Status == Domain.Models.RescheduleRequestStatus.ACCEPTED).Count();
+        }
+
         public void EditStatus(int requestId, RescheduleRequestStatus status)
         {
             RescheduleRequest request = _requests.Find(r => r.Id == requestId);
             request.Status = status;
             Save();
-            NotifyObservers();
         }
         public void Add(RescheduleRequest request)
         {
             request.Id = GenerateId();
             _requests.Add(request);
             Save();
-            NotifyObservers();
-        }
-        public void NotifyObservers()
-        {
-            foreach (var observer in _observers)
-            {
-                observer.Update();
-            }
-        }
-
-        public void Subscribe(IObserver observer)
-        {
-            _observers.Add(observer);
-        }
-
-        public void Unsubscribe(IObserver observer)
-        {
-            _observers.Remove(observer);
         }
     }
 }

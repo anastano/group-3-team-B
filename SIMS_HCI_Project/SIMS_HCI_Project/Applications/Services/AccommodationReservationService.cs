@@ -1,7 +1,6 @@
 ﻿using SIMS_HCI_Project.Domain.DTOs;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Injector;
-using SIMS_HCI_Project.Observer;
 using SIMS_HCI_Project.Repositories;
 using System;
 using System.Collections.Generic;
@@ -15,12 +14,10 @@ namespace SIMS_HCI_Project.Applications.Services
     public class AccommodationReservationService
     {
         private readonly IAccommodationReservationRepository _reservationRepository;
-        private readonly IUserRepository _userRepository;
 
         public AccommodationReservationService()
         {
             _reservationRepository = Injector.Injector.CreateInstance<IAccommodationReservationRepository>();
-            _userRepository = Injector.Injector.CreateInstance<IUserRepository>();
         }
 
         public AccommodationReservation GetById(int id)
@@ -58,11 +55,7 @@ namespace SIMS_HCI_Project.Applications.Services
             }
             return reservationsInProgress;
         } 
-        //move this to DateRange class
-        public bool IsWithinFiveDaysAfterCheckout(AccommodationReservation reservation)
-        {
-            return DateTime.Today <= reservation.End.AddDays(5);
-        }
+
         public void Add(AccommodationReservation reservation)
         {
             _reservationRepository.Add(reservation);
@@ -104,16 +97,14 @@ namespace SIMS_HCI_Project.Applications.Services
             DateRange potentialDateRange = new DateRange(potentialStart, potentialEnd);
             while (potentialEnd <= end)
             {
-                while (potentialEnd <= end)
-                {
-                    if (!OverlapsWithRenovations(accommodation, potentialDateRange) && !OverlapsWithReservations(accommodation, potentialDateRange))
-                    {
-                        availableReservations.Add(new AccommodationReservation(accommodation, guest, potentialStart, potentialEnd, guestsNumber));
-                    }
+                 if (!OverlapsWithRenovations(accommodation, potentialDateRange) && !OverlapsWithReservations(accommodation, potentialDateRange))
+                 {
+                     availableReservations.Add(new AccommodationReservation(accommodation, guest, potentialStart, potentialEnd, guestsNumber));
+                 }
 
-                    potentialStart = potentialStart.AddDays(1);
-                    potentialEnd = potentialStart.AddDays(daysNumber - 1);
-                }
+                 potentialStart = potentialStart.AddDays(1);
+                 potentialEnd = potentialStart.AddDays(daysNumber - 1);
+                 potentialDateRange = new DateRange(potentialStart, potentialEnd);
             }
             return availableReservations;
         }
@@ -151,18 +142,6 @@ namespace SIMS_HCI_Project.Applications.Services
             TimeSpan timeDifference = end - start;
             double totalDays = timeDifference.TotalDays;
             return GetAvailableReservations(accommodation, guest,  end.AddDays(totalDays + 15), end.AddDays(15), daysNumber, guestsNumber);
-        }
-        public void NotifyObservers()
-        {
-            _reservationRepository.NotifyObservers();
-        }
-        public void Subscribe(IObserver observer)
-        {
-            _reservationRepository.Subscribe(observer);
-        }
-        public void Unsubscribe(IObserver observer)
-        {
-            _reservationRepository.Unsubscribe(observer);
         }
     }
 }

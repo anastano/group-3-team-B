@@ -1,6 +1,5 @@
 ﻿using SIMS_HCI_Project.Applications.Services;
 using SIMS_HCI_Project.Domain.Models;
-using SIMS_HCI_Project.Observer;
 using SIMS_HCI_Project.WPF.Commands;
 using SIMS_HCI_Project.WPF.Views.OwnerViews;
 using System;
@@ -13,7 +12,7 @@ using System.Windows;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 {
-    public class RenovationsViewModel : IObserver
+    public class RenovationsViewModel
     {
         private readonly RenovationService _renovationService;
         private readonly AccommodationService _accommodationService;
@@ -40,8 +39,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             RenovationsView = renovationsView;
             Owner = owner;
             Renovations = new ObservableCollection<Renovation>(_renovationService.GetByOwnerId(Owner.Id));
-
-            _renovationService.Subscribe(this);
         }
 
         #region Commands
@@ -49,6 +46,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             if (_renovationService.CancelRenovation(SelectedRenovation))
             {
+                UpdateRenovations();
                 MessageBox.Show("Renovation cancelled successfully");
             }
             else 
@@ -64,8 +62,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public void Executed_AddRenovationCommand(object obj)
         {
-            Window seelctAccommodationForRenovation = new SelectAccommodationForRenovationView(_accommodationService, _renovationService, _reservationService, Owner);
-            seelctAccommodationForRenovation.ShowDialog();
+            Window selectAccommodationForRenovation = new SelectAccommodationForRenovationView(this, _accommodationService, _renovationService, _reservationService, Owner);
+            selectAccommodationForRenovation.ShowDialog();
         }
 
         public bool CanExecute_AddRenovationCommand(object obj)
@@ -100,11 +98,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             AddRenovationCommand = new RelayCommand(Executed_AddRenovationCommand, CanExecute_AddRenovationCommand);
             CreatePDFReportCommand = new RelayCommand(Executed_CreatePDFReportCommand, CanExecute_CreatePDFReportCommand);
             CloseRenovationsViewCommand = new RelayCommand(Executed_CloseRenovationsViewCommand, CanExecute_CloseRenovationsViewCommand);
-        }
-
-        public void Update()
-        {
-            UpdateRenovations();
         }
 
         public void UpdateRenovations()

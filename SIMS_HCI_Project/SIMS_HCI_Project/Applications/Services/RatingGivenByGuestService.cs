@@ -1,6 +1,5 @@
 ﻿using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Domain.RepositoryInterfaces;
-using SIMS_HCI_Project.Observer;
 using SIMS_HCI_Project.Repositories;
 using System;
 using System.Collections.Generic;
@@ -13,12 +12,10 @@ namespace SIMS_HCI_Project.Applications.Services
     public class RatingGivenByGuestService
     {
         private readonly IRatingGivenByGuestRepository _ratingRepository;
-        private readonly IUserRepository _userRepository;
 
         public RatingGivenByGuestService()
         {
             _ratingRepository = Injector.Injector.CreateInstance<IRatingGivenByGuestRepository>();
-            _userRepository = Injector.Injector.CreateInstance<IUserRepository>();
         }
 
         public RatingGivenByGuest GetById(int id)
@@ -92,21 +89,6 @@ namespace SIMS_HCI_Project.Applications.Services
         public bool IsSuperFlag(Owner owner)
         {
             return (GetByOwnerId(owner.Id).Count >= 2 && owner.AverageRating > 4.5);
-        }
-
-        public void NotifyObservers()
-        {
-            _ratingRepository.NotifyObservers();
-        }
-
-        public void Subscribe(IObserver observer)
-        {
-            _ratingRepository.Subscribe(observer);
-        }
-
-        public void Unsubscribe(IObserver observer)
-        {
-            _ratingRepository.Unsubscribe(observer);
         }
     }
 }

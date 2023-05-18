@@ -71,5 +71,10 @@ namespace SIMS_HCI_Project.Domain.DTOs
         {
             return DateTime.Today >= this.Start && DateTime.Today <= this.End;
         }
+
+        public bool IsEndInside(DateRange dateRange)
+        { 
+            return this.End >= dateRange.Start && this.End <= dateRange.End;
+        }
     }
 }

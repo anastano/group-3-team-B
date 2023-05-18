@@ -13,7 +13,7 @@ using System.Windows;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 {
-    public class RescheduleRequestsViewModel: IObserver
+    public class RescheduleRequestsViewModel
     {
         private readonly RescheduleRequestService _requestService;
         private readonly AccommodationReservationService _reservationService;
@@ -39,8 +39,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             RequestsView = requestsView;
             Owner = owner;           
             PendingRequests = new ObservableCollection<RescheduleRequest>(_requestService.GetPendingByOwnerId(Owner.Id));
-
-            _requestService.Subscribe(this);
         }
 
         #region Commands
@@ -48,7 +46,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             if (SelectedRequest != null)
             {
-                Window requestHandlerView = new RequestHandlerView(_requestService, _reservationService, _notificationService, SelectedRequest);
+                Window requestHandlerView = new RequestHandlerView(this, _requestService, _reservationService, _notificationService, SelectedRequest);
                 requestHandlerView.Show();
             }
             else
@@ -77,11 +75,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             ShowSelectedRequestCommand = new RelayCommand(Executed_ShowSelectedRequestCommand, CanExecute_ShowSelectedRequestCommand);
             CloseRescheduleRequestsViewCommand = new RelayCommand(Executed_CloseRescheduleRequestsViewCommand, CanExecute_CloseRescheduleRequestsViewCommand);
-        }
-
-        public void Update()
-        {
-            UpdatePendingRequests();
         }
 
         public void UpdatePendingRequests()

@@ -15,7 +15,7 @@ using System.Windows;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 {
-    public class OwnerMainViewModel: IObserver
+    public class OwnerMainViewModel
     {
         #region Service Fields
         private AccommodationService _accommodationService;
@@ -54,8 +54,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             Notifications = new ObservableCollection<Notification>(_notificationService.GetUnreadByUserId(Owner.Id));
 
             ShowNotificationsAndSuperFlag();
-
-            _reservationService.Subscribe(this);
         }
 
         public void LoadFromFiles()
@@ -195,18 +193,5 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             LogoutCommand = new RelayCommand(Executed_LogoutCommand, CanExecute_LogoutCommand);
         }
 
-        public void Update()
-        {
-            UpdateReservationsInProgress();
-        }
-
-        public void UpdateReservationsInProgress()
-        {
-            ReservationsInProgress.Clear();
-            foreach (AccommodationReservation reservation in _reservationService.GetInProgressByOwnerId(Owner.Id))
-            {
-                ReservationsInProgress.Add(reservation);
-            }
-        }
     }
 }

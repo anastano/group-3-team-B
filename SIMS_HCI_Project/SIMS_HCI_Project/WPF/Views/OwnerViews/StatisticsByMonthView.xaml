@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
         mc:Ignorable="d"
-        Title="StatisticsByMonth" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
+        Title="StatisticsByMonth" Height="650" Width="1050" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <converters:MultiplyCountConverter x:Key="MultiplyCountConverter"/>
     </Window.Resources>
@@ -18,7 +18,7 @@
                 <TextBlock Text="{Binding Accommodation.Name}" 
                            Style="{StaticResource OwnerTitleStyle}">
                 </TextBlock>
-                <TextBlock Text="(" 
+                <TextBlock Text=" (" 
                            Style="{StaticResource OwnerTitleStyle}">
                 </TextBlock>
                 <TextBlock Text="{Binding AccommodationYear.Year}" 
@@ -58,22 +58,28 @@
                                 <RowDefinition/>
                                 <RowDefinition/>
                                 <RowDefinition/>
+                                <RowDefinition/>
                             </Grid.RowDefinitions>
 
-                            <Rectangle Grid.Row="0" Grid.Column="0" Height="15" Width="15" Fill="#9FE2BF"/>
-                            <Rectangle Grid.Row="1" Grid.Column="0" Height="15" Width="15" Fill="#008080"/>
-                            <Rectangle Grid.Row="2" Grid.Column="0" Height="15" Width="15" Fill="#968E85"/>
+                            <Rectangle Grid.Row="0" Grid.Column="0" Height="17" Width="15" Fill="#9FE2BF"/>
+                            <Rectangle Grid.Row="1" Grid.Column="0" Height="17" Width="15" Fill="#008080"/>
+                            <Rectangle Grid.Row="2" Grid.Column="0" Height="17" Width="15" Fill="#968E85"/>
+                            <Rectangle Grid.Row="3" Grid.Column="0" Height="17" Width="15" Fill="Coral"/>
 
-                            <TextBlock Grid.Row="0" Grid.Column="1" Text="reservation count" Margin="0" Width="130"
-                                        Style="{StaticResource OwnerTitleStyle}" FontSize="14" Height="18">
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text=" reservations" Margin="0" TextAlignment="Left"
+                                        Style="{StaticResource OwnerTitleStyle}" FontSize="14" Width="130" Height="18">
                             </TextBlock>
 
-                            <TextBlock Grid.Row="1" Grid.Column="1" Text="cancellation count" Margin="0" Width="130"
-                                        Style="{StaticResource OwnerTitleStyle}" FontSize="14" Height="18">
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text=" cancellations" Margin="0" TextAlignment="Left"
+                                        Style="{StaticResource OwnerTitleStyle}" FontSize="14" Width="130" Height="18">
                             </TextBlock>
 
-                            <TextBlock Grid.Row="2" Grid.Column="1" Text="resheduling count" Margin="0" Width="130"
-                                        Style="{StaticResource OwnerTitleStyle}" FontSize="14" Height="18">
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text=" reshedulings" Margin="0" TextAlignment="Left"
+                                        Style="{StaticResource OwnerTitleStyle}" FontSize="14" Width="130" Height="18">
+                            </TextBlock>
+
+                            <TextBlock Grid.Row="3" Grid.Column="1" Text=" recommendations" Margin="0" TextAlignment="Left"
+                                                Style="{StaticResource OwnerTitleStyle}" FontSize="14" Width="130" Height="18">
                             </TextBlock>
                         </Grid>
 
@@ -127,7 +133,7 @@
                         -->
 
                         <StackPanel>
-                            <ListBox FontSize="20" ItemsSource="{Binding AccommodationMonths}" Height="395" Margin="10">
+                            <ListBox FontSize="20" ItemsSource="{Binding AccommodationMonths}" Height="395" Width="965" Margin="10">
                                 <ListBox.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel Orientation="Horizontal"/>
@@ -142,23 +148,30 @@
 
                                                     <StackPanel VerticalAlignment="Bottom">
                                                         <Border BorderThickness="0 0 0 2" BorderBrush="Black">
-                                                            <Rectangle Height="{Binding ReservationCount, Converter ={StaticResource MultiplyCountConverter}}" Width="20" Fill="#9FE2BF"  VerticalAlignment="Bottom" Margin="1"/>
+                                                            <Rectangle Height="{Binding ReservationCount, Converter ={StaticResource MultiplyCountConverter}}" Width="15" Fill="#9FE2BF"  VerticalAlignment="Bottom" Margin="1"/>
                                                         </Border>
                                                         <TextBlock Text="{Binding ReservationCount}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3"/>
                                                     </StackPanel>
 
                                                     <StackPanel VerticalAlignment="Bottom">
                                                         <Border BorderThickness="0 0 0 2" BorderBrush="Black">
-                                                            <Rectangle Height="{Binding CancellationCount, Converter ={StaticResource MultiplyCountConverter}}" Fill="#008080"  VerticalAlignment="Bottom" Margin="1"/>
+                                                            <Rectangle Height="{Binding CancellationCount, Converter ={StaticResource MultiplyCountConverter}}" Width="15" Fill="#008080"  VerticalAlignment="Bottom" Margin="1"/>
                                                         </Border>
                                                         <TextBlock Text="{Binding CancellationCount}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3"/>
                                                     </StackPanel>
 
                                                     <StackPanel VerticalAlignment="Bottom">
                                                         <Border BorderThickness="0 0 0 2" BorderBrush="Black">
-                                                            <Rectangle Height="{Binding ReschedulingCount, Converter ={StaticResource MultiplyCountConverter}}" Fill="#968E85"  VerticalAlignment="Bottom" Margin="1"/>
+                                                            <Rectangle Height="{Binding ReschedulingCount, Converter ={StaticResource MultiplyCountConverter}}" Width="15" Fill="#968E85"  VerticalAlignment="Bottom" Margin="1"/>
                                                         </Border>
                                                         <TextBlock Text="{Binding ReschedulingCount}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3"/>
+                                                    </StackPanel>
+
+                                                    <StackPanel VerticalAlignment="Bottom">
+                                                        <Border BorderThickness="0 0 0 2" BorderBrush="Black">
+                                                            <Rectangle Height="{Binding ReschedulingCount, Converter ={StaticResource MultiplyCountConverter}}" Width="15" Fill="Coral"  VerticalAlignment="Bottom" Margin="1"/>
+                                                        </Border>
+                                                        <TextBlock Text="{Binding RecommendationCount}" Margin="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                                     </StackPanel>
                                                 </StackPanel>
                                             </Border>

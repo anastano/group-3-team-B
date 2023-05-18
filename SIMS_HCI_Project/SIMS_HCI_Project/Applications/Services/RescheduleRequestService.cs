@@ -1,5 +1,4 @@
 ﻿using SIMS_HCI_Project.Domain.Models;
-using SIMS_HCI_Project.Observer;
 using SIMS_HCI_Project.Repositories;
 using System;
 using System.Collections.Generic;
@@ -67,21 +66,6 @@ namespace SIMS_HCI_Project.Applications.Services
         public void Add(RescheduleRequest rescheduleRequest)
         {
             _requestRepository.Add(rescheduleRequest);
-        }
-
-        public void NotifyObservers()
-        {
-            _requestRepository.NotifyObservers();
-        }
-
-        public void Subscribe(IObserver observer)
-        {
-            _requestRepository.Subscribe(observer);
-        }
-
-        public void Unsubscribe(IObserver observer)
-        {
-            _requestRepository.Unsubscribe(observer);
         }
     }
 }

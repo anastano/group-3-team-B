@@ -1,5 +1,4 @@
 ﻿using SIMS_HCI_Project.Domain.Models;
-using SIMS_HCI_Project.Observer;
 using System;
 using System.Collections.Generic;
 
@@ -18,10 +17,11 @@ namespace SIMS_HCI_Project.Repositories
         void EditReservation(RescheduleRequest request);
         void ConvertReservedReservationIntoCompleted(DateTime currentDate);
         void Save();
-        void NotifyObservers();
-        void Subscribe(IObserver observer);
-        void Unsubscribe(IObserver observer);
         List<AccommodationReservation> OwnerSearch(string accommodationName, string guestName, string guestSurname, int ownerId);
         List<AccommodationReservation> GetByAccommodationId(int accommodationId);
+        int GetReservationCountByYearAndAccommodationId(int year, int accommodationId);
+        int GetCancellationCountByYearAndAccommodationId(int year, int accommodationId);
+        int GetReservationCountByMonthAndAccommodationId(int monthIndex, int year, int accommodationId);
+        int GetCancellationCountByMonthAndAccommodationId(int monthIndex, int year, int accommodationId);
     }
 }

@@ -19,6 +19,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         private readonly NotificationService _notificationService;
 
         public RequestHandlerView RequestHandlerView { get; set; }
+        public RescheduleRequestsViewModel RequestsVM { get; set; }
         public RescheduleRequest Request { get; set; }
         public ObservableCollection<AccommodationReservation> OverlappingReservations { get; set; }
 
@@ -26,7 +27,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public RelayCommand DeclineRequestCommand { get; set; }
         public RelayCommand CloseRequestHandlerViewCommand { get; set; }
 
-        public RequestHandlerViewModel(RequestHandlerView requestHandlerView, RescheduleRequestService requestService, 
+        public RequestHandlerViewModel(RequestHandlerView requestHandlerView, RescheduleRequestsViewModel requestsVM, RescheduleRequestService requestService, 
             AccommodationReservationService reservationService, NotificationService notificationService, RescheduleRequest selectedRequest) 
         {
             InitCommands();
@@ -36,6 +37,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             _notificationService = notificationService;
 
             RequestHandlerView = requestHandlerView;
+            RequestsVM = requestsVM;
             Request = selectedRequest;
             
             OverlappingReservations = new ObservableCollection<AccommodationReservation>(_requestService.GetOverlappingReservations(Request, _reservationService));
@@ -77,6 +79,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
                 _notificationService.Add(new Notification(Message, Request.AccommodationReservation.GuestId, false));
 
                 RequestHandlerView.Close();
+                RequestsVM.UpdatePendingRequests();
             }
         }
 
@@ -87,7 +90,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public void Executed_DeclineRequestCommand(object obj)
         {
-            Window requestDenialView = new RequestDenialView(RequestHandlerView, _requestService, _notificationService, Request);
+            Window requestDenialView = new RequestDenialView(RequestHandlerView, RequestsVM, _requestService, _notificationService, Request);
             requestDenialView.Show();
         }
 

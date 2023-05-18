@@ -32,13 +32,30 @@ namespace SIMS_HCI_Project.Repositories
 
         public RenovationRecommendation GetById(int id)
         {
-            return _recommendations.Find(l => l.Id == id);
+            return _recommendations.Find(r => r.Id == id);
+        }
+
+        public List<RenovationRecommendation> GetByAccommodationId(int accommodationId)
+        {
+            return _recommendations.FindAll(r => r.Rating.Reservation.Accommodation.Id == accommodationId);
         }
 
         public List<RenovationRecommendation> GetAll()
         {
             return _recommendations;
         }
+
+        public int GetRecommendationCountByYearAndAccommodationId(int year, int accommodationId) 
+        {
+            return GetByAccommodationId(accommodationId).FindAll(r => r.Rating.Reservation.Start.Year == year).Count();
+        }
+
+        public int GetRecommendationCountByMonthAndAccommodationId(int monthIndex, int year, int accommodationId) 
+        {
+            return GetByAccommodationId(accommodationId).FindAll(r => r.Rating.Reservation.Start.Year == year
+                        && r.Rating.Reservation.Start.Month == monthIndex).Count();
+        }
+
         public void Add(RenovationRecommendation recommendation)
         {
             recommendation.Id = GenerateId();

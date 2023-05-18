@@ -1,6 +1,5 @@
 ﻿using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.FileHandlers;
-using SIMS_HCI_Project.Observer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Repositories
 {
-    public class RatingGivenByOwnerRepository : ISubject, IRatingGivenByOwnerRepository
+    public class RatingGivenByOwnerRepository : IRatingGivenByOwnerRepository
     {
-        private readonly List<IObserver> _observers;
         private readonly RatingGivenByOwnerFileHandler _fileHandler;
 
         private static List<RatingGivenByOwner> _ratings;
@@ -23,7 +21,6 @@ namespace SIMS_HCI_Project.Repositories
             {
                 _ratings = _fileHandler.Load();
             }
-            _observers = new List<IObserver>();
         }
 
         public int GenerateId()
@@ -58,7 +55,6 @@ namespace SIMS_HCI_Project.Repositories
             rating.Id = GenerateId();
             _ratings.Add(rating);
             Save();
-            NotifyObservers();
         }
         public int GetRatingCountForCategory(int guestId, string categoryName, int ratingValue)
         {
@@ -79,22 +75,6 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _ratings.FindAll(r => r.Reservation.GuestId == guestId && r.RuleCompliance == ratingValue).Count;
         }
-        public void NotifyObservers()
-        {
-            foreach (var observer in _observers)
-            {
-                observer.Update();
-            }
-        }
 
-        public void Subscribe(IObserver observer)
-        {
-            _observers.Add(observer);
-        }
-
-        public void Unsubscribe(IObserver observer)
-        {
-            _observers.Remove(observer);
-        }
     }
 }

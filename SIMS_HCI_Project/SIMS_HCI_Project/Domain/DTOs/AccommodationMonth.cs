@@ -14,15 +14,17 @@ namespace SIMS_HCI_Project.Domain.DTOs
         public int ReservationCount { get; set; }
         public int CancellationCount { get; set; }
         public int ReschedulingCount { get; set; }
+        public int RecommendationCount { get; set; }
 
         public AccommodationMonth() { }
-        public AccommodationMonth(int monthIndex, string name, int reservationCount, int cancellationCount, int reschedulingCount)
+        public AccommodationMonth(int monthIndex, string name, int reservationCount, int cancellationCount, int reschedulingCount, int recommendationCount)
         {
             Index = monthIndex;
             Name = name;
             ReservationCount = reservationCount;
             CancellationCount = cancellationCount;
             ReschedulingCount = reschedulingCount;
+            RecommendationCount = recommendationCount;
         }
     }
 }

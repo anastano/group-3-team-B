@@ -1,6 +1,5 @@
 ﻿using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.FileHandlers;
-using SIMS_HCI_Project.Observer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Repositories
 {
-    public class RenovationRepository : ISubject, IRenovationRepository
+    public class RenovationRepository : IRenovationRepository
     {
-        private readonly List<IObserver> _observers;
         private readonly RenovationFileHandler _fileHandler;
 
         private static List<Renovation> _renovations;
@@ -20,9 +18,6 @@ namespace SIMS_HCI_Project.Repositories
         {
             _fileHandler = new RenovationFileHandler();
             _renovations = _fileHandler.Load();
-
-            _observers = new List<IObserver>();
-
         }
         public int GenerateId()
         {
@@ -57,35 +52,14 @@ namespace SIMS_HCI_Project.Repositories
         {
             renovation.Id = GenerateId();
             _renovations.Add(renovation);
-            NotifyObservers();
             Save();
         }
 
         public void Delete(Renovation renovation)
         {
             _renovations.Remove(renovation);
-            NotifyObservers();
             Save();
         }
-
-        public void NotifyObservers()
-        {
-            foreach (var observer in _observers)
-            {
-                observer.Update();
-            }
-        }
-
-        public void Subscribe(IObserver observer)
-        {
-            _observers.Add(observer);
-        }
-
-        public void Unsubscribe(IObserver observer)
-        {
-            _observers.Remove(observer);
-        }
-
 
     }
 }

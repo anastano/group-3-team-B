@@ -22,10 +22,10 @@ namespace SIMS_HCI_Project.WPF.Views.OwnerViews
     /// </summary>
     public partial class RequestDenialView : Window
     {
-        public RequestDenialView(RequestHandlerView requestHandlerView, RescheduleRequestService requestService, NotificationService notificationService, RescheduleRequest request)
+        public RequestDenialView(RequestHandlerView requestHandlerView, RescheduleRequestsViewModel requestsVM, RescheduleRequestService requestService, NotificationService notificationService, RescheduleRequest request)
         {
             InitializeComponent();
-            this.DataContext = new RequestDenialViewModel(requestHandlerView, this, requestService, notificationService, request);
+            this.DataContext = new RequestDenialViewModel(requestHandlerView, this, requestsVM, requestService, notificationService, request);
         }
     }
 }

@@ -21,6 +21,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
     {
         private readonly RatingGivenByOwnerService _ownerRatingService;
         public RateSelectedGuestView RateSelectedGuestView { get; set; }
+        public UnratedReservationsViewModel UnratedReservationsVM { get; set; }
         public RatingGivenByOwner Rating { get; set; }
         public AccommodationReservation SelectedReservation { get; set; }
 
@@ -66,12 +67,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public RateSelectedGuestViewModel(RateSelectedGuestView rateSelectedGuestView, RatingGivenByOwnerService ownerRatingService, 
+        public RateSelectedGuestViewModel(RateSelectedGuestView rateSelectedGuestView, UnratedReservationsViewModel unratedReservationsVM, RatingGivenByOwnerService ownerRatingService, 
             AccommodationReservation selectedReservation) 
         {
             InitCommands();
             _ownerRatingService = ownerRatingService;
             RateSelectedGuestView = rateSelectedGuestView;
+            UnratedReservationsVM = unratedReservationsVM;
             Rating = new RatingGivenByOwner();
             SelectedReservation = selectedReservation;
             Cleanliness = null;
@@ -103,6 +105,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
                     Rating.Reservation = SelectedReservation;
                     _ownerRatingService.Add(Rating);
                     RateSelectedGuestView.Close();
+                    UnratedReservationsVM.UpdateUnratedReservations();
                 }
             }
             else 

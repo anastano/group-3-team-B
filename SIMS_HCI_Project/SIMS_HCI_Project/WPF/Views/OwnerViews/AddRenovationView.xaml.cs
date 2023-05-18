@@ -22,11 +22,11 @@ namespace SIMS_HCI_Project.WPF.Views.OwnerViews
     /// </summary>
     public partial class AddRenovationView : Window
     {
-        public AddRenovationView(RenovationService renovationService, AccommodationReservationService reservationService, 
+        public AddRenovationView(RenovationsViewModel renovationsVM, RenovationService renovationService, AccommodationReservationService reservationService, 
             Accommodation selectedAccommodation)
         {
             InitializeComponent();
-            this.DataContext = new AddRenovationViewModel(this, renovationService, reservationService, selectedAccommodation);
+            this.DataContext = new AddRenovationViewModel(this, renovationsVM, renovationService, reservationService, selectedAccommodation);
         }
     }
 }

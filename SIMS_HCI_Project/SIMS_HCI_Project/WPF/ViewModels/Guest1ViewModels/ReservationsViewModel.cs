@@ -5,7 +5,6 @@ using SIMS_HCI_Project.WPF.Commands;
 using SIMS_HCI_Project.WPF.Views.Guest1Views;
 using SIMS_HCI_Project.WPF.Views.OwnerViews;
 using System;
-using SIMS_HCI_Project.Observer;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -23,7 +22,7 @@ using SIMS_HCI_Project.WPF.Services;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
-    internal class ReservationsViewModel : IObserver, INotifyPropertyChanged
+    internal class ReservationsViewModel: INotifyPropertyChanged
     {
         private NavigationService _navigationService;
         private readonly AccommodationReservationService _reservationService;
@@ -95,7 +94,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             PastReservations = new ObservableCollection<AccommodationReservation>(_reservationService.GetAllByStatusAndGuestId(Guest.Id, AccommodationReservationStatus.COMPLETED));
             CanceledReservations = new ObservableCollection<AccommodationReservation>(_reservationService.GetAllByStatusAndGuestId(Guest.Id,AccommodationReservationStatus.CANCELLED));
             Reservations = new ObservableCollection<AccommodationReservation>(_reservationService.GetByGuestId(Guest.Id));
-            _reservationService.Subscribe(this);
             InitCommands();
             CanceledReservations.CollectionChanged += (s, e) => UpdateChart();
             Reservations.CollectionChanged += (s, e) => UpdateChart();

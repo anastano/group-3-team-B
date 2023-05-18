@@ -47,24 +47,30 @@
                                     <RowDefinition/>
                                     <RowDefinition/>
                                     <RowDefinition/>
+                                    <RowDefinition/>
                                 </Grid.RowDefinitions>
 
-                                <Rectangle Grid.Row="0" Grid.Column="0" Height="15" Width="15" Fill="#9FE2BF"/>
-                                <Rectangle Grid.Row="1" Grid.Column="0" Height="15" Width="15" Fill="#008080"/>
-                                <Rectangle Grid.Row="2" Grid.Column="0" Height="15" Width="15" Fill="#968E85"/>
+                                <Rectangle Grid.Row="0" Grid.Column="0" Height="17" Width="15" Fill="#9FE2BF"/>
+                                <Rectangle Grid.Row="1" Grid.Column="0" Height="17" Width="15" Fill="#008080"/>
+                                <Rectangle Grid.Row="2" Grid.Column="0" Height="17" Width="15" Fill="#968E85"/>
+                                <Rectangle Grid.Row="3" Grid.Column="0" Height="17" Width="15" Fill="Coral"/>
 
-                                <TextBlock Grid.Row="0" Grid.Column="1" Text="reservation count" Margin="0"
+                                <TextBlock Grid.Row="0" Grid.Column="1" Text=" reservations" Margin="0" TextAlignment="Left"
                                         Style="{StaticResource OwnerTitleStyle}" FontSize="14" Width="130" Height="18">
                                 </TextBlock>
 
-                                <TextBlock Grid.Row="1" Grid.Column="1" Text="cancellation count" Margin="0"
+                                <TextBlock Grid.Row="1" Grid.Column="1" Text=" cancellations" Margin="0" TextAlignment="Left"
                                         Style="{StaticResource OwnerTitleStyle}" FontSize="14" Width="130" Height="18">
                                 </TextBlock>
-                                
-                                <TextBlock Grid.Row="2" Grid.Column="1" Text="resheduling count" Margin="0"
+
+                                <TextBlock Grid.Row="2" Grid.Column="1" Text=" reshedulings" Margin="0" TextAlignment="Left"
                                         Style="{StaticResource OwnerTitleStyle}" FontSize="14" Width="130" Height="18">
                                 </TextBlock>
-                            </Grid>
+
+                                <TextBlock Grid.Row="3" Grid.Column="1" Text=" recommendations" Margin="0" TextAlignment="Left"
+                                                Style="{StaticResource OwnerTitleStyle}" FontSize="14" Width="130" Height="18">
+                                </TextBlock>
+                        </Grid>
 
                     </StackPanel>
                     <!--
@@ -132,23 +138,30 @@
                                             <StackPanel Orientation="Horizontal" Height="200">
                                                 <StackPanel VerticalAlignment="Bottom">
                                                     <Border BorderThickness="0 0 0 2" BorderBrush="Black">
-                                                        <Rectangle Height="{Binding ReservationCount, Converter ={StaticResource MultiplyCountConverter}}" Width="20" Fill="#9FE2BF"  VerticalAlignment="Bottom" Margin="1"/>
+                                                        <Rectangle Height="{Binding ReservationCount, Converter ={StaticResource MultiplyCountConverter}}" Width="15" Fill="#9FE2BF"  VerticalAlignment="Bottom" Margin="1"/>
                                                     </Border>
                                                     <TextBlock Text="{Binding ReservationCount}" Margin="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                                 </StackPanel>
 
                                                 <StackPanel VerticalAlignment="Bottom">
                                                     <Border BorderThickness="0 0 0 2" BorderBrush="Black">
-                                                        <Rectangle Height="{Binding CancellationCount, Converter ={StaticResource MultiplyCountConverter}}" Width="20" Fill="#008080"  VerticalAlignment="Bottom" Margin="1"/>
+                                                        <Rectangle Height="{Binding CancellationCount, Converter ={StaticResource MultiplyCountConverter}}" Width="15" Fill="#008080"  VerticalAlignment="Bottom" Margin="1"/>
                                                     </Border>
                                                     <TextBlock Text="{Binding CancellationCount}" Margin="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                                 </StackPanel>
 
                                                 <StackPanel VerticalAlignment="Bottom">
                                                     <Border BorderThickness="0 0 0 2" BorderBrush="Black">
-                                                        <Rectangle Height="{Binding ReschedulingCount, Converter ={StaticResource MultiplyCountConverter}}" Width="20" Fill="#968E85"  VerticalAlignment="Bottom" Margin="1"/>
+                                                        <Rectangle Height="{Binding ReschedulingCount, Converter ={StaticResource MultiplyCountConverter}}" Width="15" Fill="#968E85"  VerticalAlignment="Bottom" Margin="1"/>
                                                     </Border>
                                                     <TextBlock Text="{Binding ReschedulingCount}" Margin="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                </StackPanel>
+
+                                                <StackPanel VerticalAlignment="Bottom">
+                                                    <Border BorderThickness="0 0 0 2" BorderBrush="Black">
+                                                        <Rectangle Height="{Binding ReschedulingCount, Converter ={StaticResource MultiplyCountConverter}}" Width="15" Fill="Coral"  VerticalAlignment="Bottom" Margin="1"/>
+                                                    </Border>
+                                                    <TextBlock Text="{Binding RecommendationCount}" Margin="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                                 </StackPanel>
 
                                             </StackPanel>

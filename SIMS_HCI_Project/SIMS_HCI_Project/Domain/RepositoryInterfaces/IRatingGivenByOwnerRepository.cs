@@ -1,5 +1,4 @@
 ﻿using SIMS_HCI_Project.Domain.Models;
-using SIMS_HCI_Project.Observer;
 using System.Collections.Generic;
 
 namespace SIMS_HCI_Project.Repositories
@@ -14,9 +13,6 @@ namespace SIMS_HCI_Project.Repositories
         int GetRatingCountForCategory(int guestId, string categoryName, int ratingValue);
         int GetRatingCountForCleanliness(int guestId, int ratingValue);
         int GetRatingCountForRuleCompliance(int guestId, int ratingValue);
-        void NotifyObservers();
         void Save();
-        void Subscribe(IObserver observer);
-        void Unsubscribe(IObserver observer);
     }
 }

@@ -1,6 +1,5 @@
 ﻿using SIMS_HCI_Project.Domain.DTOs;
 using SIMS_HCI_Project.Domain.Models;
-using SIMS_HCI_Project.Observer;
 using SIMS_HCI_Project.Repositories;
 using System;
 using System.Collections.Generic;
@@ -44,25 +43,27 @@ namespace SIMS_HCI_Project.Applications.Services
             List<Renovation> availableRenovations = new List<Renovation>();
             DateTime potentialStart = enteredStart;
             DateTime potentialEnd = enteredStart.AddDays(daysNumber - 1);
+            DateRange potentialDateRange = new DateRange(potentialStart, potentialEnd);
 
             while (potentialEnd <= enteredEnd)
             {
-                if (!OverlapsWithRenovations(accommodation, potentialStart, potentialEnd) && !OverlapsWithReservations(accommodation, potentialStart, potentialEnd))
+                if (!OverlapsWithRenovations(accommodation, potentialDateRange) && !OverlapsWithReservations(accommodation, potentialDateRange))
                 {
                     availableRenovations.Add(new Renovation(accommodation.Id, potentialStart, potentialEnd));
                 }
 
                 potentialStart = potentialStart.AddDays(1);
                 potentialEnd = potentialStart.AddDays(daysNumber - 1);
+                potentialDateRange = new DateRange(potentialStart, potentialEnd);
             }
             return availableRenovations;
         }
 
-        public bool OverlapsWithRenovations(Accommodation accommodation, DateTime potentialStart, DateTime potentialEnd)
+        public bool OverlapsWithRenovations(Accommodation accommodation, DateRange potentialDateRange)
         {
             foreach (Renovation renovation in GetByAccommodationId(accommodation.Id))
             {
-                if (IsDateRangeOverlapping(potentialStart, potentialEnd, renovation))
+                if (potentialDateRange.DoesOverlap(new DateRange(renovation.Start, renovation.End)))
                 {
                     return true;
                 }
@@ -70,26 +71,18 @@ namespace SIMS_HCI_Project.Applications.Services
             return false;
         }
 
-        public bool OverlapsWithReservations(Accommodation accommodation, DateTime potentialStart, DateTime potentialEnd)
+        public bool OverlapsWithReservations(Accommodation accommodation, DateRange potentialDateRange)
         {
             AccommodationReservationService reservationService = new AccommodationReservationService();
 
             foreach (AccommodationReservation reservation in reservationService.GetAllReserevedByAccommodationId(accommodation.Id))
             {
-                if ((new DateRange(potentialStart, potentialEnd)).DoesOverlap(new DateRange(reservation.Start, reservation.End)))
+                if (potentialDateRange.DoesOverlap(new DateRange(reservation.Start, reservation.End)))
                 {
                     return true;
                 }
             }
             return false;
-        }
-
-        public bool IsDateRangeOverlapping(DateTime potentialStart, DateTime potentialEnd, Renovation renovation)
-        {
-            bool isPotentialStartOverlap = potentialStart >= renovation.Start && potentialStart <= renovation.End;
-            bool isPotentialEndOverlap = potentialEnd >= renovation.Start && potentialEnd <= renovation.End;
-            bool isPotentialRangeOverlap = potentialStart <= renovation.Start && potentialEnd >= renovation.End;
-            return isPotentialStartOverlap || isPotentialEndOverlap || isPotentialRangeOverlap;
         }
 
         public void Add(Renovation renovation)
@@ -117,20 +110,6 @@ namespace SIMS_HCI_Project.Applications.Services
                 }
             }
             return false;
-        }
-        public void NotifyObservers()
-        {
-            _renovationRepository.NotifyObservers();
-        }
-
-        public void Subscribe(IObserver observer)
-        {
-            _renovationRepository.Subscribe(observer);
-        }
-
-        public void Unsubscribe(IObserver observer)
-        {
-            _renovationRepository.Unsubscribe(observer);
         }
     }
 }

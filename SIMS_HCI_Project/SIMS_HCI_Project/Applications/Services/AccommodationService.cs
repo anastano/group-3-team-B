@@ -1,6 +1,5 @@
 ﻿using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Repositories;
-using SIMS_HCI_Project.Observer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,13 +14,11 @@ namespace SIMS_HCI_Project.Applications.Services
     {
         private readonly IAccommodationRepository _accommodationRepository;
         private readonly ILocationRepository _locationRepository;
-        private readonly IUserRepository _userRepository;
 
         public AccommodationService()
         {
             _accommodationRepository = Injector.Injector.CreateInstance<IAccommodationRepository>();
             _locationRepository = Injector.Injector.CreateInstance<ILocationRepository>();
-            _userRepository = Injector.Injector.CreateInstance<IUserRepository>();
         }
 
         public Accommodation GetById(int id)
@@ -67,21 +64,7 @@ namespace SIMS_HCI_Project.Applications.Services
             {
                 ratingService.FillAverageRatingAndSuperFlag(accommodation.Owner);
             }
-        }
-        public void NotifyObservers()
-        {
-            _accommodationRepository.NotifyObservers();
-        }
-
-        public void Subscribe(IObserver observer)
-        {
-            _accommodationRepository.Subscribe(observer);
-        }
-
-        public void Unsubscribe(IObserver observer)
-        {
-            _accommodationRepository.Unsubscribe(observer);
-        }   
+        }  
 
     }
 }

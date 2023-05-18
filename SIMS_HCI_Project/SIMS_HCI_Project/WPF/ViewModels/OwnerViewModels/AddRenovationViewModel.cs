@@ -23,6 +23,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public Accommodation Accommodation { get; set; }
         public Renovation SelectedRenovation { get; set; }
         public AddRenovationView AddRenovationView { get; set; }
+        public RenovationsViewModel RenovationsVM { get; set; }
 
         #region OnPropertyChanged
 
@@ -110,7 +111,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public AddRenovationViewModel(AddRenovationView addRenovationView,  RenovationService renovationService, 
+        public AddRenovationViewModel(AddRenovationView addRenovationView, RenovationsViewModel renovationsVM, RenovationService renovationService, 
             AccommodationReservationService reservationService, Accommodation selectedAccommodation)
         {
             InitCommands();
@@ -119,6 +120,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             _reservationService = reservationService;
 
             AddRenovationView = addRenovationView;
+            RenovationsVM = renovationsVM;
 
             Accommodation = selectedAccommodation;
             SelectedRenovation = new Renovation();
@@ -149,6 +151,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
                 SelectedRenovation.Accommodation = Accommodation;
                 _renovationService.Add(SelectedRenovation);
                 AddRenovationView.Close();
+                RenovationsVM.UpdateRenovations();
             }
             else 
             {

@@ -23,6 +23,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public Accommodation Accommodation { get; set; }
         public Location Location { get; set; }
         public AddAccommodationView AddAccommodationView { get; set; }
+        public AccommodationsViewModel AccommodationsVM { get; set; }
 
         #region OnPropertyChanged
         private string _name;
@@ -146,12 +147,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         }
 
 
-        public AddAccommodationViewModel(AddAccommodationView addAccommodationView, AccommodationService accommodationService, Owner owner)
+        public AddAccommodationViewModel(AddAccommodationView addAccommodationView, AccommodationsViewModel accommodationsVM, AccommodationService accommodationService, Owner owner)
         {
             InitCommands();
 
             _accommodationService = accommodationService;
             AddAccommodationView = addAccommodationView;
+            AccommodationsVM = accommodationsVM;
 
             Owner = owner;
             Accommodation = new Accommodation();
@@ -223,6 +225,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
                     _accommodationService.Add(Accommodation, Location);
 
                     AddAccommodationView.Close();
+                    AccommodationsVM.UpdateAccommodations();
                 }
             }
             else

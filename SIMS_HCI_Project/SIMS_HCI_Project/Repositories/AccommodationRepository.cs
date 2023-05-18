@@ -1,6 +1,5 @@
 ﻿using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.FileHandlers;
-using SIMS_HCI_Project.Observer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +9,8 @@ using Accommodation = SIMS_HCI_Project.Domain.Models.Accommodation;
 
 namespace SIMS_HCI_Project.Repositories
 {
-    public class AccommodationRepository : ISubject, IAccommodationRepository
+    public class AccommodationRepository : IAccommodationRepository
     {
-        private readonly List<IObserver> _observers;
         private readonly AccommodationFileHandler _fileHandler;
 
         private static List<Accommodation> _accommodations;
@@ -24,7 +22,6 @@ namespace SIMS_HCI_Project.Repositories
             {
                 _accommodations = _fileHandler.Load();
             }
-            _observers = new List<IObserver>();
 
         }
         public int GenerateId()
@@ -77,33 +74,13 @@ namespace SIMS_HCI_Project.Repositories
         {
             accommodation.Id = GenerateId();
             _accommodations.Add(accommodation);
-            NotifyObservers();
             Save();
         }
 
         public void Delete(Accommodation accommodation)
         {
             _accommodations.Remove(accommodation);
-            NotifyObservers();
             Save();
-        }
-
-        public void NotifyObservers()
-        {
-            foreach (var observer in _observers)
-            {
-                observer.Update();
-            }
-        }
-
-        public void Subscribe(IObserver observer)
-        {
-            _observers.Add(observer);
-        }
-
-        public void Unsubscribe(IObserver observer)
-        {
-            _observers.Remove(observer);
         }
 
     }

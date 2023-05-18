@@ -12,11 +12,13 @@ namespace SIMS_HCI_Project.Applications.Services
     {
         private readonly IAccommodationReservationRepository _reservationRepository;
         private readonly IRescheduleRequestRepository _requestRepository;
+        private readonly IRenovationRecommendationRepository _recommendationRepository;
 
         public AccommodationStatisticsService()
         {
             _reservationRepository = Injector.Injector.CreateInstance<IAccommodationReservationRepository>();
             _requestRepository = Injector.Injector.CreateInstance<IRescheduleRequestRepository>();
+            _recommendationRepository = Injector.Injector.CreateInstance<IRenovationRecommendationRepository>();
         }
 
         public List<AccommodationYear> GetYearsByAccommodationId(int accommodationId)
@@ -29,8 +31,9 @@ namespace SIMS_HCI_Project.Applications.Services
                 int reservations = GetReservationCountByYearAndAccommodationId(year, accommodationId);
                 int cancellations = GetCancellationCountByYearAndAccommodationId(year, accommodationId);
                 int reshedulings = GetReshedulingCountByYearAndAccommodationId(year, accommodationId);
+                int recommendations = GetRecommendationCountByYearAndAccommodationId(year, accommodationId);
 
-                AccommodationYear accommodationYear = new AccommodationYear(year, reservations, cancellations, reshedulings);
+                AccommodationYear accommodationYear = new AccommodationYear(year, reservations, cancellations, reshedulings, recommendations);
                 accommodationYears.Add(accommodationYear);
             }
             return accommodationYears;
@@ -38,19 +41,22 @@ namespace SIMS_HCI_Project.Applications.Services
 
         public int GetReservationCountByYearAndAccommodationId(int year, int accommodationId)
         {
-            return _reservationRepository.GetByAccommodationId(accommodationId).FindAll(r => r.Start.Year == year).Count();
+            return _reservationRepository.GetReservationCountByYearAndAccommodationId(year, accommodationId);
         }
 
         public int GetCancellationCountByYearAndAccommodationId(int year, int accommodationId)
         {
-            return _reservationRepository.GetByAccommodationId(accommodationId).FindAll(r => r.Start.Year == year
-                                          && r.Status == Domain.Models.AccommodationReservationStatus.CANCELLED).Count();
+            return _reservationRepository.GetCancellationCountByYearAndAccommodationId(year, accommodationId);
         }
 
         public int GetReshedulingCountByYearAndAccommodationId(int year, int accommodationId)
         {
-            return _requestRepository.GetByAccommodationId(accommodationId).FindAll(r => r.AccommodationReservation.Start.Year == year
-                                           && r.Status == Domain.Models.RescheduleRequestStatus.ACCEPTED).Count();
+            return _requestRepository.GetReshedulingCountByYearAndAccommodationId(year, accommodationId);
+        }
+
+        public int GetRecommendationCountByYearAndAccommodationId(int year, int accommodationId)
+        {
+            return _recommendationRepository.GetRecommendationCountByYearAndAccommodationId(year, accommodationId);
         }
 
         public int FindBestYear(int accommodationId)
@@ -79,9 +85,10 @@ namespace SIMS_HCI_Project.Applications.Services
                 int reservations = GetReservationCountByMonthAndAccommodationId(monthIndex, year, accommodationId);
                 int cancellations = GetCancellationCountByMonthAndAccommodationId(monthIndex, year, accommodationId);
                 int reshedulings = GetReshedulingCountByMonthAndAccommodationId(monthIndex, year, accommodationId);
+                int recommendations = GetRecommendationCountByMonthAndAccommodationId(monthIndex, year, accommodationId);
                 string name = new System.Globalization.DateTimeFormatInfo().GetMonthName(monthIndex).ToString();
 
-                AccommodationMonth accommodationMonth = new AccommodationMonth(monthIndex, name, reservations, cancellations, reshedulings);
+                AccommodationMonth accommodationMonth = new AccommodationMonth(monthIndex, name, reservations, cancellations, reshedulings, recommendations);
                 accommodationMonths.Add(accommodationMonth);
             }
             return accommodationMonths;
@@ -89,20 +96,22 @@ namespace SIMS_HCI_Project.Applications.Services
 
         public int GetReservationCountByMonthAndAccommodationId(int monthIndex, int year, int accommodationId)
         {
-            return _reservationRepository.GetByAccommodationId(accommodationId).FindAll(r => r.Start.Year == year
-                                    && r.Start.Month == monthIndex).Count();
+            return _reservationRepository.GetReservationCountByMonthAndAccommodationId(monthIndex, year, accommodationId);
         }
 
         public int GetCancellationCountByMonthAndAccommodationId(int monthIndex, int year, int accommodationId)
         {
-            return _reservationRepository.GetByAccommodationId(accommodationId).FindAll(r => r.Start.Year == year
-                        && r.Start.Month == monthIndex && r.Status == Domain.Models.AccommodationReservationStatus.CANCELLED).Count(); ;
+            return _reservationRepository.GetCancellationCountByMonthAndAccommodationId(monthIndex, year, accommodationId);
         }
 
         public int GetReshedulingCountByMonthAndAccommodationId(int monthIndex, int year, int accommodationId)
         {
-            return _requestRepository.GetByAccommodationId(accommodationId).FindAll(r => r.AccommodationReservation.Start.Year == year
-                         && r.AccommodationReservation.Start.Month == monthIndex && r.Status == Domain.Models.RescheduleRequestStatus.ACCEPTED).Count();
+            return _requestRepository.GetReshedulingCountByMonthAndAccommodationId(monthIndex, year, accommodationId);
+        }
+
+        public int GetRecommendationCountByMonthAndAccommodationId(int monthIndex, int year, int accommodationId)
+        {
+            return _recommendationRepository.GetRecommendationCountByMonthAndAccommodationId(monthIndex, year, accommodationId);
         }
 
         public string FindBestMonthInYear(int year, int accommodationId)

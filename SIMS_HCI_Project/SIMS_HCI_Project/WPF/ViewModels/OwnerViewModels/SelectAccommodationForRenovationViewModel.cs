@@ -19,6 +19,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         private readonly AccommodationReservationService _reservationService;
 
         public SelectAccommodationForRenovationView SelectAccommodationForRenovationView { get; set; }
+        public RenovationsViewModel RenovationsVM { get; set; }
         public Owner Owner { get; set; }
         public ObservableCollection<Accommodation> Accommodations { get; set; }
         public Accommodation SelectedAccommodation { get; set; }
@@ -26,7 +27,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public RelayCommand SelectAccommodationForRenovationCommand { get; set; }
         public RelayCommand CloseSelectAccommodationForRenovationViewCommand { get; set; }
 
-        public SelectAccommodationForRenovationViewModel(SelectAccommodationForRenovationView selectAccommodationForRenovationView, 
+        public SelectAccommodationForRenovationViewModel(SelectAccommodationForRenovationView selectAccommodationForRenovationView, RenovationsViewModel renovationsVM,
             AccommodationService accommodationService, RenovationService renovationService, AccommodationReservationService reservationService, Owner owner)
         {
             InitCommands();
@@ -36,6 +37,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             _reservationService = reservationService;
 
             SelectAccommodationForRenovationView = selectAccommodationForRenovationView;
+            RenovationsVM = renovationsVM;
             Owner = owner;
             Accommodations = new ObservableCollection<Accommodation>(_accommodationService.GetByOwnerId(Owner.Id));
 
@@ -47,7 +49,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             if (SelectedAccommodation != null)
             {
-                Window addRenovationView = new AddRenovationView(_renovationService, _reservationService, SelectedAccommodation);
+                Window addRenovationView = new AddRenovationView(RenovationsVM, _renovationService, _reservationService, SelectedAccommodation);
                 addRenovationView.ShowDialog();
             }
             else

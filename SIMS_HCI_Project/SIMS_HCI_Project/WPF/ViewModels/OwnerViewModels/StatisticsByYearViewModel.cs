@@ -18,15 +18,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         private readonly AccommodationStatisticsService _statisticsService;
 
         public StatisticsByYearView StatisticsByYearView { get; set; }
+        public SelectAccommodationForStatisticsView SelectAccommodationForStatisticsView { get; set; }
         public Accommodation Accommodation { get; set; }
         public int BestYear { get; set; }
         public List<AccommodationYear> AccommodationYears { get; set; }
         public AccommodationYear SelectedYear { get; set; }
 
-        public RelayCommand CloseMonthStatisticsViewCommand { get; set; }
         public RelayCommand SelectYearForStatisticsCommand { get; set; }
+        public RelayCommand CloseStatisticsByYearViewCommand { get; set; }
+        public RelayCommand HomeStatisticsByYearViewCommand { get; set; }
 
-        public StatisticsByYearViewModel(StatisticsByYearView statisticsByYearView, 
+        public StatisticsByYearViewModel(StatisticsByYearView statisticsByYearView, SelectAccommodationForStatisticsView selectAccommodationView, 
             AccommodationReservationService reservationService, AccommodationStatisticsService statisticsService, 
             Accommodation selectedAccommodation) 
         {
@@ -36,6 +38,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             _statisticsService = statisticsService;
 
             StatisticsByYearView = statisticsByYearView;
+            SelectAccommodationForStatisticsView = selectAccommodationView;
 
             Accommodation = selectedAccommodation;
             BestYear = _statisticsService.FindBestYear(Accommodation.Id);
@@ -47,7 +50,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             if (SelectedYear != null)
             {
-                Window statisticsByMonth = new StatisticsByMonthView(StatisticsByYearView,
+                Window statisticsByMonth = new StatisticsByMonthView(StatisticsByYearView, SelectAccommodationForStatisticsView,
                 _reservationService, _statisticsService, Accommodation, SelectedYear);
                 statisticsByMonth.ShowDialog();
             }
@@ -62,12 +65,23 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             return true;
         }
 
-        public void Executed_CloseMonthStatisticsViewCommand(object obj)
+        public void Executed_CloseStatisticsByYearViewCommand(object obj)
         {
             StatisticsByYearView.Close();
         }
 
-        public bool CanExecute_CloseMonthStatisticsViewCommand(object obj)
+        public bool CanExecute_CloseStatisticsByYearViewCommand(object obj)
+        {
+            return true;
+        }
+
+        public void Executed_HomeStatisticsByYearViewCommand(object obj)
+        {
+            StatisticsByYearView.Close();
+            SelectAccommodationForStatisticsView.Close();
+        }
+
+        public bool CanExecute_HomeStatisticsByYearViewCommand(object obj)
         {
             return true;
         }
@@ -75,8 +89,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public void InitCommands()
         {
-            CloseMonthStatisticsViewCommand = new RelayCommand(Executed_CloseMonthStatisticsViewCommand, CanExecute_CloseMonthStatisticsViewCommand);
             SelectYearForStatisticsCommand = new RelayCommand(Executed_SelectYearForStatisticsCommand, CanExecute_SelectYearForStatisticsCommand);
+            CloseStatisticsByYearViewCommand = new RelayCommand(Executed_CloseStatisticsByYearViewCommand, CanExecute_CloseStatisticsByYearViewCommand);
+            HomeStatisticsByYearViewCommand = new RelayCommand(Executed_HomeStatisticsByYearViewCommand, CanExecute_HomeStatisticsByYearViewCommand);
         }
     }
 }

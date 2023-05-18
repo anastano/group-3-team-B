@@ -127,7 +127,7 @@
                 <Button x:Name="btnSubmit" Content="Add (Ctrl+A)" Command="{Binding AddNewRenovationCommand}"
                     Style ="{StaticResource OwnerButtonStyle}" >
                 </Button>
-                <Button x:Name="btnCancel" Content="Cancel (Esc)"
+                <Button x:Name="btnCancel" Content="Cancel (Esc)" Command="{Binding CloseAddRenovationViewCommand}"
                     Style ="{StaticResource OwnerButtonStyle}">
                 </Button>
             </StackPanel>

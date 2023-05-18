@@ -38,6 +38,21 @@ namespace SIMS_HCI_Project.Applications.Services
             return _renovationRepository.GetByAccommodationId(accommodationId);
         }
 
+        public List<Renovation> GetInDateRangeByOwnerId(int ownerId, DateRange dateRange)
+        {
+            List<Renovation> renovationsInDateRange = new List<Renovation>();
+
+            foreach (Renovation renovation in GetByOwnerId(ownerId))
+            {
+                DateRange renovationDateRange = new DateRange(renovation.Start, renovation.End);
+                if (renovationDateRange.IsInside(dateRange))
+                { 
+                    renovationsInDateRange.Add(renovation);
+                }
+            }
+            return renovationsInDateRange;
+        }
+
         public List<Renovation> GetAvailableRenovations(Accommodation accommodation, DateTime enteredStart, DateTime enteredEnd, int daysNumber)
         {
             List<Renovation> availableRenovations = new List<Renovation>();

@@ -48,6 +48,7 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _renovations.FindAll(r => r.AccommodationId == accommodationId);
         }
+
         public void Add(Renovation renovation)
         {
             renovation.Id = GenerateId();

@@ -24,10 +24,10 @@
                         <Button x:Name="btnCancelRenovation"  Content="    Cancel Selected &#xa;Renovation (Ctrl+C)" Command="{Binding CancelRenovationCommand}"
                             Style="{StaticResource OwnerButtonStyle}" Width="220">
                         </Button>
-                        <Button x:Name="btnCreatePDFReport"  Content="Create PDF Report (Ctrl+R)" 
+                        <Button x:Name="btnCreatePDFReport"  Content="Create PDF Report (Ctrl+R)" Command="{Binding CreatePDFReportCommand}"
                             Style="{StaticResource OwnerButtonStyle}" Width="220">
                         </Button>
-                        <Button x:Name="btnClose"  Content="Close (Esc)"
+                        <Button x:Name="btnClose"  Content="Close (Esc)"  Command="{Binding CloseRenovationsViewCommand}"
                             Style="{StaticResource OwnerButtonStyle}" Width="220">
                         </Button>
                     </StackPanel>

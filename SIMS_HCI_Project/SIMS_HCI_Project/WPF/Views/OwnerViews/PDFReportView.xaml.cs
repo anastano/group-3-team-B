@@ -1,4 +1,5 @@
 ﻿using SIMS_HCI_Project.Applications.Services;
+using SIMS_HCI_Project.Domain.DTOs;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels;
 using System;
@@ -18,15 +19,14 @@ using System.Windows.Shapes;
 namespace SIMS_HCI_Project.WPF.Views.OwnerViews
 {
     /// <summary>
-    /// Interaction logic for StatisticsByYearView.xaml
+    /// Interaction logic for PDFReportView.xaml
     /// </summary>
-    public partial class StatisticsByYearView : Window
+    public partial class PDFReportView : Window
     {
-        public StatisticsByYearView(SelectAccommodationForStatisticsView selectAccommodationView, AccommodationReservationService reservationService, AccommodationStatisticsService statisticsService,
-            Accommodation accommodation)
+        public PDFReportView(CreatePDFView createPDFView, RenovationService renovationService, Owner owner, DateRange dateRange)
         {
             InitializeComponent();
-            this.DataContext = new StatisticsByYearViewModel(this, selectAccommodationView, reservationService, statisticsService, accommodation);
+            this.DataContext = new PDFReportViewModel(this, createPDFView, renovationService, owner, dateRange);
         }
     }
 }

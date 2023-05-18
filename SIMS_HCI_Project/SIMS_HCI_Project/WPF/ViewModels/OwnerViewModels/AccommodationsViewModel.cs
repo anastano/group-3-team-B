@@ -128,11 +128,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             {
                 Accommodations.Add(accommodation);
             }
-
-            foreach (Accommodation accommodation in Accommodations)
-            {
-                accommodation.FirstImage = accommodation.Images.FirstOrDefault();
-            }
         }
     }
 }

@@ -36,7 +36,6 @@ namespace SIMS_HCI_Project.FileHandlers
                 accommodation.MinimumReservationDays = int.Parse(csvValues[6]);
                 accommodation.CancellationDeadlineInDays = int.Parse(csvValues[7]);
                 accommodation.Images = new List<string>(csvValues[8].Split(","));
-                accommodation.FirstImage = accommodation.Images.FirstOrDefault();
 
                 accommodations.Add(accommodation);
             }

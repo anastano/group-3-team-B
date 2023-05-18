@@ -3,9 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         mc:Ignorable="d"
         Title="AccommodationsView" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <converters:ImageUrlConverter x:Key="ImageUrlConverter"/>
+    </Window.Resources>
     <Window.InputBindings>
         <KeyBinding Gesture="Ctrl+A" Command="{Binding AddAccommodationCommand}"/>
         <KeyBinding Gesture="Ctrl+D" Command="{Binding DeleteAccommodationCommand}"/>
@@ -69,7 +73,7 @@
                                 <DataGridTemplateColumn Width="1.3*">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Image Source="{Binding FirstImage}" Height="100" Width="150"/>
+                                            <Image Source="{Binding Images, Converter={StaticResource ImageUrlConverter}}" Height="100" Width="150"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>

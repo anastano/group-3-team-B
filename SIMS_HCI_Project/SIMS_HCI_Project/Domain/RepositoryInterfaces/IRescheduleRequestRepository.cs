@@ -11,7 +11,6 @@ namespace SIMS_HCI_Project.Repositories
         List<RescheduleRequest> GetAllByOwnerId(int ownerId);
         List<RescheduleRequest> GetPendingByOwnerId(int ownerId);
         void Add(RescheduleRequest request);
-        void Save();
         List<RescheduleRequest> GetByAccommodationId(int accommodaitonId);
         int GetReshedulingCountByYearAndAccommodationId(int year, int accommodationId);
         int GetReshedulingCountByMonthAndAccommodationId(int monthIndex, int year, int accommodationId);

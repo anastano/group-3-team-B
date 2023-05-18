@@ -9,6 +9,5 @@ namespace SIMS_HCI_Project.Repositories
         Location GetById(int id);
         Location GetOrAdd(Location location);
         List<Location> GetAll();
-        void Save();
     }
 }

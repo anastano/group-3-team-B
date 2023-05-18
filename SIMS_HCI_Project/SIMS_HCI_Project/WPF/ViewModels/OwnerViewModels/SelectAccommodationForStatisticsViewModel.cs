@@ -47,8 +47,15 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             if (SelectedAccommodation != null)
             {
-                Window statisticsByYearView = new StatisticsByYearView(SelectAccommodationForStatisticsView, _reservationService, _statisticsService, SelectedAccommodation);
-                statisticsByYearView.ShowDialog();
+                if (_reservationService.GetByAccommodationId(SelectedAccommodation.Id).Count() != 0)
+                {
+                    Window statisticsByYearView = new StatisticsByYearView(SelectAccommodationForStatisticsView, _reservationService, _statisticsService, SelectedAccommodation);
+                    statisticsByYearView.ShowDialog();
+                }
+                else 
+                {
+                    MessageBox.Show("Currently, there are no available statistics for this accommodation as there have been no reservations made yet.");
+                }
             }
             else
             {

@@ -12,7 +12,6 @@ namespace SIMS_HCI_Project.Repositories
         RenovationRecommendation GetById(int id);
         List<RenovationRecommendation> GetAll();
         void Add(RenovationRecommendation recommendation);
-        void Save();
         List<RenovationRecommendation> GetByAccommodationId(int accommodationId);
         int GetRecommendationCountByYearAndAccommodationId(int year, int accommodationId);
         int GetRecommendationCountByMonthAndAccommodationId(int monthIndex, int year, int accommodationId);

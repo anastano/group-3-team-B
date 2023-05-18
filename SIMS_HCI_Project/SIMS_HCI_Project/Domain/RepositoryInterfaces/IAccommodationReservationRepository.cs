@@ -16,7 +16,6 @@ namespace SIMS_HCI_Project.Repositories
         void EditStatus(int id, AccommodationReservationStatus status);
         void EditReservation(RescheduleRequest request);
         void ConvertReservedReservationIntoCompleted(DateTime currentDate);
-        void Save();
         List<AccommodationReservation> OwnerSearch(string accommodationName, string guestName, string guestSurname, int ownerId);
         List<AccommodationReservation> GetByAccommodationId(int accommodationId);
         int GetReservationCountByYearAndAccommodationId(int year, int accommodationId);

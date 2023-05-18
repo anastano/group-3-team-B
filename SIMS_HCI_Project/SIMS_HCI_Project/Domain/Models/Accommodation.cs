@@ -23,7 +23,6 @@ namespace SIMS_HCI_Project.Domain.Models
         public int MinimumReservationDays { get; set; }
         public int CancellationDeadlineInDays { get; set; }
         public List<string> Images { get; set; }
-        public string FirstImage { get; set; }
 
         public List<AccommodationReservation> Reservations { get; set; }
 

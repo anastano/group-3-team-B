@@ -11,6 +11,5 @@ namespace SIMS_HCI_Project.Repositories
         List<Renovation> GetByAccommodationId(int accommodationId);
         Renovation GetById(int id);
         List<Renovation> GetByOwnerId(int ownerId);
-        void Save();
     }
 }

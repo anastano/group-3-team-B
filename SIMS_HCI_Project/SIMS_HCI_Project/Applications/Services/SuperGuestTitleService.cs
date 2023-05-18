@@ -12,11 +12,9 @@ namespace SIMS_HCI_Project.Applications.Services
     public class SuperGuestTitleService
     {
         private readonly ISuperGuestTitleRepository _titleRepository;
-        private readonly IUserRepository _userRepository;
         public SuperGuestTitleService()
         {
             _titleRepository = Injector.Injector.CreateInstance<ISuperGuestTitleRepository>();
-            _userRepository = Injector.Injector.CreateInstance<IUserRepository>();
         }
         public SuperGuestTitle GetGuestActiveTitle(int gudestId)
         {

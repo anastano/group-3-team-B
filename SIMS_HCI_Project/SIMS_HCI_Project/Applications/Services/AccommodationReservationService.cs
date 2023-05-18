@@ -29,6 +29,11 @@ namespace SIMS_HCI_Project.Applications.Services
             return _reservationRepository.GetByOwnerId(ownerId);
         }
 
+        public List<AccommodationReservation> GetByAccommodationId(int accommodationId) 
+        {
+            return _reservationRepository.GetByAccommodationId(accommodationId);
+        }
+
         public List<AccommodationReservation> GetAllReserevedByAccommodationId(int accommodationId)
         {
             return _reservationRepository.GetAllReservedByAccommodationId(accommodationId);

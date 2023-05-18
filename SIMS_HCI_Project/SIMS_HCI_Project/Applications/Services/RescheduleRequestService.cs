@@ -1,4 +1,5 @@
-﻿using SIMS_HCI_Project.Domain.Models;
+﻿using SIMS_HCI_Project.Domain.DTOs;
+using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Repositories;
 using System;
 using System.Collections.Generic;
@@ -40,23 +41,16 @@ namespace SIMS_HCI_Project.Applications.Services
         public List<AccommodationReservation> GetOverlappingReservations(RescheduleRequest request, AccommodationReservationService reservationService)
         {
             List<AccommodationReservation> overlappingReservations = new List<AccommodationReservation>();
+            DateRange requestDateRange = new DateRange(request.WantedStart, request.WantedEnd);
 
             foreach (AccommodationReservation reservation in reservationService.GetAllReserevedByAccommodationId(request.AccommodationReservation.AccommodationId))
             {
-                if (IsDateRangeOverlapping(reservation, request) && reservation.Id != request.AccommodationReservationId)
+                if (requestDateRange.DoesOverlap(new DateRange(reservation.Start, reservation.End)) && reservation.Id != request.AccommodationReservationId)
                 {
                     overlappingReservations.Add(reservation);
                 }
             }
             return overlappingReservations;
-        }
-
-        public bool IsDateRangeOverlapping(AccommodationReservation reservation, RescheduleRequest request)
-        {
-            bool startOverlaps = reservation.Start >= request.WantedStart && reservation.Start <= request.WantedEnd;
-            bool endOverlaps = reservation.End >= request.WantedStart && reservation.End <= request.WantedEnd;
-
-            return startOverlaps || endOverlaps;
         }
 
         public void EditStatus(int requestId, RescheduleRequestStatus status)

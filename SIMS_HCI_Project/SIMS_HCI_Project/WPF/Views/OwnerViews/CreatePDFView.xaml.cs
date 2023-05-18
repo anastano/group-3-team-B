@@ -18,15 +18,14 @@ using System.Windows.Shapes;
 namespace SIMS_HCI_Project.WPF.Views.OwnerViews
 {
     /// <summary>
-    /// Interaction logic for StatisticsByYearView.xaml
+    /// Interaction logic for CreatePDFView.xaml
     /// </summary>
-    public partial class StatisticsByYearView : Window
+    public partial class CreatePDFView : Window
     {
-        public StatisticsByYearView(SelectAccommodationForStatisticsView selectAccommodationView, AccommodationReservationService reservationService, AccommodationStatisticsService statisticsService,
-            Accommodation accommodation)
+        public CreatePDFView(RenovationService renovationService, Owner owner)
         {
             InitializeComponent();
-            this.DataContext = new StatisticsByYearViewModel(this, selectAccommodationView, reservationService, statisticsService, accommodation);
+            this.DataContext = new CreatePDFViewModel(this, renovationService, owner);
         }
     }
 }

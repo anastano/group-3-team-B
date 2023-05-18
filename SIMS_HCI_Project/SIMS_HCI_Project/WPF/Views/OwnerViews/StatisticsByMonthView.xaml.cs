@@ -23,11 +23,12 @@ namespace SIMS_HCI_Project.WPF.Views.OwnerViews
     /// </summary>
     public partial class StatisticsByMonthView : Window
     {
-        public StatisticsByMonthView(StatisticsByYearView statisticsByYearView, AccommodationReservationService reservationService,
-            AccommodationStatisticsService statisticsService, Accommodation accommodation, AccommodationYear accommodationYear)
+        public StatisticsByMonthView(StatisticsByYearView statisticsByYearView, SelectAccommodationForStatisticsView selectAccommodationView, 
+            AccommodationReservationService reservationService, AccommodationStatisticsService statisticsService, Accommodation accommodation, 
+            AccommodationYear accommodationYear)
         {
             InitializeComponent();
-            this.DataContext = new StatisticsByMonthViewModel(this, statisticsByYearView, reservationService, statisticsService,
+            this.DataContext = new StatisticsByMonthViewModel(this, statisticsByYearView, selectAccommodationView, reservationService, statisticsService,
             accommodation, accommodationYear);
         }
     }

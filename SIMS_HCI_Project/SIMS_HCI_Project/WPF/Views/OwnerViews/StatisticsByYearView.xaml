@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
         mc:Ignorable="d"
-        Title="StatisticsByYear" Height="650" Width="700" WindowStartupLocation="CenterScreen">
+        Title="StatisticsByYear" Height="670" Width="700" WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <converters:MultiplyCountConverter x:Key="MultiplyCountConverter"/>
     </Window.Resources>
@@ -187,16 +187,15 @@
             </Border>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="btnSelectYear" Content="Statistics For Selected &#xa;        Year (Ctrl+S)"
-                        Command="{Binding SelectYearForStatisticsCommand}"
+                <Button x:Name="btnSelectYear" Content="Statistics For Selected &#xa;        Year (Ctrl+S)" Command="{Binding SelectYearForStatisticsCommand}"
                         Style="{StaticResource OwnerButtonStyle}" Width="200">
                 </Button>
 
-                <Button x:Name="btnCancel" Content="Close (Esc)" 
+                <Button x:Name="btnCancel" Content="Close (Esc)" Command="{Binding CloseStatisticsByYearViewCommand}"
                         Style="{StaticResource OwnerButtonStyle}" Width="200">
                 </Button>
 
-                <Button x:Name="btnHome" Content="Home (Ctrl+H)" 
+                <Button x:Name="btnHome" Content="Home (Ctrl+H)" Command="{Binding HomeStatisticsByYearViewCommand}"
                         Style="{StaticResource OwnerButtonStyle}" Width="200">
                 </Button>
             </StackPanel>

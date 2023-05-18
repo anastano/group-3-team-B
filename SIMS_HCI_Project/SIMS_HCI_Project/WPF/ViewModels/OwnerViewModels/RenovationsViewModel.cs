@@ -73,7 +73,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public void Executed_CreatePDFReportCommand(object obj)
         {
-
+            Window createPDFView = new CreatePDFView(_renovationService, Owner);
+            createPDFView.ShowDialog();
         }
 
         public bool CanExecute_CreatePDFReportCommand(object obj)

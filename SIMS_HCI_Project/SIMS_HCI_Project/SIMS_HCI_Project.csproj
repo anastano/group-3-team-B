@@ -44,6 +44,7 @@
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+    <PackageReference Include="Syncfusion.Pdf.Wpf" Version="21.2.5" />
   </ItemGroup>
 
   <ItemGroup>

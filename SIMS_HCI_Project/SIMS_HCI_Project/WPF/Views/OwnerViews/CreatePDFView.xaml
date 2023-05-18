@@ -1,0 +1,76 @@
+﻿<Window x:Class="SIMS_HCI_Project.WPF.Views.OwnerViews.CreatePDFView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
+        mc:Ignorable="d"
+        Title="CreatePDFView" Height="300" Width="450" WindowStartupLocation="CenterScreen">
+    <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=dpStart}">
+        <StackPanel>
+            <TextBlock x:Name="tblWelcome" Text="Create Report" 
+                       Style="{StaticResource OwnerTitleStyle}">
+            </TextBlock>
+
+            <Border Style="{StaticResource OwnerBorderStyle}" Width="350" Height="160">
+
+                <StackPanel>
+
+                    <TextBlock Text="The report will include renovations for all your accommodations in the specified date range." Focusable="False"
+                               Style="{StaticResource OwnerTitleStyle}" FontSize="16" TextWrapping="Wrap" Margin="5" Height="45"></TextBlock>
+                    
+                    <Grid Width="250" Height="100" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Label Content="From: " Grid.Row="0" Grid.Column="0" 
+                           Style="{StaticResource OwnerLabelStyle}" Width="50"></Label>
+                        <Label Content="To: " Grid.Row="1" Grid.Column="0" 
+                           Style="{StaticResource OwnerLabelStyle}" Width="50"></Label>
+
+                        <DatePicker Grid.Row="0" Grid.Column="1" x:Name="dpStart"
+                            SelectedDate="{Binding EnteredStart, StringFormat='{}{0:MM/dd/yyyy}', Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            SelectedDateFormat="Short" Height="25" Width="150" HorizontalAlignment="Left">
+                            <DatePicker.Resources>
+                                <Style TargetType="DatePickerTextBox">
+                                    <Setter Property="BorderBrush" Value="{StaticResource OwnerMainColor}"/>
+                                </Style>
+                            </DatePicker.Resources>
+                        </DatePicker>
+
+                        <DatePicker Grid.Row="1" Grid.Column="1" 
+                                    SelectedDate="{Binding EnteredEnd, StringFormat='{}{0:MM/dd/yyyy}', Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                    SelectedDateFormat="Short" Height="25" Width="150" HorizontalAlignment="Left">
+                            <DatePicker.Resources>
+                                <Style TargetType="DatePickerTextBox">
+                                    <Setter Property="BorderBrush" Value="{StaticResource OwnerMainColor}"/>
+                                </Style>
+                            </DatePicker.Resources>
+                        </DatePicker>
+
+                    </Grid>
+                    
+                </StackPanel>
+            </Border>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="btnSubmit" Content="Show (Ctrl+S)" Command="{Binding ShowPDFCommand}"
+                        Style="{StaticResource OwnerButtonStyle}" Width="150" Height="35">
+                </Button>
+
+                <Button x:Name="btnCancel" Content="Cancel (Esc)" Command="{Binding CloseCreatePDFViewCommand}"
+                        Style="{StaticResource OwnerButtonStyle}" Width="150" Height="35">
+                </Button>
+            </StackPanel>
+
+        </StackPanel>
+
+    </Grid>
+</Window>

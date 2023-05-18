@@ -47,7 +47,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             if (SelectedAccommodation != null)
             {
-                Window statisticsByYearView = new StatisticsByYearView(_reservationService, _statisticsService, SelectedAccommodation);
+                Window statisticsByYearView = new StatisticsByYearView(SelectAccommodationForStatisticsView, _reservationService, _statisticsService, SelectedAccommodation);
                 statisticsByYearView.ShowDialog();
             }
             else

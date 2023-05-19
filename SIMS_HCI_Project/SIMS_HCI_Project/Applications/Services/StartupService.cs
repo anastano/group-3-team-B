@@ -53,8 +53,6 @@ namespace SIMS_HCI_Project.Applications.Services
             _superGuestTitleRepository = Injector.Injector.CreateInstance<ISuperGuestTitleRepository>();
             _renovationRepository = Injector.Injector.CreateInstance<IRenovationRepository>();
             _renovationRecommendationRepository = Injector.Injector.CreateInstance<IRenovationRecommendationRepository>();
-
-
         }
 
         public void LoadConnections()
@@ -116,8 +114,9 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             foreach (TourRating tourRating in _tourRatingRepository.GetAll())
             {
-                tourRating.TourReservation = _tourReservationRepository.GetById(tourRating.ReservationId); 
-                tourRating.Attendance = _guestTourAttendanceRepository.GetByGuestAndTourTimeIds(tourRating.GuestId, tourRating.TourReservation.TourTimeId);
+                //tourRating.TourReservation = _tourReservationRepository.GetById(tourRating.ReservationId); 
+                //tourRating.Attendance = _guestTourAttendanceRepository.GetByGuestAndTourTimeIds(tourRating.GuestId, tourRating.TourReservation.TourTimeId);
+                tourRating.Attendance = _guestTourAttendanceRepository.GetById(tourRating.AttendanceId);
             }
         }
 

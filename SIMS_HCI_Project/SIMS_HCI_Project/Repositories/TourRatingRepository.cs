@@ -48,12 +48,12 @@ namespace SIMS_HCI_Project.Repositories
 
         public List<TourRating> GetByTourId(int tourTimeId)
         {
-            return _ratings.FindAll(r => r.TourReservation.TourTimeId == tourTimeId);
+            return _ratings.FindAll(r => r.Attendance.TourReservation.TourTimeId == tourTimeId);
         }
 
         public bool IsRated(int id)
         {
-            return _ratings.Any(r => r.ReservationId == id);
+            return _ratings.Any(r => r.Attendance.TourReservationId == id);
         }
 
         public void Add(TourRating rating)

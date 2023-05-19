@@ -232,11 +232,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         {
             if (ConfirmRating() == MessageBoxResult.Yes)
             {
-                TourRating.ReservationId = TourReservation.Id;
-                TourRating.GuideId = TourReservation.TourTime.Tour.GuideId;
-                TourRating.GuestId = Guest.Id;
-                TourRating.TourReservation = TourReservation;
-                TourRating.Attendance = _guestTourAttendanceService.GetByGuestAndTourTimeIds(TourRating.GuestId, TourRating.TourReservation.TourTimeId);
+                //TourRating.ReservationId = TourReservation.Id;
+                //TourRating.GuideId = TourReservation.TourTime.Tour.GuideId;
+                //TourRating.GuestId = Guest.Id;
+                //TourRating.TourReservation = TourReservation;
+                TourRating.Attendance = _guestTourAttendanceService.GetByGuestAndTourTimeIds(Guest.Id, TourReservation.TourTimeId);
                 TourRating.Images = Images.ToList();
 
                 _tourRatingService.Add(TourRating);

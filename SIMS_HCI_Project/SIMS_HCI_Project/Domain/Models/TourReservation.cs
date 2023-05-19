@@ -8,13 +8,14 @@ using SIMS_HCI_Project.Serializer;
 namespace SIMS_HCI_Project.Domain.Models
 {
     public enum TourReservationStatus { CANCELLED, GOING };
+
     public class TourReservation
     {
         public int Id { get; set; }
-        public TourTime TourTime { get; set; }
         public int TourTimeId { get; set; }
-        public Guest2 Guest2 { get; set; }
+        public TourTime TourTime { get; set; }
         public int Guest2Id { get; set; }
+        public Guest2 Guest2 { get; set; }
         public int PartySize { get; set; }
         public TourReservationStatus Status { get; set; }
         public int VoucherUsedId { get; set; } 
@@ -39,7 +40,11 @@ namespace SIMS_HCI_Project.Domain.Models
             Guest2Id = temp.Guest2Id;
             PartySize = temp.PartySize;
             Status = temp.Status;
+        }
 
+        public void Cancel()
+        {
+            this.Status = TourReservationStatus.CANCELLED;
         }
     }
 }

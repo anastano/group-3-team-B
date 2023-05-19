@@ -77,7 +77,7 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             if (_tourTimeRepository.GetAllInDateRange(guideId, new DateRange(departureTime, 2)).Count != 0) return null;
 
-            request.Status = RegularRequestStatus.ACCEPTED;
+            request.Accept();
             _regularTourRequestRepository.Update(request);
 
             TourService tourService = new TourService(); // because creation of tour is complex, 

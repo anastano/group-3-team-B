@@ -109,7 +109,7 @@ namespace SIMS_HCI_Project.Repositories
             {
                 if (request.IsPartOfComplex == false && DateTime.Now > request.DateRange.Start.AddHours(-48) && request.Status == RegularRequestStatus.PENDING)
                 {
-                    request.Status = RegularRequestStatus.INVALID;
+                    request.Invalidate();
                     Save();
                 }
             }

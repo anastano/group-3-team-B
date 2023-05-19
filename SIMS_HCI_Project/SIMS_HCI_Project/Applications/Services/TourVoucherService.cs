@@ -33,7 +33,7 @@ namespace SIMS_HCI_Project.Applications.Services
             if(selectedVoucher == null) return;
 
             TourVoucher voucher = GetById(selectedVoucher.Id);
-            voucher.Status = VoucherStatus.USED;
+            voucher.Use();
             _tourVoucherRepository.Save();
         }
 

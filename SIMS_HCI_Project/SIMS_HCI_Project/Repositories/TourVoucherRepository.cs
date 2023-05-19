@@ -80,7 +80,7 @@ namespace SIMS_HCI_Project.Repositories
             foreach(TourVoucher tourVoucher in _tourVouchers)
             {
                 if (tourVoucher.ExpirationDate > DateTime.Now)
-                    tourVoucher.Status = VoucherStatus.EXPIRED;
+                    tourVoucher.End();
             }
         }
 

@@ -32,5 +32,22 @@ namespace SIMS_HCI_Project.Domain.Models
             TourTimeId = tourTimeId;
             Status = AttendanceStatus.NOT_PRESENT;
         }
+
+        public void RequestConfirmation()
+        {
+            this.Status = AttendanceStatus.CONFIRMATION_REQUESTED;
+        }
+
+        public void MarkPresence()
+        {
+            this.Status = AttendanceStatus.PRESENT;
+            this.KeyPointJoined = TourReservation.TourTime.CurrentKeyPoint;
+            this.KeyPointJoinedId = this.KeyPointJoined.Id;
+        }
+
+        public void MarkAbsence()
+        {
+            this.Status = AttendanceStatus.NEVER_SHOWED_UP;
+        }
     }
 }

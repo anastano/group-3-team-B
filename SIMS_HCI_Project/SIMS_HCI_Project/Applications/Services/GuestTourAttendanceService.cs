@@ -74,7 +74,7 @@ namespace SIMS_HCI_Project.Applications.Services
             GuestTourAttendance attendance = _guestTourAttendanceRepository.GetByGuestAndTourTimeIds(guestId, tourTimeId);
             if (attendance.Status == AttendanceStatus.CONFIRMATION_REQUESTED)
             {
-                attendance.Status = AttendanceStatus.PRESENT;
+                attendance.MarkPresence();
                 _guestTourAttendanceRepository.Update(attendance);
             }
         }
@@ -87,7 +87,7 @@ namespace SIMS_HCI_Project.Applications.Services
                 GuestTourAttendance attendance = _guestTourAttendanceRepository.GetByGuestAndTourTimeIds(guestId, reservation.TourTimeId);
                 if (attendance.Status == AttendanceStatus.CONFIRMATION_REQUESTED)
                 {
-                    attendance.Status = AttendanceStatus.PRESENT;
+                    attendance.MarkPresence();
                     _guestTourAttendanceRepository.Update(attendance);
                 }
             }
@@ -102,9 +102,10 @@ namespace SIMS_HCI_Project.Applications.Services
 
         public void MarkGuestAsPresent(GuestTourAttendance guestTourAttendance)
         {
-            guestTourAttendance.Status = AttendanceStatus.CONFIRMATION_REQUESTED;
-            guestTourAttendance.KeyPointJoined = guestTourAttendance.TourReservation.TourTime.CurrentKeyPoint;
-            guestTourAttendance.KeyPointJoinedId = guestTourAttendance.TourReservation.TourTime.CurrentKeyPoint.Id;
+            //guestTourAttendance.Status = AttendanceStatus.CONFIRMATION_REQUESTED;
+            //guestTourAttendance.KeyPointJoined = guestTourAttendance.TourReservation.TourTime.CurrentKeyPoint;
+            //guestTourAttendance.KeyPointJoinedId = guestTourAttendance.TourReservation.TourTime.CurrentKeyPoint.Id;
+            guestTourAttendance.MarkPresence();
             _guestTourAttendanceRepository.Update(guestTourAttendance);
             NotificationService notificationService = new NotificationService();
             string Message = "You have request to confirm your attendance for tour with id: [" + guestTourAttendance.TourTimeId + "].";

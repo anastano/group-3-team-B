@@ -45,5 +45,15 @@ namespace SIMS_HCI_Project.Domain.Models
             SubmittingDate = DateTime.Now;
             Status = RegularRequestStatus.PENDING;
         }
+
+        public void Accept()
+        {
+            this.Status = RegularRequestStatus.ACCEPTED;
+        }
+
+        public void Invalidate()
+        {
+            this.Status = RegularRequestStatus.INVALID;
+        }
     }
 }

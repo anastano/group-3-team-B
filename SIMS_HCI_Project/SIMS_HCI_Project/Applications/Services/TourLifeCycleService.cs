@@ -29,7 +29,7 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             if (!tourTime.IsStartable || _tourTimeRepository.HasTourInProgress(tourTime.Tour.GuideId)) return;
 
-            tourTime.Status = TourStatus.IN_PROGRESS;
+            tourTime.Start();
             _tourTimeRepository.Update(tourTime);
 
             List<GuestTourAttendance> generatedAttendances = new List<GuestTourAttendance>();
@@ -50,7 +50,7 @@ namespace SIMS_HCI_Project.Applications.Services
             }
             else
             {
-                tourTime.CurrentKeyPointIndex++;
+                tourTime.Progress();
                 tourTime.CurrentKeyPoint = tourTime.Tour.KeyPoints[tourTime.CurrentKeyPointIndex];
                 _tourTimeRepository.Update(tourTime);
             }
@@ -58,7 +58,7 @@ namespace SIMS_HCI_Project.Applications.Services
 
         public void EndTour(TourTime tourTime)
         {
-            tourTime.Status = TourStatus.COMPLETED;
+            tourTime.Complete();
             _tourTimeRepository.Update(tourTime);
 
             List<GuestTourAttendance> attendancesToUpdate = _guestTourAttendanceRepository.GetAllByTourId(tourTime.Id);
@@ -66,7 +66,7 @@ namespace SIMS_HCI_Project.Applications.Services
             {
                 if (guestTourAttendance.Status != AttendanceStatus.PRESENT)
                 {
-                    guestTourAttendance.Status = AttendanceStatus.NEVER_SHOWED_UP;
+                    guestTourAttendance.MarkAbsence();
                 }
             }
             _guestTourAttendanceRepository.BulkUpdate(attendancesToUpdate);
@@ -76,14 +76,14 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             if (!tourTime.IsCancellable) return;
 
-            tourTime.Status = TourStatus.CANCELED;
+            tourTime.Cancel();
             _tourTimeRepository.Update(tourTime);
 
             List<TourReservation> tourReservationsToCancel = _tourReservationRepository.GetAllByTourTimeId(tourTime.Id);
             List<TourVoucher> givenTourVouchers = new List<TourVoucher>();
             foreach (TourReservation tourReservation in tourReservationsToCancel)
             {
-                tourReservation.Status = TourReservationStatus.CANCELLED;
+                tourReservation.Cancel();
                 givenTourVouchers.Add(new TourVoucher(tourReservation.Guest2Id, "EXTRAVOUCHER777", DateTime.Now, DateTime.Now.AddDays(DefaultExpirationDays)));
             }
             _tourReservationRepository.BulkUpdate(tourReservationsToCancel);

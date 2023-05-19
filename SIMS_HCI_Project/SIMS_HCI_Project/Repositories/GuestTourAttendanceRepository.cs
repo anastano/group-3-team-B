@@ -83,7 +83,7 @@ namespace SIMS_HCI_Project.Repositories
 
         public List<GuestTourAttendance> GetAllByTourId(int id)
         {
-            return _guestTourAttendances.FindAll(gta => gta.TourTimeId == id);
+            return _guestTourAttendances.FindAll(gta => gta.TourReservation.TourTimeId == id);
         }
         
         public GuestTourAttendance GetById(int id)
@@ -93,21 +93,20 @@ namespace SIMS_HCI_Project.Repositories
 
         public GuestTourAttendance GetByGuestAndTourTimeIds(int guestId, int tourTimeId)
         {
-            return _guestTourAttendances.Find(g => g.GuestId == guestId && g.TourTimeId == tourTimeId);
+            return _guestTourAttendances.Find(g => g.TourReservation.GuestId == guestId && g.TourReservation.TourTimeId == tourTimeId);
         }
 
         public List<GuestTourAttendance> GetAllByGuestId(int guestId)
         {
-            return _guestTourAttendances.FindAll(g => g.GuestId == guestId);
+            return _guestTourAttendances.FindAll(g => g.TourReservation.GuestId == guestId);
         }
-
         
         public List<GuestTourAttendance> GetByConfirmationRequestedStatus(int guestId)
         {
             var result = new List<GuestTourAttendance>();
             foreach(var gta in GetAllByGuestId(guestId))
             {
-                if(gta.Status == AttendanceStatus.CONFIRMATION_REQUESTED && gta.TourTime.Status == TourStatus.IN_PROGRESS) //proveri
+                if(gta.Status == AttendanceStatus.CONFIRMATION_REQUESTED && gta.TourReservation.TourTime.Status == TourStatus.IN_PROGRESS) //proveri
                 {
                     result.Add(gta);
                 }
@@ -117,12 +116,12 @@ namespace SIMS_HCI_Project.Repositories
 
         public int GetGuestCountByAgeGroup(AgeGroup ageGroup, int tourTimeId)
         {
-            return _guestTourAttendances.FindAll(gta => gta.Guest.Age >= ageGroup.MinAge && gta.Guest.Age <= ageGroup.MaxAge && gta.TourTimeId == tourTimeId).Count;
+            return _guestTourAttendances.FindAll(gta => gta.TourReservation.Guest.Age >= ageGroup.MinAge && gta.TourReservation.Guest.Age <= ageGroup.MaxAge && gta.TourReservation.TourTimeId == tourTimeId).Count;
         }
 
         public int GetGuestsWithVoucherCount(int tourTimeId)
         {
-            return _guestTourAttendances.Where(gta => gta.TourReservation.VoucherUsedId != -1 && gta.TourTimeId == tourTimeId).Count();
+            return _guestTourAttendances.Where(gta => gta.TourReservation.VoucherUsedId != -1 && gta.TourReservation.TourTimeId == tourTimeId).Count();
         }
 
         public bool IsPresent(int guestId, int tourTimeId)

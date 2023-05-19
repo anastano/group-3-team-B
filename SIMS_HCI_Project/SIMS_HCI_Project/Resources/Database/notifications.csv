@@ -17,3 +17,10 @@
 17|You have request to confirm your attendance for tour with id: [43].|4|True|CONFIRM_ATTENDANCE
 18|You have request to confirm your attendance for tour with id: [43].|44|False|CONFIRM_ATTENDANCE
 19|Created new tour which fulfills some of your requirements from your unfulfilled requests. Tour is created with id: [27]. Click to see details|4|False|NEW_TOUR
+20|You have request to confirm your attendance for tour with id: [43].|4|False|CONFIRM_ATTENDANCE
+21|You have request to confirm your attendance for tour with id: [43].|4|False|CONFIRM_ATTENDANCE
+22|You have request to confirm your attendance for tour with id: [43].|4|False|CONFIRM_ATTENDANCE
+23|You have request to confirm your attendance for tour with id: [43].|4|False|CONFIRM_ATTENDANCE
+24|You have request to confirm your attendance for tour with id: [43].|4|False|CONFIRM_ATTENDANCE
+25|You have request to confirm your attendance for tour with id: [43].|4|False|CONFIRM_ATTENDANCE
+26|You have request to confirm your attendance for tour with id: [43].|4|False|CONFIRM_ATTENDANCE

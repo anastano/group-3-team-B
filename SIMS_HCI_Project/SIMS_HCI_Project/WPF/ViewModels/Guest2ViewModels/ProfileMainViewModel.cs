@@ -166,10 +166,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             Attendances = _guestTourAttendanceService.GetByConfirmationRequestedStatus(Guest.Id);
             foreach (GuestTourAttendance attendance in Attendances)
             {
-                if (_notificationService.GetAll().Select(n => n.Message).ToList().Contains(attendance.TourTimeId.ToString()) == false)
+                if (_notificationService.GetAll().Select(n => n.Message).ToList().Contains(attendance.TourReservation.TourTimeId.ToString()) == false)
                 {
 
-                    string Message = "You have request to confirm your attendance for tour with id: [" + attendance.TourTimeId + "].";
+                    string Message = "You have request to confirm your attendance for tour with id: [" + attendance.TourReservation.TourTimeId + "].";
                     _notificationService.Add(new Notification(Message, Guest.Id, false, NotificationType.CONFIRM_ATTENDANCE));
                 }
             }

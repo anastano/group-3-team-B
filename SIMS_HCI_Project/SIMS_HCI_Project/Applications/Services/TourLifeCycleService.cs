@@ -35,8 +35,8 @@ namespace SIMS_HCI_Project.Applications.Services
             List<GuestTourAttendance> generatedAttendances = new List<GuestTourAttendance>();
             foreach (TourReservation tourReservation in _tourReservationRepository.GetAllByTourTimeId(tourTime.Id))
             {
-                GuestTourAttendance newAttendance = new GuestTourAttendance(tourReservation.Guest2Id, tourTime.Id);
-                newAttendance.TourTime = tourTime;
+                GuestTourAttendance newAttendance = new GuestTourAttendance(tourReservation.Id);
+                newAttendance.TourReservation.TourTime = tourTime;
                 generatedAttendances.Add(newAttendance);
             }
             _guestTourAttendanceRepository.AddMultiple(generatedAttendances);
@@ -84,7 +84,7 @@ namespace SIMS_HCI_Project.Applications.Services
             foreach (TourReservation tourReservation in tourReservationsToCancel)
             {
                 tourReservation.Cancel();
-                givenTourVouchers.Add(new TourVoucher(tourReservation.Guest2Id, "EXTRAVOUCHER777", DateTime.Now, DateTime.Now.AddDays(DefaultExpirationDays)));
+                givenTourVouchers.Add(new TourVoucher(tourReservation.GuestId, "EXTRAVOUCHER777", DateTime.Now, DateTime.Now.AddDays(DefaultExpirationDays)));
             }
             _tourReservationRepository.BulkUpdate(tourReservationsToCancel);
             _tourVoucherRepository.AddMultiple(givenTourVouchers);

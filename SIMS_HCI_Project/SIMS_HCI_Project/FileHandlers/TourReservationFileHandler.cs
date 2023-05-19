@@ -26,7 +26,7 @@ namespace SIMS_HCI_Project.FileHandlers
 
                 reservation.Id = Convert.ToInt32(csvValues[0]);
                 reservation.TourTimeId = Convert.ToInt32(csvValues[1]);
-                reservation.Guest2Id = Convert.ToInt32(csvValues[2]);
+                reservation.GuestId = Convert.ToInt32(csvValues[2]);
                 reservation.PartySize = Convert.ToInt32(csvValues[3]);
                 Enum.TryParse(csvValues[4], out TourReservationStatus status);
                 reservation.Status = status;
@@ -48,7 +48,7 @@ namespace SIMS_HCI_Project.FileHandlers
                 {
                     reservation.Id.ToString(),
                     reservation.TourTimeId.ToString(),
-                    reservation.Guest2Id.ToString(),
+                    reservation.GuestId.ToString(),
                     reservation.PartySize.ToString(),
                     reservation.Status.ToString(),
                     reservation.VoucherUsedId.ToString() 

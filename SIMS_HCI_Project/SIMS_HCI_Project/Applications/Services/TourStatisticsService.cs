@@ -39,22 +39,22 @@ namespace SIMS_HCI_Project.Applications.Services
         public TourTime GetTopTour()
         {
             return _guestTourAttendanceRepository.GetAll().
-                Where(gta => gta.TourTime.Status == TourStatus.COMPLETED).
-                GroupBy(gta => gta.TourTimeId).
+                Where(gta => gta.TourReservation.TourTime.Status == TourStatus.COMPLETED).
+                GroupBy(gta => gta.TourReservation.TourTimeId).
                 OrderByDescending(gta => gta.Count()).
-                First().First().TourTime;
+                First().First().TourReservation.TourTime;
         }
 
         public TourTime GetTopTourByYear(int year)
         {
             var attendancesToCheck = _guestTourAttendanceRepository.GetAll().
-                                                                    Where(gta => gta.TourTime.DepartureTime.Year == year
-                                                                    && gta.TourTime.Status == TourStatus.COMPLETED);
+                                                                    Where(gta => gta.TourReservation.TourTime.DepartureTime.Year == year
+                                                                    && gta.TourReservation.TourTime.Status == TourStatus.COMPLETED);
             if (attendancesToCheck.Count() == 0) return null;
 
-            return attendancesToCheck.GroupBy(gta => gta.TourTimeId)
+            return attendancesToCheck.GroupBy(gta => gta.TourReservation.TourTimeId)
                                     .OrderByDescending(gta => gta.Count())
-                                    .First().First().TourTime;
+                                    .First().First().TourReservation.TourTime;
         }
     }
 }

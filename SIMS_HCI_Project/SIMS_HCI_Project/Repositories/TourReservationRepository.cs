@@ -46,7 +46,7 @@ namespace SIMS_HCI_Project.Repositories
 
         public List<TourReservation> GetAllByGuestId(int id)
         {
-            return _reservations.FindAll(r => r.Guest2Id == id);
+            return _reservations.FindAll(r => r.GuestId == id);
         }
 
         public List<TourReservation> GetAllByTourTimeId(int id)
@@ -56,12 +56,12 @@ namespace SIMS_HCI_Project.Repositories
 
         public List<TourReservation> GetAllByGuestIdAndTourId(int guestId, int tourId)
         {
-            return _reservations.FindAll(r => r.Guest2Id == guestId && r.TourTime.Tour.Id == tourId);
+            return _reservations.FindAll(r => r.GuestId == guestId && r.TourTime.Tour.Id == tourId);
         }
 
         public TourReservation GetByGuestAndTour(int guestId, int tourTimeId)
         {
-            return _reservations.Where(tr => tr.Guest2Id == guestId && tr.TourTimeId == tourTimeId).First();
+            return _reservations.Where(tr => tr.GuestId == guestId && tr.TourTimeId == tourTimeId).First();
         }
        
         public void BulkUpdate(List<TourReservation> tourReservations)
@@ -76,7 +76,7 @@ namespace SIMS_HCI_Project.Repositories
 
         public List<TourReservation> GetActiveByGuestId(int id)
         {
-            return _reservations.FindAll(r => r.Guest2Id == id && r.TourTime.Status == TourStatus.IN_PROGRESS && r.Status == TourReservationStatus.GOING);
+            return _reservations.FindAll(r => r.GuestId == id && r.TourTime.Status == TourStatus.IN_PROGRESS && r.Status == TourReservationStatus.GOING);
         }
 
         private int GenerateId()

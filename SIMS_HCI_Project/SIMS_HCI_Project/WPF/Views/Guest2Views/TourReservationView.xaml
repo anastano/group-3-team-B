@@ -121,7 +121,7 @@
            />
 
         <DataGrid x:Name="dgDepartureTimes" ItemsSource="{Binding Tour.DepartureTimes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedTourTime}"  Margin="656,56,217,175" AutoGenerateColumns="False" IsReadOnly="True" Style="{StaticResource Guest2DatagridStyle}" CellStyle="{StaticResource Guest2DatagridCellStyle}">
-            <DataGrid.Resources>
+            <!--<DataGrid.Resources>
                 <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="Background" >
                         <Setter.Value>
@@ -132,21 +132,14 @@
                         </Setter.Value>
                     </Setter>
                 </Style>
-            </DataGrid.Resources>
+            </DataGrid.Resources>-->
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Selected departure time" Binding="{Binding DepartureTime}" CanUserResize="False" IsReadOnly="True" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
 
 
-        <Button Content="SUBMIT RESERVATION" Padding="7" x:Name="btnConfirmReservation" Command="{Binding ConfirmReservationCommand}" HorizontalAlignment="Left" Margin="819,273,0,0" VerticalAlignment="Top" Height="34" BorderBrush="#FF7D79EA" BorderThickness="2" >
-            <Button.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Tomato" Offset="0"/>
-                    <GradientStop Color="Orange" Offset="0.5"/>
-                    <GradientStop Color="#FFE0E21D" Offset="1"/>
-                </LinearGradientBrush>
-            </Button.Background>
+        <Button Content="SUBMIT RESERVATION" Padding="7" x:Name="btnConfirmReservation" Command="{Binding ConfirmReservationCommand}" HorizontalAlignment="Left" Margin="819,273,0,0" VerticalAlignment="Top" Height="34" BorderBrush="#FF7D79EA" BorderThickness="2" Background="Orange">
         </Button>
 
         <Label Foreground="Orange" Content="Available places:" HorizontalAlignment="Left" Margin="731,190,0,0" VerticalAlignment="Top"/>
@@ -168,7 +161,7 @@
             </Validation.ErrorTemplate>
         </TextBox>
         <DataGrid x:Name="dgVouchers" ItemsSource="{Binding Vouchers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedVoucher, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" Margin="868,56,22,175" Style="{StaticResource Guest2DatagridStyle}" CellStyle="{StaticResource Guest2DatagridCellStyle}" >
-            <DataGrid.Resources>
+            <!--<DataGrid.Resources>
                 <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="Background" >
                         <Setter.Value>
@@ -179,7 +172,7 @@
                         </Setter.Value>
                     </Setter>
                 </Style>
-            </DataGrid.Resources>
+            </DataGrid.Resources>-->
             <DataGrid.Columns>
                 <DataGridTextColumn Header="You can use voucher" Binding="{Binding Title}" Width="*" CanUserResize="False" IsReadOnly="True"  />
             </DataGrid.Columns>

@@ -68,7 +68,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             Guest = guest;
             NavigationService = navigationService;
             ProfileFrame = profileFrame;
-            //SelectedNotification = new Notification();
             LoadFromFiles();
             InitCommands();
             Notifications = new ObservableCollection<Notification>(_notificationService.GetUnreadByUserId(Guest.Id));
@@ -84,17 +83,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                 switch (SelectedNotification.Type)
                 {
                     case NotificationType.TOUR_REQUEST_ACCEPTED:
-                        tourId = SelectedNotification.ExtractTourId(SelectedNotification);
+                        tourId = SelectedNotification.ExtractObjectId(SelectedNotification);
                         Tour = _tourService.GetTourInformation(tourId);
                         NavigationService.Navigate(new SearchAndReserveView(Guest, Tour, NavigationService));
                         break;
                     case NotificationType.NEW_TOUR:
-                        tourId = SelectedNotification.ExtractTourId(SelectedNotification);
+                        tourId = SelectedNotification.ExtractObjectId(SelectedNotification);
                         Tour = _tourService.GetTourInformation(tourId);
                         NavigationService.Navigate(new SearchAndReserveView(Guest, Tour, NavigationService));
                         break;
                     case NotificationType.CONFIRM_ATTENDANCE:
-                        tourId = SelectedNotification.ExtractTourId(SelectedNotification);
+                        tourId = SelectedNotification.ExtractObjectId(SelectedNotification);
                         TourTime tourTime = _tourService.GetTourInstance(tourId);
                         if(ConfirmRequestSubmission(tourTime.Id) == MessageBoxResult.Yes)
                         {
@@ -128,7 +127,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             _guestTourAttendanceService = new GuestTourAttendanceService();
         }
 
-        //napravi fju da boja elemenata koji su procitani bude druhacija od onih koje nisu
         private void InitCommands()
         {
             BackCommand = new RelayCommand(ExecuteBackCommand, CanExecute);

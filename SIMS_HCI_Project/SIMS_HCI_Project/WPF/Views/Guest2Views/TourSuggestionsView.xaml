@@ -30,11 +30,7 @@
         <Border BorderBrush="Orange" BorderThickness="2" CornerRadius="7"></Border>
         <Label HorizontalAlignment="Center" Foreground="Orange" FontSize="13" FontWeight="Medium">Suggested tours on same location</Label>
         <DataGrid ItemsSource="{Binding Path=Tours}" SelectedItem="{Binding Path=SelectedTour}" IsReadOnly="True" AutoGenerateColumns="False" Margin="10,29,10,10" Style="{StaticResource Guest2DatagridStyle}" CellStyle="{StaticResource Guest2DatagridCellStyle}">
-            <DataGrid.Resources>
-                <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
-                    <Setter Property="Background" Value="#FFFF6900" />
-                </Style>
-            </DataGrid.Resources>
+            
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="110"></DataGridTextColumn>
                 <DataGridTextColumn Header="Country" Binding="{Binding Location.Country}" Width="110"></DataGridTextColumn>
@@ -51,10 +47,10 @@
                     </DataGridTextColumn.Binding>
                 </DataGridTextColumn>
 
-                <DataGridTemplateColumn Header="see details and reserve" Width="150">
+                <DataGridTemplateColumn Header="Reserve" Width="150">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="see details and reserve" Command="{Binding DataContext.Reserve, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Background="Orange"/>
+                            <Button Content="RESERVE" Command="{Binding DataContext.Reserve, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Background="Orange"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

@@ -48,7 +48,7 @@
         <DataGrid Name="dgUnratedTours" 
         ItemsSource="{Binding Path=UnratedReservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
         SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" Margin="10,62,10,284" Style="{StaticResource Guest2DatagridStyle}" CellStyle="{StaticResource Guest2DatagridCellStyle}">
-            <DataGrid.Resources>
+            <!--<DataGrid.Resources>
                 <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="Background" >
                         <Setter.Value>
@@ -59,7 +59,7 @@
                         </Setter.Value>
                     </Setter>
                 </Style>
-            </DataGrid.Resources>
+            </DataGrid.Resources>-->
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="40"></DataGridTextColumn>
                 <DataGridTextColumn Header="Title" Binding="{Binding TourTime.Tour.Title}" Width="110"></DataGridTextColumn>
@@ -82,7 +82,7 @@
                 <DataGridTemplateColumn Header="Rate" Width="70">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Rate" Command="{Binding DataContext.Rate, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Style="{StaticResource Guest2BtnGradientOrange}"/>
+                            <Button Content="Rate" Command="{Binding DataContext.Rate, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Background="Orange"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

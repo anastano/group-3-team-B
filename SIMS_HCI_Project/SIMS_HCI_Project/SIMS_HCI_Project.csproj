@@ -18,6 +18,7 @@
     <None Remove="Resources\Images\patternCircle.jpg" />
     <None Remove="Resources\Images\patternLines.png" />
     <None Remove="Resources\Images\patternTriangle.jpg" />
+    <None Remove="Resources\Images\previous.png" />
     <None Remove="Resources\Images\profil.png" />
     <None Remove="Resources\Images\rating.png" />
     <None Remove="Resources\Images\reserve.png" />
@@ -56,6 +57,7 @@
     <Resource Include="Resources\Images\patternCircle.jpg" />
     <Resource Include="Resources\Images\patternLines.png" />
     <Resource Include="Resources\Images\patternTriangle.jpg" />
+    <Resource Include="Resources\Images\previous.png" />
     <Resource Include="Resources\Images\profil.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

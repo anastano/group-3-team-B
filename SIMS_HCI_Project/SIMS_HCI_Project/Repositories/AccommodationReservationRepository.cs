@@ -73,7 +73,7 @@ namespace SIMS_HCI_Project.Repositories
         }
         public List<AccommodationReservation> GetAllByStatusAndGuestId(int id, AccommodationReservationStatus status)
         {
-            return _reservations.FindAll(g => g.GuestId == id && g.Status == status);
+            return _reservations.FindAll(r => r.GuestId == id && r.Status == status).OrderByDescending(r => r.Accommodation.Owner.SuperFlag).ToList();
         }
 
         public int GetReservationCountByYearAndAccommodationId(int year, int accommodationId) 

@@ -253,7 +253,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 {
                     _accommodationReservationService.Add(new AccommodationReservation(SelectedReservation));
                     _titleService.UpdateSuperGuestTitle(_accommodationReservationService ,Guest);
-                    UpdateAvailableReservations();
+                    //UpdateAvailableReservations();
+                    _navigationService.Navigate(new ReservationsViewModel(Guest, _navigationService, 0), "My Reservations");
                 }
             }
         }

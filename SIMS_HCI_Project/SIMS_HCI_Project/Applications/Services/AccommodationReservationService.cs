@@ -143,10 +143,8 @@ namespace SIMS_HCI_Project.Applications.Services
         public List<AccommodationReservation> GetSuggestedAvailableReservations(Accommodation accommodation, Guest1 guest, DateTime start, DateTime end, int daysNumber, int guestsNumber)
         {
             List<AccommodationReservation> accommodationReservations = GetAllReserevedByAccommodationId(accommodation.Id);
-            //uzima krajnji datum i razliku dateRange i dodaje jos 15 dana
-            TimeSpan timeDifference = end - start;
-            double totalDays = timeDifference.TotalDays;
-            return GetAvailableReservations(accommodation, guest,  end.AddDays(totalDays + 15), end.AddDays(15), daysNumber, guestsNumber);
+            //uzima krajnji datum i razliku dateRange i dodaje jos 30 dana
+            return GetAvailableReservations(accommodation, guest,  end, end.AddDays(30), daysNumber, guestsNumber);
         }
     }
 }

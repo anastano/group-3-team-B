@@ -4,14 +4,33 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest2Views"
+      xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
+
       mc:Ignorable="d" 
       d:DesignHeight="168" d:DesignWidth="1080"
       Title="TourSuggestionsView">
+    <Page.Resources>
+        <converters:FullNameConverter x:Key="FullNameConverter" />
 
+        <!--datagrid style-->
+        <Style x:Key="Guest2DatagridStyle" TargetType="DataGrid" >
+            <Setter Property="ColumnHeaderHeight" Value="30"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        <Style x:Key="Guest2DatagridCellStyle" TargetType="DataGridCell">
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="Black" />
+                    <Setter Property="Background" Value="#FFF3C879"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
     <Grid>
         <Border BorderBrush="Orange" BorderThickness="2" CornerRadius="7"></Border>
-        <Label HorizontalAlignment="Center" Foreground="Orange" FontSize="13">Suggested tours on same location</Label>
-        <DataGrid ItemsSource="{Binding Path=Tours}" SelectedItem="{Binding Path=SelectedTour}" IsReadOnly="True" AutoGenerateColumns="False" Margin="10,29,10,10">
+        <Label HorizontalAlignment="Center" Foreground="Orange" FontSize="13" FontWeight="Medium">Suggested tours on same location</Label>
+        <DataGrid ItemsSource="{Binding Path=Tours}" SelectedItem="{Binding Path=SelectedTour}" IsReadOnly="True" AutoGenerateColumns="False" Margin="10,29,10,10" Style="{StaticResource Guest2DatagridStyle}" CellStyle="{StaticResource Guest2DatagridCellStyle}">
+            
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="110"></DataGridTextColumn>
                 <DataGridTextColumn Header="Country" Binding="{Binding Location.Country}" Width="110"></DataGridTextColumn>
@@ -19,12 +38,19 @@
                 <DataGridTextColumn Header="Language" Binding="{Binding Language}" Width="105"></DataGridTextColumn>
                 <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" Width="105"></DataGridTextColumn>
                 <DataGridTextColumn Header="Guest Capacity" Binding="{Binding MaxGuests}" Width="90"></DataGridTextColumn>
-                <DataGridTextColumn Header="Guide" Binding="{Binding GuideId}"  Width="*"></DataGridTextColumn>
+                <DataGridTextColumn Header="Guide"  Width="*">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding Converter="{StaticResource FullNameConverter}">
+                            <Binding Path="Guide.Name" />
+                            <Binding Path="Guide.Surname" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
 
-                <DataGridTemplateColumn Header="see details and reserve" Width="150">
+                <DataGridTemplateColumn Header="Reserve" Width="150">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="see details and reserve" Command="{Binding DataContext.Reserve, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
+                            <Button Content="RESERVE" Command="{Binding DataContext.Reserve, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Background="Orange"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

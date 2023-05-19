@@ -40,7 +40,18 @@
                   ItemsSource="{Binding Path=Tours, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding Path=SelectedTour, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False"  Margin="10,69,217,10" 
                   Style="{StaticResource Guest2DatagridStyle}" CellStyle="{StaticResource Guest2DatagridCellStyle}" >
-
+            <!--<DataGrid.Resources>
+                <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="Background" >
+                        <Setter.Value>
+                            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                <GradientStop Color="Tomato" Offset="0"/>
+                                <GradientStop Color="Orange" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.Resources>-->
 
             <DataGrid.Columns>
                 <DataGridTextColumn Header="id" Binding="{Binding Id}" Width="30"></DataGridTextColumn>
@@ -59,10 +70,10 @@
                     </DataGridTextColumn.Binding-->
                 </DataGridTextColumn>
 
-                <DataGridTemplateColumn Header="see details and reserve" Width="150">
+                <DataGridTemplateColumn Header="RESERVE" Width="150">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="see details and reserve" Background="#FFF3A129" Command="{Binding DataContext.SeeDetailsAndReserveCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
+                            <Button Content="RESERVE" Background="#FFF3A129" Command="{Binding DataContext.SeeDetailsAndReserveCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
                             <!--Style="{StaticResource Guest2BtnGradientOrange}" bilo iznad-->
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -74,35 +85,35 @@
         <Grid>
             <TextBox x:Name="txtCountry" 
                 Text="{Binding Path=Country, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
-                     HorizontalAlignment="Right" Margin="0,136,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="117" />
-            <TextBox x:Name="txtCity" Text="{Binding Path=City, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right"   Margin="0,196,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="117"/>
-            <TextBox x:Name="txtDuration" Text="{Binding Path=Duration, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Margin="0,259,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="117"/>
-            <TextBox x:Name="txtLanguage" Text="{Binding Path=Language, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Margin="0,323,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="117"/>
-            <TextBox x:Name="txtGuestNumber" Text="{Binding Path=GuestNumber, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Margin="0,376,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="28" Width="117" RenderTransformOrigin="0.49,2.714"/>
+                     HorizontalAlignment="Right" Margin="0,96,1,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="206" />
+            <TextBox x:Name="txtCity" Text="{Binding Path=City, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right"   Margin="0,162,1,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="206"/>
+            <TextBox x:Name="txtDuration" Text="{Binding Path=Duration, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Margin="0,236,1,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="206"/>
+            <TextBox x:Name="txtLanguage" Text="{Binding Path=Language, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Margin="0,304,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="206"/>
+            <TextBox x:Name="txtGuestNumber" Text="{Binding Path=GuestNumber, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Margin="0,384,-2,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="206" RenderTransformOrigin="0.49,2.714"/>
 
 
-            <Button Content="SEARCH" Foreground="White" FontWeight="Medium" HorizontalAlignment="Right" Margin="0,428,22,0" VerticalAlignment="Top" RenderTransformOrigin="0.278,0.553" Command="{Binding SearchCommand}" Width="148" Height="32" FontSize="14">
-                <Button.Background>
+            <Button Content="SEARCH" FontWeight="Medium" HorizontalAlignment="Right" Margin="0,428,22,0" VerticalAlignment="Top" RenderTransformOrigin="0.278,0.553" Command="{Binding SearchCommand}" Width="166" Height="32" FontSize="14" Background="Orange">
+                <!--<Button.Background>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="Tomato" Offset="0"/>
                         <GradientStop Color="Orange" Offset="0.5"/>
                         <GradientStop Color="#FFE0E21D" Offset="1"/>
                     </LinearGradientBrush>
-                </Button.Background>
+                </Button.Background>-->
             </Button>
 
-            <TextBlock  Text="Country:" Style="{StaticResource Guest2TextBlockStyle}" Margin="873,136,122,347" />
-            <TextBlock HorizontalAlignment="Right" Margin="0,196,119,0" TextWrapping="Wrap" Text="City:" Foreground="Beige" VerticalAlignment="Top" Height="32" Width="88"/>
-            <TextBlock HorizontalAlignment="Right" Margin="0,258,132,0" TextWrapping="Wrap" Text="Maximal duration:" Foreground="Beige" VerticalAlignment="Top" Height="35" Width="75"/>
-            <TextBlock HorizontalAlignment="Right" Margin="0,324,119,0" TextWrapping="Wrap" Text="Language:" Foreground="Beige" VerticalAlignment="Top" Height="28" Width="88"/>
-            <TextBlock HorizontalAlignment="Right" Margin="0,376,122,0" TextWrapping="Wrap" Text="Minimal guest number:" Foreground="Beige" VerticalAlignment="Top" Height="43" Width="85"/>
+            <TextBlock  Text="Country:" Style="{StaticResource Guest2TextBlockStyle}" Margin="874,79,120,404" />
+            <TextBlock HorizontalAlignment="Right" Margin="0,146,118,0" TextWrapping="Wrap" Text="City:" Foreground="Beige" VerticalAlignment="Top" Height="32" Width="88"/>
+            <TextBlock HorizontalAlignment="Right" Margin="0,219,53,0" TextWrapping="Wrap" Text="Maximal duration:" Foreground="Beige" VerticalAlignment="Top" Height="35" Width="154"/>
+            <TextBlock HorizontalAlignment="Right" Margin="0,285,116,0" TextWrapping="Wrap" Text="Language:" Foreground="Beige" VerticalAlignment="Top" Height="34" Width="88"/>
+            <TextBlock HorizontalAlignment="Right" Margin="0,363,53,0" TextWrapping="Wrap" Text="Minimal guest number:" Foreground="Beige" VerticalAlignment="Top" Height="43" Width="151"/>
 
             <!--TextBlock  Text="Search and reserve tour:" Foreground="Beige" HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" FontSize="22" VerticalAlignment="Top" Height="38" Width="254"/-->
             <Button Style="{StaticResource Guest2HelpBtn}" Command="{Binding HelpCommand}">
                 <Image x:Name="help" Source="../../../Resources/Images/help.png"/>
             </Button>
             <Label Content="Search and reserve" Style="{StaticResource Guest2Header1Style}" />
-            <Button Content="RESET" Command="{Binding ResetSearchCommand}" HorizontalAlignment="Left" Margin="948,475,0,0" VerticalAlignment="Top" Height="32" Width="79"/>
+            <Button Content="RESET" Background="Orange" Command="{Binding ResetSearchCommand}" HorizontalAlignment="Left" Margin="892,475,0,0" VerticalAlignment="Top" Height="32" Width="166" FontSize="14"/>
         </Grid>
 
     </Grid>

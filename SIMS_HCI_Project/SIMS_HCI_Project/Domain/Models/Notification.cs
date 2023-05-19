@@ -44,7 +44,7 @@ namespace SIMS_HCI_Project.Domain.Models
             Type = notification.Type;
         }
 
-        public int ExtractTourId(Notification notification) //add to class diagram
+        public int ExtractObjectId(Notification notification)
         {
             var regex = new Regex(@"\[(\d+)\]");
             var match = regex.Match(notification.Message);

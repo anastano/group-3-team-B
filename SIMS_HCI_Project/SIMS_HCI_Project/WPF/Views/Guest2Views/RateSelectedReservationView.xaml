@@ -26,6 +26,9 @@
             <Setter Property="Height" Value="25"/>
             <Setter Property="Width" Value="150"/>
         </Style>
+        <Style TargetType="RadioButton">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
     </Page.Resources>
 
     <Grid >
@@ -35,7 +38,7 @@
         <Label Content="OverallExperience" Margin="10,37,946,193" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
         <!--<TextBox x:Name="owerall" Text="{Binding Path= TourRating.OverallExperience, UpdateSourceTrigger=PropertyChanged}" Margin="218,37,657,194" BorderThickness="0,0,0,0" />-->
         <StackPanel Orientation="Horizontal" Margin="218,37,657,194">
-            <RadioButton Content="1" IsChecked="{Binding TourRating.OverallExperience, ConverterParameter=1, Converter={StaticResource RatingConverter}}" />
+            <RadioButton Content="1" IsChecked="{Binding TourRating.OverallExperience, ConverterParameter=1, Converter={StaticResource RatingConverter}}" Foreground="White" />
             <Label Content="   " Width="18"/>
             <RadioButton Content="2" IsChecked="{Binding TourRating.OverallExperience, ConverterParameter=2, Converter={StaticResource RatingConverter}}" />
             <Label Content="   " Width="18"/>
@@ -43,7 +46,10 @@
             <Label Content="   " Width="18"/>
             <RadioButton Content="4" IsChecked="{Binding TourRating.OverallExperience, ConverterParameter=4, Converter={StaticResource RatingConverter}}" />
             <Label Content="   " Width="18"/>
-            <RadioButton Content="5" IsChecked="{Binding TourRating.OverallExperience, ConverterParameter=5, Converter={StaticResource RatingConverter}}" />
+            <RadioButton Content="5" IsChecked="{Binding TourRating.OverallExperience, ConverterParameter=5, Converter={StaticResource RatingConverter}}" Width="32" >
+
+            </RadioButton>
+            <!--<Border BorderBrush="White" BorderThickness="1"/>-->
         </StackPanel>
 
         <Label Content="Organisation" Margin="10,66,940,155" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
@@ -124,23 +130,16 @@
 
         <Label Content="Images URL" Margin="520,109,410,125" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
         <TextBox x:Name="Images" Text="{Binding ImageURL, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="626,109,117,129" BorderThickness="0,0,0,0"/>
-        <Button Command="{Binding AddImageCommand}" Background="Yellow" HorizontalAlignment="Left" Margin="968,109,0,0" VerticalAlignment="Top" Height="21" Width="35" BorderThickness="0,0,0,0">
+        <Button Command="{Binding AddImageCommand}" Background="Orange" HorizontalAlignment="Left" Margin="968,109,0,0" VerticalAlignment="Top" Height="21" Width="35" BorderThickness="0,0,0,0">
             <Button.ToolTip>Add image URL to list</Button.ToolTip> +
         </Button>
         <ListBox ItemsSource="{Binding Images, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="626,130,117,77"/>
 
-        <Button Content="Confirm rating" Background="Orange" Command="{Binding ConfirmRatingCommand}" HorizontalAlignment="Left" Margin="704,200,0,0" VerticalAlignment="Top" Height="36" Width="158"/>
-        <Button Content="Quit rating" Command="{Binding QuitRatingCommand}" HorizontalAlignment="Left" Margin="928,200,0,0" VerticalAlignment="Top" Height="36" Width="125"/>
+        <Button Content="CONFIRM" Background="Orange" Command="{Binding ConfirmRatingCommand}" HorizontalAlignment="Left" Margin="626,200,0,0" VerticalAlignment="Top" Height="36" Width="150"/>
+        <Button Content="QUIT" Background="Orange" Command="{Binding QuitRatingCommand}" HorizontalAlignment="Left" Margin="813,200,0,0" VerticalAlignment="Top" Height="36" Width="150"/>
 
-        <!--Label Content="{Binding Path=TourReservation.Title}" HorizontalAlignment="Left" Margin="231,0,0,0" VerticalAlignment="Top" Height="27" Width="132" Foreground="White"/>
-        <Label Content="{Binding Path=TourReservation.TourTime.Tour.Location.City}" HorizontalAlignment="Left" Margin="293,10,0,0" VerticalAlignment="Top"  Height="27" Width="182" Foreground="White"/>
-        <Label Content="{Binding Path=TourReservation.TourTime.Tour.Location.Country}" HorizontalAlignment="Left" Margin="531,10,0,0" VerticalAlignment="Top"  Height="27" Width="182" Foreground="White" />
 
-        <Label Content="You are currently rating tour with title: " HorizontalAlignment="Left" Margin="17,0,0,0" VerticalAlignment="Top" Height="27" Width="214" Foreground="White"/>
-        <Label Content="{Binding LocationName}" HorizontalAlignment="Left" Margin="293,10,0,0" VerticalAlignment="Top"  Height="27" Width="182" Foreground="White"/>
-        <Label Content=", on location: " HorizontalAlignment="Left" Margin="17,0,0,0" VerticalAlignment="Top" Height="27" Width="214" Foreground="White"/-->
-
-        <TextBlock Text="{Binding SelectedTourInfo}"  Foreground="Orange" Margin="10,5,10,227" HorizontalAlignment="Center" FontSize="14"/>
+        <TextBlock Text="{Binding SelectedTourInfo}"  Foreground="Orange" FontWeight="Medium" Margin="10,5,10,227" HorizontalAlignment="Center" FontSize="14"/>
 
 
 

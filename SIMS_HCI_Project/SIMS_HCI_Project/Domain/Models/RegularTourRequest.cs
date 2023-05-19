@@ -22,9 +22,8 @@ namespace SIMS_HCI_Project.Domain.Models
         public int GuestNumber { get; set; }
         public string Description { get; set; }
         public DateRange DateRange { get; set; }
-        public DateTime SubmittingDate { get; set; }
-        public bool IsPartOfComplex { get; set; } //discuss if needed, how will (parts of) complex requests be stored
-       // public object ChartValues { get; internal set; }
+        public DateTime SubmittingDate { get; set; } //SubmissionDate rename pls!!! 
+        public bool IsPartOfComplex { get; set; } 
 
 
         public RegularTourRequest()

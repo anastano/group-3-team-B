@@ -132,7 +132,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             DateRange = new DateRange(DateTime.Now, DateTime.Now.AddMonths(6));
             PickedDate = DateTime.Now;
 
-            TourFromStatistics = new Tour();
+            TourFromStatistics = new Tour(new Guide(((User)App.Current.Properties["CurrentUser"])));
 
             InitCommands();
             LoadRequests();

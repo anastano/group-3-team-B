@@ -21,7 +21,6 @@ namespace SIMS_HCI_Project.Domain.Models
         {
             RatingGrades = new TourRatingGrades();
             Comment = "";
-
             Images = new List<string>();
             Attendance = new GuestTourAttendance();
             IsValid = true;

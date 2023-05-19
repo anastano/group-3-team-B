@@ -18,6 +18,5 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         bool HasTourInProgress(int guideId);
 
         void CheckAndUpdateStatus();
-        void AssignTourToTourTimes(Tour tour, List<TourTime> tourTimes);
     }
 }

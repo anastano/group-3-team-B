@@ -25,7 +25,6 @@ namespace SIMS_HCI_Project.Domain.Models
         public DateTime SubmittingDate { get; set; } //SubmissionDate rename pls!!! 
         public bool IsPartOfComplex { get; set; } 
 
-
         public RegularTourRequest()
         {
             DateRange = new DateRange();

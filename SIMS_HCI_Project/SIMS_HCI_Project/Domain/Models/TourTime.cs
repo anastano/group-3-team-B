@@ -35,6 +35,7 @@ namespace SIMS_HCI_Project.Domain.Models
             DepartureTime = departureTime;
             Status = TourStatus.NOT_STARTED;
             GuestAttendances = new List<GuestTourAttendance>();
+            CurrentKeyPointIndex = 0;
         }
 
         public TourTime(int tourId, DateTime departureTime)
@@ -43,6 +44,7 @@ namespace SIMS_HCI_Project.Domain.Models
             DepartureTime = departureTime;
             Status = TourStatus.NOT_STARTED;
 
+            CurrentKeyPointIndex = 0;
             GuestAttendances = new List<GuestTourAttendance>();
         }
 

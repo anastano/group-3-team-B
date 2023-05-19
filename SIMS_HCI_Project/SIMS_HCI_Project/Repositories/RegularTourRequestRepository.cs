@@ -29,7 +29,7 @@ namespace SIMS_HCI_Project.Repositories
             _fileHandler.Save(_requests);
         }
 
-        public int GenerateId()
+        private int GenerateId()
         {
             return _requests.Count == 0 ? 1 : _requests[_requests.Count - 1].Id + 1;
         }
@@ -144,7 +144,5 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _requests.Where(r => r.SubmittingDate > DateTime.Now.AddYears(-1)).GroupBy(r => r.Language).OrderByDescending(r => r.Count()).First().First().Language;
         }
-
-        
     }
 }

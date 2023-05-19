@@ -58,7 +58,6 @@ namespace SIMS_HCI_Project.Repositories
         public void Add(TourTime tourTime)
         {
             tourTime.Id = GenerateId();
-            tourTime.CurrentKeyPointIndex = 0; // move to model #New
             _tourTimes.Add(tourTime);
 
             Save();
@@ -69,7 +68,6 @@ namespace SIMS_HCI_Project.Repositories
             foreach (TourTime tourTime in tourTimes)
             {
                 tourTime.Id = GenerateId();
-                tourTime.CurrentKeyPointIndex = 0; // move to model #New
                 _tourTimes.Add(tourTime);
             }
             Save();
@@ -103,15 +101,6 @@ namespace SIMS_HCI_Project.Repositories
                     tourTime.Status = TourStatus.COMPLETED;
                     Save();
                 }
-            }
-        }
-
-        public void AssignTourToTourTimes(Tour tour, List<TourTime> tourTimes)
-        {
-            foreach (TourTime tourTime in tourTimes)
-            {
-                tourTime.TourId = tour.Id;
-                tourTime.Tour = tour;
             }
         }
     }

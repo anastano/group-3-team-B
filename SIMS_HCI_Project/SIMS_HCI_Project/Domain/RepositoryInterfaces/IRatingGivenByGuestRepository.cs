@@ -13,7 +13,7 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         RatingGivenByGuest GetById(int id);
         RatingGivenByGuest GetByReservationId(int reservationId);
         List<RatingGivenByGuest> GetAll();
-        RatingGivenByGuest Add(RatingGivenByGuest rating);
+        void Add(RatingGivenByGuest rating);
         bool isReservationRated(int reservationId);
         List<RatingGivenByGuest> GetByOwnerId(int ownerId);
     }

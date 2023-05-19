@@ -55,12 +55,11 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _ratings.Any(r => r.ReservationId == reservationId);
         }
-        public RatingGivenByGuest Add(RatingGivenByGuest rating)
+        public void Add(RatingGivenByGuest rating)
         {
             rating.Id = GenerateId();
             _ratings.Add(rating);
             Save();
-            return rating;
         }
 
     }

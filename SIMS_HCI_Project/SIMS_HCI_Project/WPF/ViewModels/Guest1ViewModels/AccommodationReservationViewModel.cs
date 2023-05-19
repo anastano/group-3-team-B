@@ -269,7 +269,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         private void UpdateAvailableReservations()
         {
             AvailableReservations = _accommodationReservationService.GetAvailableReservations(Accommodation, Guest, Start, End, DaysNumber, int.Parse(GuestsNumber));
-            if (_accommodationReservationService.CheckIfSuggestionIsNeeded(AvailableReservations) == true)
+            if (AvailableReservations.Count == 0)
             {
                 SuggestionText = "There are no available reservations for the selected dates, here are a few recommendations for dates close to the selected ones";
                 AvailableReservations = _accommodationReservationService.GetSuggestedAvailableReservations(Accommodation, Guest, Start, End, DaysNumber, int.Parse(GuestsNumber));

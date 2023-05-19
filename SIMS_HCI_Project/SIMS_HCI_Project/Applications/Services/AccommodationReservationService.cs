@@ -136,14 +136,9 @@ namespace SIMS_HCI_Project.Applications.Services
             }
             return false;
         }
-        public bool CheckIfSuggestionIsNeeded(List<AccommodationReservation> availableReservations)
-        {
-            return (availableReservations.Count == 0) ? true : false;
-        }
         public List<AccommodationReservation> GetSuggestedAvailableReservations(Accommodation accommodation, Guest1 guest, DateTime start, DateTime end, int daysNumber, int guestsNumber)
         {
             List<AccommodationReservation> accommodationReservations = GetAllReserevedByAccommodationId(accommodation.Id);
-            //uzima krajnji datum i razliku dateRange i dodaje jos 30 dana
             return GetAvailableReservations(accommodation, guest,  end, end.AddDays(30), daysNumber, guestsNumber);
         }
     }

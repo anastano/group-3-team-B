@@ -39,9 +39,9 @@ namespace SIMS_HCI_Project.Applications.Services
             return _reservationRepository.GetAllReservedByAccommodationId(accommodationId);
         }
 
-        public List<AccommodationReservation> GetAllByStatusAndGuestId(int id, AccommodationReservationStatus status)
+        public List<AccommodationReservation> GetAllByStatusAndGuestId(int guestId, AccommodationReservationStatus status)
         {
-            return _reservationRepository.GetAllByStatusAndGuestId(id, status);
+            return _reservationRepository.GetAllByStatusAndGuestId(guestId, status);
         }
         public List<AccommodationReservation> GetByGuestId(int id)
         {
@@ -139,6 +139,10 @@ namespace SIMS_HCI_Project.Applications.Services
         public List<AccommodationReservation> GetSuggestedAvailableReservations(Accommodation accommodation, Guest1 guest, DateTime start, DateTime end, int daysNumber, int guestsNumber)
         {
             return GetAvailableReservations(accommodation, guest,  end, end.AddDays(30), daysNumber, guestsNumber);
+        }
+        public List<AccommodationReservation> GetReservationsWithinOneYear(int guestId, DateTime start)
+        {
+            return _reservationRepository.GetReservationsWithinOneYear(guestId, start);
         }
     }
 }

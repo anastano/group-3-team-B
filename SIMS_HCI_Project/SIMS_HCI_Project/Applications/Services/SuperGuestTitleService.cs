@@ -28,9 +28,9 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             foreach (SuperGuestTitle title in _titleRepository.GetExpiredActiveTitles())
             {
-                if (IsSuperGuestConditionFulfilled(accommodationReservationService, title.Guest))
+                if (IsSuperGuestConditionFulfilled(accommodationReservationService, title.Guest, title.ActivationDate))
                 {
-                    _titleRepository.Add(new SuperGuestTitle(title.Guest));
+                    _titleRepository.Add(new SuperGuestTitle(title.Guest, title.ActivationDate.AddYears(1)));
                 }
             }
         }
@@ -50,15 +50,15 @@ namespace SIMS_HCI_Project.Applications.Services
             }
             else
             {
-                if (IsSuperGuestConditionFulfilled(accommodationReservationService, guest))
+                if (IsSuperGuestConditionFulfilled(accommodationReservationService, guest, DateTime.Today.AddYears(-1)))
                 {
                     _titleRepository.Add(new SuperGuestTitle(guest));
                 }
             }
         }
-        private static bool IsSuperGuestConditionFulfilled(AccommodationReservationService accommodationReservationService, Guest1 guest)
+        private bool IsSuperGuestConditionFulfilled(AccommodationReservationService accommodationReservationService, Guest1 guest, DateTime start)
         {
-            return accommodationReservationService.GetByGuestId(guest.Id).Count >= 10;
+            return accommodationReservationService.GetReservationsWithinOneYear(guest.Id, start).Count >= 10 ? true : false;
         }
     }
 }

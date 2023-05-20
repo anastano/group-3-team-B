@@ -59,7 +59,7 @@ namespace SIMS_HCI_Project.Repositories
         {
             foreach (var title in _titles)
             {
-                if (title.ActivationDate.AddYears(1) < currentDate && title.Status == TitleStatus.ACTIVE)
+                if (title.ActivationDate.AddYears(1) <= currentDate && title.Status == TitleStatus.ACTIVE)
                 {
                     title.Status = TitleStatus.EXPIRED;
                 }

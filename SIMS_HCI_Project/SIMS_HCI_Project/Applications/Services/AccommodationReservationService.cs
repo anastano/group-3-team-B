@@ -102,7 +102,7 @@ namespace SIMS_HCI_Project.Applications.Services
             DateRange potentialDateRange = new DateRange(potentialStart, potentialEnd);
             while (potentialEnd <= end)
             {
-                 if (!OverlapsWithRenovations(accommodation, potentialDateRange) && !OverlapsWithReservations(accommodation, potentialDateRange))
+                 if (!DoesOverlapsWithRenovations(accommodation, potentialDateRange) && !DoesOverlapsWithReservations(accommodation, potentialDateRange))
                  {
                      availableReservations.Add(new AccommodationReservation(accommodation, guest, potentialStart, potentialEnd, guestsNumber));
                  }
@@ -113,7 +113,7 @@ namespace SIMS_HCI_Project.Applications.Services
             }
             return availableReservations;
         }
-        public bool OverlapsWithRenovations(Accommodation accommodation, DateRange potentialDateRange)
+        public bool DoesOverlapsWithRenovations(Accommodation accommodation, DateRange potentialDateRange)
         {
             RenovationService renovationService = new RenovationService();
             foreach (Renovation renovation in renovationService.GetByAccommodationId(accommodation.Id))
@@ -125,7 +125,7 @@ namespace SIMS_HCI_Project.Applications.Services
             }
             return false;
         }
-        public bool OverlapsWithReservations(Accommodation accommodation, DateRange potentialDateRange)
+        public bool DoesOverlapsWithReservations(Accommodation accommodation, DateRange potentialDateRange)
         {
             foreach (AccommodationReservation reservation in GetAllReserevedByAccommodationId(accommodation.Id))
             {
@@ -138,7 +138,6 @@ namespace SIMS_HCI_Project.Applications.Services
         }
         public List<AccommodationReservation> GetSuggestedAvailableReservations(Accommodation accommodation, Guest1 guest, DateTime start, DateTime end, int daysNumber, int guestsNumber)
         {
-            List<AccommodationReservation> accommodationReservations = GetAllReserevedByAccommodationId(accommodation.Id);
             return GetAvailableReservations(accommodation, guest,  end, end.AddDays(30), daysNumber, guestsNumber);
         }
     }

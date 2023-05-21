@@ -13,11 +13,13 @@ namespace SIMS_HCI_Project.Applications.Services
     {
         private readonly ITourReservationRepository _tourReservationRepository;
         private readonly ITourTimeRepository _tourTimeRepository;
+        private readonly ITourRatingRepository _tourRatingRepository;
 
         public TourReservationService()
         {
             _tourReservationRepository = Injector.Injector.CreateInstance<ITourReservationRepository>();
             _tourTimeRepository = Injector.Injector.CreateInstance<ITourTimeRepository>();
+            _tourRatingRepository = Injector.Injector.CreateInstance<ITourRatingRepository>();
         }
 
         public List<TourReservation> GetAll()
@@ -40,12 +42,12 @@ namespace SIMS_HCI_Project.Applications.Services
             return _tourReservationRepository.GetAllByGuestId(id);
         }
 
-        public List<TourReservation> GetUnratedReservations(int guestId, GuestTourAttendanceService guestTourAttendanceService, TourRatingService tourRatingService)
+        public List<TourReservation> GetUnratedReservations(int guestId, GuestTourAttendanceService gtas)
         {
             List<TourReservation> unratedReservations = new List<TourReservation>();
             foreach (TourReservation reservation in GetAllByGuestId(guestId))
             {
-                if (reservation.TourTime.IsCompleted && WasPresentInTourTime(guestId, reservation.TourTime.Id, guestTourAttendanceService) && !(tourRatingService.IsRated(reservation.Id)))
+                if (reservation.TourTime.IsCompleted && WasPresentInTourTime(guestId, reservation.TourTime.Id, gtas) && !(_tourRatingRepository.IsRated(reservation.Id)))
                 {
                     unratedReservations.Add(reservation);
                 }
@@ -59,9 +61,9 @@ namespace SIMS_HCI_Project.Applications.Services
             _tourReservationRepository.Add(tourReservation);
         }
 
-        public bool WasPresentInTourTime(int guestId, int tourTimeId, GuestTourAttendanceService guestTourAttendanceService)
+        public bool WasPresentInTourTime(int guestId, int tourTimeId, GuestTourAttendanceService gtas)
         {
-            List<TourTime> toursAttended = guestTourAttendanceService.GetTourTimesWhereGuestWasPresent(guestId);
+            List<TourTime> toursAttended = gtas.GetTourTimesWhereGuestWasPresent(guestId);
             return toursAttended.Any(ta => ta.Id == tourTimeId);
         }
 

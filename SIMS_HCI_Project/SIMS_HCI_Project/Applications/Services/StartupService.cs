@@ -78,7 +78,7 @@ namespace SIMS_HCI_Project.Applications.Services
             _connectionsLoaded = true;
         }
 
-        public void ConnectGuideFields()
+        private void ConnectGuideFields()
         {
             foreach(Guide guide in _tourRepository.GetAll().Select(t => t.Guide).Distinct().ToList())
             {
@@ -87,7 +87,7 @@ namespace SIMS_HCI_Project.Applications.Services
             }
         }
 
-        public void ConnectTourFields()
+        private void ConnectTourFields()
         {
             foreach (Tour tour in _tourRepository.GetAll())
             {
@@ -97,7 +97,7 @@ namespace SIMS_HCI_Project.Applications.Services
             }
         }
 
-        public void ConnectTourTimeFields()
+        private void ConnectTourTimeFields()
         {
             foreach (TourTime tourTime in _tourTimeRepository.GetAll())
             {
@@ -128,7 +128,7 @@ namespace SIMS_HCI_Project.Applications.Services
             }
         }
 
-        public void ConnectTourReservationFields()
+        private void ConnectTourReservationFields()
         {
             foreach (TourReservation tourReservation in _tourReservationRepository.GetAll())
             {
@@ -138,7 +138,7 @@ namespace SIMS_HCI_Project.Applications.Services
             }
         }
 
-        public void ConnectRegularTourRequestFields()
+        private void ConnectRegularTourRequestFields()
         {
             foreach(RegularTourRequest request in _regularTourRequestRepository.GetAll())
             {
@@ -146,6 +146,7 @@ namespace SIMS_HCI_Project.Applications.Services
                 request.Guest = new Guest2(_userRepository.GetById(request.GuestId));
             }
         }
+
         public void ConnectAccommodationFields()
         {
             foreach (Accommodation accommodation in _accommodationRepository.GetAll())

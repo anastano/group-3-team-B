@@ -45,7 +45,7 @@ namespace SIMS_HCI_Project.Applications.Services
             return _guestTourAttendanceRepository.GetByGuestAndTourTimeIds(guestId, tourTimeId);
         }
 
-        public List<TourTime> GetTourTimesWhereGuestWasPresent(int guestId) 
+        public List<TourTime> GetTourTimesWhereGuestWasPresent(int guestId) // simplify with LINQ and put in Repo
         {
             List<TourTime> tourTimes = new List<TourTime>();
             foreach (var gta in _guestTourAttendanceRepository.GetAllByGuestId(guestId))

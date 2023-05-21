@@ -12,17 +12,17 @@ participant ITourKeyPointRepository as itkpr
 participant ILocationRepository as ilr
 
 loop
-Guide -> rtrs : GetValidByParams(Location, GuestNumber, Language, DateRange)
+Guide -> rtrs : GetValidByParams(location, guestNumber, language, dateRange)
 activate rtrs
-rtrs -> irtrr : GetValidByParams(Location, GuestNumber, Language, DateRange)
+rtrs -> irtrr : GetValidByParams(location, guestNumber, language, dateRange)
 activate irtrr
-irtrr --> rtrs : TourRequests
+irtrr --> rtrs : tourRequests
 deactivate irtrr
-rtrs --> Guide : TourRequests
+rtrs --> Guide : tourRequests
 deactivate rtrs
 end
 
-Guide -> rtrs : AcceptRequest(SelectedTourRequest, guideId, DateTime)
+Guide -> rtrs : AcceptRequest(selectedTourRequest, guideId, departureTime)
 activate rtrs
 
 rtrs -> ittr : GetAllInDateRange(guideId, dateRange)
@@ -32,6 +32,10 @@ deactivate ittr
 opt toursInDateRange.Count != 0
  rtrs -> Guide : null
 end
+
+note over rtrs
+ Change status to accepted for request
+end note
 rtrs -> irtrr : Update(request);
 activate irtrr
 deactivate irtrr
@@ -47,13 +51,13 @@ ts -> ilr : GetOrAdd(tour.Location)
 activate ilr 
 ilr --> ts : location
 deactivate ilr
-ts -> itkpr: AddMultiple(tour.KeyPoints)
+ts -> itkpr: AddBulk(tour.KeyPoints)
 activate itkpr
 deactivate itkpr
 ts -> itr : Add(tour)
 activate itr
 deactivate itr
-ts -> ittr: AddMultiple(tour.DepartureTimes) 
+ts -> ittr: AddBulk(tour.DepartureTimes) 
 activate ittr
 deactivate ittr
 ts -> ns **: <<create>>
@@ -70,11 +74,13 @@ activate inr
 deactivate inr
 end
 deactivate ns
-
+destroy ns
 rtrs-> inr: Add(notification)
 activate inr
 deactivate inr
 rtrs --> Guide : tourFromRequest
 deactivate rtrs 
+
+destroy ts
 
 @enduml

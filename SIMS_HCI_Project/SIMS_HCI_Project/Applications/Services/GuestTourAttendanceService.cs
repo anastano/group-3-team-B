@@ -45,11 +45,6 @@ namespace SIMS_HCI_Project.Applications.Services
             return _guestTourAttendanceRepository.GetByGuestAndTourTimeIds(guestId, tourTimeId);
         }
       
-        public bool IsPresent(int guestId, int tourTimeId)
-        {
-            return _guestTourAttendanceRepository.IsPresent(guestId, tourTimeId);
-        }
-
         public List<TourTime> GetTourTimesWhereGuestWasPresent(int guestId)  // Simplify with LINQ
         {
             List<TourTime> tourTimes = new List<TourTime>();
@@ -63,9 +58,9 @@ namespace SIMS_HCI_Project.Applications.Services
             return tourTimes;
         }
 
-        public List<GuestTourAttendance> GetByConfirmationRequestedStatus(int guestId)
+        public List<GuestTourAttendance> GetWithConfirmationRequestedStatus(int guestId)
         {
-            return _guestTourAttendanceRepository.GetByConfirmationRequestedStatus(guestId);
+            return _guestTourAttendanceRepository.GetWithConfirmationRequestedStatus(guestId);
         }
 
         public void Add(GuestTourAttendance guestTourAttendance)
@@ -86,28 +81,6 @@ namespace SIMS_HCI_Project.Applications.Services
                 attendance.MarkPresence();
                 _guestTourAttendanceRepository.Update(attendance);
             }
-        }
-
-
-        public List<GuestTourAttendance> GetWithConfirmationRequestedStatus(int guestId)
-        {
-            List<TourReservation> reservations = _tourReservationRepository.GetAllByGuestIdAndTourId(guestId, tourId);
-            foreach(TourReservation reservation in reservations)
-            {
-                GuestTourAttendance attendance = _guestTourAttendanceRepository.GetByGuestAndTourTimeIds(guestId, reservation.TourTimeId);
-                if (attendance.Status == AttendanceStatus.CONFIRMATION_REQUESTED)
-                {
-                    attendance.MarkPresence();
-                    _guestTourAttendanceRepository.Update(attendance);
-                }
-            }
-
-            //List<TourReservation> rees = _tourReservationRepository.GetAllByGuestId(guestId);
-        }
-
-        public List<GuestTourAttendance> GetByConfirmationRequestedStatus(int guestId)
-        {
-            return _guestTourAttendanceRepository.GetWithConfirmationRequestedStatus(guestId);
         }
 
         public void MarkGuestAsPresent(GuestTourAttendance guestTourAttendance)

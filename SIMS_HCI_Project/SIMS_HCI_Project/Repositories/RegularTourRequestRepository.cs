@@ -43,6 +43,11 @@ namespace SIMS_HCI_Project.Repositories
             return _requests.Find(r => r.Id == id);
         }
 
+        public List<RegularTourRequest> GetAll()
+        {
+            return _requests;
+        }
+
         public List<RegularTourRequest> GetAllByGuestId(int guestId)
         {
             return _requests.FindAll(r => r.GuestId == guestId);
@@ -50,7 +55,6 @@ namespace SIMS_HCI_Project.Repositories
 
         public List<RegularTourRequest> GetAllByGuestThatArentPartOfComplex(int guestId)
         {
-            UpdateStatusForInvlid();
             return _requests.FindAll(r => r.GuestId == guestId && r.IsPartOfComplex == false);
         }
 
@@ -59,7 +63,7 @@ namespace SIMS_HCI_Project.Repositories
             return _requests.FindAll(r => r.GuestId == guestId && (isPartOfComplex == null || r.IsPartOfComplex == isPartOfComplex));
         }
 
-        public List<RegularTourRequest> GetByGuestIdAndStatusAndYear(int guestId, RegularRequestStatus status, int? year = null)
+        public List<RegularTourRequest> GetAllByGuestIdAndStatusAndYear(int guestId, RegularRequestStatus status, int? year = null)
         {
             return _requests.FindAll(r => r.GuestId == guestId && r.Status == status && (year == null ||  r.SubmittingDate.Year == year));
         }

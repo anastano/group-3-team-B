@@ -97,7 +97,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                         TourTime tourTime = _tourService.GetTourInstance(tourId);
                         if(ConfirmRequestSubmission(tourTime.Id) == MessageBoxResult.Yes)
                         {
-                            _guestTourAttendanceService.ConfirmAttendance(Guest.Id, tourTime.Id);
+                            _guestTourAttendanceService.ConfirmAttendanceForTourTime(Guest.Id, tourTime.Id);
                             MessageBox.Show("Your tour attendance is confirmed.");
                         }
                         _notificationService.MarkAsRead(SelectedNotification.Id);

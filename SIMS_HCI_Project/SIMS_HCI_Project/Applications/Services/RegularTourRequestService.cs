@@ -44,9 +44,9 @@ namespace SIMS_HCI_Project.Applications.Services
             return _regularTourRequestRepository.GetAllByGuestId(id, isPartOfComplex);
         }
 
-        public List<RegularTourRequest> GetByGuestIdAndStatusAndYear(int ig, RegularRequestStatus status, int? year = null)
+        public List<RegularTourRequest> GetAllByGuestIdAndStatusAndYear(int ig, RegularRequestStatus status, int? year = null)
         {
-            return _regularTourRequestRepository.GetByGuestIdAndStatusAndYear(ig, status, year);
+            return _regularTourRequestRepository.GetAllByGuestIdAndStatusAndYear(ig, status, year);
         }
         
         public List<RegularTourRequest> GetAllValidByParams(Location location, int guestNumber, string language, DateRange dateRange)

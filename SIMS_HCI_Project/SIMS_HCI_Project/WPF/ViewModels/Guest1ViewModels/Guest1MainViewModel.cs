@@ -133,7 +133,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 
             _reservationService.ConvertReservedReservationIntoCompleted(DateTime.Now);
             _reservationService.ConvertReservationsIntoRated(_ratingGivenByGuestService);
-            _titleService.UpdateTitles();
+            _titleService.UpdateTitles(_reservationService);
             _titleService.ConvertActiveTitlesIntoExpired(DateTime.Now);
             _accommodationService.ConvertAccommodationIntoRenovated(_renovationService);
             _userService.FillOwnerSuperFlag(_ratingGivenByGuestService);

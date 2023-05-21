@@ -160,7 +160,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             SelectedStarCleanliness = 0;
             SelectedStarCorrectness = 0;
-            ImageUrl = " ";
+            ImageUrl = "";
             IsFilled = false;
             IsChecked = false;
         }

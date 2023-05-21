@@ -15,7 +15,7 @@
         <StackPanel Margin="10 10 10 10">
             <Border Style="{StaticResource OwnerBorderStyle}" Padding="5" Margin="5">
                 <StackPanel>
-                    <Image x:Name="AccommodationImage" Stretch="Uniform" Width="450" Height="300"/>
+                    <Image Source="{Binding Image, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform" Width="450" Height="300"/>
                 </StackPanel>
             </Border>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

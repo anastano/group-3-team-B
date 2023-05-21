@@ -105,4 +105,8 @@
     </Page>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="WPF\Validations\" />
+  </ItemGroup>
+
 </Project>

@@ -49,9 +49,9 @@ namespace SIMS_HCI_Project.Applications.Services
             return _regularTourRequestRepository.GetByGuestIdAndStatusAndYear(ig, status, year);
         }
         
-        public List<RegularTourRequest> GetValidByParams(Location location, int guestNumber, string language, DateRange dateRange)
+        public List<RegularTourRequest> GetAllValidByParams(Location location, int guestNumber, string language, DateRange dateRange)
         {
-            return _regularTourRequestRepository.GetValidByParams(location, guestNumber, language, dateRange);
+            return _regularTourRequestRepository.GetAllValidByParams(location, guestNumber, language, dateRange);
         }
 
         public void Add(RegularTourRequest request)

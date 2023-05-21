@@ -51,7 +51,6 @@ namespace SIMS_HCI_Project.Repositories
         {
             _fileHandler.Save(_users);
         }
-
         public User GetById(int id)
         {
             return _users.Find(u => u.Id == id);

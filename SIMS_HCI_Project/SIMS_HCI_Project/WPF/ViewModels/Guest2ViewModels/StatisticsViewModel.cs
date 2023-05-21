@@ -273,7 +273,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             else
             {
                 int selectedYear = SelectedYearIndexAverage + 2020;
-                AcceptedRequests = new List<RegularTourRequest>(_regularTourRequestService.GetByGuestIdAndStatusAndYear(Guest2.Id, RegularRequestStatus.ACCEPTED, selectedYear));
+                AcceptedRequests = new List<RegularTourRequest>(_regularTourRequestService.GetAllByGuestIdAndStatusAndYear(Guest2.Id, RegularRequestStatus.ACCEPTED, selectedYear));
             }
             UpdateAverageNumberOfPeople();
 

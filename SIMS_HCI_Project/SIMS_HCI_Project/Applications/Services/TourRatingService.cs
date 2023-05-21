@@ -19,9 +19,9 @@ namespace SIMS_HCI_Project.Applications.Services
             _tourRatingRepository = Injector.Injector.CreateInstance<ITourRatingRepository>();
         }
 
-        public List<TourRating> GetByTourId(int tourTimeId)
+        public List<TourRating> GetAllByTourId(int tourTimeId)
         {
-            return _tourRatingRepository.GetByTourId(tourTimeId);
+            return _tourRatingRepository.GetAllByTourId(tourTimeId);
         }
 
         public void Add(TourRating tourRating)

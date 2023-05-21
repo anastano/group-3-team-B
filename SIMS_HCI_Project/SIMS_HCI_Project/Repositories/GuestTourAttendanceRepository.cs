@@ -66,7 +66,7 @@ namespace SIMS_HCI_Project.Repositories
             return _guestTourAttendances.Find(g => g.TourReservation.GuestId == guestId && g.TourReservation.TourTimeId == tourTimeId);
         }
 
-        public List<GuestTourAttendance> GetByConfirmationRequestedStatus(int guestId)
+        public List<GuestTourAttendance> GetWithConfirmationRequestedStatus(int guestId)
         {
             var result = new List<GuestTourAttendance>();
             foreach(var gta in GetAllByGuestId(guestId))

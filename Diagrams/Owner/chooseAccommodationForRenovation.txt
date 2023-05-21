@@ -1,0 +1,15 @@
+@startuml
+actor "Owner" as O
+participant "AccommodationService" as AS
+participant "AccommodationRepository" as AR
+
+note across: Owner clicks the Renovations button
+note across: Owner clicks the Add New Renovation button
+
+O->AS ++: GetByOwnerId(owner.Id)
+AS-> AR ++: GetByOwnerId(owner.Id)
+AR-->AS --: accommodations
+AS-->O --: accommodationList
+
+note across: Owner has to choose one of the displayed accommodations
+@enduml

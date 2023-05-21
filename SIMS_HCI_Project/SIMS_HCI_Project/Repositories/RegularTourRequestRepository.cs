@@ -43,9 +43,15 @@ namespace SIMS_HCI_Project.Repositories
             return _requests.Find(r => r.Id == id);
         }
 
-        public List<RegularTourRequest> GetAll()
+        public List<RegularTourRequest> GetAllByGuestId(int guestId)
         {
-            return _requests;
+            return _requests.FindAll(r => r.GuestId == guestId);
+        }
+
+        public List<RegularTourRequest> GetAllByGuestThatArentPartOfComplex(int guestId)
+        {
+            UpdateStatusForInvlid();
+            return _requests.FindAll(r => r.GuestId == guestId && r.IsPartOfComplex == false);
         }
 
         public List<RegularTourRequest> GetAllByGuestId(int guestId, bool? isPartOfComplex = null)
@@ -58,7 +64,7 @@ namespace SIMS_HCI_Project.Repositories
             return _requests.FindAll(r => r.GuestId == guestId && r.Status == status && (year == null ||  r.SubmittingDate.Year == year));
         }
 
-        public List<RegularTourRequest> GetValidByParams(Location location, int guestNumber, string language, DateRange dateRange)
+        public List<RegularTourRequest> GetAllValidByParams(Location location, int guestNumber, string language, DateRange dateRange)
         {
             return _requests.FindAll(r => (location == null || r.Location.Equals(location))
                                         && (guestNumber == 0 || r.GuestNumber == guestNumber)
@@ -113,5 +119,7 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _requests.Where(r => r.SubmittingDate > DateTime.Now.AddYears(-1)).GroupBy(r => r.Language).OrderByDescending(r => r.Count()).First().First().Language;
         }
+
+        
     }
 }

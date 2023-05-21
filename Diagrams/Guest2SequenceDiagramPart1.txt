@@ -1,0 +1,65 @@
+@startuml
+actor Guide
+
+participant TourRequestStatisticsService as trss
+participant IRegularTourRequestRepository as irtrr
+participant NotificationService as ns
+participant INotificationRepository as inr
+participant TourService as ts
+participant ITourRepository as itr
+participant ITourTimeRepository as ittr
+participant ITourKeyPointRepository as itkpr
+participant ILocationRepository as ilr
+
+alt by language
+
+Guide -> trss : GetTopLanguage()
+activate trss
+trss -> irtrr: GetTopLanguage()
+activate irtrr
+irtrr --> trss : language
+deactivate irtrr
+trss --> Guide: language
+deactivate trss
+
+else by location
+Guide -> trss : GetTopLocation()
+activate trss
+trss -> irtrr: GetTopLocation()
+activate irtrr
+irtrr--> trss : location
+deactivate irtrr
+trss --> Guide: location
+deactivate trss
+
+end
+
+Guide -> ts : Add(Tour tour)
+activate ts
+ts -> ilr : GetOrAdd(tour.Location)
+activate ilr
+ilr --> ts : location
+deactivate ilr
+ts -> itkpr ++: AddBulk(tour.KeyPoints)
+itkpr--
+ts -> itr ++: Add(tour)
+itr--
+ts -> ittr++: AddBulk(tour.DepartureTimes) 
+ittr--
+
+ts -> ns **: <<create>>
+activate ns
+ts -> ns : NotifyGuestsWithSimilarRequests(tour)                 
+ns -> irtrr ++: GetInvalidByParams(int locationId, string language) 
+irtrr -> ns --: similarRequests 
+deactivate ts
+loop regularTourRequest in similarRequests
+  activate ns
+  ns -> ns : notifications.Add(some params);
+end
+deactivate ns
+ns -> inr ++: Add(notification)
+inr--
+ns--
+
+@enduml-

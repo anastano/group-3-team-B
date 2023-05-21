@@ -25,7 +25,6 @@ namespace SIMS_HCI_Project.Applications.Services
 
             return user;
         }
-
         public bool SignIn(User newUser)
         {
             if (_userRepository.CheckIfUsernameExists(newUser.Username)) return false;
@@ -33,9 +32,12 @@ namespace SIMS_HCI_Project.Applications.Services
             _userRepository.Add(newUser);
             return true;
         }
-        public string GetFullName(User user)
+        public void FillOwnerSuperFlag(RatingGivenByGuestService ratingService)
         {
-            return user.Name + " " + user.Surname;
+            foreach (Owner owner in _userRepository.GetByUserRole(UserRole.OWNER))
+            {
+                ratingService.FillAverageRatingAndSuperFlag(owner);
+            }
         }
     }
 }

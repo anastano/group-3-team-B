@@ -49,7 +49,7 @@ namespace SIMS_HCI_Project.Repositories
             return _ratings;
         }
 
-        public List<TourRating> GetByTourId(int tourTimeId)
+        public List<TourRating> GetAllByTourId(int tourTimeId)
         {
             return _ratings.FindAll(r => r.Attendance.TourReservation.TourTimeId == tourTimeId);
         }

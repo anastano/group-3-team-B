@@ -44,8 +44,13 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return _guestTourAttendanceRepository.GetByGuestAndTourTimeIds(guestId, tourTimeId);
         }
+      
+        public bool IsPresent(int guestId, int tourTimeId)
+        {
+            return _guestTourAttendanceRepository.IsPresent(guestId, tourTimeId);
+        }
 
-        public List<TourTime> GetTourTimesWhereGuestWasPresent(int guestId) // simplify with LINQ and put in Repo
+        public List<TourTime> GetTourTimesWhereGuestWasPresent(int guestId)  // Simplify with LINQ
         {
             List<TourTime> tourTimes = new List<TourTime>();
             foreach (var gta in _guestTourAttendanceRepository.GetAllByGuestId(guestId))
@@ -83,7 +88,8 @@ namespace SIMS_HCI_Project.Applications.Services
             }
         }
 
-        public void ConfirmAttendance(int guestId, int tourId) //new // AN: why not just attendanceId?
+
+        public List<GuestTourAttendance> GetWithConfirmationRequestedStatus(int guestId)
         {
             List<TourReservation> reservations = _tourReservationRepository.GetAllByGuestIdAndTourId(guestId, tourId);
             foreach(TourReservation reservation in reservations)
@@ -97,6 +103,11 @@ namespace SIMS_HCI_Project.Applications.Services
             }
 
             //List<TourReservation> rees = _tourReservationRepository.GetAllByGuestId(guestId);
+        }
+
+        public List<GuestTourAttendance> GetByConfirmationRequestedStatus(int guestId)
+        {
+            return _guestTourAttendanceRepository.GetWithConfirmationRequestedStatus(guestId);
         }
 
         public void MarkGuestAsPresent(GuestTourAttendance guestTourAttendance)

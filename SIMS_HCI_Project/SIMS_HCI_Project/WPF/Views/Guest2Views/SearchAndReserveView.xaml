@@ -7,15 +7,24 @@
       mc:Ignorable="d" 
       Height="518" Width="1080"
       Title="SearchAndReserveView">
-
+    <Page.Resources>
+        <ResourceDictionary >
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/Guest2Styles.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="350"/>
             <RowDefinition Height="168"/>
         </Grid.RowDefinitions>
-        <Button Content="Back" Command="{Binding Back}" HorizontalAlignment="Left" VerticalAlignment="Top"  BorderBrush="#FFEDDCDC" Height="33" Width="68"/>
-        <Button Content="HELP"  HorizontalAlignment="Right" VerticalAlignment="Top" Height="33" Width="68"/>
-
+        <Button Style="{StaticResource Guest2BackBtn}" Command="{Binding BackCommand}">
+            <Image x:Name="back" Source="../../../Resources/Images/back.png"/>
+        </Button>
+        <Button Style="{StaticResource Guest2HelpBtn}" Command="{Binding HelpCommand}">
+            <Image x:Name="help" Source="../../../Resources/Images/help.png"/>
+        </Button>
         <Frame x:Name="TopFrame" Grid.Row="0" Width="1080" Margin="0,38,0,0"/>
         <Frame x:Name="BottomFrame" Grid.Row="1" Width="1080" Height="168"/>
     </Grid>

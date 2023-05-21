@@ -19,13 +19,15 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         private readonly NotificationService _notificationService;
 
         public RequestHandlerView RequestHandlerView { get; set; }
+        public RescheduleRequestsViewModel RequestsVM { get; set; }
         public RescheduleRequest Request { get; set; }
         public ObservableCollection<AccommodationReservation> OverlappingReservations { get; set; }
 
         public RelayCommand AcceptRequestCommand { get; set; }
         public RelayCommand DeclineRequestCommand { get; set; }
+        public RelayCommand CloseRequestHandlerViewCommand { get; set; }
 
-        public RequestHandlerViewModel(RequestHandlerView requestHandlerView, RescheduleRequestService requestService, 
+        public RequestHandlerViewModel(RequestHandlerView requestHandlerView, RescheduleRequestsViewModel requestsVM, RescheduleRequestService requestService, 
             AccommodationReservationService reservationService, NotificationService notificationService, RescheduleRequest selectedRequest) 
         {
             InitCommands();
@@ -35,6 +37,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             _notificationService = notificationService;
 
             RequestHandlerView = requestHandlerView;
+            RequestsVM = requestsVM;
             Request = selectedRequest;
             
             OverlappingReservations = new ObservableCollection<AccommodationReservation>(_requestService.GetOverlappingReservations(Request, _reservationService));
@@ -43,24 +46,41 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         }
 
 
-            #region Commands
-            public void Executed_AcceptRequestCommand(object obj)
+        #region Commands
+
+        private MessageBoxResult ConfirmAcceptRequest()
         {
-            if (OverlappingReservations != null)
+            string sMessageBoxText = $"Are you sure you want to accept this request?";
+            string sCaption = "Accept Request Confirmation";
+
+            MessageBoxButton btnMessageBox = MessageBoxButton.YesNo;
+            MessageBoxImage icnMessageBox = MessageBoxImage.Warning;
+
+            MessageBoxResult result = MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox, icnMessageBox);
+            return result;
+        }
+
+        public void Executed_AcceptRequestCommand(object obj)
+        {
+            if (ConfirmAcceptRequest() == MessageBoxResult.Yes)
             {
-                foreach (AccommodationReservation reservation in OverlappingReservations)
+                if (OverlappingReservations != null)
                 {
-                    _reservationService.EditStatus(reservation.Id, AccommodationReservationStatus.CANCELLED);
+                    foreach (AccommodationReservation reservation in OverlappingReservations)
+                    {
+                        _reservationService.EditStatus(reservation.Id, AccommodationReservationStatus.CANCELLED);
+                    }
                 }
+
+                _reservationService.EditReservation(Request);
+                _requestService.EditStatus(Request.Id, RescheduleRequestStatus.ACCEPTED);
+
+                String Message = "Request to reschedule the reservation for '" + Request.AccommodationReservation.Accommodation.Name + "' has been ACCEPTED";
+                _notificationService.Add(new Notification(Message, Request.AccommodationReservation.GuestId, false));
+
+                RequestHandlerView.Close();
+                RequestsVM.UpdatePendingRequests();
             }
-
-            _reservationService.EditReservation(Request);
-            _requestService.EditStatus(Request.Id, RescheduleRequestStatus.ACCEPTED);
-
-            String Message = "Request to reschedule the reservation for '" + Request.AccommodationReservation.Accommodation.Name + "' has been ACCEPTED";
-            _notificationService.Add(new Notification(Message, Request.AccommodationReservation.GuestId, false));
-
-            RequestHandlerView.Close();           
         }
 
         public bool CanExecute_AcceptRequestCommand(object obj)
@@ -70,7 +90,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public void Executed_DeclineRequestCommand(object obj)
         {
-            Window requestDenialView = new RequestDenialView(RequestHandlerView, _requestService, _notificationService, Request);
+            Window requestDenialView = new RequestDenialView(RequestHandlerView, RequestsVM, _requestService, _notificationService, Request);
             requestDenialView.Show();
         }
 
@@ -78,12 +98,24 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             return true;
         }
+
+        public void Executed_CloseRequestHandlerViewCommand(object obj)
+        {
+            RequestHandlerView.Close();
+        }
+
+        public bool CanExecute_CloseRequestHandlerViewCommand(object obj)
+        {
+            return true;
+        }
+
         #endregion
 
         public void InitCommands()
         {
             AcceptRequestCommand = new RelayCommand(Executed_AcceptRequestCommand, CanExecute_AcceptRequestCommand);
             DeclineRequestCommand = new RelayCommand(Executed_DeclineRequestCommand, CanExecute_DeclineRequestCommand);
+            CloseRequestHandlerViewCommand = new RelayCommand(Executed_CloseRequestHandlerViewCommand, CanExecute_CloseRequestHandlerViewCommand);
         }
 
         public void ShowTextBox()

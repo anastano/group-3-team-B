@@ -48,6 +48,11 @@ namespace SIMS_HCI_Project.Applications.Services
             return _tourReservationRepository.GetAllByGuestId(id);
         }
 
+        public List<TourReservation> GetAllByGuestIdAndTourId(int guestId, int tourId)
+        {
+            return _tourReservationRepository.GetAllByGuestIdAndTourId(guestId, tourId);
+        }
+
         public List<TourReservation> GetUnratedReservations(int guestId, GuestTourAttendanceService guestTourAttendanceService, TourRatingService tourRatingService)
         {
             List<TourReservation> unratedReservations = new List<TourReservation>();
@@ -72,21 +77,6 @@ namespace SIMS_HCI_Project.Applications.Services
             TourTime tourTime = tourService.GetTourInstance(selectedTourTime.Id);
 
             tourTime.Available -= requestedPartySize;
-        }
-
-        public void NotifyObservers()
-        {
-            _tourReservationRepository.NotifyObservers();
-        }
-
-        public void Subscribe(IObserver observer)
-        {
-            _tourReservationRepository.Subscribe(observer);
-        }
-
-        public void Unsubscribe(IObserver observer)
-        {
-            _tourReservationRepository.Unsubscribe(observer);
         }
     }
 }

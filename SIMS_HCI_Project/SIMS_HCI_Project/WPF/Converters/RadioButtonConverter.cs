@@ -9,12 +9,11 @@ using System.Windows.Markup;
 
 namespace SIMS_HCI_Project.WPF.Converters
 {
-    public class ButtonMinusConverter : MarkupExtension, IValueConverter
+    public class RadioButtonConverter : MarkupExtension, IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            int GuestsNumber = (int)value;
-            return GuestsNumber == 1 ? false : true;
+            return value != null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

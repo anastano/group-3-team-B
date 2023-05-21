@@ -16,7 +16,7 @@
                 <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" HorizontalAlignment="Center" />
             </StackPanel>
         </ControlTemplate>
-        
+
         <Style TargetType="Label">
             <Setter Property="FontSize" Value="12"></Setter>
             <Setter Property="Foreground" Value="White"/>
@@ -57,16 +57,9 @@
         <Label Content="Finish:" HorizontalAlignment="Left" Margin="657,94,0,0" VerticalAlignment="Top"/>
         <DatePicker Name="StartRange" IsEnabled="True" SelectedDate="{Binding Start, Mode=TwoWay, StringFormat='{}{0:MM/dd/yyyy}'}" SelectedDateFormat="Short" HorizontalAlignment="Left" Margin="719,68,0,0" VerticalAlignment="Top" Height="37" Width="149"/>
         <DatePicker Name="EndRange" IsEnabled="True" SelectedDate="{Binding End, Mode=TwoWay, StringFormat='{}{0:MM/dd/yyyy}'}" SelectedDateFormat="Short" HorizontalAlignment="Left" Margin="719,105,0,0" VerticalAlignment="Top" Height="37" Width="149"/>
-        <Button Content="COMPLETE TOUR REQUEST" Command="{Binding CompleteRequest}" HorizontalAlignment="Left" Margin="700,184,0,0" VerticalAlignment="Top" Height="26" Width="186">
-            <Button.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Tomato" Offset="0"/>
-                    <GradientStop Color="Orange" Offset="0.5"/>
-                    <GradientStop Color="#FFE0E21D" Offset="1"/>
-                </LinearGradientBrush>
-            </Button.Background>
+        <Button Content="SUBMIT" Command="{Binding CompleteRequest}" HorizontalAlignment="Left" Margin="637,184,0,0" VerticalAlignment="Top" Height="26" Width="130" Background="Orange">
         </Button>
-        <Button Content="QUIT TOUR REQUEST" Command="{Binding QuitRequest}" HorizontalAlignment="Left" Margin="928,221,0,0" VerticalAlignment="Top" Height="26" Width="142"/>
+        <Button Content="QUIT" Command="{Binding QuitRequest}" Background="Orange" HorizontalAlignment="Left" Margin="803,184,0,0" VerticalAlignment="Top" Height="26" Width="130"/>
 
 
 

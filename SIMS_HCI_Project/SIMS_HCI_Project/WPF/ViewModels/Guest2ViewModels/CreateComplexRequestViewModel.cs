@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
+namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 {
-    internal class RecommendRenovationViewModel
+    public class CreateComplexRequestViewModel
     {
-
     }
 }

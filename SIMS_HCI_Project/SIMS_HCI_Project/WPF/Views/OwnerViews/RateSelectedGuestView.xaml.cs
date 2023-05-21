@@ -22,10 +22,10 @@ namespace SIMS_HCI_Project.WPF.Views.OwnerViews
     /// </summary>
     public partial class RateSelectedGuestView : Window
     {
-        public RateSelectedGuestView(RatingGivenByOwnerService ownerRatingService, AccommodationReservation selectedReservation)
+        public RateSelectedGuestView(UnratedReservationsViewModel unratedReservationsVM, RatingGivenByOwnerService ownerRatingService, AccommodationReservation selectedReservation)
         {
             InitializeComponent();
-            this.DataContext = new RateSelectedGuestViewModel(this, ownerRatingService, selectedReservation);
+            this.DataContext = new RateSelectedGuestViewModel(this, unratedReservationsVM, ownerRatingService, selectedReservation);
         }
     }
 }

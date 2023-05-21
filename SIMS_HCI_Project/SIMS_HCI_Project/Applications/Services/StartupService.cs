@@ -22,6 +22,14 @@ namespace SIMS_HCI_Project.Applications.Services
         private readonly ITourReservationRepository _tourReservationRepository;
         private readonly IUserRepository _userRepository;
         private readonly IRegularTourRequestRepository _regularTourRequestRepository;
+        private readonly IAccommodationRepository _accommodationRepository;
+        private readonly IAccommodationReservationRepository _accommodationReservationRepository;
+        private readonly IRatingGivenByGuestRepository _ratingGivenByGuestRepository;
+        private readonly IRatingGivenByOwnerRepository _ratingGivenByOwnerRepository;
+        private readonly IRescheduleRequestRepository _rescheduleRequestRepository;
+        private readonly ISuperGuestTitleRepository _superGuestTitleRepository;
+        private readonly IRenovationRepository _renovationRepository;
+        private readonly IRenovationRecommendationRepository _renovationRecommendationRepository;
 
         private static bool _connectionsLoaded = false;
 
@@ -37,6 +45,16 @@ namespace SIMS_HCI_Project.Applications.Services
             _userRepository = Injector.Injector.CreateInstance<IUserRepository>();
             _tourReservationRepository = Injector.Injector.CreateInstance<ITourReservationRepository>();
             _regularTourRequestRepository = Injector.Injector.CreateInstance<IRegularTourRequestRepository>();
+            _accommodationRepository = Injector.Injector.CreateInstance<IAccommodationRepository>();
+            _accommodationReservationRepository = Injector.Injector.CreateInstance<IAccommodationReservationRepository>();
+            _ratingGivenByGuestRepository = Injector.Injector.CreateInstance<IRatingGivenByGuestRepository>();
+            _ratingGivenByOwnerRepository = Injector.Injector.CreateInstance<IRatingGivenByOwnerRepository>();
+            _rescheduleRequestRepository = Injector.Injector.CreateInstance<IRescheduleRequestRepository>();
+            _superGuestTitleRepository = Injector.Injector.CreateInstance<ISuperGuestTitleRepository>();
+            _renovationRepository = Injector.Injector.CreateInstance<IRenovationRepository>();
+            _renovationRecommendationRepository = Injector.Injector.CreateInstance<IRenovationRecommendationRepository>();
+
+
         }
 
         public void LoadConnections()
@@ -49,6 +67,15 @@ namespace SIMS_HCI_Project.Applications.Services
             ConnectRatingFields();
             ConnectTourReservationFields();
             ConnectRegularTourRequestFields();
+            ConnectAccommodationFields();
+            ConnectAccommodationReservationFields();
+            ConnectRatingGivenByGuestFields();
+            ConnectRatingGivenByOwnerFields();
+            ConnectRescheduleRequestFields();
+            ConnectSuperGuestTitleFields();
+            ConnectRenovationFields();
+            ConnectRecommendationRenovationFields();
+
             _connectionsLoaded = true;
         }
 
@@ -111,6 +138,64 @@ namespace SIMS_HCI_Project.Applications.Services
             {
                 request.Location = _locationRepository.GetById(request.LocationId);
                 request.Guest = new Guest2(_userRepository.GetById(request.GuestId));
+            }
+        }
+        public void ConnectAccommodationFields()
+        {
+            foreach (Accommodation accommodation in _accommodationRepository.GetAll())
+            {
+                accommodation.Owner = (Owner)_userRepository.GetById(accommodation.OwnerId);
+                accommodation.Location = _locationRepository.GetById(accommodation.LocationId);
+            }
+        }
+        public void ConnectAccommodationReservationFields()
+        {
+            foreach (AccommodationReservation reservation in _accommodationReservationRepository.GetAll())
+            {
+                reservation.Accommodation = _accommodationRepository.GetById(reservation.AccommodationId);
+                reservation.Guest = (Guest1)_userRepository.GetById(reservation.GuestId);
+            }
+        }
+        public void ConnectRatingGivenByGuestFields()
+        {
+            foreach (RatingGivenByGuest rating in _ratingGivenByGuestRepository.GetAll())
+            {
+                rating.Reservation = _accommodationReservationRepository.GetById(rating.ReservationId);
+            }
+        }
+        public void ConnectRatingGivenByOwnerFields()
+        {
+            foreach (RatingGivenByOwner rating in _ratingGivenByOwnerRepository.GetAll())
+            {
+                rating.Reservation = _accommodationReservationRepository.GetById(rating.ReservationId);
+            }
+        }
+        public void ConnectRescheduleRequestFields()
+        {
+            foreach (RescheduleRequest request in _rescheduleRequestRepository.GetAll())
+            {
+                request.AccommodationReservation = _accommodationReservationRepository.GetById(request.AccommodationReservationId);
+            }
+        }
+        public void ConnectSuperGuestTitleFields()
+        {
+            foreach (SuperGuestTitle title in _superGuestTitleRepository.GetAll())
+            {
+                title.Guest = (Guest1)_userRepository.GetById(title.GuestId);
+            }
+        }
+        public void ConnectRenovationFields()
+        {
+            foreach (Renovation renovation in _renovationRepository.GetAll())
+            {
+                renovation.Accommodation = _accommodationRepository.GetById(renovation.AccommodationId);
+            }
+        }
+        public void ConnectRecommendationRenovationFields()
+        {
+            foreach (RenovationRecommendation recommendation in _renovationRecommendationRepository.GetAll())
+            {
+                recommendation.Rating = _ratingGivenByGuestRepository.GetById(recommendation.RatingId);
             }
         }
     }

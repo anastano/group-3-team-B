@@ -65,8 +65,6 @@ namespace SIMS_HCI_Project.Repositories
             return _requests.FindAll(r => r.GuestId == guestId && r.Status == status && r.SubmittingDate.Year == year);
         }
 
-
-
         public List<RegularTourRequest> GetAllValidByParams(Location location, int guestNumber, string language, DateRange dateRange)
         {
             return _requests.FindAll(r => (location == null || r.Location.Equals(location))
@@ -76,6 +74,12 @@ namespace SIMS_HCI_Project.Repositories
                                         && r.Status == RegularRequestStatus.PENDING);
         }
 
+        public List<RegularTourRequest> GetInvalidByParams(int locationId, string language)
+        {
+            return _requests.FindAll(r => (r.LocationId == locationId || r.Language.Contains(language))
+                                    && ( r.Status == RegularRequestStatus.INVALID ));
+        }
+
         public void Add(RegularTourRequest request)
         {
             request.Id = GenerateId();
@@ -83,7 +87,6 @@ namespace SIMS_HCI_Project.Repositories
 
             Save();
         }
-        
 
         public void Update(RegularTourRequest request)
         {
@@ -99,6 +102,7 @@ namespace SIMS_HCI_Project.Repositories
             request.Status = status;
             Save();
         }
+
         public void UpdateStatusForInvlid() //for those that arent part of complex, may edit when start working on complex tours
         {
             foreach (var request in _requests)
@@ -121,5 +125,26 @@ namespace SIMS_HCI_Project.Repositories
             return _requests.Where(r => r.GuestId == guestId && r.Status == status && r.DateRange.Start.Year == selectedYear).Count();
         }
 
+        public int GetCountByYear(int year, string language = null, Location location = null)
+        {
+            return _requests.Where(r => r.SubmittingDate.Year == year && (language == null || r.Language.Equals(language)) && (location == null || r.Location.Equals(location))).Count();
+        }
+
+        public int GetCountByMonthInYear(int year, int month, string language = null, Location location = null)
+        {
+            return _requests.Where(r => r.SubmittingDate.Year == year && r.SubmittingDate.Month == month && (language == null || r.Language.Equals(language)) && (location == null || r.Location.Equals(location))).Count();
+        }
+
+        public Location GetTopLocation()
+        {
+            return _requests.Where(r => r.SubmittingDate > DateTime.Now.AddYears(-1)).GroupBy(r => r.LocationId).OrderByDescending(r => r.Count()).First().First().Location;
+        }
+
+        public string GetTopLanguage()
+        {
+            return _requests.Where(r => r.SubmittingDate > DateTime.Now.AddYears(-1)).GroupBy(r => r.Language).OrderByDescending(r => r.Count()).First().First().Language;
+        }
+
+        
     }
 }

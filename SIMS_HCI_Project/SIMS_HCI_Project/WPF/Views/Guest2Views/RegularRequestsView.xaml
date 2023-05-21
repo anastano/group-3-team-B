@@ -16,7 +16,7 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    <Grid Background="#FF686890">
+    <Grid Background="#FF686890" Height="490" VerticalAlignment="Bottom">
         <DataGrid  Margin="10,31,10,325" 
                    ItemsSource="{Binding Path=MyRequests, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False">
             <DataGrid.Columns>
@@ -36,10 +36,10 @@
             </DataGrid.Columns>
 
         </DataGrid>
-        <Label Content="My requests:" FontSize="15" Foreground="Beige" HorizontalAlignment="Center" Margin="0,1,0,0" VerticalAlignment="Top" Height="30" Width="94"/>
+        <Label Content="My requests:" FontSize="15" Foreground="Beige" HorizontalAlignment="Left" Margin="0,1,0,0" VerticalAlignment="Top" Height="30" Width="94"/>
 
         <Frame x:Name="CreateRequestFrame" NavigationUIVisibility="Hidden" Margin="0,195,0,0"/>
-        <Button x:Name="createNewRequest" Style="{StaticResource Guest2BtnGradientOrange}" Content="CREATE NEW REQUEST" Command="{Binding DataContext.CreateRequest, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" 
+        <Button x:Name="createNewRequest" Background="Orange" Content="CREATE NEW REQUEST" Command="{Binding DataContext.CreateRequest, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" 
             HorizontalAlignment="Center" Margin="10,170,0,0" VerticalAlignment="Top" Height="25" Width="174"/>
 
     </Grid>

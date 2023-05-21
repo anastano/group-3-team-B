@@ -1,6 +1,5 @@
 ﻿using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Domain.RepositoryInterfaces;
-using SIMS_HCI_Project.Observer;
 using SIMS_HCI_Project.Repositories;
 using System;
 using System.Collections.Generic;
@@ -38,7 +37,7 @@ namespace SIMS_HCI_Project.Applications.Services
         }
         public bool IsReservationRated(int reservationId)
         {
-            return _ratingRepository.isReservationRated(reservationId);
+            return _ratingRepository.IsReservationRated(reservationId);
         }
 
         public List<RatingGivenByGuest> GetRatedByOwnerId(RatingGivenByOwnerService ownerRatingService, int ownerId)
@@ -54,28 +53,19 @@ namespace SIMS_HCI_Project.Applications.Services
             }
             return ratedByOwnerId;
         }
-
+        /// pogledati malo da li je ovo dobro definisano
         public void RateReservation(AccommodationReservationService reservationService, RatingGivenByGuest rating)
         {
             _ratingRepository.Add(rating);
             reservationService.GetById(rating.ReservationId).isRated = true;
         }
-
-        public void ConnectRatingsWithReservations(AccommodationReservationService reservationService)
-        {
-            foreach (RatingGivenByGuest rating in _ratingRepository.GetAll())
-            {
-                rating.Reservation = reservationService.GetById(rating.ReservationId);
-            }
-        }
-        ///Obrisati ovo gdje popunjava samo kod jednog
         public void FillAverageRatingAndSuperFlag(Owner owner)
         {
             FillAverageRating(owner);
             FillSuperFlag(owner);
         }
 
-        private void FillAverageRating(Owner owner)
+        public void FillAverageRating(Owner owner)
         {
             int ratingsSum = 0;
             int counter = 0;
@@ -89,37 +79,14 @@ namespace SIMS_HCI_Project.Applications.Services
             owner.AverageRating = (double)ratingsSum / counter;
         }
 
-        private void FillSuperFlag(Owner owner)
+        public void FillSuperFlag(Owner owner)
         {
             owner.SuperFlag = IsSuperFlag(owner) ? true : false;
         }
 
-        private bool IsSuperFlag(Owner owner)
+        public bool IsSuperFlag(Owner owner)
         {
             return (GetByOwnerId(owner.Id).Count >= 2 && owner.AverageRating > 4.5);
-        }
-        ///Nova dodata
-        public void FillAverageRatingAndSuperFlag(OwnerService ownerService)
-        {
-            foreach(Owner owner in ownerService.GetAll())
-            {
-                FillAverageRating(owner);
-                FillSuperFlag(owner);
-            }
-        }
-        public void NotifyObservers()
-        {
-            _ratingRepository.NotifyObservers();
-        }
-
-        public void Subscribe(IObserver observer)
-        {
-            _ratingRepository.Subscribe(observer);
-        }
-
-        public void Unsubscribe(IObserver observer)
-        {
-            _ratingRepository.Unsubscribe(observer);
         }
     }
 }

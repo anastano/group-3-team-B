@@ -9,10 +9,17 @@
              mc:Ignorable="d" 
              d:DesignHeight="702" d:DesignWidth="969" Background="#f5f5f5">
     <UserControl.Resources>
-        <converters:ImageUrlConverter x:Key="ImageUrlConverter"/>
-        <converters:ButtonMinusConverter x:Key="ButtonMinusConverter"/>
-        <converters:ButtonPlusConverter x:Key="ButtonPlusConverter"/>
-        <converters:ButtonToEnableConverter x:Key="ButtonToEnableConverter"/>
+        <ControlTemplate x:Key="ValidationTemplate">
+            <StackPanel>
+                <!-- Placeholder for the TextBox itself -->
+                <AdornedElementPlaceholder x:Name="textBox" />
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="../../../Resources/Images/warning.png" Width="18" Height="18" Margin="0, 0, 10, 0"  />
+                    <TextBlock Text="{Binding [0].ErrorContent}" TextWrapping="Wrap" Foreground="Red" Width="125" />
+                </StackPanel>
+            </StackPanel>
+
+        </ControlTemplate>
     </UserControl.Resources>
     <Grid Margin="15, 15, 15, 15">
         <Grid.ColumnDefinitions>
@@ -20,122 +27,92 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="0.6*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.5*" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="1.5*" />
             <RowDefinition Height="0.5*" />
+            <RowDefinition Height="1.8*" />
+            <RowDefinition Height="0.4*" />
             <RowDefinition Height="5*" />
         </Grid.RowDefinitions>
-        <Button Grid.Row="0" Grid.Column="0" Command="{Binding DataContext.BackCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Margin="0,0,0,0" Content="Back" FontSize="18" Width="80" HorizontalAlignment="Left"/>
-        <Label Grid.Row="1" Grid.ColumnSpan="5" Content="{Binding Accommodation.Name}" HorizontalAlignment="Center" FontSize="25" Width="770"/>
+        <Button Grid.Row="0" Grid.Column="0" Style="{StaticResource GuestButtonStyle}"
+                Command="{Binding DataContext.BackCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Content="Back" HorizontalAlignment="Left"/>
+        <Label Grid.Row="1" Grid.ColumnSpan="5" Style="{StaticResource fancyTitle}" Content="{Binding Accommodation.Name}" FontSize="25" Height="60"
+               HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Width="940" />
         <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="0">
-            <Label HorizontalAlignment="Left" Width="144">Start</Label>
+            <Label HorizontalAlignment="Left" Style="{StaticResource GuestLabelStyle}">Start</Label>
             <DatePicker SelectedDate="{Binding Start, StringFormat='{}{0:MM/dd/yyyy}', ValidatesOnDataErrors = True, NotifyOnValidationError = True}" 
-                            SelectedDateFormat="Short" Height="25" Width="150" HorizontalAlignment="Left">
+                            SelectedDateFormat="Short" Width="150" HorizontalAlignment="Left" Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
+                        Style="{StaticResource CustomDatePickerStyle}">
                 <DatePicker.Resources>
                     <Style TargetType="DatePickerTextBox">
                         <Setter Property="IsReadOnly" Value="True"/>
                     </Style>
                 </DatePicker.Resources>
-                <Validation.ErrorTemplate>
-                    <ControlTemplate>
-                        <StackPanel>
-                            <AdornedElementPlaceholder x:Name="textBox"/>
-                            <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
-                        </StackPanel>
-                    </ControlTemplate>
-                </Validation.ErrorTemplate>
             </DatePicker>
         </StackPanel>
         <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="1">
-            <Label HorizontalAlignment="Left" Width="144">End</Label>
+            <Label HorizontalAlignment="Left" Style="{StaticResource GuestLabelStyle}">End</Label>
             <DatePicker SelectedDate="{Binding End, StringFormat='{}{0:MM/dd/yyyy}', ValidatesOnDataErrors = True, NotifyOnValidationError = True}" 
-                            SelectedDateFormat="Short" Height="25" Width="150" HorizontalAlignment="Left">
+                            SelectedDateFormat="Short" Width="150" HorizontalAlignment="Left"
+                        Style="{StaticResource CustomDatePickerStyle}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}">
                 <DatePicker.Resources>
                     <Style TargetType="DatePickerTextBox">
                         <Setter Property="IsReadOnly" Value="True"/>
                     </Style>
                 </DatePicker.Resources>
-                <Validation.ErrorTemplate>
-                    <ControlTemplate>
-                        <StackPanel>
-                            <AdornedElementPlaceholder x:Name="textBox"/>
-                            <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red"/>
-                        </StackPanel>
-                    </ControlTemplate>
-                </Validation.ErrorTemplate>
             </DatePicker>
         </StackPanel>
-        <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="2" >
-            <Label HorizontalAlignment="Left" Width="144">Number of Days</Label>
-            <StackPanel Orientation="Horizontal">
-                <Button  Command="{Binding DataContext.MinusDaysNumberCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
-                        Margin="0,0,0,0" Content="-" FontSize="18" Width="30">
-                    <Button.IsEnabled>
-                        <MultiBinding Converter="{StaticResource ButtonToEnableConverter}">
-                            <Binding Path="DaysNumber" />
-                            <Binding Path="Accommodation.MinimumReservationDays" />
-                        </MultiBinding>
-                    </Button.IsEnabled>
-                </Button>
-                <TextBox HorizontalAlignment="Left" Text="{Binding Path = DaysNumber, UpdateSourceTrigger = PropertyChanged, Mode=TwoWay}" TextWrapping="Wrap"  Width="100"/>
-                <Button Command="{Binding DataContext.PlusDaysNumberCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Margin="0,0,0,0" Content="+" FontSize="18" Width="30"/>
-            </StackPanel>
+        <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="2" Margin="0,0,0,1" >
+            <Label HorizontalAlignment="Left" Width="144" Style="{StaticResource GuestLabelStyle}">Number of Days</Label>
+            <TextBox HorizontalAlignment="Left" Style="{StaticResource GuestTextBoxStyle}"  Width="150"
+                     Text="{Binding Path = DaysNumber, UpdateSourceTrigger = PropertyChanged, ValidatesOnDataErrors=True, Mode=TwoWay}" 
+                     Validation.ErrorTemplate="{StaticResource ValidationTemplate}" TextWrapping="Wrap">
+            </TextBox>
+
         </StackPanel>
         <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="3">
-            <Label HorizontalAlignment="Left" Width="144">Number of Guests</Label>
-            <StackPanel Orientation="Horizontal">
-                <Button Content="-" Command="{Binding DataContext.MinusGuestNumberCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Margin="0,0,0,0" FontSize="18" Width="30"
-                        IsEnabled ="{Binding GuestsNumber, Converter={StaticResource ButtonMinusConverter}}"/>
-                <TextBox HorizontalAlignment="Left" IsReadOnly="True" Text="{Binding Path = GuestsNumber, UpdateSourceTrigger = PropertyChanged}" Name="txtGuestNumber" Height="30" Margin="0,0,0,0" TextWrapping="Wrap" Width="100"/>
-                <Button Content="+" Command="{Binding DataContext.PlusGuestNumberCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" FontSize="18" Margin="0,0,0,0" Width="30">
-                    <Button.IsEnabled>
-                        <MultiBinding Converter="{StaticResource ButtonPlusConverter}">
-                            <Binding Path="GuestsNumber" />
-                            <Binding Path="Accommodation.MaxGuests" />
-                        </MultiBinding>
-                    </Button.IsEnabled>
-                </Button>
-            </StackPanel>
+            <Label HorizontalAlignment="Left" Width="144" Style="{StaticResource GuestLabelStyle}" >Number of Guests</Label>
+            <TextBox HorizontalAlignment="Left" Text="{Binding Path = GuestsNumber, UpdateSourceTrigger = PropertyChanged, TargetNullValue=0, ValidatesOnDataErrors=True}"
+                     Style="{StaticResource GuestTextBoxStyle}" 
+                     Margin="0,0,0,0" TextWrapping="Wrap" Width="150" 
+                     Validation.ErrorTemplate="{StaticResource ValidationTemplate}" />
+
         </StackPanel>
-        <Button Grid.Row="2" Grid.Column="4" Content="Search" Command="{Binding DataContext.SearchFreeCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" HorizontalAlignment="Left" Margin="0, 25, 0, 0" Width="60" Height="30" VerticalAlignment="Top" />
-        <Label Grid.Row="3" Grid.ColumnSpan="5" Content="{Binding SpecialText}" HorizontalAlignment="Center" FontSize="25"/>
+        <Button Grid.Row="2" Grid.Column="4" Content="Search" Style="{StaticResource GuestButtonStyle}"
+                Command="{Binding DataContext.SearchCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" HorizontalAlignment="Left" Margin="0, 25, 0, 0"  VerticalAlignment="Top" />
+        <Label Grid.Row="3" Grid.ColumnSpan="5" Style="{StaticResource fancyTitle}"
+               Content="{Binding SuggestionText}" HorizontalAlignment="Left" Margin="0,0,0,0" Width="940" FontSize="15"/>
         <DataGrid Grid.ColumnSpan="5" Grid.Row="4"
-                  ItemsSource="{Binding Path=AvailableAccommodations, UpdateSourceTrigger=PropertyChanged}"
-                  SelectedItem="{Binding Path=SelectedAccommodation, UpdateSourceTrigger=PropertyChanged}"
-                  AutoGenerateColumns="False" IsReadOnly="True" Margin="0, 10, 0, 0">
+                  ItemsSource="{Binding Path=AvailableReservations, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}"
+                  AutoGenerateColumns="False" IsReadOnly="True" Margin="0, 10, 0, 0" HorizontalScrollBarVisibility="Hidden"
+                   GridLinesVisibility="Horizontal" RowHeight="100" ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}"
+                  Style="{StaticResource GuestDatagridStyle}" RowStyle="{StaticResource DataGridRowStyle}" CellStyle="{StaticResource GuestDatagridCellStyle}">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Image">
+                <DataGridTextColumn Header="Start" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="250"
+                                    ElementStyle="{StaticResource CustomTextBlockStyle}">
+                   
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="End" Binding="{Binding End , StringFormat='{}{0:MM/dd/yyyy}'}" Width="150"
+                                    ElementStyle="{StaticResource CustomTextBlockStyle}">
+                    
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Number of guests" Binding="{Binding GuestNumber}" Width="250"
+                                    ElementStyle="{StaticResource CustomTextBlockStyle}">
+                    
+                </DataGridTextColumn>
+                <DataGridTemplateColumn Header="Reserve" Width="250">
+                    
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding Images, Converter={StaticResource ImageUrlConverter}}" Width="50" Height="50"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Country" Binding="{Binding Location.Country}" Width="SizeToCells"></DataGridTextColumn>
-                <DataGridTextColumn Header="City" Binding="{Binding Location.City}" Width="SizeToCells"></DataGridTextColumn>
-                <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="*"></DataGridTextColumn>
-                <DataGridTextColumn Header="Minimum Days" Binding="{Binding MinimumReservationDays}" Width="SizeToHeader"></DataGridTextColumn>
-                <DataGridTextColumn Header="Guest Capacity" Binding="{Binding MaxGuests}" Width="SizeToHeader"></DataGridTextColumn>
-                <DataGridTemplateColumn Header="Reserve">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="Reserve" Command="{Binding DataContext.ReserveAccommodationCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Margin="3, 3, 3, 3"/>
+                            <Button Content="Reserve" Style="{StaticResource GuestButtonStyle}"
+                                    Command="{Binding DataContext.ReserveAccommodationCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Margin="3, 3, 3, 3"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <ContentControl x:Name="UserControls" Content="{Binding CurrentViewModel}" Grid.ColumnSpan="5" Margin="-15,-15,-15,-15" Grid.RowSpan="5">
-            <ContentControl.Resources>
-                <DataTemplate DataType="{x:Type viewmodels:AccommodationSearchViewModel}">
-                    <views:AccommodationSearchView/>
-                </DataTemplate>
-            </ContentControl.Resources>
-        </ContentControl>
     </Grid>
 </UserControl>

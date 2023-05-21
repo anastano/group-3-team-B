@@ -8,19 +8,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\back.png" />
     <None Remove="Resources\Images\booking.png" />
     <None Remove="Resources\Images\chat.png" />
     <None Remove="Resources\Images\goldenHouse.png" />
+    <None Remove="Resources\Images\help.png" />
     <None Remove="Resources\Images\logout.png" />
+    <None Remove="Resources\Images\maintenance.png" />
     <None Remove="Resources\Images\menu.png" />
     <None Remove="Resources\Images\patternCircle.jpg" />
     <None Remove="Resources\Images\patternLines.png" />
     <None Remove="Resources\Images\patternTriangle.jpg" />
+    <None Remove="Resources\Images\previous.png" />
     <None Remove="Resources\Images\profil.png" />
     <None Remove="Resources\Images\rating.png" />
     <None Remove="Resources\Images\reserve.png" />
     <None Remove="Resources\Images\search.png" />
+    <None Remove="Resources\Images\TourSearchHelp.png" />
     <None Remove="Resources\Images\user.png" />
+    <None Remove="Resources\Images\warning.png" />
     <None Remove="WPF\Images\avatar.png" />
     <None Remove="WPF\Images\guideBackground.png" />
     <None Remove="WPF\Images\home.png" />
@@ -30,10 +36,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Images\back.png" />
+    <Resource Include="Resources\Images\help.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="DotNetProjects.WpfToolkit.DataVisualization" Version="6.1.94" />
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.0" />
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
+    <PackageReference Include="Syncfusion.Pdf.Wpf" Version="21.2.5" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,17 +55,21 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\logout.png" />
+    <Resource Include="Resources\Images\maintenance.png" />
     <Resource Include="Resources\Images\menu.png" />
     <Resource Include="Resources\Images\patternCircle.jpg" />
     <Resource Include="Resources\Images\patternLines.png" />
     <Resource Include="Resources\Images\patternTriangle.jpg" />
+    <Resource Include="Resources\Images\previous.png" />
     <Resource Include="Resources\Images\profil.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Resources\Images\rating.png" />
     <Resource Include="Resources\Images\reserve.png" />
     <Resource Include="Resources\Images\search.png" />
+    <Resource Include="Resources\Images\TourSearchHelp.png" />
     <Resource Include="Resources\Images\user.png" />
+    <Resource Include="Resources\Images\warning.png" />
     <Resource Include="WPF\Images\avatar.png" />
     <Resource Include="WPF\Images\guideBackground.png" />
     <Resource Include="WPF\Images\home.png" />
@@ -87,6 +103,10 @@
     <Page Update="WPF\Views\Guest2Views\TourSearchView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="WPF\Validations\" />
   </ItemGroup>
 
 </Project>

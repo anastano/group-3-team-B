@@ -9,7 +9,7 @@ namespace SIMS_HCI_Project.Domain.Models
 {
     public enum RescheduleRequestStatus { ACCEPTED, DENIED, PENDING };
 
-    public class RescheduleRequest : ISerializable
+    public class RescheduleRequest
     {
         public int Id { get; set; }
         public int AccommodationReservationId { get; set; }
@@ -31,39 +31,5 @@ namespace SIMS_HCI_Project.Domain.Models
             OwnerComment = "";
         }
 
-        public RescheduleRequest(RescheduleRequest request)
-        {
-            Id = request.Id;
-            AccommodationReservationId = request.AccommodationReservationId;
-            WantedStart = request.WantedStart;
-            WantedEnd = request.WantedEnd;
-            Status = request.Status;
-            OwnerComment = request.OwnerComment;
-        }
-
-        public string[] ToCSV()
-        {
-            string[] csvValues =
-            {
-                Id.ToString(),
-                AccommodationReservationId.ToString(),
-                WantedStart.ToString("MM/dd/yyyy"),
-                WantedEnd.ToString("MM/dd/yyyy"),
-                Status.ToString(),
-                OwnerComment
-            };
-            return csvValues;
-        }
-
-        public void FromCSV(string[] values)
-        {
-            Id = int.Parse(values[0]);
-            AccommodationReservationId = int.Parse(values[1]);
-            WantedStart = DateTime.ParseExact(values[2], "MM/dd/yyyy", null);
-            WantedEnd = DateTime.ParseExact(values[3], "MM/dd/yyyy", null);
-            Enum.TryParse(values[4], out RescheduleRequestStatus status);
-            Status = status;
-            OwnerComment = values[5];
-        }
     }
 }

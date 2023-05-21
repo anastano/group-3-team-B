@@ -1,6 +1,5 @@
 ﻿using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Repositories;
-using SIMS_HCI_Project.Observer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,7 +38,7 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return _accommodationRepository.GetAllSortedBySuperFlag();
         }
-        public List<Accommodation> Search(string name, string country, string city, string type, int guestsNumber, int reservationDays)
+        public List<Accommodation> Search(string name, string country, string city, string type, string guestsNumber, string reservationDays)
         {
             return _accommodationRepository.Search(name, country, city, type, guestsNumber, reservationDays);
         }
@@ -54,41 +53,17 @@ namespace SIMS_HCI_Project.Applications.Services
             accommodation.LocationId = accommodation.Location.Id;
             _accommodationRepository.Add(accommodation);
         }
-
         public void Delete(Accommodation accommodation)
         {
             _accommodationRepository.Delete(accommodation);
         }
-
-        public void ConnectAccommodationsWithLocations(LocationService locationService)
+        public void ConvertAccommodationIntoRenovated(RenovationService renovationService)
         {
             foreach (Accommodation accommodation in GetAll())
             {
-                accommodation.Location = locationService.GetById(accommodation.LocationId);
+                accommodation.IsRenovated = renovationService.IsAccommodationRenovated(accommodation.Id);
             }
         }
-        public void ConnectAccommodationsWithOwners(OwnerService ownerService)
-        {
-            foreach (Accommodation accommodation in GetAll())
-            {
-                accommodation.Owner = ownerService.GetById(accommodation.OwnerId);
-            }
-        }
-
-        public void NotifyObservers()
-        {
-            _accommodationRepository.NotifyObservers();
-        }
-
-        public void Subscribe(IObserver observer)
-        {
-            _accommodationRepository.Subscribe(observer);
-        }
-
-        public void Unsubscribe(IObserver observer)
-        {
-            _accommodationRepository.Unsubscribe(observer);
-        }   
 
     }
 }

@@ -13,7 +13,7 @@ using System.Windows;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 {
-    public class RescheduleRequestsViewModel: IObserver
+    public class RescheduleRequestsViewModel
     {
         private readonly RescheduleRequestService _requestService;
         private readonly AccommodationReservationService _reservationService;
@@ -25,6 +25,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public RescheduleRequest SelectedRequest { get; set; }
 
         public RelayCommand ShowSelectedRequestCommand { get; set; }
+        public RelayCommand CloseRescheduleRequestsViewCommand { get; set; }
 
         public RescheduleRequestsViewModel(RescheduleRequestsView requestsView, RescheduleRequestService rescheduleRequestService, 
             AccommodationReservationService reservationSevice, NotificationService notificationService, Owner owner)
@@ -38,8 +39,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             RequestsView = requestsView;
             Owner = owner;           
             PendingRequests = new ObservableCollection<RescheduleRequest>(_requestService.GetPendingByOwnerId(Owner.Id));
-
-            _requestService.Subscribe(this);
         }
 
         #region Commands
@@ -47,12 +46,26 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             if (SelectedRequest != null)
             {
-                Window requestHandlerView = new RequestHandlerView(_requestService, _reservationService, _notificationService, SelectedRequest);
+                Window requestHandlerView = new RequestHandlerView(this, _requestService, _reservationService, _notificationService, SelectedRequest);
                 requestHandlerView.Show();
+            }
+            else
+            {
+                MessageBox.Show("No request has been selected");
             }
         }
 
         public bool CanExecute_ShowSelectedRequestCommand(object obj)
+        {
+            return true;
+        }
+
+        public void Executed_CloseRescheduleRequestsViewCommand(object obj)
+        {
+            RequestsView.Close();
+        }
+
+        public bool CanExecute_CloseRescheduleRequestsViewCommand(object obj)
         {
             return true;
         }
@@ -61,11 +74,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public void InitCommands()
         {
             ShowSelectedRequestCommand = new RelayCommand(Executed_ShowSelectedRequestCommand, CanExecute_ShowSelectedRequestCommand);
-        }
-
-        public void Update()
-        {
-            UpdatePendingRequests();
+            CloseRescheduleRequestsViewCommand = new RelayCommand(Executed_CloseRescheduleRequestsViewCommand, CanExecute_CloseRescheduleRequestsViewCommand);
         }
 
         public void UpdatePendingRequests()

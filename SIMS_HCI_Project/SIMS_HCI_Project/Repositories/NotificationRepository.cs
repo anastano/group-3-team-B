@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Repositories
 {
-    public class NotificationRepository : ISubject, INotificationRepository
+    public class NotificationRepository : INotificationRepository
     {
-        private readonly List<IObserver> _observers;
         private readonly NotificationFileHandler _fileHandler;
 
         private static List<Notification> _notifications;
@@ -19,10 +18,10 @@ namespace SIMS_HCI_Project.Repositories
         public NotificationRepository()
         {
             _fileHandler = new NotificationFileHandler();
-            _notifications = _fileHandler.Load();
-
-            _observers = new List<IObserver>();
-
+            if(_notifications == null)
+            {
+                _notifications = _fileHandler.Load();
+            }
         }
 
         public int GenerateId()
@@ -55,7 +54,6 @@ namespace SIMS_HCI_Project.Repositories
             notification.Id = GenerateId();
             _notifications.Add(notification);            
             Save();
-            NotifyObservers();
         }
 
         public void Update(Notification notification)
@@ -71,25 +69,6 @@ namespace SIMS_HCI_Project.Repositories
             Notification notification = _notifications.Find(n => n.Id == notificationId);
             notification.IsRead = true;
             Save();
-            NotifyObservers();
-        }
-
-        public void NotifyObservers()
-        {
-            foreach (var observer in _observers)
-            {
-                observer.Update();
-            }
-        }
-
-        public void Subscribe(IObserver observer)
-        {
-            _observers.Add(observer);
-        }
-
-        public void Unsubscribe(IObserver observer)
-        {
-            _observers.Remove(observer);
         }
     }
 }

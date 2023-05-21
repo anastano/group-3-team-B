@@ -1,11 +1,13 @@
-﻿using SIMS_HCI_Project.Domain.Models;
-using SIMS_HCI_Project.Observer;
+﻿using SIMS_HCI_Project.Domain.DTOs;
+using SIMS_HCI_Project.Domain.Models;
+using SIMS_HCI_Project.Injector;
 using SIMS_HCI_Project.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Ink;
 
 namespace SIMS_HCI_Project.Applications.Services
 {
@@ -22,101 +24,59 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return _reservationRepository.GetById(id);
         }
-
-        public List<AccommodationReservation> GetAll()
-        {
-            return _reservationRepository.GetAll();
-        }
-
         public List<AccommodationReservation> GetByOwnerId(int ownerId)
         {
             return _reservationRepository.GetByOwnerId(ownerId);
         }
 
-        public List<AccommodationReservation> GetByAccommodationId(int accommodationId)
+        public List<AccommodationReservation> GetByAccommodationId(int accommodationId) 
         {
             return _reservationRepository.GetByAccommodationId(accommodationId);
         }
 
-        public List<AccommodationReservation> GetAllByStatusAndGuestId(int id, AccommodationReservationStatus status)
+        public List<AccommodationReservation> GetAllReserevedByAccommodationId(int accommodationId)
         {
-            return _reservationRepository.GetAllByStatusAndGuestId(id, status);
+            return _reservationRepository.GetAllReservedByAccommodationId(accommodationId);
+        }
+
+        public List<AccommodationReservation> GetAllByStatusAndGuestId(int guestId, AccommodationReservationStatus status)
+        {
+            return _reservationRepository.GetAllByStatusAndGuestId(guestId, status);
         }
         public List<AccommodationReservation> GetByGuestId(int id)
         {
             return _reservationRepository.GetByGuestId(id);
         }
-
         public List<AccommodationReservation> GetInProgressByOwnerId(int ownerId)
         {
             List<AccommodationReservation> reservationsInProgress = new List<AccommodationReservation>();
 
             foreach (AccommodationReservation reservation in GetByOwnerId(ownerId))
             {
-                if (IsInProgress(reservation) && IsReservedOrRescheduled(reservation))
+                if ((new DateRange(reservation.Start, reservation.End)).IsInProgress())
                 {
                     reservationsInProgress.Add(reservation);
                 }
             }
             return reservationsInProgress;
-        }
-        
-        public bool IsInProgress(AccommodationReservation reservation)
-        {
-            return DateTime.Today >= reservation.Start && DateTime.Today <= reservation.End;
-        }
-        public bool IsReservationActive(AccommodationReservation reservation)
-        {
-            return reservation.End >= DateTime.Today;
-        }
+        } 
 
-        public bool IsReservedOrRescheduled(AccommodationReservation reservation)
+        public void Add(AccommodationReservation reservation)
         {
-            return reservation.Status == AccommodationReservationStatus.RESERVED || reservation.Status == AccommodationReservationStatus.RESCHEDULED;
+            _reservationRepository.Add(reservation);
         }
-
-        public bool IsCompleted(AccommodationReservation reservation)
-        {
-            return reservation.Status == AccommodationReservationStatus.COMPLETED;
-        }
-
-        public bool IsWithinFiveDaysAfterCheckout(AccommodationReservation reservation)
-        {
-            return DateTime.Today <= reservation.End.AddDays(5);
-        }
-
         public void EditStatus(int reservationId, AccommodationReservationStatus status)
         {
             _reservationRepository.EditStatus(reservationId, status);
         }
-
         public void EditReservation(RescheduleRequest request)
         {
             _reservationRepository.EditReservation(request);
         }
-
-        public List<AccommodationReservation>  OwnerSearch(string accommodationName, string guestName, string guestSurname, int ownerId)
+        public List<AccommodationReservation> OwnerSearch(string accommodationName, string guestName, string guestSurname, int ownerId)
         {
             return _reservationRepository.OwnerSearch(accommodationName, guestName, guestSurname, ownerId);
         }
-
-        public void ConnectReservationsWithAccommodations(AccommodationService accommodationService)
-        {
-            foreach (AccommodationReservation reservation in GetAll())
-            {
-                reservation.Accommodation = accommodationService.GetById(reservation.AccommodationId);
-            }
-        }
-
-        public void ConnectReservationsWithGuests(Guest1Service guest1Service)
-        {
-            foreach (AccommodationReservation reservation in GetAll())
-            {
-                reservation.Guest = guest1Service.GetById(reservation.GuestId);
-            }
-        }
-
-
         public void ConvertReservedReservationIntoCompleted(DateTime currentDate)
         {
             _reservationRepository.ConvertReservedReservationIntoCompleted(currentDate);
@@ -128,25 +88,61 @@ namespace SIMS_HCI_Project.Applications.Services
                 reservation.isRated = ratingGivenByGuestService.IsReservationRated(reservation.Id);
             }
         }
-
         public void CancelReservation(NotificationService notificationService, AccommodationReservation reservation)
         {
             String Message = "Reservation for " + reservation.Accommodation.Name + " with id: " + reservation.Id + " has been cancelled";
             notificationService.Add(new Notification(Message, reservation.Accommodation.OwnerId, false));
             _reservationRepository.EditStatus(reservation.Id, AccommodationReservationStatus.CANCELLED);
         }
+        public List<AccommodationReservation> GetAvailableReservations(Accommodation accommodation, Guest1 guest, DateTime start, DateTime end, int daysNumber, int guestsNumber)
+        {
+            List<AccommodationReservation> availableReservations = new List<AccommodationReservation>();
+            DateTime potentialStart = start;
+            DateTime potentialEnd = start.AddDays(daysNumber - 1);
+            DateRange potentialDateRange = new DateRange(potentialStart, potentialEnd);
+            while (potentialEnd <= end)
+            {
+                 if (!DoesOverlapWithRenovations(accommodation, potentialDateRange) && !DoesOverlapWithReservations(accommodation, potentialDateRange))
+                 {
+                     availableReservations.Add(new AccommodationReservation(accommodation, guest, potentialStart, potentialEnd, guestsNumber));
+                 }
 
-        public void NotifyObservers()
-        {
-            _reservationRepository.NotifyObservers();
+                 potentialStart = potentialStart.AddDays(1);
+                 potentialEnd = potentialStart.AddDays(daysNumber - 1);
+                 potentialDateRange = new DateRange(potentialStart, potentialEnd);
+            }
+            return availableReservations;
         }
-        public void Subscribe(IObserver observer)
+        public bool DoesOverlapWithRenovations(Accommodation accommodation, DateRange potentialDateRange)
         {
-            _reservationRepository.Subscribe(observer);
+            RenovationService renovationService = new RenovationService();
+            foreach (Renovation renovation in renovationService.GetByAccommodationId(accommodation.Id))
+            {
+                if (potentialDateRange.DoesOverlap(new DateRange(renovation.Start, renovation.End)))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
-        public void Unsubscribe(IObserver observer)
+        public bool DoesOverlapWithReservations(Accommodation accommodation, DateRange potentialDateRange)
         {
-            _reservationRepository.Unsubscribe(observer);
+            foreach (AccommodationReservation reservation in GetAllReserevedByAccommodationId(accommodation.Id))
+            {
+                if (potentialDateRange.DoesOverlap(new DateRange(reservation.Start, reservation.End)))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public List<AccommodationReservation> GetSuggestedAvailableReservations(Accommodation accommodation, Guest1 guest, DateTime start, DateTime end, int daysNumber, int guestsNumber)
+        {
+            return GetAvailableReservations(accommodation, guest,  end, end.AddDays(30), daysNumber, guestsNumber);
+        }
+        public List<AccommodationReservation> GetReservationsWithinOneYear(int guestId)
+        {
+            return _reservationRepository.GetReservationsWithinOneYear(guestId);
         }
     }
 }

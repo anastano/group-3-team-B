@@ -1,6 +1,6 @@
-﻿using SIMS_HCI_Project.Domain.Models;
+﻿using SIMS_HCI_Project.Domain.DTOs;
+using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Domain.RepositoryInterfaces;
-using SIMS_HCI_Project.Observer;
 using SIMS_HCI_Project.Repositories;
 using System;
 using System.Collections.Generic;
@@ -52,10 +52,12 @@ namespace SIMS_HCI_Project.Applications.Services
         public List<AccommodationReservation> GetUnratedReservations(int ownerId, AccommodationReservationService reservationService)
         {
             List<AccommodationReservation> unratedReservations = new List<AccommodationReservation>();
+            DateRange possibleDateRange = new DateRange(DateTime.Today.AddDays(-5), DateTime.Today);
 
             foreach (AccommodationReservation reservation in reservationService.GetByOwnerId(ownerId))
             {
-                if (reservationService.IsCompleted(reservation) && reservationService.IsWithinFiveDaysAfterCheckout(reservation) && !IsReservationRated(reservation))
+                DateRange reservationDateRange = new DateRange(reservation.Start, reservation.End);
+                if (reservationDateRange.IsEndInside(possibleDateRange) && !IsReservationRated(reservation))
                 {
                     unratedReservations.Add(reservation);
                 }
@@ -85,28 +87,14 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             _ratingRepository.Add(rating);
         }
-
-        public void ConnectRatingsWithReservations(AccommodationReservationService reservationService)
+        public List<KeyValuePair<int, int>> GetRatingStatisticsForCategory(int guestId, string categoryName)
         {
-            foreach (RatingGivenByOwner rating in _ratingRepository.GetAll())
+            List<KeyValuePair<int, int>> statstics = new List<KeyValuePair<int, int>>();
+            for (int i = 1; i <= 5; i++)
             {
-                rating.Reservation = reservationService.GetById(rating.ReservationId);
+                statstics.Add(new KeyValuePair<int, int>(i, _ratingRepository.GetRatingCountForCategory(guestId, categoryName, i)));
             }
-        }
-
-        public void NotifyObservers()
-        {
-            _ratingRepository.NotifyObservers();
-        }
-
-        public void Subscribe(IObserver observer)
-        {
-            _ratingRepository.Subscribe(observer);
-        }
-
-        public void Unsubscribe(IObserver observer)
-        {
-            _ratingRepository.Unsubscribe(observer);
+            return statstics;
         }
     }
 }

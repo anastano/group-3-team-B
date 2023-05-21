@@ -2,11 +2,13 @@
 using SIMS_HCI_Project.Controller;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands;
+using SIMS_HCI_Project.WPF.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -14,9 +16,11 @@ using System.Windows;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
-    internal class AccommodationReservationViewModel : INotifyPropertyChanged
+    internal class AccommodationReservationViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
+        private NavigationService _navigationService;
         private AccommodationReservationService _accommodationReservationService;
+        private SuperGuestTitleService _titleService;
         public AccommodationReservation SelectedReservation { get; set; }
         public Accommodation Accommodation { get; }
         public Guest1 Guest { get; set; }
@@ -42,8 +46,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
-        private int _guestsNumber;
-        public int GuestsNumber
+
+        private string _guestsNumber;
+        public string GuestsNumber
         {
             get => _guestsNumber;
             set
@@ -66,6 +71,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 {
                     _daysNumber = value;
                     OnPropertyChanged(nameof(DaysNumber));
+                    Validate();
                 }
             }
         }
@@ -79,6 +85,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 {
                     _start = value;
                     OnPropertyChanged(nameof(Start));
+                    Validate();
                 }
             }
         }
@@ -92,42 +99,140 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 {
                     _end = value;
                     OnPropertyChanged(nameof(End));
+                    Validate();
                 }
             }
         }
-        private bool _isClosed;
-        public bool IsClosed
+        private string _suggestionText;
+        public string SuggestionText
         {
-            get { return _isClosed; }
+            get => _suggestionText;
             set
             {
-                _isClosed = value;
-                OnPropertyChanged(nameof(IsClosed));
-                if (value)
+                if (value != _suggestionText)
                 {
-                    Closed?.Invoke(this, EventArgs.Empty);
+
+                    _suggestionText = value;
+                    OnPropertyChanged(nameof(SuggestionText));
                 }
             }
         }
-        public event EventHandler Closed;
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public AccommodationReservationViewModel(Accommodation accommodation, Guest1 guest)
+        public AccommodationReservationViewModel(Accommodation accommodation, Guest1 guest, NavigationService navigationService)
         {
+            _navigationService = navigationService;
             _accommodationReservationService = new AccommodationReservationService();
+            _titleService = new SuperGuestTitleService();
             Accommodation = accommodation;
             Guest = guest;
             AvailableReservations = new List<AccommodationReservation>();
-            GuestsNumber = accommodation.MaxGuests;
+            GuestsNumber = 1.ToString();
             DaysNumber = accommodation.MinimumReservationDays;
-            Start = DateTime.Now.AddDays(1);
-            End = DateTime.Now.AddDays(accommodation.MinimumReservationDays);
+            Start = DateTime.Today.AddDays(1);
+            End = DateTime.Today.AddDays(accommodation.MinimumReservationDays);
             InitCommands();
         }
+
+        public string Error => null;
+
+        public string this[string columnName]
+        {
+            get
+            {
+                if (columnName == nameof(Start))
+                {
+                    if (Start <= DateTime.Today)
+                    {
+                        return "Date must be after today.";
+                    }
+                }
+                else if (columnName == nameof(End))
+                {
+                    if (End <= DateTime.Today)
+                    {
+                        return "Date must be after today.";
+                    }
+                }
+                else if (columnName == nameof(DaysNumber))
+                {
+                    if ((DaysNumber >= Accommodation.MinimumReservationDays) == false)
+                    {
+                        return $"Minimum reservation duration is {Accommodation.MinimumReservationDays} days.";
+                    }
+                }
+                else if (columnName == nameof(GuestsNumber))
+                {
+                    int result;
+                    if (!int.TryParse(GuestsNumber, out result))
+                    {
+                        return "Invalid input. Please enter a valid number.";
+                    }
+                    else if(result <= 0)
+                    {
+                        return "Only numbers bigger than 0";
+                    }
+                    else if(result > Accommodation.MaxGuests)
+                    {
+                        return $"Max guests number is {Accommodation.MaxGuests}";
+                    }
+                    return null;
+                }
+                if (columnName == nameof(End) || columnName == nameof(Start))
+                {
+                    if (Start > End)
+                    {
+                        return "Start date must be before the end date.";
+                    }
+                    else
+                    {
+                        return null;
+                    }
+
+                }
+
+                // Custom cross-field validation
+                if (columnName == nameof(Start) || columnName == nameof(End) || columnName == nameof(DaysNumber))
+                {
+                    if (((End - Start).TotalDays + 1) >= DaysNumber || ((End - Start).TotalDays  == 0 && DaysNumber == 1))
+                    {
+                        return null;
+                    }
+                    else
+                    {
+                        return $"Start-end date range must be greater than number of days.";
+                    }
+                }
+
+                return null;
+            }
+        }
+        private readonly string[] _validatedProperties = { "DaysNumber", "Start", "End", "GuestsNumber" };
+
+        public bool IsValid
+        {
+            get
+            {
+                foreach (var property in _validatedProperties)
+                {
+                    if (this[property] != null)
+                        return false;
+                }
+
+                return true;
+            }
+        }
+        private void Validate()
+        {
+            OnPropertyChanged(nameof(Start));
+            OnPropertyChanged(nameof(End));
+            OnPropertyChanged(nameof(DaysNumber));
+        }
+
         private MessageBoxResult ConfirmReservation()
         {
             string sMessageBoxText = $"This reservation will be made, are you sure?";
@@ -146,26 +251,40 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 MessageBoxResult result = ConfirmReservation();
                 if (result == MessageBoxResult.Yes)
                 {
-                    
+                    _accommodationReservationService.Add(new AccommodationReservation(SelectedReservation));
+                    _titleService.UpdateSuperGuestTitle(_accommodationReservationService ,Guest);
+                    //UpdateAvailableReservations();
+                    _navigationService.Navigate(new ReservationsViewModel(Guest, _navigationService, 0), "My Reservations");
                 }
             }
         }
         public void ExecutedSearchCommand(object obj)
         {
-            
+            if (IsValid)
+            {
+                UpdateAvailableReservations();
+            }
+
         }
+        private void UpdateAvailableReservations()
+        {
+            AvailableReservations = _accommodationReservationService.GetAvailableReservations(Accommodation, Guest, Start, End, DaysNumber, int.Parse(GuestsNumber));
+            if (AvailableReservations.Count == 0)
+            {
+                SuggestionText = "There are no available reservations for the selected dates, here are a few recommendations for dates close to the selected ones";
+                AvailableReservations = _accommodationReservationService.GetSuggestedAvailableReservations(Accommodation, Guest, Start, End, DaysNumber, int.Parse(GuestsNumber));
+            }
+            else
+            {
+                SuggestionText = "Available reservations for the selected days";
+            }
+        }
+
         public void ExecutedBackCommand(object obj)
         {
-            IsClosed = true;
+            _navigationService.NavigateBack();
         }
-        public void ExecutedMinusGuestNumberCommand(object obj)
-        {
-           GuestsNumber -= 1;
-        }
-        public void ExecutedPlusGuestNumberCommand(object obj)
-        {
-           GuestsNumber += 1;
-        }
+
         public void ExecutedMinusDaysNumberCommand(object obj)
         {
            DaysNumber -= 1;
@@ -187,92 +306,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             ReserveAccommodationCommand = new RelayCommand(ExecutedReserveAccommodationCommand, CanExecute);
             SearchCommand = new RelayCommand(ExecutedSearchCommand, CanExecute);
-            MinusGuestNumberCommand = new RelayCommand(ExecutedMinusGuestNumberCommand, CanExecute);
-            PlusGuestNumberCommand = new RelayCommand(ExecutedPlusGuestNumberCommand, CanExecute);
             MinusDaysNumberCommand = new RelayCommand(ExecutedMinusDaysNumberCommand, CanExecute);
             PlusDaysNumberCommand = new RelayCommand(ExecutedPlusDaysNumberCommand, CanExecute);
             BackCommand = new RelayCommand(ExecutedBackCommand, CanBackExecute);
         }
-/*
-                private void btnFindAvailable_Click(object sender, RoutedEventArgs e)
-                {
-                    List<AccommodationReservation> availableReservations = new List<AccommodationReservation>();
-                    if (IsValid)
-                    {
-                        availableReservations = FindAvailableReservations((DateTime)datePickerStart.SelectedDate, (DateTime)datePickerEnd.SelectedDate);
-                        CheckIfSuggestionIsNeeded(availableReservations);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Fields are not validly filled in");
-                    }
-
-                }
-
-                private List<AccommodationReservation> FindAvailableReservations(DateTime start, DateTime end)
-                {
-                    List<AccommodationReservation> availableReservations = new List<AccommodationReservation>();
-                    DateTime potentialStart = start;
-                    DateTime endDate = end;
-                    while (potentialStart <= endDate)
-                    {
-                        DateTime potentialEnd = potentialStart.AddDays(int.Parse(txtDays.Text) - 1);
-
-                        if (potentialEnd > endDate)
-                        {
-                            break;
-                        }
-
-                        bool dateRangeOverlaps = false;
-
-                        foreach (AccommodationReservation reservation in Accommodation.Reservations)
-                        {
-                            if (IsDateRangeOverlapping(potentialStart, potentialEnd, reservation))
-                            {
-                                dateRangeOverlaps = true;
-                                break;
-                            }
-                        }
-
-                        if (!dateRangeOverlaps)
-                        {
-                            availableReservations.Add(new AccommodationReservation(Accommodation.Id, Guest.Id, potentialStart, potentialEnd, GuestsNumber));
-                        }
-
-                        potentialStart = potentialStart.AddDays(1);
-
-                    }
-                    return availableReservations;
-                }
-
-                private void CheckIfSuggestionIsNeeded(List<AccommodationReservation> availableReservations)
-                {
-                    if (availableReservations.Count == 0)
-                    {
-                        txtSuggestion.Text = "There are no available reservations for the selected dates, here are a few recommendations for dates close to the selected ones";
-                        //15 days after end date
-                        int lastElementIndex = Accommodation.Reservations.Count - 1;
-                        if (Accommodation.Reservations[lastElementIndex].End < DateTime.Now.AddDays(1))
-                        {
-                            AvailableReservations = FindAvailableReservations(DateTime.Now.AddDays(1), ((DateTime)datePickerEnd.SelectedDate).AddDays(15 + int.Parse(DaysNumber)));
-                        }
-                        else
-                        {
-                            AvailableReservations = FindAvailableReservations(Accommodation.Reservations[lastElementIndex].End.AddDays(1), ((DateTime)datePickerEnd.SelectedDate).AddDays(15));
-                        }
-                    }
-                    else
-                    {
-                        txtSuggestion.Text = "Available reservations for the selected days";
-                        AvailableReservations = availableReservations;
-                    }
-                }
-                private static bool IsDateRangeOverlapping(DateTime potentialStart, DateTime potentialEnd, AccommodationReservation reservation)
-                {
-                    bool isPotentialStartOverlap = potentialStart >= reservation.Start && potentialStart <= reservation.End;
-                    bool isPotentialEndOverlap = potentialEnd >= reservation.Start && potentialEnd <= reservation.End;
-                    bool isPotentialRangeOverlap = potentialStart <= reservation.Start && potentialEnd >= reservation.End;
-                    return isPotentialStartOverlap || isPotentialEndOverlap || isPotentialRangeOverlap;
-                }*/
     }
 }

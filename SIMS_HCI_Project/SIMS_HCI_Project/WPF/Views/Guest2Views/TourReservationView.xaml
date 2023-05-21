@@ -27,7 +27,13 @@
             <Setter Property="Height" Value="25"/>
             <Setter Property="Width" Value="150"/>
         </Style>
-
+        <Style x:Key="Guest2HelpBtn" TargetType="Button">
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Width" Value="35"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="ToolTip" Value="Help"/>
+        </Style>
         <Style TargetType="ListBox">
             <Setter Property="BorderBrush" Value="Gray"/>
             <Setter Property="FontSize" Value="12"/>
@@ -57,11 +63,24 @@
             <Setter Property="VerticalAlignment" Value="Top"/>
         </Style>
 
-        <ResourceDictionary x:Key="guest2">
+        <ResourceDictionary x:Key="Guest2Styles">
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Styles/Guest2Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
+        <!--datagrid style-->
+        <Style x:Key="Guest2DatagridStyle" TargetType="DataGrid" >
+            <Setter Property="ColumnHeaderHeight" Value="30"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        <Style x:Key="Guest2DatagridCellStyle" TargetType="DataGridCell">
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="Black" />
+                    <Setter Property="Background" Value="#FFF3C879"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
         
     </Page.Resources>
 
@@ -101,21 +120,26 @@
                   Margin="411,214,476,43"
            />
 
-        <DataGrid x:Name="dgDepartureTimes" ItemsSource="{Binding Tour.DepartureTimes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedTourTime}"  Margin="656,56,217,175" AutoGenerateColumns="False" IsReadOnly="True">
+        <DataGrid x:Name="dgDepartureTimes" ItemsSource="{Binding Tour.DepartureTimes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedTourTime}"  Margin="656,56,217,175" AutoGenerateColumns="False" IsReadOnly="True" Style="{StaticResource Guest2DatagridStyle}" CellStyle="{StaticResource Guest2DatagridCellStyle}">
+            <!--<DataGrid.Resources>
+                <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="Background" >
+                        <Setter.Value>
+                            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                <GradientStop Color="Tomato" Offset="0"/>
+                                <GradientStop Color="Orange" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.Resources>-->
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Departure Time" Binding="{Binding DepartureTime}" CanUserResize="False" IsReadOnly="True" Width="*"/>
+                <DataGridTextColumn Header="Selected departure time" Binding="{Binding DepartureTime}" CanUserResize="False" IsReadOnly="True" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
 
 
-        <Button Content="SUBMIT RESERVATION" Padding="7" x:Name="btnConfirmReservation" Command="{Binding ConfirmReservationCommand}" HorizontalAlignment="Left" Margin="819,273,0,0" VerticalAlignment="Top" Height="34" BorderBrush="#FF7D79EA" BorderThickness="2" >
-            <Button.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="Tomato" Offset="0"/>
-                    <GradientStop Color="Orange" Offset="0.5"/>
-                    <GradientStop Color="#FFE0E21D" Offset="1"/>
-                </LinearGradientBrush>
-            </Button.Background>
+        <Button Content="SUBMIT RESERVATION" Padding="7" x:Name="btnConfirmReservation" Command="{Binding ConfirmReservationCommand}" HorizontalAlignment="Left" Margin="819,273,0,0" VerticalAlignment="Top" Height="34" BorderBrush="#FF7D79EA" BorderThickness="2" Background="Orange">
         </Button>
 
         <Label Foreground="Orange" Content="Available places:" HorizontalAlignment="Left" Margin="731,190,0,0" VerticalAlignment="Top"/>
@@ -136,9 +160,21 @@
                 </ControlTemplate>
             </Validation.ErrorTemplate>
         </TextBox>
-        <DataGrid x:Name="dgVouchers" ItemsSource="{Binding Vouchers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedVoucher, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" Margin="868,56,22,175" >
+        <DataGrid x:Name="dgVouchers" ItemsSource="{Binding Vouchers, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedVoucher, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" Margin="868,56,22,175" Style="{StaticResource Guest2DatagridStyle}" CellStyle="{StaticResource Guest2DatagridCellStyle}" >
+            <!--<DataGrid.Resources>
+                <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="Background" >
+                        <Setter.Value>
+                            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                <GradientStop Color="Tomato" Offset="0"/>
+                                <GradientStop Color="Orange" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.Resources>-->
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="*" CanUserResize="False" IsReadOnly="True"  />
+                <DataGridTextColumn Header="You can use voucher" Binding="{Binding Title}" Width="*" CanUserResize="False" IsReadOnly="True"  />
             </DataGrid.Columns>
         </DataGrid>
 
@@ -148,5 +184,6 @@
         </Button>
         <Label Content="Make reservation" Style="{StaticResource Guest2Header1Style}"/>
 
+        
     </Grid>
 </Page>

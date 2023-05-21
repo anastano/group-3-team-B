@@ -1,6 +1,5 @@
 ﻿using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.FileHandlers;
-using SIMS_HCI_Project.Observer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,9 +9,8 @@ using Accommodation = SIMS_HCI_Project.Domain.Models.Accommodation;
 
 namespace SIMS_HCI_Project.Repositories
 {
-    public class AccommodationRepository : ISubject, IAccommodationRepository
+    public class AccommodationRepository : IAccommodationRepository
     {
-        private readonly List<IObserver> _observers;
         private readonly AccommodationFileHandler _fileHandler;
 
         private static List<Accommodation> _accommodations;
@@ -20,9 +18,10 @@ namespace SIMS_HCI_Project.Repositories
         public AccommodationRepository()
         {
             _fileHandler = new AccommodationFileHandler();
-            _accommodations = _fileHandler.Load();
-
-            _observers = new List<IObserver>();
+            if(_accommodations == null)
+            {
+                _accommodations = _fileHandler.Load();
+            }
 
         }
         public int GenerateId()
@@ -53,15 +52,15 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _accommodations.OrderByDescending(a => a.Owner.SuperFlag).ToList();
         }
-        public List<Accommodation> Search(string name, string country, string city, string type, int guestsNumber, int reservationDays)
+        public List<Accommodation> Search(string name, string country, string city, string type, string guestsNumber, string reservationDays)
         {
             var filtered = from accommodation in _accommodations
                            where (string.IsNullOrEmpty(name) || accommodation.Name.ToLower().Contains(name.ToLower()))
                            && (string.IsNullOrEmpty(country) || accommodation.Location.Country.ToLower().Contains(country.ToLower()))
                            && (string.IsNullOrEmpty(city) || accommodation.Location.City.ToLower().Contains(city.ToLower()))
                            && (string.IsNullOrEmpty(type) || Enum.GetName(accommodation.Type).Equals(type))
-                           && (guestsNumber == 0 || guestsNumber <= accommodation.MaxGuests)
-                           && (reservationDays == 0 || reservationDays >= accommodation.MinimumReservationDays)
+                           && (string.IsNullOrEmpty(guestsNumber) || int.Parse(guestsNumber) <= accommodation.MaxGuests)
+                           && (string.IsNullOrEmpty(reservationDays) || int.Parse(reservationDays) >= accommodation.MinimumReservationDays)
                            orderby accommodation.Owner.SuperFlag descending
                            select accommodation;
             return filtered.ToList();
@@ -75,33 +74,13 @@ namespace SIMS_HCI_Project.Repositories
         {
             accommodation.Id = GenerateId();
             _accommodations.Add(accommodation);
-            NotifyObservers();
             Save();
         }
 
         public void Delete(Accommodation accommodation)
         {
             _accommodations.Remove(accommodation);
-            NotifyObservers();
             Save();
-        }
-
-        public void NotifyObservers()
-        {
-            foreach (var observer in _observers)
-            {
-                observer.Update();
-            }
-        }
-
-        public void Subscribe(IObserver observer)
-        {
-            _observers.Add(observer);
-        }
-
-        public void Unsubscribe(IObserver observer)
-        {
-            _observers.Remove(observer);
         }
 
     }

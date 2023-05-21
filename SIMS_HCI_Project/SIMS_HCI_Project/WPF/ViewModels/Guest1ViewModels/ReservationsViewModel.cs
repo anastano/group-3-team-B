@@ -5,7 +5,6 @@ using SIMS_HCI_Project.WPF.Commands;
 using SIMS_HCI_Project.WPF.Views.Guest1Views;
 using SIMS_HCI_Project.WPF.Views.OwnerViews;
 using System;
-using SIMS_HCI_Project.Observer;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -19,15 +18,15 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using LiveCharts;
 using LiveCharts.Wpf;
+using SIMS_HCI_Project.WPF.Services;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
-    internal class ReservationsViewModel : IObserver, INotifyPropertyChanged
+    internal class ReservationsViewModel: INotifyPropertyChanged
     {
+        private NavigationService _navigationService;
         private readonly AccommodationReservationService _reservationService;
         private readonly NotificationService _notificationService;
-        private RatingReservationViewModel _ratingReservationViewModel;
-        private ReservationRescheduleViewModel _reservationRescheduleViewModel;
         public Guest1 Guest { get; set; }
         public ObservableCollection<AccommodationReservation> ActiveReservations { get; set; }
         public ObservableCollection<AccommodationReservation> PastReservations { get; set; }
@@ -39,21 +38,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public RelayCommand RescheduleReservationCommand { get; set; }
         public RelayCommand RateCommand { get; set; }
         public RelayCommand ShowImagesCommand { get; set; }
-
-        private object _currentViewModel;
-        public object CurrentViewModel
-
-        {
-            get => _currentViewModel;
-            set
-            {
-                if (value != _currentViewModel)
-                {
-                    _currentViewModel = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
         private ChartValues<int> _cancelledCount;
         public ChartValues<int> CancelledCount
 
@@ -82,67 +66,39 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
-        private KeyValuePair<string, int>[] izvor;
-        public KeyValuePair<string, int>[] Izvor {
-            get => izvor;
-            set
-            {
-                if (value != izvor)
-                {
-                    izvor = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-        private KeyValuePair<string, int>[] izvor1;
-        public KeyValuePair<string, int>[] Izvor1
+        private  int _selectedTabIndex;
+        public  int SelectedTabIndex
         {
-            get => izvor1;
+            get => _selectedTabIndex;
             set
             {
-                if (value != izvor1)
+                if (value != _selectedTabIndex)
                 {
-                    izvor1 = value;
+                    _selectedTabIndex = value;
                     OnPropertyChanged();
                 }
             }
         }
-
         public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        public ReservationsViewModel(Guest1 guest)
+        public ReservationsViewModel(Guest1 guest, NavigationService navigationService, int selectedTabIndex)
         {
+            _navigationService = navigationService;
             _reservationService = new AccommodationReservationService();
             _notificationService = new NotificationService();
             Guest = guest;
             ActiveReservations = new ObservableCollection<AccommodationReservation>(_reservationService.GetAllByStatusAndGuestId(Guest.Id, AccommodationReservationStatus.RESERVED));
-            AddRescheduledReservations();
             PastReservations = new ObservableCollection<AccommodationReservation>(_reservationService.GetAllByStatusAndGuestId(Guest.Id, AccommodationReservationStatus.COMPLETED));
             CanceledReservations = new ObservableCollection<AccommodationReservation>(_reservationService.GetAllByStatusAndGuestId(Guest.Id,AccommodationReservationStatus.CANCELLED));
             Reservations = new ObservableCollection<AccommodationReservation>(_reservationService.GetByGuestId(Guest.Id));
-            _reservationService.Subscribe(this);
             InitCommands();
             CanceledReservations.CollectionChanged += (s, e) => UpdateChart();
             Reservations.CollectionChanged += (s, e) => UpdateChart();
-            LoadPieChartData();
-        }
-        private void LoadPieChartData()
-        {
-            Izvor =
-                new KeyValuePair<string, int>[]{
-        new KeyValuePair<string,int>("Cancelled", 12),
-        new KeyValuePair<string,int>("Others", 25),
-
-        };
-            Izvor1 =
-                new KeyValuePair<string, int>[]{
-        new KeyValuePair<string,int>("Others", 30),
-        //new KeyValuePair<string,int>("Other", 25),
-
-        };
+            SelectedTabIndex = selectedTabIndex;
+            
         }
         private void UpdateChart()
         {
@@ -158,6 +114,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 if (result == MessageBoxResult.Yes)
                 {
                     _reservationService.CancelReservation(_notificationService, SelectedReservation);
+                    Update();
                 }
             }
         }
@@ -176,37 +133,28 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             if (SelectedReservation != null)
             {
-                _reservationRescheduleViewModel = new ReservationRescheduleViewModel(SelectedReservation);
-                _reservationRescheduleViewModel.Closed += UnloadUserControl;
-                CurrentViewModel = _reservationRescheduleViewModel;
+                _navigationService.Navigate(new ReservationRescheduleViewModel(_navigationService ,SelectedReservation), "Reschedule reservation");
             }
         }
         public void ExecutedRateCommand(object obj)
         {
             if (SelectedReservation != null)
             {
-                _ratingReservationViewModel = new RatingReservationViewModel(SelectedReservation);
-                _ratingReservationViewModel.Closed += UnloadUserControl;
-                CurrentViewModel = _ratingReservationViewModel;
+                _navigationService.Navigate(new RatingReservationViewModel(SelectedReservation, _navigationService), "Review");
             }
         }
         public void ExecutedShowImagesCommand(object obj)
         {
             if (SelectedReservation != null)
             {
-                CurrentViewModel = new AccommodationImagesViewModel(SelectedReservation.Accommodation);
+                _navigationService.Navigate(new AccommodationImagesViewModel(SelectedReservation.Accommodation, _navigationService), "Images");
             }
-        }
-        private void UnloadUserControl(object sender, EventArgs e)
-        {
-            CurrentViewModel = new ReservationsViewModel(Guest);
         }
         public bool CanExecute(object obj)
         {
             return true;
         }
         #endregion
-
         public void InitCommands()
         {
             CancelReservationCommand = new RelayCommand(ExecutedCancelReservationCommand, CanExecute);
@@ -214,18 +162,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             RateCommand = new RelayCommand(ExecutedRateCommand, CanExecute);
             ShowImagesCommand = new RelayCommand(ExecutedShowImagesCommand, CanExecute);
         }
-        
         public void Update()
         {
             UpdateReservations();
+            UpdateChart();
         }
-        /*private void Image_PreviewMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            Image image = sender as Image;
-            
-
-        }*/
-
         public void UpdateReservations()
         {
             ActiveReservations.Clear();
@@ -233,7 +174,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             {
                 ActiveReservations.Add(reservation);
             }
-            AddRescheduledReservations();
             PastReservations.Clear();
             foreach (AccommodationReservation reservation in _reservationService.GetAllByStatusAndGuestId(Guest.Id, AccommodationReservationStatus.COMPLETED))
             {
@@ -244,17 +184,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             foreach (AccommodationReservation reservation in _reservationService.GetAllByStatusAndGuestId(Guest.Id, AccommodationReservationStatus.CANCELLED))
             {
                 CanceledReservations.Add(reservation);
-            }
-        }
-
-        private void AddRescheduledReservations()
-        {
-            foreach (AccommodationReservation reservation in _reservationService.GetAllByStatusAndGuestId(Guest.Id, AccommodationReservationStatus.RESCHEDULED))
-            {
-                if (_reservationService.IsReservationActive(reservation))
-                {
-                    ActiveReservations.Add(reservation);
-                }
             }
         }
     }

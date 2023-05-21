@@ -25,13 +25,19 @@ namespace SIMS_HCI_Project.Applications.Services
 
             return user;
         }
-
         public bool SignIn(User newUser)
         {
             if (_userRepository.CheckIfUsernameExists(newUser.Username)) return false;
 
             _userRepository.Add(newUser);
             return true;
+        }
+        public void FillOwnerSuperFlag(RatingGivenByGuestService ratingService)
+        {
+            foreach (Owner owner in _userRepository.GetByUserRole(UserRole.OWNER))
+            {
+                ratingService.FillAverageRatingAndSuperFlag(owner);
+            }
         }
     }
 }

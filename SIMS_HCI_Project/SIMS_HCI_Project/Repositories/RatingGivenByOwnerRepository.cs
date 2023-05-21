@@ -1,6 +1,5 @@
 ﻿using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.FileHandlers;
-using SIMS_HCI_Project.Observer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Repositories
 {
-    public class RatingGivenByOwnerRepository : ISubject, IRatingGivenByOwnerRepository
+    public class RatingGivenByOwnerRepository : IRatingGivenByOwnerRepository
     {
-        private readonly List<IObserver> _observers;
         private readonly RatingGivenByOwnerFileHandler _fileHandler;
 
         private static List<RatingGivenByOwner> _ratings;
@@ -19,8 +17,10 @@ namespace SIMS_HCI_Project.Repositories
         public RatingGivenByOwnerRepository()
         {
             _fileHandler = new RatingGivenByOwnerFileHandler();
-            _ratings = _fileHandler.Load();
-            _observers = new List<IObserver>();
+            if(_ratings == null)
+            {
+                _ratings = _fileHandler.Load();
+            }
         }
 
         public int GenerateId()
@@ -55,24 +55,26 @@ namespace SIMS_HCI_Project.Repositories
             rating.Id = GenerateId();
             _ratings.Add(rating);
             Save();
-            NotifyObservers();
         }
-        public void NotifyObservers()
+        public int GetRatingCountForCategory(int guestId, string categoryName, int ratingValue)
         {
-            foreach (var observer in _observers)
+            if(categoryName.ToLower() == "rulecompliance")
             {
-                observer.Update();
+                return GetRatingCountForRuleCompliance(guestId, ratingValue);
+            }
+            else
+            {
+                return GetRatingCountForCleanliness(guestId, ratingValue);
             }
         }
-
-        public void Subscribe(IObserver observer)
+        public int GetRatingCountForCleanliness(int guestId, int ratingValue)
         {
-            _observers.Add(observer);
+            return _ratings.FindAll(r => r.Reservation.GuestId == guestId && r.Cleanliness == ratingValue).Count;
+        }
+        public int GetRatingCountForRuleCompliance(int guestId, int ratingValue)
+        {
+            return _ratings.FindAll(r => r.Reservation.GuestId == guestId && r.RuleCompliance == ratingValue).Count;
         }
 
-        public void Unsubscribe(IObserver observer)
-        {
-            _observers.Remove(observer);
-        }
     }
 }

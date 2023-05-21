@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SIMS_HCI_Project.Applications.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,7 +31,6 @@ namespace SIMS_HCI_Project.Domain.DTOs
         {
             return !(this.IsAfter(dateRange) || this.IsBefore(dateRange));
         }
-
         public bool IsBefore(DateRange dateRange)
         {
             return this.Start < dateRange.Start && this.End < dateRange.Start;
@@ -65,6 +65,16 @@ namespace SIMS_HCI_Project.Domain.DTOs
         public bool HasInside(DateTime dateTime)
         {
             return dateTime > this.Start && dateTime < this.End;
+        }
+        //jedino nam se razlikuju po znaku znaku jednako provjeri je li mozes staviti jednako
+        public bool IsInProgress()
+        {
+            return DateTime.Today >= this.Start && DateTime.Today <= this.End;
+        }
+
+        public bool IsEndInside(DateRange dateRange)
+        { 
+            return this.End >= dateRange.Start && this.End <= dateRange.End;
         }
     }
 }

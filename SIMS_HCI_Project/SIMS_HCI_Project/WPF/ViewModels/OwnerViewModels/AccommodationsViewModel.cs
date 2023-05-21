@@ -1,6 +1,5 @@
 ﻿using SIMS_HCI_Project.Applications.Services;
 using SIMS_HCI_Project.Domain.Models;
-using SIMS_HCI_Project.Observer;
 using SIMS_HCI_Project.WPF.Commands;
 using SIMS_HCI_Project.WPF.Views.OwnerViews;
 using System;
@@ -13,7 +12,7 @@ using System.Windows;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 {
-    public class AccommodationsViewModel: IObserver
+    public class AccommodationsViewModel
     {
 
         private readonly AccommodationService _accommodationService;
@@ -38,15 +37,34 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             Owner = owner;            
             Accommodations = new ObservableCollection<Accommodation>(_accommodationService.GetByOwnerId(Owner.Id));
 
-            _accommodationService.Subscribe(this);
         }
 
         #region Commands
+        private MessageBoxResult ConfirmDeleteAccommodation()
+        {
+            string sMessageBoxText = $"Are you sure you want to delete this accommodation?";
+            string sCaption = "Delete Accommodation Confirmation";
+
+            MessageBoxButton btnMessageBox = MessageBoxButton.YesNo;
+            MessageBoxImage icnMessageBox = MessageBoxImage.Warning;
+
+            MessageBoxResult result = MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox, icnMessageBox);
+            return result;
+        }
+
         public void Executed_DeleteAccommodationCommand(object obj)
         {
             if (SelectedAccommodation != null)
             {
-                _accommodationService.Delete(SelectedAccommodation);
+                if (ConfirmDeleteAccommodation() == MessageBoxResult.Yes)
+                {
+                    _accommodationService.Delete(SelectedAccommodation);
+                    UpdateAccommodations();
+                }
+            }
+            else 
+            {
+                MessageBox.Show("No accommodation has been selected");
             }
         }
 
@@ -57,7 +75,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public void Executed_AddAccommodationCommand(object obj)
         {
-            Window addAccommodationView = new AddAccommodationView(_accommodationService, Owner);
+            Window addAccommodationView = new AddAccommodationView(this, _accommodationService, Owner);
             addAccommodationView.ShowDialog();
         }
 
@@ -72,6 +90,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             {
                 Window accommodationImagesView = new AccommodationImagesView(_accommodationService, SelectedAccommodation);
                 accommodationImagesView.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("No accommodation has been selected");
             }
         }
 
@@ -99,22 +121,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             CloseAccommodationsViewCommand = new RelayCommand(Executed_CloseAccommodationsViewCommand, CanExecute_CloseAccommodationsViewCommand);
         }
 
-        public void Update()
-        {
-            UpdateAccommodations();
-        }
-
         public void UpdateAccommodations()
         {
             Accommodations.Clear();
             foreach (Accommodation accommodation in _accommodationService.GetByOwnerId(Owner.Id))
             {
                 Accommodations.Add(accommodation);
-            }
-
-            foreach (Accommodation accommodation in Accommodations)
-            {
-                accommodation.FirstImage = accommodation.Images.FirstOrDefault();
             }
         }
     }

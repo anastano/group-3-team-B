@@ -24,23 +24,27 @@
     </UserControl.Resources>
     <Grid>
         <StackPanel Orientation="Vertical">
-            <Button Content="Back" Command="{Binding DataContext.BackCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Margin="60,60,10,50" HorizontalAlignment="Left" Width="60"/>
-            <TextBlock Text="{Binding Accommodation.Name}" Style="{StaticResource ResourceKey=fancyTitleMain}" Margin="20" ></TextBlock>
+            <Button Content="Back" Command="{Binding DataContext.BackCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Margin="60,60,10,20" HorizontalAlignment="Left" Style="{StaticResource GuestButtonStyle}"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="Previous" Command="{Binding DataContext.PreviousImageCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  Width="60" Height="400"/>
+                <TextBlock Text="{Binding Accommodation.Name}" Style="{StaticResource ResourceKey=fancyTitleMain}" VerticalAlignment="Center" Margin="40 0 20 0" HorizontalAlignment="Center"></TextBlock>
+                <Image Source="../../../Resources/Images/maintenance.png" Width="50" Height="50">
+                    <Image.Style>
+                        <Style TargetType="{x:Type Image}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsRenovated}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="&lt;&lt;" Command="{Binding DataContext.PreviousImageCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Style="{StaticResource GuestButtonImagesStyle }" />
                 <Image Source="{Binding Image}" Height="400" Width="500"/>
-                <Button Content=">" Command="{Binding DataContext.NextImageCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Width="60" Height="400"/>
+                <Button Content=">>" Command="{Binding DataContext.NextImageCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Style="{StaticResource GuestButtonImagesStyle }"/>
             </StackPanel>
         </StackPanel>
-        <ContentControl x:Name="UserControls" Content="{Binding CurrentViewModel}" Grid.RowSpan="4" Grid.ColumnSpan="2">
-            <ContentControl.Resources>
-                <DataTemplate DataType="{x:Type viewmodels:AccommodationSearchViewModel}">
-                    <views:AccommodationSearchView/>
-                </DataTemplate>
-                <DataTemplate DataType="{x:Type viewmodels:AccommodationImagesViewModel}">
-                    <views:AccommodationImagesView/>
-                </DataTemplate>
-            </ContentControl.Resources>
-        </ContentControl>
     </Grid>
 </UserControl>

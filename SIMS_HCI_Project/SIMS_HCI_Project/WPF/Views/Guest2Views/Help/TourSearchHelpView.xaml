@@ -1,0 +1,27 @@
+﻿<Page x:Class="SIMS_HCI_Project.WPF.Views.Guest2Views.Help.TourSearchHelpView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest2Views.Help"
+      mc:Ignorable="d" 
+      d:DesignHeight="518" d:DesignWidth="1080"
+      Title="TourSearchHelpView">
+    <Page.Resources>
+        <ResourceDictionary >
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../../Styles/Guest2Styles.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid>
+        <Button Style="{StaticResource Guest2BackBtn}" Click="Button_Click">
+            <Image x:Name="back" Source="../../../../Resources/Images/back.png"/>
+        </Button>
+        <Image Source="../../../../Resources/Images/TourSearchHelp.png" Height=" 300" HorizontalAlignment="Left" Margin="45,109,0,109"/>
+        <TextBlock Foreground="White" Margin="767,109,34,0" TextWrapping="Wrap" Text="You can see all offered tours or search for them according to the showed parameters. After enetering desired parameters, it is necessary to press button SEARCH to apply the filter. You can reset result by pressing button RESET." VerticalAlignment="Top" Height="116"/>
+        <TextBlock Foreground="White" Margin="767,259,34,0" TextWrapping="Wrap" Text="In table you can see button SEE DETAILS AND RESERVE, where you can see detailed information and images about tour and/or reserve it." VerticalAlignment="Top" Height="150"/>
+
+
+    </Grid>
+</Page>

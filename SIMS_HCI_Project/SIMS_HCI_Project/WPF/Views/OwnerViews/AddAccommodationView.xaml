@@ -6,10 +6,26 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         mc:Ignorable="d"
         Title="AddAccommodationView" Height="670" Width="700" WindowStartupLocation="CenterScreen">
+    
     <Window.Resources>
-    </Window.Resources>
+        <ControlTemplate x:Key="ValidationTemplate">
+            <StackPanel>
+                <!-- Placeholder for the TextBox itself -->
+                <AdornedElementPlaceholder x:Name="textBox" />
+                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" HorizontalAlignment="Center" />
+            </StackPanel>
 
-    <Grid Background="Azure">
+        </ControlTemplate>
+    </Window.Resources>
+    
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding AddAccommodationImageCommand}"/>
+        <KeyBinding Gesture="Ctrl+D"  Command="{Binding RemoveAccommodationImageCommand}"/>
+        <KeyBinding Gesture="Ctrl+R" Command="{Binding RegisterNewAccommodationCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseAddAccommodationViewCommand}"/>
+    </Window.InputBindings>
+
+    <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=txtName}">
         <!-- MAIN STACK PANEL-->
         <StackPanel Margin="0 10 0 0">
 
@@ -55,22 +71,25 @@
 
                     <!-- TEXTBOX-->
                     <TextBox x:Name="txtName" Grid.Row="0" Grid.Column="1" 
-                             Text="{Binding Path = Accommodation.Name}"
+                             Text="{Binding Path = Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                             Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
                              Style="{StaticResource OwnerTextBoxStyle}">
                     </TextBox>
 
                     <TextBox x:Name="txtLocationCountry" Grid.Row="1" Grid.Column="1"
-                             Text="{Binding Path = Location.Country}"
+                             Text="{Binding Path = Country, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                             Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
                              Style="{StaticResource OwnerTextBoxStyle}">
                     </TextBox>
 
                     <TextBox x:Name="txtLocationCity" Grid.Row="2" Grid.Column="1" 
-                             Text="{Binding Path = Location.City}"
+                             Text="{Binding Path = City, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                             Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
                              Style="{StaticResource OwnerTextBoxStyle}">
                     </TextBox>
 
                     <ComboBox x:Name="txtType" Grid.Row="3" Grid.Column="1" 
-                              SelectedValuePath="Content" SelectedValue ="{Binding Path = Accommodation.Type}" 
+                              SelectedValuePath="Content" SelectedValue ="{Binding Path = Accommodation.Type}" SelectedIndex="0"
                               Width="320" Height="30" BorderThickness="2" FontSize="16" HorizontalAlignment="Left" Margin="0 0 0 0" HorizontalContentAlignment="Center">
 
                         <ComboBoxItem Content="APARTMENT"/>
@@ -80,21 +99,24 @@
                     </ComboBox>
 
                     <TextBox x:Name="txtMaxGuestNumber" Grid.Row="4" Grid.Column="1" 
-                             Text="{Binding Path = Accommodation.MaxGuests, Mode=TwoWay}"
+                             Text="{Binding Path = MaxGuests, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                             Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
                              Style="{StaticResource OwnerTextBoxStyle}" Width="150">
                     </TextBox>
 
 
 
                     <TextBox x:Name="txtMinDaysNumber" Grid.Row="5" Grid.Column="1" 
-                             Text="{Binding Path = Accommodation.MinimumReservationDays}"
+                             Text="{Binding Path = MinDays, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                             Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
                              Style="{StaticResource OwnerTextBoxStyle}" Width="150">
                     </TextBox>
 
 
 
                     <TextBox x:Name="txtCancellationDeadLineInDays" Grid.Row="6" Grid.Column="1"  
-                             Text="{Binding Path = Accommodation.CancellationDeadlineInDays}"
+                             Text="{Binding Path = CancellationDays, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                             Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
                              Style="{StaticResource OwnerTextBoxStyle}" Width="150">
                     </TextBox>
 
@@ -104,12 +126,13 @@
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left"  >
 
                             <TextBox x:Name="txtPictureURL"  
-                                    Text="{Binding Path = ImageURL}" FontSize="14"
-                                    Style="{StaticResource OwnerTextBoxStyle}" Width="320" Height="45" TextWrapping="Wrap">
+                                    Text="{Binding Path = ImageURL, Mode=TwoWay, UpdateSourceTrigger = PropertyChanged, ValidatesOnDataErrors=True}"
+                                    Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
+                                    Style="{StaticResource OwnerTextBoxStyle}" Width="320" Height="45" TextWrapping="Wrap" Margin="0 5 0 0"  FontSize="14">
                             </TextBox>
 
-                            <Button x:Name="btnAddImage" Content="(Ins)" Command="{Binding AddAccommodationImageCommand}"
-                                     Style="{StaticResource OwnerCircleButtonStyle}">
+                            <Button x:Name="btnAddImage" Content="   Add &#xa;(Ctrl+S)" Command="{Binding AddAccommodationImageCommand}"
+                                    Style="{StaticResource OwnerCircleButtonStyle}">
                             </Button>
 
                         </StackPanel>
@@ -117,7 +140,7 @@
                         <StackPanel Orientation="Horizontal" Margin="0 5 0 5 ">
 
                             <ListBox x:Name="lbImages" ItemsSource="{Binding Path=Images}"
-                                  Style="{StaticResource OwnerListBoxStyle}">
+                                  Style="{StaticResource OwnerListBoxStyle}" Height="95">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <UniformGrid Columns="3" />
@@ -134,7 +157,7 @@
                                 
                             </ListBox>
 
-                            <Button x:Name="btnRemoveImage"  Content="(Del)" Command="{Binding RemoveAccommodationImageCommand}"
+                            <Button x:Name="btnRemoveImage"  Content="    Del &#xa;(Ctrl+D)" Command="{Binding RemoveAccommodationImageCommand}"
                                 Style="{StaticResource OwnerCircleButtonStyle}">
                             </Button>
                         </StackPanel>
@@ -147,7 +170,7 @@
                     Style ="{StaticResource OwnerButtonStyle}" >
                 </Button>
                 <Button x:Name="btnCancel" Content="Cancel (Esc)"
-                    Style ="{StaticResource OwnerButtonStyle}">
+                    Style ="{StaticResource OwnerButtonStyle}" Command="{Binding CloseAddAccommodationViewCommand}">
                 </Button>
             </StackPanel>
 

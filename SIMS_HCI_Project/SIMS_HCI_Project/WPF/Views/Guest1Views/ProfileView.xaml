@@ -171,6 +171,7 @@
         <sys:Double x:Key="StarThree">2.5</sys:Double>
         <sys:Double x:Key="StarFour">3.5</sys:Double>
         <sys:Double x:Key="StarFive">4.5</sys:Double>
+        <converters:YesNoMessageConverter x:Key="YesNoMessageConverter"></converters:YesNoMessageConverter>
     </UserControl.Resources>
 
     <Grid>
@@ -206,20 +207,20 @@
                                 </TextBlock>
                                 <TextBox  Grid.Column="1" Grid.Row="0" Text="{Binding Path = FullName, UpdateSourceTrigger = PropertyChanged}" 
                                                     FontSize="20" HorizontalAlignment="Left" Margin="3,25,0,0"
-                                            Style="{StaticResource ResourceKey=fancyTitleTxtBx}" Width="220" VerticalAlignment="Top"/>
+                                            Style="{StaticResource ResourceKey=fancyTitleTxtBx}" Width="227" VerticalAlignment="Top"/>
 
 
                                 <TextBlock Grid.Column="0" Grid.Row="1" Text="Super-guest:  " FontSize="20" HorizontalAlignment="Left" Margin="0 0 0 0"
                                            Style="{StaticResource ResourceKey=fancyTitle}">
                                 </TextBlock>
-                                <TextBox Grid.Row="1" Text="{Binding Path = Guest.Super, UpdateSourceTrigger = PropertyChanged}" 
+                                <TextBox Grid.Row="1" Text="{Binding SuperGuestTitle.Id, Converter={StaticResource YesNoMessageConverter}, UpdateSourceTrigger = PropertyChanged}" 
                                                     FontSize="20" HorizontalAlignment="Left"
                                              Style="{StaticResource ResourceKey=fancyTitleTxtBx}" Width="227" Margin="3,0,0,0" Grid.Column="1"/>
 
                                 <TextBlock Grid.Column="0" Grid.Row="2" Text="Bonus points:  " FontSize="20" HorizontalAlignment="Left" Margin="0 0 0 0"
                                            Style="{StaticResource ResourceKey=fancyTitle}">
                                 </TextBlock>
-                                <TextBox Grid.Row="2" Text="{Binding Path = Guest.BonusPoints, UpdateSourceTrigger = PropertyChanged}" 
+                                <TextBox Grid.Row="2" Text="{Binding Path = SuperGuestTitle.AvailablePoints, UpdateSourceTrigger = PropertyChanged}" 
                                                     FontSize="20" HorizontalAlignment="Left"
                                              Style="{StaticResource ResourceKey=fancyTitleTxtBx}" Width="227" Margin="3,0,0,0" Grid.Column="1"/>
                                 <TextBlock Grid.Column="0" Grid.Row="3" Text="Rating:  " FontSize="20" HorizontalAlignment="Left" Margin="0 0 0 0"

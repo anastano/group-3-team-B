@@ -1,6 +1,7 @@
 ﻿using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Domain.RepositoryInterfaces;
 using SIMS_HCI_Project.FileHandlers;
+using SIMS_HCI_Project.Model;
 using SIMS_HCI_Project.Observer;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,9 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Repositories
 {
-    public class RatingGivenByGuestRepository : ISubject, IRatingGivenByGuestRepository
+    public class RatingGivenByGuestRepository : IRatingGivenByGuestRepository
     {
 
-        private readonly List<IObserver> _observers;
         private readonly RatingGivenByGuestFileHandler _fileHandler;
 
         private static List<RatingGivenByGuest> _ratings;
@@ -21,8 +21,10 @@ namespace SIMS_HCI_Project.Repositories
         public RatingGivenByGuestRepository()
         {
             _fileHandler = new RatingGivenByGuestFileHandler();
-            _ratings = _fileHandler.Load();
-            _observers = new List<IObserver>();
+            if (_ratings == null)
+            {
+                _ratings = _fileHandler.Load();
+            }
         }
         public int GenerateId()
         {
@@ -49,7 +51,7 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _ratings.FindAll(r => r.Reservation.Accommodation.OwnerId == ownerId);
         }
-        public bool isReservationRated(int reservationId)
+        public bool IsReservationRated(int reservationId)
         {
             return _ratings.Any(r => r.ReservationId == reservationId);
         }
@@ -58,24 +60,7 @@ namespace SIMS_HCI_Project.Repositories
             rating.Id = GenerateId();
             _ratings.Add(rating);
             Save();
-            NotifyObservers();
-        }
-        public void NotifyObservers()
-        {
-            foreach (var observer in _observers)
-            {
-                observer.Update();
-            }
         }
 
-        public void Subscribe(IObserver observer)
-        {
-            _observers.Add(observer);
-        }
-
-        public void Unsubscribe(IObserver observer)
-        {
-            _observers.Remove(observer);
-        }
     }
 }

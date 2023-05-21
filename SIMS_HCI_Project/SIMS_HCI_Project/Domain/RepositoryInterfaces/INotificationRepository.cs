@@ -14,9 +14,5 @@ namespace SIMS_HCI_Project.Repositories
 
         void Add(Notification notification);
         void Update(Notification notification);
-
-        void NotifyObservers();
-        void Subscribe(IObserver observer);
-        void Unsubscribe(IObserver observer);
     }
 }

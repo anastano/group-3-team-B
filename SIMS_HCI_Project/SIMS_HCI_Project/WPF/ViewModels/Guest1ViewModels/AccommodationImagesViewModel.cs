@@ -11,12 +11,14 @@ using System.Windows.Input;
 using System.Windows;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using SIMS_HCI_Project.WPF.Services;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
     internal class AccommodationImagesViewModel : INotifyPropertyChanged
     {
-        private readonly AccommodationReservationService _reservationService;
+        private NavigationService _navigationService;
+        private readonly RenovationService _renovationService;
         private int _currentImageIndex = 0;
         public Accommodation Accommodation { get; set; }
         public Guest1 Guest { get; set; }
@@ -33,6 +35,19 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 if (value != _image)
                 {
                     _image = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+        private bool _isRenovated;
+        public bool IsRenovated
+        {
+            get => _isRenovated;
+            set
+            {
+                if (value != _isRenovated)
+                {
+                    _isRenovated = value;
                     OnPropertyChanged();
                 }
             }
@@ -59,22 +74,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
-        public AccommodationImagesViewModel(Accommodation accommodation, Guest1 guest, int guests, int days, string name)
+
+        public AccommodationImagesViewModel(Accommodation accommodation, NavigationService navigationService)
         {
-            _reservationService = new AccommodationReservationService();
+            _navigationService = navigationService;
+            _renovationService = new RenovationService();
             Accommodation = accommodation;
             Image = Accommodation.Images[_currentImageIndex];
-            Guest = guest;
-            GuestsNumber = guests;
-            DaysNumber = days;
-            Name = name;
-            InitCommands();
-        }
-        public AccommodationImagesViewModel(Accommodation accommodation)
-        {
-            _reservationService = new AccommodationReservationService();
-            Accommodation = accommodation;
-            Image = Accommodation.Images[_currentImageIndex];
+            IsRenovated = _renovationService.IsAccommodationRenovated(accommodation.Id);
             InitCommands();
         }
         private void ChangeOutrangeCurrentImageIndex()
@@ -97,7 +104,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         }
         public void ExecutedBackCommand(object obj)
         {
-            CurrentViewModel = new AccommodationSearchViewModel(Guest, GuestsNumber, DaysNumber);
+            //da puta koristim da vidim kako da izmjenim naslov
+            _navigationService.NavigateBack();
         }
         public void ExecutedPreviousImageCommand(object obj)
         {

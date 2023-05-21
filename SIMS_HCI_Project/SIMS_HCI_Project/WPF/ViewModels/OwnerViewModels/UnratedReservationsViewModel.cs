@@ -13,7 +13,7 @@ using System.Windows;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 {
-    public class UnratedReservationsViewModel : IObserver
+    public class UnratedReservationsViewModel
     {
         private readonly AccommodationReservationService _reservationService;
         private readonly RatingGivenByOwnerService _ownerRatingService;
@@ -24,6 +24,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public AccommodationReservation SelectedReservation { get; set; }
 
         public RelayCommand ShowSelectedUnratedReservationCommand { get; set; }
+        public RelayCommand CloseUnratedReservationsViewCommand { get; set; }
 
         public UnratedReservationsViewModel(UnratedReservationsView unratedReservationsView, AccommodationReservationService reservationService, 
             RatingGivenByOwnerService ownerRatingService, Owner owner) 
@@ -36,8 +37,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             UnratedReservationsView = unratedReservationsView;
             Owner = owner;
             UnratedReservations = new ObservableCollection<AccommodationReservation>(_ownerRatingService.GetUnratedReservations(Owner.Id, _reservationService));
-
-            _ownerRatingService.Subscribe(this);
         }
 
         #region Commands
@@ -46,13 +45,28 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             
             if (SelectedReservation != null)
             {
-                Window rateSelectedGuestView = new RateSelectedGuestView(_ownerRatingService, SelectedReservation);
+                Window rateSelectedGuestView = new RateSelectedGuestView(this, _ownerRatingService, SelectedReservation);
                 rateSelectedGuestView.Show();
             }
-            
+            else 
+            {
+                MessageBox.Show("No guest has been selected");
+            }
+
+
         }
 
         public bool CanExecute_ShowSelectedUnratedReservationCommand(object obj)
+        {
+            return true;
+        }
+
+        public void Executed_CloseUnratedReservationsViewCommand(object obj)
+        {
+            UnratedReservationsView.Close();
+        }
+
+        public bool CanExecute_CloseUnratedReservationsViewCommand(object obj)
         {
             return true;
         }
@@ -61,11 +75,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public void InitCommands()
         {
             ShowSelectedUnratedReservationCommand = new RelayCommand(Executed_ShowSelectedUnratedReservationCommand, CanExecute_ShowSelectedUnratedReservationCommand);
-        }
-
-        public void Update()
-        {
-            UpdateUnratedReservations();
+            CloseUnratedReservationsViewCommand = new RelayCommand(Executed_CloseUnratedReservationsViewCommand, CanExecute_CloseUnratedReservationsViewCommand);
         }
 
         public void UpdateUnratedReservations()

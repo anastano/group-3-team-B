@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Domain.Models
 {
-    public class Location : ISerializable
+    public class Location
     {
         public int Id { get; set; }
         public string City { get; set; }
@@ -19,19 +19,6 @@ namespace SIMS_HCI_Project.Domain.Models
         {
             City = city;
             Country = country;
-        }
-
-        public string[] ToCSV()
-        {
-            string[] csvValues = { Id.ToString(), City, Country };
-            return csvValues;
-        }
-
-        public void FromCSV(string[] values)
-        {
-            Id = Convert.ToInt32(values[0]);
-            City = values[1];
-            Country = values[2];
         }
 
         public override bool Equals(object? obj)

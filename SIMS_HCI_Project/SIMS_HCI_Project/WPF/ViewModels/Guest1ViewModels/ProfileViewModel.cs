@@ -55,9 +55,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             {
                 SuperGuestTitle = new SuperGuestTitle();
             }
-            //prebaciti u servis ???
-            //FullName = Guest.Name + " " + Guest.Surname;
-            FullName = _userService.GetFullName(Guest);
+            FullName = Guest.GetFullName();
             Notifications = new ObservableCollection<Notification>(_notificationService.GetUnreadByUserId(Guest.Id));
             //potencijalna poruka ako nema obavjestenja
             AverageRate = _ratingService.GetGuestAverageRate(Guest);

@@ -71,9 +71,9 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _reservations.FindAll(r => r.AccommodationId == accommodationId && r.Status == AccommodationReservationStatus.RESERVED);
         }
-        public List<AccommodationReservation> GetAllByStatusAndGuestId(int id, AccommodationReservationStatus status)
+        public List<AccommodationReservation> GetAllByStatusAndGuestId(int guestId, AccommodationReservationStatus status)
         {
-            return _reservations.FindAll(g => g.GuestId == id && g.Status == status);
+            return _reservations.FindAll(r => r.GuestId == guestId && r.Status == status).OrderByDescending(r => r.Accommodation.Owner.SuperFlag).ToList();
         }
 
         public int GetReservationCountByYearAndAccommodationId(int year, int accommodationId) 
@@ -129,6 +129,10 @@ namespace SIMS_HCI_Project.Repositories
                            select _reservation;
 
             return filtered.ToList();
+        }
+        public List<AccommodationReservation> GetReservationsWithinOneYear(int guestId)
+        {
+            return _reservations.FindAll(r => r.GuestId == guestId && r.Start >= DateTime.Today.AddYears(-1));
         }
 
     }

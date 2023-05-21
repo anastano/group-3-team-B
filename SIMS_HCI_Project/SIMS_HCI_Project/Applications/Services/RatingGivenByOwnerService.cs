@@ -87,10 +87,6 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             _ratingRepository.Add(rating);
         }
-        /// <summary>
-        /// dodajem novu metodu dodaj je u class diagram
-        /// </summary>
-        
         public List<KeyValuePair<int, int>> GetRatingStatisticsForCategory(int guestId, string categoryName)
         {
             List<KeyValuePair<int, int>> statstics = new List<KeyValuePair<int, int>>();

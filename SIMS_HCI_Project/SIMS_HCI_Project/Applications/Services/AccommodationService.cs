@@ -53,18 +53,17 @@ namespace SIMS_HCI_Project.Applications.Services
             accommodation.LocationId = accommodation.Location.Id;
             _accommodationRepository.Add(accommodation);
         }
-
         public void Delete(Accommodation accommodation)
         {
             _accommodationRepository.Delete(accommodation);
-        }  
-        public void FillAccommodationRatings(RatingGivenByGuestService ratingService)
+        }
+        public void ConvertAccommodationIntoRenovated(RenovationService renovationService)
         {
             foreach (Accommodation accommodation in GetAll())
             {
-                ratingService.FillAverageRatingAndSuperFlag(accommodation.Owner);
+                accommodation.IsRenovated = renovationService.IsAccommodationRenovated(accommodation.Id);
             }
-        }  
+        }
 
     }
 }

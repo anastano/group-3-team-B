@@ -12,9 +12,14 @@
     <UserControl.Resources>
         <ControlTemplate x:Key="ValidationTemplate">
             <StackPanel>
+                <!-- Placeholder for the TextBox itself -->
                 <AdornedElementPlaceholder x:Name="textBox" />
-                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" FontSize="12" HorizontalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="../../../Resources/Images/warning.png" Width="18" Height="18" Margin="0, 0, 10, 0"  />
+                    <TextBlock Text="{Binding [0].ErrorContent}" TextWrapping="Wrap" Foreground="Red" Width="125" />
+                </StackPanel>
             </StackPanel>
+
         </ControlTemplate>
         <sys:Double x:Key="StarOne">1</sys:Double>
         <sys:Double x:Key="StarTwo">2</sys:Double>
@@ -43,7 +48,7 @@
         <TextBox x:Name="Owner" Grid.Row="1" Grid.Column="1" Text="{Binding Path=Owner, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"
                  Style="{StaticResource GuestTextBoxStyle}" Width="255"/>
         <Label Content="Accommodation cleanliness (1-5): " Grid.Row="2" Grid.Column="0" Style="{StaticResource GuestLabelStyle}" Margin="0,14,0,14" Width="236"></Label>
-        <StackPanel Grid.Column="1" Grid.Row="2" Width="234" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,0">
+        <StackPanel Grid.Column="1" Grid.Row="2" Width="582" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,63" Grid.RowSpan="2">
             <Button Command="{Binding DataContext.StarRateCleanlinessCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  CommandParameter="{StaticResource StarOne}"
                                                            BorderThickness="0">
                 <Button.Template>
@@ -93,6 +98,9 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
+            <TextBlock  Width="250" Margin="30, 0, 0, 0"
+                     Text="{Binding Path = SelectedStarCleanliness, UpdateSourceTrigger = PropertyChanged, ValidatesOnDataErrors=True, Mode=TwoWay}"
+                     Validation.ErrorTemplate="{StaticResource ValidationTemplate}" TextWrapping="Wrap" Height="0" VerticalAlignment="Top" />
         </StackPanel>
         <Label Content="Owner correctness (1-5):" Grid.Row="3" Grid.Column="0" Style="{StaticResource GuestLabelStyle}"></Label>
         <StackPanel Orientation="Horizontal"  Grid.Row="3" Grid.Column="1">
@@ -145,6 +153,9 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
+            <TextBlock  Width="250" Margin="30, 0, 0, 0"
+                     Text="{Binding Path = SelectedStarCorrectness, UpdateSourceTrigger = PropertyChanged, ValidatesOnDataErrors=True, Mode=TwoWay}"
+                     Validation.ErrorTemplate="{StaticResource ValidationTemplate}" TextWrapping="Wrap" Height="0" VerticalAlignment="Top" />
         </StackPanel>
         <Label Content="Image URLs:" Grid.Row="4" Grid.Column="0" Style="{StaticResource GuestLabelStyle}" VerticalAlignment="Top"></Label>
         <StackPanel Grid.Row="4" Grid.Column="1">
@@ -166,7 +177,8 @@
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <ListBox x:Name="lbImages" ItemsSource="{Binding Path=Images}" Width="400" Height="100">
+                <ListBox x:Name="lbImages" ItemsSource="{Binding Path=Images}" Width="400" Height="100"
+                         SelectedItem="{Binding SelectedUrl, UpdateSourceTrigger=PropertyChanged}" >
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <UniformGrid Columns="3" />

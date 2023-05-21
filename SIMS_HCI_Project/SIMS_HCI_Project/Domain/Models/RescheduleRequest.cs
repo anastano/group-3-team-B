@@ -31,15 +31,5 @@ namespace SIMS_HCI_Project.Domain.Models
             OwnerComment = "";
         }
 
-        public RescheduleRequest(RescheduleRequest request)
-        {
-            Id = request.Id;
-            AccommodationReservationId = request.AccommodationReservationId;
-            WantedStart = request.WantedStart;
-            WantedEnd = request.WantedEnd;
-            Status = request.Status;
-            OwnerComment = request.OwnerComment;
-        }
-
     }
 }

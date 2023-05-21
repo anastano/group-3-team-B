@@ -37,7 +37,7 @@ namespace SIMS_HCI_Project.Applications.Services
         }
         public bool IsReservationRated(int reservationId)
         {
-            return _ratingRepository.isReservationRated(reservationId);
+            return _ratingRepository.IsReservationRated(reservationId);
         }
 
         public List<RatingGivenByGuest> GetRatedByOwnerId(RatingGivenByOwnerService ownerRatingService, int ownerId)
@@ -54,12 +54,10 @@ namespace SIMS_HCI_Project.Applications.Services
             return ratedByOwnerId;
         }
         /// pogledati malo da li je ovo dobro definisano
-        public RatingGivenByGuest RateReservation(AccommodationReservationService reservationService, RatingGivenByGuest rating)
+        public void RateReservation(AccommodationReservationService reservationService, RatingGivenByGuest rating)
         {
-            RatingGivenByGuest addedRating = _ratingRepository.Add(rating);
+            _ratingRepository.Add(rating);
             reservationService.GetById(rating.ReservationId).isRated = true;
-            return addedRating;
-            
         }
         public void FillAverageRatingAndSuperFlag(Owner owner)
         {

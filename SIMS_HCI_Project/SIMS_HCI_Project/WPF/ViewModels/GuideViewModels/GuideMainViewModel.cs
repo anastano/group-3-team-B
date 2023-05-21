@@ -85,7 +85,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         private void LoadTourInProgress()
         {
-            TourInProgress = _tourService.GetActiveTour(((User)App.Current.Properties["CurrentUser"]).Id);
+            TourInProgress = ((Guide)App.Current.Properties["CurrentUser"]).GetActiveTour();
             if(TourInProgress != null)
             {
                 TourInProgressImage = TourInProgress.Tour.Images.First();

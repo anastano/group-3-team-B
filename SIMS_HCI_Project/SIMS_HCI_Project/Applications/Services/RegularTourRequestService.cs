@@ -24,6 +24,8 @@ namespace SIMS_HCI_Project.Applications.Services
             _locationRepository = Injector.Injector.CreateInstance<ILocationRepository>();
             _notificationRepository = Injector.Injector.CreateInstance<INotificationRepository>();
             _tourTimeRepository = Injector.Injector.CreateInstance<ITourTimeRepository>();
+
+            UpdateStatusForInvalid();
         }
 
         public RegularTourRequest GetById(int id)
@@ -38,6 +40,7 @@ namespace SIMS_HCI_Project.Applications.Services
 
         public List<RegularTourRequest> GetAllByGuestId(int id, bool? isPartOfComplex = null)
         {
+            UpdateStatusForInvalid();
             return _regularTourRequestRepository.GetAllByGuestId(id, isPartOfComplex);
         }
 
@@ -45,15 +48,10 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return _regularTourRequestRepository.GetByGuestIdAndStatusAndYear(ig, status, year);
         }
+        
         public List<RegularTourRequest> GetValidByParams(Location location, int guestNumber, string language, DateRange dateRange)
         {
             return _regularTourRequestRepository.GetValidByParams(location, guestNumber, language, dateRange);
-        }
-
-        public void EditStatus(RegularTourRequest request, RegularRequestStatus status)
-        {
-            request.Status = status;
-            _regularTourRequestRepository.Update(request);
         }
 
         public void Add(RegularTourRequest request)
@@ -62,6 +60,12 @@ namespace SIMS_HCI_Project.Applications.Services
             request.LocationId = request.Location.Id;
 
             _regularTourRequestRepository.Add(request);
+        }
+
+        public void EditStatus(RegularTourRequest request, RegularRequestStatus status)
+        {
+            request.Status = status;
+            _regularTourRequestRepository.Update(request);
         }
 
         public Tour AcceptRequest(RegularTourRequest request, int guideId, DateTime departureTime)
@@ -84,7 +88,7 @@ namespace SIMS_HCI_Project.Applications.Services
             return tourFromRequest;
         }
 
-        public Tour CreateTourFromRequest(RegularTourRequest request, int guideId, DateTime departureTime)
+        private Tour CreateTourFromRequest(RegularTourRequest request, int guideId, DateTime departureTime) // create constructor for this?
         {
             Tour tourFromRequest = new Tour()
                             {
@@ -102,6 +106,18 @@ namespace SIMS_HCI_Project.Applications.Services
             tourFromRequest.KeyPoints.Add(new TourKeyPoint("End"));
 
             return tourFromRequest;
+        }
+
+        private void UpdateStatusForInvalid() //for those that arent part of complex, may edit when start working on complex tours
+        {
+            foreach (var request in _regularTourRequestRepository.GetAll())
+            {
+                if (!request.IsPartOfComplex && DateTime.Now > request.DateRange.Start.AddHours(-48) && request.Status == RegularRequestStatus.PENDING)
+                {
+                    request.Invalidate();
+                    _regularTourRequestRepository.Update(request);
+                }
+            }
         }
     }
 }

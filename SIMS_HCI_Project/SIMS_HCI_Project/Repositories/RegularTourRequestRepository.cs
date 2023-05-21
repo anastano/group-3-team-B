@@ -20,8 +20,12 @@ namespace SIMS_HCI_Project.Repositories
         {
 
             _fileHandler = new RegularTourRequestFileHandler();
+            Load();
+        }
+
+        private void Load()
+        {
             _requests = _fileHandler.Load();
-            UpdateStatusForInvlid();
         }
 
         private void Save()
@@ -34,19 +38,18 @@ namespace SIMS_HCI_Project.Repositories
             return _requests.Count == 0 ? 1 : _requests[_requests.Count - 1].Id + 1;
         }
 
-        public List<RegularTourRequest> GetAll()
-        {
-            return _requests;
-        }
-
         public RegularTourRequest GetById(int id)
         {
             return _requests.Find(r => r.Id == id);
         }
 
+        public List<RegularTourRequest> GetAll()
+        {
+            return _requests;
+        }
+
         public List<RegularTourRequest> GetAllByGuestId(int guestId, bool? isPartOfComplex = null)
         {
-            UpdateStatusForInvlid();
             return _requests.FindAll(r => r.GuestId == guestId && (isPartOfComplex == null || r.IsPartOfComplex == isPartOfComplex));
         }
 
@@ -84,18 +87,6 @@ namespace SIMS_HCI_Project.Repositories
             requestUpdated = request;
 
             Save();
-        }
-
-        public void UpdateStatusForInvlid() //for those that arent part of complex, may edit when start working on complex tours
-        {
-            foreach (var request in _requests)
-            {
-                if (request.IsPartOfComplex == false && DateTime.Now > request.DateRange.Start.AddHours(-48) && request.Status == RegularRequestStatus.PENDING)
-                {
-                    request.Invalidate();
-                    Save();
-                }
-            }
         }
 
         public int GetRequestsCountByStatus(RegularRequestStatus status, int guestId, int? selectedYear = null)

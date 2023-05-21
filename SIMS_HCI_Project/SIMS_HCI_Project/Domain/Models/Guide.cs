@@ -29,5 +29,10 @@ namespace SIMS_HCI_Project.Domain.Models
         {
             return TodaysTours.Any(t => t.IsInProgress);
         }
+
+        public TourTime GetActiveTour()
+        {
+            return TodaysTours.Find(t => t.IsInProgress);
+        }
     }
 }

@@ -39,7 +39,7 @@ namespace SIMS_HCI_Project.Applications.Services
         public TourTime GetTopTour()
         {
             return _guestTourAttendanceRepository.GetAll().
-                Where(gta => gta.TourReservation.TourTime.Status == TourStatus.COMPLETED).
+                Where(gta => gta.TourReservation.TourTime.IsCompleted).
                 GroupBy(gta => gta.TourReservation.TourTimeId).
                 OrderByDescending(gta => gta.Count()).
                 First().First().TourReservation.TourTime;
@@ -49,7 +49,7 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             var attendancesToCheck = _guestTourAttendanceRepository.GetAll().
                                                                     Where(gta => gta.TourReservation.TourTime.DepartureTime.Year == year
-                                                                    && gta.TourReservation.TourTime.Status == TourStatus.COMPLETED);
+                                                                    && gta.TourReservation.TourTime.IsCompleted);
             if (attendancesToCheck.Count() == 0) return null;
 
             return attendancesToCheck.GroupBy(gta => gta.TourReservation.TourTimeId)

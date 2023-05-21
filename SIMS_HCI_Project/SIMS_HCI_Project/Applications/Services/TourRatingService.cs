@@ -24,35 +24,20 @@ namespace SIMS_HCI_Project.Applications.Services
             return _tourRatingRepository.GetByTourId(tourTimeId);
         }
 
-        public bool IsRated(int reservationId)
-        {
-            return _tourRatingRepository.IsRated(reservationId);
-        }
-
         public void Add(TourRating tourRating)
         {
             _tourRatingRepository.Add(tourRating);
+        }
+
+        public bool IsRated(int reservationId)
+        {
+            return _tourRatingRepository.IsRated(reservationId);
         }
 
         public void MarkAsInvalid(TourRating tourRating)
         {
             tourRating.IsValid = false;
             _tourRatingRepository.Update(tourRating);
-        }
-
-        public void NotifyObservers()
-        {
-            _tourRatingRepository.NotifyObservers();
-        }
-
-        public void Subscribe(IObserver observer)
-        {
-            _tourRatingRepository.Subscribe(observer);
-        }
-
-        public void Unsubscribe(IObserver observer)
-        {
-            _tourRatingRepository.Unsubscribe(observer);
         }
     }
 }

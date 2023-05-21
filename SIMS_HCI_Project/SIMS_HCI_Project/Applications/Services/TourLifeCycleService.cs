@@ -39,7 +39,7 @@ namespace SIMS_HCI_Project.Applications.Services
                 newAttendance.TourReservation.TourTime = tourTime;
                 generatedAttendances.Add(newAttendance);
             }
-            _guestTourAttendanceRepository.AddMultiple(generatedAttendances);
+            _guestTourAttendanceRepository.AddBulk(generatedAttendances);
         }
 
         public void MoveToNextKeyPoint(TourTime tourTime)
@@ -87,7 +87,7 @@ namespace SIMS_HCI_Project.Applications.Services
                 givenTourVouchers.Add(new TourVoucher(tourReservation.GuestId, "EXTRAVOUCHER777", DateTime.Now, DateTime.Now.AddDays(DefaultExpirationDays)));
             }
             _tourReservationRepository.BulkUpdate(tourReservationsToCancel);
-            _tourVoucherRepository.AddMultiple(givenTourVouchers);
+            _tourVoucherRepository.AddBulk(givenTourVouchers);
         }
     }
 }

@@ -61,20 +61,14 @@ namespace SIMS_HCI_Project.Applications.Services
             return guideTours.Where(t => t.DepartureTime.Date == DateTime.Today).ToList();
         }
 
-        public List<Tour> Search(string country, string city, int duration, string language, int guestsNum)
+        public List<TourTime> GetToursInDateRange(int guideId, DateRange dateRange)
         {
-            return _tourRepository.Search(country, city, duration, language, guestsNum);
+            return _tourTimeRepository.GetAllInDateRange(guideId, dateRange);
         }
 
-        public List<Tour> SearchByGuide(int guideId, string country = null, string city = null, int duration = 0, string language = null, int guestsNum = 0)
+        public List<Tour> Search(string country, string city, int duration, string language, int guestsNum, int? guideId = null)
         {
-            return _tourRepository.SearchByGuide(guideId, country, city, duration, language, guestsNum);
-        }
-
-        public TourTime GetActiveTour(int guideId)
-        {
-            List<TourTime> guideTours = GetToursByGuide(guideId);
-            return guideTours.Find(t => t.Status == TourStatus.IN_PROGRESS);
+            return _tourRepository.Search(country, city, duration, language, guestsNum, guideId);
         }
 
         public void Add(Tour tour)
@@ -82,20 +76,15 @@ namespace SIMS_HCI_Project.Applications.Services
             tour.Location = _locationRepository.GetOrAdd(tour.Location);
             tour.LocationId = tour.Location.Id;
 
-            _tourKeyPointRepository.AddMultiple(tour.KeyPoints);
+            _tourKeyPointRepository.AddBulk(tour.KeyPoints);
             tour.KeyPointsIds = tour.KeyPoints.Select(c => c.Id).ToList();
 
             _tourRepository.Add(tour);
             tour.AssignToTourTimes(tour.DepartureTimes);
-            _tourTimeRepository.AddMultiple(tour.DepartureTimes);
+            _tourTimeRepository.AddBulk(tour.DepartureTimes);
 
             NotificationService notificationService = new NotificationService();
             notificationService.NotifyGuestsWithSimilarRequests(tour);
-        }
-
-        public List<TourTime> GetToursInDateRange(int guideId, DateRange dateRange)
-        {
-            return _tourTimeRepository.GetAllInDateRange(guideId, dateRange);
         }
     }
 }

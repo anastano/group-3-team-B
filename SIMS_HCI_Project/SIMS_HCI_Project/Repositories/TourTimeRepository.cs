@@ -63,7 +63,7 @@ namespace SIMS_HCI_Project.Repositories
             Save();
         }
 
-        public void AddMultiple(List<TourTime> tourTimes)
+        public void AddBulk(List<TourTime> tourTimes)
         {
             foreach (TourTime tourTime in tourTimes)
             {

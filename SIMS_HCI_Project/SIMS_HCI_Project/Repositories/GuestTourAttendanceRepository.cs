@@ -26,16 +26,59 @@ namespace SIMS_HCI_Project.Repositories
             }
         }
 
-        public void Load()
+        private void Load()
         {
             _guestTourAttendances = _fileHandler.Load();
         }
 
-        public void Save()
+        private void Save()
         {
             _fileHandler.Save(_guestTourAttendances);
         }
 
+        private int GenerateId()
+        {
+            return _guestTourAttendances.Count == 0 ? 1 : _guestTourAttendances[_guestTourAttendances.Count - 1].Id + 1;
+        }
+
+        public GuestTourAttendance GetById(int id)
+        {
+            return _guestTourAttendances.Find(gta => gta.Id == id);
+        }
+
+        public List<GuestTourAttendance> GetAll()
+        {
+            return _guestTourAttendances;
+        }
+
+        public List<GuestTourAttendance> GetAllByTourId(int id)
+        {
+            return _guestTourAttendances.FindAll(gta => gta.TourReservation.TourTimeId == id);
+        }
+        
+        public List<GuestTourAttendance> GetAllByGuestId(int guestId)
+        {
+            return _guestTourAttendances.FindAll(g => g.TourReservation.GuestId == guestId);
+        }
+
+        public GuestTourAttendance GetByGuestAndTourTimeIds(int guestId, int tourTimeId)
+        {
+            return _guestTourAttendances.Find(g => g.TourReservation.GuestId == guestId && g.TourReservation.TourTimeId == tourTimeId);
+        }
+
+        public List<GuestTourAttendance> GetByConfirmationRequestedStatus(int guestId)
+        {
+            var result = new List<GuestTourAttendance>();
+            foreach(var gta in GetAllByGuestId(guestId))
+            {
+                if(gta.Status == AttendanceStatus.CONFIRMATION_REQUESTED && gta.TourReservation.TourTime.IsInProgress)
+                {
+                    result.Add(gta);
+                }
+            }
+            return result;
+        }
+        
         public void Add(GuestTourAttendance guestTourAttendance)
         {
             guestTourAttendance.Id = GenerateId();
@@ -44,7 +87,7 @@ namespace SIMS_HCI_Project.Repositories
             Save();
         }
 
-        public void AddMultiple(List<GuestTourAttendance> guestTourAttendances)
+        public void AddBulk(List<GuestTourAttendance> guestTourAttendances)
         {
             foreach (GuestTourAttendance guestTourAttendance in guestTourAttendances)
             {
@@ -69,49 +112,6 @@ namespace SIMS_HCI_Project.Repositories
                 toUpdate = guestTourAttendance;
             }
             Save();
-        }
-
-        public int GenerateId()
-        {
-            return _guestTourAttendances.Count == 0 ? 1 : _guestTourAttendances[_guestTourAttendances.Count - 1].Id + 1;
-        }
-
-        public List<GuestTourAttendance> GetAll()
-        {
-            return _guestTourAttendances;
-        }
-
-        public List<GuestTourAttendance> GetAllByTourId(int id)
-        {
-            return _guestTourAttendances.FindAll(gta => gta.TourReservation.TourTimeId == id);
-        }
-        
-        public GuestTourAttendance GetById(int id)
-        {
-            return _guestTourAttendances.Find(gta => gta.Id == id);
-        }
-
-        public GuestTourAttendance GetByGuestAndTourTimeIds(int guestId, int tourTimeId)
-        {
-            return _guestTourAttendances.Find(g => g.TourReservation.GuestId == guestId && g.TourReservation.TourTimeId == tourTimeId);
-        }
-
-        public List<GuestTourAttendance> GetAllByGuestId(int guestId)
-        {
-            return _guestTourAttendances.FindAll(g => g.TourReservation.GuestId == guestId);
-        }
-        
-        public List<GuestTourAttendance> GetByConfirmationRequestedStatus(int guestId)
-        {
-            var result = new List<GuestTourAttendance>();
-            foreach(var gta in GetAllByGuestId(guestId))
-            {
-                if(gta.Status == AttendanceStatus.CONFIRMATION_REQUESTED && gta.TourReservation.TourTime.IsInProgress)
-                {
-                    result.Add(gta);
-                }
-            }
-            return result;
         }
 
         public int GetGuestCountByAgeGroup(AgeGroup ageGroup, int tourTimeId)

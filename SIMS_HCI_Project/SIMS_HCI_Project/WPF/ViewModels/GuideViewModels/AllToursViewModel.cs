@@ -135,7 +135,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         {
             if (Location == null) Location = new Location(); // E: kada se ispravi search obrisati
 
-            AllTours = new ObservableCollection<Tour>(_tourService.SearchByGuide(((User)App.Current.Properties["CurrentUser"]).Id, country: Location.Country, city: Location.City, language: Language).Where(t => t.Title.ToLower().Contains(Title.ToLower()))); // E: temporary filtriranje i ovde zbog hci, srediti za sims
+            AllTours = new ObservableCollection<Tour>(_tourService.Search(guideId: ((User)App.Current.Properties["CurrentUser"]).Id, country: Location.Country, city: Location.City, language: Language, duration: 0, guestsNum: 0).Where(t => t.Title.ToLower().Contains(Title.ToLower()))); // E: temporary filtriranje i ovde zbog hci, srediti za sims
         }
 
         private void ExecutedResetFilterCommand(object obj)

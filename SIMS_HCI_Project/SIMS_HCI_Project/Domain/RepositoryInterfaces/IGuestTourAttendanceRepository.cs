@@ -19,7 +19,7 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         List<GuestTourAttendance> GetByConfirmationRequestedStatus(int guestId);
 
         void Add(GuestTourAttendance guestTourAttendance);
-        void AddMultiple(List<GuestTourAttendance> guestTourAttendances);
+        void AddBulk(List<GuestTourAttendance> guestTourAttendances);
         void Update(GuestTourAttendance guestTourAttendance);
         void BulkUpdate(List<GuestTourAttendance> guestTourAttendances);
 

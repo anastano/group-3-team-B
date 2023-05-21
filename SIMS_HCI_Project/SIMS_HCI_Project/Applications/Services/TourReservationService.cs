@@ -9,33 +9,25 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Applications.Services
 {
-    public class TourReservationService //TODO: add functions for creating reservation
+    public class TourReservationService
     {
         private readonly ITourReservationRepository _tourReservationRepository;
-        private readonly IGuestTourAttendanceRepository _guestTourAttendanceRepository;
         private readonly ITourTimeRepository _tourTimeRepository;
 
         public TourReservationService()
         {
             _tourReservationRepository = Injector.Injector.CreateInstance<ITourReservationRepository>();
             _tourTimeRepository = Injector.Injector.CreateInstance<ITourTimeRepository>();
-            _guestTourAttendanceRepository = Injector.Injector.CreateInstance<IGuestTourAttendanceRepository>();
-        }
-
-        public void Add(TourReservation tourReservation)
-        {
-            tourReservation.TourTime = _tourTimeRepository.GetById(tourReservation.TourTimeId);
-            _tourReservationRepository.Add(tourReservation);
-        }
-       
-        public List<TourReservation> GetActiveByGuestId(int id)
-        {
-            return _tourReservationRepository.GetActiveByGuestId(id);
         }
 
         public List<TourReservation> GetAll()
         {
             return _tourReservationRepository.GetAll();
+        }
+
+        public List<TourReservation> GetActiveByGuestId(int id)
+        {
+            return _tourReservationRepository.GetActiveByGuestId(id);
         }
 
         public List<TourReservation> GetAllByTourTimeId(int id)
@@ -46,11 +38,6 @@ namespace SIMS_HCI_Project.Applications.Services
         public List<TourReservation> GetAllByGuestId(int id)
         {
             return _tourReservationRepository.GetAllByGuestId(id);
-        }
-
-        public List<TourReservation> GetAllByGuestIdAndTourId(int guestId, int tourId)
-        {
-            return _tourReservationRepository.GetAllByGuestIdAndTourId(guestId, tourId);
         }
 
         public List<TourReservation> GetUnratedReservations(int guestId, GuestTourAttendanceService guestTourAttendanceService, TourRatingService tourRatingService)
@@ -64,6 +51,12 @@ namespace SIMS_HCI_Project.Applications.Services
                 }
             }
             return unratedReservations;
+        }
+       
+        public void Add(TourReservation tourReservation)
+        {
+            tourReservation.TourTime = _tourTimeRepository.GetById(tourReservation.TourTimeId);
+            _tourReservationRepository.Add(tourReservation);
         }
 
         public bool WasPresentInTourTime(int guestId, int tourTimeId, GuestTourAttendanceService guestTourAttendanceService)

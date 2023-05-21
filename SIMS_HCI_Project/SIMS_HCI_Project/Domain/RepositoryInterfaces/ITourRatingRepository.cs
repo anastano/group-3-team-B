@@ -18,9 +18,5 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         void Update(TourRating tourRating);
 
         bool IsRated(int id);
-
-        void NotifyObservers();
-        void Subscribe(IObserver observer);
-        void Unsubscribe(IObserver observer);
     }
 }

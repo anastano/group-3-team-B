@@ -11,13 +11,10 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Repositories
 {
-    public class TourVoucherRepository : ITourVoucherRepository, ISubject
+    public class TourVoucherRepository : ITourVoucherRepository
     {
         private TourVoucherFileHandler _fileHandler;
         private static List<TourVoucher> _tourVouchers;
-        private readonly int DefaultExpirationDays = 10;
-        private readonly List<IObserver> _observers;
-
 
         public TourVoucherRepository()
         {
@@ -27,17 +24,36 @@ namespace SIMS_HCI_Project.Repositories
             {
                 Load();
             }
-            _observers = new List<IObserver>();
         }
 
-        public void Load()
+        private void Load()
         {
             _tourVouchers = _fileHandler.Load();
         }
 
-        public void Save()
+        private void Save()
         {
             _fileHandler.Save(_tourVouchers);
+        }
+
+        private int GenerateId()
+        {
+            return _tourVouchers.Count == 0 ? 1 : _tourVouchers[_tourVouchers.Count - 1].Id + 1;
+        }
+
+        public TourVoucher GetById(int id)
+        {
+            return _tourVouchers.Find(v => v.Id == id);
+        }
+
+        public List<TourVoucher> GetAll()
+        {
+            return _tourVouchers;
+        }
+
+        public List<TourVoucher> GetValidVouchersByGuestId(int id)
+        {
+            return _tourVouchers.FindAll(v => v.GuestId == id && v.Status == VoucherStatus.VALID);
         }
 
         public void Add(TourVoucher tourVoucher)
@@ -48,7 +64,7 @@ namespace SIMS_HCI_Project.Repositories
             Save();
         }
 
-        public void AddMultiple(List<TourVoucher> tourVouchers)
+        public void AddBulk(List<TourVoucher> tourVouchers)
         {
             foreach (TourVoucher tourVoucher in tourVouchers)
             {
@@ -58,48 +74,22 @@ namespace SIMS_HCI_Project.Repositories
             Save();
         }
 
-        private int GenerateId()
+        public void Update(TourVoucher tourVoucher)
         {
-            return _tourVouchers.Count == 0 ? 1 : _tourVouchers[_tourVouchers.Count - 1].Id + 1;
+            TourVoucher tourVoucherUpdated = GetById(tourVoucher.Id);
+            tourVoucherUpdated = tourVoucher;
+
+            Save();
         }
 
-        public TourVoucher GetById(int id)
+        public void BulkUpdate(List<TourVoucher> tourVouchers)
         {
-            UpdateStatusForExpired();
-            return _tourVouchers.Find(v => v.Id == id);
-        }
-
-        public List<TourVoucher> GetValidVouchersByGuestId(int id)
-        {
-            UpdateStatusForExpired();
-            return _tourVouchers.FindAll(v => v.GuestId == id && v.Status == VoucherStatus.VALID);
-        }
-
-        public void UpdateStatusForExpired()
-        {
-            foreach(TourVoucher tourVoucher in _tourVouchers)
+            foreach (TourVoucher tourVoucher in tourVouchers)
             {
-                if (tourVoucher.ExpirationDate > DateTime.Now)
-                    tourVoucher.End();
+                TourVoucher toUpdate = GetById(tourVoucher.Id);
+                toUpdate = tourVoucher;
             }
-        }
-
-        public void NotifyObservers()
-        {
-            foreach (var observer in _observers)
-            {
-                observer.Update();
-            }
-        }
-
-        public void Subscribe(IObserver observer)
-        {
-            _observers.Add(observer);
-        }
-
-        public void Unsubscribe(IObserver observer)
-        {
-            _observers.Remove(observer);
+            Save();
         }
     }
 }

@@ -76,14 +76,6 @@ namespace SIMS_HCI_Project.Repositories
             return filtered.ToList();
         }
 
-        public List<Tour> SearchByLocation(Location location)
-        {
-            var result = from _tour in _tours
-                         where (_tour.Location == location)
-                         select _tour;
-            return result.ToList();
-        }
-
         public List<Tour> SearchByGuide(int guideId, string country, string city, int duration, string language, int guestsNum)
         {
             return Search(country, city, duration, language, guestsNum).Where(t => t.GuideId == guideId).ToList();

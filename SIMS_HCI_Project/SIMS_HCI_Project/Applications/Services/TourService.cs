@@ -66,11 +66,6 @@ namespace SIMS_HCI_Project.Applications.Services
             return _tourRepository.Search(country, city, duration, language, guestsNum);
         }
 
-        public List<Tour> SearchByLocation(Location location)
-        {
-            return _tourRepository.SearchByLocation(location);
-        }
-
         public List<Tour> SearchByGuide(int guideId, string country = null, string city = null, int duration = 0, string language = null, int guestsNum = 0)
         {
             return _tourRepository.SearchByGuide(guideId, country, city, duration, language, guestsNum);

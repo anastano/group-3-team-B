@@ -30,7 +30,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             Guest2 = guest;
             NavigationService = navigationService;
 
-            Tours = new List<Tour>(_tourService.SearchByLocation(Location));
+            Tours = new List<Tour>(_tourService.Search(Location.Country, Location.City, 0, "", 0));
             InitCommands();
         }
 

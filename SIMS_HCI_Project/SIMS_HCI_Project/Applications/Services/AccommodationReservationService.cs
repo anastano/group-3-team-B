@@ -140,9 +140,9 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return GetAvailableReservations(accommodation, guest,  end, end.AddDays(30), daysNumber, guestsNumber);
         }
-        public List<AccommodationReservation> GetReservationsWithinOneYear(int guestId, DateTime start)
+        public List<AccommodationReservation> GetReservationsWithinOneYear(int guestId)
         {
-            return _reservationRepository.GetReservationsWithinOneYear(guestId, start);
+            return _reservationRepository.GetReservationsWithinOneYear(guestId);
         }
     }
 }

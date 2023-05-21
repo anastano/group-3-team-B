@@ -12,9 +12,11 @@ namespace SIMS_HCI_Project.Applications.Services
     public class SuperGuestTitleService
     {
         private readonly ISuperGuestTitleRepository _titleRepository;
+        private AccommodationReservationService _reservationService;
         public SuperGuestTitleService()
         {
             _titleRepository = Injector.Injector.CreateInstance<ISuperGuestTitleRepository>();
+            _reservationService = new AccommodationReservationService();
         }
         public SuperGuestTitle GetGuestActiveTitle(int gudestId)
         {
@@ -24,11 +26,11 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return _titleRepository.GetAll();
         }
-        public void UpdateTitles(AccommodationReservationService accommodationReservationService)
+        public void UpdateTitles()
         {
             foreach (SuperGuestTitle title in _titleRepository.GetExpiredActiveTitles())
             {
-                if (IsSuperGuestConditionFulfilled(accommodationReservationService, title.Guest, title.ActivationDate))
+                if (IsSuperGuestConditionFulfilled( title.Guest))
                 {
                     _titleRepository.Add(new SuperGuestTitle(title.Guest, title.ActivationDate.AddYears(1)));
                 }
@@ -42,20 +44,20 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return _titleRepository.GetGuestActiveTitle(guest.Id) == null ? false : true;
         }
-        public void UpdateSuperGuestTitle(AccommodationReservationService accommodationReservationService, Guest1 guest)
+        public void UpdateSuperGuestTitle(Guest1 guest)
         {
             if (IsSuperGuest(guest))
             {
                 _titleRepository.UpdateAvailablePoints(guest.Id);
             }
-            else if(IsSuperGuestConditionFulfilled(accommodationReservationService, guest, DateTime.Today.AddYears(-1)))
+            else if(IsSuperGuestConditionFulfilled(guest))
             {
                 _titleRepository.Add(new SuperGuestTitle(guest));
             }
         }
-        private bool IsSuperGuestConditionFulfilled(AccommodationReservationService accommodationReservationService, Guest1 guest, DateTime start)
+        private bool IsSuperGuestConditionFulfilled( Guest1 guest)
         {
-            return accommodationReservationService.GetReservationsWithinOneYear(guest.Id, start).Count >= 10 ? true : false;
+            return _reservationService.GetReservationsWithinOneYear(guest.Id).Count >= 10 ? true : false;
         }
     }
 }

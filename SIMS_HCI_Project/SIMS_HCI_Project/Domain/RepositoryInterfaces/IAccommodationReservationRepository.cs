@@ -12,7 +12,7 @@ namespace SIMS_HCI_Project.Repositories
         List<AccommodationReservation> GetByGuestId(int id);
         List<AccommodationReservation> GetAllReservedByAccommodationId(int accommodationId);
         List<AccommodationReservation> GetAllByStatusAndGuestId(int guestId, AccommodationReservationStatus status);
-        List<AccommodationReservation> GetReservationsWithinOneYear(int guestId, DateTime start);
+        List<AccommodationReservation> GetReservationsWithinOneYear(int guestId);
         void Add(AccommodationReservation reservation);
         void EditStatus(int id, AccommodationReservationStatus status);
         void EditReservation(RescheduleRequest request);

@@ -27,17 +27,15 @@ namespace SIMS_HCI_Project.FileHandlers
                 TourRating rating = new TourRating();
 
                 rating.Id = int.Parse(csvValues[0]);
-                rating.GuestId = int.Parse(csvValues[1]);
-                rating.ReservationId = int.Parse(csvValues[2]);
-                rating.GuideId = int.Parse(csvValues[3]);
-                rating.OverallExperience = int.Parse(csvValues[4]);
-                rating.Organisation = int.Parse(csvValues[5]);
-                rating.Interestingness = int.Parse(csvValues[6]);
-                rating.GuidesKnowledge = int.Parse(csvValues[7]);
-                rating.GuidesLanguage = int.Parse(csvValues[8]);
-                rating.Comment = csvValues[9];
-                rating.Images = new List<string>(csvValues[10].Split(","));
-                rating.IsValid = bool.Parse(csvValues[11]);
+                rating.AttendanceId = int.Parse(csvValues[1]);
+                rating.RatingGrades.OverallExperience = int.Parse(csvValues[2]);
+                rating.RatingGrades.Organisation = int.Parse(csvValues[3]);
+                rating.RatingGrades.Interestingness = int.Parse(csvValues[4]);
+                rating.RatingGrades.GuidesKnowledge = int.Parse(csvValues[5]);
+                rating.RatingGrades.GuidesLanguage = int.Parse(csvValues[6]);
+                rating.Comment = csvValues[7];
+                rating.Images = new List<string>(csvValues[8].Split(","));
+                rating.IsValid = bool.Parse(csvValues[9]);
 
                 ratings.Add(rating);
             }
@@ -54,14 +52,12 @@ namespace SIMS_HCI_Project.FileHandlers
                 string[] csvValues =
                 {
                     rating.Id.ToString(),
-                    rating.GuestId.ToString(),
-                    rating.ReservationId.ToString(),
-                    rating.GuideId.ToString(),
-                    rating.OverallExperience.ToString(),
-                    rating.Organisation.ToString(),
-                    rating.Interestingness.ToString(),
-                    rating.GuidesKnowledge.ToString(),
-                    rating.GuidesLanguage.ToString(),
+                    rating.Attendance.Id.ToString(),
+                    rating.RatingGrades.OverallExperience.ToString(),
+                    rating.RatingGrades.Organisation.ToString(),
+                    rating.RatingGrades.Interestingness.ToString(),
+                    rating.RatingGrades.GuidesKnowledge.ToString(),
+                    rating.RatingGrades.GuidesLanguage.ToString(),
                     rating.Comment,
                     string.Join(",", rating.Images),
                     rating.IsValid.ToString()

@@ -25,7 +25,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         #region Services
         private TourReservationService _tourReservationService;
         private TourService _tourService;
-        private LocationService _locationService;
         private TourVoucherService _tourVoucherService;
         private GuestTourAttendanceService _guestTourAttendanceService;
         private NotificationService _notificationService;
@@ -129,7 +128,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             _tourVoucherService = new TourVoucherService();
             _tourReservationService = new TourReservationService();
             _tourService = new TourService();
-            _locationService = new LocationService();
             _guestTourAttendanceService = new GuestTourAttendanceService();
             _notificationService = new NotificationService(); //proveri da li je u startap servisu sve povezano za obavestenja 
         }
@@ -149,7 +147,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             //move to notif profile page
             MessageBox.Show("Do you want to confirm attendance on this Tour for all reservations?");
             MessageBoxButton messageBoxButton = MessageBoxButton.OK;
-            _guestTourAttendanceService.ConfirmAttendanceForTourTime(SelectedActiveReservation.Guest2Id, SelectedActiveReservation.TourTimeId);
+            _guestTourAttendanceService.ConfirmAttendanceForTourTime(SelectedActiveReservation.GuestId, SelectedActiveReservation.TourTimeId);
                
             MessageBox.Show("Your tour attendance is confirmed.");
         }
@@ -186,10 +184,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             Attendances = _guestTourAttendanceService.GetWithConfirmationRequestedStatus(Guest.Id);
             foreach (GuestTourAttendance attendance in Attendances)
             {
-                if( _notificationService.GetAll().Select(n => n.Message).ToList().Contains(attendance.TourTimeId.ToString()) == false)
+                if( _notificationService.GetAll().Select(n => n.Message).ToList().Contains(attendance.TourReservation.TourTimeId.ToString()) == false)
                 { 
                 
-                    String Message = "You have request to confirm your attendance for tour with id: " + attendance.TourTimeId + ". Confirm your attendance on that tour in the list of active tours.";
+                    String Message = "You have request to confirm your attendance for tour with id: " + attendance.TourReservation.TourTimeId + ". Confirm your attendance on that tour in the list of active tours.";
                     _notificationService.Add(new Notification(Message, Guest.Id, false));
                 }
             }

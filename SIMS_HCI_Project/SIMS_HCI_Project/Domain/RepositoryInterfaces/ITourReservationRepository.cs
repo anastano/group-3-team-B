@@ -11,7 +11,6 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         List<TourReservation> GetAll();
         List<TourReservation> GetAllByTourTimeId(int id);
         List<TourReservation> GetAllByGuestId(int id);
-        TourReservation GetByGuestAndTour(int guestId, int tourTimeId);
         List<TourReservation> GetActiveByGuestId(int id);
         List<TourReservation> GetAllByGuestIdAndTourId(int guestId, int tourId);
 

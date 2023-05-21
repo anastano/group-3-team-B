@@ -22,7 +22,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public Guest2 Guest2 { get; set; }  
         public NavigationService NavigationService { get; set; }
         private RegularTourRequestService _regularTourRequestService { get; set; }
-        private LocationService _locationService { get; set; }
         private TourRequestsStatisticsService _tourRequestsStatisticsService { get; set; }
 
         #region StatsByStatus
@@ -191,7 +190,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
               chartPoint =>
               {
                   int locationId = RequestsByLocationKeys[(int)chartPoint.X];
-                  Location Location = _locationService.GetById(locationId);
+                  Location Location = _regularTourRequestService.GetAll().Select(r => r.Location).Where(l => l.Id == locationId).First();
                   string locationString = Location.City + ", " + Location.Country;
                   var count = chartPoint.Y;
                   return $"{locationString}: {count}";
@@ -269,7 +268,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         {
             if (SelectedYearIndexAverage == 0)
             {
-                AcceptedRequests = new List<RegularTourRequest>(_regularTourRequestService.GetAllByGuestIdAndStatus(Guest2.Id, RegularRequestStatus.ACCEPTED));
+                AcceptedRequests = new List<RegularTourRequest>(_regularTourRequestService.GetAllByGuestIdAndStatusAndYear(Guest2.Id, RegularRequestStatus.ACCEPTED));
             }
             else
             {
@@ -295,7 +294,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         {
             _regularTourRequestService = new RegularTourRequestService();
             _tourRequestsStatisticsService = new TourRequestsStatisticsService();
-            _locationService = new LocationService();
 
             SelectedYearIndexStatus = 0;
             SelectedYearIndexAverage = 0;
@@ -309,7 +307,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             RequestsByLocation = new Dictionary<int, int>(_tourRequestsStatisticsService.GetTourRequestStatisticsByLocationId(Guest2.Id));
             RequestsByLocationValues = new ChartValues<int>(RequestsByLocation.Values);
 
-            AcceptedRequests = new List<RegularTourRequest>(_regularTourRequestService.GetAllByGuestIdAndStatus(Guest2.Id, RegularRequestStatus.ACCEPTED));
+            AcceptedRequests = new List<RegularTourRequest>(_regularTourRequestService.GetAllByGuestIdAndStatusAndYear(Guest2.Id, RegularRequestStatus.ACCEPTED));
         }
     }
 }

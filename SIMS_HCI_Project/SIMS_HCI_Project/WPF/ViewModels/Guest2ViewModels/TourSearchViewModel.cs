@@ -23,7 +23,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         #region Services
         private TourReservationService _tourReservationService;
         private TourService _tourService;
-        private LocationService _locationService;
         private TourVoucherService _tourVoucherService;
         #endregion
         #region Commands
@@ -138,7 +137,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public void LoadFromFiles()
         {
             _tourService = new TourService();
-            _locationService = new LocationService();
         }
         public void InitCommands()
         {

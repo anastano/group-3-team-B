@@ -19,7 +19,7 @@ namespace SIMS_HCI_Project.Applications.Services
             _regularTourRequestRepository = Injector.Injector.CreateInstance<IRegularTourRequestRepository>();
         }
 
-        public TourRequestsStatisticsByStatus GetTourRequestsStatisticsByStatus( int guestId) //get all by guest id
+        public TourRequestsStatisticsByStatus GetTourRequestsStatisticsByStatus( int guestId, int? selectedYear = null) //get all by guest id
         {
             List<RegularRequestStatus> statuses = new List<RegularRequestStatus> { RegularRequestStatus.PENDING, RegularRequestStatus.ACCEPTED, RegularRequestStatus.INVALID};
 
@@ -27,21 +27,7 @@ namespace SIMS_HCI_Project.Applications.Services
 
             foreach (RegularRequestStatus status in statuses)
             {
-                requestsNumberByStatus.Add(status, _regularTourRequestRepository.GetRequestsCountByStatus(status, guestId));
-            }
-
-            return new TourRequestsStatisticsByStatus(requestsNumberByStatus);
-        }
-
-        public TourRequestsStatisticsByStatus GetTourRequestsStatisticsByStatus(int guestId, int selectedYear) //get all by guest id
-        {
-            List<RegularRequestStatus> statuses = new List<RegularRequestStatus> { RegularRequestStatus.PENDING, RegularRequestStatus.ACCEPTED, RegularRequestStatus.INVALID };
-
-            Dictionary<RegularRequestStatus, int> requestsNumberByStatus = new Dictionary<RegularRequestStatus, int>();
-
-            foreach (RegularRequestStatus status in statuses)
-            {
-                requestsNumberByStatus.Add(status, _regularTourRequestRepository.GetRequestsCountByStatusAndYear(status, guestId, selectedYear));
+                requestsNumberByStatus.Add(status, _regularTourRequestRepository.GetRequestsCountByStatus(status, guestId, selectedYear));
             }
 
             return new TourRequestsStatisticsByStatus(requestsNumberByStatus);

@@ -19,10 +19,5 @@ namespace SIMS_HCI_Project.Domain.Models
         {
             Title = title;
         }
-
-        public override string? ToString()
-        {
-            return Title;
-        }
     }
 }

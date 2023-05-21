@@ -28,5 +28,15 @@ namespace SIMS_HCI_Project.Domain.Models
             ExpirationDate = expirationDate;
             Status = VoucherStatus.VALID;
         }
+
+        public void Use()
+        {
+            this.Status = VoucherStatus.USED;
+        }
+
+        public void End() // needs a better name
+        {
+            this.Status = VoucherStatus.EXPIRED;
+        }
     }
 }

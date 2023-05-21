@@ -33,9 +33,9 @@ namespace SIMS_HCI_Project.Repositories
             _fileHandler.Save(_tourKeyPoints);
         }
 
-        public List<TourKeyPoint> GetAll()
+        private int GenerateId()
         {
-            return _tourKeyPoints;
+            return _tourKeyPoints.Count == 0 ? 1 : _tourKeyPoints[_tourKeyPoints.Count - 1].Id + 1;
         }
 
         public TourKeyPoint GetById(int id)
@@ -53,6 +53,11 @@ namespace SIMS_HCI_Project.Repositories
 
             return tourKeyPoints;
         }
+        
+        public List<TourKeyPoint> GetAll()
+        {
+            return _tourKeyPoints;
+        }
 
         public void Add(TourKeyPoint tourKeyPoint)
         {
@@ -61,7 +66,7 @@ namespace SIMS_HCI_Project.Repositories
             Save();
         }
 
-        public void AddMultiple(List<TourKeyPoint> tourKeyPoints)
+        public void AddBulk(List<TourKeyPoint> tourKeyPoints)
         {
             foreach (TourKeyPoint tourKeyPoint in tourKeyPoints)
             {
@@ -71,10 +76,6 @@ namespace SIMS_HCI_Project.Repositories
             Save();
         }
 
-        private int GenerateId()
-        {
-            return _tourKeyPoints.Count == 0 ? 1 : _tourKeyPoints[_tourKeyPoints.Count - 1].Id + 1;
-        }
 
     }
 }

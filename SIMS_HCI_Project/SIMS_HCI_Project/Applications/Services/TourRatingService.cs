@@ -24,14 +24,14 @@ namespace SIMS_HCI_Project.Applications.Services
             return _tourRatingRepository.GetAllByTourId(tourTimeId);
         }
 
-        public bool IsRated(int reservationId)
-        {
-            return _tourRatingRepository.IsRated(reservationId);
-        }
-
         public void Add(TourRating tourRating)
         {
             _tourRatingRepository.Add(tourRating);
+        }
+
+        public bool IsRated(int reservationId)
+        {
+            return _tourRatingRepository.IsRated(reservationId);
         }
 
         public void MarkAsInvalid(TourRating tourRating)

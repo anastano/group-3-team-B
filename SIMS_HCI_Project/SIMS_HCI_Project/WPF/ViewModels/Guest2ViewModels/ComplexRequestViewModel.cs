@@ -64,7 +64,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             LoadFromFiles();
             InitCommands();
 
-            MyRequests = new ObservableCollection<RegularTourRequest>(_regularTourRequestService.GetAllByGuestIdNotPartOfComplex(Guest.Id));
+            MyRequests = new ObservableCollection<RegularTourRequest>(_regularTourRequestService.GetAllByGuestId(Guest.Id, false));
         }
 
         private void InitCommands()

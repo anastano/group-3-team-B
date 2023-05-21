@@ -122,7 +122,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             _tourService = new TourService();
             _notificationService = new NotificationService();
 
-            NewTour = tour == null ? new Tour(new Guide(((User)App.Current.Properties["CurrentUser"]))) : tour;
+            NewTour = tour == null ? new Tour(((Guide)App.Current.Properties["CurrentUser"])) : tour;
 
             DepartureDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
             DepartureTime = new TimeOnly();

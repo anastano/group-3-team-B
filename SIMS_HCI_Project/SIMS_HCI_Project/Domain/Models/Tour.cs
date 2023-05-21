@@ -1,4 +1,5 @@
-﻿using SIMS_HCI_Project.Serializer;
+﻿using SIMS_HCI_Project.Model;
+using SIMS_HCI_Project.Serializer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -133,5 +134,13 @@ namespace SIMS_HCI_Project.Domain.Models
             }
         }
 
+        public void AssignToTourTimes(List<TourTime> tourTimes)
+        {
+            foreach (TourTime tourTime in tourTimes)
+            {
+                tourTime.TourId = this.Id;
+                tourTime.Tour = this;
+            }
+        }
     }
 }

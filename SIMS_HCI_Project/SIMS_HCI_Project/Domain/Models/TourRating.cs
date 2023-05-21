@@ -21,7 +21,6 @@ namespace SIMS_HCI_Project.Domain.Models
         public int GuidesLanguage { get; set; }
         public string Comment { get; set; }
         public List<string> Images { get; set; }
-        public string Image { get; set; }
         public bool IsValid { get; set; }
         public GuestTourAttendance Attendance { get; set; } 
 

@@ -25,32 +25,11 @@ namespace SIMS_HCI_Project.Applications.Services
             _tourReservationRepository = Injector.Injector.CreateInstance<ITourReservationRepository>();
         }
 
-        public void Add(GuestTourAttendance guestTourAttendance)
-        {
-            _guestTourAttendanceRepository.Add(guestTourAttendance);
-        }
-
-        public GuestTourAttendance GetById(int id)
-        {
-            return _guestTourAttendanceRepository.GetById(id);
-        }
-
-        public List<GuestTourAttendance> GetAll()
-        {
-            return _guestTourAttendanceRepository.GetAll();
-        }
-        
-        public List<GuestTourAttendance> GetAllByTourId(int id)
-        {
-            return _guestTourAttendanceRepository.GetAllByTourId(id);
-        }
-
         public GuestTourAttendance GetByGuestAndTourTimeIds(int guestId, int tourTimeId)
         {
             return _guestTourAttendanceRepository.GetByGuestAndTourTimeIds(guestId, tourTimeId);
         }
-
-
+      
         public bool IsPresent(int guestId, int tourTimeId)
         {
             return _guestTourAttendanceRepository.IsPresent(guestId, tourTimeId);
@@ -79,7 +58,8 @@ namespace SIMS_HCI_Project.Applications.Services
             }
         }
 
-        public void ConfirmAttendance(int guestId, int tourId) //new
+
+        public List<GuestTourAttendance> GetWithConfirmationRequestedStatus(int guestId)
         {
             List<TourReservation> reservations = _tourReservationRepository.GetAllByGuestIdAndTourId(guestId, tourId);
             foreach(TourReservation reservation in reservations)
@@ -97,7 +77,7 @@ namespace SIMS_HCI_Project.Applications.Services
 
         public List<GuestTourAttendance> GetByConfirmationRequestedStatus(int guestId)
         {
-            return _guestTourAttendanceRepository.GetByConfirmationRequestedStatus(guestId);
+            return _guestTourAttendanceRepository.GetWithConfirmationRequestedStatus(guestId);
         }
 
         public void MarkGuestAsPresent(GuestTourAttendance guestTourAttendance)

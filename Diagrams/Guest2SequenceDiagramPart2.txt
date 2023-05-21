@@ -9,15 +9,15 @@ Guest -> ns : GetAllByGuest(int guestId)
 activate ns
 ns -> inr : GetAllByGuest(ing guestId)
 activate inr
-inr -> ns : List<Notifications> notifications
+inr --> ns : List<Notifications> notifications
 deactivate inr
-ns -> Guest : List<Notifications> notifications
+ns --> Guest : List<Notifications> notifications
 deactivate ns
 
 opt
 Guest -> ts: GetTourInformationById(int notification.GetObjectIdFromMessage())
 activate ts
-ts -> Guest: Tour tour
+ts --> Guest: Tour tour
 deactivate ts
 end
 

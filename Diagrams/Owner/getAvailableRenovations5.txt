@@ -1,0 +1,63 @@
+@startuml
+actor "Owner" as O
+participant "RenovationService" as RS
+participant "RenovationRepository" as RR
+participant AccommodationReservationService as ARS
+participant AccommodationReservationRepository as ARR
+
+note across: Owner has to choose one of the displayed accommodations
+note across: Window for filling in the renovation information appears 
+note across: Owner enters the description, the number of days and the range of dates in which the renovation can be carried out
+note across: Owner clicks the Search button
+
+O->RS ++:GetAvailableRenovations (accommodation, enteredStart, enteredEnd, daysNumber)
+
+loop potentialEnd <= enteredDate
+   RS -> RS ++: OverlapsWithRenovations(accommodation, potentialDateRange)
+            RS->RS ++: GetByAccommodationId(accommodation.Id)
+            RS->RR ++: GetByAccommodationId(accommodation.Id)
+            RR-->RS --: renovations
+            RS-->RS --: renovations               
+
+            loop foreach renovation in renovations               
+                opt does potential date range overlap
+                      RS --> RS: overlapsWithRenovations[True]
+                end
+            end
+        RS --> RS: overlapsWithRenovations[False]
+        RS --> RS --: overlapsWithRenovations
+
+
+        RS -> RS ++: OverlapsWithReservations(accommodation, potentialDateRange)
+            RS -> ARS **: << create >>
+
+            RS->ARS ++: GetAllReserevedByAccommodationId(accommodation.Id)
+            ARS->ARR ++: GetAllReserevedByAccommodationId(accommodation.Id)
+            ARR--> ARS --: reservations
+            ARS-->RS --: reservations
+
+            loop foreach reservation in reservations
+                opt does potential date range overlap
+                      RS --> RS: overlapsWithReservations[True]
+                end
+            end
+        RS --> RS: overlapsWithReservations[False]
+        RS --> RS --: overlapsWithReservations
+
+   opt !overlapsWithRenovations && !overlapsWithReservations       
+        note right of RS: add potential renovation in available renovations list
+    end
+
+    note right of RS: increment potentialStart and potentialEnd
+end
+
+RS-->O --: availableRenovations
+
+note across: Owner has to choose one of the displayed date ranges
+note across: Owner clicks the Add button
+
+O->RS ++: Add(SelectedRenovation)
+RS->RR ++: Add(SelectedRenovation)
+deactivate RR
+deactivate RS
+@enduml

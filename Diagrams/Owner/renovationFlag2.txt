@@ -1,0 +1,38 @@
+@startuml
+actor "Guest" as G
+
+participant AccommodationService as AS
+participant AccommodationRepository as AR
+participant "RenovationService" as RS
+participant "RenovationRepository" as RR
+
+
+note across: Guest logs in
+
+G->AS ++:ConvertAccommodationIntoRenovated(_renovationService)
+
+AS->AS ++: GetAll()
+AS->AR ++: GetAll()
+AR-->AS --: accommodations
+AS-->AS --: accommodations
+
+loop foreach accommodation in accommodations
+
+  AS->RS ++: IsAccommodationRenovated(accommodation.Id)
+     RS->RS ++: GetByAccommodationId(accommodation.Id)
+     RS->RR ++: GetByAccommodationId(accommodation.Id)
+     RR-->RS --: renovations
+     RS-->RS --: renovations
+
+     loop foreach renovation in renovations
+        opt has it been less than a year since the renovation
+            RS-->RS: [True]
+        end
+     end
+
+     RS-->RS:[False]
+     RS-->AS --: accommodation.IsRenovated
+end
+
+deactivate AS
+@enduml

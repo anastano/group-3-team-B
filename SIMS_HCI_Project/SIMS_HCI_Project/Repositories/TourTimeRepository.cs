@@ -81,27 +81,9 @@ namespace SIMS_HCI_Project.Repositories
             Save();
         }
 
-        public bool HasTourInProgress(int guideId)
-        {
-            return _tourTimes.Any(tt => tt.Tour.GuideId == guideId && tt.Status == TourStatus.IN_PROGRESS);
-        }
-
         private int GenerateId()
         {
             return _tourTimes.Count == 0 ? 1 : _tourTimes[_tourTimes.Count - 1].Id + 1;
-        }
-
-        public void CheckAndUpdateStatus()
-        {
-            DateTime now = DateTime.Now;
-            foreach (TourTime tourTime in _tourTimes)
-            {
-                if (tourTime.DepartureTime < now)
-                {
-                    tourTime.Status = TourStatus.COMPLETED;
-                    Save();
-                }
-            }
         }
     }
 }

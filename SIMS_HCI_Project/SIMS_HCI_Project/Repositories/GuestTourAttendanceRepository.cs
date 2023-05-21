@@ -106,7 +106,7 @@ namespace SIMS_HCI_Project.Repositories
             var result = new List<GuestTourAttendance>();
             foreach(var gta in GetAllByGuestId(guestId))
             {
-                if(gta.Status == AttendanceStatus.CONFIRMATION_REQUESTED && gta.TourReservation.TourTime.Status == TourStatus.IN_PROGRESS) //proveri
+                if(gta.Status == AttendanceStatus.CONFIRMATION_REQUESTED && gta.TourReservation.TourTime.IsInProgress)
                 {
                     result.Add(gta);
                 }
@@ -124,7 +124,7 @@ namespace SIMS_HCI_Project.Repositories
             return _guestTourAttendances.Where(gta => gta.TourReservation.VoucherUsedId != -1 && gta.TourReservation.TourTimeId == tourTimeId).Count();
         }
 
-        public bool IsPresent(int guestId, int tourTimeId)
+        public bool IsPresent(int guestId, int tourTimeId) // move to Guest class
         {
             GuestTourAttendance attendance = GetByGuestAndTourTimeIds(guestId, tourTimeId);
             return _guestTourAttendances.Any(gta => gta.Status == AttendanceStatus.PRESENT);

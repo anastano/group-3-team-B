@@ -269,7 +269,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         {
             if (SelectedYearIndexAverage == 0)
             {
-                AcceptedRequests = new List<RegularTourRequest>(_regularTourRequestService.GetByGuestIdAndStatus(Guest2.Id, RegularRequestStatus.ACCEPTED));
+                AcceptedRequests = new List<RegularTourRequest>(_regularTourRequestService.GetByGuestIdAndStatusAndYear(Guest2.Id, RegularRequestStatus.ACCEPTED));
             }
             else
             {
@@ -309,7 +309,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             RequestsByLocation = new Dictionary<int, int>(_tourRequestsStatisticsService.GetTourRequestStatisticsByLocationId(Guest2.Id));
             RequestsByLocationValues = new ChartValues<int>(RequestsByLocation.Values);
 
-            AcceptedRequests = new List<RegularTourRequest>(_regularTourRequestService.GetByGuestIdAndStatus(Guest2.Id, RegularRequestStatus.ACCEPTED));
+            AcceptedRequests = new List<RegularTourRequest>(_regularTourRequestService.GetByGuestIdAndStatusAndYear(Guest2.Id, RegularRequestStatus.ACCEPTED));
         }
     }
 }

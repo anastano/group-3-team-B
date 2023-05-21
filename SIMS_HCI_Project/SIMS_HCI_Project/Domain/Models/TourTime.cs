@@ -53,6 +53,7 @@ namespace SIMS_HCI_Project.Domain.Models
         public bool IsCompleted => this.Status == TourStatus.COMPLETED; 
         public bool IsStartable => this.Status == TourStatus.NOT_STARTED && this.DepartureTime.Date == DateTime.Today;
         public bool IsFinished => this.Status == TourStatus.COMPLETED;
+        public bool IsInProgress => this.Status == TourStatus.IN_PROGRESS;
 
         public void Cancel()
         {

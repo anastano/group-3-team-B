@@ -27,7 +27,7 @@ namespace SIMS_HCI_Project.Applications.Services
 
         public void StartTour(TourTime tourTime)
         {
-            if (!tourTime.IsStartable || _tourTimeRepository.HasTourInProgress(tourTime.Tour.GuideId)) return;
+            if (!tourTime.IsStartable || tourTime.Tour.Guide.HasTourInProgress()) return;
 
             tourTime.Start();
             _tourTimeRepository.Update(tourTime);

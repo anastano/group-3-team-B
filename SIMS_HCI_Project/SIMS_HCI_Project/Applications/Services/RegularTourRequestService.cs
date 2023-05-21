@@ -36,22 +36,12 @@ namespace SIMS_HCI_Project.Applications.Services
             return _regularTourRequestRepository.GetAll();
         }
 
-        public List<RegularTourRequest> GetAllByGuestId(int id)
+        public List<RegularTourRequest> GetAllByGuestId(int id, bool? isPartOfComplex = null)
         {
-            return _regularTourRequestRepository.GetAllByGuestId(id);
+            return _regularTourRequestRepository.GetAllByGuestId(id, isPartOfComplex);
         }
 
-        public List<RegularTourRequest> GetAllByGuestIdNotPartOfComplex(int guestId)
-        {
-            return _regularTourRequestRepository.GetAllByGuestIdNotPartOfComplex(guestId);
-        }
-
-        public List<RegularTourRequest> GetByGuestIdAndStatus(int ig, RegularRequestStatus status)
-        {
-            return _regularTourRequestRepository.GetByGuestIdAndStatus(ig, status);
-        }
-
-        public List<RegularTourRequest> GetByGuestIdAndStatusAndYear(int ig, RegularRequestStatus status, int year)
+        public List<RegularTourRequest> GetByGuestIdAndStatusAndYear(int ig, RegularRequestStatus status, int? year = null)
         {
             return _regularTourRequestRepository.GetByGuestIdAndStatusAndYear(ig, status, year);
         }
@@ -60,9 +50,10 @@ namespace SIMS_HCI_Project.Applications.Services
             return _regularTourRequestRepository.GetValidByParams(location, guestNumber, language, dateRange);
         }
 
-        public void EditStatus(int requestId, RegularRequestStatus status)
+        public void EditStatus(RegularTourRequest request, RegularRequestStatus status)
         {
-            _regularTourRequestRepository.EditStatus(requestId, status);
+            request.Status = status;
+            _regularTourRequestRepository.Update(request);
         }
 
         public void Add(RegularTourRequest request)
@@ -80,8 +71,9 @@ namespace SIMS_HCI_Project.Applications.Services
             request.Accept();
             _regularTourRequestRepository.Update(request);
 
-            TourService tourService = new TourService(); // because creation of tour is complex, 
             Tour tourFromRequest = CreateTourFromRequest(request, guideId, departureTime);
+
+            TourService tourService = new TourService(); // because creation of tour is complex
             tourService.Add(tourFromRequest);
 
             Notification notification = new Notification("Your request number for tour was accepted. Departure time: " + departureTime.ToShortDateString()

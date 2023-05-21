@@ -23,6 +23,9 @@ namespace SIMS_HCI_Project.Domain.Models
             GuidesLanguage = 5;
         }
 
-        public double AverageRating => (double)(OverallExperience + Organisation + Interestingness + GuidesKnowledge + GuidesLanguage) / 5;
+        public double AverageRating()
+        {
+            return (double)(OverallExperience + Organisation + Interestingness + GuidesKnowledge + GuidesLanguage) / 5;
+        }
     }
 }

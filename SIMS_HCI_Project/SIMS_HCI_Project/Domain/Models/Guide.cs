@@ -11,6 +11,9 @@ namespace SIMS_HCI_Project.Domain.Models
 {
     public class Guide : User
     {
+        public List<Tour> AllTours { get; set; }
+        public List<TourTime> TodaysTours { get; set; }
+
         public Guide(User user)
         {
             Id = user.Id;
@@ -20,6 +23,11 @@ namespace SIMS_HCI_Project.Domain.Models
             Surname = user.Surname;
             Age = user.Age;
             Role = user.Role;
+        }
+
+        public bool HasTourInProgress()
+        {
+            return TodaysTours.Any(t => t.IsInProgress);
         }
     }
 }

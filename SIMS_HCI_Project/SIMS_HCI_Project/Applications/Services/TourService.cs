@@ -89,9 +89,9 @@ namespace SIMS_HCI_Project.Applications.Services
 
             _tourKeyPointRepository.AddMultiple(tour.KeyPoints);
             tour.KeyPointsIds = tour.KeyPoints.Select(c => c.Id).ToList();
-            tour.AssignToTourTimes(tour.DepartureTimes);
 
             _tourRepository.Add(tour);
+            tour.AssignToTourTimes(tour.DepartureTimes);
             _tourTimeRepository.AddMultiple(tour.DepartureTimes);
 
             NotificationService notificationService = new NotificationService();

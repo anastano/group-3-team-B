@@ -23,7 +23,6 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         void Update(GuestTourAttendance guestTourAttendance);
         void BulkUpdate(List<GuestTourAttendance> guestTourAttendances);
 
-        // CLEAN!
         int GetGuestCountByAgeGroup(AgeGroup ageGroup, int tourTimeId);
         int GetGuestsWithVoucherCount(int tourTimeId);
         bool IsPresent(int guestId, int tourTimeId);

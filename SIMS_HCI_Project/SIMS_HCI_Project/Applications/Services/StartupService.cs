@@ -73,8 +73,18 @@ namespace SIMS_HCI_Project.Applications.Services
             ConnectSuperGuestTitleFields();
             ConnectRenovationFields();
             ConnectRecommendationRenovationFields();
+            ConnectGuideFields();
 
             _connectionsLoaded = true;
+        }
+
+        public void ConnectGuideFields()
+        {
+            foreach(Guide guide in _tourRepository.GetAll().Select(t => t.Guide).Distinct().ToList())
+            {
+                guide.AllTours = _tourRepository.GetAllByGuide(guide.Id);
+                guide.TodaysTours = _tourTimeRepository.GetAllByGuideId(guide.Id).Where(t => t.DepartureTime.Date == DateTime.Today).ToList();
+            }
         }
 
         public void ConnectTourFields()
@@ -83,7 +93,7 @@ namespace SIMS_HCI_Project.Applications.Services
             {
                 tour.Location = _locationRepository.GetById(tour.LocationId);
                 tour.KeyPoints = _tourKeyPointRepository.GetByIds(tour.KeyPointsIds);
-                tour.Guide = new Guide(_userRepository.GetById(tour.GuideId));
+                tour.Guide = (Guide) _userRepository.GetById(tour.GuideId);
             }
         }
 

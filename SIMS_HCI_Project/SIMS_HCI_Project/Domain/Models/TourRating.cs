@@ -26,6 +26,6 @@ namespace SIMS_HCI_Project.Domain.Models
             IsValid = true;
         }
 
-        public double AverageRating => RatingGrades.AverageRating;
+        public double AverageRating => RatingGrades.AverageRating();
     }
 }

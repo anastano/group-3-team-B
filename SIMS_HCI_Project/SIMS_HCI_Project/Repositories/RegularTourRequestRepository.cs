@@ -44,25 +44,15 @@ namespace SIMS_HCI_Project.Repositories
             return _requests.Find(r => r.Id == id);
         }
 
-        public List<RegularTourRequest> GetAllByGuestId(int guestId)
-        {
-            return _requests.FindAll(r => r.GuestId == guestId);
-        }
-
-        public List<RegularTourRequest> GetAllByGuestIdNotPartOfComplex(int guestId)
+        public List<RegularTourRequest> GetAllByGuestId(int guestId, bool? isPartOfComplex = null)
         {
             UpdateStatusForInvlid();
-            return _requests.FindAll(r => r.GuestId == guestId && r.IsPartOfComplex == false);
+            return _requests.FindAll(r => r.GuestId == guestId && (isPartOfComplex == null || r.IsPartOfComplex == isPartOfComplex));
         }
 
-        public List<RegularTourRequest> GetByGuestIdAndStatus(int guestId, RegularRequestStatus status)
+        public List<RegularTourRequest> GetByGuestIdAndStatusAndYear(int guestId, RegularRequestStatus status, int? year = null)
         {
-            return _requests.FindAll(r => r.GuestId == guestId && r.Status == status);
-        }
-
-        public List<RegularTourRequest> GetByGuestIdAndStatusAndYear(int guestId, RegularRequestStatus status, int year)
-        {
-            return _requests.FindAll(r => r.GuestId == guestId && r.Status == status && r.SubmittingDate.Year == year);
+            return _requests.FindAll(r => r.GuestId == guestId && r.Status == status && (year == null ||  r.SubmittingDate.Year == year));
         }
 
         public List<RegularTourRequest> GetValidByParams(Location location, int guestNumber, string language, DateRange dateRange)
@@ -96,13 +86,6 @@ namespace SIMS_HCI_Project.Repositories
             Save();
         }
 
-        public void EditStatus(int requestId, RegularRequestStatus status)
-        {
-            RegularTourRequest request = _requests.Find(r => r.Id == requestId);
-            request.Status = status;
-            Save();
-        }
-
         public void UpdateStatusForInvlid() //for those that arent part of complex, may edit when start working on complex tours
         {
             foreach (var request in _requests)
@@ -115,14 +98,9 @@ namespace SIMS_HCI_Project.Repositories
             }
         }
 
-        public int GetRequestsCountByStatus(RegularRequestStatus status, int guestId)
+        public int GetRequestsCountByStatus(RegularRequestStatus status, int guestId, int? selectedYear = null)
         {
-            return _requests.Where(r => r.GuestId == guestId && r.Status==status).Count();
-        }
-
-        public int GetRequestsCountByStatus(RegularRequestStatus status, int guestId, int selectedYear)
-        {
-            return _requests.Where(r => r.GuestId == guestId && r.Status == status && r.DateRange.Start.Year == selectedYear).Count();
+            return _requests.Where(r => r.GuestId == guestId && r.Status==status && (selectedYear == null || r.DateRange.Start.Year == selectedYear)).Count();
         }
 
         public int GetCountByYear(int year, string language = null, Location location = null)

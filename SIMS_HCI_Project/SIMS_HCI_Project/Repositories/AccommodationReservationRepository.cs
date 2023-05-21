@@ -132,7 +132,7 @@ namespace SIMS_HCI_Project.Repositories
         }
         public List<AccommodationReservation> GetReservationsWithinOneYear(int guestId, DateTime start)
         {
-            return _reservations.FindAll(r => r.GuestId == guestId && r.Start >= start);
+            return _reservations.FindAll(r => r.GuestId == guestId && r.Start >= start && r.End <= start.AddYears(1));
         }
 
     }

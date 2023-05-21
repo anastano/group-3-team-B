@@ -48,12 +48,9 @@ namespace SIMS_HCI_Project.Applications.Services
             {
                 _titleRepository.UpdateAvailablePoints(guest.Id);
             }
-            else
+            else if(IsSuperGuestConditionFulfilled(accommodationReservationService, guest, DateTime.Today.AddYears(-1)))
             {
-                if (IsSuperGuestConditionFulfilled(accommodationReservationService, guest, DateTime.Today.AddYears(-1)))
-                {
-                    _titleRepository.Add(new SuperGuestTitle(guest));
-                }
+                _titleRepository.Add(new SuperGuestTitle(guest));
             }
         }
         private bool IsSuperGuestConditionFulfilled(AccommodationReservationService accommodationReservationService, Guest1 guest, DateTime start)

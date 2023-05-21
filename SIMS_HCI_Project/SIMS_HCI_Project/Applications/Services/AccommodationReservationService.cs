@@ -102,7 +102,7 @@ namespace SIMS_HCI_Project.Applications.Services
             DateRange potentialDateRange = new DateRange(potentialStart, potentialEnd);
             while (potentialEnd <= end)
             {
-                 if (!DoesOverlapsWithRenovations(accommodation, potentialDateRange) && !DoesOverlapsWithReservations(accommodation, potentialDateRange))
+                 if (!DoesOverlapWithRenovations(accommodation, potentialDateRange) && !DoesOverlapWithReservations(accommodation, potentialDateRange))
                  {
                      availableReservations.Add(new AccommodationReservation(accommodation, guest, potentialStart, potentialEnd, guestsNumber));
                  }
@@ -113,7 +113,7 @@ namespace SIMS_HCI_Project.Applications.Services
             }
             return availableReservations;
         }
-        public bool DoesOverlapsWithRenovations(Accommodation accommodation, DateRange potentialDateRange)
+        public bool DoesOverlapWithRenovations(Accommodation accommodation, DateRange potentialDateRange)
         {
             RenovationService renovationService = new RenovationService();
             foreach (Renovation renovation in renovationService.GetByAccommodationId(accommodation.Id))
@@ -125,7 +125,7 @@ namespace SIMS_HCI_Project.Applications.Services
             }
             return false;
         }
-        public bool DoesOverlapsWithReservations(Accommodation accommodation, DateRange potentialDateRange)
+        public bool DoesOverlapWithReservations(Accommodation accommodation, DateRange potentialDateRange)
         {
             foreach (AccommodationReservation reservation in GetAllReserevedByAccommodationId(accommodation.Id))
             {

@@ -17,9 +17,9 @@ Guide -> trss : GetTopLanguage()
 activate trss
 trss -> irtrr: GetTopLanguage()
 activate irtrr
-irtrr-> trss : language
+irtrr --> trss : language
 deactivate irtrr
-trss -> Guide: language
+trss --> Guide: language
 deactivate trss
 
 else by location
@@ -27,9 +27,9 @@ Guide -> trss : GetTopLocation()
 activate trss
 trss -> irtrr: GetTopLocation()
 activate irtrr
-irtrr-> trss : location
+irtrr--> trss : location
 deactivate irtrr
-trss -> Guide: location
+trss --> Guide: location
 deactivate trss
 
 end
@@ -38,22 +38,28 @@ Guide -> ts : Add(Tour tour)
 activate ts
 ts -> ilr : GetOrAdd(tour.Location)
 activate ilr
-ilr -> ts : location
+ilr --> ts : location
 deactivate ilr
-ts -> itkpr: AddMultiple(tour.KeyPoints)
-ts -> itr : Add(Tour tour)
-ts -> ittr: AddMultiple() 
+ts -> itkpr ++: AddBulk(tour.KeyPoints)
+itkpr--
+ts -> itr ++: Add(tour)
+itr--
+ts -> ittr++: AddBulk(tour.DepartureTimes) 
+ittr--
 
-
-ts -> ns : NotifyGuestsWithSimilarRequests(Tour tour)                 
-ts -> irtrr : GetInvalidByParams(int locationId, string language) 
-irtrr -> ts : List<RegularTourRequest> 
+ts -> ns **: <<create>>
+activate ns
+ts -> ns : NotifyGuestsWithSimilarRequests(tour)                 
+ns -> irtrr ++: GetInvalidByParams(int locationId, string language) 
+irtrr -> ns --: similarRequests 
 deactivate ts
-loop RegularTourRequest in RegularTourRequests
+loop regularTourRequest in similarRequests
   activate ns
   ns -> ns : notifications.Add(some params);
 end
 deactivate ns
-ns -> inr : AddMultple(List<Notification> notifications)
+ns -> inr ++: Add(notification)
+inr--
+ns--
 
 @enduml-

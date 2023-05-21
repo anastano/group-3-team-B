@@ -25,7 +25,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         #region Services
         private TourReservationService _tourReservationService;
         private TourService _tourService;
-        private LocationService _locationService;
         private TourVoucherService _tourVoucherService;
         private GuestTourAttendanceService _guestTourAttendanceService;
         private NotificationService _notificationService;
@@ -129,7 +128,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             _tourVoucherService = new TourVoucherService();
             _tourReservationService = new TourReservationService();
             _tourService = new TourService();
-            _locationService = new LocationService();
             _guestTourAttendanceService = new GuestTourAttendanceService();
             _notificationService = new NotificationService(); //proveri da li je u startap servisu sve povezano za obavestenja 
         }

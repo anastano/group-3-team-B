@@ -22,7 +22,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         private TourService _tourService;
         private TourReservationService _tourReservationService;
         private TourVoucherService _tourVoucherService;
-        private LocationService _locationService;
         private GuestTourAttendanceService _guestTourAttendanceService;
         private TourRatingService _tourRatingService;
         #endregion
@@ -163,7 +162,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             _tourService = new TourService();
             _tourReservationService = new TourReservationService();
             _tourVoucherService = new TourVoucherService();
-            _locationService = new LocationService();
             _guestTourAttendanceService = new GuestTourAttendanceService();
             _tourRatingService = new TourRatingService();
         }

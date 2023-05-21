@@ -22,7 +22,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public Guest2 Guest2 { get; set; }  
         public NavigationService NavigationService { get; set; }
         private RegularTourRequestService _regularTourRequestService { get; set; }
-        private LocationService _locationService { get; set; }
         private TourRequestsStatisticsService _tourRequestsStatisticsService { get; set; }
 
         #region StatsByStatus
@@ -295,7 +294,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         {
             _regularTourRequestService = new RegularTourRequestService();
             _tourRequestsStatisticsService = new TourRequestsStatisticsService();
-            _locationService = new LocationService();
 
             SelectedYearIndexStatus = 0;
             SelectedYearIndexAverage = 0;

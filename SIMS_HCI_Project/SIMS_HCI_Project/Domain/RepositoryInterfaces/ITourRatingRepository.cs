@@ -13,6 +13,7 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         TourRating GetById(int id);
         List<TourRating> GetAll();
         List<TourRating> GetAllByTourId(int tourTimeId);
+
         void Add(TourRating rating);
         void Update(TourRating tourRating);
         bool IsRated(int id);

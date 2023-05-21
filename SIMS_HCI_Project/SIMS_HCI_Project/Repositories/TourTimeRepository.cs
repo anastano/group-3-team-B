@@ -21,18 +21,23 @@ namespace SIMS_HCI_Project.Repositories
 
             if (_tourTimes == null)
             {
-                _tourTimes = _fileHandler.Load();
+                Load();
             }
         }
 
-        public void Load()
+        private void Load()
         {
             _tourTimes = _fileHandler.Load();
         }
 
-        public void Save()
+        private void Save()
         {
             _fileHandler.Save(_tourTimes);
+        }
+
+        private int GenerateId()
+        {
+            return _tourTimes.Count == 0 ? 1 : _tourTimes[_tourTimes.Count - 1].Id + 1;
         }
 
         public TourTime GetById(int id)
@@ -79,11 +84,6 @@ namespace SIMS_HCI_Project.Repositories
             tourTimeUpdated = tourTime;
 
             Save();
-        }
-
-        private int GenerateId()
-        {
-            return _tourTimes.Count == 0 ? 1 : _tourTimes[_tourTimes.Count - 1].Id + 1;
         }
     }
 }

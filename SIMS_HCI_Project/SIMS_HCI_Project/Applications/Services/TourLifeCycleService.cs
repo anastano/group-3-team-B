@@ -16,7 +16,6 @@ namespace SIMS_HCI_Project.Applications.Services
         private readonly ITourVoucherRepository _tourVoucherRepository;
         private readonly int DefaultExpirationDays = 10;
 
-
         public TourLifeCycleService() 
         {
             _tourTimeRepository = Injector.Injector.CreateInstance<ITourTimeRepository>();

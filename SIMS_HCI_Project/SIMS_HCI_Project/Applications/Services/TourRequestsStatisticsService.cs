@@ -53,7 +53,7 @@ namespace SIMS_HCI_Project.Applications.Services
             return requestsNumberByLocationId;
         }
 
-        public Dictionary<int, int> GetTourRequesPerYear(string language = null, Location location = null)
+        public Dictionary<int, int> GetTourRequestsPerYear(string language = null, Location location = null)
         {
             if (language == null && location == null) return null;
 
@@ -68,7 +68,7 @@ namespace SIMS_HCI_Project.Applications.Services
             return requestPerYear;
         }
 
-        public Dictionary<int, int> GetTourRequesPerMonth(int year, string language = null, Location location = null)
+        public Dictionary<int, int> GetTourRequestsPerMonth(int year, string language = null, Location location = null)
         {
             if (language == null && location == null) return null;
 

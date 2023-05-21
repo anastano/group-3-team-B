@@ -23,12 +23,12 @@ namespace SIMS_HCI_Project.Repositories
             }
         }
 
-        public void Load()
+        private void Load()
         {
             _tourKeyPoints = _fileHandler.Load();
         }
 
-        public void Save()
+        private void Save()
         {
             _fileHandler.Save(_tourKeyPoints);
         }
@@ -43,7 +43,7 @@ namespace SIMS_HCI_Project.Repositories
             return _tourKeyPoints.Find(tkp => tkp.Id == id);
         }
 
-        public List<TourKeyPoint> GetByIds(List<int> ids) // make one liner #New
+        public List<TourKeyPoint> GetByIds(List<int> ids) // make one liner
         {
             List<TourKeyPoint> tourKeyPoints = new List<TourKeyPoint>();
             foreach (int id in ids)

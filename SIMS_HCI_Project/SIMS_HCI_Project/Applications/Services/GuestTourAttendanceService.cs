@@ -73,13 +73,17 @@ namespace SIMS_HCI_Project.Applications.Services
             return _guestTourAttendanceRepository.IsPresent(guestId, tourTimeId);
         }
 
-        public void ConfirmAttendanceForTourTime(int guestId, int tourTimeId) //old // AN: why not just attendanceId?
+        public void ConfirmAttendanceForTourTime(int guestId, int tourTimeId) // AN: why not just attendanceId?
         {
-            GuestTourAttendance attendance = _guestTourAttendanceRepository.GetByGuestAndTourTimeIds(guestId, tourTimeId);
-            if (attendance.Status == AttendanceStatus.CONFIRMATION_REQUESTED)
+            List<TourReservation> reservations = _tourReservationRepository.GetAllByGuestIdAndTourId(guestId, tourTimeId);
+            foreach (TourReservation reservation in reservations)
             {
-                attendance.MarkPresence();
-                _guestTourAttendanceRepository.Update(attendance);
+                GuestTourAttendance attendance = _guestTourAttendanceRepository.GetByGuestAndTourTimeIds(guestId, reservation.TourTimeId);
+                if (attendance.Status == AttendanceStatus.CONFIRMATION_REQUESTED)
+                {
+                    attendance.Status = AttendanceStatus.PRESENT;
+                    _guestTourAttendanceRepository.Update(attendance);
+                }
             }
         }
 

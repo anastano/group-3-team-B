@@ -42,8 +42,11 @@ namespace SIMS_HCI_Project.Applications.Services
         }
 
         public void MarkAsRead(int notificationId)
-        { 
-            _notificationRepository.MarkAsRead(notificationId);
+        {
+            Notification notification = _notificationRepository.GetById(notificationId);
+            notification.IsRead = true;
+
+            _notificationRepository.Update(notification);
         }
 
         public void NotifyGuestsWithSimilarRequests(Tour tour)

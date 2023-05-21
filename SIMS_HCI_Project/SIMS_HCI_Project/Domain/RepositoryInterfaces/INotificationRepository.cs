@@ -10,8 +10,6 @@ namespace SIMS_HCI_Project.Repositories
         Notification GetById(int id);
         List<Notification> GetUnreadByUserId(int userId);
 
-        void MarkAsRead(int notificationId); // to Update #New
-
         void Add(Notification notification);
         void Update(Notification notification);
     }

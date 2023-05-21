@@ -110,12 +110,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         private void LoadRequestsCountPerYear()
         {
-            RequestsPerYear = _tourRequestsStatisticsService.GetTourRequesPerYear(SelectedLanguage, SelectedLocation);
+            RequestsPerYear = _tourRequestsStatisticsService.GetTourRequestsPerYear(SelectedLanguage, SelectedLocation);
         }
 
         private void LoadRequestsCountPerMonth()
         {
-            RequestsPerMonth = _tourRequestsStatisticsService.GetTourRequesPerMonth(SelectedYear, SelectedLanguage, SelectedLocation);
+            RequestsPerMonth = _tourRequestsStatisticsService.GetTourRequestsPerMonth(SelectedYear, SelectedLanguage, SelectedLocation);
         }
     }
 }

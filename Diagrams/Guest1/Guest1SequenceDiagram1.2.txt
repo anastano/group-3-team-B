@@ -1,7 +1,5 @@
 @startuml
 actor Guest
-participant SuperGuestTitleService as SGTS
-participant SuperGuestTitleRepository as SGTR
 participant AccommodationReservationService as ARS
 participant AccommodationReservationRepository as ARR
 participant RenovationService as RS
@@ -45,6 +43,7 @@ loop foreach renovation in renovations
 return isOverlappedWithRenovations
 end
 
+
 ARS -> ARS: DoesOverlapsWithReservations(Accommodation accommodation, DateRange potentialDateRange)
 activate ARS
 ARS -> ARS: GetAllReserevedByAccommodationId(accommodation.Id)
@@ -57,6 +56,7 @@ return reservations
 loop foreach reservation in reservations
 return isOverlappedWithReservations
 end
+
 opt !isOverlappedWithReservations && !isOverlappedWithRenovations
 note right of ARS: add potential reservation in list
 end
@@ -117,45 +117,13 @@ end
 
 group Reserve
 note right of Guest: Guest chooses one reservation
-Guest -> ARS: Add(AccommodationReservation reservation)
-ARS -> ARR: Add(AccommodationReservation reservation)
+
+Guest -> ARS ++: Add(AccommodationReservation reservation)
+ARS -> ARR ++: Add(AccommodationReservation reservation)
+deactivate ARR
+deactivate ARS
+
 end
 
-group Make new title or update points
-Guest -> SGTS: UpdateSuperGuestTitle(AccommodationReservationService accommodationReservationService, Guest1 guest)
-activate SGTS
-SGTS -> SGTS : IsSuperGuest(Guest1 guest)
-activate SGTS
-SGTS -> SGTR: GetGuestActiveTitle(int guestId)
-activate SGTR
-return title
-return isSuperGuest
-alt isSuperGuest
-SGTS -> SGTR: UpdateAvailablePoints(int guestId);
-activate SGTR
-SGTR -> SGTR: GetGuestActiveTitle(int guestId)
-activate SGTR
-return title
-opt title.AvailablePoint > 0
-note right of SGTR: substract 1 from availablePoints
-end
-SGTR -> SGTR: Save()
-deactivate SGTR
-
-else
-SGTS -> SGTS: IsSuperGuestConditionFulfilled(AccommodationReservationService accommodationReservationService, Guest1 guest, DateTime start)
-activate SGTS
-SGTS -> ARS: GetByGuestId(int id)
-activate ARS
-ARS -> ARR: GetByGuestId(int id)
-activate ARR
-return reservations
-return reservations
-return isFulfilled
-opt isFulfilled
-SGTS -> SGTR: Add(SuperGuestTitle title)
-end
-end
-end
 
 @enduml

@@ -87,8 +87,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
-        private bool _isChecked;
-        public bool IsChecked
+        private bool? _isChecked;
+        public bool? IsChecked
         {
             get => _isChecked;
             set
@@ -171,7 +171,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             if (IsValid)
             {
                 _ratingService.RateReservation(_accommodationReservationService, Rating);
-                if (IsChecked && IsFilled)
+                if ((bool)IsChecked && IsFilled)
                 {
                     _recommendationService.Add(_navigationService.NavigationStore.Recommendation, _ratingService.GetByReservationId(Rating.ReservationId));
                 }

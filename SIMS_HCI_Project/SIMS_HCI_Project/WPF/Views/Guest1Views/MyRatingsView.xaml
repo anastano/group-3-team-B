@@ -95,7 +95,8 @@
         <Label Grid.Row="1" Grid.Column="1" Content="Statistics for rule compilance" Style="{StaticResource fancyTitle }" HorizontalContentAlignment="Center" Margin="58,3,0,0" VerticalAlignment="Top" Width="289" Height="40"></Label>
         <StackPanel  Grid.Row="0" Grid.Column="2" VerticalAlignment="Center">
             <TextBlock Text="Generate pdf report for my ratings" Style="{StaticResource CustomTextBlockStyle}" FontSize="18" Margin="0 0 0 10"></TextBlock>
-            <Button Content="PDF" Grid.RowSpan="2" Grid.Column="2" Style="{StaticResource GuestButtonStyle}" ></Button>
+            <Button Content="PDF" Grid.RowSpan="2" Grid.Column="2" Style="{StaticResource GuestButtonStyle}"
+                    Command="{Binding DataContext.GeneratePdfCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"></Button>
         </StackPanel>
         <DataGrid  Grid.Row="2" Grid.ColumnSpan="3" ItemsSource="{Binding Path=RatingsGivenByOwners, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                    AutoGenerateColumns="False" IsReadOnly="True" RowHeight="100" GridLinesVisibility="Horizontal" Style="{StaticResource GuestDatagridStyle}"

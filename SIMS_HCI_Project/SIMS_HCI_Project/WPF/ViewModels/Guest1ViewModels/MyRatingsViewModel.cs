@@ -20,13 +20,23 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public ObservableCollection<RatingGivenByOwner> RatingsGivenByOwners { get; set; }
         public List<KeyValuePair<int, int>> CleanlinessStatistics { get; set; }
         public List<KeyValuePair<int, int>> RuleComplianceStatistics { get; set; }
+        public RelayCommand GeneratePdfCommand { get; set; }
         public MyRatingsViewModel(Guest1 guest)
         {
             _ownerRatingService = new RatingGivenByOwnerService();
             _guestRatingService = new RatingGivenByGuestService();
             Guest = guest;
             RatingsGivenByOwners = new ObservableCollection<RatingGivenByOwner>(_ownerRatingService.GetRatedByGuestId(_guestRatingService, Guest.Id));
+            GeneratePdfCommand = new RelayCommand(ExecutedGeneratePdfCommand, CanExecute);
             LoadChartData();
+        }
+        public void ExecutedGeneratePdfCommand(object obj)
+        {
+            _ownerRatingService.GenerateRatingReport(Guest);
+        }
+        public bool CanExecute(object obj)
+        {
+            return true;
         }
         private void LoadChartData()
         {

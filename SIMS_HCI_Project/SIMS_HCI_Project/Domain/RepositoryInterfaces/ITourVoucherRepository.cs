@@ -1,6 +1,6 @@
 ﻿using SIMS_HCI_Project.Domain.Models;
 using System.Collections.Generic;
-using SIMS_HCI_Project.Observer;
+
 using System;
 
 namespace SIMS_HCI_Project.Domain.RepositoryInterfaces

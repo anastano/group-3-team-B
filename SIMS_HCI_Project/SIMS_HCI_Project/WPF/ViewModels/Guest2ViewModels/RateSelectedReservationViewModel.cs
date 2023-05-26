@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SIMS_HCI_Project.Domain.Models;
-using SIMS_HCI_Project.Observer;
+
 using SIMS_HCI_Project.WPF.Commands;
 using SIMS_HCI_Project.WPF.Views.Guest2Views;
 using System.Windows;

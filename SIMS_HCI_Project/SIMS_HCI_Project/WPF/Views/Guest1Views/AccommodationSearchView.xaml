@@ -309,35 +309,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="R" Binding="{Binding IsRenovated}" Width="10" CanUserSort="True">
-                    <DataGridTextColumn.HeaderStyle>
-                        <Style TargetType="{x:Type DataGridColumnHeader}">
-                            <Setter Property="HorizontalContentAlignment" Value="Center" />
-                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
-                            <Setter Property="FontSize" Value="14"/>
-                            <Setter Property="Height" Value="45"></Setter>
-                            <Setter Property="TextBlock.TextAlignment" Value="Center" />
-                            <Setter Property="Background" Value="#cad9c4"></Setter>
-                            <Setter Property="TextBlock.FontWeight" Value="DemiBold"></Setter>
-                            <Setter Property="ContentTemplate">
-                                <Setter.Value>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding}" TextWrapping="Wrap" TextAlignment="Center"/>
-                                    </DataTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </DataGridTextColumn.HeaderStyle>
-
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="HorizontalAlignment" Value="Center" />
-                            <Setter Property="TextWrapping" Value="Wrap" />
-                            <Setter Property="VerticalAlignment" Value="Center" />
-                            <Setter Property="TextAlignment" Value="Center" />
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
+                
                 <DataGridTemplateColumn Header="Reserve" Width="130">
                     <DataGridTemplateColumn.HeaderStyle>
                         <Style TargetType="{x:Type DataGridColumnHeader}">

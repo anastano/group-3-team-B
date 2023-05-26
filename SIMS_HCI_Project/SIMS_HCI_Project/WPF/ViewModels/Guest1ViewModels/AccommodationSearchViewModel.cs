@@ -1,5 +1,5 @@
-﻿using SIMS_HCI_Project.Controller;
-using SIMS_HCI_Project.View;
+﻿
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

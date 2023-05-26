@@ -1,5 +1,5 @@
 ﻿using SIMS_HCI_Project.Domain.Models;
-using SIMS_HCI_Project.Observer;
+
 using SIMS_HCI_Project.WPF.Commands;
 using SIMS_HCI_Project.WPF.Views;
 using SIMS_HCI_Project.WPF.Views.Guest2Views;
@@ -20,7 +20,7 @@ using System.Windows.Navigation;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels 
 {
-    public class Guest2MainViewModel : IObserver
+    public class Guest2MainViewModel
     {
         #region Services
         private TourReservationService _tourReservationService;

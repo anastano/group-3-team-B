@@ -47,7 +47,7 @@
         <Label Content="Owner: " Grid.Row="1" Grid.Column="0" Style="{StaticResource GuestLabelStyle}"></Label>
         <TextBox x:Name="Owner" Grid.Row="1" Grid.Column="1" Text="{Binding Path=Owner, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True"
                  Style="{StaticResource GuestTextBoxStyle}" Width="255"/>
-        <Label Content="Accommodation cleanliness (1-5): " Grid.Row="2" Grid.Column="0" Style="{StaticResource GuestLabelStyle}" Margin="0,14,0,14" Width="236"></Label>
+        <Label Content="Accommodation cleanliness (1-5)*: " Grid.Row="2" Grid.Column="0" Style="{StaticResource GuestLabelStyle}" Margin="0,14,0,14" Width="236"></Label>
         <StackPanel Grid.Column="1" Grid.Row="2" Width="582" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,63" Grid.RowSpan="2">
             <Button Command="{Binding DataContext.StarRateCleanlinessCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  CommandParameter="{StaticResource StarOne}"
                                                            BorderThickness="0">
@@ -102,7 +102,7 @@
                      Text="{Binding Path = SelectedStarCleanliness, UpdateSourceTrigger = PropertyChanged, ValidatesOnDataErrors=True, Mode=TwoWay}"
                      Validation.ErrorTemplate="{StaticResource ValidationTemplate}" TextWrapping="Wrap" Height="0" VerticalAlignment="Top" />
         </StackPanel>
-        <Label Content="Owner correctness (1-5):" Grid.Row="3" Grid.Column="0" Style="{StaticResource GuestLabelStyle}"></Label>
+        <Label Content="Owner correctness (1-5)*:" Grid.Row="3" Grid.Column="0" Style="{StaticResource GuestLabelStyle}"></Label>
         <StackPanel Orientation="Horizontal"  Grid.Row="3" Grid.Column="1">
             <Button Command="{Binding DataContext.StarRateCorrectnessCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  CommandParameter="{StaticResource StarOne}"
                                                            BorderThickness="0">
@@ -168,16 +168,23 @@
                             </Binding>
                         </TextBox.Text>
                     </TextBox>
+                    <TextBox Width="397" Height="25" TextWrapping="Wrap" Background="Transparent" BorderBrush="Transparent" IsReadOnly="True"
+                             Foreground="Red">
+                        <TextBox.Text>
+                            <Binding  Path="ImageUrlError" UpdateSourceTrigger="PropertyChanged">
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
                 </StackPanel>
 
                 <Button x:Name="btnAddImage" Command="{Binding DataContext.AddImageCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Content="Add" 
-                                     Style="{StaticResource GuestCircleButtonStyle}">
+                                     Style="{StaticResource GuestCircleButtonStyle}" VerticalAlignment="Top">
                 </Button>
 
             </StackPanel>
 
             <StackPanel Orientation="Horizontal">
-                <ListBox x:Name="lbImages" ItemsSource="{Binding Path=Images}" Width="400" Height="100"
+                <ListBox x:Name="lbImages" ItemsSource="{Binding Path=Images}" Width="400" Height="100" Margin="0, 0, 0, 0"
                          SelectedItem="{Binding SelectedUrl, UpdateSourceTrigger=PropertyChanged}" >
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>

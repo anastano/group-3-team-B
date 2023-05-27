@@ -35,7 +35,7 @@
         <Label FontSize="33" FontWeight="Bold" Content="Recommendation for renovation (optional): " Grid.Row="0" Grid.ColumnSpan="2"></Label>
         <Label VerticalAlignment="Bottom" FontSize="25" Content="What would you recommend to renovate?: " Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0"></Label>
         <TextBox  Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Comment,  UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource GuestTextBoxStyle}" Width="929" Height="NaN"
-             BorderThickness="0" Margin="0,66,0,0" Grid.RowSpan="2" FontSize="20"/>
+             BorderThickness="0" Margin="0,66,0,0" Grid.RowSpan="2" FontSize="20" TextAlignment="Left"/>
         <Label FontSize="25" Content="Choose one level: " VerticalContentAlignment="Bottom" Grid.Row="3" Grid.ColumnSpan="2" Grid.Column="0"></Label>
         <ListBox Grid.Row="4" Grid.ColumnSpan="2" ItemsSource="{Binding Source={StaticResource dataFromEnum}}" SelectedItem="{Binding UrgencyLevel, Mode=TwoWay}" 
                  ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Hidden">

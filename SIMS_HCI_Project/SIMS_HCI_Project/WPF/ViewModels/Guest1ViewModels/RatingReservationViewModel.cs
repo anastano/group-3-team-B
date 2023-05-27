@@ -34,6 +34,19 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public RelayCommand StarRateCleanlinessCommand { get; set; }
         public RenovationRecommendation Recommendation { get; set; }
         public ObservableCollection<string> Images { get; set; }
+        private String _imageUrlError;
+        public String ImageUrlError
+        {
+            get => _imageUrlError;
+            set
+            {
+                if (value != _imageUrlError)
+                {
+                    _imageUrlError = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         public String SelectedUrl { get; set; }
         private String _owner;
         public String Owner
@@ -87,8 +100,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
-        private bool _isChecked;
-        public bool IsChecked
+        private bool? _isChecked;
+        public bool? IsChecked
         {
             get => _isChecked;
             set
@@ -126,6 +139,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
+
         private Regex urlRegex = new Regex("(http(s?)://.)([/|.|\\w|\\s|-])*\\.(?:jpg|gif|png)|(^$)");
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -163,6 +177,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             ImageUrl = "";
             IsFilled = false;
             IsChecked = false;
+            ImageUrlError = "";
         }
         public void ExecutedReviewReservationCommand(object obj)
         {
@@ -171,7 +186,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             if (IsValid)
             {
                 _ratingService.RateReservation(_accommodationReservationService, Rating);
-                if (IsChecked && IsFilled)
+                if ((bool)IsChecked && IsFilled)
                 {
                     _recommendationService.Add(_navigationService.NavigationStore.Recommendation, _ratingService.GetByReservationId(Rating.ReservationId));
                 }
@@ -203,7 +218,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 Rating.Images.Add(ImageUrl);
                 Images.Add(ImageUrl);
                 ImageUrl = "";
+                ImageUrlError = "";
                 //return "URL is not in valid format.";
+            }
+            else
+            {
+                ImageUrlError = "Url pattern: http(s)://.....jpg/png/gif";
             }
         }
         public void ExecutedStarCleanlinessCommand(object obj)

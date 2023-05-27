@@ -13,5 +13,7 @@ namespace SIMS_HCI_Project.Repositories
         int GetRatingCountForCategory(int guestId, string categoryName, int ratingValue);
         int GetRatingCountForCleanliness(int guestId, int ratingValue);
         int GetRatingCountForRuleCompliance(int guestId, int ratingValue);
+        double GetAverageRatingForCleanliness(int guestId);
+        double GetAverageRatingForRuleCompliance(int guestId);
     }
 }

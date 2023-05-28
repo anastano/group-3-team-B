@@ -1,4 +1,4 @@
-﻿using SIMS_HCI_Project.Serializer;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ namespace SIMS_HCI_Project.Domain.Models
 {
     public enum UserRole { OWNER, GUEST1, GUIDE, GUEST2 };
 
-    public class User : ISerializable
+    public class User
     {
         public int Id { get; set; }
         public string Username { get; set; }
@@ -31,23 +31,9 @@ namespace SIMS_HCI_Project.Domain.Models
             Surname = surname;
             Age = age;
         }
-
-        public string[] ToCSV()
+        public string GetFullName()
         {
-            string[] csvValues = { Id.ToString(), Username, Password, Role.ToString(), Name, Surname, Age.ToString() };
-            return csvValues;
-        }
-
-        public void FromCSV(string[] values)
-        {
-            Id = Convert.ToInt32(values[0]);
-            Username = values[1];
-            Password = values[2];
-            Enum.TryParse(values[3], out UserRole role);
-            Role = role;
-            Name = values[4];
-            Surname = values[5];
-            Age = Convert.ToInt32(values[6]);
+            return Name + " " + Surname;
         }
     }
 }

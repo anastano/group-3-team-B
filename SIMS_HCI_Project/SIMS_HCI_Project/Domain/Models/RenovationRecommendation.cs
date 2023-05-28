@@ -1,4 +1,4 @@
-﻿using SIMS_HCI_Project.Serializer;
+﻿
 using SIMS_HCI_Project.WPF.Converters;
 using System;
 using System.Collections.Generic;
@@ -44,21 +44,6 @@ namespace SIMS_HCI_Project.Domain.Models
         {
             Comment = comment;
             UrgencyLevel = level;
-        }
-        public RenovationRecommendation(RenovationRecommendation renovationRecommendation)
-        {
-            Id = renovationRecommendation.Id;
-            RatingId = renovationRecommendation.RatingId;
-            Rating = renovationRecommendation.Rating;
-            UrgencyLevel = renovationRecommendation.UrgencyLevel;
-            Comment = renovationRecommendation.Comment;
-        }
-
-        public static string ToDescriptionString(UrgencyRenovationLevel value)
-        {
-            FieldInfo field = value.GetType().GetField(value.ToString());
-            DescriptionAttribute attribute = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
-            return  attribute.Description;
         }
     }
 }

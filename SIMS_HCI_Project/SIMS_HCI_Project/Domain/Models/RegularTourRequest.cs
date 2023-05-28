@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SIMS_HCI_Project.Serializer;
+
 using System.Text;
 using System.Threading.Tasks;
 using SIMS_HCI_Project.Domain.DTOs;
@@ -25,7 +25,6 @@ namespace SIMS_HCI_Project.Domain.Models
         public DateTime SubmittingDate { get; set; } //SubmissionDate rename pls!!! 
         public bool IsPartOfComplex { get; set; } 
 
-
         public RegularTourRequest()
         {
             DateRange = new DateRange();
@@ -44,6 +43,16 @@ namespace SIMS_HCI_Project.Domain.Models
 
             SubmittingDate = DateTime.Now;
             Status = RegularRequestStatus.PENDING;
+        }
+
+        public void Accept()
+        {
+            this.Status = RegularRequestStatus.ACCEPTED;
+        }
+
+        public void Invalidate()
+        {
+            this.Status = RegularRequestStatus.INVALID;
         }
     }
 }

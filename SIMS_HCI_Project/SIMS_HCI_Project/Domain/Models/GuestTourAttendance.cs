@@ -1,4 +1,4 @@
-﻿using SIMS_HCI_Project.Serializer;
+﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,10 +15,7 @@ namespace SIMS_HCI_Project.Domain.Models
     public class GuestTourAttendance
     {
         public int Id { get; set; }
-        public int GuestId { get; set; }
-        public Guest2 Guest { get; set; }
-        public int TourTimeId { get; set; }
-        public TourTime TourTime { get; set; }
+        public int TourReservationId { get; set; }
         public TourReservation TourReservation { get; set; }
         public AttendanceStatus Status { get; set; }
         public int KeyPointJoinedId { get; set; }
@@ -26,11 +23,27 @@ namespace SIMS_HCI_Project.Domain.Models
 
         public GuestTourAttendance() { }
 
-        public GuestTourAttendance(int guestId, int tourTimeId)
+        public GuestTourAttendance(int reservationId)
         {
-            GuestId = guestId;
-            TourTimeId = tourTimeId;
+            TourReservationId = reservationId;
             Status = AttendanceStatus.NOT_PRESENT;
+        }
+
+        public void RequestConfirmation()
+        {
+            this.Status = AttendanceStatus.CONFIRMATION_REQUESTED;
+            this.KeyPointJoined = TourReservation.TourTime.CurrentKeyPoint;
+            this.KeyPointJoinedId = this.KeyPointJoined.Id;
+        }
+
+        public void MarkPresence()
+        {
+            this.Status = AttendanceStatus.PRESENT;
+        }
+
+        public void MarkAbsence()
+        {
+            this.Status = AttendanceStatus.NEVER_SHOWED_UP;
         }
     }
 }

@@ -25,11 +25,6 @@ namespace SIMS_HCI_Project.Applications.Services
             _tourReservationRepository = Injector.Injector.CreateInstance<ITourReservationRepository>();
         }
 
-        public void Add(GuestTourAttendance guestTourAttendance)
-        {
-            _guestTourAttendanceRepository.Add(guestTourAttendance);
-        }
-
         public GuestTourAttendance GetById(int id)
         {
             return _guestTourAttendanceRepository.GetById(id);
@@ -49,13 +44,7 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return _guestTourAttendanceRepository.GetByGuestAndTourTimeIds(guestId, tourTimeId);
         }
-
-
-        public bool IsPresent(int guestId, int tourTimeId)
-        {
-            return _guestTourAttendanceRepository.IsPresent(guestId, tourTimeId);
-        }
-
+      
         public List<TourTime> GetTourTimesWhereGuestWasPresent(int guestId)  // Simplify with LINQ
         {
             List<TourTime> tourTimes = new List<TourTime>();
@@ -63,26 +52,31 @@ namespace SIMS_HCI_Project.Applications.Services
             {
                 if (gta.Status == AttendanceStatus.PRESENT)
                 {
-                    tourTimes.Add(_tourTimeRepository.GetById(gta.TourTimeId));
+                    tourTimes.Add(_tourTimeRepository.GetById(gta.TourReservation.TourTimeId));
                 }
             }
             return tourTimes;
         }
 
-        public void ConfirmAttendanceForTourTime(int guestId, int tourTimeId) //old
+        public List<GuestTourAttendance> GetWithConfirmationRequestedStatus(int guestId)
         {
-            GuestTourAttendance attendance = _guestTourAttendanceRepository.GetByGuestAndTourTimeIds(guestId, tourTimeId);
-            if (attendance.Status == AttendanceStatus.CONFIRMATION_REQUESTED)
-            {
-                attendance.Status = AttendanceStatus.PRESENT;
-                _guestTourAttendanceRepository.Update(attendance);
-            }
+            return _guestTourAttendanceRepository.GetWithConfirmationRequestedStatus(guestId);
         }
 
-        public void ConfirmAttendance(int guestId, int tourId) //new
+        public void Add(GuestTourAttendance guestTourAttendance)
         {
-            List<TourReservation> reservations = _tourReservationRepository.GetAllByGuestIdAndTourId(guestId, tourId);
-            foreach(TourReservation reservation in reservations)
+            _guestTourAttendanceRepository.Add(guestTourAttendance);
+        }
+
+        public bool IsPresent(int guestId, int tourTimeId)
+        {
+            return _guestTourAttendanceRepository.IsPresent(guestId, tourTimeId);
+        }
+
+        public void ConfirmAttendanceForTourTime(int guestId, int tourTimeId) // AN: why not just attendanceId?
+        {
+            List<TourReservation> reservations = _tourReservationRepository.GetAllByGuestIdAndTourId(guestId, tourTimeId);
+            foreach (TourReservation reservation in reservations)
             {
                 GuestTourAttendance attendance = _guestTourAttendanceRepository.GetByGuestAndTourTimeIds(guestId, reservation.TourTimeId);
                 if (attendance.Status == AttendanceStatus.CONFIRMATION_REQUESTED)
@@ -91,24 +85,15 @@ namespace SIMS_HCI_Project.Applications.Services
                     _guestTourAttendanceRepository.Update(attendance);
                 }
             }
-
-            //List<TourReservation> rees = _tourReservationRepository.GetAllByGuestId(guestId);
-        }
-
-        public List<GuestTourAttendance> GetByConfirmationRequestedStatus(int guestId)
-        {
-            return _guestTourAttendanceRepository.GetByConfirmationRequestedStatus(guestId);
         }
 
         public void MarkGuestAsPresent(GuestTourAttendance guestTourAttendance)
         {
-            guestTourAttendance.Status = AttendanceStatus.CONFIRMATION_REQUESTED;
-            guestTourAttendance.KeyPointJoined = guestTourAttendance.TourReservation.TourTime.CurrentKeyPoint;
-            guestTourAttendance.KeyPointJoinedId = guestTourAttendance.TourReservation.TourTime.CurrentKeyPoint.Id;
+            guestTourAttendance.RequestConfirmation();
             _guestTourAttendanceRepository.Update(guestTourAttendance);
             NotificationService notificationService = new NotificationService();
-            string Message = "You have request to confirm your attendance for tour with id: [" + guestTourAttendance.TourTimeId + "].";
-            notificationService.Add(new Notification(Message, guestTourAttendance.GuestId, false, NotificationType.CONFIRM_ATTENDANCE));
+            string Message = "You have request to confirm your attendance for tour with id: [" + guestTourAttendance.TourReservation.TourTimeId + "].";
+            notificationService.Add(new Notification(Message, guestTourAttendance.TourReservation.GuestId, false, NotificationType.CONFIRM_ATTENDANCE));
         }
     }
 

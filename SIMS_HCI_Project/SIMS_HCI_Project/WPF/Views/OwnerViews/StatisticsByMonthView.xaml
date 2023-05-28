@@ -169,7 +169,7 @@
 
                                                     <StackPanel VerticalAlignment="Bottom">
                                                         <Border BorderThickness="0 0 0 2" BorderBrush="Black">
-                                                            <Rectangle Height="{Binding ReschedulingCount, Converter ={StaticResource MultiplyCountConverter}}" Width="15" Fill="Coral"  VerticalAlignment="Bottom" Margin="1"/>
+                                                            <Rectangle Height="{Binding RecommendationCount, Converter ={StaticResource MultiplyCountConverter}}" Width="15" Fill="Coral"  VerticalAlignment="Bottom" Margin="1"/>
                                                         </Border>
                                                         <TextBlock Text="{Binding RecommendationCount}" Margin="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                                                     </StackPanel>

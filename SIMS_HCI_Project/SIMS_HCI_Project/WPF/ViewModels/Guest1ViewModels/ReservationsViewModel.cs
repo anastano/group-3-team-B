@@ -1,5 +1,5 @@
 ﻿using SIMS_HCI_Project.Applications.Services;
-using SIMS_HCI_Project.Controller;
+
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands;
 using SIMS_HCI_Project.WPF.Views.Guest1Views;
@@ -114,6 +114,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 if (result == MessageBoxResult.Yes)
                 {
                     _reservationService.CancelReservation(_notificationService, SelectedReservation);
+                    Update();
                 }
             }
         }
@@ -160,11 +161,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             RescheduleReservationCommand = new RelayCommand(ExecutedRescheduleReservationCommand, CanExecute);
             RateCommand = new RelayCommand(ExecutedRateCommand, CanExecute);
             ShowImagesCommand = new RelayCommand(ExecutedShowImagesCommand, CanExecute);
-        }  
-        // potencijalno mi vise ne treba jer nema observera??
+        }
         public void Update()
         {
             UpdateReservations();
+            UpdateChart();
         }
         public void UpdateReservations()
         {

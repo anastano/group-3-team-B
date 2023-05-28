@@ -132,7 +132,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             DateRange = new DateRange(DateTime.Now, DateTime.Now.AddMonths(6));
             PickedDate = DateTime.Now;
 
-            TourFromStatistics = new Tour();
+            TourFromStatistics = new Tour(((Guide)App.Current.Properties["CurrentUser"]));
 
             InitCommands();
             LoadRequests();
@@ -154,7 +154,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         private void LoadRequests()
         {
-            TourRequests = new ObservableCollection<RegularTourRequest>(_regularTourRequestService.GetValidByParams(Location, GuestNumber, Language, DateRange));
+            TourRequests = new ObservableCollection<RegularTourRequest>(_regularTourRequestService.GetAllValidByParams(Location, GuestNumber, Language, DateRange));
         }
 
         private void LoadPossibleFilters()

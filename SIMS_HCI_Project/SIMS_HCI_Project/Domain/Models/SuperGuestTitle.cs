@@ -1,5 +1,5 @@
-﻿using SIMS_HCI_Project.Model;
-using SIMS_HCI_Project.Serializer;
+﻿
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +26,15 @@ namespace SIMS_HCI_Project.Domain.Models
             GuestId = guest.Id;
             Guest = guest;
             ActivationDate = DateTime.Now;
+            AvailablePoints = 5;
+            Status = TitleStatus.ACTIVE;
+        }
+        public SuperGuestTitle(Guest1 guest, DateTime activationDate)
+        {
+            Id = -1;
+            GuestId = guest.Id;
+            Guest = guest;
+            ActivationDate = activationDate;
             AvailablePoints = 5;
             Status = TitleStatus.ACTIVE;
         }

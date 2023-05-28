@@ -1,5 +1,5 @@
 ﻿using SIMS_HCI_Project.Applications.Services;
-using SIMS_HCI_Project.Controller;
+
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands;
 using SIMS_HCI_Project.WPF.Services;
@@ -71,9 +71,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _userService = new UserService();
             Reservation = reservation;
             RescheduleRequests = new ObservableCollection<RescheduleRequest>(_rescheduleRequestService.GetAllByOwnerId(Reservation.Accommodation.OwnerId));
-            FullName = _userService.GetFullName(Reservation.Guest);
-            WantedStart = DateTime.Now.AddDays(1);
-            WantedEnd = DateTime.Now.AddDays(Reservation.Accommodation.MinimumReservationDays + 1);
+            FullName = Reservation.Guest.GetFullName();
+            WantedStart = reservation.Start;
+            WantedEnd = reservation.End;
             InitCommands();
         }
         public string Error => null;

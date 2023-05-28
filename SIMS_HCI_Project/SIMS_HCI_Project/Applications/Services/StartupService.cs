@@ -53,8 +53,6 @@ namespace SIMS_HCI_Project.Applications.Services
             _superGuestTitleRepository = Injector.Injector.CreateInstance<ISuperGuestTitleRepository>();
             _renovationRepository = Injector.Injector.CreateInstance<IRenovationRepository>();
             _renovationRecommendationRepository = Injector.Injector.CreateInstance<IRenovationRecommendationRepository>();
-
-
         }
 
         public void LoadConnections()
@@ -62,8 +60,8 @@ namespace SIMS_HCI_Project.Applications.Services
             if (_connectionsLoaded) return;
 
             ConnectTourFields();
-            ConnectTourTimeFields();
             ConnectGuestAttendanceFields();
+            ConnectTourTimeFields();
             ConnectRatingFields();
             ConnectTourReservationFields();
             ConnectRegularTourRequestFields();
@@ -75,21 +73,31 @@ namespace SIMS_HCI_Project.Applications.Services
             ConnectSuperGuestTitleFields();
             ConnectRenovationFields();
             ConnectRecommendationRenovationFields();
+            ConnectGuideFields();
 
             _connectionsLoaded = true;
         }
 
-        public void ConnectTourFields()
+        private void ConnectGuideFields()
+        {
+            foreach(Guide guide in _tourRepository.GetAll().Select(t => t.Guide).Distinct().ToList())
+            {
+                guide.AllTours = _tourRepository.GetAllByGuide(guide.Id);
+                guide.TodaysTours = _tourTimeRepository.GetAllByGuideId(guide.Id).Where(t => t.DepartureTime.Date == DateTime.Today).ToList();
+            }
+        }
+
+        private void ConnectTourFields()
         {
             foreach (Tour tour in _tourRepository.GetAll())
             {
                 tour.Location = _locationRepository.GetById(tour.LocationId);
                 tour.KeyPoints = _tourKeyPointRepository.GetByIds(tour.KeyPointsIds);
-                tour.Guide = new Guide(_userRepository.GetById(tour.GuideId));
+                tour.Guide = (Guide) _userRepository.GetById(tour.GuideId);
             }
         }
 
-        public void ConnectTourTimeFields()
+        private void ConnectTourTimeFields()
         {
             foreach (TourTime tourTime in _tourTimeRepository.GetAll())
             {
@@ -107,9 +115,7 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             foreach (GuestTourAttendance guestTourAttendance in _guestTourAttendanceRepository.GetAll())
             {
-                guestTourAttendance.Guest = new Guest2(_userRepository.GetById(guestTourAttendance.GuestId));
-                guestTourAttendance.TourTime = _tourTimeRepository.GetById(guestTourAttendance.TourTimeId);
-                guestTourAttendance.TourReservation = _tourReservationRepository.GetByGuestAndTour(guestTourAttendance.GuestId, guestTourAttendance.TourTimeId);
+                guestTourAttendance.TourReservation = _tourReservationRepository.GetById(guestTourAttendance.TourReservationId);
                 guestTourAttendance.KeyPointJoined = _tourKeyPointRepository.GetById(guestTourAttendance.KeyPointJoinedId);
             }
         }
@@ -118,21 +124,21 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             foreach (TourRating tourRating in _tourRatingRepository.GetAll())
             {
-                tourRating.TourReservation = _tourReservationRepository.GetById(tourRating.ReservationId); 
-                tourRating.Attendance = _guestTourAttendanceRepository.GetByGuestAndTourTimeIds(tourRating.GuestId, tourRating.TourReservation.TourTimeId);
+                tourRating.Attendance = _guestTourAttendanceRepository.GetById(tourRating.AttendanceId);
             }
         }
 
-        public void ConnectTourReservationFields()
+        private void ConnectTourReservationFields()
         {
             foreach (TourReservation tourReservation in _tourReservationRepository.GetAll())
             {
                 tourReservation.TourTime = _tourTimeRepository.GetById(tourReservation.TourTimeId);
                 tourReservation.TourVoucher = _tourVoucherRepository.GetById(tourReservation.VoucherUsedId);
+                tourReservation.Guest = (Guest2)_userRepository.GetById(tourReservation.GuestId);
             }
         }
 
-        public void ConnectRegularTourRequestFields()
+        private void ConnectRegularTourRequestFields()
         {
             foreach(RegularTourRequest request in _regularTourRequestRepository.GetAll())
             {
@@ -140,6 +146,7 @@ namespace SIMS_HCI_Project.Applications.Services
                 request.Guest = new Guest2(_userRepository.GetById(request.GuestId));
             }
         }
+
         public void ConnectAccommodationFields()
         {
             foreach (Accommodation accommodation in _accommodationRepository.GetAll())

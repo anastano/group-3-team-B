@@ -16,7 +16,6 @@ namespace SIMS_HCI_Project.Applications.Services
         private readonly ITourVoucherRepository _tourVoucherRepository;
         private readonly int DefaultExpirationDays = 10;
 
-
         public TourLifeCycleService() 
         {
             _tourTimeRepository = Injector.Injector.CreateInstance<ITourTimeRepository>();
@@ -27,19 +26,19 @@ namespace SIMS_HCI_Project.Applications.Services
 
         public void StartTour(TourTime tourTime)
         {
-            if (!tourTime.IsStartable || _tourTimeRepository.HasTourInProgress(tourTime.Tour.GuideId)) return;
+            if (!tourTime.IsStartable || tourTime.Tour.Guide.HasTourInProgress()) return;
 
-            tourTime.Status = TourStatus.IN_PROGRESS;
+            tourTime.Start();
             _tourTimeRepository.Update(tourTime);
 
             List<GuestTourAttendance> generatedAttendances = new List<GuestTourAttendance>();
             foreach (TourReservation tourReservation in _tourReservationRepository.GetAllByTourTimeId(tourTime.Id))
             {
-                GuestTourAttendance newAttendance = new GuestTourAttendance(tourReservation.Guest2Id, tourTime.Id);
-                newAttendance.TourTime = tourTime;
+                GuestTourAttendance newAttendance = new GuestTourAttendance(tourReservation.Id);
+                newAttendance.TourReservation.TourTime = tourTime;
                 generatedAttendances.Add(newAttendance);
             }
-            _guestTourAttendanceRepository.AddMultiple(generatedAttendances);
+            _guestTourAttendanceRepository.AddBulk(generatedAttendances);
         }
 
         public void MoveToNextKeyPoint(TourTime tourTime)
@@ -50,7 +49,7 @@ namespace SIMS_HCI_Project.Applications.Services
             }
             else
             {
-                tourTime.CurrentKeyPointIndex++;
+                tourTime.Progress();
                 tourTime.CurrentKeyPoint = tourTime.Tour.KeyPoints[tourTime.CurrentKeyPointIndex];
                 _tourTimeRepository.Update(tourTime);
             }
@@ -58,7 +57,7 @@ namespace SIMS_HCI_Project.Applications.Services
 
         public void EndTour(TourTime tourTime)
         {
-            tourTime.Status = TourStatus.COMPLETED;
+            tourTime.Complete();
             _tourTimeRepository.Update(tourTime);
 
             List<GuestTourAttendance> attendancesToUpdate = _guestTourAttendanceRepository.GetAllByTourId(tourTime.Id);
@@ -66,7 +65,7 @@ namespace SIMS_HCI_Project.Applications.Services
             {
                 if (guestTourAttendance.Status != AttendanceStatus.PRESENT)
                 {
-                    guestTourAttendance.Status = AttendanceStatus.NEVER_SHOWED_UP;
+                    guestTourAttendance.MarkAbsence();
                 }
             }
             _guestTourAttendanceRepository.BulkUpdate(attendancesToUpdate);
@@ -76,18 +75,18 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             if (!tourTime.IsCancellable) return;
 
-            tourTime.Status = TourStatus.CANCELED;
+            tourTime.Cancel();
             _tourTimeRepository.Update(tourTime);
 
             List<TourReservation> tourReservationsToCancel = _tourReservationRepository.GetAllByTourTimeId(tourTime.Id);
             List<TourVoucher> givenTourVouchers = new List<TourVoucher>();
             foreach (TourReservation tourReservation in tourReservationsToCancel)
             {
-                tourReservation.Status = TourReservationStatus.CANCELLED;
-                givenTourVouchers.Add(new TourVoucher(tourReservation.Guest2Id, "EXTRAVOUCHER777", DateTime.Now, DateTime.Now.AddDays(DefaultExpirationDays)));
+                tourReservation.Cancel();
+                givenTourVouchers.Add(new TourVoucher(tourReservation.GuestId, "EXTRAVOUCHER777", DateTime.Now, DateTime.Now.AddDays(DefaultExpirationDays)));
             }
             _tourReservationRepository.BulkUpdate(tourReservationsToCancel);
-            _tourVoucherRepository.AddMultiple(givenTourVouchers);
+            _tourVoucherRepository.AddBulk(givenTourVouchers);
         }
     }
 }

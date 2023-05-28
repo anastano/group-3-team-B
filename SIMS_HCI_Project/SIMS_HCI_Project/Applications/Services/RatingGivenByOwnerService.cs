@@ -1,12 +1,22 @@
-﻿using SIMS_HCI_Project.Domain.DTOs;
+﻿//using ceTe.DynamicPDF;
+//using ceTe.DynamicPDF.PageElements;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using SIMS_HCI_Project.Domain.DTOs;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Domain.RepositoryInterfaces;
 using SIMS_HCI_Project.Repositories;
+using SIMS_HCI_Project.WPF.Views.OwnerViews;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using Guest1 = SIMS_HCI_Project.Domain.Models.Guest1;
 
 namespace SIMS_HCI_Project.Applications.Services
@@ -87,10 +97,6 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             _ratingRepository.Add(rating);
         }
-        /// <summary>
-        /// dodajem novu metodu dodaj je u class diagram
-        /// </summary>
-        
         public List<KeyValuePair<int, int>> GetRatingStatisticsForCategory(int guestId, string categoryName)
         {
             List<KeyValuePair<int, int>> statstics = new List<KeyValuePair<int, int>>();
@@ -100,5 +106,14 @@ namespace SIMS_HCI_Project.Applications.Services
             }
             return statstics;
         }
+        public double GetAverageRatingForRuleCompliance(int guestId)
+        {
+            return _ratingRepository.GetAverageRatingForRuleCompliance(guestId);
+        }
+        public double GetAverageRatingForCleanliness(int guestId)
+        {
+            return _ratingRepository.GetAverageRatingForCleanliness(guestId);
+        }
+        
     }
 }

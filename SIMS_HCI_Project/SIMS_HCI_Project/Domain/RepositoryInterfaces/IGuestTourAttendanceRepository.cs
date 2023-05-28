@@ -16,14 +16,13 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         List<GuestTourAttendance> GetAllByTourId(int id);
         List<GuestTourAttendance> GetAllByGuestId(int id);
         GuestTourAttendance GetByGuestAndTourTimeIds(int guestId, int tourTimeId);
-        List<GuestTourAttendance> GetByConfirmationRequestedStatus(int guestId);
+        List<GuestTourAttendance> GetWithConfirmationRequestedStatus(int guestId);
 
         void Add(GuestTourAttendance guestTourAttendance);
-        void AddMultiple(List<GuestTourAttendance> guestTourAttendances);
+        void AddBulk(List<GuestTourAttendance> guestTourAttendances);
         void Update(GuestTourAttendance guestTourAttendance);
         void BulkUpdate(List<GuestTourAttendance> guestTourAttendances);
 
-        // CLEAN!
         int GetGuestCountByAgeGroup(AgeGroup ageGroup, int tourTimeId);
         int GetGuestsWithVoucherCount(int tourTimeId);
         bool IsPresent(int guestId, int tourTimeId);

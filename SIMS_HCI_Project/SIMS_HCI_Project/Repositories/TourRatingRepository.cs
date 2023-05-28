@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Domain.RepositoryInterfaces;
 using SIMS_HCI_Project.FileHandlers;
-using SIMS_HCI_Project.Observer;
+
 
 namespace SIMS_HCI_Project.Repositories
 {
-    public class TourRatingRepository : ISubject, ITourRatingRepository
+    public class TourRatingRepository : ITourRatingRepository
     {
-        private readonly List<IObserver> _observers;
         private readonly TourRatingFileHandler _fileHandler;
         private static List<TourRating> _ratings;
 
@@ -23,22 +22,21 @@ namespace SIMS_HCI_Project.Repositories
             {
                 Load();
             }
-            _observers = new List<IObserver>();
         }
 
-        public void Load()
+        private void Load()
         {
             _ratings = _fileHandler.Load();
         }
 
-        public void Save()
+        private void Save()
         {
             _fileHandler.Save(_ratings);
         }
 
-        public List<TourRating> GetAll()
+        private int GenerateId()
         {
-            return _ratings;
+            return _ratings.Count == 0 ? 1 : _ratings[_ratings.Count - 1].Id + 1;
         }
 
         public TourRating GetById(int id)
@@ -46,14 +44,14 @@ namespace SIMS_HCI_Project.Repositories
             return _ratings.Find(r => r.Id == id);
         }
 
-        public List<TourRating> GetByTourId(int tourTimeId)
+        public List<TourRating> GetAll()
         {
-            return _ratings.FindAll(r => r.TourReservation.TourTimeId == tourTimeId);
+            return _ratings;
         }
 
-        public bool IsRated(int id)
+        public List<TourRating> GetAllByTourId(int tourTimeId)
         {
-            return _ratings.Any(r => r.ReservationId == id);
+            return _ratings.FindAll(r => r.Attendance.TourReservation.TourTimeId == tourTimeId);
         }
 
         public void Add(TourRating rating)
@@ -62,7 +60,6 @@ namespace SIMS_HCI_Project.Repositories
             _ratings.Add(rating);
 
             Save();
-            NotifyObservers();
         }
 
         public void Update(TourRating tourRating)
@@ -73,28 +70,9 @@ namespace SIMS_HCI_Project.Repositories
             Save();
         }
 
-        public int GenerateId()
+        public bool IsRated(int id)
         {
-            return _ratings.Count == 0 ? 1 : _ratings[_ratings.Count - 1].Id + 1;
+            return _ratings.Any(r => r.Attendance.TourReservationId == id);
         }
-
-        public void NotifyObservers()
-        {
-            foreach (var observer in _observers)
-            {
-                observer.Update();
-            }
-        }
-
-        public void Subscribe(IObserver observer)
-        {
-            _observers.Add(observer);
-        }
-
-        public void Unsubscribe(IObserver observer)
-        {
-            _observers.Remove(observer);
-        }
-
     }
 }

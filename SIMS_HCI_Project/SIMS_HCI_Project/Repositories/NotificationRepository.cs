@@ -1,6 +1,6 @@
 ﻿using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.FileHandlers;
-using SIMS_HCI_Project.Observer;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,18 +20,23 @@ namespace SIMS_HCI_Project.Repositories
             _fileHandler = new NotificationFileHandler();
             if(_notifications == null)
             {
-                _notifications = _fileHandler.Load();
+                Load();
             }
         }
 
-        public int GenerateId()
+        private void Load()
         {
-            return _notifications.Count == 0 ? 1 : _notifications[_notifications.Count - 1].Id + 1;
+            _notifications = _fileHandler.Load();
         }
 
-        public void Save()
+        private void Save()
         {
             _fileHandler.Save(_notifications);
+        }
+
+        private int GenerateId()
+        {
+            return _notifications.Count == 0 ? 1 : _notifications[_notifications.Count - 1].Id + 1;
         }
 
         public Notification GetById(int id)
@@ -61,13 +66,6 @@ namespace SIMS_HCI_Project.Repositories
             Notification notificationUpdated = GetById(notification.Id);
             notificationUpdated = notification;
 
-            Save();
-        }
-
-        public void MarkAsRead(int notificationId)
-        { 
-            Notification notification = _notifications.Find(n => n.Id == notificationId);
-            notification.IsRead = true;
             Save();
         }
     }

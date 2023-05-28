@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SIMS_HCI_Project.Domain.Models;
-using SIMS_HCI_Project.Observer;
+
 
 namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
 {
@@ -12,15 +12,10 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
     {
         TourRating GetById(int id);
         List<TourRating> GetAll();
-        List<TourRating> GetByTourId(int tourTimeId);
+        List<TourRating> GetAllByTourId(int tourTimeId);
 
         void Add(TourRating rating);
         void Update(TourRating tourRating);
-
         bool IsRated(int id);
-
-        void NotifyObservers();
-        void Subscribe(IObserver observer);
-        void Unsubscribe(IObserver observer);
     }
 }

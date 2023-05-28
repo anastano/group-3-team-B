@@ -19,23 +19,9 @@ namespace SIMS_HCI_Project.Applications.Services
             _regularTourRequestRepository = Injector.Injector.CreateInstance<IRegularTourRequestRepository>();
         }
 
-        public TourRequestsStatisticsByStatus GetTourRequestsStatisticsByStatus( int guestId) //get all by guest id
+        public TourRequestsStatisticsByStatus GetTourRequestsStatisticsByStatus( int guestId, int? selectedYear = null) //get all by guest id
         {
             List<RegularRequestStatus> statuses = new List<RegularRequestStatus> { RegularRequestStatus.PENDING, RegularRequestStatus.ACCEPTED, RegularRequestStatus.INVALID};
-
-            Dictionary<RegularRequestStatus, int> requestsNumberByStatus = new Dictionary<RegularRequestStatus, int>();
-
-            foreach (RegularRequestStatus status in statuses)
-            {
-                requestsNumberByStatus.Add(status, _regularTourRequestRepository.GetRequestsCountByStatus(status, guestId));
-            }
-
-            return new TourRequestsStatisticsByStatus(requestsNumberByStatus);
-        }
-
-        public TourRequestsStatisticsByStatus GetTourRequestsStatisticsByStatus(int guestId, int selectedYear) //get all by guest id
-        {
-            List<RegularRequestStatus> statuses = new List<RegularRequestStatus> { RegularRequestStatus.PENDING, RegularRequestStatus.ACCEPTED, RegularRequestStatus.INVALID };
 
             Dictionary<RegularRequestStatus, int> requestsNumberByStatus = new Dictionary<RegularRequestStatus, int>();
 
@@ -67,7 +53,7 @@ namespace SIMS_HCI_Project.Applications.Services
             return requestsNumberByLocationId;
         }
 
-        public Dictionary<int, int> GetTourRequesPerYear(string language = null, Location location = null)
+        public Dictionary<int, int> GetTourRequestsPerYear(string language = null, Location location = null)
         {
             if (language == null && location == null) return null;
 
@@ -82,7 +68,7 @@ namespace SIMS_HCI_Project.Applications.Services
             return requestPerYear;
         }
 
-        public Dictionary<int, int> GetTourRequesPerMonth(int year, string language = null, Location location = null)
+        public Dictionary<int, int> GetTourRequestsPerMonth(int year, string language = null, Location location = null)
         {
             if (language == null && location == null) return null;
 

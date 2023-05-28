@@ -25,11 +25,10 @@ namespace SIMS_HCI_Project.FileHandlers
                 GuestTourAttendance guestTourAttendance = new GuestTourAttendance();
 
                 guestTourAttendance.Id = Convert.ToInt32(csvValues[0]);
-                guestTourAttendance.GuestId = Convert.ToInt32(csvValues[1]);
-                guestTourAttendance.TourTimeId = Convert.ToInt32(csvValues[2]);
-                Enum.TryParse(csvValues[3], out AttendanceStatus status);
+                guestTourAttendance.TourReservationId = Convert.ToInt32(csvValues[1]);
+                Enum.TryParse(csvValues[2], out AttendanceStatus status);
                 guestTourAttendance.Status = status;
-                guestTourAttendance.KeyPointJoinedId = Convert.ToInt32(csvValues[4]);
+                guestTourAttendance.KeyPointJoinedId = Convert.ToInt32(csvValues[3]);
 
                 guestTourAttendances.Add(guestTourAttendance);
             }
@@ -46,8 +45,7 @@ namespace SIMS_HCI_Project.FileHandlers
                 string[] csvValues =
                 {
                     guestTourAttendance.Id.ToString(),
-                    guestTourAttendance.GuestId.ToString(),
-                    guestTourAttendance.TourTimeId.ToString(),
+                    guestTourAttendance.TourReservation.Id.ToString(),
                     guestTourAttendance.Status.ToString(),
                     guestTourAttendance.KeyPointJoinedId.ToString()
                 };

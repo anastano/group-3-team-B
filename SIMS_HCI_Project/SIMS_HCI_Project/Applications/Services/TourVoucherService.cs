@@ -1,6 +1,6 @@
 ﻿using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Domain.RepositoryInterfaces;
-using SIMS_HCI_Project.Observer;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,11 +20,13 @@ namespace SIMS_HCI_Project.Applications.Services
 
         public TourVoucher GetById(int id)
         {
+            UpdateStatusForExpired();
             return _tourVoucherRepository.GetById(id);
         }
 
         public List<TourVoucher> GetValidVouchersByGuestId(int id)
         {
+            UpdateStatusForExpired();
             return _tourVoucherRepository.GetValidVouchersByGuestId(id);
         }
 
@@ -33,23 +35,20 @@ namespace SIMS_HCI_Project.Applications.Services
             if(selectedVoucher == null) return;
 
             TourVoucher voucher = GetById(selectedVoucher.Id);
-            voucher.Status = VoucherStatus.USED;
-            _tourVoucherRepository.Save();
+            voucher.Use();
+            _tourVoucherRepository.Update(voucher);
         }
 
-        public void NotifyObservers()
+        private void UpdateStatusForExpired()
         {
-            _tourVoucherRepository.NotifyObservers();
-        }
-
-        public void Subscribe(IObserver observer)
-        {
-            _tourVoucherRepository.Subscribe(observer);
-        }
-
-        public void Unsubscribe(IObserver observer)
-        {
-            _tourVoucherRepository.Unsubscribe(observer);
+            foreach (TourVoucher tourVoucher in _tourVoucherRepository.GetAll())
+            {
+                if (tourVoucher.ExpirationDate > DateTime.Now)
+                {
+                    tourVoucher.End();
+                    _tourVoucherRepository.Update(tourVoucher);
+                }
+            }
         }
     }
 }

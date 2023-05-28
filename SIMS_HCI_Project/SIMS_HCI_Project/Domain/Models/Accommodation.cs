@@ -1,4 +1,4 @@
-﻿using SIMS_HCI_Project.Serializer;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +23,7 @@ namespace SIMS_HCI_Project.Domain.Models
         public int MinimumReservationDays { get; set; }
         public int CancellationDeadlineInDays { get; set; }
         public List<string> Images { get; set; }
+        public bool IsRenovated { get; set; }
 
         public List<AccommodationReservation> Reservations { get; set; }
 
@@ -34,6 +35,7 @@ namespace SIMS_HCI_Project.Domain.Models
             CancellationDeadlineInDays = 1;
             Images = new List<string>();
             Reservations = new List<AccommodationReservation>();
+            IsRenovated = false;
         }
         public Accommodation(Accommodation accommodation)
         {
@@ -48,6 +50,7 @@ namespace SIMS_HCI_Project.Domain.Models
             CancellationDeadlineInDays = accommodation.CancellationDeadlineInDays;
             Images = new List<string>();
             Reservations = new List<AccommodationReservation>();
+            IsRenovated = accommodation.IsRenovated;
         }
     }
 }

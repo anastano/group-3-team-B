@@ -17,22 +17,32 @@ namespace SIMS_HCI_Project.Repositories
         public LocationRepository()
         {
             _fileHandler = new LocationFileHandler();
+            Load();
+        }
+
+        private void Load()
+        {
             _locations = _fileHandler.Load();
         }
 
-        public int GenerateId()
-        {
-            return _locations.Count == 0 ? 1 : _locations[_locations.Count - 1].Id + 1;
-        }
-
-        public void Save()
+        private void Save()
         {
             _fileHandler.Save(_locations);
+        }
+
+        private int GenerateId()
+        {
+            return _locations.Count == 0 ? 1 : _locations[_locations.Count - 1].Id + 1;
         }
 
         public Location GetById(int id)
         {
             return _locations.Find(l => l.Id == id);
+        }
+
+        public List<Location> GetAll()
+        {
+            return _locations;
         }
 
         public Location GetByCountryAndCity(string country, string city)
@@ -55,13 +65,5 @@ namespace SIMS_HCI_Project.Repositories
                 return foundLocation;
             }
         }
-
-        public List<Location> GetAll()
-        {
-            return _locations;
-        }
-
-
-
     }
 }

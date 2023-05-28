@@ -1,4 +1,5 @@
-﻿using SIMS_HCI_Project.Serializer;
+﻿
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Domain.Models
 {
-    public class Tour : IDataErrorInfo
+    public class Tour
     {
         public int Id { get; set; }
         public int GuideId { get; set; }
@@ -67,71 +68,13 @@ namespace SIMS_HCI_Project.Domain.Models
             KeyPointsIds = new List<int>();
         }
 
-        public string Error => null;
-
-        public string this[string columnName]
+        public void AssignToTourTimes(List<TourTime> tourTimes)
         {
-            get
+            foreach (TourTime tourTime in tourTimes)
             {
-                switch(columnName)
-                {
-                    case "Title":
-                        if (string.IsNullOrEmpty(Title))
-                            return "Title is required";
-                        break;
-                    case "City":
-                        if (string.IsNullOrEmpty(Location.City))
-                            return "City is required";
-                        break;
-                    case "Country":
-                        if (string.IsNullOrEmpty(Location.Country))
-                            return "Country is required";
-                        break;
-                    case "Description":
-                        if (string.IsNullOrEmpty(Description))
-                            return "Description is required";
-                        break;
-                    case "Language":
-                        if (string.IsNullOrEmpty(Language))
-                            return "Language is required";
-                        break;
-                    case "MaxGuests":
-                        if (MaxGuests < 1)
-                            return "MaxGuests is required and cannot be less than 1";
-                        break;
-                    case "Duration":
-                        if (Duration < 1)
-                            return "Duration is required";
-                        break;
-                    case "DepartureTimes":
-                        if (DepartureTimes.Count < 1)
-                            return "Tour must have at least one Departure Time";
-                        break;
-                    case "KeyPoints":
-                        if (KeyPoints.Count < 2)
-                            return "Tour must have at least two Key Points";
-                        break;
-                }
-                return null;
-            }
-
-        }
-
-        private readonly string[] _validatedProperties = { "Title", "Description", "Language", "MaxGuests", "Duration", "DepartureTimes", "KeyPoints" };
-
-        public bool IsValid
-        {
-            get
-            {
-                foreach (var property in _validatedProperties)
-                {
-                    if (this[property] != null)
-                        return false;
-                }
-
-                return true;
+                tourTime.TourId = this.Id;
+                tourTime.Tour = this;
             }
         }
-
     }
 }

@@ -18,7 +18,7 @@ using System.Windows.Controls.DataVisualization;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
-    internal class RatingReservationViewModel : INotifyPropertyChanged
+    internal class RatingReservationViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
         private NavigationService _navigationService;
         private AccommodationReservationService _accommodationReservationService;
@@ -34,6 +34,19 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public RelayCommand StarRateCleanlinessCommand { get; set; }
         public RenovationRecommendation Recommendation { get; set; }
         public ObservableCollection<string> Images { get; set; }
+        private String _imageUrlError;
+        public String ImageUrlError
+        {
+            get => _imageUrlError;
+            set
+            {
+                if (value != _imageUrlError)
+                {
+                    _imageUrlError = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         public String SelectedUrl { get; set; }
         private String _owner;
         public String Owner
@@ -87,8 +100,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
-        private bool _isChecked;
-        public bool IsChecked
+        private bool? _isChecked;
+        public bool? IsChecked
         {
             get => _isChecked;
             set
@@ -109,7 +122,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 if (value != _selectedStarCleanliness)
                 {
                     _selectedStarCleanliness = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(SelectedStarCleanliness));
                 }
             }
         }
@@ -122,10 +135,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 if (value != _selectedStarCorrectness)
                 {
                     _selectedStarCorrectness = value;
-                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(SelectedStarCorrectness));
                 }
             }
         }
+
         private Regex urlRegex = new Regex("(http(s?)://.)([/|.|\\w|\\s|-])*\\.(?:jpg|gif|png)|(^$)");
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -149,8 +163,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             Recommendation = new RenovationRecommendation();
             InitialProperties(); 
             InitCommands();
-            SelectedStarCleanliness = 0;
-            SelectedStarCorrectness = 0;
         }
         private void OnRecommendationChanged()
         {
@@ -160,20 +172,26 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         }
         public void InitialProperties()
         {
-            ImageUrl = " ";
+            SelectedStarCleanliness = 0;
+            SelectedStarCorrectness = 0;
+            ImageUrl = "";
             IsFilled = false;
             IsChecked = false;
+            ImageUrlError = "";
         }
         public void ExecutedReviewReservationCommand(object obj)
         {
-            RatingGivenByGuest addedRating = _ratingService.RateReservation(_accommodationReservationService, Rating);
-            addedRating.Cleanliness = (int)SelectedStarCleanliness;
-            addedRating.Correctness = (int)SelectedStarCorrectness;
-            if (IsChecked && IsFilled)
+            Rating.Cleanliness = (int)SelectedStarCleanliness;
+            Rating.Correctness = (int)SelectedStarCorrectness;
+            if (IsValid)
             {
-                _recommendationService.Add(_navigationService.NavigationStore.Recommendation, addedRating);
+                _ratingService.RateReservation(_accommodationReservationService, Rating);
+                if ((bool)IsChecked && IsFilled)
+                {
+                    _recommendationService.Add(_navigationService.NavigationStore.Recommendation, _ratingService.GetByReservationId(Rating.ReservationId));
+                }
+                _navigationService.Navigate(new ReservationsViewModel(Reservation.Guest, _navigationService, 1), "My Reservations");
             }
-            _navigationService.Navigate(new ReservationsViewModel(Reservation.Guest, _navigationService, 1), "My Reservations");
         }
         public void ExecutedRecommendRenovationCommand(object obj)
         {
@@ -200,7 +218,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 Rating.Images.Add(ImageUrl);
                 Images.Add(ImageUrl);
                 ImageUrl = "";
+                ImageUrlError = "";
                 //return "URL is not in valid format.";
+            }
+            else
+            {
+                ImageUrlError = "Url pattern: http(s)://.....jpg/png/gif";
             }
         }
         public void ExecutedStarCleanlinessCommand(object obj)
@@ -224,6 +247,43 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             RecommendRenovationCommand = new RelayCommand(ExecutedRecommendRenovationCommand, CanExecute);
             StarRateCleanlinessCommand = new RelayCommand(ExecutedStarCleanlinessCommand, CanExecute);
             StarRateCorrectnessCommand = new RelayCommand(ExecutedStarCorrectnessCommand, CanExecute);
+        }
+        public string Error => null;
+        public string this[string columnName]
+        {
+            get
+            {
+
+                if (columnName == nameof(SelectedStarCleanliness))
+                {
+                    if (SelectedStarCleanliness == 0)
+                        return "Cleanliness is required";
+                }
+                else if (columnName == nameof(SelectedStarCorrectness))
+                {
+                    if (SelectedStarCorrectness == 0)
+                        return "Correctness is required";
+                }
+
+
+                return null;
+            }
+        }
+
+        private readonly string[] _validatedProperties = { "SelectedStarCleanliness", "SelectedStarCorrectness" };
+
+        public bool IsValid
+        {
+            get
+            {
+                foreach (var property in _validatedProperties)
+                {
+                    if (this[property] != null)
+                        return false;
+                }
+
+                return true;
+            }
         }
     }
 }

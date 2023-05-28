@@ -1,4 +1,4 @@
-﻿using SIMS_HCI_Project.Serializer;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
@@ -18,11 +18,6 @@ namespace SIMS_HCI_Project.Domain.Models
         public TourKeyPoint(string title)
         {
             Title = title;
-        }
-
-        public override string? ToString() // Hm what/why this
-        {
-            return Title;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using SIMS_HCI_Project.Serializer;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +27,16 @@ namespace SIMS_HCI_Project.Domain.Models
             AquiredDate = aquiredDate;
             ExpirationDate = expirationDate;
             Status = VoucherStatus.VALID;
+        }
+
+        public void Use()
+        {
+            this.Status = VoucherStatus.USED;
+        }
+
+        public void End() // needs a better name
+        {
+            this.Status = VoucherStatus.EXPIRED;
         }
     }
 }

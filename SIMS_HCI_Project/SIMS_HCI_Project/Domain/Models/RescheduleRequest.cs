@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using SIMS_HCI_Project.Serializer;
+
 using System.Text;
 using System.Threading.Tasks;
 
@@ -29,16 +29,6 @@ namespace SIMS_HCI_Project.Domain.Models
             WantedEnd = wantedEnd;
             Status = RescheduleRequestStatus.PENDING;
             OwnerComment = "";
-        }
-
-        public RescheduleRequest(RescheduleRequest request)
-        {
-            Id = request.Id;
-            AccommodationReservationId = request.AccommodationReservationId;
-            WantedStart = request.WantedStart;
-            WantedEnd = request.WantedEnd;
-            Status = request.Status;
-            OwnerComment = request.OwnerComment;
         }
 
     }

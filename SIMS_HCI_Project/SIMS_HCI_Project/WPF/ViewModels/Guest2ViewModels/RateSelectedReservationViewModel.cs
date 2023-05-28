@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SIMS_HCI_Project.Domain.Models;
-using SIMS_HCI_Project.Observer;
+
 using SIMS_HCI_Project.WPF.Commands;
 using SIMS_HCI_Project.WPF.Views.Guest2Views;
 using System.Windows;
@@ -22,7 +22,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         private TourService _tourService;
         private TourReservationService _tourReservationService;
         private TourVoucherService _tourVoucherService;
-        private LocationService _locationService;
         private GuestTourAttendanceService _guestTourAttendanceService;
         private TourRatingService _tourRatingService;
         #endregion
@@ -163,7 +162,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             _tourService = new TourService();
             _tourReservationService = new TourReservationService();
             _tourVoucherService = new TourVoucherService();
-            _locationService = new LocationService();
             _guestTourAttendanceService = new GuestTourAttendanceService();
             _tourRatingService = new TourRatingService();
         }
@@ -232,11 +230,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         {
             if (ConfirmRating() == MessageBoxResult.Yes)
             {
-                TourRating.ReservationId = TourReservation.Id;
-                TourRating.GuideId = TourReservation.TourTime.Tour.GuideId;
-                TourRating.GuestId = Guest.Id;
-                TourRating.TourReservation = TourReservation;
-                TourRating.Attendance = _guestTourAttendanceService.GetByGuestAndTourTimeIds(TourRating.GuestId, TourRating.TourReservation.TourTimeId);
+                //TourRating.ReservationId = TourReservation.Id;
+                //TourRating.GuideId = TourReservation.TourTime.Tour.GuideId;
+                //TourRating.GuestId = Guest.Id;
+                //TourRating.TourReservation = TourReservation;
+                TourRating.Attendance = _guestTourAttendanceService.GetByGuestAndTourTimeIds(Guest.Id, TourReservation.TourTimeId);
                 TourRating.Images = Images.ToList();
 
                 _tourRatingService.Add(TourRating);

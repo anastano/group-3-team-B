@@ -1,0 +1,53 @@
+@startuml
+actor Guest
+participant SuperGuestTitleService as SGTS
+participant SuperGuestTitleRepository as SGTR
+participant AccommodationReservationService as ARS
+participant AccommodationReservationRepository as ARR
+participant AccommodationService as AS
+participant AccommodationRepository as AR
+
+Guest -> SGTS:  UpdateTitles(AccommodationReservationService accommodationReservationService)
+activate SGTS
+SGTS -> SGTR: .GetExpiredActiveTitles()
+activate SGTR
+return titles
+loop foreach title in titles
+
+
+SGTS -> SGTS: IsSuperGuestConditionFulfilled(AccommodationReservationService accommodationReservationService, Guest1 guest)
+activate SGTS
+SGTS -> ARS: GetReservationsWithinOneYear(int guestId)
+activate ARS
+ARS -> ARR: GetReservationsWithinOneYear(int guestId)
+activate ARR
+return reservations
+return reservations
+opt reservations.Count >= 10
+SGTS --> SGTS : isFulfilled [True]
+end
+
+SGTS --> SGTS: isFulfilled[False]
+return isFulfilled
+
+opt isFufilled
+SGTS -> SGTR ++: Add(SuperGuestTitle title)
+deactivate SGTR
+end
+deactivate SGTS
+end
+deactivate SGTS
+Guest -> SGTS: ConvertActiveTitlesIntoExpired(DateTime currentDate)
+activate SGTS
+SGTS -> SGTR ++: ConvertActiveTitlesIntoExpired(DateTime currentDate)
+deactivate SGTR
+deactivate SGTS
+
+Guest -> SGTS: GetGuestActiveTitle(int gudestId)
+activate SGTS
+SGTS -> SGTR: GetGuestActiveTitle(int guestId)
+activate SGTR
+return title
+return title
+
+@enduml

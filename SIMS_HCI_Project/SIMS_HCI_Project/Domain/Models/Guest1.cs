@@ -1,4 +1,4 @@
-﻿using SIMS_HCI_Project.Model;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +9,9 @@ namespace SIMS_HCI_Project.Domain.Models
 {
     public class Guest1 : User
     {
-        public List<AccommodationReservation> Reservations;
         //public  bool isSuperGuest;
         public Guest1()
         {
-            Reservations = new List<AccommodationReservation>();
         }
         public Guest1(User user)
         {
@@ -24,8 +22,6 @@ namespace SIMS_HCI_Project.Domain.Models
             Surname = user.Surname;
             Age = user.Age;
             Role = user.Role;
-
-            Reservations = new List<AccommodationReservation>();
         }
     }
 }

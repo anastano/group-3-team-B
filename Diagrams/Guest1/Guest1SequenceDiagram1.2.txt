@@ -1,0 +1,129 @@
+@startuml
+actor Guest
+participant AccommodationReservationService as ARS
+participant AccommodationReservationRepository as ARR
+participant RenovationService as RS
+participant RenovationRepository as RR
+participant AccommodationService as AS
+participant AccommodationRepository as AR
+
+group Search
+Guest -> AS: GetAllSortedBySuperFlag()
+activate AS
+
+AS -> AR: GetAllSortedBySuperFlag()
+activate AR
+return accommodations
+deactivate AR
+AS --> Guest: accommodations
+deactivate AS
+end
+
+group Get AvailableReservations for input parameters
+note right of Guest: The guest chooses one of the accommodations he want to reserve. 
+note right of Guest: The guest enters the start and end dates, the number of days, and the number of guests.
+
+Guest -> ARS: GetAvailableReservations(Accommodation accommodation, Guest1 guest, DateTime start, DateTime end, int daysNumber, int guestsNumber)
+activate ARS
+note left of ARS: Make a potential start and end from given start and end date and empty list of potential reservations
+
+loop potentialEnd <= end
+
+ARS -> ARS: DoesOverlapsWithRenovations(Accommodation accommodation, DateRange potentialDateRange)
+activate ARS
+ARS -> RS **: << create >>
+activate RS
+ARS -> RS: GetByAccommodationId(int accommodationId)
+RS -> RR: GetByAccommodationId(int accommodationId)
+activate RR
+return renovations
+return renovations
+
+loop foreach renovation in renovations
+return isOverlappedWithRenovations
+end
+
+
+ARS -> ARS: DoesOverlapsWithReservations(Accommodation accommodation, DateRange potentialDateRange)
+activate ARS
+ARS -> ARS: GetAllReserevedByAccommodationId(accommodation.Id)
+activate ARS
+ARS -> ARR: GetAllReservedByAccommodationId(int accommodationId)
+activate ARR
+return reservations
+return reservations
+
+loop foreach reservation in reservations
+return isOverlappedWithReservations
+end
+
+opt !isOverlappedWithReservations && !isOverlappedWithRenovations
+note right of ARS: add potential reservation in list
+end
+note right of ARS: changing potential start and end
+end
+
+return availableReservations;
+
+opt availableReservations == 0
+Guest -> ARS: GetSuggestedAvailableReservations(Accommodation accommodation, Guest1 guest, DateTime start, DateTime end, int daysNumber, int guestsNumber);
+activate ARS
+
+
+note right of ARS: New start is end, new end is end + 30 days
+
+ARS -> ARS: GetAvailableReservations(Accommodation accommodation, Guest1 guest, DateTime start, DateTime end, int daysNumber, int guestsNumber)
+activate ARS
+ note left of ARS: Make a potential start and end from given start and end date and empty list of potential reservations
+loop potentialEnd <= end
+
+ARS -> ARS: DoesOverlapsWithRenovations(Accommodation accommodation, DateRange potentialDateRange)
+activate ARS
+ARS -> RS **: << create >>
+activate RS
+ARS -> RS: GetByAccommodationId(int accommodationId)
+RS -> RR: GetByAccommodationId(int accommodationId)
+activate RR
+return renovations
+return renovations
+
+loop foreach renovation in renovations
+return isOverlappedWithRenovations
+end
+
+
+ARS -> ARS: DoesOverlapsWithReservations(Accommodation accommodation, DateRange potentialDateRange)
+activate ARS
+ARS -> ARS: GetAllReserevedByAccommodationId(accommodation.Id)
+activate ARS
+ARS -> ARR: GetAllReservedByAccommodationId(int accommodationId)
+activate ARR
+return reservations
+return reservations
+
+loop foreach reservation in reservations
+return isOverlappedWithReservations
+end
+
+opt !OverlappedWithReservations && !OverlappedWithRenovations
+note right of ARS: add potential reservation in list
+end
+note right of ARS: changing potential start and end
+end
+
+deactivate ARS
+return availableReservations;
+end
+
+group Reserve
+note right of Guest: Guest chooses one reservation
+
+Guest -> ARS ++: Add(AccommodationReservation reservation)
+ARS -> ARR ++: Add(AccommodationReservation reservation)
+deactivate ARR
+deactivate ARS
+
+end
+
+
+@enduml

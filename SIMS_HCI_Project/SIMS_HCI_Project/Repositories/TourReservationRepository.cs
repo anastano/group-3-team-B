@@ -1,7 +1,7 @@
 ﻿using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.Domain.RepositoryInterfaces;
 using SIMS_HCI_Project.FileHandlers;
-using SIMS_HCI_Project.Observer;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,14 +24,19 @@ namespace SIMS_HCI_Project.Repositories
             }
         }
 
-        public void Load()
+        private void Load()
         {
             _reservations = _fileHandler.Load();
         }
 
-        public void Save()
+        private void Save()
         {
             _fileHandler.Save(_reservations);
+        }
+
+        private int GenerateId()
+        {
+            return _reservations.Count == 0 ? 1 : _reservations[_reservations.Count - 1].Id + 1;
         }
 
         public TourReservation GetById(int id)
@@ -44,26 +49,33 @@ namespace SIMS_HCI_Project.Repositories
             return _reservations;
         }
 
-        public List<TourReservation> GetAllByGuestId(int id)
-        {
-            return _reservations.FindAll(r => r.Guest2Id == id);
-        }
-
         public List<TourReservation> GetAllByTourTimeId(int id)
         {
             return _reservations.FindAll(r => r.TourTimeId == id);
         }
 
-        public List<TourReservation> GetAllByGuestIdAndTourId(int guestId, int tourId)
+        public List<TourReservation> GetAllByGuestId(int id)
         {
-            return _reservations.FindAll(r => r.Guest2Id == guestId && r.TourTime.Tour.Id == tourId);
+            return _reservations.FindAll(r => r.GuestId == id);
         }
 
-        public TourReservation GetByGuestAndTour(int guestId, int tourTimeId)
+        public List<TourReservation> GetActiveByGuestId(int id)
         {
-            return _reservations.Where(tr => tr.Guest2Id == guestId && tr.TourTimeId == tourTimeId).First();
+            return _reservations.FindAll(r => r.GuestId == id && r.TourTime.Status == TourStatus.IN_PROGRESS && r.Status == TourReservationStatus.GOING);
         }
        
+        public List<TourReservation> GetAllByGuestIdAndTourId(int guestId, int tourId)
+        {
+            return _reservations.FindAll(r => r.GuestId == guestId && r.TourTime.Tour.Id == tourId);
+        }
+
+        public void Add(TourReservation tourReservation)
+        {
+            tourReservation.Id = GenerateId();
+            _reservations.Add(tourReservation);
+            Save();
+        }
+
         public void BulkUpdate(List<TourReservation> tourReservations)
         {
             foreach (TourReservation tourReservation in tourReservations)
@@ -71,23 +83,6 @@ namespace SIMS_HCI_Project.Repositories
                 TourReservation toUpdate = GetById(tourReservation.Id);
                 toUpdate = tourReservation;
             }
-            Save();
-        }
-
-        public List<TourReservation> GetActiveByGuestId(int id)
-        {
-            return _reservations.FindAll(r => r.Guest2Id == id && r.TourTime.Status == TourStatus.IN_PROGRESS && r.Status == TourReservationStatus.GOING);
-        }
-
-        private int GenerateId()
-        {
-            return _reservations.Count == 0 ? 1 : _reservations[_reservations.Count - 1].Id + 1;
-        }
-
-        public void Add(TourReservation tourReservation)
-        {
-            tourReservation.Id = GenerateId();
-            _reservations.Add(tourReservation);
             Save();
         }
     }

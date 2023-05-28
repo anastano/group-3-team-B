@@ -171,6 +171,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             }
             else if (SelectedItem == 2)
             {
+                _navigationService.Navigate(new ForumsViewModel(Guest, _navigationService, 0), "Forums");
+                SelectedItem = -1;
                 CustomizeGridSize();
             }
             else if (SelectedItem == 3)

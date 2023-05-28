@@ -160,6 +160,9 @@
                 <DataTemplate DataType="{x:Type viewmodels:ReservationRescheduleViewModel}">
                     <views:ReservationRescheduleView/>
                 </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:ForumsViewModel}">
+                    <views:ForumsView/>
+                </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>
     </Grid>

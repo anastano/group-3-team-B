@@ -25,6 +25,7 @@
     <None Remove="Resources\Images\reserve.png" />
     <None Remove="Resources\Images\search.png" />
     <None Remove="Resources\Images\TourSearchHelp.png" />
+    <None Remove="Resources\Images\useful.png" />
     <None Remove="Resources\Images\user.png" />
     <None Remove="Resources\Images\warning.png" />
     <None Remove="WPF\Images\avatar.png" />
@@ -70,6 +71,7 @@
     <Resource Include="Resources\Images\reserve.png" />
     <Resource Include="Resources\Images\search.png" />
     <Resource Include="Resources\Images\TourSearchHelp.png" />
+    <Resource Include="Resources\Images\useful.png" />
     <Resource Include="Resources\Images\user.png" />
     <Resource Include="Resources\Images\warning.png" />
     <Resource Include="WPF\Images\avatar.png" />

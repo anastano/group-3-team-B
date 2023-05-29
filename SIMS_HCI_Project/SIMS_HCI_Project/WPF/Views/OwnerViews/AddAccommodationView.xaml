@@ -22,6 +22,7 @@
         <KeyBinding Gesture="Ctrl+S" Command="{Binding AddAccommodationImageCommand}"/>
         <KeyBinding Gesture="Ctrl+D"  Command="{Binding RemoveAccommodationImageCommand}"/>
         <KeyBinding Gesture="Ctrl+R" Command="{Binding RegisterNewAccommodationCommand}"/>
+        <KeyBinding Gesture="Ctrl+Q" Command="{Binding StopDemoCommand}"/>
         <KeyBinding Key="Esc" Command="{Binding CloseAddAccommodationViewCommand}"/>
     </Window.InputBindings>
 

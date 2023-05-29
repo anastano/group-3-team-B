@@ -25,13 +25,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public RelayCommand ShowSelectedReviewCommand { get; set; }
         public RelayCommand CloseReviewsViewCommand { get; set; }
 
-        public GuestReviewsViewModel(GuestReviewsView guestReviewsView, RatingGivenByGuestService guestRatingService,
-            RatingGivenByOwnerService ownerRatingService, Owner owner)
+        public GuestReviewsViewModel(GuestReviewsView guestReviewsView, Owner owner)
         {
             InitCommands();
 
-            _guestRatingService = guestRatingService;
-            _ownerRatingService = ownerRatingService;
+            _guestRatingService = new RatingGivenByGuestService();
+            _ownerRatingService = new RatingGivenByOwnerService();
 
             GuestReviewsView = guestReviewsView;
             Owner = owner;

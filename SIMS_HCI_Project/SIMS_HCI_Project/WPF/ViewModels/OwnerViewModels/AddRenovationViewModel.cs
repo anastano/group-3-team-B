@@ -18,11 +18,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
     public class AddRenovationViewModel: INotifyPropertyChanged
     {
         private RenovationService _renovationService;
-        private AccommodationReservationService _reservationService;
 
         public Accommodation Accommodation { get; set; }
         public Renovation SelectedRenovation { get; set; }
         public AddRenovationView AddRenovationView { get; set; }
+        public SelectAccommodationForRenovationView SelectAccommodationForRenovationView { get; set; }
         public RenovationsViewModel RenovationsVM { get; set; }
 
         #region OnPropertyChanged
@@ -98,28 +98,26 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             }
         }
 
-        #endregion
-
-        public RelayCommand AddNewRenovationCommand { get; set; }
-        public RelayCommand CloseAddRenovationViewCommand { get; set; }
-        public RelayCommand SearchAvailableRenovationsCommand { get; set; }
-        
-
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public AddRenovationViewModel(AddRenovationView addRenovationView, RenovationsViewModel renovationsVM, RenovationService renovationService, 
-            AccommodationReservationService reservationService, Accommodation selectedAccommodation)
+        #endregion
+
+        public RelayCommand AddNewRenovationCommand { get; set; }
+        public RelayCommand CloseAddRenovationViewCommand { get; set; }
+        public RelayCommand SearchAvailableRenovationsCommand { get; set; }
+        
+        public AddRenovationViewModel(AddRenovationView addRenovationView, SelectAccommodationForRenovationView selectAccommodationView, RenovationsViewModel renovationsVM, Accommodation selectedAccommodation)
         {
             InitCommands();
 
-            _renovationService = renovationService;
-            _reservationService = reservationService;
+            _renovationService = new RenovationService();
 
             AddRenovationView = addRenovationView;
+            SelectAccommodationForRenovationView = selectAccommodationView;
             RenovationsVM = renovationsVM;
 
             Accommodation = selectedAccommodation;
@@ -151,7 +149,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
                 SelectedRenovation.Accommodation = Accommodation;
                 _renovationService.Add(SelectedRenovation);
                 AddRenovationView.Close();
-                RenovationsVM.UpdateRenovations();
+                SelectAccommodationForRenovationView.Close();
+                RenovationsVM.UpdateRenovations();              
             }
             else 
             {

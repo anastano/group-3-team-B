@@ -25,28 +25,28 @@
                     <StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                             <Label Content="Accommodation: "
-                                    Style="{StaticResource OwnerLabelStyle}" FontWeight="Bold" HorizontalAlignment="Right"></Label>
+                                    Style="{StaticResource OwnerLabelStyle}" FontWeight="Bold" HorizontalAlignment="Right" Height="30"></Label>
 
                             <TextBlock x:Name="tblAccommodationName" Grid.Row="0" Grid.Column="1"
                                                  Text="{Binding Path = Request.AccommodationReservation.Accommodation.Name}"
                                                  FontSize="16" HorizontalAlignment="Left" Margin="0 15 0 0"
-                                                 Style="{StaticResource OwnerTitleStyle}">
+                                                 Style="{StaticResource OwnerTitleStyle}" Height="30">
                             </TextBlock>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 
                             <Label Content="Guest: " 
-                                    Style="{StaticResource OwnerLabelStyle}" FontWeight="Bold" HorizontalAlignment="Right"></Label>
+                                    Style="{StaticResource OwnerLabelStyle}" FontWeight="Bold" HorizontalAlignment="Right" Height="30" Margin="0 5 0 0"></Label>
 
                             <TextBlock x:Name="tblGuestName"
                                          Text="{Binding Path = Request.AccommodationReservation.Guest.Name}"
-                                         FontSize="16" HorizontalAlignment="Left" Margin="0 15 0 0"
+                                         FontSize="16" HorizontalAlignment="Left" Margin="0 15 0 0" Height="30"
                                          Style="{StaticResource OwnerTitleStyle}">
                             </TextBlock>
                             
                             <TextBlock x:Name="tblGuestSurname"
-                                        Text="{Binding Path = Request.AccommodationReservation.Guest.Surname}"
+                                        Text="{Binding Path = Request.AccommodationReservation.Guest.Surname}" Height="30"
                                         FontSize="16" HorizontalAlignment="Left" Margin="5 15 0 0"
                                         Style="{StaticResource OwnerTitleStyle}">
                             </TextBlock>
@@ -125,7 +125,7 @@
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
 
-                                <DataGridTemplateColumn Width="*" Header="Guest Surname">
+                                <DataGridTemplateColumn Width="1.2*" Header="Guest Surname">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding Guest.Surname}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>

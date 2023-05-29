@@ -25,6 +25,8 @@
         <KeyBinding Key="D4" Command="{Binding ShowPendingRequestsCommand}"/>
         <KeyBinding Key="D5" Command="{Binding ShowGuestReviewsCommand}"/>
         <KeyBinding Key="D6" Command="{Binding ShowUnratedReservationsCommand}"/>
+        <KeyBinding Gesture="Ctrl+D" Command="{Binding StartDemoCommand}"/>
+        <KeyBinding Gesture="Ctrl+Q" Command="{Binding StopDemoCommand}"/>
         <KeyBinding Gesture="Ctrl+X" Command="{Binding LogoutCommand}"/>
     </Window.InputBindings>
 
@@ -39,46 +41,42 @@
                 </TextBlock>
 
                 <Border Style="{StaticResource OwnerBorderStyle}">
-                    <StackPanel Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <StackPanel Margin="10 10 10 17" VerticalAlignment="Center" HorizontalAlignment="Center">
 
                         <Button x:Name="btnAccommodations" Content="My Accommodations         (1)" Command="{Binding ShowAccommodationsCommand}"
-                        Style="{StaticResource OwnerButtonStyle}">
+                        Style="{StaticResource OwnerButtonStyle}" Height="50">
                         </Button>
 
                         <Button x:Name="btnReservations" Content="Guest Reservations            (2)" Command="{Binding ShowReservationsCommand}"
-                        Style="{StaticResource OwnerButtonStyle}">
+                        Style="{StaticResource OwnerButtonStyle}" Height="50">
                         </Button>
 
                         <Button x:Name="btnRenovations" Content="Renovations                       (3)" Command="{Binding ShowRenovationsCommand}"
-                        Style="{StaticResource OwnerButtonStyle}">
+                        Style="{StaticResource OwnerButtonStyle}" Height="50">
                         </Button>
 
                         <Button x:Name="btnGuestRequests" Content="Guest Requests                 (4)" Command="{Binding ShowPendingRequestsCommand}"
-                        Style="{StaticResource OwnerButtonStyle}">
+                        Style="{StaticResource OwnerButtonStyle}" Height="50">
                         </Button>
 
                         <Button x:Name="btnGuestReviews" Content="Guest Reviews                  (5)" Command="{Binding ShowGuestReviewsCommand}"
-                        Style="{StaticResource OwnerButtonStyle}">
+                        Style="{StaticResource OwnerButtonStyle}" Height="50">
                         </Button>
 
                         <Button x:Name="btnRateGuests" Content="Rate Guests                     (6)"   Command="{Binding ShowUnratedReservationsCommand}"
-                        Style="{StaticResource OwnerButtonStyle}">
+                        Style="{StaticResource OwnerButtonStyle}" Height="50">
                         </Button>
 
                         <Button x:Name="btnStatistics" Content="Statistics                         (7)" Command="{Binding ShowStatisticsCommand}"
-                       Style="{StaticResource OwnerButtonStyle}">
+                       Style="{StaticResource OwnerButtonStyle}" Height="50">
                         </Button>
 
                         <Button x:Name="btnForums" Content="Forums                           (8)"
-                       Style="{StaticResource OwnerButtonStyle}">
+                       Style="{StaticResource OwnerButtonStyle}" Height="50">
                         </Button>
 
-                        <Button x:Name="btnSuggestions" Content="Suggestions                    (9)"
-                       Style="{StaticResource OwnerButtonStyle}">
-                        </Button>
-
-                        <Button x:Name="btnDemo" Content="Demo                    (Ctrl+D)"
-                       Style="{StaticResource OwnerButtonStyle}">
+                        <Button x:Name="btnDemo" Content="Start Demo Mode    (Ctrl+D)" Command="{Binding StartDemoCommand}"
+                       Style="{StaticResource OwnerButtonStyle}" Height="50" >
                         </Button>
                     </StackPanel>
                 </Border>
@@ -91,7 +89,6 @@
                     <TextBlock x:Name="tblreservationsInProgress" Text="Reservations In Progress" 
                            Style="{StaticResource OwnerTitleStyle}">
                     </TextBlock>
-
                     <Border Style="{StaticResource OwnerBorderStyle}">
                         <!-- DataGrid STACKPANEL-->
                         <StackPanel>
@@ -99,7 +96,7 @@
                             <DataGrid x:Name = "dgReservations" AutoGenerateColumns="False" ItemsSource="{Binding Path=ReservationsInProgress, UpdateSourceTrigger=PropertyChanged}" 
                                       IsReadOnly="True" Focusable="False" Width="930" Height="290" Margin="10 10 10 10" IsTabStop="False"
                                       Style="{StaticResource OwnerDatagridStyle}" ColumnHeaderStyle="{StaticResource OwnerDataGridColumnHeaderStyle}">
-
+                                
                                 <DataGrid.CellStyle>
                                     <Style TargetType="DataGridCell" >
                                         <Setter Property="Focusable" Value="False"/>

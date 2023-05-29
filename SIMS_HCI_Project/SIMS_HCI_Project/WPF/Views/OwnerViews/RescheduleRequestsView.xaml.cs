@@ -22,10 +22,10 @@ namespace SIMS_HCI_Project.WPF.Views.OwnerViews
     /// </summary>
     public partial class RescheduleRequestsView : Window
     {
-        public RescheduleRequestsView(RescheduleRequestService requestService, AccommodationReservationService reservationService, NotificationService notificationService, Owner owner)
+        public RescheduleRequestsView(Owner owner)
         {
             InitializeComponent();
-            this.DataContext = new RescheduleRequestsViewModel(this, requestService, reservationService, notificationService, owner);
+            this.DataContext = new RescheduleRequestsViewModel(this, owner);
         }
     }
 }

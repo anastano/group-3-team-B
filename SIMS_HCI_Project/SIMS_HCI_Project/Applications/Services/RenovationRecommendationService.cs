@@ -22,6 +22,10 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return _recommendationRepository.GetById(id);
         }
+        public List<RenovationRecommendation> GetByOwnerId(int ownerId)
+        {
+            return _recommendationRepository.GetByOwnerId(ownerId);
+        }
 
         public List<RenovationRecommendation> GetAll()
         {
@@ -35,6 +39,11 @@ namespace SIMS_HCI_Project.Applications.Services
                 recommendation.Rating = rating;
                 _recommendationRepository.Add(recommendation);
             }
+        }
+
+        public List<RenovationRecommendation> OwnerSearch(string accommodationName, int ownerId)
+        {
+            return _recommendationRepository.OwnerSearch(accommodationName, ownerId);
         }
     }
 }

@@ -22,10 +22,10 @@ namespace SIMS_HCI_Project.WPF.Views.OwnerViews
     /// </summary>
     public partial class GuestReviewsView : Window
     {
-        public GuestReviewsView(RatingGivenByGuestService guestRatingService, RatingGivenByOwnerService ownerRatingService, Owner owner)
+        public GuestReviewsView(Owner owner)
         {
             InitializeComponent();
-            this.DataContext = new GuestReviewsViewModel(this, guestRatingService, ownerRatingService, owner);
+            this.DataContext = new GuestReviewsViewModel(this, owner);
         }
     }
 }

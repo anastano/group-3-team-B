@@ -35,6 +35,11 @@ namespace SIMS_HCI_Project.Repositories
             return _recommendations.Find(r => r.Id == id);
         }
 
+        public List<RenovationRecommendation> GetByOwnerId(int ownerId)
+        {
+            return _recommendations.FindAll(r => r.Rating.Reservation.Accommodation.OwnerId == ownerId);
+        }
+
         public List<RenovationRecommendation> GetByAccommodationId(int accommodationId)
         {
             return _recommendations.FindAll(r => r.Rating.Reservation.Accommodation.Id == accommodationId);
@@ -61,6 +66,17 @@ namespace SIMS_HCI_Project.Repositories
             recommendation.Id = GenerateId();
             _recommendations.Add(recommendation);
             Save();
+        }
+
+        public List<RenovationRecommendation> OwnerSearch(string accommodationName, int ownerId)
+        {
+            List<RenovationRecommendation> recommendations = GetByOwnerId(ownerId);
+
+            var filtered = from _recommendation in recommendations
+                           where (string.IsNullOrEmpty(accommodationName) || _recommendation.Rating.Reservation.Accommodation.Name.ToLower().Contains(accommodationName.ToLower()))
+                           select _recommendation;
+
+            return filtered.ToList();
         }
     }
 }

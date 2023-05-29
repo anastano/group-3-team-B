@@ -22,11 +22,10 @@ namespace SIMS_HCI_Project.WPF.Views.OwnerViews
     /// </summary>
     public partial class RequestHandlerView : Window
     {
-        public RequestHandlerView(RescheduleRequestsViewModel requestsVM, RescheduleRequestService requestService, AccommodationReservationService reservationService, 
-            NotificationService notificationService, RescheduleRequest selectedRequest)
+        public RequestHandlerView(RescheduleRequestsViewModel requestsVM, RescheduleRequest selectedRequest)
         {
             InitializeComponent();
-            this.DataContext = new RequestHandlerViewModel(this, requestsVM, requestService, reservationService, notificationService, selectedRequest);
+            this.DataContext = new RequestHandlerViewModel(this, requestsVM, selectedRequest);
         }
     }
 }

@@ -1,0 +1,49 @@
+﻿<Window x:Class="SIMS_HCI_Project.WPF.Views.OwnerViews.AccommodationSuggestionsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
+        mc:Ignorable="d"
+        Title="AccommodationSuggestionsView" Height="610" Width="700" WindowStartupLocation="CenterScreen">
+    <Window.InputBindings>
+        <KeyBinding Key="Esc"  Command="{Binding CloseAccommodationSuggestionsViewCommand}"/>
+        <KeyBinding Gesture="Ctrl+Q" Command="{Binding StopDemoCommand}"/>
+    </Window.InputBindings>
+    <Grid Background="{StaticResource OwnerNeutralColor}">
+        <!-- MAIN STACK PANEL-->
+        <StackPanel Orientation="Vertical" Margin="10 5 10 5">
+
+            <!-- MIDDLE STACK PANEL-->
+            <StackPanel Margin="5 0 5 0">
+
+                <Border Style="{StaticResource OwnerBorderStyle}" Margin="10"> 
+                    <!-- DataGrid STACKPANEL-->
+                    <StackPanel Height="220" Width="600" Margin="5">
+                        <TextBlock Text="These locations are very popular. Perhaps you should consider opening new accommodations here." 
+                                   Style="{StaticResource OwnerTitleStyle}" FontSize="20" TextWrapping="Wrap" Height="60"></TextBlock>
+                    </StackPanel>
+                </Border>
+                
+                <Border Style="{StaticResource OwnerBorderStyle}" Margin="10">
+                    <!-- DataGrid STACKPANEL-->
+                    <StackPanel Margin="5" Height="220" Width="600" >
+                        <TextBlock Text="These accommodations have been underperforming lately. Perhaps you should consider closing them down." 
+                                   Style="{StaticResource OwnerTitleStyle}" FontSize="20" TextWrapping="Wrap" Height="60"></TextBlock>
+                    </StackPanel>
+                </Border>
+                                          
+            </StackPanel>
+
+            <!-- Buttons STACK PANEL-->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="btnClose" Content="Close (Esc)" Command="{Binding CloseAccommodationSuggestionsViewCommand}"
+                    Style ="{StaticResource OwnerButtonStyle}" >
+                </Button>
+                <Button x:Name="btnHome" Content="Home (Ctrl+H)"
+                    Style ="{StaticResource OwnerButtonStyle}" Command="{Binding HomeAccommodationSuggestionsViewCommand}">
+                </Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,10 +24,10 @@ namespace SIMS_HCI_Project.WPF.Views.OwnerViews
     /// </summary>
     public partial class AccommodationsView : Window
     {      
-        public AccommodationsView(AccommodationService accommodationService, Owner owner)
+        public AccommodationsView(Owner owner)
         {
             InitializeComponent();
-            this.DataContext = new AccommodationsViewModel(this, accommodationService, owner);
+            this.DataContext = new AccommodationsViewModel(this, owner);
         }
     }
 }

@@ -15,9 +15,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
     class SelectAccommodationForRenovationViewModel
     {
         private readonly AccommodationService _accommodationService;
-        private readonly RenovationService _renovationService;
-        private readonly AccommodationReservationService _reservationService;
-
         public SelectAccommodationForRenovationView SelectAccommodationForRenovationView { get; set; }
         public RenovationsViewModel RenovationsVM { get; set; }
         public Owner Owner { get; set; }
@@ -27,20 +24,16 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public RelayCommand SelectAccommodationForRenovationCommand { get; set; }
         public RelayCommand CloseSelectAccommodationForRenovationViewCommand { get; set; }
 
-        public SelectAccommodationForRenovationViewModel(SelectAccommodationForRenovationView selectAccommodationForRenovationView, RenovationsViewModel renovationsVM,
-            AccommodationService accommodationService, RenovationService renovationService, AccommodationReservationService reservationService, Owner owner)
+        public SelectAccommodationForRenovationViewModel(SelectAccommodationForRenovationView selectAccommodationForRenovationView, RenovationsViewModel renovationsVM, Owner owner)
         {
             InitCommands();
 
-            _accommodationService = accommodationService;
-            _renovationService = renovationService;
-            _reservationService = reservationService;
+            _accommodationService = new AccommodationService();
 
             SelectAccommodationForRenovationView = selectAccommodationForRenovationView;
             RenovationsVM = renovationsVM;
             Owner = owner;
             Accommodations = new ObservableCollection<Accommodation>(_accommodationService.GetByOwnerId(Owner.Id));
-
         }
 
         #region Commands
@@ -49,7 +42,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             if (SelectedAccommodation != null)
             {
-                Window addRenovationView = new AddRenovationView(RenovationsVM, _renovationService, _reservationService, SelectedAccommodation);
+                Window addRenovationView = new AddRenovationView(SelectAccommodationForRenovationView, RenovationsVM, SelectedAccommodation);
                 addRenovationView.ShowDialog();
             }
             else

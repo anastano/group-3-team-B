@@ -67,11 +67,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public RateSelectedGuestViewModel(RateSelectedGuestView rateSelectedGuestView, UnratedReservationsViewModel unratedReservationsVM, RatingGivenByOwnerService ownerRatingService, 
-            AccommodationReservation selectedReservation) 
+        public RateSelectedGuestViewModel(RateSelectedGuestView rateSelectedGuestView, UnratedReservationsViewModel unratedReservationsVM, AccommodationReservation selectedReservation) 
         {
             InitCommands();
-            _ownerRatingService = ownerRatingService;
+            _ownerRatingService = new RatingGivenByOwnerService();
             RateSelectedGuestView = rateSelectedGuestView;
             UnratedReservationsVM = unratedReservationsVM;
             Rating = new RatingGivenByOwner();

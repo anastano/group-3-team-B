@@ -19,19 +19,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public RequestHandlerView RequestHandlerView { get; set; }
         public RequestDenialView RequestDenialView { get; set; }
         public RescheduleRequestsViewModel RequestsVM { get; set; }
-        public RescheduleRequest Request { get; set; }
-        
+        public RescheduleRequest Request { get; set; } 
         public RelayCommand SubmitRequestDenialCommand { get; set; }
         public RelayCommand CloseRequestDenialViewCommand { get; set; }
         
 
-        public RequestDenialViewModel(RequestHandlerView requestHandlerView, RequestDenialView requestDenialView, RescheduleRequestsViewModel requestsVM, 
-            RescheduleRequestService requestService, NotificationService notificationService, RescheduleRequest selectedRequest) 
+        public RequestDenialViewModel(RequestHandlerView requestHandlerView, RequestDenialView requestDenialView, RescheduleRequestsViewModel requestsVM, RescheduleRequest selectedRequest) 
         {
             InitCommands();
 
-            _requestService = requestService;
-            _notificationService = notificationService;
+            _requestService = new RescheduleRequestService();
+            _notificationService = new NotificationService();
 
             RequestHandlerView = requestHandlerView;
             RequestDenialView = requestDenialView;

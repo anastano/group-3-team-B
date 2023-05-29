@@ -13,9 +13,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 {
     public class StatisticsByMonthViewModel
     {
-        private readonly AccommodationReservationService _reservationService;
         private readonly AccommodationStatisticsService _statisticsService;
-
         public StatisticsByMonthView StatisticsByMonthView { get; set; }
         public StatisticsByYearView StatisticsByYearView { get; set; }
         public SelectAccommodationForStatisticsView SelectAccommodationForStatisticsView { get; set; }
@@ -27,13 +25,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public RelayCommand HomeStatisticsByMonthViewCommand { get; set; }
 
         public StatisticsByMonthViewModel(StatisticsByMonthView statisticsByMonthView, StatisticsByYearView statisticsByYearView, 
-            SelectAccommodationForStatisticsView selectAccommodationView, AccommodationReservationService reservationService, 
-            AccommodationStatisticsService statisticsService, Accommodation selectedAccommodation, AccommodationYear accommodationYear)
+            SelectAccommodationForStatisticsView selectAccommodationView, Accommodation selectedAccommodation, AccommodationYear accommodationYear)
         {
             InitCommands();
 
-            _reservationService = reservationService;
-            _statisticsService = statisticsService;
+            _statisticsService = new AccommodationStatisticsService();
 
             StatisticsByMonthView = statisticsByMonthView;
             StatisticsByYearView = statisticsByYearView;
@@ -46,7 +42,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         }
 
         #region Commands
-
         public void Executed_CloseStatisticsByMonthViewCommand(object obj)
         {
             StatisticsByMonthView.Close();

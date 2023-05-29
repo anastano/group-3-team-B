@@ -17,7 +17,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
     {
         private readonly AccommodationReservationService _reservationService;
         private readonly RatingGivenByOwnerService _ownerRatingService;
-
         public UnratedReservationsView UnratedReservationsView { get; set; }
         public Owner Owner { get; set; }
         public ObservableCollection<AccommodationReservation> UnratedReservations { get; set; }
@@ -26,13 +25,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public RelayCommand ShowSelectedUnratedReservationCommand { get; set; }
         public RelayCommand CloseUnratedReservationsViewCommand { get; set; }
 
-        public UnratedReservationsViewModel(UnratedReservationsView unratedReservationsView, AccommodationReservationService reservationService, 
-            RatingGivenByOwnerService ownerRatingService, Owner owner) 
+        public UnratedReservationsViewModel(UnratedReservationsView unratedReservationsView, Owner owner) 
         { 
             InitCommands();
 
-            _reservationService = reservationService;
-            _ownerRatingService = ownerRatingService;
+            _reservationService = new AccommodationReservationService();
+            _ownerRatingService = new RatingGivenByOwnerService();
 
             UnratedReservationsView = unratedReservationsView;
             Owner = owner;
@@ -45,7 +43,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             
             if (SelectedReservation != null)
             {
-                Window rateSelectedGuestView = new RateSelectedGuestView(this, _ownerRatingService, SelectedReservation);
+                Window rateSelectedGuestView = new RateSelectedGuestView(this, SelectedReservation);
                 rateSelectedGuestView.Show();
             }
             else 

@@ -1,6 +1,4 @@
-﻿using SIMS_HCI_Project.Applications.Services;
-using SIMS_HCI_Project.Domain.DTOs;
-using SIMS_HCI_Project.Domain.Models;
+﻿using SIMS_HCI_Project.WPF.Commands;
 using SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels;
 using System;
 using System.Collections.Generic;
@@ -19,14 +17,14 @@ using System.Windows.Shapes;
 namespace SIMS_HCI_Project.WPF.Views.OwnerViews
 {
     /// <summary>
-    /// Interaction logic for PDFReportView.xaml
+    /// Interaction logic for MessageView.xaml
     /// </summary>
-    public partial class PDFReportView : Window
+    public partial class MessageView : Window
     {
-        public PDFReportView(CreatePDFView createPDFView, Owner owner, DateRange dateRange)
+        public MessageView(string message, string message2)
         {
             InitializeComponent();
-            this.DataContext = new PDFReportViewModel(this, createPDFView, owner, dateRange);
+            this.DataContext = new MessageViewModel(this, message, message2);
         }
     }
 }

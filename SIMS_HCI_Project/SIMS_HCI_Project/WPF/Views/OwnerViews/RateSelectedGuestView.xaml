@@ -17,7 +17,7 @@
         </ControlTemplate>
     </Window.Resources>
     <Window.InputBindings>
-        <KeyBinding Gesture="Ctrl+R" Command="{Binding RateGuestCommand}"/>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding RateGuestCommand}"/>
         <KeyBinding Key="Esc" Command="{Binding CloseRateSelectedGuestViewCommand}"/>
     </Window.InputBindings>
 
@@ -65,20 +65,20 @@
                         <Label Content="Additional comment: " Grid.Row="2" Grid.Column="0" 
                                Style="{StaticResource OwnerLabelStyle}"></Label>
 
-                        <TextBox x:Name="txtCleanliness" Grid.Row="0" Grid.Column="1"
+                        <TextBox x:Name="txtCleanliness" Grid.Row="0" Grid.Column="1" TextWrapping="Wrap"
                                     Text="{Binding Path = Cleanliness, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                     Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
                                     Style="{StaticResource OwnerTextBoxStyle}" Width="100" Height="30">
                         </TextBox>
 
-                        <TextBox x:Name="txtRuleCompliance"  Grid.Row="1" Grid.Column="1"
+                        <TextBox x:Name="txtRuleCompliance"  Grid.Row="1" Grid.Column="1" TextWrapping="Wrap"
                                     Text="{Binding Path = RuleCompliance, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
                                     Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
                                     Style="{StaticResource OwnerTextBoxStyle}" Width="100" Height="30">
                         </TextBox>
 
                         <TextBox x:Name="txtAdditionalComment"  Grid.Row="2" Grid.Column="1"
-                             Text="{Binding Path= Rating.AdditionalComment}"
+                             Text="{Binding Path= Rating.AdditionalComment}" TextWrapping="Wrap"
                              Style="{StaticResource OwnerTextBoxStyle}" Width="280" Height="100">
                         </TextBox>
 
@@ -87,7 +87,7 @@
             </Border>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="btnRate" Content="Rate (Ctrl+R)" Command="{Binding RateGuestCommand}"
+                <Button x:Name="btnRate" Content="Submit (Ctrl+S)" Command="{Binding RateGuestCommand}"
                 Style="{StaticResource OwnerButtonStyle}">
                 </Button>
 

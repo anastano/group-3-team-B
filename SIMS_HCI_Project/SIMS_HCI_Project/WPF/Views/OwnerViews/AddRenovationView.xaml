@@ -6,6 +6,11 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         mc:Ignorable="d"
         Title="AddRenovationView" Height="670" Width="700" WindowStartupLocation="CenterScreen">
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding AddNewRenovationCommand}"/>
+        <KeyBinding Gesture="Ctrl+F" Command="{Binding SearchAvailableRenovationsCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseAddRenovationViewCommand}"/>
+    </Window.InputBindings>
     <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=txtDescription}">
         <!-- MAIN STACK PANEL-->
         <StackPanel Margin="0 10 0 0">
@@ -45,18 +50,18 @@
                         
 
                         <!-- TEXTBOX-->
-                        <TextBlock x:Name="tblAccommodationName" Grid.Row="0" Grid.Column="1"
+                        <TextBlock x:Name="tblAccommodationName" Grid.Row="0" Grid.Column="1" TextWrapping="Wrap"
                                  Text="{Binding Path = Accommodation.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  FontSize="16" HorizontalAlignment="Left" Margin="0 5 0 0" Height="30"
                                  Style="{StaticResource OwnerTitleStyle}">
                         </TextBlock>
 
-                        <TextBox x:Name="txtDescription" Grid.Row="1" Grid.Column="1"  
+                        <TextBox x:Name="txtDescription" Grid.Row="1" Grid.Column="1"  TextWrapping="Wrap"
                              Text="{Binding Path = Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                              Style="{StaticResource OwnerTextBoxStyle}" Width="300" Height="80">
                         </TextBox>
 
-                        <TextBox x:Name="txtDaysNumber" Grid.Row="2" Grid.Column="1"
+                        <TextBox x:Name="txtDaysNumber" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap"
                              Text="{Binding Path = DaysNumber}" 
                              Style="{StaticResource OwnerTextBoxStyle}" Width="150">
                         </TextBox>
@@ -81,14 +86,14 @@
                             </DatePicker.Resources>
                         </DatePicker>
 
-                        <Button x:Name="btnSearch" Content="Search (Ctrl+S)"  Grid.Row="5" Grid.Column="1" Command="{Binding SearchAvailableRenovationsCommand}"
+                        <Button x:Name="btnSearch" Content="Find dates (Ctrl+F)"  Grid.Row="5" Grid.Column="1" Command="{Binding SearchAvailableRenovationsCommand}"
                                 Style ="{StaticResource OwnerButtonStyle}" Width="150" Height="30" HorizontalAlignment="Left" Margin="0">
                         </Button>
 
                     </Grid>
 
                                         
-                    <TextBlock Text="Select the desired date:" TextAlignment="Left" HorizontalAlignment="Left" Margin="20 0 0 0"
+                    <TextBlock Text="Select the desired date range:" TextAlignment="Left" HorizontalAlignment="Left" Margin="20 0 0 0"
                                Style="{StaticResource OwnerTitleStyle}" FontSize="18">
                     </TextBlock>
 
@@ -124,7 +129,7 @@
             </Border>
             <!-- Buttons STACK PANEL-->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="btnSubmit" Content="Add (Ctrl+A)" Command="{Binding AddNewRenovationCommand}"
+                <Button x:Name="btnSubmit" Content="Submit (Ctrl+S)" Command="{Binding AddNewRenovationCommand}"
                     Style ="{StaticResource OwnerButtonStyle}" >
                 </Button>
                 <Button x:Name="btnCancel" Content="Cancel (Esc)" Command="{Binding CloseAddRenovationViewCommand}"

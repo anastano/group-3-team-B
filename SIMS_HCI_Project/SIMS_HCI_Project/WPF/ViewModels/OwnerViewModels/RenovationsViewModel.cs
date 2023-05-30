@@ -15,8 +15,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
     public class RenovationsViewModel
     {
         private readonly RenovationService _renovationService;
-        private readonly AccommodationService _accommodationService;
-        private readonly AccommodationReservationService _reservationService;
         public RenovationsView RenovationsView { get; set; }
         public Owner Owner { get; set; }
         public ObservableCollection<Renovation> Renovations { get; set; }
@@ -32,8 +30,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             InitCommands();
 
             _renovationService = new RenovationService();
-            _accommodationService = new AccommodationService();
-            _reservationService = new AccommodationReservationService();
 
             RenovationsView = renovationsView;
             Owner = owner;
@@ -52,23 +48,41 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             return true;
         }
 
+        private MessageBoxResult ConfirmCancelRenovation()
+        {
+            string sMessageBoxText = $"Are you sure you want to cancel this renovation?";
+            string sCaption = "Cancel Renovation Confirmation";
+
+            MessageBoxButton btnMessageBox = MessageBoxButton.YesNo;
+            MessageBoxImage icnMessageBox = MessageBoxImage.Warning;
+
+            MessageBoxResult result = MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox, icnMessageBox);
+            return result;
+        }
+
         public void Executed_CancelRenovationCommand(object obj)
         {
             if (SelectedRenovation != null)
             {
                 if (_renovationService.CancelRenovation(SelectedRenovation))
                 {
-                    UpdateRenovations();
-                    MessageBox.Show("Renovation cancelled successfully");
+                    if (ConfirmCancelRenovation() == MessageBoxResult.Yes)
+                    {
+                        UpdateRenovations();
+                    }
                 }
-                else
+                else if (SelectedRenovation.End < DateTime.Today)
                 {
-                    MessageBox.Show("Renovation can't be cancelled");
+                    MessageBox.Show("The renovation can't be cancelled as it has already been completed.");
+                }
+                else 
+                {
+                    MessageBox.Show("The renovation can't be canceled as the start date is less than 5 days from now.");
                 }
             }
             else 
             {
-                MessageBox.Show("No renovation has been selected");
+                MessageBox.Show("No renovation has been selected.");
             }
         }
 

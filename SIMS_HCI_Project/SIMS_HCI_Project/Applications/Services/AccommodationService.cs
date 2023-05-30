@@ -34,6 +34,12 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return _accommodationRepository.GetByOwnerId(ownerId);
         }
+
+        public List<Accommodation> GetByLocationIdAndOwnerId(int locationId, int ownerId)
+        {
+            return _accommodationRepository.GetByLocationIdAndOwnerId(locationId, ownerId);
+        }
+
         public List<Accommodation> GetAllSortedBySuperFlag()
         {
             return _accommodationRepository.GetAllSortedBySuperFlag();

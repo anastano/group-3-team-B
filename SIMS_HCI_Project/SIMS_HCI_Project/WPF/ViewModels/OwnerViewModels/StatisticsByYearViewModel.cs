@@ -14,7 +14,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 {
     public class StatisticsByYearViewModel
     {
-        private readonly AccommodationStatisticsService _statisticsService;
+        private readonly AccommodationYearStatisticsService _yearStatisticsService;
         public StatisticsByYearView StatisticsByYearView { get; set; }
         public SelectAccommodationForStatisticsView SelectAccommodationForStatisticsView { get; set; }
         public Accommodation Accommodation { get; set; }
@@ -29,14 +29,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             InitCommands();
 
-            _statisticsService = new AccommodationStatisticsService();
+            _yearStatisticsService = new AccommodationYearStatisticsService();
 
             StatisticsByYearView = statisticsByYearView;
             SelectAccommodationForStatisticsView = selectAccommodationView;
 
             Accommodation = selectedAccommodation;
-            BestYear = _statisticsService.FindBestYear(Accommodation.Id);
-            AccommodationYears = _statisticsService.GetYearsByAccommodationId(Accommodation.Id);
+            BestYear = _yearStatisticsService.FindBestYear(Accommodation.Id);
+            AccommodationYears = _yearStatisticsService.GetYearsByAccommodationId(Accommodation.Id);
         }
 
         #region Commands
@@ -49,7 +49,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             }
             else
             {
-                MessageBox.Show("No year has been selected");
+                MessageBox.Show("No year has been selected.");
             }
         }
 

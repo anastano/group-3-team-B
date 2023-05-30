@@ -9,7 +9,7 @@
     <Window.InputBindings>
         <KeyBinding Key="Left" Command="{Binding PreviousGuestReviewImageCommand}"/>
         <KeyBinding Key="Right"  Command="{Binding NextGuestReviewImageCommand}"/>
-        <KeyBinding Gesture="Ctrl+H" Command="{Binding HomePageFromSelectedReviewCommand}"/>
+        <KeyBinding Gesture="Ctrl+Z" Command="{Binding HomePageFromSelectedReviewCommand}"/>
         <KeyBinding Key="Esc" Command="{Binding CloseSelectedGuestReviewViewCommand}"/>
     </Window.InputBindings>
     <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=btnClose}">
@@ -57,7 +57,7 @@
                                         Style="{StaticResource OwnerTitleStyle}" FontWeight="SemiBold">
                                         </TextBlock>
                                         <TextBlock  Text="4.5" 
-                                                    FontSize="25" HorizontalAlignment="Left" Margin="0 -20 0 0"
+                                                    FontSize="20" HorizontalAlignment="Left" Margin="0 -10 0 0"
                                                     Style="{StaticResource OwnerTitleStyle}">
                                         </TextBlock>
 
@@ -187,7 +187,7 @@
                 Style="{StaticResource OwnerButtonStyle}">
                 </Button>
 
-                <Button x:Name="btnHome" Content="Home (Ctrl+H)" Command="{Binding HomePageFromSelectedReviewCommand}"
+                <Button x:Name="btnHome" Content="Home (Ctrl+Z)" Command="{Binding HomePageFromSelectedReviewCommand}"
                 Style="{StaticResource OwnerButtonStyle}">
                 </Button>
             </StackPanel>

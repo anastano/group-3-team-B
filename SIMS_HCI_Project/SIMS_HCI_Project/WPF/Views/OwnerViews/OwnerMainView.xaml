@@ -25,6 +25,7 @@
         <KeyBinding Key="D4" Command="{Binding ShowPendingRequestsCommand}"/>
         <KeyBinding Key="D5" Command="{Binding ShowGuestReviewsCommand}"/>
         <KeyBinding Key="D6" Command="{Binding ShowUnratedReservationsCommand}"/>
+        <KeyBinding Key="D7" Command="{Binding ShowStatisticsCommand}"/>
         <KeyBinding Gesture="Ctrl+D" Command="{Binding StartDemoCommand}"/>
         <KeyBinding Gesture="Ctrl+Q" Command="{Binding StopDemoCommand}"/>
         <KeyBinding Gesture="Ctrl+X" Command="{Binding LogoutCommand}"/>

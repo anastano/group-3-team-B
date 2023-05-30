@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="UnratedReservationsView" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
     <Window.InputBindings>
-        <KeyBinding Gesture="Ctrl+R" Command="{Binding ShowSelectedUnratedReservationCommand}"/>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding ShowSelectedUnratedReservationCommand}"/>
         <KeyBinding Key="Esc" Command="{Binding CloseUnratedReservationsViewCommand}"/>
     </Window.InputBindings>
     <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=dgReservations}">
@@ -21,7 +21,7 @@
                 <Border Style="{StaticResource OwnerBorderStyle}">
                     <!-- Buttons STACK PANEL-->
                     <StackPanel  Margin="5 5 5 5" Orientation="Horizontal">
-                        <Button x:Name="btnRateSelectedGuest"  Content="Rate Selected Guest (Ctrl+R)" Command="{Binding ShowSelectedUnratedReservationCommand}"
+                        <Button x:Name="btnRateSelectedGuest"  Content="Rate Selected Guest (Ctrl+S)" Command="{Binding ShowSelectedUnratedReservationCommand}"
                             Style="{StaticResource OwnerButtonStyle}" Width="350">
                         </Button>
                         <Button x:Name="btnClose"  Content="Close (Esc)"

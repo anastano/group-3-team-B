@@ -121,7 +121,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             RenovationsVM = renovationsVM;
 
             Accommodation = selectedAccommodation;
-            SelectedRenovation = new Renovation();
 
             EnteredStart = DateTime.Today.AddDays(1);
             EnteredEnd = DateTime.Today.AddDays(1);
@@ -140,21 +139,36 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             return true;
         }
 
+        private MessageBoxResult ConfirmAddNewRenovation()
+        {
+            string sMessageBoxText = $"Are you sure you want to add this renovation?";
+            string sCaption = "Add Renovation Confirmation";
+
+            MessageBoxButton btnMessageBox = MessageBoxButton.YesNo;
+            MessageBoxImage icnMessageBox = MessageBoxImage.Warning;
+
+            MessageBoxResult result = MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox, icnMessageBox);
+            return result;
+        }
+
         public void Executed_AddNewRenovationCommand(object obj)
         {
             if (SelectedRenovation != null)
             {
-                SelectedRenovation.Description = Description;
-                SelectedRenovation.AccommodationId = Accommodation.Id;
-                SelectedRenovation.Accommodation = Accommodation;
-                _renovationService.Add(SelectedRenovation);
-                AddRenovationView.Close();
-                SelectAccommodationForRenovationView.Close();
-                RenovationsVM.UpdateRenovations();              
+                if (ConfirmAddNewRenovation() == MessageBoxResult.Yes)
+                {
+                    SelectedRenovation.Description = Description;
+                    SelectedRenovation.AccommodationId = Accommodation.Id;
+                    SelectedRenovation.Accommodation = Accommodation;
+                    _renovationService.Add(SelectedRenovation);
+                    AddRenovationView.Close();
+                    SelectAccommodationForRenovationView.Close();
+                    RenovationsVM.UpdateRenovations();
+                }
             }
             else 
             {
-                MessageBox.Show("No option is selected");
+                MessageBox.Show("No date range has been selected.");
             }
         }
 

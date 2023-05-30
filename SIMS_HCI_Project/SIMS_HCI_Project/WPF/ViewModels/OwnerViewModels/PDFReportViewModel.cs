@@ -126,6 +126,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             doc.Save(filename);
             doc.Close(true);
             PDFReportView.Close();
+            CreatePDFView.Close();
         }
 
         public bool CanExecute_GeneratePDFCommand(object obj)

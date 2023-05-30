@@ -13,7 +13,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 {
     public class StatisticsByMonthViewModel
     {
-        private readonly AccommodationStatisticsService _statisticsService;
+        private readonly AccommodationMonthStatisticsService _monthStatisticsService;
         public StatisticsByMonthView StatisticsByMonthView { get; set; }
         public StatisticsByYearView StatisticsByYearView { get; set; }
         public SelectAccommodationForStatisticsView SelectAccommodationForStatisticsView { get; set; }
@@ -29,7 +29,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             InitCommands();
 
-            _statisticsService = new AccommodationStatisticsService();
+            _monthStatisticsService = new AccommodationMonthStatisticsService();
 
             StatisticsByMonthView = statisticsByMonthView;
             StatisticsByYearView = statisticsByYearView;
@@ -37,8 +37,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
             Accommodation = selectedAccommodation;
             AccommodationYear = accommodationYear;
-            BestMonth = _statisticsService.FindBestMonthInYear(AccommodationYear.Year, Accommodation.Id);
-            AccommodationMonths = _statisticsService.GetMonthsByAccommodationIdAndYear(Accommodation.Id, AccommodationYear.Year);
+            BestMonth = _monthStatisticsService.FindBestMonthInYear(AccommodationYear.Year, Accommodation.Id);
+            AccommodationMonths = _monthStatisticsService.GetMonthsByAccommodationIdAndYear(Accommodation.Id, AccommodationYear.Year);
         }
 
         #region Commands

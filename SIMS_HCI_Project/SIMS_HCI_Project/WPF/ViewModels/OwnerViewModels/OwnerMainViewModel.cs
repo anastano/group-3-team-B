@@ -31,7 +31,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         private RatingGivenByOwnerService _ownerRatingService;
         private RatingGivenByGuestService _guestRatingService;
         private RenovationService _renovationService;
-        private AccommodationStatisticsService _statisticsService;
+        private AccommodationYearStatisticsService _statisticsService;
         private RenovationRecommendationService _recommendationService;
         #endregion
 
@@ -83,7 +83,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             _ownerRatingService = new RatingGivenByOwnerService();
             _guestRatingService = new RatingGivenByGuestService();
             _renovationService = new RenovationService();
-            _statisticsService = new AccommodationStatisticsService();
+            _statisticsService = new AccommodationYearStatisticsService();
             _recommendationService = new RenovationRecommendationService();
 
             _guestRatingService.FillAverageRatingAndSuperFlag(Owner);

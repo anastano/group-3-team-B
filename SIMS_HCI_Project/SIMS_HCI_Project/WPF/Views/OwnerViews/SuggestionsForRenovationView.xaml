@@ -6,7 +6,11 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         mc:Ignorable="d"
         Title="SuggestionsForRenovationView" Height="600" Width="900" WindowStartupLocation="CenterScreen">
-    <Grid Background="{StaticResource OwnerNeutralColor}">
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding SearchSuggestionsCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseSuggestionsForRenovationViewCommand}"/>
+    </Window.InputBindings>
+    <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=txtAccommodationName}">
         <!-- MAIN STACK PANEL-->
         <StackPanel Orientation="Vertical" Margin="10 5 10 5">
 

@@ -275,7 +275,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             }
             else
             {
-                MessageBox.Show("Not all fields are filled in correctly");
+                MessageBox.Show("Not all fields are filled in correctly.");
             }
         }
 

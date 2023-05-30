@@ -47,7 +47,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             }
             else
             {
-                MessageBox.Show("No accommodation has been selected");
+                MessageBox.Show("No accommodation has been selected.");
             }
         }
 

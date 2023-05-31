@@ -20,7 +20,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
     {
         private RenovationService _renovationService;
         public Accommodation Accommodation { get; set; }
-        public RenvationDateValidation ValidatedRenovationDate { get; set; }
         public Renovation SelectedRenovation { get; set; }
         public AddRenovationView AddRenovationView { get; set; }
         public SelectAccommodationForRenovationView SelectAccommodationForRenovationView { get; set; }
@@ -54,6 +53,20 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
                     _availableRenovations = value;
                     OnPropertyChanged(nameof(AvailableRenovations));
+                }
+            }
+        }
+
+        private RenvationDateValidation _validatedRenovationDate;
+        public RenvationDateValidation ValidatedRenovationDate
+        {
+            get => _validatedRenovationDate;
+            set
+            {
+                if (value != _validatedRenovationDate)
+                {
+                    _validatedRenovationDate = value;
+                    OnPropertyChanged(nameof(ValidatedRenovationDate));
                 }
             }
         }

@@ -78,7 +78,7 @@
                         </StackPanel>
 
                         <TextBox x:Name="txtAdditionalComment"  Grid.Row="2" Grid.Column="1"
-                             Text="{Binding Path= AdditionalComment}" TextWrapping="Wrap"
+                             Text="{Binding Path= AdditionalComment, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" TextWrapping="Wrap"
                              Style="{StaticResource OwnerTextBoxStyle}" Width="280" Height="100">
                         </TextBox>
 

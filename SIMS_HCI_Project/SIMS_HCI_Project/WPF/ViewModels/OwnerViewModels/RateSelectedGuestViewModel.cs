@@ -1,6 +1,7 @@
 ﻿using SIMS_HCI_Project.Applications.Services;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands;
+using SIMS_HCI_Project.WPF.Validations;
 using SIMS_HCI_Project.WPF.Views.OwnerViews;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ using System.Xml.Linq;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 {
-    public class RateSelectedGuestViewModel : INotifyPropertyChanged, IDataErrorInfo
+    public class RateSelectedGuestViewModel : INotifyPropertyChanged
     {
         private readonly RatingGivenByOwnerService _ownerRatingService;
         public RateSelectedGuestView RateSelectedGuestView { get; set; }
@@ -26,32 +27,33 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public AccommodationReservation SelectedReservation { get; set; }
 
         #region OnPropertyChanged
-        private int? _cleanliness;
-        public int? Cleanliness
+
+        private string _additionalComment;
+        public string AdditionalComment
         {
-            get => _cleanliness;
+            get => _additionalComment;
             set
             {
-                if (value != _cleanliness)
+                if (value != _additionalComment)
                 {
 
-                    _cleanliness = value;
-                    OnPropertyChanged(nameof(Cleanliness));
+                    _additionalComment = value;
+                    OnPropertyChanged(nameof(AdditionalComment));
                 }
             }
         }
 
-        private int? _ruleCompliance;
-        public int? RuleCompliance
+        private RatingGivenByOwnerValidation _validatedRating;
+        public RatingGivenByOwnerValidation ValidatedRating
         {
-            get => _ruleCompliance;
+            get => _validatedRating;
             set
             {
-                if (value != _ruleCompliance)
+                if (value != _validatedRating)
                 {
 
-                    _ruleCompliance = value;
-                    OnPropertyChanged(nameof(RuleCompliance));
+                    _validatedRating = value;
+                    OnPropertyChanged(nameof(ValidatedRating));
                 }
             }
         }
@@ -73,10 +75,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             _ownerRatingService = new RatingGivenByOwnerService();
             RateSelectedGuestView = rateSelectedGuestView;
             UnratedReservationsVM = unratedReservationsVM;
+            ValidatedRating = new RatingGivenByOwnerValidation();
             Rating = new RatingGivenByOwner();
             SelectedReservation = selectedReservation;
-            Cleanliness = null;
-            RuleCompliance = null;
         }
 
         #region Commands
@@ -92,30 +93,33 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             MessageBoxResult result = MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox, icnMessageBox);
             return result;
         }
+
         public void Executed_RateGuestCommand(object obj)
         {
-            if (IsValid)
+            ValidatedRating.Validate();
+            if (ValidatedRating.IsValid)
             {
                 if (ConfirmRateGuest() == MessageBoxResult.Yes)
                 {
                     Rating.ReservationId = SelectedReservation.Id;
-                    Rating.Cleanliness = Cleanliness ?? 0;
-                    Rating.RuleCompliance = RuleCompliance ?? 0;
+                    Rating.Cleanliness = ValidatedRating.Cleanliness ?? 0;
+                    Rating.RuleCompliance = ValidatedRating.RuleCompliance ?? 0;
                     Rating.Reservation = SelectedReservation;
+                    Rating.AdditionalComment = AdditionalComment;
                     _ownerRatingService.Add(Rating);
                     RateSelectedGuestView.Close();
                     UnratedReservationsVM.UpdateUnratedReservations();
                 }
             }
-            else 
+            else
             {
-                MessageBox.Show("Not all fields are filled in correctly.");
+                MessageBox.Show("Not all fields are fill in correctly.");
             }
         }
 
         public bool CanExecute_RateGuestCommand(object obj)
         {
-            return true;
+                return true;
         }
 
         public void Executed_CloseRateSelectedGuestViewCommand(object obj)
@@ -133,60 +137,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             RateGuestCommand = new RelayCommand(Executed_RateGuestCommand, CanExecute_RateGuestCommand);
             CloseRateSelectedGuestViewCommand = new RelayCommand(Executed_CloseRateSelectedGuestViewCommand, CanExecute_CloseRateSelectedGuestViewCommand);
-        }
+        }      
 
-        #region Validation
-
-        public string Error => null;
-
-        public string this[string columnName]
-        {
-            get
-            {
-
-                if (columnName == "Cleanliness")
-                {
-                    if (Cleanliness == null)
-                        return "Cleanliness is required";
-
-                    if (Cleanliness < 1 || Cleanliness>5)
-                    {
-                        return "Rating can be between 1 and 5";
-                    }
-                }
-                else if (columnName == "RuleCompliance")
-                {
-                    if (RuleCompliance == null)
-                        return "Rule following is required";
-
-                    if (RuleCompliance < 1 || RuleCompliance > 5)
-                    {
-                        return "Rating can be between 1 and 5";
-                    }
-                }
-
-
-                return null;
-            }
-        }
-
-        private readonly string[] _validatedProperties = { "Cleanliness", "RuleCompliance"};
-
-        public bool IsValid
-        {
-            get
-            {
-                foreach (var property in _validatedProperties)
-                {
-                    if (this[property] != null)
-                        return false;
-                }
-
-                return true;
-            }
-        }
-
-
-        #endregion
     }
 }

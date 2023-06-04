@@ -51,6 +51,7 @@ namespace SIMS_HCI_Project.Repositories
         {
             _fileHandler.Save(_users);
         }
+
         public User GetById(int id)
         {
             return _users.Find(u => u.Id == id);
@@ -65,6 +66,7 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _users.FirstOrDefault(u => u.Username == username);
         }
+
         public bool CheckIfUsernameExists(string username)
         {
             return _users.Any(u => u.Username.Equals(username));
@@ -79,6 +81,14 @@ namespace SIMS_HCI_Project.Repositories
         {
             newUser.Id = GenerateId();
             _users.Add(newUser);
+
+            Save();
+        }
+
+        public void Update(User user)
+        {
+            User toUpdate = GetById(user.Id);
+            toUpdate = user;
 
             Save();
         }

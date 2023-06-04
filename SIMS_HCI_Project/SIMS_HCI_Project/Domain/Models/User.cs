@@ -18,6 +18,7 @@ namespace SIMS_HCI_Project.Domain.Models
         public string Name { get; set; }
         public string Surname { get; set; }
         public int Age { get; set; }
+        public bool AccountActive { get; set; }
 
         public User() { }
 
@@ -30,6 +31,7 @@ namespace SIMS_HCI_Project.Domain.Models
             Name = name;
             Surname = surname;
             Age = age;
+            AccountActive = true;
         }
         public string GetFullName()
         {

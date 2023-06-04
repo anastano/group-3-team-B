@@ -7,8 +7,10 @@ namespace SIMS_HCI_Project.Repositories
     {
         User GetById(int id);
         User GetByUsername(string username);
-        bool CheckIfUsernameExists(string username);
-        void Add(User newUser);
         List<User> GetByUserRole(UserRole userRole);
+        bool CheckIfUsernameExists(string username);
+
+        void Add(User newUser);
+        void Update(User user)
     }
 }

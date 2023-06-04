@@ -1,5 +1,4 @@
 ﻿using SIMS_HCI_Project.Applications.Services;
-
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands;
 using SIMS_HCI_Project.WPF.Services;
@@ -8,25 +7,23 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
-    internal class AccommodationReservationViewModel : INotifyPropertyChanged, IDataErrorInfo
+    internal class QuickReserveViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
         private NavigationService _navigationService;
         private AccommodationReservationService _accommodationReservationService;
+        private AccommodationService _accommodationService;
         private SuperGuestTitleService _titleService;
         public AccommodationReservation SelectedReservation { get; set; }
-        public Accommodation Accommodation { get; }
         public Guest1 Guest { get; set; }
         public RelayCommand SearchCommand { get; set; }
         public RelayCommand ReserveAccommodationCommand { get; set; }
-        public RelayCommand BackCommand { get; set; }
+        public RelayCommand ShowImagesCommand { get; set; }
 
         private List<AccommodationReservation> _availableReservations;
         public List<AccommodationReservation> AvailableReservations
@@ -57,8 +54,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             }
         }
 
-        private int _daysNumber;
-        public int DaysNumber
+        private String _daysNumber;
+        public String DaysNumber
         {
             get => _daysNumber;
             set
@@ -71,8 +68,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
-        private DateTime _start;
-        public DateTime Start
+        private DateTime? _start;
+        public DateTime? Start
         {
             get => _start;
             set
@@ -85,8 +82,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
-        private DateTime _end;
-        public DateTime End
+        private DateTime? _end;
+        public DateTime? End
         {
             get => _end;
             set
@@ -119,18 +116,19 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public AccommodationReservationViewModel(Accommodation accommodation, Guest1 guest, NavigationService navigationService)
+        public QuickReserveViewModel(Guest1 guest, NavigationService navigationService)
         {
             _navigationService = navigationService;
             _accommodationReservationService = new AccommodationReservationService();
+            _accommodationService = new AccommodationService();
             _titleService = new SuperGuestTitleService();
-            Accommodation = accommodation;
             Guest = guest;
             AvailableReservations = new List<AccommodationReservation>();
             GuestsNumber = 1.ToString();
-            DaysNumber = accommodation.MinimumReservationDays;
-            Start = DateTime.Today.AddDays(1);
-            End = DateTime.Today.AddDays(accommodation.MinimumReservationDays);
+            SuggestionText = "";
+            Start = null;
+            End = null;
+            DaysNumber = 1.ToString();
             InitCommands();
         }
 
@@ -142,23 +140,24 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             {
                 if (columnName == nameof(Start))
                 {
-                    if (Start <= DateTime.Today)
+                    if (!Start.HasValue && End.HasValue)
+                    {
+                        return "Input start";
+                    }
+                    else if (Start.HasValue && Start <= DateTime.Today )
                     {
                         return "Date must be after today.";
                     }
                 }
                 else if (columnName == nameof(End))
                 {
-                    if (End <= DateTime.Today)
+                    if (!End.HasValue && Start.HasValue)
+                    {
+                        return "Input end";
+                    }
+                    else if (End.HasValue && End <= DateTime.Today)
                     {
                         return "Date must be after today.";
-                    }
-                }
-                else if (columnName == nameof(DaysNumber))
-                {
-                    if ((DaysNumber >= Accommodation.MinimumReservationDays) == false)
-                    {
-                        return $"Minimum reservation duration is {Accommodation.MinimumReservationDays} days.";
                     }
                 }
                 else if (columnName == nameof(GuestsNumber))
@@ -168,19 +167,28 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                     {
                         return "Invalid input. Please enter a valid number.";
                     }
-                    else if(result <= 0)
+                    else if (result <= 0)
                     {
                         return "Only numbers bigger than 0";
                     }
-                    else if(result > Accommodation.MaxGuests)
+                    return null;
+                }
+                else if (columnName == nameof(DaysNumber))
+                {
+                    int result;
+                    if (!int.TryParse(DaysNumber, out result))
                     {
-                        return $"Max guests number is {Accommodation.MaxGuests}";
+                        return "Invalid input. Please enter a valid number.";
+                    }
+                    else if (result <= 0)
+                    {
+                        return "Only numbers bigger than 0";
                     }
                     return null;
                 }
                 if (columnName == nameof(End) || columnName == nameof(Start))
                 {
-                    if (Start > End)
+                    if (End.HasValue && Start.HasValue && Start > End)
                     {
                         return "Start date must be before the end date.";
                     }
@@ -194,14 +202,19 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 // Custom cross-field validation
                 if (columnName == nameof(Start) || columnName == nameof(End) || columnName == nameof(DaysNumber))
                 {
-                    if (((End - Start).TotalDays + 1) >= DaysNumber || ((End - Start).TotalDays  == 0 && DaysNumber == 1))
+                    if(Start.HasValue && End.HasValue)
                     {
-                        return null;
+                        if ((((DateTime)End - (DateTime)Start).TotalDays + 1) >= int.Parse(DaysNumber) || (((DateTime)End - (DateTime)Start).TotalDays == 0 && int.Parse(DaysNumber) == 1))
+                        {
+                            return null;
+                        }
+                        else
+                        {
+                            return $"Start-end date range must be greater than number of days.";
+                        }
+
                     }
-                    else
-                    {
-                        return $"Start-end date range must be greater than number of days.";
-                    }
+                    return null;
                 }
 
                 return null;
@@ -248,7 +261,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 if (result == MessageBoxResult.Yes)
                 {
                     _accommodationReservationService.Add(new AccommodationReservation(SelectedReservation));
-                    _titleService.UpdateSuperGuestTitle(_accommodationReservationService ,Guest);
+                    _titleService.UpdateSuperGuestTitle(_accommodationReservationService, Guest);
                     //UpdateAvailableReservations();
                     _navigationService.Navigate(new ReservationsViewModel(Guest, _navigationService, 0), "My Reservations");
                 }
@@ -264,28 +277,18 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         }
         private void UpdateAvailableReservations()
         {
-            AvailableReservations = _accommodationReservationService.GetAvailableReservations(Accommodation, Guest, Start, End, DaysNumber, int.Parse(GuestsNumber));
-            if (AvailableReservations.Count == 0)
-            {
-                SuggestionText = "There are no available reservations for the selected dates, here are a few recommendations for dates close to the selected ones";
-                AvailableReservations = _accommodationReservationService.GetSuggestedAvailableReservations(Accommodation, Guest, Start, End, DaysNumber, int.Parse(GuestsNumber));
-            }
-            else
-            {
-                SuggestionText = "Available reservations for the selected days";
-            }
+            AvailableReservations = _accommodationReservationService.GetAvailableReservationsForAllAccommodations(_accommodationService, Guest, Start, End, int.Parse(DaysNumber), int.Parse(GuestsNumber));
+            SuggestionText = "Available reservations";
         }
-
-        public void ExecutedBackCommand(object obj)
+        public void ExecutedShowImagesCommand(object obj)
         {
-            _navigationService.NavigateBack();
+            if (SelectedReservation != null)
+            {
+                _navigationService.Navigate(new AccommodationImagesViewModel(SelectedReservation.Accommodation, _navigationService), "Accommodation Images");
+            }
         }
 
         public bool CanExecute(object obj)
-        {
-            return true;
-        }
-        public bool CanBackExecute(object obj)
         {
             return true;
         }
@@ -293,7 +296,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             ReserveAccommodationCommand = new RelayCommand(ExecutedReserveAccommodationCommand, CanExecute);
             SearchCommand = new RelayCommand(ExecutedSearchCommand, CanExecute);
-            BackCommand = new RelayCommand(ExecutedBackCommand, CanBackExecute);
+            ShowImagesCommand = new RelayCommand(ExecutedShowImagesCommand, CanExecute);
         }
     }
 }

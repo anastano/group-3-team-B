@@ -177,6 +177,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             }
             else if (SelectedItem == 3)
             {
+                _navigationService.Navigate(new QuickReserveViewModel(Guest, _navigationService), "Quick Reserve");
+                SelectedItem = -1;
                 CustomizeGridSize();
             }
             else if (SelectedItem == 4)

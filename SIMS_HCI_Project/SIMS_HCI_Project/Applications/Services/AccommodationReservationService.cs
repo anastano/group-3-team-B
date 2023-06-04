@@ -94,6 +94,35 @@ namespace SIMS_HCI_Project.Applications.Services
             notificationService.Add(new Notification(Message, reservation.Accommodation.OwnerId, false));
             _reservationRepository.EditStatus(reservation.Id, AccommodationReservationStatus.CANCELLED);
         }
+        public List<AccommodationReservation> GetAvailableReservationsForAllAccommodations(AccommodationService acommodationService, Guest1 guest, DateTime? start, DateTime? end, int daysNumber, int guestsNumber)
+        {
+            List<AccommodationReservation> availableReservations = new List<AccommodationReservation>();
+            if (start.HasValue && end.HasValue)
+            {
+                foreach(Accommodation accommodation in acommodationService.GetAll())
+                {
+                    if(accommodation.MinimumReservationDays <= daysNumber && accommodation.MaxGuests >= guestsNumber)
+                    {
+                        availableReservations.AddRange(GetAvailableReservations(accommodation, guest, (DateTime)start, (DateTime)end, daysNumber, guestsNumber));
+                    }
+
+                }
+
+            }
+            else
+            {
+                foreach (Accommodation accommodation in acommodationService.GetAll())
+                {
+                    if (accommodation.MinimumReservationDays <= daysNumber && accommodation.MaxGuests >= guestsNumber)
+                    {
+                        availableReservations.AddRange(GetAvailableReservations(accommodation, guest, DateTime.Today.AddDays(1), (DateTime.Today.AddDays(daysNumber + 30)), daysNumber, guestsNumber));
+                    }
+
+                }
+
+            }
+            return availableReservations;
+        }
         public List<AccommodationReservation> GetAvailableReservations(Accommodation accommodation, Guest1 guest, DateTime start, DateTime end, int daysNumber, int guestsNumber)
         {
             List<AccommodationReservation> availableReservations = new List<AccommodationReservation>();

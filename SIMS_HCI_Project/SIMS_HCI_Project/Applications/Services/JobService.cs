@@ -26,7 +26,7 @@ namespace SIMS_HCI_Project.Applications.Services
 
         public void GuideResign(Guide guide)
         {
-            guide.ActiveAccount = false;
+            guide.AccountActive = false;
             _userRepository.Update(guide);
 
             foreach(Tour tour in guide.AllTours)

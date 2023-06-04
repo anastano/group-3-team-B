@@ -11,6 +11,6 @@ namespace SIMS_HCI_Project.Repositories
         bool CheckIfUsernameExists(string username);
 
         void Add(User newUser);
-        void Update(User user)
+        void Update(User user);
     }
 }

@@ -23,6 +23,7 @@ namespace SIMS_HCI_Project.Domain.Models
             Surname = user.Surname;
             Age = user.Age;
             Role = user.Role;
+            AccountActive = user.AccountActive;
         }
 
         public bool HasTourInProgress()
@@ -32,6 +33,8 @@ namespace SIMS_HCI_Project.Domain.Models
 
         public TourTime GetActiveTour()
         {
+            if (TodaysTours == null) return null;
+
             return TodaysTours.Find(t => t.IsInProgress);
         }
     }

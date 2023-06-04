@@ -21,7 +21,7 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             User user = _userRepository.GetByUsername(username);
 
-            if (user == null || password != user.Password) return null; // [Update] separate to return some Sucess DTO holding User info and Error info, to indicate what went wrong
+            if (user == null || password != user.Password || !user.AccountActive) return null; // [Update] separate to return some Sucess DTO holding User info and Error info, to indicate what went wrong
 
             return user;
         }

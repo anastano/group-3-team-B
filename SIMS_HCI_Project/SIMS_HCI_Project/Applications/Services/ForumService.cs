@@ -38,7 +38,18 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             _forumRepository.CloseForum(id);
         }
-
+        public void FillUsefulFlag()
+        {
+            foreach (Forum forum in _forumRepository.GetAll())
+            {
+                forum.IsUseful = false ;
+            }
+        }
+        public bool IsForumUSeful(Forum forum)
+        {
+            //foreach (ForumComment comment in _)
+            return false;
+        }
         /*public void Add(Notification notification)
         {
             _forumRepository.Add(notification);

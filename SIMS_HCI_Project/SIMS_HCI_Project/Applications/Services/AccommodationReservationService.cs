@@ -85,7 +85,7 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             foreach (AccommodationReservation reservation in _reservationRepository.GetAll())
             {
-                reservation.isRated = ratingGivenByGuestService.IsReservationRated(reservation.Id);
+                reservation.IsRated = ratingGivenByGuestService.IsReservationRated(reservation.Id);
             }
         }
         public void CancelReservation(NotificationService notificationService, AccommodationReservation reservation)

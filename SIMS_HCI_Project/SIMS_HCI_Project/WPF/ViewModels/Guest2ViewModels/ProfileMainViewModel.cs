@@ -169,36 +169,40 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
         private void ExecuteGenerateVoucherReport(object obj)
         {
+            string date = DateTime.Now.ToShortDateString();
+
             Document document = new Document();
-            PdfWriter pdfWriter = PdfWriter.GetInstance(document, new FileStream("VoucherReport.pdf", FileMode.Create));
+            PdfWriter pdfWriter = PdfWriter.GetInstance(document, new FileStream("VoucherReport_" + Guest.Name + "_" + Guest.Surname + "_" +date +".pdf", FileMode.Create));
             document.Open();
 
-            Paragraph guestInfo = new Paragraph("Guest Information");
-            guestInfo.Alignment = Element.ALIGN_CENTER;
-            guestInfo.SpacingAfter = 5f;
-            guestInfo.Font = FontFactory.GetFont(FontFactory.HELVETICA, 15);
-            document.Add(guestInfo);
-
-            Paragraph guestName = new Paragraph("Name: " + Guest.Name);
+            Paragraph guestName = new Paragraph("Guest: " + Guest.Name + " " + Guest.Surname);
             guestName.Alignment = Element.ALIGN_LEFT;
             guestName.SpacingAfter = 2f;
             guestName.SpacingBefore = 5f;
             guestName.Font = FontFactory.GetFont(FontFactory.HELVETICA, 13);
             document.Add(guestName);
 
-            Paragraph guestIdParagraph = new Paragraph("Guest ID: " + Guest.Id);
-            guestIdParagraph.Alignment = Element.ALIGN_LEFT;
-            guestIdParagraph.SpacingAfter = 20f;
-            guestIdParagraph.Font = FontFactory.GetFont(FontFactory.HELVETICA, 13);
-            document.Add(guestIdParagraph);
+            Paragraph creationDate = new Paragraph("Date: " + date);
+            creationDate.Alignment = Element.ALIGN_LEFT;
+            creationDate.SpacingAfter = 20f;
+            creationDate.Font = FontFactory.GetFont(FontFactory.HELVETICA, 13);
+            document.Add(creationDate);
 
-            Paragraph voucherInfo = new Paragraph("Voucher Report");
+            Paragraph text = new Paragraph("You can see a report of all currently valid tourist vouchers for the guest " + Guest.Name + " " + Guest.Surname + ".");
+            text.Alignment = Element.ALIGN_LEFT;
+            text.SpacingAfter = 2f;
+            text.SpacingBefore = 5f;
+            text.Font = FontFactory.GetFont(FontFactory.HELVETICA, 13);
+            document.Add(text);
+
+            Paragraph voucherInfo = new Paragraph("Voucher report");
             voucherInfo.Alignment = Element.ALIGN_CENTER;
             voucherInfo.SpacingBefore = 25f;
-            voucherInfo.Font = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 15);
+            voucherInfo.SpacingAfter = 5f;
+            voucherInfo.Font = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 17);
             document.Add(voucherInfo);
 
-            float[] widths = { 10, 20, 20, 20, 20 };
+            float[] widths = { 20, 20, 20, 20, 20 };
             PdfPTable table = new PdfPTable(widths);
             table.DefaultCell.FixedHeight = 38f;
 
@@ -271,34 +275,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             document.Add(table);
             document.Close();
 
-            MessageBox.Show("Report created.");
+            MessageBox.Show("Report successfully created.");
         }
 
-
-        //public void MakeNotificationsForAttendanceConfirmation() //delete, not used here
-        //{
-        //    //move to where guide sends invitaton
-        //    Attendances = _guestTourAttendanceService.GetWithConfirmationRequestedStatus(Guest.Id);
-        //    foreach (GuestTourAttendance attendance in Attendances)
-        //    {
-        //        if (_notificationService.GetAll().Select(n => n.Message).ToList().Contains(attendance.TourReservation.TourTimeId.ToString()) == false)
-        //        {
-
-        //            string Message = "You have request to confirm your attendance for tour with id: [" + attendance.TourReservation.TourTimeId + "].";
-        //            _notificationService.Add(new Notification(Message, Guest.Id, false, NotificationType.CONFIRM_ATTENDANCE));
-        //        }
-        //    }
-        //}
-        //public void makeNotifPls() //delete, not used here
-        //{
-        //    foreach (TourReservation reservation in Reservations)
-        //    {
-        //        if (reservation.TourTime.Status == TourStatus.IN_PROGRESS)
-        //        {
-        //            string Message = "You have request to confirm your attendance for tour with id: [" + reservation.TourTimeId + "].";
-        //            _notificationService.Add(new Notification(Message, Guest.Id, false, NotificationType.CONFIRM_ATTENDANCE));
-        //        }
-        //    }
-        //}
     }
 }

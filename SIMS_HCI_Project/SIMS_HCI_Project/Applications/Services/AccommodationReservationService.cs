@@ -97,27 +97,17 @@ namespace SIMS_HCI_Project.Applications.Services
         public List<AccommodationReservation> GetAvailableReservationsForAllAccommodations(AccommodationService acommodationService, Guest1 guest, DateTime? start, DateTime? end, int daysNumber, int guestsNumber)
         {
             List<AccommodationReservation> availableReservations = new List<AccommodationReservation>();
-            if (start.HasValue && end.HasValue)
+            if (!(start.HasValue && end.HasValue))
             {
-                foreach(Accommodation accommodation in acommodationService.GetAll())
-                {
-                    if(accommodation.MinimumReservationDays <= daysNumber && accommodation.MaxGuests >= guestsNumber)
-                    {
-                        availableReservations.AddRange(GetAvailableReservations(accommodation, guest, (DateTime)start, (DateTime)end, daysNumber, guestsNumber));
-                    }
-
-                }
-
+                start = DateTime.Today.AddDays(1);
+                end = (DateTime.Today.AddDays(daysNumber + 30));
             }
-            else
-            {
-                foreach (Accommodation accommodation in acommodationService.GetAll())
-                {
-                    if (accommodation.MinimumReservationDays <= daysNumber && accommodation.MaxGuests >= guestsNumber)
-                    {
-                        availableReservations.AddRange(GetAvailableReservations(accommodation, guest, DateTime.Today.AddDays(1), (DateTime.Today.AddDays(daysNumber + 30)), daysNumber, guestsNumber));
-                    }
 
+            foreach(Accommodation accommodation in acommodationService.GetAll())
+            {
+                if (accommodation.CanReserveAccommodation(daysNumber, guestsNumber))
+                {
+                    availableReservations.AddRange(GetAvailableReservations(accommodation, guest, (DateTime)start, (DateTime)end, daysNumber, guestsNumber));
                 }
 
             }

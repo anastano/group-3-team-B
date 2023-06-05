@@ -25,6 +25,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public ObservableCollection<Forum> OtherForums { get; set; }
         public RelayCommand ShowMoreCommand { get; set; }
         public RelayCommand CloseForumCommand { get; set; }
+        public RelayCommand CreateForumCommand { get; set; }
         private int _selectedTabIndex;
         public int SelectedTabIndex
         {
@@ -91,6 +92,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
+        public void ExecutedCreateForumCommand(object obj)
+        {
+            _navigationService.Navigate(new ForumCreateViewModel(Guest, _navigationService), "Create new forum");          
+        }
         public bool CanExecute(object obj)
         {
             return true;
@@ -99,6 +104,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             ShowMoreCommand = new RelayCommand(ExecutedShowMoreCommand, CanExecute);
             CloseForumCommand = new RelayCommand(ExecutedCloseForumCommand, CanExecute);
+            CreateForumCommand = new RelayCommand(ExecutedCreateForumCommand, CanExecute);
         }
         public void UpdateForums()
         {

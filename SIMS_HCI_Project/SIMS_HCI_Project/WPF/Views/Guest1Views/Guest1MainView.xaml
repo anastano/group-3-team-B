@@ -166,6 +166,9 @@
                 <DataTemplate DataType="{x:Type viewmodels:QuickReserveViewModel}">
                     <views:QuickReserveView/>
                 </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:ForumCreateViewModel}">
+                    <views:ForumCreateView/>
+                </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>
     </Grid>

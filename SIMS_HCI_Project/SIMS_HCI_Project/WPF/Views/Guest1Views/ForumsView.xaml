@@ -110,7 +110,10 @@
                 </DataGrid>
             </TabItem>
             <TabItem Header="My Forums" Style="{StaticResource CustomTabItemStyle}" >
-                <DataGrid ItemsSource="{Binding Path=GuestForums, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="25" AutoGenerateColumns="False" IsReadOnly="True"
+                <StackPanel Orientation="Vertical">
+                    <Button Style="{StaticResource GuestButtonStyle}" Content="Create forum" Width="120" HorizontalAlignment="Right" Margin="0, 15, 25, 0"
+                            Command="{Binding DataContext.CreateForumCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"></Button>
+                    <DataGrid ItemsSource="{Binding Path=GuestForums, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="25" AutoGenerateColumns="False" IsReadOnly="True"
                           SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}" GridLinesVisibility="Horizontal" RowHeight="100" 
                            Style="{StaticResource GuestDatagridStyle}"
                   ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}" CellStyle="{StaticResource GuestDatagridCellStyle}"
@@ -186,6 +189,7 @@
                         </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
+                </StackPanel>
             </TabItem>
         </TabControl>
     </Grid>

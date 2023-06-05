@@ -77,5 +77,9 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _locations.FindAll(l => l.Country == country).Select(l => l.City ).ToList();
         }
+        public Location GetLocation(String country, String city)
+        {
+            return _locations.Find(l => (l.Country == country && l.City == city));
+        }
     }
 }

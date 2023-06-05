@@ -33,5 +33,9 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return _locationRepository.GetCitiesByCountry(country);
         }
+        public Location GetLocation(String country, String city)
+        {
+            return _locationRepository.GetLocation(country, city);
+        }
     }
 }

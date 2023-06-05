@@ -180,6 +180,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             }
             else
             {
+                //rijesiti kako za komentar
+                _forumService.Add(new Forum(Guest, _locationService.GetLocation(SelectedCountry, SelectedCity)));
                 _navigationService.Navigate(new ForumsViewModel(Guest, _navigationService, 1), "Forums");
             }
             

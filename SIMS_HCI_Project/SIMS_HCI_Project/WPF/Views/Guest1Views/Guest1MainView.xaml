@@ -169,6 +169,9 @@
                 <DataTemplate DataType="{x:Type viewmodels:ForumCreateViewModel}">
                     <views:ForumCreateView/>
                 </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:ForumViewModel}">
+                    <views:ForumView/>
+                </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>
     </Grid>

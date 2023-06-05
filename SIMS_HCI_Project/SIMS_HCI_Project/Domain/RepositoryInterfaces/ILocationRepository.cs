@@ -13,5 +13,6 @@ namespace SIMS_HCI_Project.Repositories
         List<String> GetAllCountries();
         List<String> GetAllCities();
         List<String> GetCitiesByCountry(String country);
+        Location GetLocation(String country, String city);
     }
 }

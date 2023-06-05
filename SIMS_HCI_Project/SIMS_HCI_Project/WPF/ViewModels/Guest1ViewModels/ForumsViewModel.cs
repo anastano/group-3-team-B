@@ -69,15 +69,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         }
         public void ExecutedShowMoreCommand(object obj)
         {
-            /*if (result == MessageBoxResult.Yes)
-            {
-                _reservationService.CancelReservation(_notificationService, SelectedReservation);
-                Update();
-            }
-            if (SelectedReservation != null)
-            {
-                _navigationService.Navigate(new RatingReservationViewModel(SelectedReservation, _navigationService), "Review");
-            }*/
+            _navigationService.Navigate(new ForumViewModel(Guest, _navigationService, SelectedForum.Id, SelectedTabIndex), "Forum");
         }
         public void ExecutedCloseForumCommand(object obj)
         {

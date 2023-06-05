@@ -10,6 +10,9 @@
     <UserControl.Background>
         <ImageBrush ImageSource="../../../Resources/Images/wallpaper.jpg"/>
     </UserControl.Background>
+    <UserControl.Resources>
+        <local1:ErrorVisibilityConverter x:Key="ErrorVisibilityConverter" />
+    </UserControl.Resources>
     <Grid>
         <StackPanel Orientation="Vertical">
             <Label Content="User" Style="{StaticResource GuestLabelStyle}" HorizontalAlignment="Center" Margin="0 110 0 0" Width="280"></Label>
@@ -31,7 +34,7 @@
             <TextBox Text="{Binding Path = Comment, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Width="280"
              Style="{StaticResource GuestTextBoxStyle}" Height="130" Margin="0 0 0 20">
             </TextBox>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="280" Visibility="{Binding IsErrorVisible, Converter={local1:ErrorVisibilityConverter }}">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="280" Visibility="{Binding IsErrorVisible, Converter={StaticResource ErrorVisibilityConverter}}">
                 <Image Source="../../../Resources/Images/warning.png" Width="18" Height="18" Margin="0, 0, 10, 0"  />
                 <Label Content="{Binding Path = ErrorMessage, UpdateSourceTrigger=PropertyChanged}" Foreground="Red"
                    Style="{StaticResource GuestLabelStyle}" Width="251"/>

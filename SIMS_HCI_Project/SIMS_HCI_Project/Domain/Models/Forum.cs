@@ -29,5 +29,14 @@ namespace SIMS_HCI_Project.Domain.Models
             IsRenovated = false;
             */
         }
+        public Forum(User user, Location location)
+        {
+            UserId = user.Id;
+            User = user;
+            LocationId = location.Id;
+            Location = location;
+            Status = ForumStatus.ACTIVE;
+            IsUseful = false;
+        }
     }
 }

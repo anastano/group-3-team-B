@@ -38,6 +38,10 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             _forumRepository.CloseForum(id);
         }
+        public void Add(Forum forum)
+        {
+            _forumRepository.Add(forum);
+        }
         public void FillUsefulFlag()
         {
             foreach (Forum forum in _forumRepository.GetAll())

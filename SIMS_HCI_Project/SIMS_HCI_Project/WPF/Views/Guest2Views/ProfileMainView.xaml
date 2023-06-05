@@ -3,13 +3,24 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
+
       xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest2Views"
       mc:Ignorable="d" 
       d:DesignHeight="518" d:DesignWidth="912"
       Title="ProfileMainView">
-
+    
     <Page.Resources>
-        <ResourceDictionary>
+        <converters:FullNameConverter x:Key="FullNameConverter" />
+
+        <!--label-->
+        <Style x:Key="Guest2LabelStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Margin" Value="0 0 0 0"/>
+        </Style>
+        <ResourceDictionary x:Key="Guest2Styles">
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Styles/Guest2Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
@@ -17,11 +28,7 @@
     </Page.Resources>
 
     <Grid>
-
-
-
         <!--Active tours-->
-        <!--<Border BorderThickness="2" CornerRadius="15" BorderBrush="Orange" Margin="0,22,0,376"/>-->
         <Label Content="Active tours:" Style="{StaticResource Guest2LabelStyle}" Foreground="Orange" FontSize="15" HorizontalAlignment="Left" Margin="10,23,0,470" Width="151"/>
         <DataGrid x:Name="dgActiveTours"  
                   ItemsSource="{Binding ActiveTours, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedActiveReservation, UpdateSourceTrigger=PropertyChanged}"
@@ -29,27 +36,31 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="30"/>
                 <DataGridTextColumn Header="Title" Binding="{Binding TourTime.Tour.Title}" Width="110"/>
-                <DataGridTextColumn Header="TTid" Binding="{Binding TourTime.Id}" Width="30"/>
                 <DataGridTextColumn Header="Country" Binding="{Binding TourTime.Tour.Location.Country}" Width="110"/>
                 <DataGridTextColumn Header="City" Binding="{Binding TourTime.Tour.Location.City}" Width="110"/>
                 <DataGridTextColumn Header="Language" Binding="{Binding TourTime.Tour.Language}" Width="90"/>
                 <DataGridTextColumn Header="Duration" Binding="{Binding TourTime.Tour.Duration}" Width="55"/>
                 <DataGridTextColumn Header="Party size" Binding="{Binding PartySize}" Width="60"/>
                 <DataGridTextColumn Header="Tour status" Binding="{Binding TourTime.Status}" Width="80"/>
-                <DataGridTextColumn Header="Guide" Binding="{Binding TourTime.Tour.GuideId}" Width="50"/>
-                <DataGridTextColumn Header="Current Key Point" Binding="{Binding TourTime.CurrentKeyPoint.Title}" Width="150"/>
+                <DataGridTextColumn Header="Guide" Width="120">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding Converter="{StaticResource FullNameConverter}">
+                            <Binding Path="TourTime.Tour.Guide.Name" />
+                            <Binding Path="TourTime.Tour.Guide.Surname" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Current Key Point" Binding="{Binding TourTime.CurrentKeyPoint.Title}" Width="*"/>
 
                 
             </DataGrid.Columns>
         </DataGrid>
 
         <!--My reservations-->
-        <!--<Border BorderThickness="2" CornerRadius="15" BorderBrush="Orange" Margin="0,147,0,190"/>-->
-
         <Label Content="My reserved tours:" HorizontalAlignment="Left" Foreground="Orange" FontSize="15" Style="{StaticResource Guest2LabelStyle}" Margin="10,151,0,341" Width="151"/>
         <DataGrid x:Name="dgReservedTours" 
                   ItemsSource="{Binding Reservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedTourReservation, UpdateSourceTrigger=PropertyChanged}"
-                  IsReadOnly="True" AutoGenerateColumns="False" Margin="10,177,10,195">
+                  IsReadOnly="True" AutoGenerateColumns="False" Margin="10,177,10,195" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="30"/>
                 <DataGridTextColumn Header="Title" Binding="{Binding TourTime.Tour.Title}" Width="110"/>
@@ -59,25 +70,17 @@
                 <DataGridTextColumn Header="Duration" Binding="{Binding TourTime.Tour.Duration}" Width="55"/>
                 <DataGridTextColumn Header="Party size" Binding="{Binding PartySize}" Width="60"/>
                 <DataGridTextColumn Header="Tour status" Binding="{Binding TourTime.Status}" Width="80"/>
-                <DataGridTextColumn Header="Reservation status" Binding="{Binding Status}" Width="105"/>
-                <DataGridTextColumn Header="Guide" Binding="{Binding TourTime.Tour.GuideId}" Width="50"/>
+                <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="50"/>
+                <DataGridTextColumn Header="Guide" Width="110">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding Converter="{StaticResource FullNameConverter}">
+                            <Binding Path="TourTime.Tour.Guide.Name" />
+                            <Binding Path="TourTime.Tour.Guide.Surname" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="Voucher" Binding="{Binding TourVoucher.Title}" Width="80"/>
 
-
-                <!--<DataGridTemplateColumn Header="Images" Width="*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="Images" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Cancel" Width="*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Content="Cancel" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>-->
             </DataGrid.Columns>
         </DataGrid>
 
@@ -98,7 +101,11 @@
         <Label Style="{StaticResource Guest2LabelStyle}" Foreground="Orange" FontWeight="Heavy" Content="Notifications:" FontSize="14"  Margin="642,333,160,150" />
         <Label Content="{Binding UnreadNotificationsMessage}" FontSize="15" Style="{StaticResource Guest2LabelStyle}" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="523,382,0,62" RenderTransformOrigin="0.5,0.5" Width="320" Height="Auto"/>
         <Button Content="SHOW DETAILS" Command="{Binding ShowNotificationsCommand}" HorizontalAlignment="Left" Margin="523,470,0,0" VerticalAlignment="Top" Height="38" Width="322" Background="Orange"/>
-        <Button Content="GENERATE REPORT" HorizontalAlignment="Left" Margin="59,470,0,0" VerticalAlignment="Top" Height="38" Width="350" Background="Orange"/>
+        <Button Content="DOWNLOAD PDF REPORT" Command="{Binding DownloadPDFReportCommand}" HorizontalAlignment="Left" Margin="59,470,0,0" VerticalAlignment="Top" Height="38" Width="350" Background="Orange">
+            <Button.ToolTip>
+                Generate PDF report about all currently valid vouchers
+            </Button.ToolTip>
+        </Button>
 
 
 

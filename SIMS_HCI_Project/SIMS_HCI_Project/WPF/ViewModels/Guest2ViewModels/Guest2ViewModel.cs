@@ -23,10 +23,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels      //main window wi
         public RelayCommand Profile { get; set; }
         public RelayCommand Logout { get; set; }
 
-        public Guest2ViewModel()
-        {
+        //public Guest2ViewModel()
+        //{
 
-        }
+        //}
 
         public Guest2ViewModel(NavigationService navigationService, Guest2 guest2, Guest2View guest2View)
         {

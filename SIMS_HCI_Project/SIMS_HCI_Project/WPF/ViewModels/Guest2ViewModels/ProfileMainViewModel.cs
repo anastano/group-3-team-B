@@ -12,6 +12,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Navigation;
+using iTextSharp.text.pdf;
+using iTextSharp.text;
+using System.IO;
+using iTextSharp.text.pdf.draw;
+using System.Windows;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 {
@@ -99,6 +104,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public Frame ProfileFrame { get; set; }
         #region Commands
         public RelayCommand ShowNotificationsCommand { get; set; }
+        public RelayCommand DownloadPDFReportCommand { get; set; }
         //TODO HELP CMD
 
         #endregion
@@ -147,7 +153,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
         private void InitCommands()
         {
-            ShowNotificationsCommand = new RelayCommand(ExecuteShowNotifications, CanExecute);    
+            ShowNotificationsCommand = new RelayCommand(ExecuteShowNotifications, CanExecute);
+            DownloadPDFReportCommand = new RelayCommand(ExecuteGenerateVoucherReport, CanExecute);
         }
 
         private void ExecuteShowNotifications(object obj)
@@ -160,30 +167,138 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             return true;
         }
 
-        public void MakeNotificationsForAttendanceConfirmation() //delete, not used here
+        private void ExecuteGenerateVoucherReport(object obj)
         {
-            //move to where guide sends invitaton
-            Attendances = _guestTourAttendanceService.GetWithConfirmationRequestedStatus(Guest.Id);
-            foreach (GuestTourAttendance attendance in Attendances)
-            {
-                if (_notificationService.GetAll().Select(n => n.Message).ToList().Contains(attendance.TourReservation.TourTimeId.ToString()) == false)
-                {
+            Document document = new Document();
+            PdfWriter pdfWriter = PdfWriter.GetInstance(document, new FileStream("VoucherReport.pdf", FileMode.Create));
+            document.Open();
 
-                    string Message = "You have request to confirm your attendance for tour with id: [" + attendance.TourReservation.TourTimeId + "].";
-                    _notificationService.Add(new Notification(Message, Guest.Id, false, NotificationType.CONFIRM_ATTENDANCE));
-                }
-            }
-        }
-        public void makeNotifPls() //delete, not used here
-        {
-            foreach (TourReservation reservation in Reservations)
+            Paragraph guestInfo = new Paragraph("Guest Information");
+            guestInfo.Alignment = Element.ALIGN_CENTER;
+            guestInfo.SpacingAfter = 5f;
+            guestInfo.Font = FontFactory.GetFont(FontFactory.HELVETICA, 15);
+            document.Add(guestInfo);
+
+            Paragraph guestName = new Paragraph("Name: " + Guest.Name);
+            guestName.Alignment = Element.ALIGN_LEFT;
+            guestName.SpacingAfter = 2f;
+            guestName.SpacingBefore = 5f;
+            guestName.Font = FontFactory.GetFont(FontFactory.HELVETICA, 13);
+            document.Add(guestName);
+
+            Paragraph guestIdParagraph = new Paragraph("Guest ID: " + Guest.Id);
+            guestIdParagraph.Alignment = Element.ALIGN_LEFT;
+            guestIdParagraph.SpacingAfter = 20f;
+            guestIdParagraph.Font = FontFactory.GetFont(FontFactory.HELVETICA, 13);
+            document.Add(guestIdParagraph);
+
+            Paragraph voucherInfo = new Paragraph("Voucher Report");
+            voucherInfo.Alignment = Element.ALIGN_CENTER;
+            voucherInfo.SpacingBefore = 25f;
+            voucherInfo.Font = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 15);
+            document.Add(voucherInfo);
+
+            float[] widths = { 10, 20, 20, 20, 20 };
+            PdfPTable table = new PdfPTable(widths);
+            table.DefaultCell.FixedHeight = 38f;
+
+            PdfPCell header1 = new PdfPCell(new Phrase("Voucher ID"));
+            header1.HorizontalAlignment = Element.ALIGN_CENTER;
+            header1.VerticalAlignment = Element.ALIGN_MIDDLE;
+            header1.FixedHeight = 40f;
+
+            PdfPCell header2 = new PdfPCell(new Phrase("Title"));
+            header2.HorizontalAlignment = Element.ALIGN_CENTER;
+            header2.VerticalAlignment = Element.ALIGN_MIDDLE;
+            header2.FixedHeight = 40f;
+
+            PdfPCell header3 = new PdfPCell(new Phrase("Acquired Date"));
+            header3.HorizontalAlignment = Element.ALIGN_CENTER;
+            header3.VerticalAlignment = Element.ALIGN_MIDDLE;
+            header3.FixedHeight = 40f;
+
+            PdfPCell header4 = new PdfPCell(new Phrase("Expiration Date"));
+            header4.HorizontalAlignment = Element.ALIGN_CENTER;
+            header4.VerticalAlignment = Element.ALIGN_MIDDLE;
+            header4.FixedHeight = 40f;
+
+            PdfPCell header5 = new PdfPCell(new Phrase("Status"));
+            header5.HorizontalAlignment = Element.ALIGN_CENTER;
+            header5.VerticalAlignment = Element.ALIGN_MIDDLE;
+            header5.FixedHeight = 40f;
+
+            table.AddCell(header1);
+            table.AddCell(header2);
+            table.AddCell(header3);
+            table.AddCell(header4);
+            table.AddCell(header5);
+
+            
+             foreach (TourVoucher voucher in Vouchers)
             {
-                if (reservation.TourTime.Status == TourStatus.IN_PROGRESS)
-                {
-                    string Message = "You have request to confirm your attendance for tour with id: [" + reservation.TourTimeId + "].";
-                    _notificationService.Add(new Notification(Message, Guest.Id, false, NotificationType.CONFIRM_ATTENDANCE));
-                }
+                PdfPCell voucherIdCell = new PdfPCell(new Phrase(voucher.Id.ToString()));
+                voucherIdCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                voucherIdCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                voucherIdCell.FixedHeight = 38f;
+
+                PdfPCell titleCell = new PdfPCell(new Phrase(voucher.Title));
+                titleCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                titleCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                titleCell.FixedHeight = 38f;
+
+                PdfPCell acquiredDateCell = new PdfPCell(new Phrase(voucher.AquiredDate.ToString()));
+                acquiredDateCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                acquiredDateCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                acquiredDateCell.FixedHeight = 38f;
+
+                PdfPCell expirationDateCell = new PdfPCell(new Phrase(voucher.ExpirationDate.ToString()));
+                expirationDateCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                expirationDateCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                expirationDateCell.FixedHeight = 38f;
+
+                PdfPCell statusCell = new PdfPCell(new Phrase(voucher.Status.ToString()));
+                statusCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                statusCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                statusCell.FixedHeight = 38f;
+
+                table.AddCell(voucherIdCell);
+                table.AddCell(titleCell);
+                table.AddCell(acquiredDateCell);
+                table.AddCell(expirationDateCell);
+                table.AddCell(statusCell);
             }
+
+            document.Add(table);
+            document.Close();
+
+            MessageBox.Show("Report created.");
         }
+
+
+        //public void MakeNotificationsForAttendanceConfirmation() //delete, not used here
+        //{
+        //    //move to where guide sends invitaton
+        //    Attendances = _guestTourAttendanceService.GetWithConfirmationRequestedStatus(Guest.Id);
+        //    foreach (GuestTourAttendance attendance in Attendances)
+        //    {
+        //        if (_notificationService.GetAll().Select(n => n.Message).ToList().Contains(attendance.TourReservation.TourTimeId.ToString()) == false)
+        //        {
+
+        //            string Message = "You have request to confirm your attendance for tour with id: [" + attendance.TourReservation.TourTimeId + "].";
+        //            _notificationService.Add(new Notification(Message, Guest.Id, false, NotificationType.CONFIRM_ATTENDANCE));
+        //        }
+        //    }
+        //}
+        //public void makeNotifPls() //delete, not used here
+        //{
+        //    foreach (TourReservation reservation in Reservations)
+        //    {
+        //        if (reservation.TourTime.Status == TourStatus.IN_PROGRESS)
+        //        {
+        //            string Message = "You have request to confirm your attendance for tour with id: [" + reservation.TourTimeId + "].";
+        //            _notificationService.Add(new Notification(Message, Guest.Id, false, NotificationType.CONFIRM_ATTENDANCE));
+        //        }
+        //    }
+        //}
     }
 }

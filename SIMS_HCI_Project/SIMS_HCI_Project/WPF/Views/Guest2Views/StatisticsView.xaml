@@ -85,7 +85,7 @@
                 <lvc:Axis Title="Number of Requests" />
             </lvc:CartesianChart.AxisY>
         </lvc:CartesianChart>
-        <Label Content="Ratio of the number of requests to the language:" Foreground="Orange" FontSize="14" HorizontalAlignment="Left" Margin="10,283,0,0" VerticalAlignment="Top" Width="353" Height="34"/>
+        <Label Content="Ratio of the number of requests to the languages:" Foreground="Orange" FontSize="14" HorizontalAlignment="Left" Margin="10,283,0,0" VerticalAlignment="Top" Width="353" Height="34"/>
 
         <!--requests grouped by locations-->
         <lvc:CartesianChart Margin="540,318,74,24" >

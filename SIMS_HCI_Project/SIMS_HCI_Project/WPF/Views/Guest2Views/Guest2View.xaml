@@ -79,9 +79,16 @@
                         </Button>
                     </Grid>
                 </Border>
-                <Button Width="50" Background="Black" Command="{Binding Logout}" HorizontalAlignment="Right">
+                <Button Width="60" Command="{Binding Logout}" HorizontalAlignment="Right">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Tomato" Offset="0"/>
+                            <GradientStop Color="Orange" Offset="0.5"/>
+                            <GradientStop Color="#FFE0E21D" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
                     <StackPanel>
-                        <TextBlock Text="logout" Foreground="White"  FontSize="15"/>
+                        <TextBlock Text="LOG&#x0a;OUT" Foreground="White"  FontSize="15" Width="34"/>
                     </StackPanel>
                 </Button>
             </DockPanel>

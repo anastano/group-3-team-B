@@ -23,7 +23,7 @@
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
                     <Setter Property="Foreground" Value="Black" />
-                    <Setter Property="Background" Value="#FFF3C879"/>
+                    <Setter Property="Background" Value="#FFA5A4A2"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -76,19 +76,7 @@
                   ItemsSource="{Binding Path=Tours, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding Path=SelectedTour, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False"  Margin="10,69,217,10" 
                   Style="{StaticResource Guest2DatagridStyle}" CellStyle="{StaticResource Guest2DatagridCellStyle}" >
-            <!--<DataGrid.Resources>
-                <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
-                    <Setter Property="Background" >
-                        <Setter.Value>
-                            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-                                <GradientStop Color="Tomato" Offset="0"/>
-                                <GradientStop Color="Orange" Offset="1"/>
-                            </LinearGradientBrush>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </DataGrid.Resources>-->
-
+            
             <DataGrid.Columns>
                 <DataGridTextColumn Header="id" Binding="{Binding Id}" Width="30"></DataGridTextColumn>
                 <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="110"></DataGridTextColumn>
@@ -129,13 +117,6 @@
 
 
             <Button Content="SEARCH" FontWeight="Medium" HorizontalAlignment="Right" Margin="0,428,22,0" VerticalAlignment="Top" RenderTransformOrigin="0.278,0.553" Command="{Binding SearchCommand}" Width="166" Height="32" FontSize="14" Background="Orange">
-                <!--<Button.Background>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="Tomato" Offset="0"/>
-                        <GradientStop Color="Orange" Offset="0.5"/>
-                        <GradientStop Color="#FFE0E21D" Offset="1"/>
-                    </LinearGradientBrush>
-                </Button.Background>-->
             </Button>
 
             <TextBlock  Text="Country:" Style="{StaticResource Guest2TextBlockStyle}" Margin="874,79,120,404" />
@@ -144,12 +125,12 @@
             <TextBlock HorizontalAlignment="Right" Margin="0,285,116,0" TextWrapping="Wrap" Text="Language:" Foreground="Beige" VerticalAlignment="Top" Height="34" Width="88"/>
             <TextBlock HorizontalAlignment="Right" Margin="0,363,53,0" TextWrapping="Wrap" Text="Minimal guest number:" Foreground="Beige" VerticalAlignment="Top" Height="43" Width="151"/>
 
-            <!--TextBlock  Text="Search and reserve tour:" Foreground="Beige" HorizontalAlignment="Center" Margin="0,10,0,0" TextWrapping="Wrap" FontSize="22" VerticalAlignment="Top" Height="38" Width="254"/-->
+            
             <Button Style="{StaticResource Guest2HelpBtn}" Command="{Binding HelpCommand}">
                 <Image x:Name="help" Source="../../../Resources/Images/help.png"/>
             </Button>
             <Label Content="Search and reserve" Style="{StaticResource Guest2Header1Style}" />
-            <Button Content="RESET" Background="Orange" Command="{Binding ResetSearchCommand}" HorizontalAlignment="Left" Margin="892,475,0,0" VerticalAlignment="Top" Height="32" Width="166" FontSize="14"/>
+            <Button Content="RESET" Background="Orange" Command="{Binding ResetSearchCommand}" HorizontalAlignment="Left" Margin="892,475,0,0" VerticalAlignment="Top" Height="32" Width="166" FontSize="14" FontWeight="Medium"/>
         </Grid>
 
     </Grid>

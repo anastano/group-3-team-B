@@ -80,7 +80,7 @@
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Foreground" Value="Black" />
-                <Setter Property="Background" Value="#FFF3C879"/>
+                <Setter Property="Background" Value="#FFA5A4A2"/>
             </Trigger>
         </Style.Triggers>
     </Style>

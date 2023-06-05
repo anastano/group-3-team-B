@@ -30,7 +30,7 @@
         <StackPanel Orientation="Vertical" Margin="264,57,264,55">
             <Image Source="{Binding Image}" Height="340" Width="557"/>
             <StackPanel Orientation="Horizontal" Height="63">
-                <Button Content="&lt;" FontSize="35" Command="{Binding DataContext.PreviousImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Width="278">
+                <Button Content="&lt;" FontSize="35" Command="{Binding DataContext.PreviousImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Width="278" Background="Orange">
                     <!--<Image x:Name="previous" Source="../../../Resources/Images/previous.png"/>-->
                     <Button.InputBindings>
                         <KeyBinding Key="Left" Command="{Binding DataContext.PreviousImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
@@ -38,7 +38,7 @@
                     <Button.ToolTip>Left arrow key</Button.ToolTip>
 
                 </Button>
-                <Button Content=">" FontSize="35" Command="{Binding DataContext.NextImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Width="272">
+                <Button Content=">" FontSize="35" Command="{Binding DataContext.NextImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Width="272" Background="Orange">
                     <Button.InputBindings>
                         <KeyBinding Key="Right" Command="{Binding DataContext.NextImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
                     </Button.InputBindings>

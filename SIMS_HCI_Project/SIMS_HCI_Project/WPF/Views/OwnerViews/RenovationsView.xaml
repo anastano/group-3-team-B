@@ -6,6 +6,13 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         mc:Ignorable="d"
         Title="RenovationsView" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+R" Command="{Binding AddRenovationCommand}"/>
+        <KeyBinding Gesture="Ctrl+D" Command="{Binding CancelRenovationCommand}"/>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding ShowGuestSuggestionsCommand}"/>
+        <KeyBinding Gesture="Ctrl+F" Command="{Binding CreatePDFReportCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseRenovationsViewCommand}"/>
+    </Window.InputBindings>
 
     <Grid Background="{StaticResource OwnerNeutralColor}">
         <!-- MAIN STACK PANEL-->
@@ -18,17 +25,20 @@
                 <Border Style="{StaticResource OwnerBorderStyle}">
                     <!-- Buttons STACK PANEL-->
                     <StackPanel  Margin="5 0 5 5" Orientation="Horizontal">
-                        <Button x:Name="btnAddRenovation"  Content="         Add New &#xa;Renovation (Ctrl+A)" Command="{Binding AddRenovationCommand}"
-                            Style="{StaticResource OwnerButtonStyle}" Width="220">
+                        <Button x:Name="btnAddRenovation"  Content="        Add New &#xa;Renovation (Ctrl+R)" Command="{Binding AddRenovationCommand}"
+                            Style="{StaticResource OwnerButtonStyle}" Width="175">
                         </Button>
-                        <Button x:Name="btnCancelRenovation"  Content="    Cancel Selected &#xa;Renovation (Ctrl+C)" Command="{Binding CancelRenovationCommand}"
-                            Style="{StaticResource OwnerButtonStyle}" Width="220">
+                        <Button x:Name="btnCancelRenovation"  Content="    Cancel Selected &#xa;Renovation (Ctrl+D)" Command="{Binding CancelRenovationCommand}"
+                            Style="{StaticResource OwnerButtonStyle}" Width="175">
                         </Button>
-                        <Button x:Name="btnCreatePDFReport"  Content="Create PDF Report (Ctrl+R)" Command="{Binding CreatePDFReportCommand}"
-                            Style="{StaticResource OwnerButtonStyle}" Width="220">
+                        <Button x:Name="btnGuestSuggestions"  Content="       Show Guest &#xa;Suggestions (Ctrl+S)" Command="{Binding ShowGuestSuggestionsCommand}"
+                            Style="{StaticResource OwnerButtonStyle}" Width="175">
+                        </Button>
+                        <Button x:Name="btnCreatePDFReport"  Content="Create PDF Report &#xa;        (Ctrl+F)" Command="{Binding CreatePDFReportCommand}"
+                            Style="{StaticResource OwnerButtonStyle}" Width="175">
                         </Button>
                         <Button x:Name="btnClose"  Content="Close (Esc)"  Command="{Binding CloseRenovationsViewCommand}"
-                            Style="{StaticResource OwnerButtonStyle}" Width="220">
+                            Style="{StaticResource OwnerButtonStyle}" Width="175">
                         </Button>
                     </StackPanel>
                 </Border>

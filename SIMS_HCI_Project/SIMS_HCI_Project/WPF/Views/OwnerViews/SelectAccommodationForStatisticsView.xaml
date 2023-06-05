@@ -6,6 +6,10 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         mc:Ignorable="d"
         Title="SelectAccommodationForStatitsticsView" Height="600" Width="900" WindowStartupLocation="CenterScreen">
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding SelectAccommodationForStatisticsCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseSelectAccommodationForStatisticsViewCommand}"/>
+    </Window.InputBindings>
     <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=dgAccommodation}">
         <!-- MAIN STACK PANEL-->
         <StackPanel Orientation="Vertical" Margin="10 5 10 5">

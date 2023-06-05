@@ -70,11 +70,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public PDFReportViewModel(PDFReportView pDFReportView, CreatePDFView createPDFView, RenovationService renovationService, Owner owner, DateRange dateRange)
+        public PDFReportViewModel(PDFReportView pDFReportView, CreatePDFView createPDFView, Owner owner, DateRange dateRange)
         {
             InitCommands();
 
-            _renovationService = renovationService;
+            _renovationService = new RenovationService();
 
             CreatePDFView = createPDFView;
             PDFReportView = pDFReportView;
@@ -126,6 +126,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             doc.Save(filename);
             doc.Close(true);
             PDFReportView.Close();
+            CreatePDFView.Close();
         }
 
         public bool CanExecute_GeneratePDFCommand(object obj)

@@ -22,19 +22,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public RescheduleRequestsViewModel RequestsVM { get; set; }
         public RescheduleRequest Request { get; set; }
         public ObservableCollection<AccommodationReservation> OverlappingReservations { get; set; }
-
         public RelayCommand AcceptRequestCommand { get; set; }
         public RelayCommand DeclineRequestCommand { get; set; }
         public RelayCommand CloseRequestHandlerViewCommand { get; set; }
 
-        public RequestHandlerViewModel(RequestHandlerView requestHandlerView, RescheduleRequestsViewModel requestsVM, RescheduleRequestService requestService, 
-            AccommodationReservationService reservationService, NotificationService notificationService, RescheduleRequest selectedRequest) 
+        public RequestHandlerViewModel(RequestHandlerView requestHandlerView, RescheduleRequestsViewModel requestsVM, RescheduleRequest selectedRequest) 
         {
             InitCommands();
 
-            _requestService = requestService;
-            _reservationService = reservationService;
-            _notificationService = notificationService;
+            _requestService = new RescheduleRequestService();
+            _reservationService = new AccommodationReservationService();
+            _notificationService = new NotificationService();
 
             RequestHandlerView = requestHandlerView;
             RequestsVM = requestsVM;
@@ -44,7 +42,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
             ShowTextBox();
         }
-
 
         #region Commands
 
@@ -90,7 +87,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public void Executed_DeclineRequestCommand(object obj)
         {
-            Window requestDenialView = new RequestDenialView(RequestHandlerView, RequestsVM, _requestService, _notificationService, Request);
+            Window requestDenialView = new RequestDenialView(RequestHandlerView, RequestsVM, Request);
             requestDenialView.Show();
         }
 

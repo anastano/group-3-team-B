@@ -8,79 +8,24 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Applications.Services
 {
-    public class AccommodationStatisticsService
+    public class AccommodationMonthStatisticsService
     {
         private readonly IAccommodationReservationRepository _reservationRepository;
         private readonly IRescheduleRequestRepository _requestRepository;
         private readonly IRenovationRecommendationRepository _recommendationRepository;
 
-        public AccommodationStatisticsService()
+        public AccommodationMonthStatisticsService()
         {
             _reservationRepository = Injector.Injector.CreateInstance<IAccommodationReservationRepository>();
             _requestRepository = Injector.Injector.CreateInstance<IRescheduleRequestRepository>();
             _recommendationRepository = Injector.Injector.CreateInstance<IRenovationRecommendationRepository>();
         }
 
-        public List<AccommodationYear> GetYearsByAccommodationId(int accommodationId)
-        {
-            List<int> years = _reservationRepository.GetByAccommodationId(accommodationId).Select(r => r.Start.Year).Distinct().ToList();
-            List<AccommodationYear> accommodationYears= new List<AccommodationYear>();
-
-            foreach (int year in years)
-            {
-                int reservations = GetReservationCountByYearAndAccommodationId(year, accommodationId);
-                int cancellations = GetCancellationCountByYearAndAccommodationId(year, accommodationId);
-                int reshedulings = GetReshedulingCountByYearAndAccommodationId(year, accommodationId);
-                int recommendations = GetRecommendationCountByYearAndAccommodationId(year, accommodationId);
-
-                AccommodationYear accommodationYear = new AccommodationYear(year, reservations, cancellations, reshedulings, recommendations);
-                accommodationYears.Add(accommodationYear);
-            }
-            return accommodationYears;
-        }
-
-        public int GetReservationCountByYearAndAccommodationId(int year, int accommodationId)
-        {
-            return _reservationRepository.GetReservationCountByYearAndAccommodationId(year, accommodationId);
-        }
-
-        public int GetCancellationCountByYearAndAccommodationId(int year, int accommodationId)
-        {
-            return _reservationRepository.GetCancellationCountByYearAndAccommodationId(year, accommodationId);
-        }
-
-        public int GetReshedulingCountByYearAndAccommodationId(int year, int accommodationId)
-        {
-            return _requestRepository.GetReshedulingCountByYearAndAccommodationId(year, accommodationId);
-        }
-
-        public int GetRecommendationCountByYearAndAccommodationId(int year, int accommodationId)
-        {
-            return _recommendationRepository.GetRecommendationCountByYearAndAccommodationId(year, accommodationId);
-        }
-
-        public int FindBestYear(int accommodationId)
-        {
-            List<int> years = _reservationRepository.GetByAccommodationId(accommodationId).Select(r => r.Start.Year).Distinct().ToList();
-            int maxReservations = 0;
-            int bestYear = years.FirstOrDefault();
-
-            foreach (int year in years)
-            { 
-                if(GetReservationCountByYearAndAccommodationId(year, accommodationId) > maxReservations)
-                {
-                    maxReservations = GetReservationCountByYearAndAccommodationId(year, accommodationId);
-                    bestYear = year;
-                }
-            }
-            return bestYear;
-        }
-
         public List<AccommodationMonth> GetMonthsByAccommodationIdAndYear(int accommodationId, int year)
-        { 
+        {
             List<AccommodationMonth> accommodationMonths = new List<AccommodationMonth>();
 
-            for (int monthIndex=1; monthIndex<=12; monthIndex++)
+            for (int monthIndex = 1; monthIndex <= 12; monthIndex++)
             {
                 int reservations = GetReservationCountByMonthAndAccommodationId(monthIndex, year, accommodationId);
                 int cancellations = GetCancellationCountByMonthAndAccommodationId(monthIndex, year, accommodationId);
@@ -115,11 +60,11 @@ namespace SIMS_HCI_Project.Applications.Services
         }
 
         public string FindBestMonthInYear(int year, int accommodationId)
-        { 
+        {
             int maxReservations = 0;
             int bestMonth = 1;
 
-            for(int monthIndex=1; monthIndex<=12; monthIndex++)
+            for (int monthIndex = 1; monthIndex <= 12; monthIndex++)
             {
                 if (GetReservationCountByMonthAndAccommodationId(monthIndex, year, accommodationId) > maxReservations)
                 {
@@ -131,5 +76,6 @@ namespace SIMS_HCI_Project.Applications.Services
             string bestMonthName = new System.Globalization.DateTimeFormatInfo().GetMonthName(bestMonth).ToString();
             return bestMonthName;
         }
+
     }
 }

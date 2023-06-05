@@ -18,7 +18,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
     public class AccommodationImagesViewModel : INotifyPropertyChanged
     {
         private readonly AccommodationService _accommodationService;
+        private int _currentImageIndex = 0;
         public AccommodationImagesView AccommodationImagesView { get; set; }
+        public AccommodationsView AccommodationsView { get; set; }
+
+        #region OnPropertyChanged
         public List<string> Images { get; set; }
 
         private string _image;
@@ -36,28 +40,57 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             }
         }
 
-        private int _currentImageIndex = 0;
-
-        public RelayCommand PreviousAccommodationImageCommand { get; set; }
-        public RelayCommand NextAccommodationImageCommand { get; set; }
-        public RelayCommand CloseAccommodationImageViewCommand { get; set; }
-
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion
 
-        public AccommodationImagesViewModel(AccommodationImagesView accommodationsImagesView, AccommodationService accommodationService, Accommodation accommodation )
+        public RelayCommand PreviousAccommodationImageCommand { get; set; }
+        public RelayCommand NextAccommodationImageCommand { get; set; }
+        public RelayCommand CloseAccommodationImageViewCommand { get; set; }
+        public RelayCommand StopDemoCommand { get; set; }  
+
+        public AccommodationImagesViewModel(AccommodationImagesView accommodationsImagesView, AccommodationsView accommodationsView, Accommodation accommodation)
         {
             InitCommands();
 
-            _accommodationService = accommodationService;
+            _accommodationService = new AccommodationService();
 
             AccommodationImagesView = accommodationsImagesView;
+            AccommodationsView = accommodationsView;
             Images = _accommodationService.GetImages(accommodation.Id);
-            Image = Images[_currentImageIndex];
+            if (Images.Count != 0)
+            {
+                Image = Images[_currentImageIndex];
+            }
+            DemoIsOn();
         }
+
+        #region DemoIsOn
+        private async Task DemoIsOn()
+        {
+            if (OwnerMainViewModel.Demo)
+            {
+                await Task.Delay(1000);
+                Style selectedButtonStyle = Application.Current.FindResource("OwnerSelectedButtonStyle") as Style;
+                AccommodationImagesView.btnNext.Style = selectedButtonStyle;
+                await Task.Delay(1500);
+                Style normalButtonStyle = Application.Current.FindResource("OwnerButtonStyle") as Style;
+                AccommodationImagesView.btnNext.Style = normalButtonStyle;
+                _currentImageIndex++;
+                ChangeOutrangeCurrentImageIndex();
+                Image = Images[_currentImageIndex];
+                await Task.Delay(1500);
+                AccommodationImagesView.btnClose.Style = selectedButtonStyle;
+                await Task.Delay(1500);
+                AccommodationImagesView.btnClose.Style = normalButtonStyle;
+                AccommodationImagesView.Close();
+
+            }
+        }
+        #endregion
 
         private void ChangeOutrangeCurrentImageIndex()
         {
@@ -76,7 +109,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             _currentImageIndex--;
             ChangeOutrangeCurrentImageIndex();
-            Image = Images[_currentImageIndex];
+            if (Images.Count != 0)
+            {
+                Image = Images[_currentImageIndex];
+            }
         }
 
         public bool CanExecute_PreviousAccommodationImageCommand(object obj)
@@ -88,7 +124,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             _currentImageIndex++;
             ChangeOutrangeCurrentImageIndex();
-            Image = Images[_currentImageIndex];
+            if (Images.Count != 0)
+            {
+                Image = Images[_currentImageIndex];
+            }
         }
 
         public bool CanExecute_NextAccommodationImageCommand(object obj)
@@ -106,6 +145,41 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             return true;
         }
 
+        private async Task StopDemo()
+        {
+            if (OwnerMainViewModel.Demo)
+            {
+                OwnerMainViewModel.CTS.Cancel();
+                OwnerMainViewModel.Demo = false;
+
+                //demo message - end
+                AccommodationImagesView.Close();
+                AccommodationsView.Close();
+
+                Window messageDemoOver = new MessageView("The demo mode is over.", "");
+                messageDemoOver.Show();
+                await Task.Delay(2500);
+                messageDemoOver.Close();
+            }
+        }
+
+        public void Executed_StopDemoCommand(object obj)
+        {
+            try
+            {
+                StopDemo();
+            }
+            catch (OperationCanceledException)
+            {
+                MessageBox.Show("Error!");
+            }
+        }
+
+        public bool CanExecute_StopDemoCommand(object obj)
+        {
+            return true;
+        }
+
         #endregion
 
         public void InitCommands()
@@ -113,6 +187,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             PreviousAccommodationImageCommand = new RelayCommand(Executed_PreviousAccommodationImageCommand, CanExecute_PreviousAccommodationImageCommand);
             NextAccommodationImageCommand = new RelayCommand(Executed_NextAccommodationImageCommand, CanExecute_NextAccommodationImageCommand);
             CloseAccommodationImageViewCommand = new RelayCommand(Executed_CloseAccommodationImageViewCommand, CanExecute_CloseAccommodationImageViewCommand);
+            StopDemoCommand = new RelayCommand(Executed_StopDemoCommand, CanExecute_StopDemoCommand);
         }
     }
 }

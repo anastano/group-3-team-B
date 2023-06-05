@@ -23,10 +23,10 @@ namespace SIMS_HCI_Project.WPF.Views.OwnerViews
     /// </summary>
     public partial class PDFReportView : Window
     {
-        public PDFReportView(CreatePDFView createPDFView, RenovationService renovationService, Owner owner, DateRange dateRange)
+        public PDFReportView(CreatePDFView createPDFView, Owner owner, DateRange dateRange)
         {
             InitializeComponent();
-            this.DataContext = new PDFReportViewModel(this, createPDFView, renovationService, owner, dateRange);
+            this.DataContext = new PDFReportViewModel(this, createPDFView, owner, dateRange);
         }
     }
 }

@@ -22,10 +22,10 @@ namespace SIMS_HCI_Project.WPF.Views.OwnerViews
     /// </summary>
     public partial class AddAccommodationView : Window
     {
-        public AddAccommodationView(AccommodationsViewModel accommodationsVM, AccommodationService accommodationService, Owner owner)
+        public AddAccommodationView(AccommodationsViewModel accommodationsVM, Owner owner)
         {
             InitializeComponent();
-            this.DataContext = new AddAccommodationViewModel(this, accommodationsVM, accommodationService, owner);
+            this.DataContext = new AddAccommodationViewModel(this, accommodationsVM, owner);
         }
     }
 }

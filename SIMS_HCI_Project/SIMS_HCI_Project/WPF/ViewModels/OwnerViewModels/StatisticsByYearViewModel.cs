@@ -14,35 +14,29 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 {
     public class StatisticsByYearViewModel
     {
-        private readonly AccommodationReservationService _reservationService;
-        private readonly AccommodationStatisticsService _statisticsService;
-
+        private readonly AccommodationYearStatisticsService _yearStatisticsService;
         public StatisticsByYearView StatisticsByYearView { get; set; }
         public SelectAccommodationForStatisticsView SelectAccommodationForStatisticsView { get; set; }
         public Accommodation Accommodation { get; set; }
         public int BestYear { get; set; }
         public List<AccommodationYear> AccommodationYears { get; set; }
         public AccommodationYear SelectedYear { get; set; }
-
         public RelayCommand SelectYearForStatisticsCommand { get; set; }
         public RelayCommand CloseStatisticsByYearViewCommand { get; set; }
         public RelayCommand HomeStatisticsByYearViewCommand { get; set; }
 
-        public StatisticsByYearViewModel(StatisticsByYearView statisticsByYearView, SelectAccommodationForStatisticsView selectAccommodationView, 
-            AccommodationReservationService reservationService, AccommodationStatisticsService statisticsService, 
-            Accommodation selectedAccommodation) 
+        public StatisticsByYearViewModel(StatisticsByYearView statisticsByYearView, SelectAccommodationForStatisticsView selectAccommodationView, Accommodation selectedAccommodation) 
         {
             InitCommands();
 
-            _reservationService = reservationService;
-            _statisticsService = statisticsService;
+            _yearStatisticsService = new AccommodationYearStatisticsService();
 
             StatisticsByYearView = statisticsByYearView;
             SelectAccommodationForStatisticsView = selectAccommodationView;
 
             Accommodation = selectedAccommodation;
-            BestYear = _statisticsService.FindBestYear(Accommodation.Id);
-            AccommodationYears = _statisticsService.GetYearsByAccommodationId(Accommodation.Id);
+            BestYear = _yearStatisticsService.FindBestYear(Accommodation.Id);
+            AccommodationYears = _yearStatisticsService.GetYearsByAccommodationId(Accommodation.Id);
         }
 
         #region Commands
@@ -50,13 +44,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             if (SelectedYear != null)
             {
-                Window statisticsByMonth = new StatisticsByMonthView(StatisticsByYearView, SelectAccommodationForStatisticsView,
-                _reservationService, _statisticsService, Accommodation, SelectedYear);
+                Window statisticsByMonth = new StatisticsByMonthView(StatisticsByYearView, SelectAccommodationForStatisticsView, Accommodation, SelectedYear);
                 statisticsByMonth.ShowDialog();
             }
             else
             {
-                MessageBox.Show("No year has been selected");
+                MessageBox.Show("No year has been selected.");
             }
         }
 

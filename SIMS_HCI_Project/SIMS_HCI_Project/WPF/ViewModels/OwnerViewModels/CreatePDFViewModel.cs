@@ -16,7 +16,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 {
     public class CreatePDFViewModel : INotifyPropertyChanged
     {
-        private RenovationService _renovationService;
         public CreatePDFView CreatePDFView{ get; set; }
         public Owner Owner { get; set; }
 
@@ -49,22 +48,19 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             }
         }
 
-        #endregion
-
-        public RelayCommand ShowPDFCommand { get; set; }
-        public RelayCommand CloseCreatePDFViewCommand { get; set; }
-
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion
 
-        public CreatePDFViewModel(CreatePDFView createPDFView, RenovationService renovationService, Owner owner) 
+        public RelayCommand ShowPDFCommand { get; set; }
+        public RelayCommand CloseCreatePDFViewCommand { get; set; }
+
+        public CreatePDFViewModel(CreatePDFView createPDFView, Owner owner) 
         {
             InitCommands();
-
-            _renovationService = renovationService;
 
             CreatePDFView = createPDFView;
             Owner = owner;
@@ -77,7 +73,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public void Executed_ShowPDFCommand(object obj)
         {
             DateRange dateRange = new DateRange(EnteredStart, EnteredEnd);
-            Window pdfReportView = new PDFReportView(CreatePDFView, _renovationService, Owner, dateRange);
+            Window pdfReportView = new PDFReportView(CreatePDFView, Owner, dateRange);
             pdfReportView.ShowDialog();
         }
 

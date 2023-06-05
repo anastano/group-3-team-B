@@ -23,18 +23,16 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public Owner Owner { get; set; }    
         public ObservableCollection<RescheduleRequest> PendingRequests { get; set; }
         public RescheduleRequest SelectedRequest { get; set; }
-
         public RelayCommand ShowSelectedRequestCommand { get; set; }
         public RelayCommand CloseRescheduleRequestsViewCommand { get; set; }
 
-        public RescheduleRequestsViewModel(RescheduleRequestsView requestsView, RescheduleRequestService rescheduleRequestService, 
-            AccommodationReservationService reservationSevice, NotificationService notificationService, Owner owner)
+        public RescheduleRequestsViewModel(RescheduleRequestsView requestsView, Owner owner)
         {
             InitCommands();
 
-            _requestService = rescheduleRequestService;
-            _reservationService = reservationSevice;
-            _notificationService = notificationService;
+            _requestService = new RescheduleRequestService();
+            _reservationService = new AccommodationReservationService();
+            _notificationService = new NotificationService();
 
             RequestsView = requestsView;
             Owner = owner;           
@@ -46,7 +44,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             if (SelectedRequest != null)
             {
-                Window requestHandlerView = new RequestHandlerView(this, _requestService, _reservationService, _notificationService, SelectedRequest);
+                Window requestHandlerView = new RequestHandlerView(this, SelectedRequest);
                 requestHandlerView.Show();
             }
             else

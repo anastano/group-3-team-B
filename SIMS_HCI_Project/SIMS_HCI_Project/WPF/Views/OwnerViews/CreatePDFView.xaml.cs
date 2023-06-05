@@ -22,10 +22,10 @@ namespace SIMS_HCI_Project.WPF.Views.OwnerViews
     /// </summary>
     public partial class CreatePDFView : Window
     {
-        public CreatePDFView(RenovationService renovationService, Owner owner)
+        public CreatePDFView(Owner owner)
         {
             InitializeComponent();
-            this.DataContext = new CreatePDFViewModel(this, renovationService, owner);
+            this.DataContext = new CreatePDFViewModel(this, owner);
         }
     }
 }

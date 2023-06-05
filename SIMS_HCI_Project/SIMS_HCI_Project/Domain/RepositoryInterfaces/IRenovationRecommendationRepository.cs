@@ -15,5 +15,7 @@ namespace SIMS_HCI_Project.Repositories
         List<RenovationRecommendation> GetByAccommodationId(int accommodationId);
         int GetRecommendationCountByYearAndAccommodationId(int year, int accommodationId);
         int GetRecommendationCountByMonthAndAccommodationId(int monthIndex, int year, int accommodationId);
+        List<RenovationRecommendation> GetByOwnerId(int ownerId);
+        List<RenovationRecommendation> OwnerSearch(string accommodationName, int ownerId);
     }
 }

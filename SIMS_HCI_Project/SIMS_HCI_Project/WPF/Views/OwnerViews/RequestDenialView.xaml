@@ -24,7 +24,7 @@
                            Style="{StaticResource OwnerLabelStyle}"></Label>
 
                     <TextBox x:Name="txtComment" Grid.Row="0" Grid.Column="1"
-                             Text="{Binding Path = Request.OwnerComment, UpdateSourceTrigger = PropertyChanged}"
+                             Text="{Binding Path = Request.OwnerComment, UpdateSourceTrigger = PropertyChanged}" TextWrapping="Wrap"
                              Style="{StaticResource OwnerTextBoxStyle}" Width="300" Height="90">
                     </TextBox>
 

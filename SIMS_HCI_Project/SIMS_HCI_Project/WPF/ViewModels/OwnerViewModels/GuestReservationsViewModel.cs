@@ -6,11 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xml.Linq;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 {
@@ -23,6 +25,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public ObservableCollection<AccommodationReservation> Reservations { get; set; }
         public AccommodationReservation SelectedReservation { get; set; }
 
+        #region OnPropertyChanged
         private string _accommodationName; 
         public string AccommodationName
         {
@@ -67,31 +70,81 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
                 }
             }
         }
-        public RelayCommand SearchReservationsCommand { get; set; }
-        public RelayCommand CloseReservationsViewCommand { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion
 
-        public GuestReservationsViewModel(GuestReservationsView accommodationsView, AccommodationReservationService reservationService, Owner owner)
+        public RelayCommand SearchReservationsCommand { get; set; }
+        public RelayCommand CloseReservationsViewCommand { get; set; }
+        public RelayCommand StopDemoCommand { get; set; }
+
+
+
+        public GuestReservationsViewModel(GuestReservationsView accommodationsView, Owner owner)
         {
             InitCommands();
 
-            _reservationService = reservationService;
+            _reservationService = new AccommodationReservationService();
 
             GuestReservationsView = accommodationsView;
             Owner = owner;
             Reservations = new ObservableCollection<AccommodationReservation>(_reservationService.GetByOwnerId(Owner.Id));
+
+            DemoIsOn();
         }
+
+        #region DemoIsOn
+        private async Task DemoIsOn()
+        {
+            if (OwnerMainViewModel.Demo)
+            {
+                //demo message - search
+                await Task.Delay(1000);
+                Window messageView1 = new MessageView("The next feature is the reservation search.", "Stop Demo Mode(Ctrl+Q)");
+                messageView1.Show();
+                await Task.Delay(3500);
+                messageView1.Close();
+                await Task.Delay(1000);
+
+                //search
+                AccommodationName = "Royal";
+                await Task.Delay(1500);
+                GuestName = "Milos";
+                await Task.Delay(1500);
+                GuestSurname = "Milosev";
+                await Task.Delay(1500);
+                Style selectedButtonStyle = Application.Current.FindResource("OwnerSelectedButtonStyle") as Style;
+                GuestReservationsView.btnSearch.Style = selectedButtonStyle;
+                await Task.Delay(1000);
+                Style normalButtonStyle = Application.Current.FindResource("OwnerButtonStyle") as Style;
+                GuestReservationsView.btnSearch.Style = normalButtonStyle;
+                List<AccommodationReservation> searchResult = _reservationService.OwnerSearch(AccommodationName, GuestName, GuestSurname, Owner.Id);
+                Reservations.Clear();
+                foreach (AccommodationReservation reservation in searchResult)
+                {
+                    Reservations.Add(reservation);
+                }
+                await Task.Delay(1500);
+
+                //close window
+                GuestReservationsView.btnClose.Style = selectedButtonStyle;
+                await Task.Delay(1500);
+                GuestReservationsView.btnClose.Style = normalButtonStyle;
+                GuestReservationsView.Close();
+            }
+        }
+
+        #endregion
 
         #region Commands
 
         public void Executed_SearchReservationsCommand(object obj)
         {
-            List<AccommodationReservation> searchResult = _reservationService.OwnerSearch(GuestReservationsView.txtAccommodationName.Text, GuestName, GuestSurname, Owner.Id);
+            List<AccommodationReservation> searchResult = _reservationService.OwnerSearch(AccommodationName, GuestName, GuestSurname, Owner.Id);
             Reservations.Clear();
             foreach (AccommodationReservation reservation in searchResult)
             {
@@ -113,12 +166,47 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             return true;
         }
+
+        private async Task StopDemo()
+        {
+            if (OwnerMainViewModel.Demo)
+            {
+                OwnerMainViewModel.CTS.Cancel();
+                OwnerMainViewModel.Demo = false;
+
+                //demo message - end
+                GuestReservationsView.Close();
+
+                Window messageDemoOver = new MessageView("The demo mode is over.", "");
+                messageDemoOver.Show();
+                await Task.Delay(2500);
+                messageDemoOver.Close();
+            }
+        }
+
+        public void Executed_StopDemoCommand(object obj)
+        {
+            try
+            {
+                StopDemo();
+            }
+            catch (OperationCanceledException)
+            {
+                MessageBox.Show("Error!");
+            }
+        }
+
+        public bool CanExecute_StopDemoCommand(object obj)
+        {
+            return true;
+        }
         #endregion
 
         public void InitCommands()
         {
             SearchReservationsCommand = new RelayCommand(Executed_SearchReservationsCommand, CanExecute_SearchReservationsCommand);
             CloseReservationsViewCommand = new RelayCommand(Executed_CloseReservationsViewCommand, CanExecute_CloseReservationsViewCommand);
+            StopDemoCommand = new RelayCommand(Executed_StopDemoCommand, CanExecute_StopDemoCommand);
         }
 
     }

@@ -6,7 +6,12 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         mc:Ignorable="d"
         Title="CreatePDFView" Height="300" Width="450" WindowStartupLocation="CenterScreen">
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding ShowPDFCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseCreatePDFViewCommand}"/>
+    </Window.InputBindings>
     <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=dpStart}">
+
         <StackPanel>
             <TextBlock x:Name="tblWelcome" Text="Create Report" 
                        Style="{StaticResource OwnerTitleStyle}">

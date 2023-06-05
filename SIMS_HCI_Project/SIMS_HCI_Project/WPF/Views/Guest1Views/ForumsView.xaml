@@ -7,6 +7,9 @@
              xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest1Views"
              mc:Ignorable="d" 
              d:DesignHeight="702" d:DesignWidth="969" Background="#f5f5f5">
+    <UserControl.Resources>
+        <local1:ForumUsefulConverter x:Key="ForumUsefulConverter" />
+    </UserControl.Resources>
     <Grid>
         <TabControl Margin="25" SelectedIndex="{Binding SelectedTabIndex}" Style="{StaticResource TabControlStyle}">
             <TabControl.Resources>
@@ -72,7 +75,7 @@
                                         <Setter Property="ContentTemplate">
                                             <Setter.Value>
                                                 <DataTemplate>
-                                                    <TextBlock Text="{Binding}" TextWrapping="Wrap" TextAlignment="Center"/>
+                                                <TextBlock Text="{Binding }" TextWrapping="Wrap" TextAlignment="Center"/>
                                                 </DataTemplate>
                                             </Setter.Value>
                                         </Setter>
@@ -80,13 +83,13 @@
                                 </DataGridTemplateColumn.HeaderStyle>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Image Source="../../../Resources/Images/useful.png"
+                                        <Image Source="../../../Resources/Images/checked.png"
                                    Width="40" Height="40" HorizontalAlignment="Center">
                                             <Image.Style>
                                                 <Style TargetType="{x:Type Image}">
                                                     <Setter Property="Visibility" Value="Collapsed" />
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Path=IsUseful}" Value="True">
+                                                    <DataTrigger Binding="{Binding Path=Comments, Converter={StaticResource ForumUsefulConverter}}" Value="True">
                                                             <Setter Property="Visibility" Value="Visible" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
@@ -151,13 +154,13 @@
                             </DataGridTemplateColumn.HeaderStyle>
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Image Source="../../../Resources/Images/useful.png"
+                                    <Image Source="../../../Resources/Images/checked.png"
                                    Width="40" Height="40" HorizontalAlignment="Center">
                                         <Image.Style>
                                             <Style TargetType="{x:Type Image}">
                                                 <Setter Property="Visibility" Value="Collapsed" />
                                                 <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Path=IsUseful}" Value="True">
+                                                        <DataTrigger Binding="{Binding Path=Comments, Converter={StaticResource ForumUsefulConverter}}" Value="True">
                                                         <Setter Property="Visibility" Value="Visible" />
                                                     </DataTrigger>
                                                 </Style.Triggers>

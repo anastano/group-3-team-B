@@ -18,6 +18,7 @@
     <None Remove="Resources\Images\back.png" />
     <None Remove="Resources\Images\booking.png" />
     <None Remove="Resources\Images\chat.png" />
+    <None Remove="Resources\Images\checked.png" />
     <None Remove="Resources\Images\goldenHouse.png" />
     <None Remove="Resources\Images\help.png" />
     <None Remove="Resources\Images\light-green-leaves-wallpaper.jpeg" />
@@ -32,6 +33,7 @@
     <None Remove="Resources\Images\rating.png" />
     <None Remove="Resources\Images\reserve.png" />
     <None Remove="Resources\Images\search.png" />
+    <None Remove="Resources\Images\thumbs-up.png" />
     <None Remove="Resources\Images\TourSearchHelp.png" />
     <None Remove="Resources\Images\useful.png" />
     <None Remove="Resources\Images\user.png" />
@@ -47,6 +49,7 @@
 
   <ItemGroup>
     <Resource Include="Resources\Images\back.png" />
+    <Resource Include="Resources\Images\checked.png" />
     <Resource Include="Resources\Images\help.png" />
   </ItemGroup>
 
@@ -79,6 +82,7 @@
     <Resource Include="Resources\Images\rating.png" />
     <Resource Include="Resources\Images\reserve.png" />
     <Resource Include="Resources\Images\search.png" />
+    <Resource Include="Resources\Images\thumbs-up.png" />
     <Resource Include="Resources\Images\TourSearchHelp.png" />
     <Resource Include="Resources\Images\useful.png" />
     <Resource Include="Resources\Images\user.png" />

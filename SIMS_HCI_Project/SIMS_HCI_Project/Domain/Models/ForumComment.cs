@@ -15,6 +15,7 @@ namespace SIMS_HCI_Project.Domain.Models
         public Forum Forum { get; set; }
         public string Content { get; set; }
         public int ReportCounter { get; set; }
+        public bool IsUseful { get; set; }
         public ForumComment()
         {
             /*

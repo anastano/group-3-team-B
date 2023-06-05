@@ -34,6 +34,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         private RatingGivenByGuestService _ratingGivenByGuestService;
         private RenovationService _renovationService;
         private UserService _userService;
+        private ForumCommentService _forumCommentService;
         public Guest1MainView Guest1MainView { get; set; }
         public Guest1 Guest { get; set; }
         public RelayCommand ShowReservationsCommand { get; set; }
@@ -130,6 +131,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _ratingGivenByGuestService = new RatingGivenByGuestService();
             _renovationService = new RenovationService();
             _userService = new UserService();
+            _forumCommentService = new ForumCommentService();
+            foreach(ForumComment comment in _forumCommentService.GetAll())
+            {
+                comment.IsUseful = true;
+            }
+            
 
             _reservationService.ConvertReservedReservationIntoCompleted(DateTime.Now);
             _reservationService.ConvertReservationsIntoRated(_ratingGivenByGuestService);

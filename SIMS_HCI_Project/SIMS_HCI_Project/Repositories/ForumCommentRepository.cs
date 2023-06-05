@@ -37,12 +37,16 @@ namespace SIMS_HCI_Project.Repositories
 
         public ForumComment GetById(int id)
         {
-            return _comments.Find(l => l.Id == id);
+            return _comments.Find(c => c.Id == id);
         }
 
         public List<ForumComment> GetAll()
         {
             return _comments;
+        }
+        public List<ForumComment> GetByForumId(int forumId)
+        {
+            return _comments.FindAll(c => c.ForumId == forumId);
         }
     }
 }

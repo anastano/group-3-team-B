@@ -15,7 +15,6 @@ namespace SIMS_HCI_Project.Domain.Models
         public int LocationId { get; set; }
         public Location Location { get; set; }
         public ForumStatus Status { get; set; }
-        public bool IsUseful { get; set; }
         public List<ForumComment> Comments { get; set; }
         public Forum()
         {
@@ -36,7 +35,6 @@ namespace SIMS_HCI_Project.Domain.Models
             LocationId = location.Id;
             Location = location;
             Status = ForumStatus.ACTIVE;
-            IsUseful = false;
         }
     }
 }

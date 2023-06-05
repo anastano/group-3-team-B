@@ -217,6 +217,7 @@ namespace SIMS_HCI_Project.Applications.Services
             {
                 forum.Location = _locationRepository.GetById(forum.LocationId);
                 forum.User = _userRepository.GetById(forum.UserId);
+                forum.Comments = _forumCommentRepository.GetByForumId(forum.Id);
             }
         }
         public void ConnectForumCommentFields()

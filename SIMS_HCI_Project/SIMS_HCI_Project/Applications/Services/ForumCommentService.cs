@@ -27,6 +27,10 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return _forumCommentRepository.GetAll();
         }
+        public List<ForumComment> GetByForumId(int forumId)
+        {
+            return _forumCommentRepository.GetByForumId(forumId);
+        }
         /*
         public void Add(Notification notification)
         {

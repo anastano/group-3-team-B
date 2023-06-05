@@ -18,7 +18,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
     {
         private NavigationService _navigationService;
         private readonly ForumService _forumService;
-        private readonly NotificationService _notificationService;
         public Forum SelectedForum { get; set; }
         public Guest1 Guest { get; set; }
         public ObservableCollection<Forum> GuestForums { get; set; }
@@ -48,7 +47,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             _navigationService = navigationService;
             _forumService = new ForumService();
-            _notificationService = new NotificationService();
             Guest = guest;
             GuestForums = new ObservableCollection<Forum>(_forumService.GetByGuestId(Guest.Id));
             OtherForums = new ObservableCollection<Forum>(_forumService.GetForumsExcludingGuests(Guest.Id));
@@ -69,7 +67,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         }
         public void ExecutedShowMoreCommand(object obj)
         {
-            _navigationService.Navigate(new ForumViewModel(Guest, _navigationService, SelectedForum.Id, SelectedTabIndex), "Forum");
+            _navigationService.Navigate(new ForumViewModel(Guest, _navigationService, SelectedForum, SelectedTabIndex), "Forum");
         }
         public void ExecutedCloseForumCommand(object obj)
         {

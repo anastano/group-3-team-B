@@ -42,21 +42,11 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             _forumRepository.Add(forum);
         }
-        public void FillUsefulFlag()
+        public bool IsUSeful(Forum forum)
         {
-            foreach (Forum forum in _forumRepository.GetAll())
-            {
-                forum.IsUseful = false ;
-            }
+            bool ownerCommentsFlag = forum.Comments.FindAll(c => c.IsUseful == true && c.User.Role == UserRole.OWNER).Count >= 10;
+            bool guestCommentsFlag = forum.Comments.FindAll(c => c.IsUseful == true && c.User.Role == UserRole.GUEST1).Count >= 20;
+            return (ownerCommentsFlag && guestCommentsFlag);
         }
-        public bool IsForumUSeful(Forum forum)
-        {
-            //foreach (ForumComment comment in _)
-            return false;
-        }
-        /*public void Add(Notification notification)
-        {
-            _forumRepository.Add(notification);
-        }*/
     }
 }

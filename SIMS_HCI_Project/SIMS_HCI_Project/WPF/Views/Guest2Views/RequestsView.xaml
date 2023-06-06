@@ -9,14 +9,16 @@
 
     <Page.Resources>
         <Style x:Key="Guest2Header1Style" TargetType="Label">
-            <Setter Property="Foreground" Value="Orange"/>
+            <Setter Property="Foreground" Value="#FF22B5B2"/>
             <Setter Property="FontSize" Value="22"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="FontWeight" Value="Heavy"/>
+
         </Style>
     </Page.Resources>
     <Grid>
-        <Label Content="My requests" Style="{StaticResource Guest2Header1Style}"/>
+        <Label Content="MY REQUESTS" Style="{StaticResource Guest2Header1Style}"/>
         <TabControl>
             <TabItem Header="Regular requests" FontSize="16" Padding="10,5,10,5" >
                 <Grid Background="Transparent">

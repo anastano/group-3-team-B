@@ -53,7 +53,7 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             foreach (RegularTourRequest regularTourRequest in _regularTourRequestRepository.GetInvalidByParams(tour.LocationId, tour.Language))
             {
-                string Message = "Created new tour which fulfills some of your requirements from your unfulfilled requests. Tour is created with id: [" + tour.Id + "]. Click to see details";
+                string Message = "NEW TOUR - click to view details and book a tour. Tour's id: [" + tour.Id + "]";
                 _notificationRepository.Add(new Notification(Message, regularTourRequest.GuestId, false, NotificationType.NEW_TOUR));
             }
         }

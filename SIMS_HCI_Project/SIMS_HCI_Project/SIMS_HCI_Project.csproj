@@ -8,6 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\airplane.png" />
+    <None Remove="Resources\Images\airplane1.png" />
     <None Remove="Resources\Images\back.png" />
     <None Remove="Resources\Images\booking.png" />
     <None Remove="Resources\Images\chat.png" />
@@ -18,6 +20,7 @@
     <None Remove="Resources\Images\logoutA.png" />
     <None Remove="Resources\Images\maintenance.png" />
     <None Remove="Resources\Images\menu.png" />
+    <None Remove="Resources\Images\paperplane.png" />
     <None Remove="Resources\Images\patternCircle.jpg" />
     <None Remove="Resources\Images\patternLines.png" />
     <None Remove="Resources\Images\patternTriangle.jpg" />
@@ -27,6 +30,7 @@
     <None Remove="Resources\Images\reserve.png" />
     <None Remove="Resources\Images\search.png" />
     <None Remove="Resources\Images\TourSearchHelp.png" />
+    <None Remove="Resources\Images\travel.jpg" />
     <None Remove="Resources\Images\user.png" />
     <None Remove="Resources\Images\warning.png" />
     <None Remove="WPF\Images\avatar.png" />
@@ -35,6 +39,13 @@
     <None Remove="WPF\Images\mountain-city.png" />
     <None Remove="WPF\Images\question-mark.png" />
     <None Remove="WPF\Images\star.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Images\airplane.png" />
+    <Resource Include="Resources\Images\airplane1.png" />
+    <Resource Include="Resources\Images\paperplane.png" />
+    <Resource Include="Resources\Images\travel.jpg" />
   </ItemGroup>
 
   <ItemGroup>

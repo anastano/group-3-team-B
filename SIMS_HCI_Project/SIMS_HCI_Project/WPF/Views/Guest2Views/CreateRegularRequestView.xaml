@@ -32,8 +32,30 @@
             <Setter Property="Margin" Value="0 0 0 0"/>
             <Setter Property="Width" Value="140" />
         </Style>
+        <Style x:Key="HoverButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#501f3a"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Background" Value="#cb2d6f"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Page.Resources>
     <Grid>
+        <Border BorderBrush="#FF22B5B2" BorderThickness="2"  CornerRadius="15" />
         <Label Content="City:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="28" Width="128"/>
         <Label Content="Country:" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top" Height="28" Width="128"/>
         <Label Content="Language:" HorizontalAlignment="Left" Margin="10,66,0,0" VerticalAlignment="Top" Height="28" Width="128"/>
@@ -57,9 +79,9 @@
         <Label Content="Finish:" HorizontalAlignment="Left" Margin="657,94,0,0" VerticalAlignment="Top"/>
         <DatePicker Name="StartRange" IsEnabled="True" SelectedDate="{Binding Start, Mode=TwoWay, StringFormat='{}{0:MM/dd/yyyy}'}" SelectedDateFormat="Short" HorizontalAlignment="Left" Margin="719,68,0,0" VerticalAlignment="Top" Height="37" Width="149"/>
         <DatePicker Name="EndRange" IsEnabled="True" SelectedDate="{Binding End, Mode=TwoWay, StringFormat='{}{0:MM/dd/yyyy}'}" SelectedDateFormat="Short" HorizontalAlignment="Left" Margin="719,105,0,0" VerticalAlignment="Top" Height="37" Width="149"/>
-        <Button Content="SUBMIT" Command="{Binding CompleteRequest}" HorizontalAlignment="Left" Margin="637,184,0,0" VerticalAlignment="Top" Height="26" Width="130" Background="Orange">
+        <Button Content="SUBMIT" Command="{Binding CompleteRequest}" HorizontalAlignment="Left" Margin="637,184,0,0" VerticalAlignment="Top" Height="26" Width="157" Style="{StaticResource HoverButtonStyle}">
         </Button>
-        <Button Content="QUIT" Command="{Binding QuitRequest}" Background="Orange" HorizontalAlignment="Left" Margin="803,184,0,0" VerticalAlignment="Top" Height="26" Width="130"/>
+        <Button Content="QUIT" Command="{Binding QuitRequest}" HorizontalAlignment="Left" Margin="803,184,0,0" VerticalAlignment="Top" Height="26" Width="157" Style="{StaticResource HoverButtonStyle}"/>
 
 
 

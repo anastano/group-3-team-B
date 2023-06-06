@@ -8,13 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="WPF\Validations\**" />
-    <EmbeddedResource Remove="WPF\Validations\**" />
-    <None Remove="WPF\Validations\**" />
-    <Page Remove="WPF\Validations\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="Resources\Images\back.png" />
     <None Remove="Resources\Images\booking.png" />
     <None Remove="Resources\Images\chat.png" />

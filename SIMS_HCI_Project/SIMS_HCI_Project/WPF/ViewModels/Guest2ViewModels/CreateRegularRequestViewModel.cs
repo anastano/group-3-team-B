@@ -15,10 +15,11 @@ using SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels;
 using System.ComponentModel;
 using System.Windows;
 using System.Text.RegularExpressions;
+using SIMS_HCI_Project.WPF.Validations;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 {
-    public class CreateRegularRequestViewModel : INotifyPropertyChanged, IDataErrorInfo
+    public class CreateRegularRequestViewModel : INotifyPropertyChanged
     {
         public NavigationService NavigationService { get; set; }
         private RegularTourRequestService _regularTourRequestService { get; set; }
@@ -137,7 +138,21 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             }
         }
 
-        
+        private RegularTourRequestValidation _regularTourRequestValidation;
+        public RegularTourRequestValidation RegularTourRequestValidation
+        {
+            get => _regularTourRequestValidation;
+            set
+            {
+                if (value != _regularTourRequestValidation)
+                {
+
+                    _regularTourRequestValidation = value;
+                    OnPropertyChanged(nameof(RegularTourRequestValidation));
+                }
+            }
+        }
+
         #endregion
 
         public CreateRegularRequestViewModel(Guest2 guest, NavigationService navigationService, CreateRegularRequestView createRegularRequestView)
@@ -147,6 +162,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             CreateRegularRequestView = createRegularRequestView;
             RegularTourRequest = new RegularTourRequest();
             RegularTourRequest.Location = new Location();
+            RegularTourRequestValidation = new RegularTourRequestValidation();
 
             Start = DateTime.Now.AddDays(3); //48h before requests turns invalid
             End = DateTime.Now.AddDays(4);
@@ -201,7 +217,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
         private void ExecuteCompleteRequest(object obj)
         {
-            if (IsValid)
+            RegularTourRequestValidation.Validate();
+            if (RegularTourRequestValidation.IsValid)
             {
                 if (ConfirmRequestSubmission() == MessageBoxResult.Yes)
                 {
@@ -210,14 +227,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                     RegularTourRequest.IsPartOfComplex = false;
                     RegularTourRequest.SubmittingDate = DateTime.Now.AddDays(0);
                     RegularTourRequest.Status = RegularRequestStatus.PENDING;
-                    RegularTourRequest.DateRange.Start = Start;
-                    RegularTourRequest.DateRange.End = End;
+                    RegularTourRequest.DateRange.Start = RegularTourRequestValidation.EnteredStart;
+                    RegularTourRequest.DateRange.End = RegularTourRequestValidation.EnteredEnd;
 
-                    RegularTourRequest.Language = Language;
-                    RegularTourRequest.Location.Country = Country;
-                    RegularTourRequest.Location.City = City;
-                    RegularTourRequest.Description = Description;
-                    RegularTourRequest.GuestNumber = GuestNumber ?? 0;
+                    RegularTourRequest.Language = RegularTourRequestValidation.Language;
+                    RegularTourRequest.Location.Country = RegularTourRequestValidation.Country;
+                    RegularTourRequest.Location.City = RegularTourRequestValidation.City;
+                    RegularTourRequest.Description = RegularTourRequestValidation.Description;
+                    RegularTourRequest.GuestNumber = RegularTourRequestValidation.GuestNumber ?? 0;
 
                     _regularTourRequestService.Add(RegularTourRequest);
                     MessageBox.Show("Tour request is submited. You can see it in the list of your regular tour requests list.");
@@ -234,67 +251,5 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         {
             return true;
         }
-
-        #region Validation
-
-        public string Error => null;
-
-        public string this[string columnName]
-        {
-            get
-            {
-
-                if (columnName == "Language")
-                {
-                    if (string.IsNullOrEmpty(Language))
-                        return "Language is required";
-                }
-                else if (columnName == "Country")
-                {
-                    if (string.IsNullOrEmpty(Country))
-                        return "Country is required";
-                }
-                else if (columnName == "City")
-                {
-                    if (string.IsNullOrEmpty(City))
-                        return "City is required";
-                }
-                else if (columnName == "GuestNumber")
-                {
-                    if (GuestNumber == null)
-                        return "Guest number is required";
-
-                    if (GuestNumber <= 0)
-                    {
-                        return "Guest number must be number greater than zero";
-                    }
-                }
-                else if (columnName == "Description")
-                {
-                    if (string.IsNullOrEmpty(Description))
-                        return "Description is required";
-                }
-
-                return null;
-            }
-        }
-
-        private readonly string[] _validatedProperties = { "Name", "Country", "City", "GuestNumber", "Description" };
-
-        public bool IsValid
-        {
-            get
-            {
-                foreach (var property in _validatedProperties)
-                {
-                    if (this[property] != null)
-                        return false;
-                }
-
-                return true;
-            }
-        }
-
-        #endregion
     }
 }

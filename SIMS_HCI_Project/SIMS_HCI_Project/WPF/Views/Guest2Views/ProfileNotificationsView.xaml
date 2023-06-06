@@ -43,15 +43,24 @@
             <DoubleAnimation From="392" To="0" Duration="0:0:3" RepeatBehavior="Forever" Storyboard.TargetName="myImage" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)"/>
         </Storyboard>
     </Page.Resources>
+    <Page.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF312F42"/>
+            <GradientStop Color="#FF5B5875" Offset="1"/>
+        </LinearGradientBrush>
+    </Page.Background>
 
     <Grid>
+        <!--<Image Source="../../../Resources/Images/travel.jpg" Stretch="Fill" Opacity="0.2"/>-->
+
+
+
         <Button Style="{StaticResource Guest2BackBtn}" Command="{Binding BackCommand}">
             <Image x:Name="back" Source="../../../Resources/Images/back.png"/>
         </Button>
         <Label Style="{StaticResource Guest2LabelStyle}" Foreground="#FF22B5B2" FontWeight="Medium" Content="NOTIFICATIONS" FontSize="14"  Margin="52,52,564,431" />
 
-        <!--notifications list-->
-        <ListBox ItemsSource="{Binding Notifications}" SelectedItem="{Binding SelectedNotification}" Margin="52,92,359,73">
+        <ListBox ItemsSource="{Binding Notifications}" SelectedItem="{Binding SelectedNotification}" Margin="52,92,65,73">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Text="{Binding Message}" Height="45" TextWrapping="Wrap" />
@@ -69,27 +78,11 @@
                 </TransformGroup>
             </Image.RenderTransform>
             <Image.Triggers>
-                <EventTrigger RoutedEvent="Loaded">
+                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
                     <BeginStoryboard Storyboard="{StaticResource PlaneAnimation}"/>
                 </EventTrigger>
             </Image.Triggers>
         </Image>
-
-        <!--<Image x:Name="myImage" Source="../../../Resources/Images/booking.png"  Stretch="Fill" Height="124" Width="190" Margin="765,437,0,0" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-            <Image.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform ScaleX="-1"/>
-                    <SkewTransform/>
-                    <RotateTransform/>
-                    <TranslateTransform X="912" Y="518"/>
-                </TransformGroup>
-            </Image.RenderTransform>
-            <Image.Triggers>
-                <EventTrigger RoutedEvent="Loaded">
-                    <BeginStoryboard Storyboard="{StaticResource PlaneAnimation}"/>
-                </EventTrigger>
-            </Image.Triggers>
-        </Image>-->
 
 
     </Grid>

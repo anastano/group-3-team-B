@@ -17,7 +17,7 @@
         </ResourceDictionary>
     </Page.Resources>
     <Grid Background="#FF312F42" Height="490" VerticalAlignment="Bottom">
-        <DataGrid  Margin="10,25,10,334" 
+        <DataGrid  Margin="10,25,10,345" 
                    ItemsSource="{Binding Path=MyRequests, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" Style="{StaticResource Guest2DatagridStyle}" CellStyle="{StaticResource Guest2DatagridCellStyle}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="25"/>
@@ -35,11 +35,11 @@
             </DataGrid.Columns>
 
         </DataGrid>
-        
+
 
         <Frame x:Name="CreateRequestFrame" NavigationUIVisibility="Hidden" Margin="0,195,0,0"/>
         <Button x:Name="createNewRequest" Style="{StaticResource HoverButtonStyle}" Content="CREATE NEW REQUEST" Command="{Binding DataContext.CreateRequest, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" 
-            HorizontalAlignment="Center" Margin="10,170,0,0" VerticalAlignment="Top" Height="25" Width="174"/>
+            HorizontalAlignment="Center" Margin="0,153,0,0" VerticalAlignment="Top" Height="33" Width="174"/>
 
     </Grid>
 </Page>

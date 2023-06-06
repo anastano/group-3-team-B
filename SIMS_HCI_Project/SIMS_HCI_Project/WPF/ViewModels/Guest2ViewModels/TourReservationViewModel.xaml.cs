@@ -177,8 +177,20 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             return true;
         }
 
-        
+
         #endregion
+
+        private MessageBoxResult ConfirmReservationSubmission()
+        {
+            string sMessageBoxText = $"Are you sure you want to submit this reservation?";
+            string sCaption = "Regular tour reservation submission";
+
+            MessageBoxButton btnMessageBox = MessageBoxButton.YesNo;
+            MessageBoxImage icnMessageBox = MessageBoxImage.Warning;
+
+            MessageBoxResult result = MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox, icnMessageBox);
+            return result;
+        }
 
         private void Reserve() 
         {
@@ -194,12 +206,15 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             }   
             else
             {
-                TourReservation tourReservation = MakeReservation();
-                Reservations.Add(tourReservation);
-                _tourReservationService.Add(tourReservation);
-                _tourReservationService.ReduceAvailablePlaces(_tourService,TourTime, RequestedPartySize);
+                if(ConfirmReservationSubmission() == MessageBoxResult.Yes)
+                {
+                    TourReservation tourReservation = MakeReservation();
+                    Reservations.Add(tourReservation);
+                    _tourReservationService.Add(tourReservation);
+                    _tourReservationService.ReduceAvailablePlaces(_tourService,TourTime, RequestedPartySize);
 
-                ConfirmationMessage();
+                    ConfirmationMessage();
+                }
             }
             _reservations = Reservations;
             _vouchers = Vouchers;

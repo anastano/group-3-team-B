@@ -57,10 +57,12 @@
         </ControlTemplate>
 
         <Style x:Key="Guest2Header1Style" TargetType="Label">
-            <Setter Property="Foreground" Value="Orange"/>
+            <Setter Property="Foreground" Value="#cb2d6f"/>
             <Setter Property="FontSize" Value="22"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="FontWeight" Value="Heavy"/>
+
         </Style>
 
         <ResourceDictionary x:Key="Guest2Styles">
@@ -80,6 +82,27 @@
                     <Setter Property="Background" Value="#FFA5A4A2"/>
                 </Trigger>
             </Style.Triggers>
+        </Style>
+        <Style x:Key="HoverButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#501f3a"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Background" Value="#cb2d6f"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
     </Page.Resources>
@@ -133,7 +156,7 @@
         </DataGrid>
 
 
-        <Button Content="SUBMIT" Padding="7" x:Name="btnConfirmReservation" Command="{Binding ConfirmReservationCommand}" HorizontalAlignment="Left" Margin="776,274,0,0" VerticalAlignment="Top" Height="34" Width="160" FontWeight="Medium" BorderBrush="#FF7D79EA" BorderThickness="2" Background="Orange">
+        <Button Content="SUBMIT" Padding="7" x:Name="btnConfirmReservation" Command="{Binding ConfirmReservationCommand}" HorizontalAlignment="Left" Margin="776,274,0,0" VerticalAlignment="Top" Height="34" Width="160" FontWeight="Medium" BorderBrush="#FF7D79EA" BorderThickness="2" Style="{StaticResource HoverButtonStyle}">
         </Button>
 
         <Label Foreground="Orange" Content="Available places:" HorizontalAlignment="Left" Margin="731,190,0,0" VerticalAlignment="Top"/>
@@ -164,7 +187,7 @@
                                     Background="White" Margin="340,56,476,158">
             <Image Source="{Binding Image}" Width="188" Height="119"/>
         </Button>
-        <Label Content="Make reservation" Style="{StaticResource Guest2Header1Style}"/>
+        <Label Content="MAKE RESERVATION" Style="{StaticResource Guest2Header1Style}"/>
 
 
     </Grid>

@@ -13,7 +13,9 @@
     <None Remove="Resources\Images\chat.png" />
     <None Remove="Resources\Images\goldenHouse.png" />
     <None Remove="Resources\Images\help.png" />
+    <None Remove="Resources\Images\helpT.png" />
     <None Remove="Resources\Images\logout.png" />
+    <None Remove="Resources\Images\logoutA.png" />
     <None Remove="Resources\Images\maintenance.png" />
     <None Remove="Resources\Images\menu.png" />
     <None Remove="Resources\Images\patternCircle.jpg" />
@@ -57,7 +59,9 @@
     <Resource Include="Resources\Images\goldenHouse.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\helpT.png" />
     <Resource Include="Resources\Images\logout.png" />
+    <Resource Include="Resources\Images\logoutA.png" />
     <Resource Include="Resources\Images\maintenance.png" />
     <Resource Include="Resources\Images\menu.png" />
     <Resource Include="Resources\Images\patternCircle.jpg" />

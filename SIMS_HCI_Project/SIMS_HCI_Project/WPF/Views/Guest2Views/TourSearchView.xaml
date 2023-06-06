@@ -17,9 +17,12 @@
         <Style x:Key="Guest2DatagridStyle" TargetType="DataGrid" >
             <Setter Property="ColumnHeaderHeight" Value="30"/>
             <Setter Property="FontSize" Value="12"/>
+
         </Style>
 
         <Style x:Key="Guest2DatagridCellStyle" TargetType="DataGridCell">
+            <Setter Property="Height" Value="30"/>
+
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
                     <Setter Property="Foreground" Value="Black" />
@@ -45,10 +48,33 @@
         </Style>
         <!--header 1-->
         <Style x:Key="Guest2Header1Style" TargetType="Label">
-            <Setter Property="Foreground" Value="Orange"/>
+            <Setter Property="Foreground" Value="#FF22B5B2"/>
             <Setter Property="FontSize" Value="22"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="FontWeight" Value="Heavy"/>
+
+        </Style>
+        <Style x:Key="HoverButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#501f3a"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Background" Value="#cb2d6f"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
         <ResourceDictionary x:Key="Guest2Styles" >
             <ResourceDictionary.MergedDictionaries>
@@ -97,7 +123,7 @@
                 <DataGridTemplateColumn Header="RESERVE" Width="150">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="RESERVE" Background="#FFF3A129" Command="{Binding DataContext.SeeDetailsAndReserveCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
+                            <Button Content="RESERVE" Style="{StaticResource HoverButtonStyle}" Command="{Binding DataContext.SeeDetailsAndReserveCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
                             <!--Style="{StaticResource Guest2BtnGradientOrange}" bilo iznad-->
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -116,7 +142,7 @@
             <TextBox x:Name="txtGuestNumber" Text="{Binding Path=GuestNumber, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Margin="0,384,-2,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="206" RenderTransformOrigin="0.49,2.714"/>
 
 
-            <Button Content="SEARCH" FontWeight="Medium" HorizontalAlignment="Right" Margin="0,428,22,0" VerticalAlignment="Top" RenderTransformOrigin="0.278,0.553" Command="{Binding SearchCommand}" Width="166" Height="32" FontSize="14" Background="Orange">
+            <Button Content="SEARCH" FontWeight="Medium" HorizontalAlignment="Right" Margin="0,428,22,0" VerticalAlignment="Top" RenderTransformOrigin="0.278,0.553" Command="{Binding SearchCommand}" Width="166" Height="32" FontSize="14" Style="{StaticResource HoverButtonStyle}">
             </Button>
 
             <TextBlock  Text="Country:" Style="{StaticResource Guest2TextBlockStyle}" Margin="874,79,120,404" />
@@ -129,8 +155,8 @@
             <Button Style="{StaticResource Guest2HelpBtn}" Command="{Binding HelpCommand}">
                 <Image x:Name="help" Source="../../../Resources/Images/help.png"/>
             </Button>
-            <Label Content="Search and reserve" Style="{StaticResource Guest2Header1Style}" />
-            <Button Content="RESET" Background="Orange" Command="{Binding ResetSearchCommand}" HorizontalAlignment="Left" Margin="892,475,0,0" VerticalAlignment="Top" Height="32" Width="166" FontSize="14" FontWeight="Medium"/>
+            <Label Content="SEARCH AND RESERVE" Style="{StaticResource Guest2Header1Style}" />
+            <Button Content="RESET" Style="{StaticResource HoverButtonStyle}" Command="{Binding ResetSearchCommand}" HorizontalAlignment="Left" Margin="892,475,0,0" VerticalAlignment="Top" Height="32" Width="166" FontSize="14" FontWeight="Medium"/>
         </Grid>
 
     </Grid>

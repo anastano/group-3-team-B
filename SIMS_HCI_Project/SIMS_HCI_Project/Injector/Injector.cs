@@ -30,7 +30,9 @@ namespace SIMS_HCI_Project.Injector
             { typeof(ITourKeyPointRepository), new TourKeyPointRepository() },
             { typeof(IGuestTourAttendanceRepository), new GuestTourAttendanceRepository() },
             { typeof(ITourRatingRepository), new TourRatingRepository() },
-            { typeof(IRegularTourRequestRepository), new RegularTourRequestRepository() }
+            { typeof(IRegularTourRequestRepository), new RegularTourRequestRepository() },
+            { typeof(IForumRepository), new ForumRepository() },
+            { typeof(IForumCommentRepository), new ForumCommentRepository() }
         };
 
         public static T CreateInstance<T>()

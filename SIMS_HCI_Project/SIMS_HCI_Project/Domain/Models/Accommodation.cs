@@ -52,5 +52,9 @@ namespace SIMS_HCI_Project.Domain.Models
             Reservations = new List<AccommodationReservation>();
             IsRenovated = accommodation.IsRenovated;
         }
+        public bool CanReserveAccommodation(int daysNumber, int guestsNumber)
+        {
+            return this.MinimumReservationDays <= daysNumber && this.MaxGuests >= guestsNumber;
+        }
     }
 }

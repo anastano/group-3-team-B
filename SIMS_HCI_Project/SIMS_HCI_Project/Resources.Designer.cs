@@ -63,6 +63,16 @@ namespace SIMS_HCI_Project {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] _checked {
+            get {
+                object obj = ResourceManager.GetObject("checked", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] goldenHouse {
             get {
                 object obj = ResourceManager.GetObject("goldenHouse", resourceCulture);
@@ -86,6 +96,16 @@ namespace SIMS_HCI_Project {
         internal static byte[] profil {
             get {
                 object obj = ResourceManager.GetObject("profil", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] wallpaper {
+            get {
+                object obj = ResourceManager.GetObject("wallpaper", resourceCulture);
                 return ((byte[])(obj));
             }
         }

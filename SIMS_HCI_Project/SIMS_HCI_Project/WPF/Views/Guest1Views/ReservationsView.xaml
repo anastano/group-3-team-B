@@ -138,7 +138,7 @@
                                         <Button.Visibility>
                                             <MultiBinding Converter="{local1:RateButtonVisibilityConverter}">
                                                 <Binding Path="End" />
-                                                <Binding Path="isRated" />
+                                                <Binding Path="IsRated" />
                                             </MultiBinding>
                                         </Button.Visibility>
                                     </Button>

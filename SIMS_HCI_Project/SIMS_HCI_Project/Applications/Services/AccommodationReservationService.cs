@@ -85,7 +85,7 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             foreach (AccommodationReservation reservation in _reservationRepository.GetAll())
             {
-                reservation.isRated = ratingGivenByGuestService.IsReservationRated(reservation.Id);
+                reservation.IsRated = ratingGivenByGuestService.IsReservationRated(reservation.Id);
             }
         }
         public void CancelReservation(NotificationService notificationService, AccommodationReservation reservation)
@@ -93,6 +93,25 @@ namespace SIMS_HCI_Project.Applications.Services
             String Message = "Reservation for " + reservation.Accommodation.Name + " with id: " + reservation.Id + " has been cancelled";
             notificationService.Add(new Notification(Message, reservation.Accommodation.OwnerId, false));
             _reservationRepository.EditStatus(reservation.Id, AccommodationReservationStatus.CANCELLED);
+        }
+        public List<AccommodationReservation> GetAvailableReservationsForAllAccommodations(AccommodationService acommodationService, Guest1 guest, DateTime? start, DateTime? end, int daysNumber, int guestsNumber)
+        {
+            List<AccommodationReservation> availableReservations = new List<AccommodationReservation>();
+            if (!(start.HasValue && end.HasValue))
+            {
+                start = DateTime.Today.AddDays(1);
+                end = (DateTime.Today.AddDays(daysNumber + 30));
+            }
+
+            foreach(Accommodation accommodation in acommodationService.GetAll())
+            {
+                if (accommodation.CanReserveAccommodation(daysNumber, guestsNumber))
+                {
+                    availableReservations.AddRange(GetAvailableReservations(accommodation, guest, (DateTime)start, (DateTime)end, daysNumber, guestsNumber));
+                }
+
+            }
+            return availableReservations;
         }
         public List<AccommodationReservation> GetAvailableReservations(Accommodation accommodation, Guest1 guest, DateTime start, DateTime end, int daysNumber, int guestsNumber)
         {

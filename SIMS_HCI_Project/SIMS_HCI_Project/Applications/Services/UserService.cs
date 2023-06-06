@@ -41,5 +41,12 @@ namespace SIMS_HCI_Project.Applications.Services
                 ratingService.FillAverageRatingAndSuperFlag(owner);
             }
         }
+        public void FillGuestReservationList(AccommodationReservationService reservationService)
+        {
+            foreach (Guest1 guest in _userRepository.GetByUserRole(UserRole.GUEST1))
+            {
+                guest.Reservations = reservationService.GetByGuestId(guest.Id) == null ? new List<AccommodationReservation>() : reservationService.GetByGuestId(guest.Id);
+            }
+        }
     }
 }

@@ -21,10 +21,11 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             User user = _userRepository.GetByUsername(username);
 
-            if (user == null || password != user.Password) return null; // [Update] separate to return some Sucess DTO holding User info and Error info, to indicate what went wrong
+            if (user == null || password != user.Password || !user.AccountActive) return null; // [Update] separate to return some Sucess DTO holding User info and Error info, to indicate what went wrong
 
             return user;
         }
+
         public bool SignIn(User newUser)
         {
             if (_userRepository.CheckIfUsernameExists(newUser.Username)) return false;
@@ -32,6 +33,7 @@ namespace SIMS_HCI_Project.Applications.Services
             _userRepository.Add(newUser);
             return true;
         }
+
         public void FillOwnerSuperFlag(RatingGivenByGuestService ratingService)
         {
             foreach (Owner owner in _userRepository.GetByUserRole(UserRole.OWNER))

@@ -11,9 +11,10 @@
         <converters:ImageUrlConverter x:Key="ImageUrlConverter"/>
     </Window.Resources>
     <Window.InputBindings>
-        <KeyBinding Gesture="Ctrl+A" Command="{Binding AddAccommodationCommand}"/>
-        <KeyBinding Gesture="Ctrl+D" Command="{Binding DeleteAccommodationCommand}"/>
-        <KeyBinding Gesture="Ctrl+S" Command="{Binding ShowAccommodationImagesCommand}"/>
+        <KeyBinding Gesture="Ctrl+R" Command="{Binding AddAccommodationCommand}"/>
+        <KeyBinding Gesture="Ctrl+D" Command="{Binding ShowAccommodationImagesCommand}"/>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding ShowSuggestionsCommand}"/>
+        <KeyBinding Gesture="Ctrl+Q" Command="{Binding StopDemoCommand}"/>
         <KeyBinding Key="Esc" Command="{Binding CloseAccommodationsViewCommand}"/>
     </Window.InputBindings>
     <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=btnAddAccommodation}">
@@ -27,13 +28,13 @@
                 <Border Style="{StaticResource OwnerBorderStyle}">
                     <!-- Buttons STACK PANEL-->
                     <StackPanel  Margin="5 0 5 5" Orientation="Horizontal">
-                        <Button x:Name="btnAddAccommodation"  Content="            Add New &#xa;Accommodation (Ctrl+A)" Command="{Binding AddAccommodationCommand}"
+                        <Button x:Name="btnAddAccommodation"  Content="         Register New &#xa;Accommodation (Ctrl+R)" Command="{Binding AddAccommodationCommand}"
                             Style="{StaticResource OwnerButtonStyle}" Width="220">
                         </Button>
-                        <Button x:Name="btnDeleteAccommodation"  Content="       Delete Selected &#xa;Accommodation (Ctrl+D)" Command="{Binding DeleteAccommodationCommand}"
+                        <Button x:Name="btnShowImages"  Content="Display Images (Ctrl+D)" Command="{Binding ShowAccommodationImagesCommand}"
                             Style="{StaticResource OwnerButtonStyle}" Width="220">
                         </Button>
-                        <Button x:Name="btnShowImages"  Content="Show Images (Ctrl+S)" Command="{Binding ShowAccommodationImagesCommand}"
+                        <Button x:Name="btnSuggestions"  Content="Show Suggestions (Ctrl+S)" Command="{Binding ShowSuggestionsCommand}"
                             Style="{StaticResource OwnerButtonStyle}" Width="220">
                         </Button>
                         <Button x:Name="btnClose"  Content="Close (Esc)" Command="{Binding CloseAccommodationsViewCommand}"
@@ -55,6 +56,7 @@
                                       SelectedItem="{Binding Path=SelectedAccommodation, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Focusable="True"
                                       Width="930" Height="400" Margin="10 10 10 10" CanUserSortColumns="True" SelectionMode="Single" IsTabStop="False"
                                       Style="{StaticResource OwnerDatagridStyle}" ColumnHeaderStyle="{StaticResource OwnerDataGridColumnHeaderStyle}">
+                            
                             <DataGrid.CellStyle>
                                 <Style TargetType="DataGridCell" >
                                     <Setter Property="Height" Value="100"/>
@@ -68,6 +70,8 @@
                                 </Style>
                             </DataGrid.CellStyle>
 
+                            
+                            
                             <DataGrid.Columns>
 
                                 <DataGridTemplateColumn Width="1.3*">

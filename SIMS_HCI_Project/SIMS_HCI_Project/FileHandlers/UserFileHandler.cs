@@ -35,6 +35,7 @@ namespace SIMS_HCI_Project.FileHandlers
                 user.Name = csvValues[4];
                 user.Surname = csvValues[5];
                 user.Age = Convert.ToInt32(csvValues[6]);
+                user.AccountActive = Convert.ToBoolean(csvValues[7]);
 
                 users.Add(user);
             }
@@ -56,7 +57,8 @@ namespace SIMS_HCI_Project.FileHandlers
                     user.Role.ToString(),
                     user.Name,
                     user.Surname,
-                    user.Age.ToString() 
+                    user.Age.ToString(),
+                    user.AccountActive.ToString()
                 };
 
                 string line = string.Join(Delimiter.ToString(), csvValues);

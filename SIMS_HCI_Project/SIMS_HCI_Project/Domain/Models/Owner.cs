@@ -26,6 +26,7 @@ namespace SIMS_HCI_Project.Domain.Models
             Surname = user.Surname;
             Age = user.Age;
             Role = user.Role;
+            AccountActive = user.AccountActive;
         }
     }
 }

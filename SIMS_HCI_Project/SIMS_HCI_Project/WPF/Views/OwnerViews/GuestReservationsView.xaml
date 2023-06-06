@@ -9,6 +9,7 @@
     <Window.InputBindings>
         <KeyBinding Gesture="Ctrl+S" Command="{Binding SearchReservationsCommand}"/>
         <KeyBinding Key="Esc" Command="{Binding CloseReservationsViewCommand}"/>
+        <KeyBinding Gesture="Ctrl+Q" Command="{Binding StopDemoCommand}"/>
     </Window.InputBindings>
     <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=txtAccommodationName}">
         <!-- MAIN STACK PANEL-->

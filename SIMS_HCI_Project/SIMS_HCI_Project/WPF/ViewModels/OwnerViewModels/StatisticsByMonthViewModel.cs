@@ -13,9 +13,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 {
     public class StatisticsByMonthViewModel
     {
-        private readonly AccommodationReservationService _reservationService;
-        private readonly AccommodationStatisticsService _statisticsService;
-
+        private readonly AccommodationMonthStatisticsService _monthStatisticsService;
         public StatisticsByMonthView StatisticsByMonthView { get; set; }
         public StatisticsByYearView StatisticsByYearView { get; set; }
         public SelectAccommodationForStatisticsView SelectAccommodationForStatisticsView { get; set; }
@@ -27,13 +25,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public RelayCommand HomeStatisticsByMonthViewCommand { get; set; }
 
         public StatisticsByMonthViewModel(StatisticsByMonthView statisticsByMonthView, StatisticsByYearView statisticsByYearView, 
-            SelectAccommodationForStatisticsView selectAccommodationView, AccommodationReservationService reservationService, 
-            AccommodationStatisticsService statisticsService, Accommodation selectedAccommodation, AccommodationYear accommodationYear)
+            SelectAccommodationForStatisticsView selectAccommodationView, Accommodation selectedAccommodation, AccommodationYear accommodationYear)
         {
             InitCommands();
 
-            _reservationService = reservationService;
-            _statisticsService = statisticsService;
+            _monthStatisticsService = new AccommodationMonthStatisticsService();
 
             StatisticsByMonthView = statisticsByMonthView;
             StatisticsByYearView = statisticsByYearView;
@@ -41,12 +37,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
             Accommodation = selectedAccommodation;
             AccommodationYear = accommodationYear;
-            BestMonth = _statisticsService.FindBestMonthInYear(AccommodationYear.Year, Accommodation.Id);
-            AccommodationMonths = _statisticsService.GetMonthsByAccommodationIdAndYear(Accommodation.Id, AccommodationYear.Year);
+            BestMonth = _monthStatisticsService.FindBestMonthInYear(AccommodationYear.Year, Accommodation.Id);
+            AccommodationMonths = _monthStatisticsService.GetMonthsByAccommodationIdAndYear(Accommodation.Id, AccommodationYear.Year);
         }
 
         #region Commands
-
         public void Executed_CloseStatisticsByMonthViewCommand(object obj)
         {
             StatisticsByMonthView.Close();

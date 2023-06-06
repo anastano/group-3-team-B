@@ -7,8 +7,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 {
@@ -16,66 +18,102 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
     {
 
         private readonly AccommodationService _accommodationService;
-
         public AccommodationsView AccommodationsView { get; set; }
-        public Owner Owner { get; set; }        
+        public Owner Owner { get; set; }   
         public ObservableCollection<Accommodation> Accommodations { get; set; }
         public Accommodation SelectedAccommodation { get; set; }
-
-        public RelayCommand DeleteAccommodationCommand { get; set; }
         public RelayCommand AddAccommodationCommand { get; set; }
         public RelayCommand ShowAccommodationImagesCommand { get; set; }
+        public RelayCommand ShowSuggestionsCommand { get; set; }
         public RelayCommand CloseAccommodationsViewCommand { get; set; }
+        public RelayCommand StopDemoCommand { get; set; }
 
-        public AccommodationsViewModel(AccommodationsView accommodationsView, AccommodationService accommodationService, Owner owner)
+        public AccommodationsViewModel(AccommodationsView accommodationsView, Owner owner)
         {
             InitCommands();
 
-            _accommodationService = accommodationService;
+            _accommodationService = new AccommodationService();
 
             AccommodationsView = accommodationsView;
-            Owner = owner;            
+            Owner = owner;     
             Accommodations = new ObservableCollection<Accommodation>(_accommodationService.GetByOwnerId(Owner.Id));
 
+
+            CancellationToken CT = OwnerMainViewModel.CTS.Token;
+            DemoIsOn(CT);
+
         }
+
+        #region DemoIsOn
+        private async Task DemoIsOn(CancellationToken CT) {
+            if (OwnerMainViewModel.Demo) {
+                //demo message - add accommodation
+                await Task.Delay(1000, CT);
+                Window messageView1 = new MessageView("The first feature is the registration of a new accommodation.", "Stop Demo Mode (Ctrl+Q)");
+                messageView1.Show();
+                await Task.Delay(3500, CT);
+                messageView1.Close();
+                await Task.Delay(1500, CT);
+
+                //add accommodation
+                Style selectedButtonStyle = Application.Current.FindResource("OwnerSelectedButtonStyle") as Style;
+                AccommodationsView.btnAddAccommodation.Style = selectedButtonStyle;
+                await Task.Delay(1500, CT);
+                Style normalButtonStyle = Application.Current.FindResource("OwnerButtonStyle") as Style;
+                AccommodationsView.btnAddAccommodation.Style = normalButtonStyle;
+                Window addAccommodationView = new AddAccommodationView(this, Owner);
+                addAccommodationView.ShowDialog();
+                await Task.Delay(1500, CT);
+
+                //demo message - show images
+                Window messageView3 = new MessageView("The next feature is the display of accommodation images.", "Stop Demo Mode (Ctrl+Q)");
+                messageView3.Show();
+                await Task.Delay(3500, CT);
+                messageView3.Close();
+                await Task.Delay(1500, CT);
+
+                //show images
+                Style selectedRowStyle = Application.Current.FindResource("OwnerSelectedDataGridRow") as Style;
+                AccommodationsView.dgAccommodation.RowStyle = selectedRowStyle;
+                await Task.Delay(1500, CT);
+                AccommodationsView.btnShowImages.Style = selectedButtonStyle;
+                await Task.Delay(1500, CT);
+                AccommodationsView.dgAccommodation.RowStyle = null;
+                AccommodationsView.btnShowImages.Style = normalButtonStyle;
+                Window accommodationImagesView = new AccommodationImagesView(AccommodationsView, Accommodations.FirstOrDefault());
+                accommodationImagesView.ShowDialog();
+                await Task.Delay(1500, CT);
+
+                //demo message - show suggestions
+                Window messageView4 = new MessageView("The next feature is the display of suggestions.", "Stop Demo Mode (Ctrl+Q)");
+                messageView4.Show();
+                await Task.Delay(3500, CT);
+                messageView4.Close();
+                await Task.Delay(1500, CT);
+
+                //show suggestions
+                AccommodationsView.btnSuggestions.Style = selectedButtonStyle;
+                await Task.Delay(1500, CT);
+                AccommodationsView.btnSuggestions.Style = normalButtonStyle;
+                Window accommodationSuggestions = new AccommodationSuggestionsView(AccommodationsView, Owner);
+                accommodationSuggestions.ShowDialog();
+                await Task.Delay(1500, CT);
+
+                //close window
+                AccommodationsView.btnClose.Style = selectedButtonStyle;
+                await Task.Delay(1500, CT);
+                AccommodationsView.btnClose.Style = normalButtonStyle;
+                AccommodationsView.Close();
+
+            }
+        }
+        #endregion
 
         #region Commands
-        private MessageBoxResult ConfirmDeleteAccommodation()
-        {
-            string sMessageBoxText = $"Are you sure you want to delete this accommodation?";
-            string sCaption = "Delete Accommodation Confirmation";
-
-            MessageBoxButton btnMessageBox = MessageBoxButton.YesNo;
-            MessageBoxImage icnMessageBox = MessageBoxImage.Warning;
-
-            MessageBoxResult result = MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox, icnMessageBox);
-            return result;
-        }
-
-        public void Executed_DeleteAccommodationCommand(object obj)
-        {
-            if (SelectedAccommodation != null)
-            {
-                if (ConfirmDeleteAccommodation() == MessageBoxResult.Yes)
-                {
-                    _accommodationService.Delete(SelectedAccommodation);
-                    UpdateAccommodations();
-                }
-            }
-            else 
-            {
-                MessageBox.Show("No accommodation has been selected");
-            }
-        }
-
-        public bool CanExecute_DeleteAccommodationCommand(object obj)
-        {
-            return true;
-        }
 
         public void Executed_AddAccommodationCommand(object obj)
         {
-            Window addAccommodationView = new AddAccommodationView(this, _accommodationService, Owner);
+            Window addAccommodationView = new AddAccommodationView(this, Owner);
             addAccommodationView.ShowDialog();
         }
 
@@ -88,7 +126,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             if (SelectedAccommodation != null)
             {
-                Window accommodationImagesView = new AccommodationImagesView(_accommodationService, SelectedAccommodation);
+                Window accommodationImagesView = new AccommodationImagesView(AccommodationsView , SelectedAccommodation);
                 accommodationImagesView.ShowDialog();
             }
             else
@@ -102,6 +140,18 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             return true;
         }
 
+
+        public void Executed_ShowSuggestionsCommand(object obj)
+        {
+            Window accommodationSuggestionsView = new AccommodationSuggestionsView(AccommodationsView, Owner);
+            accommodationSuggestionsView.ShowDialog();
+        }
+
+        public bool CanExecute_ShowSuggestionsCommand(object obj)
+        {
+            return true;
+        }
+
         public void Executed_CloseAccommodationsViewCommand(object obj)
         {
             AccommodationsView.Close();
@@ -111,14 +161,50 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             return true;
         }
+
+        private async Task StopDemo()
+        {
+            if (OwnerMainViewModel.Demo)
+            {
+                OwnerMainViewModel.CTS.Cancel();
+                OwnerMainViewModel.Demo = false;
+
+                //demo message - end
+                AccommodationsView.Close();
+                Window messageDemoOver = new MessageView("The demo mode is over.", "");
+                messageDemoOver.Show();
+                await Task.Delay(2500);
+                messageDemoOver.Close();
+            }
+        }
+
+        public void Executed_StopDemoCommand(object obj)
+        {
+            try
+            {
+                StopDemo();
+            }
+            catch (OperationCanceledException)
+            {
+                MessageBox.Show("Error!");
+            }
+        }
+
+        public bool CanExecute_StopDemoCommand(object obj)
+        {
+            return true;
+        }
+
+
         #endregion
 
         public void InitCommands()
         {
-            DeleteAccommodationCommand = new RelayCommand(Executed_DeleteAccommodationCommand, CanExecute_DeleteAccommodationCommand);
             AddAccommodationCommand = new RelayCommand(Executed_AddAccommodationCommand, CanExecute_AddAccommodationCommand);
             ShowAccommodationImagesCommand = new RelayCommand(Executed_ShowAccommodationImagesCommand, CanExecute_ShowAccommodationImagesCommand);
+            ShowSuggestionsCommand = new RelayCommand(Executed_ShowSuggestionsCommand, CanExecute_ShowSuggestionsCommand);
             CloseAccommodationsViewCommand = new RelayCommand(Executed_CloseAccommodationsViewCommand, CanExecute_CloseAccommodationsViewCommand);
+            StopDemoCommand = new RelayCommand(Executed_StopDemoCommand, CanExecute_StopDemoCommand);
         }
 
         public void UpdateAccommodations()

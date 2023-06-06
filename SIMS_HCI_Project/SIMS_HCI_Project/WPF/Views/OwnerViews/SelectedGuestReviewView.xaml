@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         mc:Ignorable="d"
-        Title="SelectedGuestReviewView" Height="550" Width="1000" WindowStartupLocation="CenterScreen">
+        Title="SelectedGuestReviewView" Height="550" Width="1120" WindowStartupLocation="CenterScreen">
     <Window.InputBindings>
         <KeyBinding Key="Left" Command="{Binding PreviousGuestReviewImageCommand}"/>
         <KeyBinding Key="Right"  Command="{Binding NextGuestReviewImageCommand}"/>
-        <KeyBinding Gesture="Ctrl+H" Command="{Binding HomePageFromSelectedReviewCommand}"/>
+        <KeyBinding Gesture="Ctrl+Z" Command="{Binding HomePageFromSelectedReviewCommand}"/>
         <KeyBinding Key="Esc" Command="{Binding CloseSelectedGuestReviewViewCommand}"/>
     </Window.InputBindings>
     <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=btnClose}">
@@ -34,7 +34,7 @@
                                 <StackPanel Orientation="Vertical" Width="170" Margin="10">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Name:  " FontSize="16" HorizontalAlignment="Left" Margin="0 10 0 0"
-                                        Style="{StaticResource OwnerTitleStyle}">
+                                        Style="{StaticResource OwnerTitleStyle}" FontWeight="SemiBold">
                                         </TextBlock>
                                         <TextBlock  Text="{Binding Path = SelectedReview.Reservation.Guest.Name, UpdateSourceTrigger = PropertyChanged}" 
                                                     FontSize="16" HorizontalAlignment="Left" Margin="0 10 0 0"
@@ -44,7 +44,7 @@
 
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Surname:  " FontSize="16" HorizontalAlignment="Left"
-                                        Style="{StaticResource OwnerTitleStyle}">
+                                        Style="{StaticResource OwnerTitleStyle}" FontWeight="SemiBold">
                                         </TextBlock>
                                         <TextBlock  Text="{Binding Path = SelectedReview.Reservation.Guest.Surname, UpdateSourceTrigger = PropertyChanged}" 
                                                     FontSize="16" HorizontalAlignment="Left" 
@@ -54,10 +54,10 @@
 
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Rating:  " FontSize="16" HorizontalAlignment="Left"
-                                        Style="{StaticResource OwnerTitleStyle}">
+                                        Style="{StaticResource OwnerTitleStyle}" FontWeight="SemiBold">
                                         </TextBlock>
                                         <TextBlock  Text="4.5" 
-                                                    FontSize="20" FontWeight="Bold" HorizontalAlignment="Left" Margin="0 -10 0 0"
+                                                    FontSize="20" HorizontalAlignment="Left" Margin="0 -10 0 0"
                                                     Style="{StaticResource OwnerTitleStyle}">
                                         </TextBlock>
 
@@ -67,10 +67,10 @@
                             </StackPanel>
 
                             <Border Style="{StaticResource OwnerBorderStyle}" Margin="10 0 10 10">
-                                <StackPanel Orientation="Vertical" Width="270" Margin="10 0 0 0">
+                                <StackPanel Orientation="Vertical" Width="270" Margin="10 0 10 0">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Accommodation:  " FontSize="16" HorizontalAlignment="Left" Margin="0"
-                                        Style="{StaticResource OwnerTitleStyle}">
+                                        Style="{StaticResource OwnerTitleStyle}" FontWeight="SemiBold">
                                         </TextBlock>
                                         <TextBlock  Text="{Binding Path = SelectedReview.Reservation.Accommodation.Name, UpdateSourceTrigger = PropertyChanged}" 
                                                     FontSize="16" HorizontalAlignment="Left" Width="140" TextWrapping="Wrap" Height="50"
@@ -80,7 +80,7 @@
 
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Reservation Id:  " FontSize="16" HorizontalAlignment="Left" Margin="0"
-                                        Style="{StaticResource OwnerTitleStyle}">
+                                        Style="{StaticResource OwnerTitleStyle}" FontWeight="SemiBold">
                                         </TextBlock>
                                         <TextBlock  Text="{Binding Path = SelectedReview.ReservationId, UpdateSourceTrigger = PropertyChanged}" 
                                                     FontSize="16" HorizontalAlignment="Left" Margin="0"
@@ -90,7 +90,7 @@
 
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Start:  " FontSize="16" HorizontalAlignment="Left" Margin="0"
-                                        Style="{StaticResource OwnerTitleStyle}">
+                                        Style="{StaticResource OwnerTitleStyle}" FontWeight="SemiBold">
                                         </TextBlock>
                                         <TextBlock  Text="{Binding SelectedReview.Reservation.Start, StringFormat='{}{0:MM/dd/yyyy}'}" 
                                                     FontSize="16" HorizontalAlignment="Left" Margin="0"
@@ -101,7 +101,7 @@
 
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="End:  " FontSize="16" HorizontalAlignment="Left" Margin="0"
-                                        Style="{StaticResource OwnerTitleStyle}">
+                                        Style="{StaticResource OwnerTitleStyle}" FontWeight="SemiBold">
                                         </TextBlock>
                                         <TextBlock  Text="{Binding SelectedReview.Reservation.End, StringFormat='{}{0:MM/dd/yyyy}'}" 
                                                     FontSize="16" HorizontalAlignment="Left" Margin="0"
@@ -122,50 +122,58 @@
                     </TextBlock>
 
                     <Border Style="{StaticResource OwnerBorderStyle}" Margin="5">
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" Height="355">
                             <StackPanel Margin="10">
 
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBlock Text="Cleanliness (1-5):  " FontSize="16" HorizontalAlignment="Left"
-                                        Style="{StaticResource OwnerTitleStyle}" FontWeight="Bold">
+                                    <TextBlock Text="Cleanliness (1-5):  " FontSize="16" HorizontalAlignment="Left" Margin="0 10 0 0"
+                                        Style="{StaticResource OwnerTitleStyle}" FontWeight="SemiBold">
                                     </TextBlock>
-                                    <TextBlock Text="{Binding SelectedReview.Cleanliness}" FontSize="16" HorizontalAlignment="Left"
-                                        Style="{StaticResource OwnerTitleStyle}">
-                                    </TextBlock>
+                                    <Border Style="{StaticResource OwnerBorderStyle}" Width="40" Height="35" Margin="10 -10 0 0">
+                                        <TextBlock Text="{Binding SelectedReview.Cleanliness}" FontSize="20" HorizontalAlignment="Left" 
+                                        Style="{StaticResource OwnerTitleStyle}" Margin="12 6 0 0">
+                                        </TextBlock>
+                                    </Border>
                                 </StackPanel>
 
-                                <StackPanel Orientation="Horizontal">
+                                <StackPanel Orientation="Horizontal" Margin="0 5 0 0">
                                     <TextBlock Text="Correctness (1-5):  " FontSize="16" HorizontalAlignment="Left"
-                                        Style="{StaticResource OwnerTitleStyle}" FontWeight="Bold">
+                                        Style="{StaticResource OwnerTitleStyle}" FontWeight="SemiBold">
                                     </TextBlock>
-                                    <TextBlock Text="{Binding SelectedReview.Correctness}" FontSize="16" HorizontalAlignment="Left"
-                                        Style="{StaticResource OwnerTitleStyle}">
-                                    </TextBlock>
+                                    <Border Style="{StaticResource OwnerBorderStyle}" Width="40" Height="35"  Margin="10 -20 0 0">
+                                        <TextBlock Text="{Binding SelectedReview.Correctness}" FontSize="20" HorizontalAlignment="Left" 
+                                        Style="{StaticResource OwnerTitleStyle}" Margin="12 6 0 0" >
+                                        </TextBlock>
+                                    </Border>
                                 </StackPanel>
 
                                 <StackPanel Orientation="Vertical">
                                     <TextBlock Text="Additional comment:  " FontSize="16" HorizontalAlignment="Left"
-                                        Style="{StaticResource OwnerTitleStyle}" FontWeight="Bold">
+                                        Style="{StaticResource OwnerTitleStyle}" FontWeight="SemiBold">
                                     </TextBlock>
-                                    <TextBox Text="{Binding SelectedReview.AdditionalComment}" FontSize="16" HorizontalAlignment="Left" IsReadOnly="True" IsTabStop="False" Focusable="False"
-                                 Style="{StaticResource OwnerTextBoxStyle}" Width="260" Height="160" Foreground="{StaticResource OwnerMainColor}">
-                                    </TextBox>
+                                    <Border Style="{StaticResource OwnerBorderStyle}"  Margin="0 -10 0 0" HorizontalAlignment="Left">
+                                        <TextBlock Text="{Binding SelectedReview.AdditionalComment}" FontSize="16" HorizontalAlignment="Left" 
+                                        Style="{StaticResource OwnerTitleStyle}" Margin="10" TextAlignment="Left" Height="170" Width="250" TextWrapping="Wrap">
+                                        </TextBlock>
+                                    </Border>
+
                                 </StackPanel>
                             </StackPanel>
 
-                            <StackPanel Width="350" Orientation="Vertical">
-                                <Border Style="{StaticResource OwnerBorderStyle}" Margin="10">
-                                    <Image Source="{Binding Image, UpdateSourceTrigger=PropertyChanged}" Height="280" Width="300" Margin="10"/>
-                                </Border>
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <Button x:Name="btnPrevious" Content="&lt;&lt;" Command="{Binding PreviousGuestReviewImageCommand}"
-                                Style="{StaticResource OwnerButtonStyle}" Width="120" Height="30">
-                                    </Button>
+                            <StackPanel Width="460" Orientation="Vertical">
+                                <Border Style="{StaticResource OwnerBorderStyle}" Margin="0 60 0 0">
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                                        <Button x:Name="btnPrevious" Content="&lt;&lt;" Command="{Binding PreviousGuestReviewImageCommand}"
+                                        Style="{StaticResource OwnerButtonStyle}" Width="40" Height="200">
+                                        </Button>
 
-                                    <Button x:Name="btnNext" Content="&gt;&gt;"  Command="{Binding NextGuestReviewImageCommand}"
-                                Style="{StaticResource OwnerButtonStyle}" Width="120" Height="30">
-                                    </Button>
-                                </StackPanel>
+                                        <Image Source="{Binding Image, UpdateSourceTrigger=PropertyChanged}" Height="200" Width="300" Margin="10"/>
+
+                                        <Button x:Name="btnNext" Content="&gt;&gt;"  Command="{Binding NextGuestReviewImageCommand}"
+                                        Style="{StaticResource OwnerButtonStyle}" Width="40" Height="200">
+                                        </Button>
+                                    </StackPanel>
+                                </Border>
                             </StackPanel>
 
                         </StackPanel>
@@ -179,7 +187,7 @@
                 Style="{StaticResource OwnerButtonStyle}">
                 </Button>
 
-                <Button x:Name="btnHome" Content="Home (Ctrl+H)" Command="{Binding HomePageFromSelectedReviewCommand}"
+                <Button x:Name="btnHome" Content="Home (Ctrl+Z)" Command="{Binding HomePageFromSelectedReviewCommand}"
                 Style="{StaticResource OwnerButtonStyle}">
                 </Button>
             </StackPanel>

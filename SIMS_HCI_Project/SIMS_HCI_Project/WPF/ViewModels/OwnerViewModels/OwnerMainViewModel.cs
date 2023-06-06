@@ -5,13 +5,19 @@ using SIMS_HCI_Project.WPF.Commands;
 using SIMS_HCI_Project.WPF.Views;
 using SIMS_HCI_Project.WPF.Views.Guest1Views;
 using SIMS_HCI_Project.WPF.Views.OwnerViews;
+using Syncfusion.XPS;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Effects;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 {
@@ -25,13 +31,19 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         private RatingGivenByOwnerService _ownerRatingService;
         private RatingGivenByGuestService _guestRatingService;
         private RenovationService _renovationService;
-        private AccommodationStatisticsService _statisticsService;
+        private AccommodationYearStatisticsService _statisticsService;
+        private RenovationRecommendationService _recommendationService;
         #endregion
 
+        public static CancellationTokenSource CTS;
+        public static bool Demo { get; set; }
         public OwnerMainView OwnerMainView { get; set; }
-        public Owner Owner { get; set; }        
+        public Owner Owner { get; set; }
+
         public ObservableCollection<AccommodationReservation> ReservationsInProgress { get; set; }
         public ObservableCollection<Notification> Notifications { get; set; }
+
+        #region RelayCommands
         public RelayCommand ShowAccommodationsCommand { get; set; }
         public RelayCommand ShowReservationsCommand { get; set; }
         public RelayCommand ShowRenovationsCommand { get; set; }
@@ -39,13 +51,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public RelayCommand ShowUnratedReservationsCommand { get; set; }
         public RelayCommand ShowGuestReviewsCommand { get; set; }
         public RelayCommand ShowStatisticsCommand { get; set; }
-        
+        public RelayCommand StartDemoCommand { get; set; }
+        public RelayCommand StopDemoCommand { get; set; }
         public RelayCommand LogoutCommand { get; set; }
+
+        #endregion
 
         public OwnerMainViewModel(OwnerMainView ownerMainView, Owner owner) 
         {
             OwnerMainView = ownerMainView;
             Owner = owner;
+            Demo = false;           
             
             LoadFromFiles();
             InitCommands();
@@ -54,6 +70,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             Notifications = new ObservableCollection<Notification>(_notificationService.GetUnreadByUserId(Owner.Id));
 
             ShowNotificationsAndSuperFlag();
+
+            CTS = new CancellationTokenSource();
         }
 
         public void LoadFromFiles()
@@ -65,7 +83,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             _ownerRatingService = new RatingGivenByOwnerService();
             _guestRatingService = new RatingGivenByGuestService();
             _renovationService = new RenovationService();
-            _statisticsService = new AccommodationStatisticsService();
+            _statisticsService = new AccommodationYearStatisticsService();
+            _recommendationService = new RenovationRecommendationService();
 
             _guestRatingService.FillAverageRatingAndSuperFlag(Owner);
         }
@@ -87,7 +106,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         #region Commands
         public void Executed_ShowAccommodationsCommand(object obj)
         {
-            Window accommodationsView = new AccommodationsView(_accommodationService, Owner);
+            Window accommodationsView = new AccommodationsView(Owner);
             accommodationsView.ShowDialog();
         }
 
@@ -98,7 +117,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public void Executed_ShowReservationsCommand(object obj)
         {
-            Window reservationsView = new GuestReservationsView(_reservationService, Owner);
+            Window reservationsView = new GuestReservationsView(Owner);
             reservationsView.ShowDialog();
         }
 
@@ -109,7 +128,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public void Executed_ShowRenovationsCommand(object obj)
         {
-            Window renovtionsView = new RenovationsView(_renovationService, _reservationService, _accommodationService, Owner);
+            Window renovtionsView = new RenovationsView(Owner);
             renovtionsView.ShowDialog();
         }
 
@@ -120,7 +139,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public void Executed_ShowPendingRequestsCommand(object obj)
         {
-            Window requestsView = new RescheduleRequestsView(_requestService, _reservationService, _notificationService, Owner);
+            Window requestsView = new RescheduleRequestsView(Owner);
             requestsView.ShowDialog();
         }
 
@@ -131,7 +150,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public void Executed_ShowUnratedReservationsCommand(object obj)
         {
-            Window unratedReservationsView = new UnratedReservationsView(_reservationService, _ownerRatingService, Owner);
+            Window unratedReservationsView = new UnratedReservationsView(Owner);
             unratedReservationsView.ShowDialog();
         }
 
@@ -142,7 +161,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public void Executed_ShowGuestReviewsCommand(object obj)
         {
-            Window guestReviewsView = new GuestReviewsView(_guestRatingService, _ownerRatingService, Owner);
+            Window guestReviewsView = new GuestReviewsView(Owner);
             guestReviewsView.ShowDialog();
         }
 
@@ -153,7 +172,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public void Executed_ShowStatisticsCommand(object obj)
         {
-            Window statisticsView = new SelectAccommodationForStatisticsView(_accommodationService, _reservationService, _statisticsService, Owner);
+            Window statisticsView = new SelectAccommodationForStatisticsView(Owner);
             statisticsView.ShowDialog();
         }
 
@@ -162,14 +181,115 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             return true;
         }
 
+        private async Task StartDemo() 
+        {
+            Style selectedButtonStyle = Application.Current.FindResource("OwnerSelectedButtonStyle") as Style;
+            Style normalButtonStyle = Application.Current.FindResource("OwnerButtonStyle") as Style;
+
+            if (!Demo)
+            {
+                CTS = new CancellationTokenSource();
+                CancellationToken CT = CTS.Token;
+                Demo = true;
+                //demo message - start                   
+                await Task.Delay(500, CT);
+                Window messageDemoOn = new MessageView("The demo mode is on.", "Stop Demo Mode (Ctrl+Q)");
+                messageDemoOn.Show();
+                await Task.Delay(2500, CT);
+                messageDemoOn.Close();
+                await Task.Delay(1500, CT);
+
+                //accommodations view           
+                OwnerMainView.btnAccommodations.Style = selectedButtonStyle;
+                await Task.Delay(1500, CT);
+                OwnerMainView.btnAccommodations.Style = normalButtonStyle;
+                Window accommodationsView = new AccommodationsView(Owner);
+                accommodationsView.ShowDialog();
+                await Task.Delay(1500, CT);
+
+                //reservations view
+                OwnerMainView.btnReservations.Style = selectedButtonStyle;
+                await Task.Delay(1500, CT);
+                OwnerMainView.btnReservations.Style = normalButtonStyle;
+                Window reservationsView = new GuestReservationsView(Owner);
+                reservationsView.ShowDialog();
+                await Task.Delay(1500, CT);
+
+                //demo message - end
+                Window messageDemoOver = new MessageView("The demo mode is over.", "");
+                messageDemoOver.Show();
+                await Task.Delay(2500, CT);
+                messageDemoOver.Close();
+
+                Demo = false;
+            }
+
+        }
+
+        public void Executed_StartDemoCommand(object obj)
+        {
+            try
+            {
+                StartDemo();              
+            }
+            catch (OperationCanceledException)
+            {
+                MessageBox.Show("Error!");
+            }
+            
+        }
+
+        public bool CanExecute_StartDemoCommand(object obj)
+        {
+            return true;
+        }
+
+        private async Task StopDemo()
+        {
+            Style normalButtonStyle = Application.Current.FindResource("OwnerButtonStyle") as Style;
+
+            if (Demo)
+            {
+                CTS.Cancel();
+                Demo = false;
+                OwnerMainView.btnAccommodations.Style = normalButtonStyle;
+                OwnerMainView.btnReservations.Style = normalButtonStyle;
+
+                //demo message - end
+                Window messageDemoOver = new MessageView("The demo mode is over.", "");
+                messageDemoOver.Show();
+                await Task.Delay(2500);
+                messageDemoOver.Close();
+
+            }
+        }
+
+        public void Executed_StopDemoCommand(object obj)
+        {
+            try
+            {
+                StopDemo();
+            }
+            catch (OperationCanceledException)
+            {
+                MessageBox.Show("Error!");
+            }
+
+        }
+
+        public bool CanExecute_StopDemoCommand(object obj)
+        {
+            return true;
+        }
+
         public void Executed_LogoutCommand(object obj)
         {
-            /*
+            
             foreach (Notification notification in _notificationService.GetUnreadByUserId(Owner.Id))
             {
                 _notificationService.MarkAsRead(notification.Id);
             }
-            */
+            
 
             OwnerMainView.Close();
         }
@@ -189,7 +309,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             ShowUnratedReservationsCommand = new RelayCommand(Executed_ShowUnratedReservationsCommand, CanExecute_ShowUnratedReservationsCommand);
             ShowGuestReviewsCommand = new RelayCommand(Executed_ShowGuestReviewsCommand, CanExecute_ShowGuestReviewsCommand);
             ShowStatisticsCommand = new RelayCommand(Executed_ShowStatisticsCommand, CanExecute_ShowStatisticsCommand);
-
+            StartDemoCommand = new RelayCommand(Executed_StartDemoCommand, CanExecute_StartDemoCommand);
+            StopDemoCommand = new RelayCommand(Executed_StopDemoCommand, CanExecute_StopDemoCommand);
             LogoutCommand = new RelayCommand(Executed_LogoutCommand, CanExecute_LogoutCommand);
         }
 

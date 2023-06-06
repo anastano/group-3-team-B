@@ -7,6 +7,11 @@
         xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
         mc:Ignorable="d"
         Title="StatisticsByYear" Height="670" Width="700" WindowStartupLocation="CenterScreen">
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding SelectYearForStatisticsCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseStatisticsByYearViewCommand}"/>
+        <KeyBinding Gesture="Ctrl+Z" Command="{Binding HomeStatisticsByYearViewCommand}"/>
+    </Window.InputBindings>
     <Window.Resources>
         <converters:MultiplyCountConverter x:Key="MultiplyCountConverter"/>
     </Window.Resources>
@@ -73,53 +78,7 @@
                         </Grid>
 
                     </StackPanel>
-                    <!--
-                    <DataGrid x:Name = "dgAccommodationYears" AutoGenerateColumns="False" ItemsSource="{Binding Path=AccommodationYears, UpdateSourceTrigger=PropertyChanged}" 
-                                      SelectedItem="{Binding Path=SelectedYear, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Focusable="True"
-                                      Width="550" Height="400" Margin="10 10 10 10" CanUserSortColumns="True" SelectionMode="Single" IsTabStop="False"
-                                      Style="{StaticResource OwnerDatagridStyle}" ColumnHeaderStyle="{StaticResource OwnerDataGridColumnHeaderStyle}"
-                                      CellStyle="{StaticResource OwnerDatagridCellStyle}">
-
-
-                        <DataGrid.Columns>
-
-                            <DataGridTemplateColumn Width="*" Header="Year">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Year}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-
-                            <DataGridTemplateColumn Width="*" Header="Reservations">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding ReservationCount}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-
-                            <DataGridTemplateColumn Width="*" Header="Cancellations">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding CancellationCount}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-
-                            <DataGridTemplateColumn Width="*" Header="Reschedulings">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding ReschedulingCount}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-
-                        </DataGrid.Columns>
-
-                    </DataGrid>
-                    -->
-
+                    
                     <StackPanel>
                         <ListBox x:Name="listAccommodationYears" FontSize="20" ItemsSource="{Binding AccommodationYears}" Height="395" Width="Auto" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center"
                                  SelectedItem="{Binding SelectedYear}">
@@ -195,7 +154,7 @@
                         Style="{StaticResource OwnerButtonStyle}" Width="200">
                 </Button>
 
-                <Button x:Name="btnHome" Content="Home (Ctrl+H)" Command="{Binding HomeStatisticsByYearViewCommand}"
+                <Button x:Name="btnHome" Content="Home (Ctrl+Z)" Command="{Binding HomeStatisticsByYearViewCommand}"
                         Style="{StaticResource OwnerButtonStyle}" Width="200">
                 </Button>
             </StackPanel>

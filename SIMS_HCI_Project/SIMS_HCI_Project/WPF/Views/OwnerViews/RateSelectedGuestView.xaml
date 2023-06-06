@@ -4,20 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d"
         Title="RateSelectedGuestView" Height="470" Width="600" WindowStartupLocation="CenterScreen">
-    <Window.Resources>
-        <ControlTemplate x:Key="ValidationTemplate">
-            <StackPanel>
-                <!-- Placeholder for the TextBox itself -->
-                <AdornedElementPlaceholder x:Name="textBox" />
-                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" HorizontalAlignment="Center" />
-            </StackPanel>
 
-        </ControlTemplate>
-    </Window.Resources>
     <Window.InputBindings>
-        <KeyBinding Gesture="Ctrl+R" Command="{Binding RateGuestCommand}"/>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding RateGuestCommand}"/>
         <KeyBinding Key="Esc" Command="{Binding CloseRateSelectedGuestViewCommand}"/>
     </Window.InputBindings>
 
@@ -65,20 +57,28 @@
                         <Label Content="Additional comment: " Grid.Row="2" Grid.Column="0" 
                                Style="{StaticResource OwnerLabelStyle}"></Label>
 
-                        <TextBox x:Name="txtCleanliness" Grid.Row="0" Grid.Column="1"
-                                    Text="{Binding Path = Cleanliness, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                    Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
-                                    Style="{StaticResource OwnerTextBoxStyle}" Width="100" Height="30">
-                        </TextBox>
+                        <StackPanel  Grid.Row="0" Grid.Column="1">
+                            <TextBox x:Name="txtCleanliness" TextWrapping="Wrap"
+                                    Text="{Binding Path = ValidatedRating.Cleanliness, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                    Style="{StaticResource OwnerTextBoxStyle}" Width="100" Height="30" Margin="0 10 0 0">
+                            </TextBox>
+                            <TextBlock Text="{Binding ValidatedRating.ValidationErrors[Cleanliness]}"
+                               Foreground="Red" FontSize="12">
+                            </TextBlock>
+                        </StackPanel>
 
-                        <TextBox x:Name="txtRuleCompliance"  Grid.Row="1" Grid.Column="1"
-                                    Text="{Binding Path = RuleCompliance, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
-                                    Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
-                                    Style="{StaticResource OwnerTextBoxStyle}" Width="100" Height="30">
-                        </TextBox>
+                        <StackPanel  Grid.Row="1" Grid.Column="1">
+                            <TextBox x:Name="txtRuleCompliance"   TextWrapping="Wrap"
+                                    Text="{Binding Path = ValidatedRating.RuleCompliance, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                                    Style="{StaticResource OwnerTextBoxStyle}" Width="100" Height="30" Margin="0 10 0 0">
+                            </TextBox>
+                            <TextBlock Text="{Binding ValidatedRating.ValidationErrors[RuleCompliance]}"
+                               Foreground="Red" FontSize="12">
+                            </TextBlock>
+                        </StackPanel>
 
                         <TextBox x:Name="txtAdditionalComment"  Grid.Row="2" Grid.Column="1"
-                             Text="{Binding Path= Rating.AdditionalComment}"
+                             Text="{Binding Path= AdditionalComment, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" TextWrapping="Wrap"
                              Style="{StaticResource OwnerTextBoxStyle}" Width="280" Height="100">
                         </TextBox>
 
@@ -87,7 +87,7 @@
             </Border>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="btnRate" Content="Rate (Ctrl+R)" Command="{Binding RateGuestCommand}"
+                <Button x:Name="btnRate" Content="Submit (Ctrl+S)" Command="{Binding RateGuestCommand}"
                 Style="{StaticResource OwnerButtonStyle}">
                 </Button>
 

@@ -48,6 +48,11 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _accommodations.FindAll(a => a.OwnerId == ownerId);
         }
+
+        public List<Accommodation> GetByLocationIdAndOwnerId(int locationId, int ownerId)
+        {
+            return _accommodations.FindAll(a => a.LocationId == locationId && a.OwnerId == ownerId);
+        }
         public List<Accommodation> GetAllSortedBySuperFlag()
         {
             return _accommodations.OrderByDescending(a => a.Owner.SuperFlag).ToList();

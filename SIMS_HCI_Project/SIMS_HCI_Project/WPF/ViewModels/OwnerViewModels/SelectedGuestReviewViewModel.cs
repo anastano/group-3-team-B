@@ -17,9 +17,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 {
     public class SelectedGuestReviewViewModel : INotifyPropertyChanged
     {
+        private int _currentImageIndex = 0;
         public SelectedGuestReviewView SelectedGuestReviewView { get; set; }
         public GuestReviewsView GuestReviewsView { get; set; }
         public RatingGivenByGuest SelectedReview { get; set; }
+
+        #region OnPropertyChanged
         public List<string> Images { get; set; }
 
         private string _image;
@@ -37,19 +40,18 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             }
         }
 
-        private int _currentImageIndex = 0;
-
-        public RelayCommand CloseSelectedGuestReviewViewCommand { get; set; }
-        public RelayCommand HomePageFromSelectedReviewCommand { get; set; }
-        
-        public RelayCommand NextGuestReviewImageCommand { get; set; }
-        public RelayCommand PreviousGuestReviewImageCommand { get; set; }
-
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        #endregion
+
+        public RelayCommand CloseSelectedGuestReviewViewCommand { get; set; }
+        public RelayCommand HomePageFromSelectedReviewCommand { get; set; }      
+        public RelayCommand NextGuestReviewImageCommand { get; set; }
+        public RelayCommand PreviousGuestReviewImageCommand { get; set; }
 
         public SelectedGuestReviewViewModel(SelectedGuestReviewView selectedGuestReviewView, GuestReviewsView guestReviewsView, RatingGivenByGuest selectedReview) 
         {

@@ -14,5 +14,6 @@ namespace SIMS_HCI_Project.Repositories
         List<string> GetImages(int id);
         void Delete(Accommodation accommodation);
         void Add(Accommodation accommodation);
+        List<Accommodation> GetByLocationIdAndOwnerId(int locationId, int ownerId);
     }
 }

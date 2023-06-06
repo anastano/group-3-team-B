@@ -16,8 +16,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
     {
         private readonly AccommodationService _accommodationService;
         private readonly AccommodationReservationService _reservationService;
-        private readonly AccommodationStatisticsService _statisticsService;
-
         public SelectAccommodationForStatisticsView SelectAccommodationForStatisticsView { get; set; }
         public Owner Owner { get; set; }
         public ObservableCollection<Accommodation> Accommodations { get; set; }
@@ -26,15 +24,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public RelayCommand SelectAccommodationForStatisticsCommand { get; set; }
         public RelayCommand CloseSelectAccommodationForStatisticsViewCommand { get; set; }
 
-        public SelectAccommodationForStatisticsViewModel(SelectAccommodationForStatisticsView selectAccommodationForStatisticsView,
-            AccommodationService accommodationService, AccommodationReservationService reservationService, 
-            AccommodationStatisticsService statisticsService, Owner owner)
+        public SelectAccommodationForStatisticsViewModel(SelectAccommodationForStatisticsView selectAccommodationForStatisticsView, Owner owner)
         {
             InitCommands();
 
-            _accommodationService = accommodationService;
-            _reservationService = reservationService;
-            _statisticsService = statisticsService;
+            _accommodationService = new AccommodationService();
+            _reservationService = new AccommodationReservationService();
 
             SelectAccommodationForStatisticsView = selectAccommodationForStatisticsView;
             Owner = owner;
@@ -42,14 +37,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         }
 
         #region Commands
-
         public void Executed_SelectAccommodationForStatisticsCommand(object obj)
         {
             if (SelectedAccommodation != null)
             {
                 if (_reservationService.GetByAccommodationId(SelectedAccommodation.Id).Count() != 0)
                 {
-                    Window statisticsByYearView = new StatisticsByYearView(SelectAccommodationForStatisticsView, _reservationService, _statisticsService, SelectedAccommodation);
+                    Window statisticsByYearView = new StatisticsByYearView(SelectAccommodationForStatisticsView, SelectedAccommodation);
                     statisticsByYearView.ShowDialog();
                 }
                 else 
@@ -59,7 +53,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             }
             else
             {
-                MessageBox.Show("No accommodation has been selected");
+                MessageBox.Show("No accommodation has been selected.");
             }
         }
 

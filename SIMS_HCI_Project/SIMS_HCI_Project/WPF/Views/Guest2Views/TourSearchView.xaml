@@ -11,10 +11,46 @@
 
 
     <Page.Resources>
+        <converters:FullNameConverter x:Key="FullNameConverter" />
 
-        <!--converters:FullNameConverter x:Key="FullNameConverter" /-->
+        <!--data grid-->
+        <Style x:Key="Guest2DatagridStyle" TargetType="DataGrid" >
+            <Setter Property="ColumnHeaderHeight" Value="30"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
 
-        <ResourceDictionary >
+        <Style x:Key="Guest2DatagridCellStyle" TargetType="DataGridCell">
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="Black" />
+                    <Setter Property="Background" Value="#FFF3C879"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <!--textblock-->
+        <Style x:Key="Guest2TextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Margin" Value="0 0 0 0"/>
+        </Style>
+        <!--help button-->
+        <Style x:Key="Guest2HelpBtn" TargetType="Button">
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Width" Value="35"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="ToolTip" Value="Help"/>
+            <!--Image Source="../../../Resources/Images/help.png" /-->
+        </Style>
+        <!--header 1-->
+        <Style x:Key="Guest2Header1Style" TargetType="Label">
+            <Setter Property="Foreground" Value="Orange"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+        </Style>
+        <ResourceDictionary x:Key="Guest2Styles" >
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../../Styles/Guest2Styles.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
@@ -61,13 +97,13 @@
                 <DataGridTextColumn Header="Language" Binding="{Binding Language}" Width="105"></DataGridTextColumn>
                 <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" Width="60"></DataGridTextColumn>
                 <DataGridTextColumn Header="Capacity" Binding="{Binding MaxGuests}" Width="60"></DataGridTextColumn>
-                <DataGridTextColumn Header="Guide Id"  Width="*" Binding="{Binding GuideId}">
-                    <!--DataGridTextColumn.Binding>
+                <DataGridTextColumn Header="Guide" Width="*">
+                    <DataGridTextColumn.Binding>
                         <MultiBinding Converter="{StaticResource FullNameConverter}">
                             <Binding Path="Guide.Name" />
                             <Binding Path="Guide.Surname" />
                         </MultiBinding>
-                    </DataGridTextColumn.Binding-->
+                    </DataGridTextColumn.Binding>
                 </DataGridTextColumn>
 
                 <DataGridTemplateColumn Header="RESERVE" Width="150">

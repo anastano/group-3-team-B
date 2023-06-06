@@ -1,6 +1,7 @@
 ﻿using SIMS_HCI_Project.Applications.Services;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands;
+using SIMS_HCI_Project.WPF.Validations;
 using SIMS_HCI_Project.WPF.Views.OwnerViews;
 using System;
 using System.Collections.Generic;
@@ -18,12 +19,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
     public class AddRenovationViewModel: INotifyPropertyChanged
     {
         private RenovationService _renovationService;
-        private AccommodationReservationService _reservationService;
-
         public Accommodation Accommodation { get; set; }
         public Renovation SelectedRenovation { get; set; }
         public AddRenovationView AddRenovationView { get; set; }
+        public SelectAccommodationForRenovationView SelectAccommodationForRenovationView { get; set; }
         public RenovationsViewModel RenovationsVM { get; set; }
+        
 
         #region OnPropertyChanged
 
@@ -37,48 +38,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
                 {
                     _description = value;
                     OnPropertyChanged(nameof(Description));
-                }
-            }
-        }
-
-        private int _daysNumber;
-        public int DaysNumber
-        {
-            get => _daysNumber;
-            set
-            {
-                if (value != _daysNumber)
-                {
-                    _daysNumber = value;
-                    OnPropertyChanged(nameof(DaysNumber));
-                }
-            }
-        }
-
-        private DateTime _enteredStart;
-        public DateTime EnteredStart
-        {
-            get => _enteredStart;
-            set
-            {
-                if (value != _enteredStart)
-                {
-                    _enteredStart = value;
-                    OnPropertyChanged(nameof(EnteredStart));
-                }
-            }
-        }
-
-        private DateTime _enteredEnd;
-        public DateTime EnteredEnd
-        {
-            get => _enteredEnd;
-            set
-            {
-                if (value != _enteredEnd)
-                {
-                    _enteredEnd = value;
-                    OnPropertyChanged(nameof(EnteredEnd));
                 }
             }
         }
@@ -98,12 +57,33 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             }
         }
 
-        #endregion
+        private RenvationDateValidation _validatedRenovationDate;
+        public RenvationDateValidation ValidatedRenovationDate
+        {
+            get => _validatedRenovationDate;
+            set
+            {
+                if (value != _validatedRenovationDate)
+                {
+                    _validatedRenovationDate = value;
+                    OnPropertyChanged(nameof(ValidatedRenovationDate));
+                }
+            }
+        }
 
-        public RelayCommand AddNewRenovationCommand { get; set; }
-        public RelayCommand CloseAddRenovationViewCommand { get; set; }
-        public RelayCommand SearchAvailableRenovationsCommand { get; set; }
-        
+        private string _availableDatesText;
+        public string AvailableDatesText
+        {
+            get => _availableDatesText;
+            set
+            {
+                if (value != _availableDatesText)
+                {
+                    _availableDatesText = value;
+                    OnPropertyChanged(nameof(AvailableDatesText));
+                }
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -111,30 +91,50 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public AddRenovationViewModel(AddRenovationView addRenovationView, RenovationsViewModel renovationsVM, RenovationService renovationService, 
-            AccommodationReservationService reservationService, Accommodation selectedAccommodation)
+        #endregion
+
+        public RelayCommand AddNewRenovationCommand { get; set; }
+        public RelayCommand CloseAddRenovationViewCommand { get; set; }
+        public RelayCommand SearchAvailableRenovationsCommand { get; set; }
+        
+        public AddRenovationViewModel(AddRenovationView addRenovationView, SelectAccommodationForRenovationView selectAccommodationView, RenovationsViewModel renovationsVM, Accommodation selectedAccommodation)
         {
             InitCommands();
 
-            _renovationService = renovationService;
-            _reservationService = reservationService;
+            _renovationService = new RenovationService();
 
             AddRenovationView = addRenovationView;
+            SelectAccommodationForRenovationView = selectAccommodationView;
             RenovationsVM = renovationsVM;
 
+            ValidatedRenovationDate = new RenvationDateValidation();
             Accommodation = selectedAccommodation;
-            SelectedRenovation = new Renovation();
 
-            EnteredStart = DateTime.Today.AddDays(1);
-            EnteredEnd = DateTime.Today.AddDays(1);
             AvailableRenovations = new List<Renovation>();
+            AvailableDatesText = "";
         }
 
         #region Commands
 
         public void Executed_SearchAvailableRenovationsCommand(object obj)
         {
-            AvailableRenovations = _renovationService.GetAvailableRenovations(Accommodation, EnteredStart, EnteredEnd, DaysNumber);
+            ValidatedRenovationDate.Validate();
+            if (ValidatedRenovationDate.IsValid)
+            {
+                AvailableRenovations = _renovationService.GetAvailableRenovations(Accommodation, ValidatedRenovationDate.EnteredStart, ValidatedRenovationDate.EnteredEnd, ValidatedRenovationDate.DaysNumber ?? 1);
+                if (AvailableRenovations.Count() == 0)
+                {
+                    AvailableDatesText = "There are not any available dates on those days.";
+                }
+                else 
+                {
+                    AvailableDatesText = "There are available dates on those days.";
+                }
+            }
+            else 
+            {
+                MessageBox.Show("Not all fields are field in correctly.");
+            }
         }
 
         public bool CanExecute_SearchAvailableRenovationsCommand(object obj)
@@ -142,20 +142,36 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             return true;
         }
 
+        private MessageBoxResult ConfirmAddNewRenovation()
+        {
+            string sMessageBoxText = $"Are you sure you want to add this renovation?";
+            string sCaption = "Add Renovation Confirmation";
+
+            MessageBoxButton btnMessageBox = MessageBoxButton.YesNo;
+            MessageBoxImage icnMessageBox = MessageBoxImage.Warning;
+
+            MessageBoxResult result = MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox, icnMessageBox);
+            return result;
+        }
+
         public void Executed_AddNewRenovationCommand(object obj)
         {
             if (SelectedRenovation != null)
             {
-                SelectedRenovation.Description = Description;
-                SelectedRenovation.AccommodationId = Accommodation.Id;
-                SelectedRenovation.Accommodation = Accommodation;
-                _renovationService.Add(SelectedRenovation);
-                AddRenovationView.Close();
-                RenovationsVM.UpdateRenovations();
+                if (ConfirmAddNewRenovation() == MessageBoxResult.Yes)
+                {
+                    SelectedRenovation.Description = Description;
+                    SelectedRenovation.AccommodationId = Accommodation.Id;
+                    SelectedRenovation.Accommodation = Accommodation;
+                    _renovationService.Add(SelectedRenovation);
+                    AddRenovationView.Close();
+                    SelectAccommodationForRenovationView.Close();
+                    RenovationsVM.UpdateRenovations();
+                }
             }
             else 
             {
-                MessageBox.Show("No option is selected");
+                MessageBox.Show("No date range has been selected.");
             }
         }
 

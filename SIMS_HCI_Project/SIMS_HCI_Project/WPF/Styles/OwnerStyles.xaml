@@ -63,6 +63,59 @@
         </Style.Triggers>
 
     </Style>
+    
+    <!-- SELECTED BUTTON STYLE -->
+    <Style x:Key="OwnerSelectedButtonStyle" TargetType="Button">
+        <Setter Property="Width" Value="240"/>
+        <Setter Property="Height" Value="45"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Padding" Value="10"/>
+        <Setter Property="Foreground" Value="{StaticResource OwnerButtonTextColor}"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="BorderThickness" Value="2"/>
+
+        <Setter Property="Background">
+            <Setter.Value>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Offset="0" Color="#79D0C9" />
+                    <GradientStop Offset="0.5" Color="Turquoise" />
+                    <GradientStop Offset="1" Color="#79D0C9" />
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border CornerRadius="15"
+                            Background="{TemplateBinding Background}"
+                            BorderThickness="2" BorderBrush="{StaticResource OwnerNotificationsColor}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"></ContentPresenter>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" FontSize="16" FontWeight="Bold">
+                        <TextBlock.Effect>
+                            <DropShadowEffect Color="DarkGray" Direction="330" ShadowDepth="2" Opacity="0.5"/>
+                        </TextBlock.Effect>
+                    </TextBlock>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect Color="DarkGray" Opacity="100" ShadowDepth="10" BlurRadius="30" />
+            </Setter.Value>
+        </Setter>
+
+    </Style>
 
     <!-- TITLE STYLE -->
     <Style x:Key="OwnerTitleStyle" TargetType="TextBlock">
@@ -120,6 +173,35 @@
 
     <Style x:Key="OwnerDataGridColumnHeaderStyle" TargetType="DataGridColumnHeader">
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    </Style>
+    
+    <!-- SELECTED DATA GRID ROW STYLE-->
+    <Style x:Key="OwnerSelectedDataGridRow" TargetType="DataGridRow">
+        <Style.Triggers>
+            <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                <Setter Property="Background" Value="{StaticResource OwnerNotificationsColor}"/>
+            </Trigger>
+            <DataTrigger
+                    Binding="{Binding RelativeSource={RelativeSource Mode=PreviousData}}"
+                    Value="{x:Null}">
+                <Setter Property="Foreground" Value="Black" />
+                <Setter Property="Background" Value="{StaticResource OwnerNotificationsColor}"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="OwnerSelectedDataGridCell" TargetType="DataGridCell">
+        <Style.Triggers>
+            <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                <Setter Property="Background" Value="{StaticResource OwnerNotificationsColor}"/>
+            </Trigger>
+            <DataTrigger
+                    Binding="{Binding RelativeSource={RelativeSource Mode=PreviousData}}"
+                    Value="{x:Null}">
+                <Setter Property="Foreground" Value="Black" />
+                <Setter Property="Background" Value="{StaticResource OwnerNotificationsColor}"/>
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
 
     <!-- BORDER STYLE -->
@@ -184,7 +266,48 @@
             </Trigger>
         </Style.Triggers>
     </Style>
-    
+
+    <!--SELECTED CIRCLE BUTTON STYLE -->
+    <Style x:Key="OwnerSelectedCircleButtonStyle" TargetType="Button">
+        <Setter Property="Width" Value="65"/>
+        <Setter Property="Height" Value="45"/>
+        <Setter Property="Margin" Value="5 0 0 0"/>
+        <Setter Property="Padding" Value="10"/>
+        <Setter Property="Foreground" Value="{StaticResource OwnerButtonTextColor}"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border CornerRadius="15"
+                            Background="{StaticResource OwnerMainColor}"
+                            BorderThickness="2" BorderBrush="{StaticResource OwnerNotificationsColor}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"></ContentPresenter>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" FontSize="14" FontWeight="Bold">
+                        <TextBlock.Effect>
+                            <DropShadowEffect Color="DarkGray" Direction="330" ShadowDepth="2" Opacity="0.5"/>
+                        </TextBlock.Effect>
+                    </TextBlock>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect Color="LightBlue" Opacity="50" ShadowDepth="10"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- TEXTBOX STYLE-->
     <Style x:Key="OwnerTextBoxStyle" TargetType="TextBox">
         <Setter Property="BorderBrush" Value="{StaticResource OwnerMainColor}"/>

@@ -184,7 +184,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             {
                 //rijesiti kako za komentar
                 _forumService.Add(new Forum(Guest, _locationService.GetLocation(SelectedCountry, SelectedCity)));
-                //_notificationService.Add(new Notification("A new forum has been created in location: ${}, check it.", ));
+                _notificationService.MakeForumNotifications(_locationService.GetLocation(SelectedCountry, SelectedCity));
                 _navigationService.Navigate(new ForumsViewModel(Guest, _navigationService, 1), "Forums");
             }
             

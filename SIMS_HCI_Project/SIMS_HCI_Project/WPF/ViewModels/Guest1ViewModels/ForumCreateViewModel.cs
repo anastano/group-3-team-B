@@ -18,6 +18,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
     {
         private NavigationService _navigationService;
         private ForumService _forumService;
+        private ForumCommentService _forumCommentService;
         private LocationService _locationService;
         private NotificationService _notificationService;
         public ObservableCollection<String> Countries { get; set; }
@@ -145,6 +146,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _notificationService = new NotificationService();
             _locationService = new LocationService();
             _forumService = new ForumService();
+            _forumCommentService = new ForumCommentService();
             InitProperties(guest);
             InitCommands();
         }
@@ -173,15 +175,16 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         }
         public void ExecutedCreateForumCommand(object obj)
         {
-            if(SelectedCountry == null || SelectedCity == null)
+            if(SelectedCountry == null || SelectedCity == null || Comment == "")
             {
-                ErrorMessage = "Country and city are required";
+                ErrorMessage = "All fields are required";
                 IsErrorVisible = true;
             }
             else
             {
                 //rijesiti kako za komentar
                 _forumService.Add(new Forum(Guest, _locationService.GetLocation(SelectedCountry, SelectedCity)));
+                //_notificationService.Add(new Notification("A new forum has been created in location: ${}, check it.", ));
                 _navigationService.Navigate(new ForumsViewModel(Guest, _navigationService, 1), "Forums");
             }
             

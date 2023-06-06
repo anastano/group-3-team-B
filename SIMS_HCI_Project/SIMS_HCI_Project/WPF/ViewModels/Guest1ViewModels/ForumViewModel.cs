@@ -68,7 +68,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             UsefulMessage = "Very Useful";
             IsForumUseful = _forumService.IsUSeful(Forum);
             Forum = _forumService.GetById(forum.Id);
-            ForumComments = new ObservableCollection<ForumComment>(_forumCommentService.GetByForumId(Forum.Id));
             BackCommand = new RelayCommand(ExecutedBackCommand, CanExecute);
             AddCommentCommand = new RelayCommand(ExecutedAddCommentCommand, CanExecute);
         }

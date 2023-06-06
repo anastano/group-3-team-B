@@ -48,5 +48,11 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _comments.FindAll(c => c.ForumId == forumId);
         }
+        public void Add(ForumComment comment)
+        {
+            comment.Id = GenerateId();
+            _comments.Add(comment);
+            Save();
+        }
     }
 }

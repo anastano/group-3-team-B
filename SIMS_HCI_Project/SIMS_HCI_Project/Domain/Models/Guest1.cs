@@ -9,7 +9,7 @@ namespace SIMS_HCI_Project.Domain.Models
 {
     public class Guest1 : User
     {
-        //public  bool isSuperGuest;
+        public  List<AccommodationReservation> Reservations;
         public Guest1()
         {
         }

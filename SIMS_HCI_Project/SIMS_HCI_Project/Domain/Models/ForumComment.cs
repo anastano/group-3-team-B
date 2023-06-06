@@ -16,17 +16,14 @@ namespace SIMS_HCI_Project.Domain.Models
         public string Content { get; set; }
         public int ReportCounter { get; set; }
         public bool IsUseful { get; set; }
-        public ForumComment()
+        public ForumComment(User user, Forum forum, String content)
         {
-            /*
-            Location = new Location();
-            MaxGuests = 1;
-            MinimumReservationDays = 1;
-            CancellationDeadlineInDays = 1;
-            Images = new List<string>();
-            Reservations = new List<AccommodationReservation>();
-            IsRenovated = false;
-            */
+            UserId = user.Id;
+            User = user;
+            ForumId = forum.Id;
+            Forum = forum;
+            Content = content;
+            ReportCounter = 0;
         }
 
     }

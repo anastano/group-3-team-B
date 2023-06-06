@@ -132,10 +132,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _renovationService = new RenovationService();
             _userService = new UserService();
             _forumCommentService = new ForumCommentService();
-            foreach(ForumComment comment in _forumCommentService.GetAll())
-            {
-                comment.IsUseful = true;
-            }
+            
             
 
             _reservationService.ConvertReservedReservationIntoCompleted(DateTime.Now);
@@ -144,6 +141,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _titleService.ConvertActiveTitlesIntoExpired(DateTime.Now);
             _accommodationService.ConvertAccommodationIntoRenovated(_renovationService);
             _userService.FillOwnerSuperFlag(_ratingGivenByGuestService);
+            _userService.FillGuestReservationList(_reservationService);
+            _forumCommentService.FillCommentsUsefulFlag();
         }
         public bool CanExecute(object obj)
         {

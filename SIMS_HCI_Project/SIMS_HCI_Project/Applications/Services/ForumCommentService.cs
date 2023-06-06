@@ -31,11 +31,26 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return _forumCommentRepository.GetByForumId(forumId);
         }
-        /*
-        public void Add(Notification notification)
+        //refaktorisi funkciju, srediti za gosta dva
+        public void FillCommentsUsefulFlag()
         {
-            _forumCommentRepository.Add(notification);
+            foreach(ForumComment comment in GetAll())
+            {
+                if(comment.User.Role == UserRole.GUEST1)
+                {
+                    Guest1 guest = (Guest1)comment.User;
+                    comment.IsUseful = (guest.Reservations).FindAll(r => r.Accommodation.Location == comment.Forum.Location).Count >= 1;
+                }
+                else
+                {
+                    comment.IsUseful = true;
+                }
+            }
         }
-        */
+        
+        public void Add(ForumComment comment)
+        {
+            _forumCommentRepository.Add(comment);
+        }
     }
 }

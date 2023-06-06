@@ -48,7 +48,7 @@
         </Grid>
         
         <DataGrid  Grid.Row="4" RowHeight="100"
-                   ItemsSource="{Binding Path=ForumComments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True"
+                   ItemsSource="{Binding Path=Forum.Comments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True"
                    ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}" HorizontalScrollBarVisibility="Hidden" GridLinesVisibility="Horizontal"
                    Style="{StaticResource GuestDatagridStyle}" RowStyle="{StaticResource DataGridRowStyle}"
                    CellStyle="{StaticResource GuestDatagridCellStyle}">

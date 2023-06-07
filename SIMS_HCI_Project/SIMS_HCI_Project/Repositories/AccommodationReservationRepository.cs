@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace SIMS_HCI_Project.Repositories
 {
@@ -69,7 +70,8 @@ namespace SIMS_HCI_Project.Repositories
 
         public List<AccommodationReservation> GetAllReservedByAccommodationId(int accommodationId)
         {
-            return _reservations.FindAll(r => r.AccommodationId == accommodationId && r.Status == AccommodationReservationStatus.RESERVED);
+            List<AccommodationReservation>  lista = _reservations.FindAll(r => (r.AccommodationId == accommodationId && r.Status == AccommodationReservationStatus.RESERVED));
+            return lista;
         }
         public List<AccommodationReservation> GetAllByStatusAndGuestId(int guestId, AccommodationReservationStatus status)
         {

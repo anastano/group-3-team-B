@@ -34,6 +34,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         private RatingGivenByGuestService _ratingGivenByGuestService;
         private RenovationService _renovationService;
         private UserService _userService;
+        private ForumCommentService _forumCommentService;
         public Guest1MainView Guest1MainView { get; set; }
         public Guest1 Guest { get; set; }
         public RelayCommand ShowReservationsCommand { get; set; }
@@ -130,6 +131,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _ratingGivenByGuestService = new RatingGivenByGuestService();
             _renovationService = new RenovationService();
             _userService = new UserService();
+            _forumCommentService = new ForumCommentService();
+            
+            
 
             _reservationService.ConvertReservedReservationIntoCompleted(DateTime.Now);
             _reservationService.ConvertReservationsIntoRated(_ratingGivenByGuestService);
@@ -137,6 +141,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _titleService.ConvertActiveTitlesIntoExpired(DateTime.Now);
             _accommodationService.ConvertAccommodationIntoRenovated(_renovationService);
             _userService.FillOwnerSuperFlag(_ratingGivenByGuestService);
+            _userService.FillGuestReservationList(_reservationService);
+            _forumCommentService.FillCommentsUsefulFlag();
         }
         public bool CanExecute(object obj)
         {
@@ -171,10 +177,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             }
             else if (SelectedItem == 2)
             {
+                _navigationService.Navigate(new ForumsViewModel(Guest, _navigationService, 0), "Forums");
+                SelectedItem = -1;
                 CustomizeGridSize();
             }
             else if (SelectedItem == 3)
             {
+                _navigationService.Navigate(new QuickReserveViewModel(Guest, _navigationService), "Quick Reserve");
+                SelectedItem = -1;
                 CustomizeGridSize();
             }
             else if (SelectedItem == 4)

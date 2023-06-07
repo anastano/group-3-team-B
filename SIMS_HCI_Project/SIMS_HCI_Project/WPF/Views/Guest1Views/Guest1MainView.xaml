@@ -160,6 +160,18 @@
                 <DataTemplate DataType="{x:Type viewmodels:ReservationRescheduleViewModel}">
                     <views:ReservationRescheduleView/>
                 </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:ForumsViewModel}">
+                    <views:ForumsView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:QuickReserveViewModel}">
+                    <views:QuickReserveView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:ForumCreateViewModel}">
+                    <views:ForumCreateView/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:ForumViewModel}">
+                    <views:ForumView/>
+                </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>
     </Grid>

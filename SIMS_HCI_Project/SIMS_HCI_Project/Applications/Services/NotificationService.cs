@@ -57,5 +57,11 @@ namespace SIMS_HCI_Project.Applications.Services
                 _notificationRepository.Add(new Notification(Message, regularTourRequest.GuestId, false, NotificationType.NEW_TOUR));
             }
         }
+        public void MakeForumNotifications(Location location)
+        {
+            String content = "A new forum for [" + location.City + "] has been created, please check it";
+            
+            //_notificationRepository.Update(notification);
+        }
     }
 }

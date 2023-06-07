@@ -57,7 +57,7 @@ namespace SIMS_HCI_Project.Applications.Services
         public void RateReservation(AccommodationReservationService reservationService, RatingGivenByGuest rating)
         {
             _ratingRepository.Add(rating);
-            reservationService.GetById(rating.ReservationId).isRated = true;
+            reservationService.GetById(rating.ReservationId).IsRated = true;
         }
         public void FillAverageRatingAndSuperFlag(Owner owner)
         {

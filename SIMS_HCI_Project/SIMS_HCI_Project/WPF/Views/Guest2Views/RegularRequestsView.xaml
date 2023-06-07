@@ -16,31 +16,30 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    <Grid Background="#FF686890" Height="490" VerticalAlignment="Bottom">
-        <DataGrid  Margin="10,31,10,325" 
-                   ItemsSource="{Binding Path=MyRequests, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False">
+    <Grid Background="#FF312F42" Height="490" VerticalAlignment="Bottom">
+        <DataGrid  Margin="10,25,10,345" 
+                   ItemsSource="{Binding Path=MyRequests, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" Style="{StaticResource Guest2DatagridStyle}" CellStyle="{StaticResource Guest2DatagridCellStyle}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="25"/>
-                <DataGridTextColumn Header="City" Binding="{Binding Location.City}" Width="100"/>
-                <DataGridTextColumn Header="Country" Binding="{Binding Location.Country}" Width="100"/>
-                <DataGridTextColumn Header="LocId" Binding="{Binding LocationId}" Width="40" />
+                <DataGridTextColumn Header="City" Binding="{Binding Location.City}" Width="120"/>
+                <DataGridTextColumn Header="Country" Binding="{Binding Location.Country}" Width="120"/>
                 <DataGridTextColumn Header="Language" Binding="{Binding Language}" Width="100"/>
-                <DataGridTextColumn Header="GuestNum" Binding="{Binding GuestNumber}" Width="100"/>
-                <DataGridTextColumn Header="SubmittingDate" Binding="{Binding SubmittingDate}" Width="160"/>
+                <DataGridTextColumn Header="Guest number" Binding="{Binding GuestNumber}" Width="100"/>
+                <DataGridTextColumn Header="Submission date" Binding="{Binding SubmittingDate}" Width="170"/>
                 <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="140" />
 
-                <DataGridTextColumn Header="StartRange" Binding="{Binding DateRange.Start, StringFormat='{}{0:MM/dd/yyyy}'}"  Width="*" />
+                <DataGridTextColumn Header="Start range" Binding="{Binding DateRange.Start, StringFormat='{}{0:MM/dd/yyyy}'}"  Width="*" />
 
-                <DataGridTextColumn Header="EndRange" Binding="{Binding DateRange.End, StringFormat='{}{0:MM/dd/yyyy}'}"    Width="*"/>
+                <DataGridTextColumn Header="End range" Binding="{Binding DateRange.End, StringFormat='{}{0:MM/dd/yyyy}'}"    Width="*"/>
 
             </DataGrid.Columns>
 
         </DataGrid>
-        <Label Content="My requests:" FontSize="15" Foreground="Beige" HorizontalAlignment="Left" Margin="0,1,0,0" VerticalAlignment="Top" Height="30" Width="94"/>
+
 
         <Frame x:Name="CreateRequestFrame" NavigationUIVisibility="Hidden" Margin="0,195,0,0"/>
-        <Button x:Name="createNewRequest" Background="Orange" Content="CREATE NEW REQUEST" Command="{Binding DataContext.CreateRequest, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" 
-            HorizontalAlignment="Center" Margin="10,170,0,0" VerticalAlignment="Top" Height="25" Width="174"/>
+        <Button x:Name="createNewRequest" Style="{StaticResource HoverButtonStyle}" Content="CREATE NEW REQUEST" Command="{Binding DataContext.CreateRequest, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" 
+            HorizontalAlignment="Center" Margin="0,153,0,0" VerticalAlignment="Top" Height="33" Width="174"/>
 
     </Grid>
 </Page>

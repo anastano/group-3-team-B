@@ -6,28 +6,28 @@
 6|You have request to confirm your attendance for tour with id: [43]. Confirm your attendance on that tour in the list of active tours.|4|True|CONFIRM_ATTENDANCE
 7|You have request to confirm your attendance for tour with id: [43]. Confirm your attendance on that tour in the list of active tours.|4|True|CONFIRM_ATTENDANCE
 8|You have request to confirm your attendance for tour with id: [43]. Confirm your attendance on that tour in the list of active tours.|4|True|CONFIRM_ATTENDANCE
-9|Request to reschedule the reservation for 'Ime smestaja 0' has been ACCEPTED|10|False|DEFAULT
-10|Request to reschedule the reservation for 'Ime smestaja 0' has been DENIED|3|False|DEFAULT
+9|Request to reschedule the reservation for 'Ime smestaja 0' has been ACCEPTED|10|True|DEFAULT
+10|Request to reschedule the reservation for 'Ime smestaja 0' has been DENIED|3|True|DEFAULT
 11|Reservation for Smestaj 3 with id: 2 has been cancelled|2|False|DEFAULT
 12|You have request to confirm your attendance for tour with id: [43]. Confirm your attendance on that tour in the list of active tours.|4|True|CONFIRM_ATTENDANCE
 13|Reservation for Ime smestaja 0 with id: 10 has been cancelled|1|True|DEFAULT
 14|Reservation for Ime smestaja 0 with id: 1 has been cancelled|1|True|DEFAULT
 15|Reservation for Ime smestaja 0 with id: 1 has been cancelled|1|True|DEFAULT
-16|Your request number for tour was accepted. Departure time: 5/19/2023. Created tour number: [24].|4|False|TOUR_REQUEST_ACCEPTED
+16|Your request number for tour was accepted. Departure time: 5/19/2023. Created tour number: [24].|4|True|TOUR_REQUEST_ACCEPTED
 17|You have request to confirm your attendance for tour with id: [43].|4|True|CONFIRM_ATTENDANCE
-18|You have request to confirm your attendance for tour with id: [43].|44|False|CONFIRM_ATTENDANCE
-19|Created new tour which fulfills some of your requirements from your unfulfilled requests. Tour is created with id: [27]. Click to see details|4|False|NEW_TOUR
+18|You have request to confirm your attendance for tour with id: [43].|44|True|CONFIRM_ATTENDANCE
+19|Created new tour which fulfills some of your requirements from your unfulfilled requests. Tour is created with id: [27]. Click to see details|4|True|NEW_TOUR
 20|You have request to confirm your attendance for tour with id: [43].|4|True|CONFIRM_ATTENDANCE
-21|You have request to confirm your attendance for tour with id: [43].|4|False|CONFIRM_ATTENDANCE
-22|You have request to confirm your attendance for tour with id: [43].|4|False|CONFIRM_ATTENDANCE
+21|You have request to confirm your attendance for tour with id: [43].|4|True|CONFIRM_ATTENDANCE
+22|You have request to confirm your attendance for tour with id: [43].|4|True|CONFIRM_ATTENDANCE
 23|You have request to confirm your attendance for tour with id: [43].|4|True|CONFIRM_ATTENDANCE
-24|You have request to confirm your attendance for tour with id: [43].|4|False|CONFIRM_ATTENDANCE
-25|You have request to confirm your attendance for tour with id: [43].|4|False|CONFIRM_ATTENDANCE
-26|You have request to confirm your attendance for tour with id: [43].|4|False|CONFIRM_ATTENDANCE
-27|Your request number for tour was accepted. Departure time: 5/25/2023. Created tour number: [30].|4|False|TOUR_REQUEST_ACCEPTED
-28|Created new tour which fulfills some of your requirements from your unfulfilled requests. Tour is created with id: [31]. Click to see details|4|False|NEW_TOUR
-29|Your request number for tour was accepted. Departure time: 5/24/2023. Created tour number: [32].|6|False|TOUR_REQUEST_ACCEPTED
-30|Created new tour which fulfills some of your requirements from your unfulfilled requests. Tour is created with id: [33]. Click to see details|4|False|NEW_TOUR
-31|Your request number for tour was accepted. Departure time: 6/2/2023. Created tour number: [34].|4|False|TOUR_REQUEST_ACCEPTED
+24|You have request to confirm your attendance for tour with id: [43].|4|True|CONFIRM_ATTENDANCE
+25|You have request to confirm your attendance for tour with id: [43].|4|True|CONFIRM_ATTENDANCE
+26|You have request to confirm your attendance for tour with id: [43].|4|True|CONFIRM_ATTENDANCE
+27|REQUEST ACCEPTED - Departure time: 5/25/2023. Created tour number: [30].|4|False|TOUR_REQUEST_ACCEPTED
+28|NEW TOUR - click to view details and book a tour. Tour is created with id: [31].|4|False|NEW_TOUR
+29|REQUEST ACCEPTED - Departure time: 5/24/2023. Created tour number: [32].|6|False|TOUR_REQUEST_ACCEPTED
+30|NEW TOUR - click to view details and book a tour.. Tour is created with id: [33].|4|False|NEW_TOUR
+31|REQUEST ACCEPTED - Departure time: 6/2/2023. Created tour number: [34].|4|False|TOUR_REQUEST_ACCEPTED
 32|Request to reschedule the reservation for 'Ocean View Resort' has been DENIED|10|False|DEFAULT
-33|Request to reschedule the reservation for 'The Royal Palace Hotel' has been ACCEPTED|3|False|DEFAULT
+33|Request to reschedule the reservation for 'The Royal Palace Hotel' has been ACCEPTED|3|True|DEFAULT

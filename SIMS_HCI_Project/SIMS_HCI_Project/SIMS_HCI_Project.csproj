@@ -26,9 +26,11 @@
     <None Remove="Resources\Images\patternTriangle.jpg" />
     <None Remove="Resources\Images\previous.png" />
     <None Remove="Resources\Images\profil.png" />
+    <None Remove="Resources\Images\profileSC.png" />
     <None Remove="Resources\Images\rating.png" />
     <None Remove="Resources\Images\reserve.png" />
     <None Remove="Resources\Images\search.png" />
+    <None Remove="Resources\Images\searchSC.png" />
     <None Remove="Resources\Images\TourSearchHelp.png" />
     <None Remove="Resources\Images\travel.jpg" />
     <None Remove="Resources\Images\user.png" />
@@ -45,6 +47,8 @@
     <Resource Include="Resources\Images\airplane.png" />
     <Resource Include="Resources\Images\airplane1.png" />
     <Resource Include="Resources\Images\paperplane.png" />
+    <Resource Include="Resources\Images\profileSC.png" />
+    <Resource Include="Resources\Images\searchSC.png" />
     <Resource Include="Resources\Images\travel.jpg" />
   </ItemGroup>
 

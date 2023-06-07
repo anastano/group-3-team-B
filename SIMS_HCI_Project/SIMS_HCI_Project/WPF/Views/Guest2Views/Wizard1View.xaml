@@ -30,18 +30,39 @@
             <Setter Property="Height" Value="35"/>
             <Setter Property="Margin" Value="0 0 0 0"/>
         </Style>
+        <Style x:Key="HoverButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#501f3a"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Background" Value="#cb2d6f"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Page.Resources>
 
     <Grid>
 
         <Label Content="WELCOME TO WIZARD" Style="{StaticResource Guest2Header1Style}"  Margin="0,30,0,0" />
         <Label Content="In the next four steps you will go through the process of reserving a tour." Style="{StaticResource Guest2Header1Style}" Foreground="White" Margin="0,74,0,0" Height="58" Width="816" />
-        
+
         <Grid Height=" 300" Margin="0,178,0,122">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -49,19 +70,26 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Ellipse Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Height="100" Stroke="White" Fill="#cb2d6f"  VerticalAlignment="Center" Width="100"/>
-            
             <Ellipse Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Height="100"  Stroke="White" Fill="#cb2d6f"  VerticalAlignment="Center" Width="100"/>
-            
             <Ellipse Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" Height="100"  Stroke="White" Fill="#cb2d6f"  VerticalAlignment="Center" Width="100"/>
-            
             <Ellipse Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" Height="100"  Stroke="White" Fill="#cb2d6f"  VerticalAlignment="Center" Width="100"/>
-            
+
             <Label Grid.Column="0" Content="1" Foreground="White" FontSize="40" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <Label Grid.Column="1" Content="2" Foreground="White" FontSize="40" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             <Label Grid.Column="2" Content="3" Foreground="White" FontSize="40" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <Label Grid.Column="3" Content="4" Foreground="White" FontSize="40" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Label Grid.Column="3" Content="3" Foreground="White" FontSize="40" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+            <Label Grid.Row="1" Content="Select tour" Foreground="White" FontSize="20" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Height="130" Width="126"/>
+            <TextBlock Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" Text="Choose departure time and party size, then submit form." Foreground="White" FontSize="20" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Height="130" Width="312"/>
+            <Label Grid.Column="2" Grid.Row="1" Content="Submit reservation" Foreground="White" FontSize="20" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Top" Height="98" Margin="0,10,0,0"/>
+            <Label Grid.Column="3" Grid.Row="1" Content="Complete" Foreground="White" FontSize="20" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Top" Height="96" Margin="0,10,0,0"/>
         </Grid>
 
 
+        <Button Content="EXIT" FontWeight="Medium" HorizontalAlignment="Right" Margin="0,476,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.278,0.553" Command="{Binding ExitCommand}" Width="114" Height="32" FontSize="14" Style="{StaticResource HoverButtonStyle}">
+        </Button>
+        <Button Content="NEXT" FontWeight="Medium" HorizontalAlignment="Right" Margin="0,476,145,0" VerticalAlignment="Top" RenderTransformOrigin="0.278,0.553" Command="{Binding NextCommand}" Width="114" Height="32" FontSize="14" Style="{StaticResource HoverButtonStyle}">
+        </Button>
+        <Button Content="BACK" IsEnabled="False" Opacity="0.7" FontWeight="Medium" HorizontalAlignment="Right" Margin="0,476,283,0" VerticalAlignment="Top" RenderTransformOrigin="0.278,0.553" Command="{Binding PreviousCommand}" Width="114" Height="32" FontSize="14" Style="{StaticResource HoverButtonStyle}"/>
     </Grid>
 </Page>

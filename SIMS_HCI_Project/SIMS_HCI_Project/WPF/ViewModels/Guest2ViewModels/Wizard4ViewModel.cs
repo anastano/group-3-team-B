@@ -18,11 +18,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public RelayCommand NextCommand { get; set; }
         public RelayCommand PreviousCommand { get; set; }
         public RelayCommand ExitCommand { get; set; }
-        public Wizard4ViewModel(Wizard4View wizard4View, Guest2 guest2, NavigationService navigationService)
+        public Tour SelectedTour { get; set; } 
+        public Wizard4ViewModel(Wizard4View wizard4View, Guest2 guest2, NavigationService navigationService, Tour selectedTour)
         {
             Wizard4View = wizard4View;
             Guest = guest2;
             NavigationService = navigationService;
+            SelectedTour = selectedTour;
             InitCommands();
 
         }
@@ -36,11 +38,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
         public void ExecutedNext(object obj)
         {
-            NavigationService.Navigate(new Wizard5View(Guest, NavigationService));
+            NavigationService.Navigate(new Wizard5View(Guest, NavigationService, SelectedTour));
         }
         public void ExecutedPrevious(object obj)
         {
-            NavigationService.Navigate(new Wizard3View(Guest, NavigationService));
+            NavigationService.Navigate(new Wizard3View(Guest, NavigationService, SelectedTour));
         }
         public void ExecutedExit(object obj)
         {

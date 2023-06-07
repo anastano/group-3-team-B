@@ -1,4 +1,5 @@
-﻿using SIMS_HCI_Project.Domain.Models;
+﻿using SIMS_HCI_Project.Applications.Services;
+using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands;
 using SIMS_HCI_Project.WPF.Views.Guest2Views;
 using System;
@@ -18,11 +19,16 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public RelayCommand NextCommand { get; set; }
         public RelayCommand PreviousCommand { get; set; }
         public RelayCommand ExitCommand { get; set; }
+        public List<Tour> Tours { get; set; }
+        public Tour SelectedTour { get; set; }
+
         public Wizard2ViewModel(Wizard2View wizard2View, Guest2 guest2, NavigationService navigationService)
         {
             Wizard2View = wizard2View;
             Guest = guest2;
             NavigationService = navigationService;
+            TourService _tourService = new TourService();
+            Tours = new List<Tour>(_tourService.GetAllTourInformation());
             InitCommands();
 
         }
@@ -36,7 +42,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
         public void ExecutedNext(object obj)
         {
-            NavigationService.Navigate(new Wizard3View(Guest, NavigationService));
+            if (SelectedTour == null)
+            {
+                SelectedTour = Tours[0];
+            }
+            NavigationService.Navigate(new Wizard3View(Guest, NavigationService, SelectedTour));
         }
         public void ExecutedPrevious(object obj)
         {

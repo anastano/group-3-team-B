@@ -22,10 +22,10 @@ namespace SIMS_HCI_Project.WPF.Views.Guest2Views
     /// </summary>
     public partial class Wizard4View : Page
     {
-        public Wizard4View(Guest2 guest, NavigationService navigationService)
+        public Wizard4View(Guest2 guest, NavigationService navigationService, Tour selectedTour)
         {
             InitializeComponent();
-            this.DataContext = new Wizard4ViewModel(this, guest, navigationService);
+            this.DataContext = new Wizard4ViewModel(this, guest, navigationService, selectedTour);
         }
     }
 }

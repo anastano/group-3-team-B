@@ -58,7 +58,7 @@
         <Button Style="{StaticResource Guest2BackBtn}" Command="{Binding BackCommand}">
             <Image x:Name="back" Source="../../../Resources/Images/back.png"/>
         </Button>
-        <Label Style="{StaticResource Guest2LabelStyle}" Foreground="#FF22B5B2" FontWeight="Medium" Content="NOTIFICATIONS" FontSize="14"  Margin="52,52,564,431" />
+        <Label Style="{StaticResource Guest2LabelStyle}" Foreground="#FF22B5B2" FontWeight="Medium" Content="NOTIFICATIONS" FontSize="16"  Margin="52,52,564,431" />
 
         <ListBox ItemsSource="{Binding Notifications}" SelectedItem="{Binding SelectedNotification}" Margin="52,92,65,73">
             <ListBox.ItemTemplate>

@@ -1,4 +1,5 @@
-﻿using SIMS_HCI_Project.Domain.Models;
+﻿using SIMS_HCI_Project.Applications.Services;
+using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands;
 using SIMS_HCI_Project.WPF.Views.Guest2Views;
 using System;
@@ -22,6 +23,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels      //main window wi
         public RelayCommand Statistics { get; set; }
         public RelayCommand Profile { get; set; }
         public RelayCommand Logout { get; set; }
+        public bool IsWizardOn { get; set; }
 
         //public Guest2ViewModel()
         //{
@@ -34,7 +36,20 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels      //main window wi
             Guest2 = guest2;
             Guest2View = guest2View;
 
-            NavigationService.Navigate(new TourSearchView(Guest2, NavigationService));
+            TourReservationService tourReservationService = new TourReservationService();
+
+            int reservationsNumber = tourReservationService.GetAllByGuestId(Guest2.Id).Count();
+
+            if(reservationsNumber > 0)
+            {
+                //IsWizardOn = true;
+                NavigationService.Navigate(new TourSearchView(Guest2, NavigationService));
+            }
+            else
+            {
+                NavigationService.Navigate(new Wizard1View(Guest2, NavigationService));
+            }
+
             InitCommands();
 
         }

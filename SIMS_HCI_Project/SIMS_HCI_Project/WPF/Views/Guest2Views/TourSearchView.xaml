@@ -151,9 +151,9 @@
             <TextBlock HorizontalAlignment="Right" Margin="0,363,53,0" TextWrapping="Wrap" Text="Minimal guest number:" Foreground="Beige" VerticalAlignment="Top" Height="43" Width="151"/>
 
             
-            <Button Style="{StaticResource Guest2HelpBtn}" Command="{Binding HelpCommand}">
+            <!--<Button Style="{StaticResource Guest2HelpBtn}" Command="{Binding HelpCommand}">
                 <Image x:Name="help" Source="../../../Resources/Images/help.png"/>
-            </Button>
+            </Button>-->
             <Label Content="SEARCH AND RESERVE" Style="{StaticResource Guest2Header1Style}" />
             <Button Content="RESET" Style="{StaticResource HoverButtonStyle}" Command="{Binding ResetSearchCommand}" HorizontalAlignment="Left" Margin="892,475,0,0" VerticalAlignment="Top" Height="32" Width="166" FontSize="14" FontWeight="Medium"/>
         </Grid>

@@ -135,7 +135,7 @@
         <Border BorderBrush="#FF7375E8" CornerRadius="15" BorderThickness="2" Margin="456,333,10,0"/>
         <Label Style="{StaticResource Guest2LabelStyle}" Foreground="#FF22B5B2" FontWeight="Medium" Content="NOTIFICATIONS" FontSize="14"  Margin="642,333,160,150" />
         <Label Content="{Binding UnreadNotificationsMessage}" FontSize="15" Style="{StaticResource Guest2LabelStyle}" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="523,382,0,62" RenderTransformOrigin="0.5,0.5" Width="320" Height="Auto"/>
-        <Button Content="SHOW DETAILS" Command="{Binding ShowNotificationsCommand}" HorizontalAlignment="Left" Margin="523,470,0,0" VerticalAlignment="Top" Height="38" Width="322" Style="{StaticResource HoverButtonStyle}"/>
+        <Button Content="SHOW DETAILS" Command="{Binding ShowNotificationsCommand}" HorizontalAlignment="Left" Margin="523,470,0,0" VerticalAlignment="Top" Height="38" Width="322" Style="{StaticResource HoverButtonStyle}" ToolTip="See details"/>
         <Button Content="DOWNLOAD PDF REPORT" Command="{Binding DownloadPDFReportCommand}" HorizontalAlignment="Left" Margin="59,470,0,0" VerticalAlignment="Top" Height="38" Width="350" Style="{StaticResource HoverButtonStyle}">
             <Button.ToolTip>
                 Generate PDF report about all currently valid vouchers

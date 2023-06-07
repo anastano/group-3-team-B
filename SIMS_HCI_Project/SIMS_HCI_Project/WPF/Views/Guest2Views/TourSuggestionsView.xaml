@@ -72,7 +72,7 @@
                 <DataGridTemplateColumn Header="RESERVE" Width="130">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="RESERVE" Command="{Binding DataContext.Reserve, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Style="{StaticResource HoverButtonStyle}"/>
+                            <Button Content="RESERVE" Command="{Binding DataContext.Reserve, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Style="{StaticResource HoverButtonStyle}" ToolTip="See details and reserve"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

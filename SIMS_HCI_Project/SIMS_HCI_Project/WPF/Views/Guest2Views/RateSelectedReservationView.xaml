@@ -159,8 +159,8 @@
         </Button>
         <ListBox ItemsSource="{Binding Images, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="626,130,117,77"/>
 
-        <Button Content="CONFIRM" Style="{StaticResource HoverButtonStyle}" Command="{Binding ConfirmRatingCommand}" HorizontalAlignment="Left" Margin="626,200,0,0" VerticalAlignment="Top" Height="36" Width="168"/>
-        <Button Content="QUIT" Style="{StaticResource HoverButtonStyle}" Command="{Binding QuitRatingCommand}" HorizontalAlignment="Left" Margin="799,200,0,0" VerticalAlignment="Top" Height="36" Width="164"/>
+        <Button Content="CONFIRM" Style="{StaticResource HoverButtonStyle}" Command="{Binding ConfirmRatingCommand}" HorizontalAlignment="Left" Margin="626,200,0,0" VerticalAlignment="Top" Height="36" Width="168" ToolTip="Submit rating"/>
+        <Button Content="QUIT" Style="{StaticResource HoverButtonStyle}" Command="{Binding QuitRatingCommand}" HorizontalAlignment="Left" Margin="799,200,0,0" VerticalAlignment="Top" Height="36" Width="164" ToolTip="Quit rating"/>
 
 
         <TextBlock Text="{Binding SelectedTourInfo}"  Foreground="#FF22B5B2" FontWeight="Medium" Margin="10,5,10,227" HorizontalAlignment="Center" FontSize="14"/>

@@ -122,7 +122,7 @@
                 <DataGridTemplateColumn Header="RESERVE" Width="150">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="RESERVE" Style="{StaticResource HoverButtonStyle}" Command="{Binding DataContext.SeeDetailsAndReserveCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
+                            <Button Content="RESERVE" Style="{StaticResource HoverButtonStyle}" Command="{Binding DataContext.SeeDetailsAndReserveCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" ToolTip="See details and reserve"/>
                             <!--Style="{StaticResource Guest2BtnGradientOrange}" bilo iznad-->
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -141,7 +141,7 @@
             <TextBox x:Name="txtGuestNumber" Text="{Binding Path=GuestNumber, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Margin="0,384,-2,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="206" RenderTransformOrigin="0.49,2.714"/>
 
 
-            <Button Content="SEARCH" FontWeight="Medium" HorizontalAlignment="Right" Margin="0,428,22,0" VerticalAlignment="Top" RenderTransformOrigin="0.278,0.553" Command="{Binding SearchCommand}" Width="166" Height="32" FontSize="14" Style="{StaticResource HoverButtonStyle}">
+            <Button Content="SEARCH" FontWeight="Medium" HorizontalAlignment="Right" Margin="0,428,22,0" VerticalAlignment="Top" RenderTransformOrigin="0.278,0.553" Command="{Binding SearchCommand}" Width="166" Height="32" FontSize="14" Style="{StaticResource HoverButtonStyle}" ToolTip="Search by paremeters">
             </Button>
 
             <TextBlock  Text="Country:" Style="{StaticResource Guest2TextBlockStyle}" Margin="874,79,120,404" />
@@ -155,7 +155,7 @@
                 <Image x:Name="help" Source="../../../Resources/Images/help.png"/>
             </Button>-->
             <Label Content="SEARCH AND RESERVE" Style="{StaticResource Guest2Header1Style}" />
-            <Button Content="RESET" Style="{StaticResource HoverButtonStyle}" Command="{Binding ResetSearchCommand}" HorizontalAlignment="Left" Margin="892,475,0,0" VerticalAlignment="Top" Height="32" Width="166" FontSize="14" FontWeight="Medium"/>
+            <Button Content="RESET" Style="{StaticResource HoverButtonStyle}" Command="{Binding ResetSearchCommand}" HorizontalAlignment="Left" Margin="892,475,0,0" VerticalAlignment="Top" Height="32" Width="166" FontSize="14" FontWeight="Medium" ToolTip="Reset search"/>
         </Grid>
 
     </Grid>

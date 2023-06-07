@@ -104,9 +104,9 @@
         <TextBlock Text="{Binding RegularTourRequestValidation.ValidationErrors[EnteredEnd]}"
                                Foreground="Tomato" FontSize="12" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="812,103,0,157" Width="258" Height="Auto">
         </TextBlock>
-        <Button Content="SUBMIT" Command="{Binding CompleteRequest}" HorizontalAlignment="Left" Margin="575,184,0,0" VerticalAlignment="Top" Height="32" Width="157" Style="{StaticResource HoverButtonStyle}">
+        <Button Content="SUBMIT" Command="{Binding CompleteRequest}" HorizontalAlignment="Left" Margin="575,184,0,0" VerticalAlignment="Top" Height="32" Width="157" Style="{StaticResource HoverButtonStyle}" ToolTip="Submit request">
         </Button>
-        <Button Content="QUIT" Command="{Binding QuitRequest}" HorizontalAlignment="Left" Margin="749,184,0,0" VerticalAlignment="Top" Height="32" Width="158" Style="{StaticResource HoverButtonStyle}"/>
+        <Button Content="QUIT" Command="{Binding QuitRequest}" HorizontalAlignment="Left" Margin="749,184,0,0" VerticalAlignment="Top" Height="32" Width="158" Style="{StaticResource HoverButtonStyle}" ToolTip="Quit request"/>
 
 
 

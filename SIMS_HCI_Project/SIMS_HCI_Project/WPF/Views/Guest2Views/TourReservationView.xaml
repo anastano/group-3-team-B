@@ -156,7 +156,7 @@
         </DataGrid>
 
 
-        <Button Content="SUBMIT" Padding="7" x:Name="btnConfirmReservation" Command="{Binding ConfirmReservationCommand}" HorizontalAlignment="Left" Margin="776,274,0,0" VerticalAlignment="Top" Height="34" Width="160" FontWeight="Medium" BorderBrush="#cb2d6f" BorderThickness="2" Style="{StaticResource HoverButtonStyle}">
+        <Button Content="SUBMIT" Padding="7" x:Name="btnConfirmReservation" Command="{Binding ConfirmReservationCommand}" HorizontalAlignment="Left" Margin="776,274,0,0" VerticalAlignment="Top" Height="34" Width="160" FontWeight="Medium" BorderBrush="#cb2d6f" BorderThickness="2" Style="{StaticResource HoverButtonStyle}" ToolTip="Submit reservation">
         </Button>
 
         <Label Foreground="White" Content="Available places:" HorizontalAlignment="Left" Margin="776,190,0,0" VerticalAlignment="Top" Width="105"/>
@@ -184,8 +184,8 @@
         </DataGrid>
 
         <Button Command="{Binding DataContext.ShowImagesCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
-                                    Background="White" Margin="340,56,476,158">
-            <Image Source="{Binding Image}" Width="188" Height="119"/>
+                                    Background="White" Margin="340,56,476,158" ToolTip="Click to see more images">
+            <Image Source="{Binding Image}" Width="254" Height="125" Stretch="Fill"/>
         </Button>
         <Label Content="MAKE RESERVATION" Style="{StaticResource Guest2Header1Style}"/>
 

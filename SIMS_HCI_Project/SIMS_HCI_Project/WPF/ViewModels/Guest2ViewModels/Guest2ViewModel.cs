@@ -23,6 +23,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels      //main window wi
         public RelayCommand Statistics { get; set; }
         public RelayCommand Profile { get; set; }
         public RelayCommand Logout { get; set; }
+        public RelayCommand Help { get; set; }
+
         public bool IsWizardOn { get; set; }
 
         //public Guest2ViewModel()
@@ -62,7 +64,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels      //main window wi
             Statistics = new RelayCommand(ExecuteNavigateToStatistics, CanExecuteNavigate);
             Profile = new RelayCommand(ExecuteNavigateToProfile, CanExecuteNavigate);
             Logout = new RelayCommand(ExecuteLogout, CanExecuteNavigate);
+            Help = new RelayCommand(ExecuteHelp, CanExecuteNavigate);
         }
+
+        private void ExecuteHelp(object obj)
+        {
+            NavigationService.Navigate(new HelpAllView(Guest2, NavigationService));
+        }
+
         private void ExecuteNavigateToSearchAndReserve(object sender)
         {
             NavigationService.Navigate(new TourSearchView(Guest2, NavigationService));

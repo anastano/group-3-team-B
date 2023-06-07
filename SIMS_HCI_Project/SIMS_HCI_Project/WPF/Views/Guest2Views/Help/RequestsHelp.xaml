@@ -1,0 +1,15 @@
+﻿<Page x:Class="SIMS_HCI_Project.WPF.Views.Guest2Views.Help.RequestsHelp"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest2Views.Help"
+      mc:Ignorable="d" 
+      d:DesignHeight="425" d:DesignWidth="1080"
+      Title="RequestsHelp">
+
+    <Grid>
+        <Image Source="../../../../Resources/Images/requestsSC.png" Margin="10,-2,345,-4"/>
+        <TextBlock Foreground="White" Margin="767,136,34,0" TextWrapping="Wrap" Text="There will be shown all requests that you made, and their informations. Dates already have predefined values which you can change.Other fields are required.Fill the form and submit request." VerticalAlignment="Top" Height="116"/>
+    </Grid>
+</Page>

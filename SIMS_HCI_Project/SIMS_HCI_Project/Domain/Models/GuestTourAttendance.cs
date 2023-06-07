@@ -21,12 +21,16 @@ namespace SIMS_HCI_Project.Domain.Models
         public int KeyPointJoinedId { get; set; }
         public TourKeyPoint KeyPointJoined { get; set; }
 
-        public GuestTourAttendance() { }
+        public GuestTourAttendance()
+        {
+            TourReservation = new TourReservation();
+        }
 
         public GuestTourAttendance(int reservationId)
         {
             TourReservationId = reservationId;
             Status = AttendanceStatus.NOT_PRESENT;
+            TourReservation = new TourReservation();
         }
 
         public void RequestConfirmation()

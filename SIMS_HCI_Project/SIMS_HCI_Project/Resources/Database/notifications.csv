@@ -31,3 +31,7 @@
 31|Your request number for tour was accepted. Departure time: 6/2/2023. Created tour number: [34].|4|False|TOUR_REQUEST_ACCEPTED
 32|Request to reschedule the reservation for 'Ocean View Resort' has been DENIED|10|False|DEFAULT
 33|Request to reschedule the reservation for 'The Royal Palace Hotel' has been ACCEPTED|3|False|DEFAULT
+34|Created new tour which fulfills some of your requirements from your unfulfilled requests. Tour is created with id: [35]. Click to see details|4|False|NEW_TOUR
+35|Created new tour which fulfills some of your requirements from your unfulfilled requests. Tour is created with id: [35]. Click to see details|4|False|NEW_TOUR
+36|Created new tour which fulfills some of your requirements from your unfulfilled requests. Tour is created with id: [35]. Click to see details|4|False|NEW_TOUR
+37|Created new tour which fulfills some of your requirements from your unfulfilled requests. Tour is created with id: [35]. Click to see details|4|False|NEW_TOUR

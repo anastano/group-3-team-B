@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.GuideViews"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:cvt="clr-namespace:SIMS_HCI_Project.Wpf.Converters"
         mc:Ignorable="d"
         Title="Tour Input" Height="850" Width="700" WindowStartupLocation="CenterScreen" FontSize="16">
     <Window.Background>
@@ -21,6 +22,16 @@
                     <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" FontSize="13px" />
                 </StackPanel>
             </ControlTemplate>
+            <Style x:Key="DisableBtn" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding NewTour.IsValid}" Value="True">
+                        <Setter Property="IsEnabled" Value="True"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding NewTour.IsValid}" Value="False">
+                        <Setter Property="IsEnabled" Value="False"></Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
@@ -45,12 +56,11 @@
         <TextBlock Text="Max Number Of Guests" Grid.Row="4" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center" TextWrapping="Wrap" Width="125"></TextBlock>
         <TextBlock Text="Add Key Points" Grid.Row="5" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,30,0,0"></TextBlock>
 
-        <TextBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Path=NewTour.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" VerticalAlignment="Center" Width="240" Margin="15,0,0,0"/>
+        <TextBox Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Path=NewTour.Title, Mode=TwoWay, UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" VerticalAlignment="Center" Width="240" Margin="15,0,0,0"/>
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
             <StackPanel Orientation="Vertical" Margin="15,0,10,0">
                 <TextBlock Text="City" HorizontalAlignment="Center"></TextBlock>
                 <TextBox HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding Path=NewTour.Location.City, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" VerticalAlignment="Center" Width="115"/>
-                <TextBlock Text="{Binding NewTour.ValidationErrors[City]}" Foreground="Red" FontSize="13px" />
             </StackPanel>
             <StackPanel Orientation="Vertical" Margin="0,0,10,0">
                 <TextBlock Text="Country" HorizontalAlignment="Center"></TextBlock>
@@ -65,9 +75,8 @@
                 <TextBox HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Path=KeyPointTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" VerticalAlignment="Center" Width="205" Margin="15,0,0,0"/>
                 <Button Content="+" Margin="5,0,0,0" Width="30" Command="{Binding AddKeyPoint}"/>
             </StackPanel>
-            <ListBox ItemsSource="{Binding KeyPoints}" Margin="15,15,0,0" Height="180" Width="240" VerticalAlignment="Center" HorizontalAlignment="Left"></ListBox>
+            <ListBox ItemsSource="{Binding KeyPoints}" DisplayMemberPath="Title" Margin="15,15,0,0" Height="180" Width="240" VerticalAlignment="Center" HorizontalAlignment="Left"></ListBox>
         </StackPanel>
-        <Button Grid.Row="5" Grid.Column="1" Content="Remove" Margin="0,0,10,0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Command="{Binding RemoveKeyPoint}"></Button>
         <StackPanel Grid.Row="0" Grid.Column="2" Orientation="Horizontal">
             <TextBlock Text="Duration" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
             <TextBox VerticalAlignment="Center" HorizontalAlignment="Left" Text="{Binding Path=NewTour.Duration, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Width="50" Margin="15,0,0,0"></TextBox>
@@ -82,15 +91,13 @@
                 </StackPanel>
                 <StackPanel Margin="15,0,0,0" VerticalAlignment="Bottom">
                     <TextBlock Text="Time" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
-                    <TextBox Width="65" Text="{Binding Path=DepartureTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                    <TextBox Width="65" Text="{Binding Path=DepartureTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={cvt:StringToTimeOnlyConverter}}"></TextBox>
                 </StackPanel>
                 <Button Content="+" Margin="10,0,0,0" Width="30" VerticalAlignment="Bottom" HorizontalAlignment="Center" Command="{Binding AddDepartureTime}"></Button>
             </StackPanel>
             <ListBox ItemsSource="{Binding DepartureTimes}" Height="85" Margin="10,10,10,10" Width="205" HorizontalAlignment="Left"></ListBox>
 
         </StackPanel>
-
-        <Button Grid.Row="3" Grid.Column="2" Margin="0,0,30,0" Content="Remove" VerticalAlignment="Top" HorizontalAlignment="Right" Command="{Binding RemoveDepartureTime}"></Button>
         <StackPanel Grid.Row="5" Grid.Column="2" Orientation="Vertical">
             <TextBlock Text="Images" HorizontalAlignment="Center" Margin="0,8,0,0"></TextBlock>
             <StackPanel Orientation="Horizontal">
@@ -99,8 +106,6 @@
             </StackPanel>
             <ListBox ItemsSource="{Binding Images}" Margin="15,15,0,0" Height="180" Width="240" VerticalAlignment="Center" HorizontalAlignment="Left"></ListBox>
         </StackPanel>
-
-        <Button Grid.Row="5" Grid.Column="2" Content="Remove" Margin="0,0,10,0" VerticalAlignment="Bottom" HorizontalAlignment="Right" Command="{Binding RemoveImage}"></Button>
         <Button Grid.Row="6" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Submit" IsEnabled="True">
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="Click">
@@ -111,5 +116,13 @@
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </Button>
+        <TextBlock Grid.Row="1" Grid.Column="1" VerticalAlignment="Bottom" Margin="15,0,0,10" FontSize="13px"  Text="{Binding NewTour[Location]}"
+                               Foreground="Red"/>
+        <TextBlock Grid.Row="5" Grid.Column="1" VerticalAlignment="Bottom" Margin="15,0,0,10" FontSize="13px"  Text="{Binding NewTour[KeyPoints]}"
+                               Foreground="Red"/>
+        <TextBlock Grid.Row="2" Grid.Column="4" VerticalAlignment="Bottom" Margin="15,0,0,0" FontSize="13px"  Text="{Binding NewTour[DepartureTimes]}"
+                               Foreground="Red"/>
+        <TextBlock Grid.Row="5" Grid.Column="4" VerticalAlignment="Bottom" Margin="15,0,0,0" FontSize="13px"  Text="{Binding NewTour[Images]}"
+                               Foreground="Red"/>
     </Grid>
 </Window>

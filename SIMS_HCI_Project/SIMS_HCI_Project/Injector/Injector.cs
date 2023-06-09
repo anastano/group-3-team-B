@@ -32,7 +32,8 @@ namespace SIMS_HCI_Project.Injector
             { typeof(ITourRatingRepository), new TourRatingRepository() },
             { typeof(IRegularTourRequestRepository), new RegularTourRequestRepository() },
             { typeof(IForumRepository), new ForumRepository() },
-            { typeof(IForumCommentRepository), new ForumCommentRepository() }
+            { typeof(IForumCommentRepository), new ForumCommentRepository() },
+            { typeof(ISuperGuideFlagRepository), new SuperGuideFlagRepository() }
         };
 
         public static T CreateInstance<T>()

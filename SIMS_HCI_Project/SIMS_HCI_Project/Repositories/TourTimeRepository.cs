@@ -4,6 +4,7 @@ using SIMS_HCI_Project.Domain.RepositoryInterfaces;
 using SIMS_HCI_Project.FileHandlers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,6 +59,11 @@ namespace SIMS_HCI_Project.Repositories
         public List<TourTime> GetAllInDateRange(int guideId, DateRange dateRange)
         {
             return _tourTimes.FindAll(tt => tt.Tour.GuideId == guideId && dateRange.DoesOverlap(new DateRange(tt.DepartureTime, tt.Tour.Duration)));
+        }
+
+        public int GetLastYearCountByLanguage(int guideId, string language)
+        {
+            return _tourTimes.Where(tt => tt.Tour.GuideId == guideId && tt.Tour.Language.Equals(language) && tt.DepartureTime > DateTime.Now.AddYears(-1)).Count();
         }
 
         public void Add(TourTime tourTime)

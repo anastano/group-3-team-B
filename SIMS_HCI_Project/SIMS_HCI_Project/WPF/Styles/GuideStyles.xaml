@@ -55,7 +55,7 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="CadetBlue"/>
+                <Setter Property="Background" Value="#5F9EA0"/>
                 <Setter Property="Foreground" Value="White"/>
             </Trigger>
         </Style.Triggers>
@@ -74,6 +74,32 @@
     </Style>
 
     <Style TargetType="Button">
+        <Setter Property="Padding" Value="5,5,5,5"></Setter>
+        <Setter Property="BorderBrush" Value="White"></Setter>
+        <Setter Property="Background" Value="#CEF7FF"/>
+        <Setter Property="BorderThickness" Value="2"></Setter>
+        <Setter Property="BorderBrush" Value="#95B0B1"></Setter>
+        <Setter Property="Border.CornerRadius" Value="20"></Setter>
+        <Style.Resources>
+            <Style TargetType="{x:Type Border}">
+                <Setter Property="CornerRadius" Value="7"/>
+            </Style>
+        </Style.Resources>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <!--<Setter Property="Button.Effect">
+                    <Setter.Value>
+                        <DropShadowEffect Color="DarkBlue" Direction="320" ShadowDepth="5" BlurRadius="5" Opacity="0.5" />
+                    </Setter.Value>
+                </Setter>-->
+                <!--<Setter Property="BorderBrush" Value="White"></Setter>
+                <Setter Property="BorderThickness" Value="2"></Setter>-->
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+
+    <Style TargetType="Button" x:Key="BasedButton">
         <Setter Property="Padding" Value="5,5,5,5"></Setter>
         <Setter Property="BorderBrush" Value="White"></Setter>
         <Setter Property="Background">
@@ -104,7 +130,6 @@
         </Style.Triggers>
     </Style>
 
-    
 
     <Style x:Key="H1" TargetType="TextBlock">
         <Setter Property="FontSize" Value="20"></Setter>
@@ -115,13 +140,15 @@
     <Style x:Key="H3" TargetType="TextBlock">
         <Setter Property="FontSize" Value="14"></Setter>
     </Style>
-    <Style x:Key="TinyLetters" TargetType="TextBlock">
+    <Style x:Key="P" TargetType="TextBlock">
         <Setter Property="FontSize" Value="10"></Setter>
+    </Style>
+    <Style x:Key="Small" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="5"></Setter>
     </Style>
 
 
-    
-    
+
     <Style TargetType="DataGrid">
         <Setter Property="BorderBrush" Value="White"></Setter>
         <Setter Property="BorderThickness" Value="2"></Setter>

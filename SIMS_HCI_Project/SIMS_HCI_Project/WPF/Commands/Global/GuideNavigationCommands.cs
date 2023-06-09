@@ -27,6 +27,7 @@ namespace SIMS_HCI_Project.WPF.Commands.Global
         public RelayCommand NavigateToTourRequestsStatistics { get; set; }
         public RelayCommand NavigateToProfileInformation { get; set; }
         public RelayCommand NavigateToRequestDatePicker { get; set; }
+        public RelayCommand NavigateToConfirmPasword { get; set; }
         public RelayCommand SignOut { get; set; }
         public RelayCommand CloseCurrentWindow { get; set; }
         #endregion
@@ -50,6 +51,7 @@ namespace SIMS_HCI_Project.WPF.Commands.Global
             NavigateToTourRequestsStatistics = new RelayCommand(ExecutedNavigateToTourRequestsStatisticsCommand, CanExecuteCommand);
             NavigateToProfileInformation = new RelayCommand(ExecutedNavigateToProfileInformationCommand, CanExecuteCommand);
             NavigateToRequestDatePicker = new RelayCommand(ExecutedNavigateToRequestDatePickerCommand, CanExecuteCommand);
+            NavigateToConfirmPasword = new RelayCommand(ExecutedNavigateToConfirmPaswordCommand, CanExecuteCommand);
 
             SignOut = new RelayCommand(ExecutedSignOutCommand, CanExecuteCommand);
             CloseCurrentWindow = new RelayCommand(ExecutedCloseCurrentWindowCommand, CanExecuteCommand);
@@ -124,6 +126,12 @@ namespace SIMS_HCI_Project.WPF.Commands.Global
         {
             Window datePicker = new TourRequestDatePickerView(obj as TourRequestsViewModel);
             datePicker.ShowDialog();
+        }
+
+        private void ExecutedNavigateToConfirmPaswordCommand(object obj)
+        {
+            Window confirm = new ConfirmPassword();
+            confirm.ShowDialog();
         }
 
         private void ExecutedSignOutCommand(object obj)

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.GuideViews"
         mc:Ignorable="d"
-         Title="TourReviews" Height="720" Width="1280" WindowStartupLocation="CenterScreen" FontSize="20">
+         Title="TourReviews" Height="720" Width="1280" WindowStartupLocation="CenterScreen" FontSize="18">
     <Window.Background>
         <ImageBrush ImageSource="pack://application:,,,/WPF/Images/guideBackground.png"></ImageBrush>
     </Window.Background>
@@ -23,8 +23,8 @@
             </Grid>
             <Grid>
                 <StackPanel Margin="20,20,20,20">
-                    <TextBlock Text="{Binding Tour.Tour.Title}"></TextBlock>
-                    <TextBlock Margin="0,0,0,40">
+                    <TextBlock FontSize="20"  Text="{Binding Tour.Tour.Title}"></TextBlock>
+                    <TextBlock FontSize="16"  Margin="0,0,0,0">
                         <TextBlock.Text>
                             <MultiBinding StringFormat="{}{0} ({1})">
                                 <Binding Path="Tour.Tour.Location.City"></Binding>
@@ -32,10 +32,13 @@
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>
-                    <ListBox Height="500" ItemsSource="{Binding TourRatings}" SelectedItem="{Binding SelectedRating}">
+                    <ListBox Height="500"  ItemsSource="{Binding TourRatings}" SelectedItem="{Binding SelectedRating}">
+                        <ListBox.Background>
+                            <SolidColorBrush Color="Azure" Opacity="0.5" />
+                        </ListBox.Background>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Border BorderBrush="Black" BorderThickness="1" Width="1200">
+                                <Border BorderBrush="Black" BorderThickness="1" Width="1190">
                                     <StackPanel Orientation="Vertical" Margin="10,10,10,10">
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                                             <TextBlock Text="-name-"/>

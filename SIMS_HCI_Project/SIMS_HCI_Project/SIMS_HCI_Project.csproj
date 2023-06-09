@@ -45,11 +45,15 @@
     <None Remove="Resources\Images\wallpaper.jpg" />
     <None Remove="Resources\Images\warning.png" />
     <None Remove="WPF\Images\avatar.png" />
+    <None Remove="WPF\Images\filter.png" />
     <None Remove="WPF\Images\guideBackground.png" />
     <None Remove="WPF\Images\home.png" />
     <None Remove="WPF\Images\mountain-city.png" />
+    <None Remove="WPF\Images\pdf.png" />
     <None Remove="WPF\Images\question-mark.png" />
+    <None Remove="WPF\Images\remove-filter.png" />
     <None Remove="WPF\Images\star.png" />
+    <None Remove="WPF\Images\stats.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -109,11 +113,15 @@
     <Resource Include="Resources\Images\wallpaper.jpg" />
     <Resource Include="Resources\Images\warning.png" />
     <Resource Include="WPF\Images\avatar.png" />
+    <Resource Include="WPF\Images\filter.png" />
     <Resource Include="WPF\Images\guideBackground.png" />
     <Resource Include="WPF\Images\home.png" />
     <Resource Include="WPF\Images\mountain-city.png" />
+    <Resource Include="WPF\Images\pdf.png" />
     <Resource Include="WPF\Images\question-mark.png" />
+    <Resource Include="WPF\Images\remove-filter.png" />
     <Resource Include="WPF\Images\star.png" />
+    <Resource Include="WPF\Images\stats.png" />
   </ItemGroup>
 
   <ItemGroup>

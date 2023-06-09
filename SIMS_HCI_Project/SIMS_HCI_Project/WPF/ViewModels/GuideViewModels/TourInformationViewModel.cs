@@ -1,10 +1,12 @@
 ﻿using SIMS_HCI_Project.Applications.Services;
+using SIMS_HCI_Project.Domain.DTOs;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands;
 using SIMS_HCI_Project.WPF.Commands.Global;
 using SIMS_HCI_Project.WPF.Views.GuideViews;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -35,6 +37,28 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         public Tour Tour { get; set; }
 
+        private string _mainImage;
+        public string MainImage
+        {
+            get { return _mainImage; }
+            set
+            {
+                _mainImage = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private ObservableCollection<string> _allImages;
+        public ObservableCollection<string> AllImages
+        {
+            get { return _allImages; }
+            set
+            {
+                _allImages = value;
+                OnPropertyChanged();
+            }
+        }
+
         private TourTime _selectedTourTime;
         public TourTime SelectedTourTime
         {
@@ -48,13 +72,34 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         private TourLifeCycleService _tourLifeCycleService;
 
+        public TourTime AllTimeTopTour { get; set; }
+
+        public TourStatisticsInfo AllTimeTopTourStatistics { get; set; }
+        private TourStatisticsService _tourStatisticsService;
+
         public TourInformationViewModel(Tour tour)
         {   
             Tour = tour;
 
+            _tourStatisticsService = new TourStatisticsService();
+            AllTimeTopTour = _tourStatisticsService.GetTopTour();
+            AllTimeTopTourStatistics = _tourStatisticsService.GetTourStatistics(AllTimeTopTour.Id);
+
+            if (tour.DepartureTimes != null && tour.DepartureTimes.Count > 0)
+            {
+                SelectedTourTime = tour.DepartureTimes.First();
+            }
+
             _tourLifeCycleService = new TourLifeCycleService(); 
 
             InitCommands();
+            LoadImages();
+        }
+
+        private void LoadImages()
+        {
+            AllImages = new ObservableCollection<string>(Tour.Images);
+            MainImage = Tour.Images.First();
         }
 
         private void InitCommands()
@@ -73,7 +118,18 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         private void ExecutedCancelTourCommand(object obj)
         {
-            _tourLifeCycleService.CancelTour(SelectedTourTime);
+            string messageBoxText = "Are you sure you want to cancel tour? This action cannot be undone";
+            string caption = "Cancel Tour";
+            MessageBoxButton button = MessageBoxButton.YesNo;
+            MessageBoxImage icon = MessageBoxImage.Warning;
+            MessageBoxResult result;
+
+            result = MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.Yes);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                _tourLifeCycleService.CancelTour(SelectedTourTime);
+            }
         }
 
         private void ExecutedStartTourCommand(object obj)

@@ -54,5 +54,12 @@ namespace SIMS_HCI_Project.Repositories
             _comments.Add(comment);
             Save();
         }
+
+        public void Update(ForumComment updatedComment)
+        {
+            ForumComment comment = GetById(updatedComment.Id);
+            comment = updatedComment;
+            Save();
+        }
     }
 }

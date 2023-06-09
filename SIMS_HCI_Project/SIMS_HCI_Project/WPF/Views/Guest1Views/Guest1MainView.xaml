@@ -172,6 +172,9 @@
                 <DataTemplate DataType="{x:Type viewmodels:ForumViewModel}">
                     <views:ForumView/>
                 </DataTemplate>
+                <DataTemplate DataType="{x:Type viewmodels:AddForumCommentViewModel}">
+                    <views:AddForumCommentView/>
+                </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>
     </Grid>

@@ -67,7 +67,14 @@ namespace SIMS_HCI_Project.Repositories
         {
             return _reservations.FindAll(r => r.GuestId == guestId);
         }
-
+        public List<AccommodationReservation> GetAllByGuestIdAndLocation(int guestId, int locationId)
+        {
+            return _reservations.FindAll(r => r.GuestId == guestId && r.Accommodation.LocationId == locationId && r.Status != AccommodationReservationStatus.CANCELLED);
+        }
+        public List<AccommodationReservation> GetByGuestIdAndLocationId(int guestId, int locationId)
+        {
+            return _reservations.FindAll(r => r.GuestId == guestId && r.Accommodation.LocationId == locationId);
+        }
         public List<AccommodationReservation> GetAllReservedByAccommodationId(int accommodationId)
         {
             List<AccommodationReservation>  lista = _reservations.FindAll(r => (r.AccommodationId == accommodationId && r.Status == AccommodationReservationStatus.RESERVED));

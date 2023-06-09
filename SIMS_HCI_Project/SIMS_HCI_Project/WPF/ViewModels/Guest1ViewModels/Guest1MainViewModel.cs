@@ -141,7 +141,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _titleService.ConvertActiveTitlesIntoExpired(DateTime.Now);
             _accommodationService.ConvertAccommodationIntoRenovated(_renovationService);
             _userService.FillOwnerSuperFlag(_ratingGivenByGuestService);
-            _userService.FillGuestReservationList(_reservationService);
         }
         public bool CanExecute(object obj)
         {
@@ -153,7 +152,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             {
                 _notificationService.MarkAsRead(notification.Id);
             }
-            //Guest1MainView.Close();
+            Guest1MainView.Close();
         }
         public void ExecutedShowProfileCommand(object obj)
         {

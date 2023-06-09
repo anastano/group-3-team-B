@@ -1,50 +1,72 @@
-1|1|1|I did everything right|0|true
-2|2|3|Guests from Croatia are awful|0|true
-3|3|1|Very bad location for vacation|0|true
-4|2|3|Super|0|true
-5|18|2|I have never been here.|2|false
-6|1|2|Worse|0|true
-7|18|3|This forum is amazing|1|false
-8|1|1|Highly recommend this place|0|true
-9|3|2|Average experience, nothing special|0|true
-10|18|1|Impressive service|0|false
-11|1|2|Terrible customer support|0|true
-12|3|3|Great deals available here|0|true
-13|2|3|Disappointed with the facilities|0|true
-14|18|2|Enjoyed my stay here|1|false
-15|3|1|Poorly maintained rooms|1|true
-16|2|3|Excellent staff members|0|true
-17|1|2|Could be better|0|true
-18|18|3|Loved the food at the restaurant|0|false
-19|3|1|Unfriendly receptionists|0|true
-20|2|3|Decent place to stay|0|true
-21|1|2|Amazing view from the balcony|0|true
-22|3|1|Overpriced for the quality provided|0|true
-23|18|2|Comfortable beds|0|false
-24|1|1|Poor Wi-Fi connectivity|0|true
-25|2|3|Clean and tidy rooms|0|true
-26|3|2|Noisy environment|0|true
-27|18|3|Friendly and helpful staff|3|false
-28|2|3|Lack of parking space|0|true
-29|1|2|Great value for money|0|true
-30|3|1|Not suitable for families|0|true
-31|4|2|Spacious and well-designed rooms|0|false
-32|1|1|Slow room service|0|true
-33|3|3|Beautiful location near the beach|0|true
-34|2|3|Limited breakfast options|0|true
-35|4|1|Fantastic amenities|0|false
-36|2|3|No complaints at all|0|true
-37|1|2|Unpleasant odor in the rooms|0|true
-38|4|3|Enjoyed the pool facilities|2|false
-39|3|1|Inefficient air conditioning|0|true
-40|2|3|Quick check-in process|0|true
-41|1|2|Unresponsive management|0|true
-42|3|2|Scenic surroundings|0|true
-43|4|2|Satisfied with the overall experience|0|false
-44|1|1|Limited dining options nearby|0|true
-45|2|3|Convenient location for sightseeing|0|true
-46|3|1|Inadequate room cleanliness|0|true
-47|4|3|Excellent value for the price|0|false
-48|2|3|Insufficient toiletries provided|0|true
-49|1|2|Peaceful ambiance|0|true
-50|4|2|Impressed with the hotel facilities|0|false
+1|1|1|I did everything right|0|True
+2|2|3|Guests from Croatia are awful|0|True
+3|3|1|Very bad location for vacation|0|True
+4|2|3|Super|0|True
+5|18|2|I have never been here.|2|False
+6|1|2|Worse|0|True
+7|18|3|This forum is amazing|1|False
+8|1|1|Highly recommend this place|0|True
+9|3|2|Average experience, nothing special|0|True
+10|18|1|Impressive service|0|False
+11|1|2|Terrible customer support|0|True
+12|3|3|Great deals available here|0|True
+13|2|3|Disappointed with the facilities|0|True
+14|18|2|Enjoyed my stay here|1|False
+15|3|1|Poorly maintained rooms|1|True
+16|2|3|Excellent staff members|0|True
+17|1|2|Could be better|0|True
+18|18|3|Loved the food at the restaurant|0|False
+19|3|1|Unfriendly receptionists|0|True
+20|2|3|Decent place to stay|0|True
+21|1|2|Amazing view from the balcony|0|True
+22|3|1|Overpriced for the quality provided|0|True
+23|18|2|Comfortable beds|0|False
+24|1|1|Poor Wi-Fi connectivity|0|True
+25|2|3|Clean and tidy rooms|0|True
+26|3|2|Noisy environment|0|True
+27|18|3|Friendly and helpful staff|3|False
+28|2|3|Lack of parking space|0|True
+29|1|2|Great value for money|0|True
+30|3|1|Not suitable for families|0|True
+31|4|2|Spacious and well-designed rooms|0|False
+32|1|1|Slow room service|0|True
+33|3|3|Beautiful location near the beach|0|True
+34|2|3|Limited breakfast options|0|True
+35|4|1|Fantastic amenities|0|False
+36|2|3|No complaints at all|0|True
+37|1|2|Unpleasant odor in the rooms|0|True
+38|4|3|Enjoyed the pool facilities|2|False
+39|3|1|Inefficient air conditioning|0|True
+40|2|3|Quick check-in process|0|True
+41|1|2|Unresponsive management|0|True
+42|3|2|Scenic surroundings|0|True
+43|4|2|Satisfied with the overall experience|0|False
+44|1|1|Limited dining options nearby|0|True
+45|2|3|Convenient location for sightseeing|0|True
+46|3|1|Inadequate room cleanliness|0|True
+47|4|3|Excellent value for the price|0|False
+48|2|3|Insufficient toiletries provided|0|True
+49|1|2|Peaceful ambiance|0|True
+50|4|2|Impressed with the hotel facilities|0|False
+51|3|5|This is Milena's city tell me more about it?|0|True
+52|3|4|Hej Milena how are you doing???|0|True
+53|10|4|My second try from other profile|0|False
+54|10|4|Third try|0|False
+55|18|1|Very beautiful location|0|True
+56|18|1|I completely agree with the statement about inefficient air conditioning|0|True
+57|18|1|In my experience, having an inefficient air conditioning system can lead to discomfort and higher energy bills.|0|True
+58|18|1|Efficient air conditioning is essential, especially during the hot summer months.|0|True
+59|18|1|I've had my fair share of issues with inefficient air conditioning.|0|True
+60|18|1|Properly functioning air conditioning is crucial for maintaining a pleasant living or working environment.|0|True
+61|18|1|When it comes to air conditioning, efficiency is key.|0|True
+62|18|1|I couldn't agree more with the comment on inefficient air conditioning.|0|True
+63|18|1|Inefficient air conditioning can disrupt our daily lives and make it difficult to relax or be productive.|0|True
+64|18|1|I believe that investing in energy-efficient air conditioning is a wise decision.|0|True
+65|18|1|Inefficient air conditioning can impact our well-being and comfort.|0|True
+66|1|1|I did everything right.|0|True
+67|1|1|I did not everything right.|0|True
+68|1|1|I love everything right.|0|True
+69|1|1|Inefficient systems can cost us more in the long run.|0|True
+70|1|1|It's crucial to have a reliable system that works efficiently.|0|True
+71|3|1|I can feel my face when I am with you|0|True
+72|3|1|I only call you|0|True

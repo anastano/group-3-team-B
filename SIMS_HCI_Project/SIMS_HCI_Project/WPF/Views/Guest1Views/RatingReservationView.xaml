@@ -209,7 +209,7 @@
         </StackPanel>
         <Label Content="Additional comment:" Grid.Row="5" Grid.Column="0" Style="{StaticResource GuestLabelStyle}" VerticalAlignment="Top"></Label>
         <TextBox x:Name="Comment" Grid.Row="5" Grid.Column="1" Text="{Binding Path=Rating.AdditionalComment, UpdateSourceTrigger=PropertyChanged}"
-                 Width="400" HorizontalAlignment="Left"/>
+                 Width="400" Style="{StaticResource GuestTextBoxStyle}" Height="NaN" Margin="0,0,0,76" Grid.RowSpan="2"/>
         <Label Content="Recommend renovation:  &#xa;        (optional)" Grid.Row="6" Grid.Column="0"></Label>
         <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1">
             <Button Content="Recommend" Command="{Binding DataContext.RecommendRenovationCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"

@@ -47,6 +47,14 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return _reservationRepository.GetByGuestId(id);
         }
+        public List<AccommodationReservation> GetAllByGuestIdAndLocation(int gueestId, int locationId)
+        {
+            return _reservationRepository.GetAllByGuestIdAndLocation(gueestId, locationId);
+        }
+        public List<AccommodationReservation> GetByGuestIdAndLocationId(int guestId, int locationId)
+        {
+            return _reservationRepository.GetByGuestIdAndLocationId(guestId, locationId);
+        }
         public List<AccommodationReservation> GetInProgressByOwnerId(int ownerId)
         {
             List<AccommodationReservation> reservationsInProgress = new List<AccommodationReservation>();

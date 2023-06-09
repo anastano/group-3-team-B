@@ -52,6 +52,20 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
+        private bool _canGuestLeaveComment;
+        public bool CanGuestLeaveComment
+        {
+            get => _canGuestLeaveComment;
+            set
+            {
+                if (value != _canGuestLeaveComment)
+                {
+
+                    _canGuestLeaveComment = value;
+                    OnPropertyChanged(nameof(CanGuestLeaveComment));
+                }
+            }
+        }
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -67,6 +81,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             Forum = forum;
             UsefulMessage = "Very Useful";
             IsForumUseful = _forumService.IsUSeful(Forum);
+            CanGuestLeaveComment = (Forum.Status == ForumStatus.ACTIVE);
             Forum = _forumService.GetById(forum.Id);
             BackCommand = new RelayCommand(ExecutedBackCommand, CanExecute);
             AddCommentCommand = new RelayCommand(ExecutedAddCommentCommand, CanExecute);
@@ -77,7 +92,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         }
         public void ExecutedAddCommentCommand(object obj)
         {
-            //_navigationService.NavigateBack();
+            _navigationService.Navigate(new AddForumCommentViewModel(Guest, Forum, _navigationService), "Add comment on forum");
         }
         public bool CanExecute(object obj)
         {

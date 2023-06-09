@@ -44,7 +44,11 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             return _guestTourAttendanceRepository.GetByGuestAndTourTimeIds(guestId, tourTimeId);
         }
-      
+        public List<GuestTourAttendance> GetByGuestAndLocationIds(int guestId, int locationId)
+        {
+            return _guestTourAttendanceRepository.GetByGuestAndLocationIds(guestId, locationId);
+        }
+
         public List<TourTime> GetTourTimesWhereGuestWasPresent(int guestId)  // Simplify with LINQ
         {
             List<TourTime> tourTimes = new List<TourTime>();

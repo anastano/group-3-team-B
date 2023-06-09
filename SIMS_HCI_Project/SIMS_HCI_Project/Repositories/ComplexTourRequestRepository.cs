@@ -1,4 +1,5 @@
 ﻿using SIMS_HCI_Project.Domain.Models;
+using SIMS_HCI_Project.Domain.RepositoryInterfaces;
 using SIMS_HCI_Project.FileHandlers;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Repositories
 {
-    public class ComplexTourRequestRepository
+    public class ComplexTourRequestRepository : IComplexTourRequestRepository
     {
         private readonly ComplexTourRequestFileHandler _fileHandler;
 
@@ -51,5 +52,20 @@ namespace SIMS_HCI_Project.Repositories
             return _requests.FindAll(r => r.GuestId == guestId);
         }
 
+        public void Add(ComplexTourRequest request)
+        {
+            request.Id = GenerateId();
+            _requests.Add(request);
+
+            Save();
+        }
+
+        public void Update(ComplexTourRequest request)
+        {
+            ComplexTourRequest requestUpdated = GetById(request.Id);
+            requestUpdated = request;
+
+            Save();
+        }
     }
 }

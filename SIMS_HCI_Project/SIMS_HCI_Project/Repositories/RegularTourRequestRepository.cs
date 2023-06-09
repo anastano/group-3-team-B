@@ -58,6 +58,11 @@ namespace SIMS_HCI_Project.Repositories
             return _requests.FindAll(r => r.GuestId == guestId && r.IsPartOfComplex == false);
         }
 
+        public List<RegularTourRequest> GetAllPartsOfComplex(int complexRequestId)
+        {
+            return _requests.FindAll(r => r.ComplexTourRequestId == complexRequestId);
+        }
+
         public List<RegularTourRequest> GetAllByGuestId(int guestId, bool? isPartOfComplex = null)
         {
             return _requests.FindAll(r => r.GuestId == guestId && (isPartOfComplex == null || r.IsPartOfComplex == isPartOfComplex));

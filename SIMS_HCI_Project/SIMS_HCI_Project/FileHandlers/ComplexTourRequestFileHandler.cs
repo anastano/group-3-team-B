@@ -30,6 +30,7 @@ namespace SIMS_HCI_Project.FileHandlers
                 request.Id = int.Parse(csvValues[0]);
                 Enum.TryParse(csvValues[1], out TourRequestStatus status);
                 request.Status = status;
+                request.GuestId = int.Parse(csvValues[2]);
 
                 requests.Add(request);
             }
@@ -47,6 +48,7 @@ namespace SIMS_HCI_Project.FileHandlers
                 {
                     request.Id.ToString(),
                     request.Status.ToString(),
+                    request.GuestId.ToString()
                 };
 
                 string line = string.Join(Delimiter.ToString(), csvValues);

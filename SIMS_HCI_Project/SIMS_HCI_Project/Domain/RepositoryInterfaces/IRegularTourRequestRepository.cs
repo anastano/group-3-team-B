@@ -13,6 +13,7 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         RegularTourRequest GetById(int id);
         List<RegularTourRequest> GetAll();
         List<RegularTourRequest> GetAllByGuestId(int guestId, bool? isPartOfComplex = null);
+        List<RegularTourRequest> GetAllPartsOfComplex(int complexRequestId);
         List<RegularTourRequest> GetAllByGuestIdAndStatusAndYear(int guestId, TourRequestStatus status, int? year = null);
         List<RegularTourRequest> GetAllValidByParams(Location location, int guestNumber, string language, DateRange dateRange);
         List<RegularTourRequest> GetInvalidByParams(int locationId, string language);

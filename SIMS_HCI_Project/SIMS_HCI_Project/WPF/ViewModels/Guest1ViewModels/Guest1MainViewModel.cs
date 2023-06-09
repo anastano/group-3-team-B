@@ -142,7 +142,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _accommodationService.ConvertAccommodationIntoRenovated(_renovationService);
             _userService.FillOwnerSuperFlag(_ratingGivenByGuestService);
             _userService.FillGuestReservationList(_reservationService);
-            _forumCommentService.FillCommentsUsefulFlag();
         }
         public bool CanExecute(object obj)
         {

@@ -33,15 +33,13 @@ namespace SIMS_HCI_Project.Domain.Models
             IsRead = isRead;
             Type = type;
         }
-
-        public Notification(Notification notification)
+        public Notification(string message, User user, NotificationType type = NotificationType.DEFAULT)
         {
-            Id = notification.Id;
-            Message = notification.Message;
-            UserId = notification.UserId;
-            User = notification.User;
-            IsRead = notification.IsRead;
-            Type = notification.Type;
+            Message = message;
+            UserId = user.Id;
+            User = user;
+            IsRead = false;
+            Type = type;
         }
 
         public int ExtractObjectId(Notification notification)

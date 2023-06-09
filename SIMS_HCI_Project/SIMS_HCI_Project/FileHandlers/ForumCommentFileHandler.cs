@@ -29,6 +29,7 @@ namespace SIMS_HCI_Project.FileHandlers
                 comment.ForumId = Convert.ToInt32(csvValues[2]);
                 comment.Content = csvValues[3];
                 comment.ReportCounter = Convert.ToInt32(csvValues[4]);
+                comment.IsUseful = bool.Parse(csvValues[5]);
 
                 comments.Add(comment);
             }
@@ -48,7 +49,8 @@ namespace SIMS_HCI_Project.FileHandlers
                     comment.UserId.ToString(),
                     comment.ForumId.ToString(),
                     comment.Content,
-                    comment.ReportCounter.ToString()
+                    comment.ReportCounter.ToString(),
+                    comment.IsUseful.ToString()
                 };
 
                 string line = string.Join(Delimiter.ToString(), csvValues);

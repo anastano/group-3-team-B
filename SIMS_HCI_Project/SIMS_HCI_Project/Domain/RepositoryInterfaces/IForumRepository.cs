@@ -14,6 +14,6 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         List<Forum> GetByUserId(int userId);
         List<Forum> GetForumsExcludingUsers(int userId);
         void CloseForum(int id);
-        void Add(Forum forum);
+        Forum Add(Forum forum);
     }
 }

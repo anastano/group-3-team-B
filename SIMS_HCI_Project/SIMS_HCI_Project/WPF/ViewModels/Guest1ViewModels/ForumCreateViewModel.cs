@@ -21,6 +21,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         private ForumCommentService _forumCommentService;
         private LocationService _locationService;
         private NotificationService _notificationService;
+        private AccommodationService _accommodationService;
         public ObservableCollection<String> Countries { get; set; }
         //public ObservableCollection<String> Cities { get; set; }
         public RelayCommand CreateForumCommand { get; set; }
@@ -147,6 +148,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _locationService = new LocationService();
             _forumService = new ForumService();
             _forumCommentService = new ForumCommentService();
+            _accommodationService = new AccommodationService();
             InitProperties(guest);
             InitCommands();
         }
@@ -183,8 +185,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             else
             {
                 //rijesiti kako za komentar
-                _forumService.Add(new Forum(Guest, _locationService.GetLocation(SelectedCountry, SelectedCity)));
-                _notificationService.MakeForumNotifications(_locationService.GetLocation(SelectedCountry, SelectedCity));
+                Location location = _locationService.GetLocation(SelectedCountry, SelectedCity);
+                Forum addedForum = _forumService.Add(new Forum(Guest, location));
+                _forumCommentService.Add(new ForumComment(Guest, addedForum, Comment));
+                
+                _notificationService.MakeForumNotifications(_accommodationService, location);
                 _navigationService.Navigate(new ForumsViewModel(Guest, _navigationService, 1), "Forums");
             }
             

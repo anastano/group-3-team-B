@@ -15,6 +15,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
     public class SelectedForumViewModel
     {
         private readonly ForumCommentService _forumCommentService;
+        private readonly AccommodationService _accommodationService;
+
         public SelectedForumView SelectedForumView { get; set; }
         public Owner Owner { get; set; }
         public Forum Forum { get; set; }
@@ -30,6 +32,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             InitCommands();
 
             _forumCommentService = new ForumCommentService();
+            _accommodationService = new AccommodationService();
 
             SelectedForumView = selectedForumView;
             Owner = owner;
@@ -40,8 +43,19 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         #region Commands
         public void Executed_LeaveCommentCommand(object obj)
         {
-            Window leaveCommentView = new LeaveCommentView(Owner, Forum);
-            leaveCommentView.ShowDialog();
+            if (_accommodationService.GetByLocationIdAndOwnerId(Forum.LocationId, Owner.Id).Count != 0)
+            {
+                Window leaveCommentView = new LeaveCommentView(this, Owner, Forum);
+                leaveCommentView.ShowDialog();
+            }
+            else if (Forum.Status.Equals(ForumStatus.CLOSED))
+            {
+                MessageBox.Show("You are unable to leave a comment as this forum is closed.");
+            }
+            else
+            {
+                MessageBox.Show("You are unable to leave a comment as you do not possess any accommodation in this location.");
+            }    
         }
 
         public bool CanExecute_LeaveCommentCommand(object obj)
@@ -51,14 +65,24 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public void Executed_ReportCommentCommand(object obj)
         {
-            if (SelectedComment != null)
+            if (SelectedComment != null && !SelectedComment.IsUseful)
             {
-                _forumCommentService.ReportComment(SelectedComment);
-                UpdateComments();
+                if (_forumCommentService.ReportComment(Owner, SelectedComment))
+                {
+                    UpdateComments();
+                }
+                else
+                {
+                    MessageBox.Show("You already have reported this comment");
+                }
+            }
+            else if(SelectedComment == null)
+            {
+                MessageBox.Show("No comment has been selected");
             }
             else 
             {
-                MessageBox.Show("No comment has been selected");
+                MessageBox.Show("You are unable to report this comment since it is valid.");
             }
         }
 

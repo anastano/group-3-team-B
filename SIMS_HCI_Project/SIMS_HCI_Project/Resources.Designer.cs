@@ -103,6 +103,16 @@ namespace SIMS_HCI_Project {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
+        internal static byte[] thumbs_down {
+            get {
+                object obj = ResourceManager.GetObject("thumbs_down", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
         internal static byte[] wallpaper {
             get {
                 object obj = ResourceManager.GetObject("wallpaper", resourceCulture);

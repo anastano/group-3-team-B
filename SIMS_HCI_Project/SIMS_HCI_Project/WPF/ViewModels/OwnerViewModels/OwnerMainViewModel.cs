@@ -2,10 +2,7 @@
 using SIMS_HCI_Project.Domain.Models;
 
 using SIMS_HCI_Project.WPF.Commands;
-using SIMS_HCI_Project.WPF.Views;
-using SIMS_HCI_Project.WPF.Views.Guest1Views;
 using SIMS_HCI_Project.WPF.Views.OwnerViews;
-using Syncfusion.XPS;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,15 +21,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
     public class OwnerMainViewModel
     {
         #region Service Fields
-        private AccommodationService _accommodationService;
         private AccommodationReservationService _reservationService;
-        private RescheduleRequestService _requestService;
         private NotificationService _notificationService;
         private RatingGivenByOwnerService _ownerRatingService;
         private RatingGivenByGuestService _guestRatingService;
-        private RenovationService _renovationService;
-        private AccommodationYearStatisticsService _statisticsService;
-        private RenovationRecommendationService _recommendationService;
+        
         #endregion
 
         public static CancellationTokenSource CTS;
@@ -51,6 +44,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public RelayCommand ShowUnratedReservationsCommand { get; set; }
         public RelayCommand ShowGuestReviewsCommand { get; set; }
         public RelayCommand ShowStatisticsCommand { get; set; }
+        public RelayCommand ShowForumsCommand { get; set; }
         public RelayCommand StartDemoCommand { get; set; }
         public RelayCommand StopDemoCommand { get; set; }
         public RelayCommand LogoutCommand { get; set; }
@@ -76,17 +70,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public void LoadFromFiles()
         {
-            _accommodationService = new AccommodationService();
             _reservationService = new AccommodationReservationService();
-            _requestService = new RescheduleRequestService();
             _notificationService = new NotificationService();
             _ownerRatingService = new RatingGivenByOwnerService();
             _guestRatingService = new RatingGivenByGuestService();
-            _renovationService = new RenovationService();
-            _statisticsService = new AccommodationYearStatisticsService();
-            _recommendationService = new RenovationRecommendationService();
 
             _guestRatingService.FillAverageRatingAndSuperFlag(Owner);
+
         }
 
         private void ShowNotificationsAndSuperFlag()
@@ -177,6 +167,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         }
 
         public bool CanExecute_ShowStatisticsCommand(object obj)
+        {
+            return true;
+        }
+
+        public void Executed_ShowForumsCommand(object obj)
+        {
+            Window forumsView = new ForumsView(Owner);
+            forumsView.ShowDialog();
+        }
+
+        public bool CanExecute_ShowForumsCommand(object obj)
         {
             return true;
         }
@@ -309,6 +310,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             ShowUnratedReservationsCommand = new RelayCommand(Executed_ShowUnratedReservationsCommand, CanExecute_ShowUnratedReservationsCommand);
             ShowGuestReviewsCommand = new RelayCommand(Executed_ShowGuestReviewsCommand, CanExecute_ShowGuestReviewsCommand);
             ShowStatisticsCommand = new RelayCommand(Executed_ShowStatisticsCommand, CanExecute_ShowStatisticsCommand);
+            ShowForumsCommand = new RelayCommand(Executed_ShowForumsCommand, CanExecute_ShowForumsCommand);
             StartDemoCommand = new RelayCommand(Executed_StartDemoCommand, CanExecute_StartDemoCommand);
             StopDemoCommand = new RelayCommand(Executed_StopDemoCommand, CanExecute_StopDemoCommand);
             LogoutCommand = new RelayCommand(Executed_LogoutCommand, CanExecute_LogoutCommand);

@@ -20,9 +20,30 @@
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="ToolTip" Value="Back"/>
         </Style>
+        <Style x:Key="HoverButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#501f3a"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Background" Value="#cb2d6f"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Page.Resources>
 
-    <Grid Background="#FF525273">
+    <Grid Background="#FF312F42">
         <Button Command="{Binding DataContext.BackCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Style="{StaticResource Guest2BackBtn}" Margin="10,10,0,475" HorizontalAlignment="Left">
             <Image x:Name="back" Source="../../../Resources/Images/back.png"/>
         </Button>
@@ -30,19 +51,19 @@
         <StackPanel Orientation="Vertical" Margin="264,57,264,55">
             <Image Source="{Binding Image}" Height="340" Width="557"/>
             <StackPanel Orientation="Horizontal" Height="63">
-                <Button Content="&lt;" FontSize="35" Command="{Binding DataContext.PreviousImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Width="278">
+                <Button Content="&lt;" FontSize="35" Command="{Binding DataContext.PreviousImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Width="278" Style="{StaticResource HoverButtonStyle}" FontWeight="Medium">
                     <!--<Image x:Name="previous" Source="../../../Resources/Images/previous.png"/>-->
                     <Button.InputBindings>
                         <KeyBinding Key="Left" Command="{Binding DataContext.PreviousImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
                     </Button.InputBindings>
-                    <Button.ToolTip>Left arrow key</Button.ToolTip>
+                    <Button.ToolTip>Previous image</Button.ToolTip>
 
                 </Button>
-                <Button Content=">" FontSize="35" Command="{Binding DataContext.NextImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Width="272">
+                <Button Content=">" FontSize="35" Command="{Binding DataContext.NextImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Width="272" Style="{StaticResource HoverButtonStyle}" FontWeight="Medium">
                     <Button.InputBindings>
                         <KeyBinding Key="Right" Command="{Binding DataContext.NextImageCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" />
                     </Button.InputBindings>
-                    <Button.ToolTip>Right arrow key</Button.ToolTip>
+                    <Button.ToolTip>Next image</Button.ToolTip>
                 </Button>
             </StackPanel>
         </StackPanel>

@@ -72,7 +72,7 @@
                        Style="{StaticResource OwnerButtonStyle}" Height="50">
                         </Button>
 
-                        <Button x:Name="btnForums" Content="Forums                           (8)"
+                        <Button x:Name="btnForums" Content="Forums                           (8)"  Command="{Binding ShowForumsCommand}"
                        Style="{StaticResource OwnerButtonStyle}" Height="50">
                         </Button>
 

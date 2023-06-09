@@ -8,24 +8,41 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Images\airplane.png" />
+    <None Remove="Resources\Images\airplane1.png" />
     <None Remove="Resources\Images\back.png" />
     <None Remove="Resources\Images\booking.png" />
     <None Remove="Resources\Images\chat.png" />
+    <None Remove="Resources\Images\checked.png" />
     <None Remove="Resources\Images\goldenHouse.png" />
     <None Remove="Resources\Images\help.png" />
+    <None Remove="Resources\Images\helpT.png" />
+    <None Remove="Resources\Images\light-green-leaves-wallpaper.jpeg" />
     <None Remove="Resources\Images\logout.png" />
+    <None Remove="Resources\Images\logoutA.png" />
     <None Remove="Resources\Images\maintenance.png" />
     <None Remove="Resources\Images\menu.png" />
+    <None Remove="Resources\Images\paperplane.png" />
     <None Remove="Resources\Images\patternCircle.jpg" />
     <None Remove="Resources\Images\patternLines.png" />
     <None Remove="Resources\Images\patternTriangle.jpg" />
     <None Remove="Resources\Images\previous.png" />
     <None Remove="Resources\Images\profil.png" />
+    <None Remove="Resources\Images\profileSC.png" />
+    <None Remove="Resources\Images\rateSC.png" />
     <None Remove="Resources\Images\rating.png" />
+    <None Remove="Resources\Images\requestsSC.png" />
     <None Remove="Resources\Images\reserve.png" />
+    <None Remove="Resources\Images\reserveSC.png" />
     <None Remove="Resources\Images\search.png" />
+    <None Remove="Resources\Images\searchSC.png" />
     <None Remove="Resources\Images\TourSearchHelp.png" />
+    <None Remove="Resources\Images\travel.jpg" />
+    <None Remove="Resources\Images\thumbs-up.png" />
+    <None Remove="Resources\Images\TourSearchHelp.png" />
+    <None Remove="Resources\Images\useful.png" />
     <None Remove="Resources\Images\user.png" />
+    <None Remove="Resources\Images\wallpaper.jpg" />
     <None Remove="Resources\Images\warning.png" />
     <None Remove="WPF\Images\avatar.png" />
     <None Remove="WPF\Images\filter.png" />
@@ -40,7 +57,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Resources\Images\airplane.png" />
+    <Resource Include="Resources\Images\airplane1.png" />
+    <Resource Include="Resources\Images\paperplane.png" />
+    <Resource Include="Resources\Images\profileSC.png" />
+    <Resource Include="Resources\Images\rateSC.png" />
+    <Resource Include="Resources\Images\requestsSC.png" />
+    <Resource Include="Resources\Images\reserveSC.png" />
+    <Resource Include="Resources\Images\searchSC.png" />
+    <Resource Include="Resources\Images\travel.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Resources\Images\back.png" />
+    <Resource Include="Resources\Images\checked.png" />
     <Resource Include="Resources\Images\help.png" />
   </ItemGroup>
 
@@ -61,7 +91,9 @@
     <Resource Include="Resources\Images\goldenHouse.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Resources\Images\helpT.png" />
     <Resource Include="Resources\Images\logout.png" />
+    <Resource Include="Resources\Images\logoutA.png" />
     <Resource Include="Resources\Images\maintenance.png" />
     <Resource Include="Resources\Images\menu.png" />
     <Resource Include="Resources\Images\patternCircle.jpg" />
@@ -74,8 +106,11 @@
     <Resource Include="Resources\Images\rating.png" />
     <Resource Include="Resources\Images\reserve.png" />
     <Resource Include="Resources\Images\search.png" />
+    <Resource Include="Resources\Images\thumbs-up.png" />
     <Resource Include="Resources\Images\TourSearchHelp.png" />
+    <Resource Include="Resources\Images\useful.png" />
     <Resource Include="Resources\Images\user.png" />
+    <Resource Include="Resources\Images\wallpaper.jpg" />
     <Resource Include="Resources\Images\warning.png" />
     <Resource Include="WPF\Images\avatar.png" />
     <Resource Include="WPF\Images\filter.png" />

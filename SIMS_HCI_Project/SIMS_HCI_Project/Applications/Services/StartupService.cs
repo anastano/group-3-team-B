@@ -30,6 +30,8 @@ namespace SIMS_HCI_Project.Applications.Services
         private readonly ISuperGuestTitleRepository _superGuestTitleRepository;
         private readonly IRenovationRepository _renovationRepository;
         private readonly IRenovationRecommendationRepository _renovationRecommendationRepository;
+        private readonly IForumRepository _forumRepository;
+        private readonly IForumCommentRepository _forumCommentRepository;
 
         private static bool _connectionsLoaded = false;
 
@@ -53,6 +55,8 @@ namespace SIMS_HCI_Project.Applications.Services
             _superGuestTitleRepository = Injector.Injector.CreateInstance<ISuperGuestTitleRepository>();
             _renovationRepository = Injector.Injector.CreateInstance<IRenovationRepository>();
             _renovationRecommendationRepository = Injector.Injector.CreateInstance<IRenovationRecommendationRepository>();
+            _forumRepository = Injector.Injector.CreateInstance<IForumRepository>();
+            _forumCommentRepository = Injector.Injector.CreateInstance<IForumCommentRepository>();
         }
 
         public void LoadConnections()
@@ -74,6 +78,8 @@ namespace SIMS_HCI_Project.Applications.Services
             ConnectRenovationFields();
             ConnectRecommendationRenovationFields();
             ConnectGuideFields();
+            ConnectForumFields();
+            ConnectForumCommentFields();
 
             _connectionsLoaded = true;
         }
@@ -203,6 +209,23 @@ namespace SIMS_HCI_Project.Applications.Services
             foreach (RenovationRecommendation recommendation in _renovationRecommendationRepository.GetAll())
             {
                 recommendation.Rating = _ratingGivenByGuestRepository.GetById(recommendation.RatingId);
+            }
+        }
+        public void ConnectForumFields()
+        {
+            foreach (Forum forum in _forumRepository.GetAll())
+            {
+                forum.Location = _locationRepository.GetById(forum.LocationId);
+                forum.User = _userRepository.GetById(forum.UserId);
+                forum.Comments = _forumCommentRepository.GetByForumId(forum.Id);
+            }
+        }
+        public void ConnectForumCommentFields()
+        {
+            foreach (ForumComment comment in _forumCommentRepository.GetAll())
+            {
+                comment.Forum = _forumRepository.GetById(comment.ForumId);
+                comment.User = _userRepository.GetById(comment.UserId);
             }
         }
     }

@@ -18,26 +18,48 @@
             <Setter Property="FontSize" Value="12"/>
         </Style>
         <Style x:Key="Guest2DatagridCellStyle" TargetType="DataGridCell">
+            <Setter Property="Height" Value="30"/>
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
                     <Setter Property="Foreground" Value="Black" />
-                    <Setter Property="Background" Value="#FFF3C879"/>
+                    <Setter Property="Background" Value="#FFA5A4A2"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="HoverButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#501f3a"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Background" Value="#cb2d6f"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Page.Resources>
     <Grid>
-        <Border BorderBrush="Orange" BorderThickness="2" CornerRadius="7"></Border>
-        <Label HorizontalAlignment="Center" Foreground="Orange" FontSize="13" FontWeight="Medium">Suggested tours on same location</Label>
+        <Border BorderBrush="#FF22B5B2" BorderThickness="2" CornerRadius="7"></Border>
+        <Label HorizontalAlignment="Center" Foreground="#FF22B5B2" FontSize="13" FontWeight="Medium">SUGGESTED TOURS ON SAME LOCATION</Label>
         <DataGrid ItemsSource="{Binding Path=Tours}" SelectedItem="{Binding Path=SelectedTour}" IsReadOnly="True" AutoGenerateColumns="False" Margin="10,29,10,10" Style="{StaticResource Guest2DatagridStyle}" CellStyle="{StaticResource Guest2DatagridCellStyle}">
             
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="110"></DataGridTextColumn>
-                <DataGridTextColumn Header="Country" Binding="{Binding Location.Country}" Width="110"></DataGridTextColumn>
-                <DataGridTextColumn Header="City" Binding="{Binding Location.City}" Width="110"></DataGridTextColumn>
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="150"></DataGridTextColumn>
+                <DataGridTextColumn Header="Country" Binding="{Binding Location.Country}" Width="170"></DataGridTextColumn>
+                <DataGridTextColumn Header="City" Binding="{Binding Location.City}" Width="170"></DataGridTextColumn>
                 <DataGridTextColumn Header="Language" Binding="{Binding Language}" Width="105"></DataGridTextColumn>
                 <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" Width="105"></DataGridTextColumn>
-                <DataGridTextColumn Header="Guest Capacity" Binding="{Binding MaxGuests}" Width="90"></DataGridTextColumn>
+                <DataGridTextColumn Header="Guest capacity" Binding="{Binding MaxGuests}" Width="90"></DataGridTextColumn>
                 <DataGridTextColumn Header="Guide"  Width="*">
                     <DataGridTextColumn.Binding>
                         <MultiBinding Converter="{StaticResource FullNameConverter}">
@@ -47,10 +69,10 @@
                     </DataGridTextColumn.Binding>
                 </DataGridTextColumn>
 
-                <DataGridTemplateColumn Header="Reserve" Width="150">
+                <DataGridTemplateColumn Header="RESERVE" Width="130">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="RESERVE" Command="{Binding DataContext.Reserve, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Background="Orange"/>
+                            <Button Content="RESERVE" Command="{Binding DataContext.Reserve, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Style="{StaticResource HoverButtonStyle}" ToolTip="See details and reserve"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

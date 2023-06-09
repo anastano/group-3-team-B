@@ -12,10 +12,12 @@
         <converters:FullNameConverter x:Key="FullNameConverter" />
 
         <Style x:Key="Guest2Header1Style" TargetType="Label">
-            <Setter Property="Foreground" Value="Orange"/>
+            <Setter Property="Foreground" Value="#FF22B5B2"/>
             <Setter Property="FontSize" Value="22"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="FontWeight" Value="Heavy"/>
+
         </Style>
 
         <Style x:Key="Guest2BtnGradientOrange" TargetType="Button">
@@ -35,35 +37,45 @@
             <Setter Property="FontSize" Value="12"/>
         </Style>
         <Style x:Key="Guest2DatagridCellStyle" TargetType="DataGridCell">
+            <Setter Property="Height" Value="30"/>
             <Style.Triggers>
                 <Trigger Property="IsSelected" Value="True">
                     <Setter Property="Foreground" Value="Black" />
-                    <Setter Property="Background" Value="#FFF3C879"/>
+                    <Setter Property="Background" Value="#FFA5A4A2"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="HoverButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#501f3a"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Background" Value="#cb2d6f"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Page.Resources>
     <Grid>
-        <Label Content="Rate visited tours" Style="{StaticResource Guest2Header1Style}"/>
+        <Label Content="RATE VISITED TOURS" Style="{StaticResource Guest2Header1Style}"/>
         <DataGrid Name="dgUnratedTours" 
         ItemsSource="{Binding Path=UnratedReservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
         SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False" Margin="10,62,10,284" Style="{StaticResource Guest2DatagridStyle}" CellStyle="{StaticResource Guest2DatagridCellStyle}">
-            <!--<DataGrid.Resources>
-                <Style BasedOn="{StaticResource {x:Type DataGridColumnHeader}}" TargetType="{x:Type DataGridColumnHeader}">
-                    <Setter Property="Background" >
-                        <Setter.Value>
-                            <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-                                <GradientStop Color="Tomato" Offset="0"/>
-                                <GradientStop Color="Orange" Offset="1"/>
-                            </LinearGradientBrush>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </DataGrid.Resources>-->
             <DataGrid.Columns>
                 <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="40"></DataGridTextColumn>
                 <DataGridTextColumn Header="Title" Binding="{Binding TourTime.Tour.Title}" Width="110"></DataGridTextColumn>
-                <DataGridTextColumn Header="TTid" Binding="{Binding TourTime.Id}" Width="33"></DataGridTextColumn>
+                
                 <DataGridTextColumn Header="Country" Binding="{Binding TourTime.Tour.Location.Country}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="City" Binding="{Binding TourTime.Tour.Location.City}" Width="*"></DataGridTextColumn>
                 <DataGridTextColumn Header="Language" Binding="{Binding TourTime.Tour.Language}" Width="*"></DataGridTextColumn>
@@ -79,10 +91,10 @@
                     </DataGridTextColumn.Binding>
                 </DataGridTextColumn>
                 <DataGridTextColumn Header="Voucher" Binding="{Binding TourVoucher.Title}" Width="80"></DataGridTextColumn>
-                <DataGridTemplateColumn Header="Rate" Width="70">
+                <DataGridTemplateColumn Header="RATE" Width="70">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="Rate" Command="{Binding DataContext.Rate, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Background="Orange"/>
+                            <Button Content="RATE" Command="{Binding DataContext.Rate, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" Style="{StaticResource HoverButtonStyle}" ToolTip="Rate selected tour"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

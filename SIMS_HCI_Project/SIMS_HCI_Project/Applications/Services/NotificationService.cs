@@ -14,11 +14,13 @@ namespace SIMS_HCI_Project.Applications.Services
     {
         private readonly INotificationRepository _notificationRepository;
         private readonly IRegularTourRequestRepository _regularTourRequestRepository;
+        private readonly IUserRepository _userRepository;
 
         public NotificationService()
         {
             _notificationRepository = Injector.Injector.CreateInstance<INotificationRepository>();
             _regularTourRequestRepository = Injector.Injector.CreateInstance<IRegularTourRequestRepository>();
+            _userRepository = Injector.Injector.CreateInstance<IUserRepository>();
         }
 
         public Notification GetById(int id)
@@ -53,8 +55,19 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             foreach (RegularTourRequest regularTourRequest in _regularTourRequestRepository.GetInvalidByParams(tour.LocationId, tour.Language))
             {
-                string Message = "Created new tour which fulfills some of your requirements from your unfulfilled requests. Tour is created with id: [" + tour.Id + "]. Click to see details";
+                string Message = "NEW TOUR - click to view details and book a tour. Tour's id: [" + tour.Id + "]";
                 _notificationRepository.Add(new Notification(Message, regularTourRequest.GuestId, false, NotificationType.NEW_TOUR));
+            }
+        }
+        public void MakeForumNotifications(AccommodationService accommodationService, Location location)
+        {
+            String content = "A new forum for [" + location.City + "] has been created, please check it";
+            foreach(Owner owner in _userRepository.GetByUserRole(UserRole.OWNER))
+            {
+                if(accommodationService.GetByLocationIdAndOwnerId(location.Id, owner.Id).Count != 0)
+                {
+                    Add(new Notification(content, owner));
+                }
             }
         }
     }

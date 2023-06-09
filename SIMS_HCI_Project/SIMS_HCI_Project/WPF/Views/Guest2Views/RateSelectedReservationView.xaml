@@ -12,33 +12,57 @@
     <Page.Resources>
         <converters:RatingConverter x:Key="RatingConverter"/>
 
-        <!--ResourceDictionary x:Key="aaa">
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Styles/Guest2Styles.xaml"></ResourceDictionary>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary-->
-
         <Style TargetType="Label" >
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Height" Value="35"/>
             <Setter Property="Margin" Value="0 ,0 ,0 ,0"/>
             <Setter Property="Height" Value="25"/>
-            <Setter Property="Width" Value="150"/>
+            <Setter Property="Width" Value="190"/>
         </Style>
         <Style TargetType="RadioButton">
             <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Foreground" Value="#FFEC438A"/>
+                    <Setter Property="FontWeight" Value="ExtraBold"/>
+                    <Setter Property="FontSize" Value="16"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="HoverButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#501f3a"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Background" Value="#cb2d6f"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Page.Resources>
 
     <Grid >
 
-        <Border BorderBrush="Orange" BorderThickness="2"  CornerRadius="15" />
+        <Border BorderBrush="#FF22B5B2" BorderThickness="2"  CornerRadius="15" />
 
-        <Label Content="OverallExperience" Margin="10,37,946,193" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+        <Label Content="        Overall experience:" Margin="10,31,920,203" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
         <!--<TextBox x:Name="owerall" Text="{Binding Path= TourRating.OverallExperience, UpdateSourceTrigger=PropertyChanged}" Margin="218,37,657,194" BorderThickness="0,0,0,0" />-->
         <StackPanel Orientation="Horizontal" Margin="218,37,657,194">
-            <RadioButton Content="1" IsChecked="{Binding TourRating.RatingGrades.OverallExperience, ConverterParameter=1, Converter={StaticResource RatingConverter}}" Foreground="White" />
+            <RadioButton Content="1" IsChecked="{Binding TourRating.RatingGrades.OverallExperience, ConverterParameter=1, Converter={StaticResource RatingConverter}}"  />
             <Label Content="   " Width="18"/>
             <RadioButton Content="2" IsChecked="{Binding TourRating.RatingGrades.OverallExperience, ConverterParameter=2, Converter={StaticResource RatingConverter}}" />
             <Label Content="   " Width="18"/>
@@ -52,7 +76,7 @@
             <!--<Border BorderBrush="White" BorderThickness="1"/>-->
         </StackPanel>
 
-        <Label Content="Organisation" Margin="10,66,940,155" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+        <Label Content="        Organisation of the tour:" Margin="10,64,880,170" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
         <!--TextBox x:Name="Organisation" Text="{Binding Path= TourRating.Organisation, UpdateSourceTrigger=PropertyChanged}" Margin="218,70,657,155" BorderThickness="0,0,0,0"/-->
         <StackPanel Orientation="Horizontal" Margin="218,70,657,155">
             <RadioButton Content="1" IsChecked="{Binding TourRating.RatingGrades.Organisation, ConverterParameter=1, Converter={StaticResource RatingConverter}}" />
@@ -71,7 +95,7 @@
         </StackPanel>
 
 
-        <Label Content="Interestingness" Margin="10,109,931,115" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+        <Label Content="        Interestingness of the tour:" Margin="10,103,880,131" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
         <!--<TextBox x:Name="Interestingness" Text="{Binding Path= TourRating.Interestingness, UpdateSourceTrigger=PropertyChanged}" Margin="218,109,657,115"  BorderThickness="0,0,0,0"/>-->
         <StackPanel Orientation="Horizontal" Margin="218,109,657,115">
             <RadioButton Content="1" IsChecked="{Binding TourRating.RatingGrades.Interestingness, ConverterParameter=1, Converter={StaticResource RatingConverter}}" />
@@ -89,7 +113,7 @@
             <RadioButton Content="5" IsChecked="{Binding TourRating.RatingGrades.Interestingness, ConverterParameter=5, Converter={StaticResource RatingConverter}}" />
         </StackPanel>
 
-        <Label Content="GuidesKnowledge" Margin="10,153,920,81" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+        <Label Content="        Guide's knowledge:" Margin="10,143,880,91" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
         <!--<TextBox x:Name="GuidesKnowledge" Text="{Binding Path= TourRating.GuidesKnowledge, UpdateSourceTrigger=PropertyChanged}" Margin="218,149,657,77"  BorderThickness="0,0,0,0"/>-->
         <StackPanel Orientation="Horizontal" Margin="218,149,657,77">
             <RadioButton Content="1" IsChecked="{Binding TourRating.RatingGrades.GuidesKnowledge, ConverterParameter=1, Converter={StaticResource RatingConverter}}" />
@@ -107,7 +131,7 @@
             <RadioButton Content="5" IsChecked="{Binding TourRating.RatingGrades.GuidesKnowledge, ConverterParameter=5, Converter={StaticResource RatingConverter}}" />
         </StackPanel>
 
-        <Label Content="GuidesLanguage" Margin="10,187,931,47" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+        <Label Content="        Guide's language:" Margin="10,181,880,53" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
         <!--<TextBox x:Name="GuidesLanguage" Text="{Binding Path= TourRating.GuidesLanguage, UpdateSourceTrigger=PropertyChanged}" Margin="218,187,657,47" BorderThickness="0,0,0,0"/>-->
         <StackPanel Orientation="Horizontal" Margin="218,187,657,47" >
             <RadioButton Content="1" IsChecked="{Binding TourRating.RatingGrades.GuidesLanguage, ConverterParameter=1, Converter={StaticResource RatingConverter}}" />
@@ -125,21 +149,21 @@
             <RadioButton Content="5" IsChecked="{Binding TourRating.RatingGrades.GuidesLanguage, ConverterParameter=5, Converter={StaticResource RatingConverter}}" />
         </StackPanel>
 
-        <Label Content="Additional comment" Margin="507,47,450,187" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
-        <TextBox x:Name="Comment" Text="{Binding TourRating.Comment, UpdateSourceTrigger=PropertyChanged}" Margin="626,37,40,155" BorderThickness="0,0,0,0" />
+        <Label Content="Comment:" Margin="540,33,350,201" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="Comment" Text="{Binding TourRating.Comment, UpdateSourceTrigger=PropertyChanged}" Margin="626,37,77,155" BorderThickness="0,0,0,0" />
 
-        <Label Content="Images URL" Margin="520,109,410,125" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
+        <Label Content="Images URL:" Margin="540,109,350,125" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"/>
         <TextBox x:Name="Images" Text="{Binding ImageURL, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="626,109,117,129" BorderThickness="0,0,0,0"/>
-        <Button Command="{Binding AddImageCommand}" Background="Orange" HorizontalAlignment="Left" Margin="968,109,0,0" VerticalAlignment="Top" Height="21" Width="35" BorderThickness="0,0,0,0">
+        <Button Command="{Binding AddImageCommand}" Style="{StaticResource HoverButtonStyle}" HorizontalAlignment="Left" Margin="968,109,0,0" VerticalAlignment="Top" Height="21" Width="35" BorderThickness="0,0,0,0">
             <Button.ToolTip>Add image URL to list</Button.ToolTip> +
         </Button>
         <ListBox ItemsSource="{Binding Images, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="626,130,117,77"/>
 
-        <Button Content="CONFIRM" Background="Orange" Command="{Binding ConfirmRatingCommand}" HorizontalAlignment="Left" Margin="626,200,0,0" VerticalAlignment="Top" Height="36" Width="150"/>
-        <Button Content="QUIT" Background="Orange" Command="{Binding QuitRatingCommand}" HorizontalAlignment="Left" Margin="813,200,0,0" VerticalAlignment="Top" Height="36" Width="150"/>
+        <Button Content="CONFIRM" Style="{StaticResource HoverButtonStyle}" Command="{Binding ConfirmRatingCommand}" HorizontalAlignment="Left" Margin="626,200,0,0" VerticalAlignment="Top" Height="36" Width="168" ToolTip="Submit rating"/>
+        <Button Content="QUIT" Style="{StaticResource HoverButtonStyle}" Command="{Binding QuitRatingCommand}" HorizontalAlignment="Left" Margin="799,200,0,0" VerticalAlignment="Top" Height="36" Width="164" ToolTip="Quit rating"/>
 
 
-        <TextBlock Text="{Binding SelectedTourInfo}"  Foreground="Orange" FontWeight="Medium" Margin="10,5,10,227" HorizontalAlignment="Center" FontSize="14"/>
+        <TextBlock Text="{Binding SelectedTourInfo}"  Foreground="#FF22B5B2" FontWeight="Medium" Margin="10,5,10,227" HorizontalAlignment="Center" FontSize="14"/>
 
 
 

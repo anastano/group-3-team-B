@@ -65,5 +65,21 @@ namespace SIMS_HCI_Project.Repositories
                 return foundLocation;
             }
         }
+        public List<String> GetAllCountries()
+        {
+            return _locations.Select(location => location.Country).Distinct().ToList();
+        }
+        public List<String> GetAllCities()
+        {
+            return _locations.Select(location => location.City).Distinct().ToList();
+        }
+        public List<String> GetCitiesByCountry(String country)
+        {
+            return _locations.FindAll(l => l.Country == country).Select(l => l.City ).ToList();
+        }
+        public Location GetLocation(String country, String city)
+        {
+            return _locations.Find(l => (l.Country == country && l.City == city));
+        }
     }
 }

@@ -24,10 +24,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public AccommodationReservation SelectedReservation { get; set; }
         public Accommodation Accommodation { get; }
         public Guest1 Guest { get; set; }
-        public RelayCommand PlusGuestNumberCommand { get; set; }
-        public RelayCommand MinusGuestNumberCommand { get; set; }
-        public RelayCommand PlusDaysNumberCommand { get; set; }
-        public RelayCommand MinusDaysNumberCommand { get; set; }
         public RelayCommand SearchCommand { get; set; }
         public RelayCommand ReserveAccommodationCommand { get; set; }
         public RelayCommand BackCommand { get; set; }
@@ -285,15 +281,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _navigationService.NavigateBack();
         }
 
-        public void ExecutedMinusDaysNumberCommand(object obj)
-        {
-           DaysNumber -= 1;
-        }
-        public void ExecutedPlusDaysNumberCommand(object obj)
-        {
-           DaysNumber += 1;
-        }
-
         public bool CanExecute(object obj)
         {
             return true;
@@ -306,8 +293,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             ReserveAccommodationCommand = new RelayCommand(ExecutedReserveAccommodationCommand, CanExecute);
             SearchCommand = new RelayCommand(ExecutedSearchCommand, CanExecute);
-            MinusDaysNumberCommand = new RelayCommand(ExecutedMinusDaysNumberCommand, CanExecute);
-            PlusDaysNumberCommand = new RelayCommand(ExecutedPlusDaysNumberCommand, CanExecute);
             BackCommand = new RelayCommand(ExecutedBackCommand, CanBackExecute);
         }
     }

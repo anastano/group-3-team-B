@@ -1,0 +1,17 @@
+﻿<Page x:Class="SIMS_HCI_Project.WPF.Views.Guest2Views.Help.ReserveHelp"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest2Views.Help"
+      mc:Ignorable="d" 
+      d:DesignHeight="425" d:DesignWidth="1080"
+      Title="ReserveHelp">
+
+    <Grid>
+        <Image Source="../../../../Resources/Images/reserveSC.png" Margin="10,-2,345,-4"/>
+        <TextBlock Foreground="White" Margin="767,109,34,0" TextWrapping="Wrap" Text="By clicking on image you will be able to see all images for shown tour. When making reservation select departure time and guest number, then slick submit." VerticalAlignment="Top" Height="116"/>
+        <TextBlock Foreground="White" Margin="767,259,34,0" TextWrapping="Wrap" Text="You can see suggested tours based on the same location. Click RESERVE to see details for that tour." VerticalAlignment="Top" Height="150"/>
+
+    </Grid>
+</Page>

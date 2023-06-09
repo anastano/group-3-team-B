@@ -17,7 +17,7 @@
     </Page.Resources>
 
     <Grid>
-        <Label Content="My profile" Style="{StaticResource Guest2Header1Style}"/>
+        <Label Content="MY PROFILE" Style="{StaticResource Guest2Header1Style}"/>
         <Image Source="../../../Resources/Images/profil.png" Margin="10,72,938,300" Width="120" Height="120"/>
         <Frame x:Name="ProfileFrame" NavigationUIVisibility="Hidden" Margin="168,0,0,0" Grid.ColumnSpan="2"/>
         <Border BorderBrush="White" CornerRadius="5" BorderThickness="1" Margin="16,87,944,315"/>

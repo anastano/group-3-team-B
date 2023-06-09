@@ -29,7 +29,7 @@ namespace SIMS_HCI_Project.Applications.Services
             _tourRatingRepository.Add(tourRating);
 
             SuperFlagsService superFlagsService = new SuperFlagsService();
-            superFlagsService.ReviseGuideFlagStatusForLanguage(tourRating.Attendance.TourReservation.TourTime.Tour.GuideId, tourRating.Attendance.TourReservation.TourTime.Tour.Language);
+            superFlagsService.ReviseGuideFlagForLanguage(tourRating.Attendance.TourReservation.TourTime.Tour.Guide, tourRating.Attendance.TourReservation.TourTime.Tour.Language);
         }
 
         public bool IsRated(int reservationId)

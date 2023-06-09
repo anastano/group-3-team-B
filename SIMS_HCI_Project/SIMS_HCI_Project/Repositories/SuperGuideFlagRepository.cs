@@ -44,6 +44,11 @@ namespace SIMS_HCI_Project.Repositories
             return _flags.Find(f => f.Id == id);
         }
 
+        public List<SuperGuideFlag> GetAll()
+        {
+            return _flags;
+        }
+
         public List<SuperGuideFlag> GetValidByGuide(int guideId)
         {
             return _flags.FindAll(f => f.GuideId == guideId && f.ExpiryDate > DateTime.Now);

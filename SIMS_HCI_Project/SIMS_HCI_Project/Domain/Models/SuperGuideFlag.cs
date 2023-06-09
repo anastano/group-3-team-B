@@ -10,6 +10,7 @@ namespace SIMS_HCI_Project.Domain.Models
     {
         public int Id { get; set; }
         public int GuideId { get; set; }
+        public Guide Guide { get; set; }
         public string Language { get; set; }
         public DateTime AcquiredDate { get; set; }
         public DateTime ExpiryDate { get; set; }
@@ -26,6 +27,11 @@ namespace SIMS_HCI_Project.Domain.Models
             Language = language;
             AcquiredDate = acquiredDate;
             ExpiryDate = expiryDate;
+        }
+
+        public void ExtendByYears(int years)
+        {
+            this.ExpiryDate = this.ExpiryDate.AddYears(years);
         }
     }
 }

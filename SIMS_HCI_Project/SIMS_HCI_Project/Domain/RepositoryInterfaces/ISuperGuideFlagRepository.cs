@@ -6,6 +6,7 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
     internal interface ISuperGuideFlagRepository
     {
         SuperGuideFlag GetById(int id);
+        List<SuperGuideFlag> GetAll();
         List<SuperGuideFlag> GetValidByGuide(int guideId);
 
         void Add(SuperGuideFlag flag);

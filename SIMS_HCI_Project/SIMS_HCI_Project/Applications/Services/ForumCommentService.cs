@@ -52,5 +52,11 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             _forumCommentRepository.Add(comment);
         }
+
+        public void ReportComment(ForumComment forumComment)
+        {
+            forumComment.ReportCounter++;
+            _forumCommentRepository.Update(forumComment);
+        }
     }
 }

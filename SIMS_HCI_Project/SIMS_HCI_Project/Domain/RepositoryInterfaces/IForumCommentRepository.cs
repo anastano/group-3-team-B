@@ -13,5 +13,6 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         List<ForumComment> GetAll();
         List<ForumComment> GetByForumId(int forumId);
         void Add(ForumComment comment);
+        void Update(ForumComment updatedComment);
     }
 }

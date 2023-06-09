@@ -13,14 +13,14 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         RegularTourRequest GetById(int id);
         List<RegularTourRequest> GetAll();
         List<RegularTourRequest> GetAllByGuestId(int guestId, bool? isPartOfComplex = null);
-        List<RegularTourRequest> GetAllByGuestIdAndStatusAndYear(int guestId, RegularRequestStatus status, int? year = null);
+        List<RegularTourRequest> GetAllByGuestIdAndStatusAndYear(int guestId, TourRequestStatus status, int? year = null);
         List<RegularTourRequest> GetAllValidByParams(Location location, int guestNumber, string language, DateRange dateRange);
         List<RegularTourRequest> GetInvalidByParams(int locationId, string language);
 
         void Add(RegularTourRequest request);
         void Update(RegularTourRequest request);
 
-        int GetRequestsCountByStatus(RegularRequestStatus status, int guestId, int? selectedYear = null);
+        int GetRequestsCountByStatus(TourRequestStatus status, int guestId, int? selectedYear = null);
         int GetCountByYear(int year, string language = null, Location location = null);
         int GetCountByMonthInYear(int year, int month, string language = null, Location location = null);
         Location GetTopLocation();

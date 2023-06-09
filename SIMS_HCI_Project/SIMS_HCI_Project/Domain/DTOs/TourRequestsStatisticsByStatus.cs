@@ -9,9 +9,9 @@ namespace SIMS_HCI_Project.Domain.DTOs
 {
     public class TourRequestsStatisticsByStatus
     {
-        public Dictionary<RegularRequestStatus, int> RequestsNumberByStatus { get; set; }
+        public Dictionary<TourRequestStatus, int> RequestsNumberByStatus { get; set; }
 
-        public TourRequestsStatisticsByStatus(Dictionary<RegularRequestStatus, int> requestsNumberByStatus)
+        public TourRequestsStatisticsByStatus(Dictionary<TourRequestStatus, int> requestsNumberByStatus)
         {
             RequestsNumberByStatus = requestsNumberByStatus;
         }

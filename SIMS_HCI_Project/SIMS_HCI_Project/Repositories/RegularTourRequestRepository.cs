@@ -63,7 +63,7 @@ namespace SIMS_HCI_Project.Repositories
             return _requests.FindAll(r => r.GuestId == guestId && (isPartOfComplex == null || r.IsPartOfComplex == isPartOfComplex));
         }
 
-        public List<RegularTourRequest> GetAllByGuestIdAndStatusAndYear(int guestId, RegularRequestStatus status, int? year = null)
+        public List<RegularTourRequest> GetAllByGuestIdAndStatusAndYear(int guestId, TourRequestStatus status, int? year = null)
         {
             return _requests.FindAll(r => r.GuestId == guestId && r.Status == status && (year == null ||  r.SubmittingDate.Year == year));
         }
@@ -74,13 +74,13 @@ namespace SIMS_HCI_Project.Repositories
                                         && (guestNumber == 0 || r.GuestNumber == guestNumber)
                                         && (language == null || language.Equals("") || r.Language.Equals(language))
                                         && (dateRange == null || (r.DateRange.IsInside(dateRange)))
-                                        && r.Status == RegularRequestStatus.PENDING);
+                                        && r.Status == TourRequestStatus.PENDING);
         }
 
         public List<RegularTourRequest> GetInvalidByParams(int locationId, string language)
         {
             return _requests.FindAll(r => (r.LocationId == locationId || r.Language.Contains(language))
-                                    && ( r.Status == RegularRequestStatus.INVALID ));
+                                    && ( r.Status == TourRequestStatus.INVALID ));
         }
 
         public void Add(RegularTourRequest request)
@@ -99,7 +99,7 @@ namespace SIMS_HCI_Project.Repositories
             Save();
         }
 
-        public int GetRequestsCountByStatus(RegularRequestStatus status, int guestId, int? selectedYear = null)
+        public int GetRequestsCountByStatus(TourRequestStatus status, int guestId, int? selectedYear = null)
         {
             return _requests.Where(r => r.GuestId == guestId && r.Status==status && (selectedYear == null || r.DateRange.Start.Year == selectedYear)).Count();
         }

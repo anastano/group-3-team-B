@@ -57,11 +57,12 @@ namespace SIMS_HCI_Project.Repositories
             _forums.Find(f => f.Id == id).Status = ForumStatus.CLOSED;
             Save();
         }
-        public void Add(Forum forum)
+        public Forum Add(Forum forum)
         {
             forum.Id = GenerateId();
             _forums.Add(forum);
             Save();
+            return forum;
         }
     }
 }

@@ -14,11 +14,13 @@ namespace SIMS_HCI_Project.Applications.Services
     {
         private readonly INotificationRepository _notificationRepository;
         private readonly IRegularTourRequestRepository _regularTourRequestRepository;
+        private readonly IUserRepository _userRepository;
 
         public NotificationService()
         {
             _notificationRepository = Injector.Injector.CreateInstance<INotificationRepository>();
             _regularTourRequestRepository = Injector.Injector.CreateInstance<IRegularTourRequestRepository>();
+            _userRepository = Injector.Injector.CreateInstance<IUserRepository>();
         }
 
         public Notification GetById(int id)
@@ -57,11 +59,16 @@ namespace SIMS_HCI_Project.Applications.Services
                 _notificationRepository.Add(new Notification(Message, regularTourRequest.GuestId, false, NotificationType.NEW_TOUR));
             }
         }
-        public void MakeForumNotifications(Location location)
+        public void MakeForumNotifications(AccommodationService accommodationService, Location location)
         {
             String content = "A new forum for [" + location.City + "] has been created, please check it";
-            
-            //_notificationRepository.Update(notification);
+            foreach(Owner owner in _userRepository.GetByUserRole(UserRole.OWNER))
+            {
+                if(accommodationService.GetByLocationIdAndOwnerId(location.Id, owner.Id).Count != 0)
+                {
+                    Add(new Notification(content, owner));
+                }
+            }
         }
     }
 }

@@ -38,9 +38,9 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             _forumRepository.CloseForum(id);
         }
-        public void Add(Forum forum)
+        public Forum Add(Forum forum)
         {
-            _forumRepository.Add(forum);
+            return _forumRepository.Add(forum);
         }
         public bool IsUSeful(Forum forum)
         {

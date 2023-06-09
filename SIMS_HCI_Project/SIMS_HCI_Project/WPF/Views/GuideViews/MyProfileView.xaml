@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.GuideViews"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="MyProfileView" Height="450" Width="800" WindowStartupLocation="CenterScreen" FontSize="20">
+        Title="MyProfileView" Height="450" Width="1280" WindowStartupLocation="CenterScreen" FontSize="20">
     <Window.Background>
         <ImageBrush ImageSource="pack://application:,,,/WPF/Images/guideBackground.png"></ImageBrush>
     </Window.Background>
@@ -34,6 +34,13 @@
                             <TextBlock Text="{Binding Path=Guide.Surname, StringFormat=Surname: {0}}" Margin="0,0,0,10"></TextBlock>
                             <TextBlock Text="{Binding Path=Guide.Age, StringFormat=Age: {0}}" Margin="0,0,0,10"></TextBlock>
                         </StackPanel>
+                        <DataGrid Width="400" ItemsSource="{Binding Path=Guide.SuperFlags}" AutoGenerateColumns="False" IsReadOnly="True">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Language" Binding="{Binding Language}" Width="4*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Aquired" Binding="{Binding AcquiredDate}" Width="4*"></DataGridTextColumn>
+                                <DataGridTextColumn Header="Expires" Binding="{Binding ExpiryDate}" Width="4*"></DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,40,0,50">
                         <Button Content="Resign" Margin="0,0,40,0">

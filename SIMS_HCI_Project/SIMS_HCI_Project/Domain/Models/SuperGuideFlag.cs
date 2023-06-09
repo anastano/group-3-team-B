@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Domain.Models
 {
-    internal class SuperGuideFlag
+    public class SuperGuideFlag
     {
         public int Id { get; set; }
         public int GuideId { get; set; }

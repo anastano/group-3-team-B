@@ -16,5 +16,10 @@ namespace SIMS_HCI_Project.Domain.Models
             Status = TourRequestStatus.PENDING;
             TourRequests = new List<RegularTourRequest>();
         }
+
+        public bool HasPart(int guideId)
+        {
+            return this.TourRequests.Any(r => r.Tour.GuideId == guideId);
+        }
     }
 }

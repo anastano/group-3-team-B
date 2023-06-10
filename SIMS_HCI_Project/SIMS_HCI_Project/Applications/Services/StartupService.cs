@@ -156,6 +156,8 @@ namespace SIMS_HCI_Project.Applications.Services
             {
                 request.Location = _locationRepository.GetById(request.LocationId);
                 request.Guest = new Guest2(_userRepository.GetById(request.GuestId));
+                request.Tour = _tourRepository.GetById(request.TourId);
+                request.ComplexTourRequest = _complexTourRequestRepository.GetById(request.ComplexTourRequestId);
             }
         }
 

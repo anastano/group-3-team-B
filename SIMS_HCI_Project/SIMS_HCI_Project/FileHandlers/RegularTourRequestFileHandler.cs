@@ -41,6 +41,7 @@ namespace SIMS_HCI_Project.FileHandlers
                 request.DateRange.End = DateTime.ParseExact(csvValues[8], "MM/dd/yyyy", null);
                 request.SubmittingDate = DateTime.ParseExact(csvValues[9], "MM/dd/yyyy", null);
                 request.ComplexTourRequestId = int.Parse(csvValues[10]);
+                request.TourId = int.Parse(csvValues[11]);
 
                 requests.Add(request);
             }
@@ -66,7 +67,8 @@ namespace SIMS_HCI_Project.FileHandlers
                     request.DateRange.Start.ToString("MM/dd/yyyy"),
                     request.DateRange.End.ToString("MM/dd/yyyy"),
                     request.SubmittingDate.ToString("MM/dd/yyyy"),
-                    request.ComplexTourRequestId.ToString()
+                    request.ComplexTourRequestId.ToString(),
+                    request.TourId.ToString()
                 };
 
                 string line = string.Join(Delimiter.ToString(), csvValues);

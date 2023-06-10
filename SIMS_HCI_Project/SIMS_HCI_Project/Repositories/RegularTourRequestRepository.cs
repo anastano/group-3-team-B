@@ -79,7 +79,8 @@ namespace SIMS_HCI_Project.Repositories
                                         && (guestNumber == 0 || r.GuestNumber == guestNumber)
                                         && (language == null || language.Equals("") || r.Language.Equals(language))
                                         && (dateRange == null || (r.DateRange.IsInside(dateRange)))
-                                        && r.Status == TourRequestStatus.PENDING);
+                                        && r.Status == TourRequestStatus.PENDING
+                                        && !r.IsPartOfComplex);
         }
 
         public List<RegularTourRequest> GetInvalidByParams(int locationId, string language)

@@ -23,6 +23,8 @@ namespace SIMS_HCI_Project.Domain.Models
         public DateRange DateRange { get; set; }
         public DateTime SubmittingDate { get; set; } //SubmissionDate rename pls!!! 
         public int ComplexTourRequestId { get; set; } 
+        public int TourId { get; set; } // u koju turu se konvertovalo, jer cOmPleXsnE
+        public Tour Tour { get; set; }
         public ComplexTourRequest ComplexTourRequest { get; set; } // not sure if needed
 
         public bool IsPartOfComplex { get => ComplexTourRequestId > 0; }
@@ -45,6 +47,12 @@ namespace SIMS_HCI_Project.Domain.Models
 
             SubmittingDate = DateTime.Now;
             Status = TourRequestStatus.PENDING;
+        }
+
+        public void AssignTour(Tour tour)
+        {
+            this.Tour = tour;
+            this.TourId = tour.Id;
         }
     }
 }

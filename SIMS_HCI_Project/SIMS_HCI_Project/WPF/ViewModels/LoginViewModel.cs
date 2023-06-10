@@ -26,11 +26,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels
 
         private readonly UserService _userService;
         private readonly StartupService _startupService;
+        private readonly CronWannabeService _cronWannabeService;
 
         public LoginViewModel(LoginWindow loginWindow)
         {
             _userService = new UserService();
             _startupService = new StartupService();
+            _cronWannabeService = new CronWannabeService(new SuperFlagsService());
+
             LoginWindow = loginWindow;
 
             LoginCommand = new RelayCommand(Executed_LoginCommand, CanExecute_LoginCommand);

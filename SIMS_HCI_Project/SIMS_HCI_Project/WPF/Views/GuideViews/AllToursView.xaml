@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.GuideViews"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="AllTours" Height="720" Width="1280" MinHeight="450" MinWidth="800" WindowStartupLocation="CenterScreen" FontSize="20">
+        Title="AllTours" Height="720" Width="1280" MinHeight="450" MinWidth="800" WindowStartupLocation="CenterScreen" FontSize="18">
     <Window.Background>
         <ImageBrush ImageSource="pack://application:,,,/WPF/Images/guideBackground.png"></ImageBrush>
     </Window.Background>
@@ -24,13 +24,13 @@
             </Grid>
             <Grid>
                 <DockPanel >
-                    <StackPanel Orientation="Horizontal" Margin="20,20,20,20" DockPanel.Dock="Top">
-                        <StackPanel Orientation="Vertical" Margin="0,0,30,0" VerticalAlignment="Bottom">
-                            <Label Content="Tour title"></Label>
+                    <StackPanel Orientation="Horizontal" Margin="20,30,20,20" DockPanel.Dock="Top">
+                        <StackPanel Orientation="Vertical" Margin="20,0,20,0" VerticalAlignment="Bottom">
+                            <Label Content="Tour title" FontSize="16" Margin="0,0,0,-5"></Label>
                             <TextBox Width="300" Text="{Binding Title}"></TextBox>
                         </StackPanel>
-                        <StackPanel Orientation="Vertical" Margin="0,0,40,0" VerticalAlignment="Bottom">
-                            <Label Content="Location"></Label>
+                        <StackPanel Orientation="Vertical" Margin="0,0,28,0" VerticalAlignment="Bottom">
+                            <Label Content="Location" FontSize="16" Margin="0,0,0,-5"></Label>
                             <ComboBox Width="200" ItemsSource="{Binding AvailableLocations}" SelectedItem="{Binding Location}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
@@ -47,11 +47,21 @@
                             </ComboBox>
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Margin="0,0,40,0" VerticalAlignment="Bottom">
-                            <Label Content="Language"></Label>
+                            <Label Content="Language" FontSize="16" Margin="0,0,0,-5"></Label>
                             <ComboBox Width="150" ItemsSource="{Binding AvailableLanguages}" SelectedItem="{Binding Language}"></ComboBox>
                         </StackPanel>
-                        <Button Content="Filter" Margin="0,0,20,0" VerticalAlignment="Bottom" Command="{Binding FilterTours}"></Button>
-                        <Button Content="Clear" Margin="0,0,40,0" VerticalAlignment="Bottom" Command="{Binding ResetFilter}"></Button>
+                        <Button Margin="0,0,20,0" VerticalAlignment="Bottom" Command="{Binding FilterTours}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="pack://application:,,,/WPF/Images/filter.png" Width="20"></Image>
+                                <TextBlock Text="FIlter"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button Margin="0,0,40,0" VerticalAlignment="Bottom" Command="{Binding ResetFilter}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="pack://application:,,,/WPF/Images/remove-filter.png" Width="20"></Image>
+                                <TextBlock Text="Clear"></TextBlock>
+                            </StackPanel>
+                        </Button>
                     </StackPanel>
                     <Button Content="Create new" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Margin="0,0,30,30">
                         <i:Interaction.Triggers>
@@ -60,7 +70,7 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </Button>
-                    <DataGrid Height="450" ItemsSource="{Binding Path=AllTours, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedTour}" Margin="20,20,20,20" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                    <DataGrid Height="420" ItemsSource="{Binding Path=AllTours, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedTour}" Margin="40,20,40,20" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Title" Binding="{Binding Path=Title}" Width="2*"></DataGridTextColumn>
                             <DataGridTextColumn Header="Location" Width="1.5*" >
@@ -104,5 +114,7 @@
                 </DockPanel>
             </Grid>
         </StackPanel>
+        <Border Grid.Row="1" Background="White" Opacity="0.5" CornerRadius="20" Panel.ZIndex="-10"  Margin="20,50,20,20">
+        </Border>
     </Grid>
 </Window>

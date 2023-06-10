@@ -36,6 +36,7 @@
     <None Remove="Resources\Images\reserveSC.png" />
     <None Remove="Resources\Images\search.png" />
     <None Remove="Resources\Images\searchSC.png" />
+    <None Remove="Resources\Images\thumbs_down.png" />
     <None Remove="Resources\Images\TourSearchHelp.png" />
     <None Remove="Resources\Images\travel.jpg" />
     <None Remove="Resources\Images\thumbs-up.png" />
@@ -45,11 +46,15 @@
     <None Remove="Resources\Images\wallpaper.jpg" />
     <None Remove="Resources\Images\warning.png" />
     <None Remove="WPF\Images\avatar.png" />
+    <None Remove="WPF\Images\filter.png" />
     <None Remove="WPF\Images\guideBackground.png" />
     <None Remove="WPF\Images\home.png" />
     <None Remove="WPF\Images\mountain-city.png" />
+    <None Remove="WPF\Images\pdf.png" />
     <None Remove="WPF\Images\question-mark.png" />
+    <None Remove="WPF\Images\remove-filter.png" />
     <None Remove="WPF\Images\star.png" />
+    <None Remove="WPF\Images\stats.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -61,6 +66,9 @@
     <Resource Include="Resources\Images\requestsSC.png" />
     <Resource Include="Resources\Images\reserveSC.png" />
     <Resource Include="Resources\Images\searchSC.png" />
+    <Resource Include="Resources\Images\thumbs_down.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\travel.jpg" />
   </ItemGroup>
 
@@ -109,11 +117,15 @@
     <Resource Include="Resources\Images\wallpaper.jpg" />
     <Resource Include="Resources\Images\warning.png" />
     <Resource Include="WPF\Images\avatar.png" />
+    <Resource Include="WPF\Images\filter.png" />
     <Resource Include="WPF\Images\guideBackground.png" />
     <Resource Include="WPF\Images\home.png" />
     <Resource Include="WPF\Images\mountain-city.png" />
+    <Resource Include="WPF\Images\pdf.png" />
     <Resource Include="WPF\Images\question-mark.png" />
+    <Resource Include="WPF\Images\remove-filter.png" />
     <Resource Include="WPF\Images\star.png" />
+    <Resource Include="WPF\Images\stats.png" />
   </ItemGroup>
 
   <ItemGroup>

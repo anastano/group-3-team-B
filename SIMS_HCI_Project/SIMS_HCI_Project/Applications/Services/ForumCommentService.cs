@@ -12,10 +12,12 @@ namespace SIMS_HCI_Project.Applications.Services
     public class ForumCommentService
     {
         private readonly IForumCommentRepository _forumCommentRepository;
+        private readonly IForumCommentReportRepository _reportRepostory;
 
         public ForumCommentService()
         {
             _forumCommentRepository = Injector.Injector.CreateInstance<IForumCommentRepository>();
+            _reportRepostory = Injector.Injector.CreateInstance<IForumCommentReportRepository>();
         }
 
         public ForumComment GetById(int id)
@@ -53,10 +55,16 @@ namespace SIMS_HCI_Project.Applications.Services
             _forumCommentRepository.Add(comment);
         }
 
-        public void ReportComment(ForumComment forumComment)
+        public bool ReportComment(Owner owner, ForumComment forumComment)
         {
-            forumComment.ReportCounter++;
-            _forumCommentRepository.Update(forumComment);
+            if (_reportRepostory.GetByOwnerIdAndCommentId(owner.Id, forumComment.Id) == null)
+            {
+                forumComment.ReportCounter++;
+                _forumCommentRepository.Update(forumComment);
+                _reportRepostory.Add(new ForumCommentReport(owner, forumComment));
+                return true;
+            }
+            return false;
         }
     }
 }

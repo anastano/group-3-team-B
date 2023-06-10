@@ -27,6 +27,9 @@ namespace SIMS_HCI_Project.Applications.Services
         public void Add(TourRating tourRating)
         {
             _tourRatingRepository.Add(tourRating);
+
+            SuperFlagsService superFlagsService = new SuperFlagsService();
+            superFlagsService.ReviseGuideFlagForLanguage(tourRating.Attendance.TourReservation.TourTime.Tour.Guide, tourRating.Attendance.TourReservation.TourTime.Tour.Language);
         }
 
         public bool IsRated(int reservationId)

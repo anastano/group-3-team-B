@@ -80,8 +80,19 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         private void ExecutedEndTourCommand(object obj)
         {
-            _tourLifeCycleService.EndTour(Tour);
-            LoadTour();
+            string messageBoxText = "Are you sure you want to end tour? This action cannot be undone";
+            string caption = "End Tour";
+            MessageBoxButton button = MessageBoxButton.YesNo;
+            MessageBoxImage icon = MessageBoxImage.Warning;
+            MessageBoxResult result;
+
+            result = MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.Yes);
+
+            if(result == MessageBoxResult.Yes)
+            {
+                _tourLifeCycleService.EndTour(Tour);
+                LoadTour();
+            }
         }
 
         private void ExecutedMoveKeyPointCommand(object obj)

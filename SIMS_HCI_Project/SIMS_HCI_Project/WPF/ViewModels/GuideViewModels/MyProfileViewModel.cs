@@ -21,11 +21,15 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         public RelayCommand ResignCommand { get; set; }
         #endregion
 
+        public Guide Guide { get; set; }
+
         private JobService _jobService;
 
         public MyProfileViewModel()
         {
             _jobService = new JobService();
+
+            Guide = (Guide)App.Current.Properties["CurrentUser"];
 
             InitCommands();
         }
@@ -38,7 +42,19 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         private void ExecutedResignCommandCommand(object obj)
         {
-            _jobService.GuideResign((Guide)App.Current.Properties["CurrentUser"]);
+            string messageBoxText = "Resigning will result in the termination of your access to this application, as well as the cancellation of any future tours you have scheduled.";
+            string caption = "Resign";
+            MessageBoxButton button = MessageBoxButton.YesNo;
+            MessageBoxImage icon = MessageBoxImage.Warning;
+            MessageBoxResult result;
+
+            result = MessageBox.Show(messageBoxText, caption, button, icon, MessageBoxResult.Yes);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                _jobService.GuideResign((Guide)App.Current.Properties["CurrentUser"]);
+                NavigationCommands.SignOut.Execute(null);
+            }
         }
 
         private bool CanExecuteCommand(object obj)

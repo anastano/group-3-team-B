@@ -1,4 +1,5 @@
 ﻿using SIMS_HCI_Project.Applications.Services;
+using SIMS_HCI_Project.Domain.DTOs;
 using SIMS_HCI_Project.Domain.Models;
 using SIMS_HCI_Project.WPF.Commands;
 using SIMS_HCI_Project.WPF.Commands.Global;
@@ -95,8 +96,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         private readonly TourService _tourService;
         private readonly NotificationService _notificationService;
 
-        private Tour _newTour;
-        public Tour NewTour
+        private TourDTO _newTour;
+        public TourDTO NewTour
         {
             get { return _newTour; }
             set
@@ -105,6 +106,18 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
                 OnPropertyChanged();
             }
         }
+
+        private Tour _tour;
+        public Tour Tour
+        {
+            get { return _tour; }
+            set
+            {
+                _tour = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         private bool _isSubmitButtonEnabled;
         public bool IsSubmitButtonEnabled
@@ -122,7 +135,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             _tourService = new TourService();
             _notificationService = new NotificationService();
 
-            NewTour = tour == null ? new Tour(((Guide)App.Current.Properties["CurrentUser"])) : tour;
+            Tour = tour == null ? new Tour(((Guide)App.Current.Properties["CurrentUser"])) : tour;
+
+            NewTour = Tour == null ? new TourDTO() : new TourDTO(Tour);
 
             DepartureDate = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
             DepartureTime = new TimeOnly();
@@ -181,6 +196,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             if (ImageURL != "")
             {
                 Images.Add(ImageURL);
+                NewTour.Images.Add(ImageURL);
                 ImageURL = "";
             }
         }
@@ -191,8 +207,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         private void ExecutedSubmitFormCommand(object obj)
         {
-            NewTour.Images.AddRange(Images);
-            _tourService.Add(NewTour);
+            _tourService.Add(NewTour.ToTour());
         }
 
         private bool CanExecuteCommand(object obj)

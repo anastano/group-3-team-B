@@ -60,6 +60,7 @@ namespace SIMS_HCI_Project.Repositories
         public Forum Add(Forum forum)
         {
             forum.Id = GenerateId();
+            forum.Comments = new List<ForumComment>();
             _forums.Add(forum);
             Save();
             return forum;

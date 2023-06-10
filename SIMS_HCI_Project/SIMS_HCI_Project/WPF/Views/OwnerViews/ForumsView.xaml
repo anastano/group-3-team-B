@@ -7,12 +7,17 @@
         xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
         mc:Ignorable="d"
         Title="ForumsView" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
+
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding ShowSelectedForumCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseForumsViewCommand}"/>
+    </Window.InputBindings>
     
     <Window.Resources>
         <converters:ForumUsefulConverter x:Key="ForumUsefulConverter"/>
     </Window.Resources>
-    
-    <Grid Background="{StaticResource OwnerNeutralColor}">
+
+    <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=dgForums}">
         <!-- MAIN STACK PANEL-->
         <StackPanel Orientation="Vertical" Margin="10 5 10 5">
             <!-- TOP STACK PANEL - Options-->

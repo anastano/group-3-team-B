@@ -1,6 +1,4 @@
-﻿
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -22,7 +20,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
     {
         private NavigationService _navigationService;
         private readonly AccommodationService _accommodationService;
-        private readonly AccommodationReservationService _accommodationReservationService;
         public ObservableCollection<Location> Locations { get; set; }
         public Accommodation SelectedAccommodation { get; set; }
         public Guest1 Guest { get; set; }
@@ -113,8 +110,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         {
             _navigationService = navigationService;
             _accommodationService = new AccommodationService();
-            _accommodationReservationService = new AccommodationReservationService();
-
             Accommodation = new Accommodation();
             Guest = guest;
             Accommodations = _accommodationService.GetAllSortedBySuperFlag();

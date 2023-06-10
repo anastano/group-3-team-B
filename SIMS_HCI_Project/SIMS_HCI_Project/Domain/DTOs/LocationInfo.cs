@@ -15,9 +15,10 @@ namespace SIMS_HCI_Project.Domain.DTOs
         public double OccupancyPercentageInLastYear { get; set; }
 
         public LocationInfo() { }
-        public LocationInfo(int locationId, int reservationCount, double occupacyPercentage)
+        public LocationInfo(Location location, int reservationCount, double occupacyPercentage)
         {
-            LocationId = locationId;
+            LocationId = location.Id;
+            Location = location;
             ReservationCountInLastYear = reservationCount;
             OccupancyPercentageInLastYear = occupacyPercentage;
         }

@@ -36,6 +36,7 @@
     <None Remove="Resources\Images\reserveSC.png" />
     <None Remove="Resources\Images\search.png" />
     <None Remove="Resources\Images\searchSC.png" />
+    <None Remove="Resources\Images\thumbs_down.png" />
     <None Remove="Resources\Images\TourSearchHelp.png" />
     <None Remove="Resources\Images\travel.jpg" />
     <None Remove="Resources\Images\thumbs-up.png" />
@@ -65,6 +66,9 @@
     <Resource Include="Resources\Images\requestsSC.png" />
     <Resource Include="Resources\Images\reserveSC.png" />
     <Resource Include="Resources\Images\searchSC.png" />
+    <Resource Include="Resources\Images\thumbs_down.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Resources\Images\travel.jpg" />
   </ItemGroup>
 
@@ -129,6 +133,9 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="WPF\Views\GuideViews\ComplexTourRequestDatePickerView.xaml.cs">
+      <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
 

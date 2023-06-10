@@ -30,7 +30,7 @@ namespace SIMS_HCI_Project.FileHandlers
                 RegularTourRequest request = new RegularTourRequest();
 
                 request.Id = int.Parse(csvValues[0]);
-                Enum.TryParse(csvValues[1], out RegularRequestStatus status);
+                Enum.TryParse(csvValues[1], out TourRequestStatus status);
                 request.Status = status;
                 request.GuestId = int.Parse(csvValues[2]);
                 request.LocationId = int.Parse(csvValues[3]);
@@ -40,7 +40,8 @@ namespace SIMS_HCI_Project.FileHandlers
                 request.DateRange.Start = DateTime.ParseExact(csvValues[7], "MM/dd/yyyy", null);
                 request.DateRange.End = DateTime.ParseExact(csvValues[8], "MM/dd/yyyy", null);
                 request.SubmittingDate = DateTime.ParseExact(csvValues[9], "MM/dd/yyyy", null);
-                request.IsPartOfComplex = bool.Parse(csvValues[10]);
+                request.ComplexTourRequestId = int.Parse(csvValues[10]);
+                request.TourId = int.Parse(csvValues[11]);
 
                 requests.Add(request);
             }
@@ -66,7 +67,8 @@ namespace SIMS_HCI_Project.FileHandlers
                     request.DateRange.Start.ToString("MM/dd/yyyy"),
                     request.DateRange.End.ToString("MM/dd/yyyy"),
                     request.SubmittingDate.ToString("MM/dd/yyyy"),
-                    request.IsPartOfComplex.ToString()
+                    request.ComplexTourRequestId.ToString(),
+                    request.TourId.ToString()
                 };
 
                 string line = string.Join(Delimiter.ToString(), csvValues);

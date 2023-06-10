@@ -53,7 +53,6 @@ namespace SIMS_HCI_Project.Applications.Services
             }
             return ratedByOwnerId;
         }
-        /// pogledati malo da li je ovo dobro definisano
         public void RateReservation(AccommodationReservationService reservationService, RatingGivenByGuest rating)
         {
             _ratingRepository.Add(rating);

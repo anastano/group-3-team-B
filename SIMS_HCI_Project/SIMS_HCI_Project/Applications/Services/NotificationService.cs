@@ -61,7 +61,7 @@ namespace SIMS_HCI_Project.Applications.Services
         }
         public void MakeForumNotifications(AccommodationService accommodationService, Location location)
         {
-            String content = "A new forum for [" + location.City + "] has been created, please check it";
+            String content = "A new forum for " + location.City + ", " + location.Country + " has been created, please check it";
             foreach(Owner owner in _userRepository.GetByUserRole(UserRole.OWNER))
             {
                 if(accommodationService.GetByLocationIdAndOwnerId(location.Id, owner.Id).Count != 0)

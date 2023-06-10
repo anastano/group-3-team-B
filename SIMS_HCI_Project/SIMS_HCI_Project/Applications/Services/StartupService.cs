@@ -33,6 +33,7 @@ namespace SIMS_HCI_Project.Applications.Services
         private readonly IForumRepository _forumRepository;
         private readonly IForumCommentRepository _forumCommentRepository;
         private readonly ISuperGuideFlagRepository _superGuideFlagRepository;
+        private readonly IComplexTourRequestRepository _complexTourRequestRepository;
 
         private static bool _connectionsLoaded = false;
 
@@ -59,6 +60,7 @@ namespace SIMS_HCI_Project.Applications.Services
             _forumRepository = Injector.Injector.CreateInstance<IForumRepository>();
             _forumCommentRepository = Injector.Injector.CreateInstance<IForumCommentRepository>();
             _superGuideFlagRepository = Injector.Injector.CreateInstance<ISuperGuideFlagRepository>();
+            _complexTourRequestRepository = Injector.Injector.CreateInstance<IComplexTourRequestRepository>();
         }
 
         public void LoadConnections()
@@ -82,6 +84,7 @@ namespace SIMS_HCI_Project.Applications.Services
             ConnectGuideFields();
             ConnectForumFields();
             ConnectForumCommentFields();
+            ConnectComplexTourRequestFields();
 
             _connectionsLoaded = true;
         }
@@ -152,6 +155,17 @@ namespace SIMS_HCI_Project.Applications.Services
             foreach(RegularTourRequest request in _regularTourRequestRepository.GetAll())
             {
                 request.Location = _locationRepository.GetById(request.LocationId);
+                request.Guest = new Guest2(_userRepository.GetById(request.GuestId));
+                request.Tour = _tourRepository.GetById(request.TourId);
+                request.ComplexTourRequest = _complexTourRequestRepository.GetById(request.ComplexTourRequestId);
+            }
+        }
+
+        private void ConnectComplexTourRequestFields()
+        {
+            foreach (ComplexTourRequest request in _complexTourRequestRepository.GetAll())
+            {
+                request.TourRequests = _regularTourRequestRepository.GetAllPartsOfComplex(request.Id);
                 request.Guest = new Guest2(_userRepository.GetById(request.GuestId));
             }
         }
@@ -231,5 +245,6 @@ namespace SIMS_HCI_Project.Applications.Services
                 comment.User = _userRepository.GetById(comment.UserId);
             }
         }
+
     }
 }

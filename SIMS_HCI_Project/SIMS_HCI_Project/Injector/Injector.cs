@@ -33,6 +33,7 @@ namespace SIMS_HCI_Project.Injector
             { typeof(IRegularTourRequestRepository), new RegularTourRequestRepository() },
             { typeof(IForumRepository), new ForumRepository() },
             { typeof(IForumCommentRepository), new ForumCommentRepository() },
+            { typeof(IForumCommentReportRepository), new ForumCommentReportRepository() },
             { typeof(ISuperGuideFlagRepository), new SuperGuideFlagRepository() }
         };
 

@@ -17,17 +17,16 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 {
     public class AccommodationSuggestionsViewModel
     {
-        private readonly AccommodationYearStatisticsService _statisticsService;
+        private readonly StatisticsForSuggestionsService _statisticsForSuggestionsService;
         public AccommodationSuggestionsView AccommodationSuggestionsView { get; set; }
         public AccommodationsView AccommodationsView { get; set; }
         public Owner Owner { get; set; }
         public LocationInfo BestLocation { get; set; }
-        public ChartValues<double> OccupancyPercentageForLocation { get; set; }
-        public ChartValues<double> NonOccupancyPercentageForLocation { get; set; }
-        public Accommodation WorstAccommodation { get; set; }
-        public ChartValues<double> OccupancyPercentageForAccommodation { get; set; }
-        public ChartValues<double> NonOccupancyPercentageForAccommodation { get; set; }
-        public int ReservationCountForAccommodation { get; set; }
+        public ChartValues<double> OccupancyPercentageForBestLocation { get; set; }
+        public ChartValues<double> NonOccupancyPercentageForBestLocation { get; set; }
+        public LocationInfo WorstLocation { get; set; }
+        public ChartValues<double> OccupancyPercentageForWorstLocation { get; set; }
+        public ChartValues<double> NonOccupancyPercentageForWorstLocation { get; set; }
         public RelayCommand CloseAccommodationSuggestionsViewCommand { get; set; }
         public RelayCommand HomeAccommodationSuggestionsViewCommand { get; set; }
         public RelayCommand StopDemoCommand { get; set; }
@@ -36,20 +35,19 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         {
             InitCommands();
 
-            _statisticsService = new AccommodationYearStatisticsService();
+            _statisticsForSuggestionsService = new StatisticsForSuggestionsService();
 
             AccommodationSuggestionsView = accommodationSuggestionsView;
             AccommodationsView = accommodationsView;
             Owner = owner;
 
-            BestLocation = _statisticsService.FindBestLocationInYear(Owner.Id);
-            OccupancyPercentageForLocation = new ChartValues<double> { Math.Round(BestLocation.OccupancyPercentageInLastYear ,2) };
-            NonOccupancyPercentageForLocation = new ChartValues<double> { Math.Round(100 - BestLocation.OccupancyPercentageInLastYear, 2)  };
+            BestLocation = _statisticsForSuggestionsService.FindBestLocationLastYear(Owner.Id);
+            OccupancyPercentageForBestLocation = new ChartValues<double> { Math.Round(BestLocation.OccupancyPercentageInLastYear ,2) };
+            NonOccupancyPercentageForBestLocation = new ChartValues<double> { Math.Round(100 - BestLocation.OccupancyPercentageInLastYear, 2)  };
 
-            WorstAccommodation = _statisticsService.FindWorstAccommodationLastYear(Owner.Id);
-            OccupancyPercentageForAccommodation = new ChartValues<double> { Math.Round(_statisticsService.FindOccupancyPercentageLastYear(WorstAccommodation.Id), 2) };
-            NonOccupancyPercentageForAccommodation = new ChartValues<double> { Math.Round(100 - _statisticsService.FindOccupancyPercentageLastYear(WorstAccommodation.Id), 2) };
-            ReservationCountForAccommodation = _statisticsService.FindReservationCountLastYear(WorstAccommodation.Id);
+            WorstLocation = _statisticsForSuggestionsService.FindWorstLocationLastYear(Owner.Id);
+            OccupancyPercentageForWorstLocation = new ChartValues<double> { Math.Round(WorstLocation.OccupancyPercentageInLastYear, 2) };
+            NonOccupancyPercentageForWorstLocation = new ChartValues<double> { Math.Round(100 - WorstLocation.OccupancyPercentageInLastYear, 2) };
 
             DemoIsOn();
         }

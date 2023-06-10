@@ -81,8 +81,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         private void ShowNotificationsAndSuperFlag()
         {
-            int unratedGuestsNumber = _ownerRatingService.GetUnratedReservations(Owner.Id, _reservationService).Count;
-            OwnerMainView.txtUnratedGuestsNotifications.Visibility = unratedGuestsNumber != 0 ? Visibility.Visible : Visibility.Collapsed;
+            //int unratedGuestsNumber = _ownerRatingService.GetUnratedReservations(Owner.Id, _reservationService).Count;
+            //OwnerMainView.txtUnratedGuestsNotifications.Visibility = unratedGuestsNumber != 0 ? Visibility.Visible : Visibility.Collapsed;
 
            // int guestRequestsNumber = _requestService.GetPendingByOwnerId(Owner.Id).Count;
            // OwnerMainView.txtGuestsRequestsNotifications.Visibility = guestRequestsNumber != 0 ? Visibility.Visible : Visibility.Collapsed;

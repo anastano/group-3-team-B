@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO.Packaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,6 +53,11 @@ namespace SIMS_HCI_Project.Repositories
         public List<TourRating> GetAllByTourId(int tourTimeId)
         {
             return _ratings.FindAll(r => r.Attendance.TourReservation.TourTimeId == tourTimeId);
+        }
+
+        public List<TourRating> GetLastYearAllByLanguageAndGuide(int guideId, string language)
+        {
+            return _ratings.FindAll(r => r.Attendance.TourReservation.TourTime.Tour.GuideId == guideId && r.Attendance.TourReservation.TourTime.Tour.Language.Equals(language) && r.Attendance.TourReservation.TourTime.DepartureTime > DateTime.Now.AddYears(-1));
         }
 
         public void Add(TourRating rating)

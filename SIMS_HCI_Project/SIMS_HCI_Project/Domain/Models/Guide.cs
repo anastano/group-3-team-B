@@ -13,6 +13,9 @@ namespace SIMS_HCI_Project.Domain.Models
     {
         public List<Tour> AllTours { get; set; }
         public List<TourTime> TodaysTours { get; set; }
+        public List<SuperGuideFlag> SuperFlags { get; set; }
+
+        public bool HasSuperFlag { get => SuperFlags.Count > 0; }
 
         public Guide(User user)
         {
@@ -24,6 +27,10 @@ namespace SIMS_HCI_Project.Domain.Models
             Age = user.Age;
             Role = user.Role;
             AccountActive = user.AccountActive;
+
+            AllTours = new List<Tour>();
+            TodaysTours = new List<TourTime>();
+            SuperFlags = new List<SuperGuideFlag>();
         }
 
         public bool HasTourInProgress()
@@ -36,6 +43,11 @@ namespace SIMS_HCI_Project.Domain.Models
             if (TodaysTours == null) return null;
 
             return TodaysTours.Find(t => t.IsInProgress);
+        }
+
+        public SuperGuideFlag GetSuperFlagByLanguage(string language)
+        {
+            return SuperFlags.Find(sf => sf.Language.Equals(language));
         }
     }
 }

@@ -85,6 +85,9 @@ namespace SIMS_HCI_Project.Applications.Services
 
             NotificationService notificationService = new NotificationService();
             notificationService.NotifyGuestsWithSimilarRequests(tour);
+
+            SuperFlagsService superFlagsService = new SuperFlagsService();
+            superFlagsService.ReviseGuideFlagForLanguage(tour.Guide, tour.Language);
         }
     }
 }

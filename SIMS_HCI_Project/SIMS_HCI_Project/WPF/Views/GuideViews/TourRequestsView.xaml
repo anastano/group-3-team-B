@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.GuideViews"
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
-        Title="TourRequestsView" Height="720" Width="1280" WindowStartupLocation="CenterScreen" FontSize="20">
+        Title="TourRequestsView" Height="720" Width="1280" WindowStartupLocation="CenterScreen" FontSize="18">
     <Window.Background>
         <ImageBrush ImageSource="pack://application:,,,/WPF/Images/guideBackground.png"></ImageBrush>
     </Window.Background>
@@ -27,10 +27,10 @@
                 <local:NavigationMenu></local:NavigationMenu>
             </Grid>
             <Grid>
-                <StackPanel Margin="20,20,20,20">
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,20">
+                <StackPanel Margin="20,30,20,20">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,0" VerticalAlignment="Center">
                         <StackPanel Margin="20,0,25,0" Width="220">
-                            <TextBlock Text="Location"></TextBlock>
+                            <TextBlock Text="Location" Margin="0,2,0,0" FontSize="16"></TextBlock>
                             <ComboBox ItemsSource="{Binding AvailableLocations}" SelectedItem="{Binding Location}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
@@ -46,29 +46,39 @@
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
                         </StackPanel>
-                        <StackPanel Margin="10,0,10,0">
-                            <TextBlock Text="Guest Number"></TextBlock>
+                        <StackPanel Margin="0,0,0,0">
+                            <TextBlock Text="Guest Number"  Margin="0,4,0,0" FontSize="16"></TextBlock>
                             <TextBox Text="{Binding GuestNumber}"></TextBox>
                         </StackPanel>
-                        <StackPanel Margin="10,0,20,0" Width="220">
-                            <TextBlock Text="Language"></TextBlock>
+                        <StackPanel Margin="30,0,20,0" Width="220">
+                            <TextBlock Text="Language" Margin="0,2,0,0" FontSize="16"></TextBlock>
                             <ComboBox ItemsSource="{Binding AvailableLanguages}" SelectedItem="{Binding Language}"></ComboBox>
                         </StackPanel>
                         <StackPanel Margin="10,0,10,0">
-                            <TextBlock Text="Date Range"></TextBlock>
+                            <TextBlock Text="Date Range" FontSize="16"></TextBlock>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="From " VerticalAlignment="Center"></TextBlock>
+                                <TextBlock Text="From " VerticalAlignment="Center" FontSize="16"></TextBlock>
                                 <DatePicker SelectedDate="{Binding DateRange.Start}" Width="140"></DatePicker>
-                                <TextBlock Text="To " VerticalAlignment="Center" Margin="10,0,0,0"></TextBlock>
+                                <TextBlock Text="To " VerticalAlignment="Center" FontSize="16" Margin="10,0,0,0"></TextBlock>
                                 <DatePicker SelectedDate="{Binding DateRange.End}" Width="140"></DatePicker>
                             </StackPanel>
                         </StackPanel>
-                        <Button Content="Filter" Margin="0,20,10,0" Command="{Binding FilterRequests}" ></Button>
-                        <Button Content="Clear" Margin="0,20,0,0" Command="{Binding ResetFilter}"></Button>
+                        <Button Margin="0,20,10,0" Command="{Binding FilterRequests}" >
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="pack://application:,,,/WPF/Images/filter.png" Width="20"></Image>
+                                <TextBlock Text="Filter"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button Margin="0,20,0,0" Command="{Binding ResetFilter}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="pack://application:,,,/WPF/Images/remove-filter.png" Width="20"></Image>
+                                <TextBlock Text="Clear"></TextBlock>
+                            </StackPanel>
+                        </Button>
                     </StackPanel>
-                    <DataGrid AutoGenerateColumns="False" IsReadOnly="True" Height="300" ItemsSource="{Binding TourRequests}" SelectedItem="{Binding SelectedTourRequest}">
+                    <DataGrid AutoGenerateColumns="False" IsReadOnly="True" Height="300" ItemsSource="{Binding TourRequests}" SelectedItem="{Binding SelectedTourRequest}" Margin="20,0,20,0">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Location" Width="2*" >
+                            <DataGridTextColumn Header="Location" Width="1.8*" >
                                 <DataGridTextColumn.Binding>
                                     <MultiBinding StringFormat="{}{0}, {1}">
                                         <Binding Path="Location.City"></Binding>
@@ -76,9 +86,9 @@
                                     </MultiBinding>
                                 </DataGridTextColumn.Binding>
                             </DataGridTextColumn>
-                            <DataGridTextColumn Header="Guest Number" Width="1*" Binding="{Binding GuestNumber}"/>
-                            <DataGridTextColumn Header="Language" Width="2*" Binding="{Binding Language}"/>
-                            <DataGridTextColumn Header="DateRange" Width="2*">
+                            <DataGridTextColumn Header="Guest Number" Width="1.3*" Binding="{Binding GuestNumber}"/>
+                            <DataGridTextColumn Header="Language" Width="1.9*" Binding="{Binding Language}"/>
+                            <DataGridTextColumn Header="DateRange" Width="2.1*">
                                 <DataGridTextColumn.Binding>
                                     <MultiBinding StringFormat="{}{0} - {1}">
                                         <Binding Path="DateRange.Start.Date"></Binding>
@@ -104,7 +114,11 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Button Content="See Statistics" HorizontalAlignment="Right" Margin="0,30,0,0">
+                    <Button HorizontalAlignment="Right" Margin="0,40,20,0">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="pack://application:,,,/WPF/Images/stats.png" Width="20"></Image>
+                            <TextBlock Text="See statistics" Margin="5,0,0,0"></TextBlock>
+                        </StackPanel>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="Click">
                                 <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourRequestsStatistics}" />
@@ -154,9 +168,11 @@
                         </Border>
                     </StackPanel>
                 </StackPanel>
-                <Border Background="White" Opacity="0.5" CornerRadius="20" Panel.ZIndex="-10" Margin="-300,15,20,40" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="160" Width="280">
+                <Border Background="White" Opacity="0.5" CornerRadius="20" Panel.ZIndex="-10" Margin="-270,15,20,40" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="160" Width="280">
                 </Border>
-                <Border Background="White" Opacity="0.5" CornerRadius="20" Panel.ZIndex="-10" Margin="340,15,20,40" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="160" Width="280">
+                <Border Background="White" Opacity="0.5" CornerRadius="20" Panel.ZIndex="-10" Margin="310,15,20,40" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="160" Width="280">
+                </Border>
+                <Border Grid.Row="1" Background="White" Opacity="0.5" CornerRadius="20" Panel.ZIndex="-10"  Margin="20,20,20,270">
                 </Border>
             </Grid>
         </StackPanel>

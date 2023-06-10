@@ -30,7 +30,7 @@
                         <Calendar x:Name="calDepartureTimePicker" HorizontalAlignment="Center" VerticalAlignment="Top" IsTodayHighlighted="False" SelectedDate="{Binding PickedDate}">
                         </Calendar>
                     </Viewbox>
-                    <wpfTool:TimePicker Value="{Binding PickedTime}"></wpfTool:TimePicker>
+                    <wpfTool:TimePicker Value="{Binding PickedTime}" HorizontalAlignment="Right" Width="150"></wpfTool:TimePicker>
                 </StackPanel>
 
                 <Button Content="Confirm" VerticalAlignment="Bottom" Margin="20,5,5,5">

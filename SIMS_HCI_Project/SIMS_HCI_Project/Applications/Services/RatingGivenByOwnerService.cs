@@ -1,6 +1,4 @@
-﻿//using ceTe.DynamicPDF;
-//using ceTe.DynamicPDF.PageElements;
-using iTextSharp.text;
+﻿using iTextSharp.text;
 using iTextSharp.text.pdf;
 using SIMS_HCI_Project.Domain.DTOs;
 using SIMS_HCI_Project.Domain.Models;
@@ -29,12 +27,6 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             _ratingRepository = Injector.Injector.CreateInstance<IRatingGivenByOwnerRepository>();
         }
-
-        public RatingGivenByOwner GetById(int id)
-        {
-            return _ratingRepository.GetById(id);
-        }
-
         public RatingGivenByOwner GetByReservationId(int reservationId)
         {
             return _ratingRepository.GetByReservationId(reservationId);

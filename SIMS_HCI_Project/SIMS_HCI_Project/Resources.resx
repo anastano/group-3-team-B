@@ -130,6 +130,9 @@
   <data name="profil" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Images\profil.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="thumbs_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Images\thumbs_down.png;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="wallpaper" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\images\wallpaper.jpg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

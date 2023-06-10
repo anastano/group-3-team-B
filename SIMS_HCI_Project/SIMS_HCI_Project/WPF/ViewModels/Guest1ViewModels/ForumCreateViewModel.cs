@@ -22,8 +22,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         private LocationService _locationService;
         private NotificationService _notificationService;
         private AccommodationService _accommodationService;
+        private UserService _userService;
         public ObservableCollection<String> Countries { get; set; }
-        //public ObservableCollection<String> Cities { get; set; }
         public RelayCommand CreateForumCommand { get; set; }
         public RelayCommand CancelCommand { get; set; }
         public Guest1 Guest { get; set; }
@@ -149,6 +149,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _forumService = new ForumService();
             _forumCommentService = new ForumCommentService();
             _accommodationService = new AccommodationService();
+            _userService = new UserService();
             InitProperties(guest);
             InitCommands();
         }
@@ -177,22 +178,18 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         }
         public void ExecutedCreateForumCommand(object obj)
         {
-            if(SelectedCountry == null || SelectedCity == null || Comment == "")
+            if(!(SelectedCountry == null || SelectedCity == null || Comment == ""))
             {
-                ErrorMessage = "All fields are required";
-                IsErrorVisible = true;
-            }
-            else
-            {
-                //rijesiti kako za komentar
                 Location location = _locationService.GetLocation(SelectedCountry, SelectedCity);
                 Forum addedForum = _forumService.Add(new Forum(Guest, location));
-                _forumCommentService.Add(new ForumComment(Guest, addedForum, Comment));
-                
+                bool isUseful = _userService.HasUserBeenOnLocation(addedForum.Location, Guest);
+                _forumCommentService.Add(new ForumComment(Guest, addedForum, Comment, isUseful));
                 _notificationService.MakeForumNotifications(_accommodationService, location);
                 _navigationService.Navigate(new ForumsViewModel(Guest, _navigationService, 1), "Forums");
             }
-            
+            ErrorMessage = "All fields are required";
+            IsErrorVisible = true;
+
         }
         public void ExecutedCancelCommand(object obj)
         {

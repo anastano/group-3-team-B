@@ -10,7 +10,7 @@ namespace SIMS_HCI_Project.Domain.Models
     {
         public double AverageRating { get; set; }
         public bool SuperFlag { get; set; }
-         
+
         public Owner() 
         {
             AverageRating = 0;

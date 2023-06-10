@@ -64,10 +64,18 @@
                             </DataGrid.CellStyle>
                             <DataGrid.Columns>
 
-                                <DataGridTemplateColumn Width="*" Header="User">
+                                <DataGridTemplateColumn Width="0.6*" Header="Name">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding User.Name}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                
+                                <DataGridTemplateColumn Width="0.6*" Header="Surname">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding User.Surname}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>

@@ -21,11 +21,11 @@ namespace SIMS_HCI_Project.Applications.Services
 
         public TourRequestsStatisticsByStatus GetTourRequestsStatisticsByStatus( int guestId, int? selectedYear = null) //get all by guest id
         {
-            List<RegularRequestStatus> statuses = new List<RegularRequestStatus> { RegularRequestStatus.PENDING, RegularRequestStatus.ACCEPTED, RegularRequestStatus.INVALID};
+            List<TourRequestStatus> statuses = new List<TourRequestStatus> { TourRequestStatus.PENDING, TourRequestStatus.ACCEPTED, TourRequestStatus.INVALID};
 
-            Dictionary<RegularRequestStatus, int> requestsNumberByStatus = new Dictionary<RegularRequestStatus, int>();
+            Dictionary<TourRequestStatus, int> requestsNumberByStatus = new Dictionary<TourRequestStatus, int>();
 
-            foreach (RegularRequestStatus status in statuses)
+            foreach (TourRequestStatus status in statuses)
             {
                 requestsNumberByStatus.Add(status, _regularTourRequestRepository.GetRequestsCountByStatus(status, guestId, selectedYear));
             }

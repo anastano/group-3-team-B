@@ -43,7 +43,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public ChartValues<int> AcceptedCount
 
         {
-            get => new ChartValues<int> { TourRequestsStatisticsByStatus.RequestsNumberByStatus[RegularRequestStatus.ACCEPTED] };
+            get => new ChartValues<int> { TourRequestsStatisticsByStatus.RequestsNumberByStatus[TourRequestStatus.ACCEPTED] };
             set
             {
                 if (value != _acceptedCount)
@@ -57,7 +57,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public ChartValues<int> InvalidCount
 
         {
-            get => new ChartValues<int> { TourRequestsStatisticsByStatus.RequestsNumberByStatus[RegularRequestStatus.INVALID] };
+            get => new ChartValues<int> { TourRequestsStatisticsByStatus.RequestsNumberByStatus[TourRequestStatus.INVALID] };
             set
             {
                 if (value != _invalidCount)
@@ -72,7 +72,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public ChartValues<int> PendingCount
 
         {
-            get => new ChartValues<int> { TourRequestsStatisticsByStatus.RequestsNumberByStatus[RegularRequestStatus.PENDING] };
+            get => new ChartValues<int> { TourRequestsStatisticsByStatus.RequestsNumberByStatus[TourRequestStatus.PENDING] };
             set
             {
                 if (value != _pendingCount)
@@ -268,12 +268,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         {
             if (SelectedYearIndexAverage == 0)
             {
-                AcceptedRequests = new List<RegularTourRequest>(_regularTourRequestService.GetAllByGuestIdAndStatusAndYear(Guest2.Id, RegularRequestStatus.ACCEPTED));
+                AcceptedRequests = new List<RegularTourRequest>(_regularTourRequestService.GetAllByGuestIdAndStatusAndYear(Guest2.Id, TourRequestStatus.ACCEPTED));
             }
             else
             {
                 int selectedYear = SelectedYearIndexAverage + 2020;
-                AcceptedRequests = new List<RegularTourRequest>(_regularTourRequestService.GetAllByGuestIdAndStatusAndYear(Guest2.Id, RegularRequestStatus.ACCEPTED, selectedYear));
+                AcceptedRequests = new List<RegularTourRequest>(_regularTourRequestService.GetAllByGuestIdAndStatusAndYear(Guest2.Id, TourRequestStatus.ACCEPTED, selectedYear));
             }
             UpdateAverageNumberOfPeople();
 
@@ -285,9 +285,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
         private void UpdateChart(TourRequestsStatisticsByStatus TourRequestsStatisticsByStatus)
         {
-            InvalidCount = new ChartValues<int> { TourRequestsStatisticsByStatus.RequestsNumberByStatus[RegularRequestStatus.INVALID] };
-            AcceptedCount = new ChartValues<int> { TourRequestsStatisticsByStatus.RequestsNumberByStatus[RegularRequestStatus.ACCEPTED] };
-            PendingCount = new ChartValues<int> { TourRequestsStatisticsByStatus.RequestsNumberByStatus[RegularRequestStatus.PENDING] };
+            InvalidCount = new ChartValues<int> { TourRequestsStatisticsByStatus.RequestsNumberByStatus[TourRequestStatus.INVALID] };
+            AcceptedCount = new ChartValues<int> { TourRequestsStatisticsByStatus.RequestsNumberByStatus[TourRequestStatus.ACCEPTED] };
+            PendingCount = new ChartValues<int> { TourRequestsStatisticsByStatus.RequestsNumberByStatus[TourRequestStatus.PENDING] };
         }
 
         private void LoadFromFiles()
@@ -307,7 +307,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             RequestsByLocation = new Dictionary<int, int>(_tourRequestsStatisticsService.GetTourRequestStatisticsByLocationId(Guest2.Id));
             RequestsByLocationValues = new ChartValues<int>(RequestsByLocation.Values);
 
-            AcceptedRequests = new List<RegularTourRequest>(_regularTourRequestService.GetAllByGuestIdAndStatusAndYear(Guest2.Id, RegularRequestStatus.ACCEPTED));
+            AcceptedRequests = new List<RegularTourRequest>(_regularTourRequestService.GetAllByGuestIdAndStatusAndYear(Guest2.Id, TourRequestStatus.ACCEPTED));
         }
     }
 }

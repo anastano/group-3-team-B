@@ -224,9 +224,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                 {
                     RegularTourRequest.GuestId = Guest.Id;
                     RegularTourRequest.Guest = Guest;
-                    RegularTourRequest.IsPartOfComplex = false;
+                    RegularTourRequest.ComplexTourRequestId = -1;
+                    RegularTourRequest.TourId = -1;
                     RegularTourRequest.SubmittingDate = DateTime.Now.AddDays(0);
-                    RegularTourRequest.Status = RegularRequestStatus.PENDING;
+                    RegularTourRequest.Status = TourRequestStatus.PENDING;
                     RegularTourRequest.DateRange.Start = RegularTourRequestValidation.EnteredStart;
                     RegularTourRequest.DateRange.End = RegularTourRequestValidation.EnteredEnd;
 

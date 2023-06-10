@@ -114,20 +114,35 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Button HorizontalAlignment="Right" Margin="0,40,20,0">
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="pack://application:,,,/WPF/Images/stats.png" Width="20"></Image>
-                            <TextBlock Text="See statistics" Margin="5,0,0,0"></TextBlock>
-                        </StackPanel>
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="Click">
-                                <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourRequestsStatistics}" />
-                                <i:InvokeCommandAction Command="{Binding NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
-                                              RelativeSource Mode=FindAncestor,
-                                              AncestorType={x:Type Window}}}"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </Button>
+                    <DockPanel>
+                        <Button HorizontalAlignment="Right" DockPanel.Dock="Right" Margin="0,40,20,0">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="pack://application:,,,/WPF/Images/stats.png" Width="20"></Image>
+                                <TextBlock Text="See statistics" Margin="5,0,0,0"></TextBlock>
+                            </StackPanel>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourRequestsStatistics}" />
+                                    <i:InvokeCommandAction Command="{Binding NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
+                                                  RelativeSource Mode=FindAncestor,
+                                                  AncestorType={x:Type Window}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                        <Button HorizontalAlignment="Left" Margin="20,40,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="See complex" Margin="5,0,0,0"></TextBlock>
+                            </StackPanel>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToComplexTourRequests}" />
+                                    <i:InvokeCommandAction Command="{Binding NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
+                                                  RelativeSource Mode=FindAncestor,
+                                                  AncestorType={x:Type Window}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                    </DockPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <Border BorderBrush="Black" BorderThickness="0" Margin="20,20,20,20">
                             <StackPanel Margin="10,10,10,10">

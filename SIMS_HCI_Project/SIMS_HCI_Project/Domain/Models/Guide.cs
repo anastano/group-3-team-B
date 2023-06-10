@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SIMS_HCI_Project.Domain.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -48,6 +49,11 @@ namespace SIMS_HCI_Project.Domain.Models
         public SuperGuideFlag GetSuperFlagByLanguage(string language)
         {
             return SuperFlags.Find(sf => sf.Language.Equals(language));
+        }
+
+        public bool IsBusy(DateRange dateRange)
+        {
+            return false; 
         }
     }
 }

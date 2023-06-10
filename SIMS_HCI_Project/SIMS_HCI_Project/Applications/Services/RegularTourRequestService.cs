@@ -44,7 +44,7 @@ namespace SIMS_HCI_Project.Applications.Services
             return _regularTourRequestRepository.GetAllByGuestId(id, isPartOfComplex);
         }
 
-        public List<RegularTourRequest> GetAllByGuestIdAndStatusAndYear(int id, RegularRequestStatus status, int? year = null)
+        public List<RegularTourRequest> GetAllByGuestIdAndStatusAndYear(int id, TourRequestStatus status, int? year = null)
         {
             return _regularTourRequestRepository.GetAllByGuestIdAndStatusAndYear(id, status, year);
         }
@@ -62,7 +62,7 @@ namespace SIMS_HCI_Project.Applications.Services
             _regularTourRequestRepository.Add(request);
         }
 
-        public void EditStatus(RegularTourRequest request, RegularRequestStatus status)
+        public void EditStatus(RegularTourRequest request, TourRequestStatus status)
         {
             request.Status = status;
             _regularTourRequestRepository.Update(request);
@@ -72,13 +72,14 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             if (_tourTimeRepository.GetAllInDateRange(guideId, new DateRange(departureTime, 2)).Count != 0) return null;
 
-            request.Accept();
-            _regularTourRequestRepository.Update(request);
-
             Tour tourFromRequest = CreateTourFromRequest(request, guideId, departureTime);
 
             TourService tourService = new TourService(); // because creation of tour is complex
             tourService.Add(tourFromRequest);
+
+            request.Accept();
+            request.AssignTour(tourFromRequest);
+            _regularTourRequestRepository.Update(request);
 
             Notification notification = new Notification("Your request number for tour was accepted. Departure time: " + departureTime.ToShortDateString()
                                                             + ". Created tour number: [" + tourFromRequest.Id.ToString() + "].",
@@ -112,7 +113,7 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             foreach (var request in _regularTourRequestRepository.GetAll())
             {
-                if (!request.IsPartOfComplex && DateTime.Now > request.DateRange.Start.AddHours(-48) && request.Status == RegularRequestStatus.PENDING)
+                if (!request.IsPartOfComplex && DateTime.Now > request.DateRange.Start.AddHours(-48) && request.Status == TourRequestStatus.PENDING)
                 {
                     request.Invalidate();
                     _regularTourRequestRepository.Update(request);

@@ -51,6 +51,7 @@ namespace SIMS_HCI_Project.Repositories
             return _tourVouchers;
         }
 
+
         public List<TourVoucher> GetValidVouchersByGuestId(int id)
         {
             return _tourVouchers.FindAll(v => v.GuestId == id && v.Status == VoucherStatus.VALID);
@@ -90,6 +91,11 @@ namespace SIMS_HCI_Project.Repositories
                 toUpdate = tourVoucher;
             }
             Save();
+        }
+
+        public bool HasLoyaltyVoucher(int guestId)
+        {
+            return GetValidVouchersByGuestId(guestId).Where(v => v.Status == VoucherStatus.VALID && v.Title == "LOYALTY VOUCHER").Count() > 0;
         }
     }
 }

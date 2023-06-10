@@ -129,5 +129,15 @@ namespace SIMS_HCI_Project.Repositories
             GuestTourAttendance attendance = GetByGuestAndTourTimeIds(guestId, tourTimeId);
             return _guestTourAttendances.Any(gta => gta.Status == AttendanceStatus.PRESENT);
         }
+
+        public int GetGuestAttendancesCountLastYear(int guestId)
+        {
+            DateTime currentDate = DateTime.Now;
+            DateTime oneYearAgo = currentDate.AddYears(-1);
+
+            int attendancesCount = _guestTourAttendances.Count(a => a.Status == AttendanceStatus.PRESENT && a.TourReservation.TourTime.DepartureTime >= oneYearAgo && a.TourReservation.TourTime.DepartureTime <= currentDate);
+            return attendancesCount;
+        }
+        
     }
 }

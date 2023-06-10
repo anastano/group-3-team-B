@@ -26,5 +26,6 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         int GetGuestCountByAgeGroup(AgeGroup ageGroup, int tourTimeId);
         int GetGuestsWithVoucherCount(int tourTimeId);
         bool IsPresent(int guestId, int tourTimeId);
+        int GetGuestAttendancesCountLastYear(int guestId);
     }
 }

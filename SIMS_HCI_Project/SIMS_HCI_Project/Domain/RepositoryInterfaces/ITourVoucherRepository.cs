@@ -15,5 +15,6 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         void AddBulk(List<TourVoucher> tourVouchers);
         void Update(TourVoucher tourVoucher);
         void BulkUpdate(List<TourVoucher> tourVouchers);
+        bool HasLoyaltyVoucher(int guestId);
     }
 }

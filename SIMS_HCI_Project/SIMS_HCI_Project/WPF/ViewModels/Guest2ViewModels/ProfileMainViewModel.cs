@@ -105,7 +105,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         #region Commands
         public RelayCommand ShowNotificationsCommand { get; set; }
         public RelayCommand DownloadPDFReportCommand { get; set; }
-        //TODO HELP CMD
+        
 
         #endregion
         public ProfileMainViewModel(Guest2 guest, NavigationService navigationService, Frame profileFrame)
@@ -117,8 +117,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             LoadFromFiles();
             ShowNotificationsCount();
 
-            Attendances = new List<GuestTourAttendance>(); //trebace kada pravi obavestenja da potvrdi attendance na turi, sredi drugacije nekako, MakeNotificationsForAttendanceConfirmation() u Guest2MainViewModel 
-            GuestTourAttendance = new GuestTourAttendance(); //ne znam sta ce, mozda u xamlu? vidi?
+            Attendances = new List<GuestTourAttendance>(); 
+            GuestTourAttendance = new GuestTourAttendance(); 
 
             Reservations = new ObservableCollection<TourReservation>(_tourReservationService.GetAllByGuestId(guest.Id));
 
@@ -126,18 +126,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
             ActiveTours = new ObservableCollection<TourReservation>(_tourReservationService.GetActiveByGuestId(guest.Id));
 
-            Notifications = new ObservableCollection<Notification>(_notificationService.GetUnreadByUserId(Guest.Id)); //izmeni da prosledi sve notifikacije tog gosta u novi prof Notif page, a ne samo neporcitane,
-                                                                                                                      //ili ovo ne treba uopste, vec da samo prikaze broj enporcitanih, a u narednom ce sam napraviti ovu listu notifikacija na osnovu id gosta
-                                                                                                                      //a da u ovom page prikaze broj neprocitanih
-
-            //sredi xaml kod za ovaj frame
-            //MakeNotificationsForAttendanceConfirmation();
-            //makeNotifPls();
+            Notifications = new ObservableCollection<Notification>(_notificationService.GetUnreadByUserId(Guest.Id)); 
+                     
         }
 
         public void ShowNotificationsCount()
         {
-            //uradi kao labela bindovana
             UnreadCount = _notificationService.GetUnreadByUserId(Guest.Id).Count();
             UnreadNotificationsMessage = "You have " + UnreadCount + " unread notifications.";
         }
@@ -148,7 +142,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             _tourVoucherService = new TourVoucherService();
             _tourReservationService = new TourReservationService();
             _guestTourAttendanceService = new GuestTourAttendanceService();
-            _notificationService = new NotificationService(); //proveri da li je u startap servisu sve povezano za obavestenja 
+            _notificationService = new NotificationService(); 
+            _tourVoucherService.WinVoucherForLoyalty(Guest.Id);
         }
 
         private void InitCommands()

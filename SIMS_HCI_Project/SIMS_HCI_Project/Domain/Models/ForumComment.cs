@@ -28,17 +28,5 @@ namespace SIMS_HCI_Project.Domain.Models
             IsUseful = isUseful;
         }
 
-        ///DELETE ONE OF THE CONSTRUSTORS
-        public ForumComment(User user, Forum forum, String content, bool isUseful)
-        {
-            UserId = user.Id;
-            User = user;
-            ForumId = forum.Id;
-            Forum = forum;
-            Content = content;
-            ReportCounter = 0;
-            IsUseful = isUseful;
-        }
-
     }
 }

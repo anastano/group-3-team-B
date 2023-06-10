@@ -8,7 +8,7 @@ namespace SIMS_HCI_Project.Domain.RepositoryInterfaces
         Tour GetById(int id);
         List<Tour> GetAll();
         List<Tour> GetAllByGuide(int guideId);
-
+        List<Tour> GetAllSortedBySuperGuide();
         void Add(Tour tour);
 
         List<Tour> Search(string country, string city, int duration, string language, int guestsNum, int? guideId = null);

@@ -1,7 +1,5 @@
 ﻿using SIMS_HCI_Project.Applications.Services;
 using SIMS_HCI_Project.Domain.Models;
-
-
 using SIMS_HCI_Project.WPF.Commands;
 using SIMS_HCI_Project.WPF.Services;
 using SIMS_HCI_Project.WPF.Views.Guest1Views;
@@ -16,11 +14,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using Xceed.Wpf.Toolkit.Primitives;
-using AccommodationReservation = SIMS_HCI_Project.Domain.Models.AccommodationReservation;
-using Guest1 = SIMS_HCI_Project.Domain.Models.Guest1;
-using Notification = SIMS_HCI_Project.Domain.Models.Notification;
-using Owner = SIMS_HCI_Project.Domain.Models.Owner;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
 {
@@ -34,7 +27,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         private RatingGivenByGuestService _ratingGivenByGuestService;
         private RenovationService _renovationService;
         private UserService _userService;
-        private ForumCommentService _forumCommentService;
         public Guest1MainView Guest1MainView { get; set; }
         public Guest1 Guest { get; set; }
         public RelayCommand ShowReservationsCommand { get; set; }
@@ -131,13 +123,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             _ratingGivenByGuestService = new RatingGivenByGuestService();
             _renovationService = new RenovationService();
             _userService = new UserService();
-            _forumCommentService = new ForumCommentService();
             
-            
-
             _reservationService.ConvertReservedReservationIntoCompleted(DateTime.Now);
             _reservationService.ConvertReservationsIntoRated(_ratingGivenByGuestService);
-            _titleService.UpdateTitles(_reservationService);
+            _titleService.UpdateTitles();
             _titleService.ConvertActiveTitlesIntoExpired(DateTime.Now);
             _accommodationService.ConvertAccommodationIntoRenovated(_renovationService);
             _userService.FillOwnerSuperFlag(_ratingGivenByGuestService);

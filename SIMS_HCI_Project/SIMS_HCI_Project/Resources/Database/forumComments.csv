@@ -48,7 +48,7 @@
 48|2|3|Insufficient toiletries provided|0|True
 49|1|2|Peaceful ambiance|0|True
 50|4|2|Impressed with the hotel facilities|0|False
-51|3|5|This is Milena's city tell me more about it?|0|True
+51|3|4|This is Milena's city tell me more about it?|0|True
 52|3|4|Hej Milena how are you doing???|0|True
 53|10|4|My second try from other profile|0|False
 54|10|4|Third try|0|False
@@ -70,3 +70,7 @@
 70|1|1|It's crucial to have a reliable system that works efficiently.|0|True
 71|3|1|I can feel my face when I am with you|0|True
 72|3|1|I only call you|0|True
+73|18|5|Rome is magical city, do you agree?|0|False
+74|18|4|Beautiful place to visit. I recommend|0|False
+75|10|6|Is it good place for holiday?|0|False
+76|3|6|No, I have never been there|0|False

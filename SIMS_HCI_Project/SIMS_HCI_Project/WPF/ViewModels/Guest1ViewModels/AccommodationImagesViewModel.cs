@@ -104,7 +104,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         }
         public void ExecutedBackCommand(object obj)
         {
-            //da puta koristim da vidim kako da izmjenim naslov
             _navigationService.NavigateBack();
         }
         public void ExecutedPreviousImageCommand(object obj)

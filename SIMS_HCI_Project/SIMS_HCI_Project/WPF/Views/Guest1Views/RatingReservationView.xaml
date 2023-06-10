@@ -229,9 +229,9 @@
             <Label Content="Check to apply recommendation" FontSize="16" Grid.Row="5" Grid.Column="0" Style="{StaticResource GuestLabelStyle}" VerticalAlignment="Center" Width="239"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="0,72,0,0" Grid.RowSpan="2" Width="444">
-            <Button Content="Cancel" Command="{Binding DataContext.CancelReviewCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                    Margin=" 5, 0, 55, 0"  Style="{StaticResource GuestButtonStyle}"/>
             <Button Content="Review" Command="{Binding DataContext.ReviewReservationCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                    Margin=" 5, 0, 55, 0"  Style="{StaticResource GuestButtonStyle}"/>
+            <Button Content="Cancel" Command="{Binding DataContext.CancelReviewCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
                     Margin=" 155, 0, 55, 0"  Style="{StaticResource GuestButtonStyle}"/>
         </StackPanel>
     </Grid>

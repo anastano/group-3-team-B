@@ -37,7 +37,7 @@
                 <ColumnDefinition Width="4*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" Orientation="Horizontal" Visibility="{Binding Forum.Comments, Converter={StaticResource ForumUsefulConverter}}"
+            <StackPanel Grid.Column="0" Orientation="Horizontal" Visibility="{Binding IsForumUseful, Converter={StaticResource ErrorVisibilityConverter}}"
                           Width="761">
                 <Label Content="{Binding Path = UsefulMessage, UpdateSourceTrigger=PropertyChanged}" FontSize="25" Height="60" VerticalContentAlignment="Center"
                    Style="{StaticResource GuestLabelStyle}" Width="150"/>
@@ -45,7 +45,9 @@
             </StackPanel>
             <Button Content="Add comment" Grid.Column="1" Visibility="{Binding CanGuestLeaveComment, Converter={StaticResource ErrorVisibilityConverter}}"
                         Style="{StaticResource GuestButtonStyle}" HorizontalAlignment="Center" Width="130" Margin="35 0 0 0"
-                Command="{Binding DataContext.AddCommentCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
+                Command="{Binding DataContext.AddCommentCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                
+            </Button>
         </Grid>
         
         <DataGrid  Grid.Row="4" RowHeight="100"

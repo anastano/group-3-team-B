@@ -24,7 +24,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         private AccommodationService _accommodationService;
         private UserService _userService;
         public ObservableCollection<String> Countries { get; set; }
-        //public ObservableCollection<String> Cities { get; set; }
         public RelayCommand CreateForumCommand { get; set; }
         public RelayCommand CancelCommand { get; set; }
         public Guest1 Guest { get; set; }
@@ -187,8 +186,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 _forumCommentService.Add(new ForumComment(Guest, addedForum, Comment, isUseful));
                 _notificationService.MakeForumNotifications(_accommodationService, location);
                 _navigationService.Navigate(new ForumsViewModel(Guest, _navigationService, 1), "Forums");
-                ErrorMessage = "All fields are required";
-                IsErrorVisible = true;
             }
             ErrorMessage = "All fields are required";
             IsErrorVisible = true;

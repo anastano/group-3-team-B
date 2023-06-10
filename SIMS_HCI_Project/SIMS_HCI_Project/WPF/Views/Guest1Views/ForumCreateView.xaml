@@ -40,11 +40,10 @@
                    Style="{StaticResource GuestLabelStyle}" Width="251"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0 15 0 0" HorizontalAlignment="Center">
-
-                <Button Content="Cancel" Command="{Binding DataContext.CancelCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                     Style="{StaticResource GuestButtonStyle}" HorizontalAlignment="Center" Margin="0 0 150 0"/>
                 <Button Grid.Column="1" Grid.Row="5" Content="Create" Command="{Binding DataContext.CreateForumCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
-                     Style="{StaticResource GuestButtonStyle}"/>
+                     Style="{StaticResource GuestButtonStyle}" Margin="0 0 150 0"/>
+                <Button Content="Cancel" Command="{Binding DataContext.CancelCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                     Style="{StaticResource GuestButtonStyle}" HorizontalAlignment="Center"/>
             </StackPanel>
         </StackPanel>
 

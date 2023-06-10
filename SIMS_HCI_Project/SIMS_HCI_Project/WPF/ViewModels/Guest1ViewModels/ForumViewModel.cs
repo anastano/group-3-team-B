@@ -16,7 +16,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
     internal class ForumViewModel : INotifyPropertyChanged
     {
         private ForumService _forumService;
-        private ForumCommentService _forumCommentService;
         private NavigationService _navigationService;
         public Guest1 Guest { get; set; }
         public Forum Forum { get; set; }
@@ -74,7 +73,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public ForumViewModel(Guest1 guest, NavigationService navigationService, Forum forum, int selectedTab)
         {
             _forumService = new ForumService();
-            _forumCommentService = new ForumCommentService();
             _navigationService = navigationService;
             SelectedTab = selectedTab;
             Guest = guest;

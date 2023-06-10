@@ -14,10 +14,12 @@ namespace SIMS_HCI_Project.Applications.Services
     public class AccommodationReservationService
     {
         private readonly IAccommodationReservationRepository _reservationRepository;
+        private readonly IAccommodationRepository _accommodationRepository;
 
         public AccommodationReservationService()
         {
             _reservationRepository = Injector.Injector.CreateInstance<IAccommodationReservationRepository>();
+            _accommodationRepository = Injector.Injector.CreateInstance<IAccommodationRepository>();
         }
 
         public AccommodationReservation GetById(int id)
@@ -46,14 +48,6 @@ namespace SIMS_HCI_Project.Applications.Services
         public List<AccommodationReservation> GetByGuestId(int id)
         {
             return _reservationRepository.GetByGuestId(id);
-        }
-        public List<AccommodationReservation> GetAllByGuestIdAndLocation(int gueestId, int locationId)
-        {
-            return _reservationRepository.GetAllByGuestIdAndLocation(gueestId, locationId);
-        }
-        public List<AccommodationReservation> GetByGuestIdAndLocationId(int guestId, int locationId)
-        {
-            return _reservationRepository.GetByGuestIdAndLocationId(guestId, locationId);
         }
         public List<AccommodationReservation> GetInProgressByOwnerId(int ownerId)
         {
@@ -102,7 +96,7 @@ namespace SIMS_HCI_Project.Applications.Services
             notificationService.Add(new Notification(Message, reservation.Accommodation.OwnerId, false));
             _reservationRepository.EditStatus(reservation.Id, AccommodationReservationStatus.CANCELLED);
         }
-        public List<AccommodationReservation> GetAvailableReservationsForAllAccommodations(AccommodationService acommodationService, Guest1 guest, DateTime? start, DateTime? end, int daysNumber, int guestsNumber)
+        public List<AccommodationReservation> GetAvailableReservationsForAllAccommodations(Guest1 guest, DateTime? start, DateTime? end, int daysNumber, int guestsNumber)
         {
             List<AccommodationReservation> availableReservations = new List<AccommodationReservation>();
             if (!(start.HasValue && end.HasValue))
@@ -111,7 +105,7 @@ namespace SIMS_HCI_Project.Applications.Services
                 end = (DateTime.Today.AddDays(daysNumber + 30));
             }
 
-            foreach(Accommodation accommodation in acommodationService.GetAll())
+            foreach(Accommodation accommodation in _accommodationRepository.GetAll())
             {
                 if (accommodation.CanReserveAccommodation(daysNumber, guestsNumber))
                 {
@@ -166,10 +160,6 @@ namespace SIMS_HCI_Project.Applications.Services
         public List<AccommodationReservation> GetSuggestedAvailableReservations(Accommodation accommodation, Guest1 guest, DateTime start, DateTime end, int daysNumber, int guestsNumber)
         {
             return GetAvailableReservations(accommodation, guest,  end, end.AddDays(30), daysNumber, guestsNumber);
-        }
-        public List<AccommodationReservation> GetReservationsWithinOneYear(int guestId)
-        {
-            return _reservationRepository.GetReservationsWithinOneYear(guestId);
         }
     }
 }

@@ -54,7 +54,7 @@ namespace SIMS_HCI_Project.Applications.Services
             }
             else if(user.Role == UserRole.GUEST2)
             {
-                return _guestTourAttendanceRepository.GetByGuestAndLocationIds(user.Id, location.Id).Count != 0;
+                return _guestTourAttendanceRepository.GetAllByGuestAndLocationIds(user.Id, location.Id).Count != 0;
             }
             return true;
 

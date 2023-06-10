@@ -16,18 +16,7 @@ namespace SIMS_HCI_Project.Domain.Models
         public Location Location { get; set; }
         public ForumStatus Status { get; set; }
         public List<ForumComment> Comments { get; set; }
-        public Forum()
-        {
-            /*
-            Location = new Location();
-            MaxGuests = 1;
-            MinimumReservationDays = 1;
-            CancellationDeadlineInDays = 1;
-            Images = new List<string>();
-            Reservations = new List<AccommodationReservation>();
-            IsRenovated = false;
-            */
-        }
+        public Forum() { }
         public Forum(User user, Location location)
         {
             UserId = user.Id;

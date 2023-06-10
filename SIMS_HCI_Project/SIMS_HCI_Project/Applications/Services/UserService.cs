@@ -1,4 +1,5 @@
 ﻿using SIMS_HCI_Project.Domain.Models;
+using SIMS_HCI_Project.Domain.RepositoryInterfaces;
 using SIMS_HCI_Project.Repositories;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,14 @@ namespace SIMS_HCI_Project.Applications.Services
     public class UserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IGuestTourAttendanceRepository _guestTourAttendanceRepository;
+        private readonly IAccommodationReservationRepository _accommodationReservationRepository;
 
         public UserService() 
         { 
             _userRepository= Injector.Injector.CreateInstance<IUserRepository>();
+            _guestTourAttendanceRepository = Injector.Injector.CreateInstance<IGuestTourAttendanceRepository>();
+            _accommodationReservationRepository = Injector.Injector.CreateInstance<IAccommodationReservationRepository>();
         }
 
         public User LogIn(string username, string password)
@@ -41,12 +46,18 @@ namespace SIMS_HCI_Project.Applications.Services
                 ratingService.FillAverageRatingAndSuperFlag(owner);
             }
         }
-        public void FillGuestReservationList(AccommodationReservationService reservationService)
+        public bool HasUserBeenOnLocation(Location location, User user)
         {
-            foreach (Guest1 guest in _userRepository.GetByUserRole(UserRole.GUEST1))
+            if(user.Role == UserRole.GUEST1)
             {
-                guest.Reservations = reservationService.GetByGuestId(guest.Id) == null ? new List<AccommodationReservation>() : reservationService.GetByGuestId(guest.Id);
+                return _accommodationReservationRepository.GetByGuestIdAndLocationId(user.Id, location.Id).Count != 0;
             }
+            else if(user.Role == UserRole.GUEST2)
+            {
+                return _guestTourAttendanceRepository.GetAllByGuestAndLocationIds(user.Id, location.Id).Count != 0;
+            }
+            return true;
+
         }
     }
 }

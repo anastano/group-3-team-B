@@ -18,7 +18,7 @@ namespace SIMS_HCI_Project.WPF.Converters
         {
             List<ForumComment> comments = (List<ForumComment>)value;
             bool ownerCommentsFlag = comments.FindAll(c => c.IsUseful == true && c.User.Role == UserRole.OWNER).Count >= 10;
-            bool guestCommentsFlag = comments.FindAll(c => c.IsUseful == true && c.User.Role == UserRole.GUEST1).Count >= 20;
+            bool guestCommentsFlag = comments.FindAll(c => c.IsUseful == true && (c.User.Role == UserRole.GUEST1 || c.User.Role == UserRole.GUEST2)).Count >= 20;
             return (ownerCommentsFlag && guestCommentsFlag);
         }
 

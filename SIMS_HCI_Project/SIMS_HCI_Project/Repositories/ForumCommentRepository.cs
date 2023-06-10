@@ -50,8 +50,10 @@ namespace SIMS_HCI_Project.Repositories
         }
         public void Add(ForumComment comment)
         {
+            
             comment.Id = GenerateId();
             _comments.Add(comment);
+            comment.Forum.Comments.Add(comment);
             Save();
         }
 

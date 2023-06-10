@@ -16,7 +16,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
     internal class ForumViewModel : INotifyPropertyChanged
     {
         private ForumService _forumService;
-        private ForumCommentService _forumCommentService;
         private NavigationService _navigationService;
         public Guest1 Guest { get; set; }
         public Forum Forum { get; set; }
@@ -52,6 +51,20 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
                 }
             }
         }
+        private bool _canGuestLeaveComment;
+        public bool CanGuestLeaveComment
+        {
+            get => _canGuestLeaveComment;
+            set
+            {
+                if (value != _canGuestLeaveComment)
+                {
+
+                    _canGuestLeaveComment = value;
+                    OnPropertyChanged(nameof(CanGuestLeaveComment));
+                }
+            }
+        }
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -60,13 +73,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         public ForumViewModel(Guest1 guest, NavigationService navigationService, Forum forum, int selectedTab)
         {
             _forumService = new ForumService();
-            _forumCommentService = new ForumCommentService();
             _navigationService = navigationService;
             SelectedTab = selectedTab;
             Guest = guest;
             Forum = forum;
             UsefulMessage = "Very Useful";
             IsForumUseful = _forumService.IsUSeful(Forum);
+            CanGuestLeaveComment = (Forum.Status == ForumStatus.ACTIVE);
             Forum = _forumService.GetById(forum.Id);
             BackCommand = new RelayCommand(ExecutedBackCommand, CanExecute);
             AddCommentCommand = new RelayCommand(ExecutedAddCommentCommand, CanExecute);
@@ -77,7 +90,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
         }
         public void ExecutedAddCommentCommand(object obj)
         {
-            //_navigationService.NavigateBack();
+            _navigationService.Navigate(new AddForumCommentViewModel(Guest, Forum, _navigationService), "Add comment on forum");
         }
         public bool CanExecute(object obj)
         {

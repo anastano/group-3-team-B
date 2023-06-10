@@ -6,7 +6,13 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         mc:Ignorable="d"
         Title="SelectedForumView" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
-    <Grid Background="{StaticResource OwnerNeutralColor}">
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding LeaveCommentCommand}"/>
+        <KeyBinding Gesture="Ctrl+R" Command="{Binding ReportCommentCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseSelectedForumViewCommand}"/>
+    </Window.InputBindings>
+
+    <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=dgComments}">
         <!-- MAIN STACK PANEL-->
         <StackPanel Orientation="Vertical" Margin="10 5 10 5">
             <!-- TOP STACK PANEL - Options-->
@@ -17,7 +23,7 @@
                 <Border Style="{StaticResource OwnerBorderStyle}">
                     <!-- Buttons STACK PANEL-->
                     <StackPanel  Margin="5 0 5 5" Orientation="Horizontal">
-                        <Button x:Name="btnLeaveComment"  Content="Leave Your Comment (Ctrl+C)" Command="{Binding LeaveCommentCommand}"
+                        <Button x:Name="btnLeaveComment"  Content="Leave Your Comment (Ctrl+S)" Command="{Binding LeaveCommentCommand}"
                             Style="{StaticResource OwnerButtonStyle}" Width="280">
                         </Button>
 
@@ -58,10 +64,18 @@
                             </DataGrid.CellStyle>
                             <DataGrid.Columns>
 
-                                <DataGridTemplateColumn Width="*" Header="User">
+                                <DataGridTemplateColumn Width="0.6*" Header="Name">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding User.Name}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                
+                                <DataGridTemplateColumn Width="0.6*" Header="Surname">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding User.Surname}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -77,7 +91,18 @@
                                 <DataGridTemplateColumn Width="0.5*" Header="Useful">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding IsUseful}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                                            <Image Source="../../../Resources/Images/checked.png" Width="40" Height="40" HorizontalAlignment="Center">
+                                                <Image.Style>
+                                                    <Style TargetType="{x:Type Image}">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Path=IsUseful}" Value="True">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>
@@ -93,7 +118,10 @@
                                 <DataGridTemplateColumn Width="0.5*" Header="Reports">
                                     <DataGridTemplateColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding ReportCounter}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                                            <StackPanel>
+                                                <Image Source="../../../Resources/Images/thumbs_down.png" Width="40" Height="40" HorizontalAlignment="Center"/>
+                                                <TextBlock Text="{Binding ReportCounter}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                                            </StackPanel>
                                         </DataTemplate>
                                     </DataGridTemplateColumn.CellTemplate>
                                 </DataGridTemplateColumn>

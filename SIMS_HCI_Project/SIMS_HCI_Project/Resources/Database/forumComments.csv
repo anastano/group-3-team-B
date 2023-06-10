@@ -2,17 +2,17 @@
 2|2|3|Guests from Croatia are awful|0|True
 3|3|1|Very bad location for vacation|0|True
 4|2|3|Super|0|True
-5|18|2|I have never been here.|2|False
+5|18|2|I have never been here.|1|False
 6|1|2|Worse|0|True
-7|18|3|This forum is amazing|1|False
+7|18|3|This forum is amazing|0|False
 8|1|1|Highly recommend this place|0|True
 9|3|2|Average experience, nothing special|0|True
-10|18|1|Impressive service|0|False
+10|18|1|Impressive service|1|False
 11|1|2|Terrible customer support|0|True
 12|3|3|Great deals available here|0|True
 13|2|3|Disappointed with the facilities|0|True
-14|18|2|Enjoyed my stay here|1|False
-15|3|1|Poorly maintained rooms|1|True
+14|18|2|Enjoyed my stay here|0|False
+15|3|1|Poorly maintained rooms|0|True
 16|2|3|Excellent staff members|0|True
 17|1|2|Could be better|0|True
 18|18|3|Loved the food at the restaurant|0|False
@@ -24,7 +24,7 @@
 24|1|1|Poor Wi-Fi connectivity|0|True
 25|2|3|Clean and tidy rooms|0|True
 26|3|2|Noisy environment|0|True
-27|18|3|Friendly and helpful staff|3|False
+27|18|3|Friendly and helpful staff|0|False
 28|2|3|Lack of parking space|0|True
 29|1|2|Great value for money|0|True
 30|3|1|Not suitable for families|0|True
@@ -32,10 +32,10 @@
 32|1|1|Slow room service|0|True
 33|3|3|Beautiful location near the beach|0|True
 34|2|3|Limited breakfast options|0|True
-35|4|1|Fantastic amenities|0|False
+35|4|1|Fantastic amenities|1|False
 36|2|3|No complaints at all|0|True
 37|1|2|Unpleasant odor in the rooms|0|True
-38|4|3|Enjoyed the pool facilities|2|False
+38|4|3|Enjoyed the pool facilities|0|False
 39|3|1|Inefficient air conditioning|0|True
 40|2|3|Quick check-in process|0|True
 41|1|2|Unresponsive management|0|True

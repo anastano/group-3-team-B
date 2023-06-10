@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
-        Title="AccommodationSuggestionsView" Height="670" Width="620" WindowStartupLocation="CenterScreen">
+        Title="AccommodationSuggestionsView" Height="690" Width="620" WindowStartupLocation="CenterScreen">
     <Window.InputBindings>
         <KeyBinding Key="Esc"  Command="{Binding CloseAccommodationSuggestionsViewCommand}"/>
         <KeyBinding Gesture="Ctrl+Z"  Command="{Binding HomeAccommodationSuggestionsViewCommand}"/>
@@ -66,8 +66,8 @@
                             <StackPanel Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 30 0">
                                 <lvc:PieChart Width="150" Height="150" Hoverable="True" InnerRadius="0">
                                     <lvc:PieChart.Series>
-                                        <lvc:PieSeries FontSize="18" Foreground="black"  DataLabels="True" Values="{Binding OccupancyPercentageForLocation}" Fill="#008080" ></lvc:PieSeries>
-                                        <lvc:PieSeries FontSize="18" Foreground="black"  DataLabels="True" Values="{Binding NonOccupancyPercentageForLocation}" Fill="#968E85"></lvc:PieSeries>
+                                        <lvc:PieSeries FontSize="18" Foreground="black"  DataLabels="True" Values="{Binding OccupancyPercentageForBestLocation}" Fill="#008080" ></lvc:PieSeries>
+                                        <lvc:PieSeries FontSize="18" Foreground="black"  DataLabels="True" Values="{Binding NonOccupancyPercentageForBestLocation}" Fill="#968E85"></lvc:PieSeries>
                                     </lvc:PieChart.Series>
                                     <lvc:PieChart.DataTooltip>
                                         <lvc:DefaultTooltip BulletSize="30"/>
@@ -83,9 +83,9 @@
 
                 <Border Style="{StaticResource OwnerBorderStyle}" Margin="10">
        
-                    <StackPanel Margin="5" Height="240" Width="550" >
-                        <TextBlock Text="This accommodation has been underperforming lately. Perhaps you should consider closing it down." 
-                                   Style="{StaticResource OwnerTitleStyle}" FontSize="20" TextWrapping="Wrap" Height="60"></TextBlock>
+                    <StackPanel Margin="5" Height="260" Width="550" >
+                        <TextBlock Text="The accommodations in this location have been underperforming recently. It might be worth considering closing them down." 
+                                   Style="{StaticResource OwnerTitleStyle}" FontSize="20" TextWrapping="Wrap" Height="80"></TextBlock>
 
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -94,20 +94,14 @@
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Column="0" HorizontalAlignment="Right" Margin="0 0 50 0">
-                                                               
+
                                 <StackPanel Orientation="Vertical" Width="300" Margin="20 20 0 0">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding WorstAccommodation.Name}"
+                                        <TextBlock Text="{Binding WorstLocation.Location.City}" 
                                    Style="{StaticResource OwnerTitleStyle}" FontSize="20" TextWrapping="Wrap" Height="40" FontWeight="SemiBold"></TextBlock>
                                         <TextBlock Text=", " 
                                    Style="{StaticResource OwnerTitleStyle}" FontSize="20" TextWrapping="Wrap" Height="40" FontWeight="SemiBold"></TextBlock>
-                                    </StackPanel>
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="{Binding WorstAccommodation.Location.City}" 
-                                   Style="{StaticResource OwnerTitleStyle}" FontSize="20" TextWrapping="Wrap" Height="40" FontWeight="SemiBold"></TextBlock>
-                                        <TextBlock Text=", " 
-                                   Style="{StaticResource OwnerTitleStyle}" FontSize="20" TextWrapping="Wrap" Height="40" FontWeight="SemiBold"></TextBlock>
-                                        <TextBlock Text="{Binding WorstAccommodation.Location.Country}" 
+                                        <TextBlock Text="{Binding WorstLocation.Location.Country}" 
                                    Style="{StaticResource OwnerTitleStyle}" FontSize="20" TextWrapping="Wrap" Height="40" FontWeight="SemiBold"></TextBlock>
                                     </StackPanel>
                                 </StackPanel>
@@ -115,7 +109,7 @@
                                 <StackPanel Orientation="Horizontal" Margin="20 20 0 0">
                                     <TextBlock Text="reservation count last year: " 
                                    Style="{StaticResource OwnerTitleStyle}" FontSize="20" TextWrapping="Wrap" Height="30" ></TextBlock>
-                                    <TextBlock Text="{Binding ReservationCountForAccommodation}" 
+                                    <TextBlock Text="{Binding WorstLocation.ReservationCountInLastYear}" 
                                    Style="{StaticResource OwnerTitleStyle}" FontSize="20" TextWrapping="Wrap" Height="30" ></TextBlock>
                                 </StackPanel>
 
@@ -124,8 +118,8 @@
                             <StackPanel Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 30 0">
                                 <lvc:PieChart Width="150" Height="150" Hoverable="True" InnerRadius="0">
                                     <lvc:PieChart.Series>
-                                        <lvc:PieSeries FontSize="18" Foreground="black"  DataLabels="True" Values="{Binding OccupancyPercentageForAccommodation}" Fill="#008080" ></lvc:PieSeries>
-                                        <lvc:PieSeries FontSize="18" Foreground="black"  DataLabels="True" Values="{Binding NonOccupancyPercentageForAccommodation}" Fill="#968E85"></lvc:PieSeries>
+                                        <lvc:PieSeries FontSize="18" Foreground="black"  DataLabels="True" Values="{Binding OccupancyPercentageForWorstLocation}" Fill="#008080" ></lvc:PieSeries>
+                                        <lvc:PieSeries FontSize="18" Foreground="black"  DataLabels="True" Values="{Binding NonOccupancyPercentageForWorstLocation}" Fill="#968E85"></lvc:PieSeries>
                                     </lvc:PieChart.Series>
                                     <lvc:PieChart.DataTooltip>
                                         <lvc:DefaultTooltip BulletSize="30"/>

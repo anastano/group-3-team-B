@@ -32,6 +32,7 @@ namespace SIMS_HCI_Project.Applications.Services
         private readonly IRenovationRecommendationRepository _renovationRecommendationRepository;
         private readonly IForumRepository _forumRepository;
         private readonly IForumCommentRepository _forumCommentRepository;
+        private readonly ISuperGuideFlagRepository _superGuideFlagRepository;
 
         private static bool _connectionsLoaded = false;
 
@@ -57,6 +58,7 @@ namespace SIMS_HCI_Project.Applications.Services
             _renovationRecommendationRepository = Injector.Injector.CreateInstance<IRenovationRecommendationRepository>();
             _forumRepository = Injector.Injector.CreateInstance<IForumRepository>();
             _forumCommentRepository = Injector.Injector.CreateInstance<IForumCommentRepository>();
+            _superGuideFlagRepository = Injector.Injector.CreateInstance<ISuperGuideFlagRepository>();
         }
 
         public void LoadConnections()
@@ -90,6 +92,7 @@ namespace SIMS_HCI_Project.Applications.Services
             {
                 guide.AllTours = _tourRepository.GetAllByGuide(guide.Id);
                 guide.TodaysTours = _tourTimeRepository.GetAllByGuideId(guide.Id).Where(t => t.DepartureTime.Date == DateTime.Today).ToList();
+                guide.SuperFlags = _superGuideFlagRepository.GetValidByGuide(guide.Id);
             }
         }
 

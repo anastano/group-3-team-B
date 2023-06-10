@@ -37,8 +37,15 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         #region Commands
         public void Executed_ShowSelectedForumCommand(object obj)
         {
-            Window selectForumView = new SelectedForumView(Owner, SelectedForum);
-            selectForumView.ShowDialog();
+            if (SelectedForum != null)
+            {
+                Window selectForumView = new SelectedForumView(Owner, SelectedForum);
+                selectForumView.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("No forum has been selected");
+            }
         }
 
         public bool CanExecute_ShowSelectedForumCommand(object obj)

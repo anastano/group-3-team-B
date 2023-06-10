@@ -75,7 +75,5 @@ namespace SIMS_HCI_Project.Repositories
             }
             Save();
         }
-
-
     }
 }

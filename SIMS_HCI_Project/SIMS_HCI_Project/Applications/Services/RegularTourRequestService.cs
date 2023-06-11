@@ -62,6 +62,11 @@ namespace SIMS_HCI_Project.Applications.Services
             _regularTourRequestRepository.Add(request);
         }
 
+        public void Update(RegularTourRequest request)
+        {
+            _regularTourRequestRepository.Update(request);
+        }
+
         public void EditStatus(RegularTourRequest request, TourRequestStatus status)
         {
             request.Status = status;

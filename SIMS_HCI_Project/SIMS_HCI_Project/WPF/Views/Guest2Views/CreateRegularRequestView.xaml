@@ -109,6 +109,17 @@
         <Button Content="QUIT" Command="{Binding QuitRequest}" HorizontalAlignment="Left" Margin="749,184,0,0" VerticalAlignment="Top" Height="32" Width="158" Style="{StaticResource HoverButtonStyle}" ToolTip="Quit request"/>
 
 
+        <ListView Margin="828,34,10,144"
+              ItemsSource="{Binding Path=UserRequests, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Serial Number: " />
+                        <TextBlock Text="{Binding SerialNumber}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 
     </Grid>
 </Page>

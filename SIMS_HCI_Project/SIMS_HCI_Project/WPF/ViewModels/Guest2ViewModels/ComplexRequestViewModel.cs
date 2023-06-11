@@ -28,16 +28,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public RelayCommand CreateRequest { get; set; }
         public NavigationService NavigationService { get; set; }
         private RegularTourRequestService _regularTourRequestService { get; set; }
+        private ComplexTourRequestsService _complexTourRequestsService { get; set; }
         public ComplexRequestsView ComplexRequestsView { get; set; }
         public Guest2 Guest { get; set; }
 
-        private ObservableCollection<RegularTourRequest> _myRequests;
-        public ObservableCollection<RegularTourRequest> MyRequests //nece biti lista RegularTourRequest, vec ComplexTourRequest, koji ce sadrzati List<int> RegularTourRequestsIdsWhichArePArtOfComplex, Id gosta, Submissiom date, i id complexRequest-a, mozda moze da sadrzi i listu citavih objekata RegularTourRequest koji su njegovi delovi, radi lakseg bindovanja
+        private ObservableCollection<ComplexTourRequest> _complexTourRequests;
+        public ObservableCollection<ComplexTourRequest> ComplexTourRequests
         {
-            get { return _myRequests; }
+            get { return _complexTourRequests; }
             set
             {
-                _myRequests = value;
+                _complexTourRequests = value;
                 OnPropertyChanged();
             }
         }
@@ -64,7 +65,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             LoadFromFiles();
             InitCommands();
 
-            MyRequests = new ObservableCollection<RegularTourRequest>(_regularTourRequestService.GetAllByGuestId(Guest.Id, false));
+            ComplexTourRequests = new ObservableCollection<ComplexTourRequest>(_complexTourRequestsService.GetAllByGuestId(Guest.Id));
         }
 
         private void InitCommands()
@@ -74,7 +75,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
         private void ExecuteCreateRequest(object obj)
         {
-            CreateRequestFrame.NavigationService.Navigate(new CreateRegularRequestView(Guest, NavigationService)); //ovo neka ostane, posto je forma ista kao za regularan zahtev, samo sto se prosledjuje flag IsPartOfComplex=true, malo mozda izmeniti kao da pise koliko delova je dodao i koji je ovo po redu
+            CreateRequestFrame.NavigationService.Navigate(new CreateComplexRequestView(Guest, NavigationService));
         }
 
         private bool CanExecute(object obj)
@@ -85,6 +86,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         private void LoadFromFiles()
         {
             _regularTourRequestService = new RegularTourRequestService();
+            _complexTourRequestsService = new ComplexTourRequestsService();
         }
     }
 }

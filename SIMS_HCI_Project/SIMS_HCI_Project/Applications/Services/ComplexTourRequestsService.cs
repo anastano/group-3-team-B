@@ -21,9 +21,29 @@ namespace SIMS_HCI_Project.Applications.Services
             _complexTourRequestRepository = Injector.Injector.CreateInstance<IComplexTourRequestRepository>();
         }
 
+        public ComplexTourRequest GetById(int id)
+        {
+            return _complexTourRequestRepository.GetById(id);
+        }
+
         public List<ComplexTourRequest> GetAll()
         {
             return _complexTourRequestRepository.GetAll();
+        }
+
+        public List<ComplexTourRequest> GetAllByGuestId(int guestId)
+        {
+            return _complexTourRequestRepository.GetAllByGuestId(guestId);
+        }
+
+        public void Add(ComplexTourRequest request)
+        {
+            _complexTourRequestRepository.Add(request);
+        }
+
+        public void Update(ComplexTourRequest request)
+        {
+            _complexTourRequestRepository.Update(request);
         }
 
         public Tour AcceptRequest(RegularTourRequest request, int guideId, DateTime departureTime)

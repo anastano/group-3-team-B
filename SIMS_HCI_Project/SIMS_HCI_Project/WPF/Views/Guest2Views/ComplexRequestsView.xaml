@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest2Views"
+
       mc:Ignorable="d" 
       d:DesignHeight="490" d:DesignWidth="1080"
       Title="ComplexRequestsView">
@@ -15,12 +16,84 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
-    
-    <Grid Background="#FF686890">
+
+    <Grid Background="#FF312F42">
         <Label Content="My complex requests:" FontSize="15" Foreground="Beige" HorizontalAlignment="Center" Margin="0,1,0,0" VerticalAlignment="Top"/>
 
-        <Frame x:Name="CreateRequestFrame" NavigationUIVisibility="Hidden" Margin="0,195,0,0"/>
-        <Button x:Name="createNewRequest" Style="{StaticResource Guest2BtnGradientOrange}" Content="CREATE NEW COMPLEX REQUEST" Command="{Binding DataContext.CreateRequest, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" 
-            HorizontalAlignment="Center" Margin="10,170,0,0" VerticalAlignment="Top" Height="25"/>
+        <Grid Background="#FF312F42" Height="490" VerticalAlignment="Bottom">
+            <!--<DataGrid Margin="10,25,10,345" 
+               ItemsSource="{Binding Path=MyRequests, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+               IsReadOnly="True" AutoGenerateColumns="False" Style="{StaticResource Guest2DatagridStyle}" CellStyle="{StaticResource Guest2DatagridCellStyle}">
+                <DataGrid.Columns>
+
+                    <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="25"/>
+                    <DataGridTextColumn Header="City" Binding="{Binding Location.City}" Width="120"/>
+                    <DataGridTextColumn Header="Country" Binding="{Binding Location.Country}" Width="120"/>
+                    <DataGridTextColumn Header="Language" Binding="{Binding Language}" Width="100"/>
+                    <DataGridTextColumn Header="Guest number" Binding="{Binding GuestNumber}" Width="100"/>
+                    <DataGridTextColumn Header="Submission date" Binding="{Binding SubmittingDate}" Width="170"/>
+                    <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="140"/>
+                    <DataGridTextColumn Header="Start range" Binding="{Binding DateRange.Start, StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"/>
+                    <DataGridTextColumn Header="End range" Binding="{Binding DateRange.End, StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"/>
+
+
+                    <DataGridTemplateColumn Header="Complex Tour Requests">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <DataGrid ItemsSource="{Binding TourRequests}" AutoGenerateColumns="False" IsReadOnly="True">
+                                    <DataGrid.Columns>
+
+                                        <DataGridTextColumn Header="Id" Binding="{Binding Id}" Width="25"/>
+                                        <DataGridTextColumn Header="City" Binding="{Binding Location.City}" Width="120"/>
+                                        <DataGridTextColumn Header="Country" Binding="{Binding Location.Country}" Width="120"/>
+                                        <DataGridTextColumn Header="Language" Binding="{Binding Language}" Width="100"/>
+                                        <DataGridTextColumn Header="Guest number" Binding="{Binding GuestNumber}" Width="100"/>
+                                        <DataGridTextColumn Header="Submission date" Binding="{Binding SubmittingDate}" Width="170"/>
+                                        <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="140"/>
+                                        <DataGridTextColumn Header="Start range" Binding="{Binding DateRange.Start, StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"/>
+                                        <DataGridTextColumn Header="End range" Binding="{Binding DateRange.End, StringFormat='{}{0:MM/dd/yyyy}'}" Width="*"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>-->
+            <DataGrid ItemsSource="{Binding ComplexTourRequests}" AutoGenerateColumns="False" Margin="10,10,10,346">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Complex ID" Binding="{Binding Id}" Width="50" />
+                    <!--DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="40" /-->
+                    <DataGridTemplateColumn Header="Regular Tour Requests" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <DataGrid ItemsSource="{Binding TourRequests}" AutoGenerateColumns="False" HeadersVisibility="None" CanUserSortColumns="False">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="id" Binding="{Binding Id}" Width="20" />
+                                        <DataGridTextColumn Binding="{Binding GuestId}" Width="20" />
+                                        <DataGridTextColumn Binding="{Binding Guest.Name}" Width="90" />
+                                        <DataGridTextColumn Header="country" Binding="{Binding Location.Country}" Width="70" />
+                                        <DataGridTextColumn Header="city" Binding="{Binding Location.City}" Width="70" />
+                                        <DataGridTextColumn Header="language" Binding="{Binding Language}" Width="70" />
+                                        <DataGridTextColumn Header="guests" Binding="{Binding GuestNumber}" Width="33" />
+                                        <DataGridTextColumn Header="status" Binding="{Binding Status}" Width="70" />
+                                       
+                                        <DataGridTextColumn Header="start range" Binding="{Binding DateRange.Start}" Width="*" />
+                                        <DataGridTextColumn Header="end range" Binding="{Binding DateRange.End}" Width="*" />
+                                        <DataGridTextColumn Header="submission date" Binding="{Binding SubmittingDate}" Width="*" />
+                                        <DataGridTextColumn Header="departure time" Binding="{Binding Tour.DepartureTimes[0].DepartureTime}" Width="*"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+
+        </Grid>
+
+
+        <Frame x:Name="CreateRequestFrame" NavigationUIVisibility="Hidden" Margin="0,182,0,0"/>
+        <Button x:Name="createNewRequest" Style="{StaticResource HoverButtonStyle}" Content="CREATE NEW COMPLEX REQUEST" Command="{Binding DataContext.CreateRequest, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"
+            HorizontalAlignment="Center" Margin="0,144,0,0" VerticalAlignment="Top" Height="33" Width="194"/>
     </Grid>
 </Page>

@@ -49,6 +49,36 @@ namespace SIMS_HCI_Project.Repositories
             return _tours;
         }
 
+        public List<Tour> GetAllSortedBySuperGuide()
+        {
+            var superFlagTours = new List<Tour>();
+            var regularTours = new List<Tour>();
+
+            foreach (var tour in _tours)
+            {
+                if (tour.Guide.HasSuperFlag)
+                    superFlagTours.Add(tour);
+                else
+                    regularTours.Add(tour);
+            }
+
+            superFlagTours.Sort(CompareByGuideSuperFlag);
+            regularTours.Sort(CompareByGuideSuperFlag);
+
+            superFlagTours.AddRange(regularTours);
+
+            return superFlagTours;
+        }
+
+        private int CompareByGuideSuperFlag(Tour tour1, Tour tour2)
+        {
+            if (tour1.Guide.HasSuperFlag && !tour2.Guide.HasSuperFlag)
+                return -1;
+            if (!tour1.Guide.HasSuperFlag && tour2.Guide.HasSuperFlag)
+                return 1;
+            return 0;
+        }
+
         public List<Tour> GetAllByGuide(int guideId)
         {
             return _tours.FindAll(t => t.GuideId == guideId);

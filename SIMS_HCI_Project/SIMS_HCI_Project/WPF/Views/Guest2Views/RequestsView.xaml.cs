@@ -24,12 +24,12 @@ namespace SIMS_HCI_Project.WPF.Views.Guest2Views
     /// </summary>
     public partial class RequestsView : Page
     {
-        public RequestsView(Guest2 guest2, NavigationService navigationService)
+        public RequestsView(Guest2 guest2, NavigationService navigationService, int selectedTabIndex)
         {
             InitializeComponent();
             this.RegularRequests.Content = new RegularRequestsView(guest2, navigationService);
-            this.ComplexRequests.Content = new RegularRequestsView(guest2, navigationService);
-            this.DataContext = new RequestsViewModel(guest2, navigationService, this);
+            this.ComplexRequests.Content = new ComplexRequestsView(guest2, navigationService);
+            this.DataContext = new RequestsViewModel(guest2, navigationService, this, selectedTabIndex);
         }
     }
 

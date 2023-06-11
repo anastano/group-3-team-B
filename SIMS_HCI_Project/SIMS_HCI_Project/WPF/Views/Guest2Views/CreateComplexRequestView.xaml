@@ -4,11 +4,152 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest2Views"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="CreateComplexRequestView">
+      xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
 
+      mc:Ignorable="d" 
+d:DesignHeight="295" d:DesignWidth="1080"      Title="CreateComplexRequestView">
+
+    <Page.Resources>
+
+        <ControlTemplate x:Key="ValidationTemplate">
+            <StackPanel>
+                <!-- Placeholder for the TextBox itself -->
+                <AdornedElementPlaceholder x:Name="textBox" />
+                <TextBlock Text="{Binding [0].ErrorContent}" Foreground="Red" HorizontalAlignment="Center" />
+            </StackPanel>
+        </ControlTemplate>
+
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Margin" Value="0 0 0 0"/>
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="150"/>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Margin" Value="0 0 0 0"/>
+            <Setter Property="Width" Value="140" />
+        </Style>
+        <Style x:Key="HoverButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#501f3a"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Background" Value="#cb2d6f"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
     <Grid>
-        
+        <Border BorderBrush="#FF22B5B2" BorderThickness="2"  CornerRadius="15" >
+        </Border>
+        <Label Content="{Binding UserRequests.Count}" Foreground="Red" FontWeight="Heavy" FontSize="20" Height="30" Margin="791,233,139,18" >
+            </Label>
+        <Label Content="* City:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="28" Width="128"/>
+        <Label Content="* Country:" HorizontalAlignment="Left" Margin="10,47,0,0" VerticalAlignment="Top" Height="28" Width="128"/>
+        <Label Content="* Language:" HorizontalAlignment="Left" Margin="10,93,0,0" VerticalAlignment="Top" Height="28" Width="128"/>
+        <Label Content="* Guest number:" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Height="30" Width="128"/>
+        <Label Content="* Description:" HorizontalAlignment="Left" Margin="10,184,0,0" VerticalAlignment="Top" Height="38" Width="128"/>
+        <TextBox HorizontalAlignment="Left"  
+                 Text="{Binding RegularTourRequestValidation.City, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Validation.ErrorTemplate="{StaticResource ValidationTemplate}"
+                 Margin="138,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="238" />
+        <TextBlock Text="{Binding RegularTourRequestValidation.ValidationErrors[City]}"
+                               Foreground="Tomato" FontSize="12" HorizontalAlignment="Left" Margin="138,28,0,253" Width="238" Height="Auto"/>
+        <TextBox HorizontalAlignment="Left" Text="{Binding RegularTourRequestValidation.Country, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Margin="138,52,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="238" />
+        <TextBlock Text="{Binding RegularTourRequestValidation.ValidationErrors[Country]}"
+                               Foreground="Tomato" FontSize="12" HorizontalAlignment="Left" Margin="138,70,0,211" Width="238" Height="Auto"/>
+        <TextBox HorizontalAlignment="Left" Text="{Binding RegularTourRequestValidation.Language, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Margin="138,98,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="238" />
+        <TextBlock Text="{Binding RegularTourRequestValidation.ValidationErrors[Language]}"
+                               Foreground="Tomato" FontSize="12" HorizontalAlignment="Left" Margin="138,117,0,164" Width="238" Height="Auto"/>
+        <TextBox HorizontalAlignment="Left" Text="{Binding RegularTourRequestValidation.GuestNumber, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Margin="138,0,0,0" TextWrapping="Wrap"  VerticalAlignment="Center" Width="238" />
+        <TextBlock Text="{Binding RegularTourRequestValidation.ValidationErrors[GuestNumber]}"
+                               Foreground="Tomato" FontSize="12" HorizontalAlignment="Left" Margin="138,161,0,120" Width="238" Height="Auto"/>
+        <TextBox HorizontalAlignment="Left" Text="{Binding RegularTourRequestValidation.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                             Validation.ErrorTemplate="{StaticResource ValidationTemplate}" Margin="138,184,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="238" Height="82" />
+        <TextBlock Text="{Binding RegularTourRequestValidation.ValidationErrors[Description]}"
+                               Foreground="Tomato" FontSize="12" HorizontalAlignment="Left" Margin="138,269,0,12" Width="238" Height="Auto"/>
+
+        <Label Content="Enter date range:" HorizontalAlignment="Left" Margin="657,34,0,0" VerticalAlignment="Top"/>
+        <Label Content="Start:" HorizontalAlignment="Left" Margin="582,68,0,0" VerticalAlignment="Top"/>
+        <Label Content="Finish:" HorizontalAlignment="Left" Margin="582,98,0,0" VerticalAlignment="Top"/>
+        <DatePicker x:Name="StartRange" IsEnabled="True" SelectedDate="{Binding RegularTourRequestValidation.EnteredStart, Mode=TwoWay, StringFormat=\{0:MM/dd/yyyy\}}" SelectedDateFormat="Short" HorizontalAlignment="Left" Margin="658,70,0,0" VerticalAlignment="Top" Height="37" Width="149"/>
+        <TextBlock Text="{Binding RegularTourRequestValidation.ValidationErrors[EnteredStart]}"
+                               Foreground="Tomato" FontSize="12" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="812,70,0,190" Width="258" Height="Auto"/>
+        <DatePicker x:Name="EndRange" IsEnabled="True" SelectedDate="{Binding RegularTourRequestValidation.EnteredEnd, Mode=TwoWay, StringFormat=\{0:MM/dd/yyyy\}}" SelectedDateFormat="Short" HorizontalAlignment="Left" Margin="658,106,0,0" VerticalAlignment="Top" Height="37" Width="149"/>
+        <TextBlock Text="{Binding RegularTourRequestValidation.ValidationErrors[EnteredEnd]}"
+                               Foreground="Tomato" FontSize="12" TextWrapping="Wrap" HorizontalAlignment="Left" Margin="812,103,0,157" Width="258" Height="Auto"/>
+
+        <Button Content="SUBMIT" Command="{Binding CompleteRequest}" HorizontalAlignment="Left" Margin="500,253,0,0" VerticalAlignment="Top" Height="32" Width="157" ToolTip="Complex tour must contain minimum two regular tour requests.">
+            <Button.Style>
+                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource HoverButtonStyle}">
+                    <Setter Property="IsEnabled" Value="False" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding UserRequests.Count}" Value="1">
+                            <Setter Property="IsEnabled" Value="False" />
+                            <Setter Property="Background" Value="#501f3a"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding UserRequests.Count}" Value="2">
+                            <Setter Property="IsEnabled" Value="True" />
+                                    <Setter Property="Background" Value="#cb2d6f"/>
+                                </DataTrigger>
+                        <DataTrigger Binding="{Binding UserRequests.Count}" Value="3">
+                            <Setter Property="IsEnabled" Value="True" />
+                                            <Setter Property="Background" Value="#cb2d6f"/>
+                                        </DataTrigger>
+                        <DataTrigger Binding="{Binding UserRequests.Count}" Value="4">
+                              <Setter Property="IsEnabled" Value="True" />
+                                                    <Setter Property="Background" Value="#cb2d6f"/>
+
+                                                </DataTrigger>
+                        <DataTrigger Binding="{Binding UserRequests.Count}" Value="5">
+                            <Setter Property="IsEnabled" Value="True" />
+                            <Setter Property="Background" Value="#cb2d6f" />
+
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding UserRequests.Count}" Value="6">
+                            <Setter Property="IsEnabled" Value="True" />
+                            <Setter Property="Background" Value="#cb2d6f" />
+                         </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+
+
+        <Button Content="QUIT" Command="{Binding QuitRequest}" HorizontalAlignment="Left" Margin="749,184,0,0" VerticalAlignment="Top" Height="32" Width="158" Style="{StaticResource HoverButtonStyle}" ToolTip="Quit request"/>
+        <Button Content="Add Regular Tour Request" Command="{Binding AddRegularTourRequest}"  Margin="532,184,348,79"  Height="32" Width="200" Style="{StaticResource HoverButtonStyle}" ToolTip="Add another regular tour request" />
+        <DataGrid 
+            ItemsSource="{Binding UserRequests, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            SelectedItem="{Binding SelectedPart}" SelectionMode="Single" IsReadOnly="True" AutoGenerateColumns="False"
+            Margin="836,23,34,125">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="City" Binding="{Binding Location.City}" Width="*"/>
+                <DataGridTextColumn Header="Country" Binding="{Binding Location.Country}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+
+
+
     </Grid>
 </Page>

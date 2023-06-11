@@ -132,7 +132,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
             InitCommands();
             LoadFromFiles();
 
-            Tours = new List<Tour>(_tourService.GetAllTourInformation());
+            //Tours = new List<Tour>(_tourService.GetAllTourInformation());
+            Tours = new List<Tour>(_tourService.GetAllTourInformationSortedBySuperGuide());
+
         }
         public void LoadFromFiles()
         {

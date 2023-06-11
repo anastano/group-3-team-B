@@ -30,6 +30,11 @@ namespace SIMS_HCI_Project.Applications.Services
             return _tourRepository.GetAll();
         }
 
+        public List<Tour> GetAllTourInformationSortedBySuperGuide()
+        {
+            return _tourRepository.GetAllSortedBySuperGuide();
+        }
+
         public List<Tour> GetAllTourInformationByGuide(int guideId)
         {
             return _tourRepository.GetAllByGuide(guideId);

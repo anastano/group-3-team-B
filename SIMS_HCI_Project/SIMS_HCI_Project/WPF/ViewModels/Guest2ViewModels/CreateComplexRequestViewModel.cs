@@ -284,8 +284,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         {
             if (ConfirmRequestQuit() == MessageBoxResult.Yes)
             {
-                //NavigationService.Navigate(new RequestsView(Guest, NavigationService));
-                ComplexRequests.Content = new RequestsView(Guest, ComplexRequests.NavigationService);
+                NavigationService.Navigate(new RequestsView(Guest, NavigationService, 1));
 
             }
         }
@@ -303,7 +302,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                 _complexTourRequestsService.Update(ComplexTourRequest);
                 SetComplexTourIdForRegular();
                 MessageBox.Show("Complex tour request is submited. You can see it in the list of your complex tour requests list.");
-                NavigationService.Navigate(new RequestsView(Guest, NavigationService)); //postavi da ide na odgovarajuci tab
+                NavigationService.Navigate(new RequestsView(Guest, NavigationService, 1)); //postavi da ide na odgovarajuci tab
             }
         }
 

@@ -175,18 +175,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         public RegularTourRequest SelectedPart { get; set; }
         private RegularTourRequestService _regularTourRequestService { get; set; }
         private ComplexTourRequestsService _complexTourRequestsService { get; set; }
-        //public ObservableCollection<RegularTourRequest> UserRequests { get; set; } //za list view za serial number
 
         public CreateComplexRequestViewModel(Guest2 guest, NavigationService navigationService)
         {
             Guest = guest;
             NavigationService = navigationService;
             RegularTourRequest = new RegularTourRequest();
-            ComplexTourRequest = new ComplexTourRequest(); //kompl u koju cu cuvati sve
-            RegularRequestPart = new RegularTourRequest(); //regularna, a moze i ostati prosli naziv
+            ComplexTourRequest = new ComplexTourRequest(); 
+            RegularRequestPart = new RegularTourRequest(); 
             RegularTourRequest.Location = new Location();
             RegularTourRequestValidation = new RegularTourRequestValidation();
-            UserRequests = new ObservableCollection<RegularTourRequest>(); //lista regularnih koje cu dodati u kompleksnu
+            UserRequests = new ObservableCollection<RegularTourRequest>(); 
             SelectedPart = new RegularTourRequest();
 
 
@@ -200,12 +199,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
 
         }
-
-        public void AddUserRequest(RegularTourRequest request) //trbace kad se prati serial num
-        {
-            UserRequests.Add(request);
-        }
-
 
         private void LoadFromFiles()
         {
@@ -229,8 +222,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                 {
                     RegularTourRequest.GuestId = Guest.Id;
                     RegularTourRequest.Guest = Guest;
-                    //RegularTourRequest.ComplexTourRequestId = -1;
-                    //kada napravis novu kompleksnu prodji kroz sve iz liste delova i postavi im id kompleksne na id kompleksne :)
                     RegularTourRequest.TourId = -1;
                     RegularTourRequest.SubmittingDate = DateTime.Now.AddDays(0);
                     RegularTourRequest.Status = TourRequestStatus.PENDING;
@@ -245,13 +236,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
                     RegularTourRequest TEMP = new RegularTourRequest(RegularTourRequest);
 
-                    //ComplexTourRequest.TourRequests.Add(RegularTourRequest);
                     ComplexTourRequest.TourRequests.Add(TEMP);
 
 
                     UserRequests.Add(TEMP);
                     _regularTourRequestService.Add(TEMP);
-                    //_regularTourRequestService.Add(RegularTourRequest); //dodati ovde add da se cuva 
                     MessageBox.Show("Tour request is added to list. You can add more requests");
 
                     RegularTourRequestValidation.Language = string.Empty;
@@ -259,7 +248,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                     RegularTourRequestValidation.City = string.Empty;
                     RegularTourRequestValidation.Description = string.Empty;
                     RegularTourRequestValidation.GuestNumber = null;
-                    // NavigationService.Navigate(new RequestsView(Guest, NavigationService));
                 }
             }
             else
@@ -296,7 +284,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         {
             if (ConfirmRequestQuit() == MessageBoxResult.Yes)
             {
-                NavigationService.Navigate(new RequestsView(Guest, NavigationService));
+                //NavigationService.Navigate(new RequestsView(Guest, NavigationService));
+                ComplexRequests.Content = new RequestsView(Guest, ComplexRequests.NavigationService);
+
             }
         }
 
@@ -308,10 +298,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
                 foreach(RegularTourRequest requestsList in UserRequests)
                 {
                     requestsList.ComplexTourRequestId = ComplexTourRequest.Id;
-                    requestsList.ComplexTourRequest = ComplexTourRequest;
-                    //ComplexTourRequest.TourRequests.Add(requestsList);      AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-                    //_regularTourRequestService.Add(requestsList);
-
+                    requestsList.ComplexTourRequest = ComplexTourRequest;                
                 }
                 _complexTourRequestsService.Update(ComplexTourRequest);
                 SetComplexTourIdForRegular();

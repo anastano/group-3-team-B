@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest2Views"
+
       mc:Ignorable="d" 
       d:DesignHeight="490" d:DesignWidth="1080"
       Title="ComplexRequestsView">
@@ -67,20 +68,19 @@
                             <DataTemplate>
                                 <DataGrid ItemsSource="{Binding TourRequests}" AutoGenerateColumns="False" HeadersVisibility="None" CanUserSortColumns="False">
                                     <DataGrid.Columns>
-                                        <DataGridTextColumn Binding="{Binding Id}" Width="20" />
+                                        <DataGridTextColumn Header="id" Binding="{Binding Id}" Width="20" />
                                         <DataGridTextColumn Binding="{Binding GuestId}" Width="20" />
                                         <DataGridTextColumn Binding="{Binding Guest.Name}" Width="90" />
-                                        <DataGridTextColumn Binding="{Binding LocationId}" Width="20"/>
-                                        <DataGridTextColumn Binding="{Binding Location.Country}" Width="70" />
-                                        <DataGridTextColumn Binding="{Binding Location.City}" Width="70" />
-                                        <DataGridTextColumn Binding="{Binding Language}" Width="70" />
-                                        <DataGridTextColumn Binding="{Binding GuestNumber}" Width="33" />
-                                        <DataGridTextColumn Binding="{Binding Status}" Width="70" />
+                                        <DataGridTextColumn Header="country" Binding="{Binding Location.Country}" Width="70" />
+                                        <DataGridTextColumn Header="city" Binding="{Binding Location.City}" Width="70" />
+                                        <DataGridTextColumn Header="language" Binding="{Binding Language}" Width="70" />
+                                        <DataGridTextColumn Header="guests" Binding="{Binding GuestNumber}" Width="33" />
+                                        <DataGridTextColumn Header="status" Binding="{Binding Status}" Width="70" />
                                        
-                                        <DataGridTextColumn Binding="{Binding DateRange.Start}" Width="*" />
-                                        <DataGridTextColumn Binding="{Binding DateRange.End}" Width="*" />
-                                        <DataGridTextColumn Binding="{Binding SubmittingDate}" Width="*" />
-                                        <DataGridTextColumn Binding="{Binding Tour.TourTime.DepartureTime}" Width="*"/>
+                                        <DataGridTextColumn Header="start range" Binding="{Binding DateRange.Start}" Width="*" />
+                                        <DataGridTextColumn Header="end range" Binding="{Binding DateRange.End}" Width="*" />
+                                        <DataGridTextColumn Header="submission date" Binding="{Binding SubmittingDate}" Width="*" />
+                                        <DataGridTextColumn Header="departure time" Binding="{Binding Tour.DepartureTimes[0].DepartureTime}" Width="*"/>
                                     </DataGrid.Columns>
                                 </DataGrid>
                             </DataTemplate>

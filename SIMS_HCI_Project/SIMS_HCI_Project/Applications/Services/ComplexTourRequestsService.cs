@@ -19,6 +19,7 @@ namespace SIMS_HCI_Project.Applications.Services
         {
             _regularTourRequestRepository = Injector.Injector.CreateInstance<IRegularTourRequestRepository>();
             _complexTourRequestRepository = Injector.Injector.CreateInstance<IComplexTourRequestRepository>();
+            UpdateStatusForInvalid();
         }
 
         public ComplexTourRequest GetById(int id)
@@ -53,6 +54,25 @@ namespace SIMS_HCI_Project.Applications.Services
             /* I hate this */
 
             return null;
+        }
+
+        private void UpdateStatusForInvalid() 
+        {
+            List<ComplexTourRequest> complexRequests = _complexTourRequestRepository.GetAll();
+            foreach (var complexRequest in complexRequests)
+            {
+                CheckStartDateRange(complexRequest);
+            }
+        }
+
+        private void CheckStartDateRange(ComplexTourRequest complexRequest)
+        {
+            foreach (var regularRequest in complexRequest.TourRequests)
+                if (DateTime.Now > regularRequest.DateRange.Start.AddHours(-48) && complexRequest.Status == TourRequestStatus.PENDING)
+                {
+                    complexRequest.Invalidate();
+                    _complexTourRequestRepository.Update(complexRequest);
+                }
         }
 
     }

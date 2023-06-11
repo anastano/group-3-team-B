@@ -21,6 +21,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         private int _currentImageIndex = 0;
         public AccommodationImagesView AccommodationImagesView { get; set; }
         public AccommodationsView AccommodationsView { get; set; }
+        public Style NormalButtonStyle { get; set; }
+        public Style SelectedButtonStyle { get; set; }
 
         #region OnPropertyChanged
         public List<string> Images { get; set; }
@@ -36,6 +38,35 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
                     _image = value;
                     OnPropertyChanged(nameof(Image));
+                }
+            }
+        }
+
+        private Style _nextButtonStyle;
+        public Style NextButtonStyle
+        {
+            get => _nextButtonStyle;
+            set
+            {
+                if (value != _nextButtonStyle)
+                {
+
+                    _nextButtonStyle = value;
+                    OnPropertyChanged(nameof(NextButtonStyle));
+                }
+            }
+        }
+
+        private Style _closeButtonStyle;
+        public Style CloseButtonStyle
+        {
+            get => _closeButtonStyle;
+            set
+            {
+                if (value != _closeButtonStyle)
+                { 
+                    _closeButtonStyle = value;
+                    OnPropertyChanged(nameof(CloseButtonStyle));
                 }
             }
         }
@@ -61,10 +92,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             AccommodationImagesView = accommodationsImagesView;
             AccommodationsView = accommodationsView;
             Images = _accommodationService.GetImages(accommodation.Id);
+
             if (Images.Count != 0)
             {
                 Image = Images[_currentImageIndex];
             }
+
+            NormalButtonStyle = Application.Current.FindResource("OwnerButtonStyle") as Style;
+            SelectedButtonStyle = Application.Current.FindResource("OwnerSelectedButtonStyle") as Style;
+            NextButtonStyle = NormalButtonStyle;
+            CloseButtonStyle = NormalButtonStyle;
+
             DemoIsOn();
         }
 
@@ -75,17 +113,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             {
                 await Task.Delay(1000);
                 Style selectedButtonStyle = Application.Current.FindResource("OwnerSelectedButtonStyle") as Style;
-                AccommodationImagesView.btnNext.Style = selectedButtonStyle;
+                NextButtonStyle = selectedButtonStyle;
                 await Task.Delay(1500);
                 Style normalButtonStyle = Application.Current.FindResource("OwnerButtonStyle") as Style;
-                AccommodationImagesView.btnNext.Style = normalButtonStyle;
+                NextButtonStyle = normalButtonStyle;
                 _currentImageIndex++;
                 ChangeOutrangeCurrentImageIndex();
                 Image = Images[_currentImageIndex];
                 await Task.Delay(1500);
-                AccommodationImagesView.btnClose.Style = selectedButtonStyle;
+                CloseButtonStyle = selectedButtonStyle;
                 await Task.Delay(1500);
-                AccommodationImagesView.btnClose.Style = normalButtonStyle;
+                CloseButtonStyle = normalButtonStyle;
                 AccommodationImagesView.Close();
 
             }

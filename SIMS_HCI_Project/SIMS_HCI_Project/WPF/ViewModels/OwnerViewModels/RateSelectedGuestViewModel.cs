@@ -82,25 +82,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         #region Commands
 
-        private MessageBoxResult ConfirmRateGuest()
-        {
-            string sMessageBoxText = $"Are you sure you want to rate this guest?";
-            string sCaption = "Rate Guest Confirmation";
-
-            MessageBoxButton btnMessageBox = MessageBoxButton.YesNo;
-            MessageBoxImage icnMessageBox = MessageBoxImage.Warning;
-
-            MessageBoxResult result = MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox, icnMessageBox);
-            return result;
-        }
-
         public void Executed_RateGuestCommand(object obj)
         {
             ValidatedRating.Validate();
             if (ValidatedRating.IsValid)
             {
-                if (ConfirmRateGuest() == MessageBoxResult.Yes)
-                {
                     Rating.ReservationId = SelectedReservation.Id;
                     Rating.Cleanliness = ValidatedRating.Cleanliness ?? 0;
                     Rating.RuleCompliance = ValidatedRating.RuleCompliance ?? 0;
@@ -109,7 +95,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
                     _ownerRatingService.Add(Rating);
                     RateSelectedGuestView.Close();
                     UnratedReservationsVM.UpdateUnratedReservations();
-                }
             }
             else
             {

@@ -5,14 +5,16 @@ using SIMS_HCI_Project.WPF.Views.OwnerViews;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 {
-    public class RequestHandlerViewModel
+    public class RequestHandlerViewModel : INotifyPropertyChanged
     {
         private readonly RescheduleRequestService _requestService;
         private readonly AccommodationReservationService _reservationService;
@@ -22,6 +24,31 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public RescheduleRequestsViewModel RequestsVM { get; set; }
         public RescheduleRequest Request { get; set; }
         public ObservableCollection<AccommodationReservation> OverlappingReservations { get; set; }
+
+        #region OnPropertyChanged
+
+        private string _overlappingReservationsText;
+        public string OverlappingReservationsText
+    {
+            get => _overlappingReservationsText;
+            set
+            {
+                if (value != _overlappingReservationsText)
+                {
+
+                    _overlappingReservationsText = value;
+                    OnPropertyChanged(nameof(OverlappingReservationsText));
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
         public RelayCommand AcceptRequestCommand { get; set; }
         public RelayCommand DeclineRequestCommand { get; set; }
         public RelayCommand CloseRequestHandlerViewCommand { get; set; }
@@ -120,11 +147,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             int overlappingReservations = _requestService.GetOverlappingReservations(Request, _reservationService).Count;
             if (overlappingReservations != 0)
             {
-                RequestHandlerView.txtOverlappingReservations.Text = "There are reservations on those days: ";
+                OverlappingReservationsText = "There are reservations on those days: ";
             }
             else
             {
-                RequestHandlerView.txtOverlappingReservations.Text = "There are not any reservations on those days.";
+                OverlappingReservationsText = "There are not any reservations on those days.";
             }
 
         }

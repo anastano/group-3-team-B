@@ -29,16 +29,16 @@
                     <!-- Buttons STACK PANEL-->
                     <StackPanel  Margin="5 0 5 5" Orientation="Horizontal">
                         <Button x:Name="btnAddAccommodation"  Content="         Register New &#xa;Accommodation (Ctrl+R)" Command="{Binding AddAccommodationCommand}"
-                            Style="{StaticResource OwnerButtonStyle}" Width="220">
+                            Style="{Binding AddAccommodationButtonStyle, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="220">
                         </Button>
                         <Button x:Name="btnShowImages"  Content="Display Images (Ctrl+D)" Command="{Binding ShowAccommodationImagesCommand}"
-                            Style="{StaticResource OwnerButtonStyle}" Width="220">
+                            Style="{Binding ShowImageButtonStyle, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="220">
                         </Button>
                         <Button x:Name="btnSuggestions"  Content="Show Suggestions (Ctrl+S)" Command="{Binding ShowSuggestionsCommand}"
-                            Style="{StaticResource OwnerButtonStyle}" Width="220">
+                            Style="{Binding ShowSuggestionsButtonStyle, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="220">
                         </Button>
                         <Button x:Name="btnClose"  Content="Close (Esc)" Command="{Binding CloseAccommodationsViewCommand}"
-                            Style="{StaticResource OwnerButtonStyle}" Width="220">
+                            Style="{Binding CloseButtonStyle, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="220">
                         </Button>
                     </StackPanel>
                 </Border>
@@ -55,8 +55,8 @@
                         <DataGrid x:Name = "dgAccommodation" AutoGenerateColumns="False" ItemsSource="{Binding Path=Accommodations, UpdateSourceTrigger=PropertyChanged}" 
                                       SelectedItem="{Binding Path=SelectedAccommodation, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Focusable="True"
                                       Width="930" Height="400" Margin="10 10 10 10" CanUserSortColumns="True" SelectionMode="Single" IsTabStop="False"
-                                      Style="{StaticResource OwnerDatagridStyle}" ColumnHeaderStyle="{StaticResource OwnerDataGridColumnHeaderStyle}">
-                            
+                                      Style="{StaticResource OwnerDatagridStyle}" ColumnHeaderStyle="{StaticResource OwnerDataGridColumnHeaderStyle}" RowStyle="{Binding RowStyle}">
+
                             <DataGrid.CellStyle>
                                 <Style TargetType="DataGridCell" >
                                     <Setter Property="Height" Value="100"/>
@@ -70,8 +70,6 @@
                                 </Style>
                             </DataGrid.CellStyle>
 
-                            
-                            
                             <DataGrid.Columns>
 
                                 <DataGridTemplateColumn Width="1.3*">

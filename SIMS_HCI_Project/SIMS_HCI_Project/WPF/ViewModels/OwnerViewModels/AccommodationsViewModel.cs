@@ -5,7 +5,9 @@ using SIMS_HCI_Project.WPF.Views.OwnerViews;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +16,7 @@ using System.Windows.Controls;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 {
-    public class AccommodationsViewModel
+    public class AccommodationsViewModel: INotifyPropertyChanged
     {
 
         private readonly AccommodationService _accommodationService;
@@ -22,6 +24,96 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public Owner Owner { get; set; }   
         public ObservableCollection<Accommodation> Accommodations { get; set; }
         public Accommodation SelectedAccommodation { get; set; }
+        public Style NormalButtonStyle { get; set; }
+        public Style SelectedButtonStyle { get; set; }
+        public Style NormalRowStyle { get; set; }
+        public  Style SelectedRowStyle { get; set; }
+
+        #region OnPropertyChanged
+
+        private Style _addAccommodationButtonStyle;
+        public Style AddAccommodationButtonStyle
+        {
+            get => _addAccommodationButtonStyle;
+            set
+            {
+                if (value != _addAccommodationButtonStyle)
+                {
+
+                    _addAccommodationButtonStyle = value;
+                    OnPropertyChanged(nameof(AddAccommodationButtonStyle));
+                }
+            }
+        }
+
+        private Style _showImageButtonStyle;
+        public Style ShowImageButtonStyle
+        {
+            get => _showImageButtonStyle;
+            set
+            {
+                if (value != _showImageButtonStyle)
+                {
+
+                    _showImageButtonStyle = value;
+                    OnPropertyChanged(nameof(ShowImageButtonStyle));
+                }
+            }
+        }
+
+        private Style _showSuggestionsButtonStyle;
+        public Style ShowSuggestionsButtonStyle
+        {
+            get => _showSuggestionsButtonStyle;
+            set
+            {
+                if (value != _showSuggestionsButtonStyle)
+                {
+
+                    _showSuggestionsButtonStyle = value;
+                    OnPropertyChanged(nameof(ShowSuggestionsButtonStyle));
+                }
+            }
+        }
+
+        private Style _closeButtonStyle;
+        public Style CloseButtonStyle
+        {
+            get => _closeButtonStyle;
+            set
+            {
+                if (value != _closeButtonStyle)
+                {
+
+                    _closeButtonStyle = value;
+                    OnPropertyChanged(nameof(CloseButtonStyle));
+                }
+            }
+        }
+
+        private Style _rowStyle;
+        public Style RowStyle
+        {
+            get => _rowStyle;
+            set
+            {
+                if (value != _rowStyle)
+                {
+
+                    _rowStyle = value;
+                    OnPropertyChanged(nameof(RowStyle));
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
+
         public RelayCommand AddAccommodationCommand { get; set; }
         public RelayCommand ShowAccommodationImagesCommand { get; set; }
         public RelayCommand ShowSuggestionsCommand { get; set; }
@@ -38,6 +130,15 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             Owner = owner;     
             Accommodations = new ObservableCollection<Accommodation>(_accommodationService.GetByOwnerId(Owner.Id));
 
+            NormalButtonStyle = Application.Current.FindResource("OwnerButtonStyle") as Style;
+            SelectedButtonStyle = Application.Current.FindResource("OwnerSelectedButtonStyle") as Style;
+            NormalRowStyle = null;
+            RowStyle = NormalRowStyle;
+            SelectedRowStyle = Application.Current.FindResource("OwnerSelectedDataGridRow") as Style;
+            AddAccommodationButtonStyle = NormalButtonStyle;
+            ShowImageButtonStyle = NormalButtonStyle;
+            ShowSuggestionsButtonStyle = NormalButtonStyle;
+            CloseButtonStyle = NormalButtonStyle;
 
             CancellationToken CT = OwnerMainViewModel.CTS.Token;
             DemoIsOn(CT);
@@ -56,11 +157,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
                 await Task.Delay(1500, CT);
 
                 //add accommodation
-                Style selectedButtonStyle = Application.Current.FindResource("OwnerSelectedButtonStyle") as Style;
-                AccommodationsView.btnAddAccommodation.Style = selectedButtonStyle;
-                await Task.Delay(1500, CT);
-                Style normalButtonStyle = Application.Current.FindResource("OwnerButtonStyle") as Style;
-                AccommodationsView.btnAddAccommodation.Style = normalButtonStyle;
+                AddAccommodationButtonStyle = SelectedButtonStyle;
+                await Task.Delay(1500, CT);;
+                AddAccommodationButtonStyle = NormalButtonStyle;
                 Window addAccommodationView = new AddAccommodationView(this, Owner);
                 addAccommodationView.ShowDialog();
                 await Task.Delay(1500, CT);
@@ -73,13 +172,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
                 await Task.Delay(1500, CT);
 
                 //show images
-                Style selectedRowStyle = Application.Current.FindResource("OwnerSelectedDataGridRow") as Style;
-                AccommodationsView.dgAccommodation.RowStyle = selectedRowStyle;
+               
+                RowStyle = SelectedRowStyle;
                 await Task.Delay(1500, CT);
-                AccommodationsView.btnShowImages.Style = selectedButtonStyle;
+                ShowImageButtonStyle = SelectedButtonStyle;
                 await Task.Delay(1500, CT);
-                AccommodationsView.dgAccommodation.RowStyle = null;
-                AccommodationsView.btnShowImages.Style = normalButtonStyle;
+                RowStyle = NormalRowStyle;
+                ShowImageButtonStyle = NormalButtonStyle;
                 Window accommodationImagesView = new AccommodationImagesView(AccommodationsView, Accommodations.FirstOrDefault());
                 accommodationImagesView.ShowDialog();
                 await Task.Delay(1500, CT);
@@ -92,19 +191,18 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
                 await Task.Delay(1500, CT);
 
                 //show suggestions
-                AccommodationsView.btnSuggestions.Style = selectedButtonStyle;
+                ShowSuggestionsButtonStyle = SelectedButtonStyle;
                 await Task.Delay(1500, CT);
-                AccommodationsView.btnSuggestions.Style = normalButtonStyle;
+                ShowSuggestionsButtonStyle = NormalButtonStyle;
                 Window accommodationSuggestions = new AccommodationSuggestionsView(AccommodationsView, Owner);
                 accommodationSuggestions.ShowDialog();
                 await Task.Delay(1500, CT);
 
                 //close window
-                AccommodationsView.btnClose.Style = selectedButtonStyle;
+                CloseButtonStyle = SelectedButtonStyle;
                 await Task.Delay(1500, CT);
-                AccommodationsView.btnClose.Style = normalButtonStyle;
+                CloseButtonStyle = NormalButtonStyle;
                 AccommodationsView.Close();
-
             }
         }
         #endregion

@@ -45,10 +45,10 @@
                         </StackPanel>
                         
                         <Button x:Name="btnSearch"  Content="Search (Ctrl+S)" Command="{Binding SearchReservationsCommand}"
-                            Style="{StaticResource OwnerButtonStyle}" Width="150">
+                            Style="{Binding SearchButtonStyle, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Width="150">
                         </Button>
                         <Button x:Name="btnClose"  Content="Close (Esc)" Command="{Binding CloseReservationsViewCommand}"
-                            Style="{StaticResource OwnerButtonStyle}" Width="150">
+                            Style="{Binding CloseButtonStyle, UpdateSourceTrigger=PropertyChanged,Mode=TwoWay}" Width="150">
                         </Button>
                     </StackPanel>
                 </Border>

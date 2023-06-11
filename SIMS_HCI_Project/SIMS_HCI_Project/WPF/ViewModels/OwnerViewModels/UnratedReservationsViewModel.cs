@@ -18,6 +18,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         private readonly AccommodationReservationService _reservationService;
         private readonly RatingGivenByOwnerService _ownerRatingService;
         public UnratedReservationsView UnratedReservationsView { get; set; }
+        public OwnerMainViewModel OwnerMainVM { get; set; }
         public Owner Owner { get; set; }
         public ObservableCollection<AccommodationReservation> UnratedReservations { get; set; }
         public AccommodationReservation SelectedReservation { get; set; }
@@ -25,7 +26,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public RelayCommand ShowSelectedUnratedReservationCommand { get; set; }
         public RelayCommand CloseUnratedReservationsViewCommand { get; set; }
 
-        public UnratedReservationsViewModel(UnratedReservationsView unratedReservationsView, Owner owner) 
+        public UnratedReservationsViewModel(UnratedReservationsView unratedReservationsView, OwnerMainViewModel ownerMainVM, Owner owner) 
         { 
             InitCommands();
 
@@ -33,6 +34,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             _ownerRatingService = new RatingGivenByOwnerService();
 
             UnratedReservationsView = unratedReservationsView;
+            OwnerMainVM = ownerMainVM;
             Owner = owner;
             UnratedReservations = new ObservableCollection<AccommodationReservation>(_ownerRatingService.GetUnratedReservations(Owner.Id, _reservationService));
         }
@@ -62,6 +64,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public void Executed_CloseUnratedReservationsViewCommand(object obj)
         {
             UnratedReservationsView.Close();
+            OwnerMainVM.UpdateNotifications();
         }
 
         public bool CanExecute_CloseUnratedReservationsViewCommand(object obj)

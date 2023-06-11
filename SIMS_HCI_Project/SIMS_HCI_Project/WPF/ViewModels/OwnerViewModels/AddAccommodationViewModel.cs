@@ -27,6 +27,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public Location Location { get; set; }
         public AddAccommodationView AddAccommodationView { get; set; }
         public AccommodationsViewModel AccommodationsVM { get; set; }
+        public string SelectedImage { get; set; }
+        public Style NormalButtonStyle { get; set; }
+        public Style SelectedButtonStyle { get; set; }
+        public Style NormalCircleButtonStyle { get; set; }
+        public Style SelectedCircleButtonStyle { get; set; }
 
         #region OnPropertyChanged    
 
@@ -60,14 +65,57 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             }
         }
 
+        private ObservableCollection<string> _images;
+        public ObservableCollection<string> Images
+        {
+            get => _images;
+            set
+            {
+                if (value != _images)
+                {
+
+                    _images = value;
+                    OnPropertyChanged(nameof(Images));
+                }
+            }
+        }
+
+        private Style _addImageButtonStyle;
+        public Style AddImageButtonStyle
+        {
+            get => _addImageButtonStyle;
+            set
+            {
+                if (value != _addImageButtonStyle)
+                {
+
+                    _addImageButtonStyle = value;
+                    OnPropertyChanged(nameof(AddImageButtonStyle));
+                }
+            }
+        }
+
+        private Style _registerButtonStyle;
+        public Style RegisterButtonStyle
+        {
+            get => _registerButtonStyle;
+            set
+            {
+                if (value != _registerButtonStyle)
+                {
+
+                    _registerButtonStyle = value;
+                    OnPropertyChanged(nameof(RegisterButtonStyle));
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion
-
-        public ObservableCollection<string> Images { get; set; }
 
         public RelayCommand AddAccommodationImageCommand { get; set; }
         public RelayCommand RemoveAccommodationImageCommand { get; set; }
@@ -90,6 +138,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
        
             Location = new Location();
             Images = new ObservableCollection<string>();
+
+            NormalButtonStyle = Application.Current.FindResource("OwnerButtonStyle") as Style;
+            SelectedButtonStyle = Application.Current.FindResource("OwnerSelectedButtonStyle") as Style;
+            NormalCircleButtonStyle = Application.Current.FindResource("OwnerCircleButtonStyle") as Style;
+            SelectedCircleButtonStyle = Application.Current.FindResource("OwnerSelectedCircleButtonStyle") as Style;
+            AddImageButtonStyle = NormalCircleButtonStyle;
+            RegisterButtonStyle = NormalButtonStyle;
 
             CancellationToken CT = OwnerMainViewModel.CTS.Token;
             DemoIsOn(CT);
@@ -117,19 +172,15 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
                 await Task.Delay(1000, CT);
                 ValidatedImageURL.ImageURL = "https://s3.eu-central-1.amazonaws.com/apartmani-u-beogradu/uploads/apartmani/9073/sr/main/apartmani-beograd-centar-apartman-retro-cosy-apartment4.jpg";
                 await Task.Delay(1000, CT);
-                Style style = Application.Current.FindResource("OwnerSelectedCircleButtonStyle") as Style;
-                AddAccommodationView.btnAddImage.Style = style;
+                AddImageButtonStyle = SelectedCircleButtonStyle;
                 await Task.Delay(1000, CT);
-                Style style2 = Application.Current.FindResource("OwnerCircleButtonStyle") as Style;
-                AddAccommodationView.btnAddImage.Style = style2;
+                AddImageButtonStyle = NormalCircleButtonStyle;
                 Images.Add(ValidatedImageURL.ImageURL);
                 ValidatedImageURL.ImageURL = "";
                 await Task.Delay(1000, CT);
-                Style style3 = Application.Current.FindResource("OwnerSelectedButtonStyle") as Style;
-                AddAccommodationView.btnRegister.Style = style3;
+                RegisterButtonStyle = SelectedButtonStyle;
                 await Task.Delay(1000, CT);
-                Style style4 = Application.Current.FindResource("OwnerButtonStyle") as Style;
-                AddAccommodationView.btnRegister.Style = style4;
+                RegisterButtonStyle = NormalButtonStyle;
               
                 await Task.Delay(1000, CT);
                 AddAccommodationView.Close();
@@ -155,9 +206,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public void Executed_RemoveAccommodationImageCommand(object obj)
         {
-            if (AddAccommodationView.lbImages.SelectedItem != null)
+            if (SelectedImage != null)
             {
-                Images.RemoveAt(AddAccommodationView.lbImages.SelectedIndex);
+                Images.Remove(SelectedImage);
+            }
+            else 
+            {
+                MessageBox.Show("No image has been selected");
             }
         }
 

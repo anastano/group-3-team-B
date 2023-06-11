@@ -160,14 +160,15 @@
                             </StackPanel>
 
                             <Button x:Name="btnAddImage" Content="   Add &#xa;(Ctrl+W)" Command="{Binding AddAccommodationImageCommand}"
-                                    Style="{StaticResource OwnerCircleButtonStyle}">
+                                    Style="{Binding AddImageButtonStyle, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
                             </Button>
 
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0 5 0 5 ">
 
-                            <ListBox x:Name="lbImages" ItemsSource="{Binding Path=Images}"
+                            <ListBox x:Name="lbImages" ItemsSource="{Binding Path=Images,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                     SelectedItem="{Binding SelectedImage}"
                                   Style="{StaticResource OwnerListBoxStyle}" Height="88">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
@@ -195,7 +196,7 @@
             <!-- Buttons STACK PANEL-->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button x:Name="btnRegister" Content="Submit (Ctrl+S)" Command="{Binding RegisterNewAccommodationCommand}"
-                    Style ="{StaticResource OwnerButtonStyle}" >
+                    Style ="{Binding RegisterButtonStyle, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" >
                 </Button>
                 <Button x:Name="btnCancel" Content="Cancel (Esc)"
                     Style ="{StaticResource OwnerButtonStyle}" Command="{Binding CloseAddAccommodationViewCommand}">

@@ -22,12 +22,12 @@
                     <Image Source="{Binding Image, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform" Width="450" Height="300"/>
 
                     <Button x:Name="btnNext" Content="&gt;&gt;" Command="{Binding NextAccommodationImageCommand}"
-                        Style="{StaticResource OwnerButtonStyle}" Width="50" Height="300"/>
+                        Style="{Binding NextButtonStyle, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="50" Height="300"/>
                 </StackPanel>
             </Border>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button x:Name="btnClose" Content="Close (Esc)" Command="{Binding CloseAccommodationImageViewCommand}"
-                        Style="{StaticResource OwnerButtonStyle}"/>
+                        Style="{Binding CloseButtonStyle, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 
             </StackPanel>
         </StackPanel>

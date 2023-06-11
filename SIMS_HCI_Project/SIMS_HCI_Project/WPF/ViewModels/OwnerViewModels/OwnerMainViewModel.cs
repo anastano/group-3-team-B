@@ -2,12 +2,15 @@
 using SIMS_HCI_Project.Domain.Models;
 
 using SIMS_HCI_Project.WPF.Commands;
+using SIMS_HCI_Project.WPF.Validations;
 using SIMS_HCI_Project.WPF.Views.OwnerViews;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,23 +21,81 @@ using System.Windows.Media.Effects;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 {
-    public class OwnerMainViewModel
+    public class OwnerMainViewModel : INotifyPropertyChanged
     {
         #region Service Fields
         private AccommodationReservationService _reservationService;
         private NotificationService _notificationService;
         private RatingGivenByOwnerService _ownerRatingService;
         private RatingGivenByGuestService _guestRatingService;
-        
+        private RescheduleRequestService _requstService;
+
         #endregion
 
         public static CancellationTokenSource CTS;
         public static bool Demo { get; set; }
         public OwnerMainView OwnerMainView { get; set; }
         public Owner Owner { get; set; }
-
         public ObservableCollection<AccommodationReservation> ReservationsInProgress { get; set; }
-        public ObservableCollection<Notification> Notifications { get; set; }
+        public List<Notification> Notifications { get; set; }
+        public int NotificationCount { get; set; }
+        public Style NormalButtonStyle { get; set; }
+        public Style SelectedButtonStyle { get; set; }       
+
+        #region OnPropertyChanged
+
+        private int _unratedGuestsCount;
+        public int UnratedGuestsCount
+        {
+            get => _unratedGuestsCount;
+            set
+            {
+                if (value != _unratedGuestsCount)
+                {
+
+                    _unratedGuestsCount = value;
+                    OnPropertyChanged(nameof(UnratedGuestsCount));
+                }
+            }
+        }
+
+        private Style _accommodationButtonStyle;
+        public Style AccommodationsButtonStyle
+        {
+            get => _accommodationButtonStyle;
+            set
+            {
+                if (value != _accommodationButtonStyle)
+                {
+
+                    _accommodationButtonStyle = value;
+                    OnPropertyChanged(nameof(AccommodationsButtonStyle));
+                }
+            }
+        }
+
+        private Style _reservationsButtonStyle;
+        public Style ReservationsButtonStyle
+        {
+            get => _reservationsButtonStyle;
+            set
+            {
+                if (value != _reservationsButtonStyle)
+                {
+
+                    _reservationsButtonStyle = value;
+                    OnPropertyChanged(nameof(ReservationsButtonStyle));
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
 
         #region RelayCommands
         public RelayCommand ShowAccommodationsCommand { get; set; }
@@ -61,9 +122,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             InitCommands();
 
             ReservationsInProgress = new ObservableCollection<AccommodationReservation>(_reservationService.GetInProgressByOwnerId(Owner.Id));
-            Notifications = new ObservableCollection<Notification>(_notificationService.GetUnreadByUserId(Owner.Id));
-
-            ShowNotificationsAndSuperFlag();
+            Notifications = new List<Notification>(_notificationService.GetUnreadByUserId(Owner.Id));
+            NotificationCount = Notifications.Count;
+            UnratedGuestsCount = _ownerRatingService.GetUnratedReservations(Owner.Id, _reservationService).Count;
+            
+            NormalButtonStyle = Application.Current.FindResource("OwnerButtonStyle") as Style;
+            SelectedButtonStyle = Application.Current.FindResource("OwnerSelectedButtonStyle") as Style;
+            AccommodationsButtonStyle = NormalButtonStyle;
+            ReservationsButtonStyle = NormalButtonStyle;
 
             CTS = new CancellationTokenSource();
         }
@@ -74,23 +140,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             _notificationService = new NotificationService();
             _ownerRatingService = new RatingGivenByOwnerService();
             _guestRatingService = new RatingGivenByGuestService();
+            _requstService = new RescheduleRequestService();
 
             _guestRatingService.FillAverageRatingAndSuperFlag(Owner);
-
         }
 
-        private void ShowNotificationsAndSuperFlag()
+        public void UpdateNotifications()
         {
-            //int unratedGuestsNumber = _ownerRatingService.GetUnratedReservations(Owner.Id, _reservationService).Count;
-            //OwnerMainView.txtUnratedGuestsNotifications.Visibility = unratedGuestsNumber != 0 ? Visibility.Visible : Visibility.Collapsed;
-
-           // int guestRequestsNumber = _requestService.GetPendingByOwnerId(Owner.Id).Count;
-           // OwnerMainView.txtGuestsRequestsNotifications.Visibility = guestRequestsNumber != 0 ? Visibility.Visible : Visibility.Collapsed;
-
-            int otherNotificationsNumber = Notifications.Count;
-            OwnerMainView.lvNotifications.Visibility = otherNotificationsNumber != 0 ? Visibility.Visible : Visibility.Collapsed;
-
-            OwnerMainView.imgSuperFlag.Visibility = Owner.SuperFlag ? Visibility.Visible : Visibility.Collapsed;
+            UnratedGuestsCount = _ownerRatingService.GetUnratedReservations(Owner.Id, _reservationService).Count;
         }
 
         #region Commands
@@ -140,7 +197,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public void Executed_ShowUnratedReservationsCommand(object obj)
         {
-            Window unratedReservationsView = new UnratedReservationsView(Owner);
+            Window unratedReservationsView = new UnratedReservationsView(this, Owner);
             unratedReservationsView.ShowDialog();
         }
 
@@ -184,9 +241,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         private async Task StartDemo() 
         {
-            Style selectedButtonStyle = Application.Current.FindResource("OwnerSelectedButtonStyle") as Style;
-            Style normalButtonStyle = Application.Current.FindResource("OwnerButtonStyle") as Style;
-
             if (!Demo)
             {
                 CTS = new CancellationTokenSource();
@@ -201,17 +255,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
                 await Task.Delay(1500, CT);
 
                 //accommodations view           
-                OwnerMainView.btnAccommodations.Style = selectedButtonStyle;
+                AccommodationsButtonStyle = SelectedButtonStyle;
                 await Task.Delay(1500, CT);
-                OwnerMainView.btnAccommodations.Style = normalButtonStyle;
+                AccommodationsButtonStyle = NormalButtonStyle;
                 Window accommodationsView = new AccommodationsView(Owner);
                 accommodationsView.ShowDialog();
                 await Task.Delay(1500, CT);
 
                 //reservations view
-                OwnerMainView.btnReservations.Style = selectedButtonStyle;
+                ReservationsButtonStyle = SelectedButtonStyle;
                 await Task.Delay(1500, CT);
-                OwnerMainView.btnReservations.Style = normalButtonStyle;
+                ReservationsButtonStyle = NormalButtonStyle;
                 Window reservationsView = new GuestReservationsView(Owner);
                 reservationsView.ShowDialog();
                 await Task.Delay(1500, CT);
@@ -253,8 +307,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             {
                 CTS.Cancel();
                 Demo = false;
-                OwnerMainView.btnAccommodations.Style = normalButtonStyle;
-                OwnerMainView.btnReservations.Style = normalButtonStyle;
+                AccommodationsButtonStyle = normalButtonStyle;
+                ReservationsButtonStyle = normalButtonStyle;
 
                 //demo message - end
                 Window messageDemoOver = new MessageView("The demo mode is over.", "");

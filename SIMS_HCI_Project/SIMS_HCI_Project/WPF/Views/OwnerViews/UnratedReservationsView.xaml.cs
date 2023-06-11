@@ -22,10 +22,10 @@ namespace SIMS_HCI_Project.WPF.Views.OwnerViews
     /// </summary>
     public partial class UnratedReservationsView : Window
     {
-        public UnratedReservationsView(Owner owner)
+        public UnratedReservationsView(OwnerMainViewModel ownerMainVM, Owner owner)
         {
             InitializeComponent();
-            this.DataContext = new UnratedReservationsViewModel(this, owner);
+            this.DataContext = new UnratedReservationsViewModel(this, ownerMainVM, owner);
         }
     }
 }

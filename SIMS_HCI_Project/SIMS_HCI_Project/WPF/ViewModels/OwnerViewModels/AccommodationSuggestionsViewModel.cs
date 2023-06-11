@@ -7,6 +7,7 @@ using SIMS_HCI_Project.WPF.Views.OwnerViews;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -15,7 +16,7 @@ using System.Windows;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 {
-    public class AccommodationSuggestionsViewModel
+    public class AccommodationSuggestionsViewModel : INotifyPropertyChanged
     {
         private readonly StatisticsForSuggestionsService _statisticsForSuggestionsService;
         public AccommodationSuggestionsView AccommodationSuggestionsView { get; set; }
@@ -27,6 +28,34 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public LocationInfo WorstLocation { get; set; }
         public ChartValues<double> OccupancyPercentageForWorstLocation { get; set; }
         public ChartValues<double> NonOccupancyPercentageForWorstLocation { get; set; }
+        public Style NormalButtonStyle { get; set; }
+        public Style SelectedButtonStyle { get; set; }
+
+        #region OnPropertyChanged
+
+        private Style _closeButtonStyle;
+        public Style CloseButtonStyle
+        {
+            get => _closeButtonStyle;
+            set
+            {
+                if (value != _closeButtonStyle)
+                {
+
+                    _closeButtonStyle = value;
+                    OnPropertyChanged(nameof(CloseButtonStyle));
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
+
         public RelayCommand CloseAccommodationSuggestionsViewCommand { get; set; }
         public RelayCommand HomeAccommodationSuggestionsViewCommand { get; set; }
         public RelayCommand StopDemoCommand { get; set; }
@@ -49,6 +78,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             OccupancyPercentageForWorstLocation = new ChartValues<double> { Math.Round(WorstLocation.OccupancyPercentageInLastYear, 2) };
             NonOccupancyPercentageForWorstLocation = new ChartValues<double> { Math.Round(100 - WorstLocation.OccupancyPercentageInLastYear, 2) };
 
+            NormalButtonStyle = Application.Current.FindResource("OwnerButtonStyle") as Style;
+            SelectedButtonStyle = Application.Current.FindResource("OwnerSelectedButtonStyle") as Style;
+            CloseButtonStyle = NormalButtonStyle;
+
             DemoIsOn();
         }
 
@@ -60,9 +93,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             if (OwnerMainViewModel.Demo)
             {
                 await Task.Delay(2000);
-                AccommodationSuggestionsView.btnClose.Style = selectedButtonStyle;
+                CloseButtonStyle = selectedButtonStyle;
                 await Task.Delay(1500);
-                AccommodationSuggestionsView.btnClose.Style = normalButtonStyle;
+                CloseButtonStyle = normalButtonStyle;
                 AccommodationSuggestionsView.Close();
 
             }

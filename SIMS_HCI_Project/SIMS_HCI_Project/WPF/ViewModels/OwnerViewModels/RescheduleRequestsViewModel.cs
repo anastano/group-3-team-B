@@ -16,8 +16,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
     public class RescheduleRequestsViewModel
     {
         private readonly RescheduleRequestService _requestService;
-        private readonly AccommodationReservationService _reservationService;
-        private readonly NotificationService _notificationService;
 
         public RescheduleRequestsView RequestsView { get; set; }
         public Owner Owner { get; set; }    
@@ -31,8 +29,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             InitCommands();
 
             _requestService = new RescheduleRequestService();
-            _reservationService = new AccommodationReservationService();
-            _notificationService = new NotificationService();
 
             RequestsView = requestsView;
             Owner = owner;           

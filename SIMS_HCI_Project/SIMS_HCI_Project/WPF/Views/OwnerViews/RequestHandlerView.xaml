@@ -98,7 +98,7 @@
 
                         </Grid>
 
-                        <TextBlock x:Name ="txtOverlappingReservations" TextAlignment="Center" HorizontalAlignment="Center"
+                        <TextBlock Text="{Binding OverlappingReservationsText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" TextAlignment="Center" HorizontalAlignment="Center"
                                            Style="{StaticResource OwnerTitleStyle}" FontSize="18">
                         </TextBlock>
 

@@ -24,6 +24,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public Owner Owner { get; set; }
         public ObservableCollection<AccommodationReservation> Reservations { get; set; }
         public AccommodationReservation SelectedReservation { get; set; }
+        public Style NormalButtonStyle { get; set; }
+        public Style SelectedButtonStyle { get; set; }          
 
         #region OnPropertyChanged
         private string _accommodationName; 
@@ -71,6 +73,37 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             }
         }
 
+        private Style _searchButtonStyle;
+        public Style SearchButtonStyle
+        {
+            get => _searchButtonStyle;
+            set
+            {
+                if (value != _searchButtonStyle)
+                {
+
+                    _searchButtonStyle = value;
+                    OnPropertyChanged(nameof(SearchButtonStyle));
+                }
+            }
+        }
+
+        private Style _closeButtonStyle;
+
+        public Style CloseButtonStyle
+        {
+            get => _closeButtonStyle;
+            set
+            {
+                if (value != _closeButtonStyle)
+                {
+
+                    _closeButtonStyle = value;
+                    OnPropertyChanged(nameof(CloseButtonStyle));
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -93,6 +126,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             GuestReservationsView = accommodationsView;
             Owner = owner;
             Reservations = new ObservableCollection<AccommodationReservation>(_reservationService.GetByOwnerId(Owner.Id));
+
+            NormalButtonStyle = Application.Current.FindResource("OwnerButtonStyle") as Style;
+            SelectedButtonStyle = Application.Current.FindResource("OwnerSelectedButtonStyle") as Style;
+            SearchButtonStyle = NormalButtonStyle;
+            CloseButtonStyle = NormalButtonStyle;
 
             DemoIsOn();
         }
@@ -117,11 +155,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
                 await Task.Delay(1500);
                 GuestSurname = "Milosev";
                 await Task.Delay(1500);
-                Style selectedButtonStyle = Application.Current.FindResource("OwnerSelectedButtonStyle") as Style;
-                GuestReservationsView.btnSearch.Style = selectedButtonStyle;
+                SearchButtonStyle = SelectedButtonStyle;
                 await Task.Delay(1000);
-                Style normalButtonStyle = Application.Current.FindResource("OwnerButtonStyle") as Style;
-                GuestReservationsView.btnSearch.Style = normalButtonStyle;
+                SearchButtonStyle = NormalButtonStyle;
                 List<AccommodationReservation> searchResult = _reservationService.OwnerSearch(AccommodationName, GuestName, GuestSurname, Owner.Id);
                 Reservations.Clear();
                 foreach (AccommodationReservation reservation in searchResult)
@@ -131,9 +167,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
                 await Task.Delay(1500);
 
                 //close window
-                GuestReservationsView.btnClose.Style = selectedButtonStyle;
+                CloseButtonStyle = SelectedButtonStyle;
                 await Task.Delay(1500);
-                GuestReservationsView.btnClose.Style = normalButtonStyle;
+                CloseButtonStyle = NormalButtonStyle;
                 GuestReservationsView.Close();
             }
         }

@@ -25,5 +25,11 @@ namespace SIMS_HCI_Project.Domain.Models
             Location = location;
             Status = ForumStatus.ACTIVE;
         }
+        public bool IsUseful()
+        {
+            bool ownerCondition = this.Comments.FindAll(c => c.IsUseful == true && c.User.Role == UserRole.OWNER).Count >= 10;
+            bool guestCondition = this.Comments.FindAll(c => c.IsUseful == true && (c.User.Role == UserRole.GUEST1 || c.User.Role == UserRole.GUEST2)).Count >= 20;
+            return (ownerCondition && guestCondition);
+        }
     }
 }

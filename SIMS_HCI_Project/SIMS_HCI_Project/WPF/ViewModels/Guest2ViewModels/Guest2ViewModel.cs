@@ -82,7 +82,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels      //main window wi
         }
         private void ExecuteNavigateToRequests(object sender)
         {
-            NavigationService.Navigate(new RequestsView(Guest2, NavigationService));
+            NavigationService.Navigate(new RequestsView(Guest2, NavigationService, 2));
         }
         private void ExecuteNavigateToStatistics(object sender)
         {

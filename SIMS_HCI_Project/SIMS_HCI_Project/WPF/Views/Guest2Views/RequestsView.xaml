@@ -19,7 +19,7 @@
     </Page.Resources>
     <Grid>
         <Label Content="MY REQUESTS" Style="{StaticResource Guest2Header1Style}"/>
-        <TabControl>
+        <TabControl SelectedIndex="{Binding SelectedTabIndex}">
             <TabItem Header="Regular requests" FontSize="16" Padding="10,5,10,5" >
                 <Grid Background="Transparent">
                     <Frame x:Name="RegularRequests" NavigationUIVisibility="Hidden" />

@@ -58,6 +58,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             {
                 _selectedComplex = value;
                 HasAcceptedPart = _selectedComplex.HasAcceptedPart(guide.Id);
+
                 OnPropertyChanged();
             }
         }
@@ -107,7 +108,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
                 OnPropertyChanged();
             }
         }
-
+        
         public ComplexTourRequestsViewModel() 
         {
             _complexTourRequestsService = new ComplexTourRequestsService();

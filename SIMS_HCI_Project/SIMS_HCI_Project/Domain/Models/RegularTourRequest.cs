@@ -38,7 +38,8 @@ namespace SIMS_HCI_Project.Domain.Models
         {
             GuestId = guestId;
             Guest = guest;
-            Location = location;
+            Location.City = city;
+            Location.Country = country;
             Language = language;
             GuestNumber = guestNumber;
             Description = description;
@@ -47,6 +48,24 @@ namespace SIMS_HCI_Project.Domain.Models
 
             SubmittingDate = DateTime.Now;
             Status = TourRequestStatus.PENDING;
+        }
+
+        public RegularTourRequest(RegularTourRequest source)
+        {
+            Id = source.Id;
+            GuestId = source.GuestId;
+            Guest = source.Guest;
+            LocationId = source.LocationId;
+            Location = source.Location;
+            Language = source.Language;
+            GuestNumber = source.GuestNumber;
+            Description = source.Description;
+            DateRange = source.DateRange;
+            SubmittingDate = source.SubmittingDate;
+            ComplexTourRequestId = source.ComplexTourRequestId;
+            TourId = source.TourId;
+            Tour = source.Tour;
+            ComplexTourRequest = source.ComplexTourRequest;
         }
 
         public void AssignTour(Tour tour)

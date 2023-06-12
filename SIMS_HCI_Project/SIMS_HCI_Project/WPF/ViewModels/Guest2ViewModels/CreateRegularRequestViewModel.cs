@@ -211,7 +211,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
         {
             if(ConfirmRequestQuit() == MessageBoxResult.Yes)
             {
-                NavigationService.Navigate(new RequestsView(Guest, NavigationService));
+                NavigationService.Navigate(new RequestsView(Guest, NavigationService, 0));
             }
         }
 
@@ -239,7 +239,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels
 
                     _regularTourRequestService.Add(RegularTourRequest);
                     MessageBox.Show("Tour request is submited. You can see it in the list of your regular tour requests list.");
-                    NavigationService.Navigate(new RequestsView(Guest, NavigationService));
+                    NavigationService.Navigate(new RequestsView(Guest, NavigationService, 1));
                 }
             }
             else

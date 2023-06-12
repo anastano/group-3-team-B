@@ -29,9 +29,9 @@ rtrs -> ittr : GetAllInDateRange(guideId, dateRange)
 activate ittr
 ittr --> rtrs : toursInDateRange
 deactivate ittr
-opt toursInDateRange.Count != 0
+alt toursInDateRange.Count != 0
  rtrs -> Guide : null
-end
+else toursInDateRange.Count == 0
 
 note over rtrs
  Change status to accepted for request
@@ -82,5 +82,5 @@ rtrs --> Guide : tourFromRequest
 deactivate rtrs 
 
 destroy ts
-
+end
 @enduml

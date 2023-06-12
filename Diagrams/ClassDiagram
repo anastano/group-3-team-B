@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-06-12T12:02:15.634Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="lL-ERexYAs9YDYIzYkJU" version="21.3.8" type="github">
+<mxfile host="app.diagrams.net" modified="2023-06-12T12:18:28.265Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="a3Z9vsgIIuLkBD13fE2F" version="21.3.8" type="github">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
-    <mxGraphModel dx="1710" dy="1010" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="10" pageWidth="1169" pageHeight="1654" math="0" shadow="0">
+    <mxGraphModel dx="1954" dy="1154" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="10" pageWidth="1169" pageHeight="1654" math="0" shadow="0">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
@@ -4362,6 +4362,96 @@
             <mxPoint x="8390" y="1270" as="targetPoint" />
             <Array as="points">
               <mxPoint x="8358" y="1108" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XoQeL0dI6h63Ai5pAjJc-4" value="NotificationRepository" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" collapsed="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="8980" y="1450" width="270" height="30" as="geometry">
+            <mxRectangle x="8950" y="1480" width="580" height="230" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XoQeL0dI6h63Ai5pAjJc-5" value="&lt;div&gt;- filehandler: NotificationFileHandler&lt;/div&gt;&lt;div&gt;- _notifications: List&amp;lt;Notification&amp;gt;&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="XoQeL0dI6h63Ai5pAjJc-4">
+          <mxGeometry y="26" width="580" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="XoQeL0dI6h63Ai5pAjJc-6" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="XoQeL0dI6h63Ai5pAjJc-4">
+          <mxGeometry y="70" width="580" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="XoQeL0dI6h63Ai5pAjJc-7" value="&lt;div&gt;+ NotificationRepository():&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;- GenerateId(): int&lt;br style=&quot;border-color: var(--border-color);&quot;&gt;- Save(): void&lt;br&gt;&lt;/div&gt;&lt;div&gt;- Load(): void&lt;/div&gt;&lt;div&gt;+ GetById(id: int) : Notification&lt;/div&gt;&lt;div&gt;+ GetAll(): List&amp;lt;Notification&amp;gt;&lt;/div&gt;&lt;div&gt;+ GetUnreadByUserId(userId: int): List&amp;lt;Notification&amp;gt;&lt;/div&gt;&lt;div&gt;+ Add(notification: Notification):&amp;nbsp;&lt;span style=&quot;background-color: initial;&quot;&gt;&amp;nbsp;void&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;+ Update(notification: Notification): void&lt;/span&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="XoQeL0dI6h63Ai5pAjJc-4">
+          <mxGeometry y="78" width="580" height="152" as="geometry" />
+        </mxCell>
+        <mxCell id="XoQeL0dI6h63Ai5pAjJc-8" value="NotificationService" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="8935" y="990" width="370" height="190" as="geometry">
+            <mxRectangle x="360" y="270" width="250" height="30" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XoQeL0dI6h63Ai5pAjJc-9" value="- _notificationRepository: INotificationRepository&lt;br&gt;- _regularTourRequestRepository: IRegularTourRequestRepository&lt;br&gt;- _userRepository: IUserRepository" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="XoQeL0dI6h63Ai5pAjJc-8">
+          <mxGeometry y="26" width="370" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="XoQeL0dI6h63Ai5pAjJc-10" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="XoQeL0dI6h63Ai5pAjJc-8">
+          <mxGeometry y="80" width="370" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="XoQeL0dI6h63Ai5pAjJc-11" value="&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;+ NotificationService()&lt;/div&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;+ GetById(id: int) : Notification&lt;/div&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;+ GetAll(): List&amp;lt;Notification&amp;gt;&lt;/div&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;+ GetUnreadByUserId(userId: int): List&amp;lt;Notification&amp;gt;&lt;/div&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;+Add(notification: Notification&lt;span style=&quot;border-color: var(--border-color); background-color: initial;&quot;&gt;): void&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;&lt;span style=&quot;border-color: var(--border-color); background-color: initial;&quot;&gt;- Update(notification: Notification): void&lt;/span&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="XoQeL0dI6h63Ai5pAjJc-8">
+          <mxGeometry y="88" width="370" height="102" as="geometry" />
+        </mxCell>
+        <mxCell id="XoQeL0dI6h63Ai5pAjJc-12" value="&amp;lt;&amp;lt;interface&amp;gt;&amp;gt;&lt;br&gt;INotificationRepository" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=40;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="8930" y="1245" width="380" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="XoQeL0dI6h63Ai5pAjJc-13" value="&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;+ GetById(id: int): Notification&lt;/div&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;+ GetAll(): List&amp;lt;Notification&amp;gt;&lt;/div&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;+ GetUnreadByUserId(userId: int): List&amp;lt;Notification&amp;gt;&lt;/div&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;+Add(notification: Notification&lt;span style=&quot;border-color: var(--border-color); background-color: initial;&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;border-color: var(--border-color); background-color: initial;&quot;&gt;): void&lt;/span&gt;&lt;/div&gt;&lt;div style=&quot;border-color: var(--border-color);&quot;&gt;&lt;span style=&quot;border-color: var(--border-color); background-color: initial;&quot;&gt;+ Update (notification: Notification): void&amp;nbsp;&lt;/span&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="XoQeL0dI6h63Ai5pAjJc-12">
+          <mxGeometry y="40" width="380" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="XoQeL0dI6h63Ai5pAjJc-14" value="NotificationFileHandler" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=1;marginBottom=0;whiteSpace=wrap;html=1;" vertex="1" collapsed="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="8980" y="1530" width="270" height="30" as="geometry">
+            <mxRectangle x="8910" y="1708" width="370" height="120" as="alternateBounds" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XoQeL0dI6h63Ai5pAjJc-15" value="&lt;div&gt;- path: string&lt;/div&gt;&lt;div&gt;- delimiter: char&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;br&gt;&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="XoQeL0dI6h63Ai5pAjJc-14">
+          <mxGeometry y="26" width="370" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="XoQeL0dI6h63Ai5pAjJc-16" value="" style="line;strokeWidth=1;fillColor=none;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;strokeColor=inherit;" vertex="1" parent="XoQeL0dI6h63Ai5pAjJc-14">
+          <mxGeometry y="60" width="370" height="8" as="geometry" />
+        </mxCell>
+        <mxCell id="XoQeL0dI6h63Ai5pAjJc-17" value="&lt;div&gt;+ NotificationFileHandler():&lt;/div&gt;&lt;div&gt;+ Load(): List&amp;lt;Notification&amp;gt;&lt;/div&gt;&lt;div&gt;+ Save(notifications: List&amp;lt;Notification&amp;gt;): void&lt;/div&gt;" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" vertex="1" parent="XoQeL0dI6h63Ai5pAjJc-14">
+          <mxGeometry y="68" width="370" height="52" as="geometry" />
+        </mxCell>
+        <mxCell id="XoQeL0dI6h63Ai5pAjJc-18" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;entryX=0.486;entryY=1.034;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="XoQeL0dI6h63Ai5pAjJc-4" target="XoQeL0dI6h63Ai5pAjJc-13">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="8880" y="1250" as="sourcePoint" />
+            <mxPoint x="8880" y="1477" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XoQeL0dI6h63Ai5pAjJc-19" value="" style="endArrow=none;startArrow=block;endFill=0;startFill=1;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="XoQeL0dI6h63Ai5pAjJc-14" target="XoQeL0dI6h63Ai5pAjJc-4">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="10058" y="1888" as="sourcePoint" />
+            <mxPoint x="10060" y="1778" as="targetPoint" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XoQeL0dI6h63Ai5pAjJc-20" value="1..1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="XoQeL0dI6h63Ai5pAjJc-19">
+          <mxGeometry x="0.912" y="2" relative="1" as="geometry">
+            <mxPoint x="15" y="4" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XoQeL0dI6h63Ai5pAjJc-21" value="1..1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="XoQeL0dI6h63Ai5pAjJc-19">
+          <mxGeometry x="-0.8597" y="2" relative="1" as="geometry">
+            <mxPoint x="14" y="-18" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XoQeL0dI6h63Ai5pAjJc-22" value="&amp;lt;&amp;lt;use&amp;gt;&amp;gt;" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;exitX=0.502;exitY=1.022;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="XoQeL0dI6h63Ai5pAjJc-11" target="XoQeL0dI6h63Ai5pAjJc-12">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="9630.94" y="804.7600000000002" as="sourcePoint" />
+            <mxPoint x="9631" y="950" as="targetPoint" />
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="XoQeL0dI6h63Ai5pAjJc-23" value="&amp;lt;&amp;lt;use&amp;gt;&amp;gt;" style="endArrow=open;endSize=12;dashed=1;html=1;rounded=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="XoQeL0dI6h63Ai5pAjJc-11" target="uvLx43Q1L7Gq1hZpYEsi-163">
+          <mxGeometry width="160" relative="1" as="geometry">
+            <mxPoint x="9131" y="1192" as="sourcePoint" />
+            <mxPoint x="8400" y="850" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="8680" y="1129" />
+              <mxPoint x="8680" y="710" />
+              <mxPoint x="7090" y="720" />
+              <mxPoint x="7090" y="1385" />
             </Array>
           </mxGeometry>
         </mxCell>

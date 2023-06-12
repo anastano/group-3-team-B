@@ -34,13 +34,11 @@ namespace SIMS_HCI_Project.Domain.Models
             DateRange = new DateRange();
         }
 
-        public RegularTourRequest(int guestId, Guest2 guest, string country, string city, string language, int guestNumber, string description, DateRange dateRange, int complexTourRequestId)
+        public RegularTourRequest(int guestId, Guest2 guest, Location location, string language, int guestNumber, string description, DateRange dateRange, int complexTourRequestId)
         {
             GuestId = guestId;
             Guest = guest;
-            Location.City = city;
-            Location.Country = country;
-            Language = language;
+            Location = location;
             GuestNumber = guestNumber;
             Description = description;
             DateRange = dateRange;

@@ -33,3 +33,4 @@
 33|Request to reschedule the reservation for 'The Royal Palace Hotel' has been ACCEPTED|3|True|DEFAULT
 34|Created new tour which fulfills some of your requirements from your unfulfilled requests. Tour is created with id: [35]. Click to see details|4|False|NEW_TOUR
 35|NEW VOUCHER - You won voucher for loyalty, which can be used for any tour. It expires in 6 months.|4|False|DEFAULT
+36|Your request number for tour was accepted. Departure time: 6/15/2023. Created tour number: [39].|4|False|TOUR_REQUEST_ACCEPTED

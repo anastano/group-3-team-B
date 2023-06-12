@@ -36,8 +36,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
 
         public Tour Tour { get; set; }
-        public DateTime PickedDate { get; set; }
-        public DateTime PickedTime { get; set; }
 
         private ComplexTourRequestsService _complexTourRequestsService;
 
@@ -59,6 +57,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             set
             {
                 _selectedComplex = value;
+                HasAcceptedPart = _selectedComplex.HasAcceptedPart(guide.Id);
+
                 OnPropertyChanged();
             }
         }
@@ -74,18 +74,54 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
             }
         }
 
+        private ObservableCollection<DateTime> _possibleDepartureTimes;
+        public ObservableCollection<DateTime> PossibleDepartureTimes
+        {
+            get { return _possibleDepartureTimes; }
+            set
+            {
+                _possibleDepartureTimes = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private DateTime _selectedDepartureTime;
+        public DateTime SelectedDepartureTime
+        {
+            get { return _selectedDepartureTime; }
+            set
+            {
+                _selectedDepartureTime = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private Guide guide;
+
+        private bool _hasAcceptedPart;
+        public bool HasAcceptedPart
+        {
+            get { return _hasAcceptedPart; }
+            set
+            {
+                _hasAcceptedPart = value;
+                OnPropertyChanged();
+            }
+        }
+        
         public ComplexTourRequestsViewModel() 
         {
             _complexTourRequestsService = new ComplexTourRequestsService();
 
-            PickedDate = DateTime.Now;
-
             InitCommands();
             LoadRequests();
 
-            if(ComplexRequests != null && ComplexRequests.Count > 0)
+            guide = (Guide)App.Current.Properties["CurrentUser"];
+
+            if (ComplexRequests != null && ComplexRequests.Count > 0)
             {
                 SelectedComplex = ComplexRequests.First();
+                HasAcceptedPart = SelectedComplex.HasAcceptedPart(guide.Id);
             }
         }
 
@@ -103,17 +139,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
 
         private void ExecutedAcceptRequestCommand(object obj)
         {
-            PickedDate = SelectedTourRequest.DateRange.Start;
+            PossibleDepartureTimes = new ObservableCollection<DateTime>(_complexTourRequestsService.GeneratePossibleDepartureTimes(SelectedTourRequest, guide));
         }
 
         private void ExecutedConfirmPickedDateCommand(object obj)
         {
-            Tour = _complexTourRequestsService.AcceptRequest(SelectedTourRequest, ((User)App.Current.Properties["CurrentUser"]).Id, new DateTime(PickedDate.Year, PickedDate.Month, PickedDate.Day, PickedTime.Hour, PickedTime.Minute, 0));
+            Tour = _complexTourRequestsService.AcceptRequest(SelectedTourRequest, guide, SelectedDepartureTime);
             if (Tour == null)
             {
-                MessageBox.Show("You already have tour in that time slot.", "Acceptance failed", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.Yes);
+                MessageBox.Show("You already have tour in that time slot or someone else took that time slot.", "Acceptance failed", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.Yes);
             }
-            LoadRequests();
+            LoadRequests(); 
         }
 
         private bool CanExecuteCommand(object obj)

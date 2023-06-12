@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SIMS_HCI_Project.Domain.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,9 +18,19 @@ namespace SIMS_HCI_Project.Domain.Models
             TourRequests = new List<RegularTourRequest>();
         }
 
-        public bool HasPart(int guideId)
+        public bool HasAcceptedPart(int guideId)
         {
-            return this.TourRequests.Any(r => r.Tour.GuideId == guideId);
+            return this.TourRequests.Any(r => r.TourId != -1 && r.Tour.GuideId == guideId);
+        }
+
+        public bool IsTimeSlotScheduled(DateRange dateRange)
+        {
+            return TourRequests.Any(r => r.TourId != -1 && dateRange.DoesOverlap(new DateRange(r.Tour.DepartureTimes[0].DepartureTime, r.Tour.Duration)));
+        }
+
+        public bool AllPartsAccepted()
+        {
+            return !TourRequests.Any(r => r.TourId == -1);
         }
     }
 }

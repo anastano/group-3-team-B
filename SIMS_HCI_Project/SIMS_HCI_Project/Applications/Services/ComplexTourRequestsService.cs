@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace SIMS_HCI_Project.Applications.Services
 {
@@ -32,6 +33,39 @@ namespace SIMS_HCI_Project.Applications.Services
             return _complexTourRequestRepository.GetAll();
         }
 
+        public Tour AcceptRequest(RegularTourRequest request, Guide guide, DateTime departureTime)
+        {
+            if (request.ComplexTourRequest.HasAcceptedPart(guide.Id) || 
+                guide.IsBusy(new DateRange(departureTime, 2)) || 
+                request.ComplexTourRequest.IsTimeSlotScheduled(new DateRange(departureTime, 2))) return null;
+
+            RegularTourRequestService regularTourRequestService = new RegularTourRequestService();
+            Tour tourFromRequest = regularTourRequestService.AcceptRequest(request, guide, departureTime);
+
+            if (request.ComplexTourRequest.AllPartsAccepted())
+            {
+                request.ComplexTourRequest.Accept();
+                _complexTourRequestRepository.Update(request.ComplexTourRequest);
+            }
+
+            return tourFromRequest;
+        }
+
+        public List<DateTime> GeneratePossibleDepartureTimes(RegularTourRequest request, Guide guide)
+        {
+            List<DateTime> possibleDepartureTimes = new List<DateTime>();
+
+            for (DateTime possibleDepartureTime = request.DateRange.Start > DateTime.Now ? request.DateRange.Start.Date : DateTime.Now.AddDays(1).Date; possibleDepartureTime < request.DateRange.End; possibleDepartureTime = possibleDepartureTime.AddHours(2))
+            {
+                DateRange possibleTimeSlot = new DateRange(possibleDepartureTime, 2);
+                if (guide.IsBusy(possibleTimeSlot) || request.ComplexTourRequest.IsTimeSlotScheduled(possibleTimeSlot)) continue;
+
+                possibleDepartureTimes.Add(possibleDepartureTime);
+            }
+
+            return possibleDepartureTimes;
+        }
+        
         public List<ComplexTourRequest> GetAllByGuestId(int guestId)
         {
             return _complexTourRequestRepository.GetAllByGuestId(guestId);
@@ -47,15 +81,6 @@ namespace SIMS_HCI_Project.Applications.Services
             _complexTourRequestRepository.Update(request);
         }
 
-        public Tour AcceptRequest(RegularTourRequest request, int guideId, DateTime departureTime)
-        {
-            if (request.ComplexTourRequest.HasPart(guideId)) return null;
-
-            /* I hate this */
-
-            return null;
-        }
-
         private void UpdateStatusForInvalid() 
         {
             List<ComplexTourRequest> complexRequests = _complexTourRequestRepository.GetAll();
@@ -68,12 +93,13 @@ namespace SIMS_HCI_Project.Applications.Services
         private void CheckStartDateRange(ComplexTourRequest complexRequest)
         {
             foreach (var regularRequest in complexRequest.TourRequests)
+            {
                 if (DateTime.Now > regularRequest.DateRange.Start.AddHours(-48) && complexRequest.Status == TourRequestStatus.PENDING)
                 {
                     complexRequest.Invalidate();
                     _complexTourRequestRepository.Update(complexRequest);
                 }
+            }
         }
-
     }
 }

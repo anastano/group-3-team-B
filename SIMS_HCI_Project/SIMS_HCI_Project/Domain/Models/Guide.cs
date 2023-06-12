@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -53,7 +54,9 @@ namespace SIMS_HCI_Project.Domain.Models
 
         public bool IsBusy(DateRange dateRange)
         {
-            return false; 
+            List<TourTime> allTourTimes = this.AllTours.SelectMany(t => t.DepartureTimes).ToList();
+
+            return allTourTimes.Any(tt => dateRange.DoesOverlap(new DateRange(tt.DepartureTime, tt.Tour.Duration)));
         }
     }
 }

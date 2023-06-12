@@ -196,7 +196,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         
         private void ExecutedConfirmPickedDateCommand(object obj)
         {
-            Tour = _regularTourRequestService.AcceptRequest(SelectedTourRequest, ((User)App.Current.Properties["CurrentUser"]).Id, new DateTime(PickedDate.Year, PickedDate.Month, PickedDate.Day, PickedTime.Hour, PickedTime.Minute, 0));
+            Tour = _regularTourRequestService.AcceptRequest(SelectedTourRequest, ((Guide)App.Current.Properties["CurrentUser"]), new DateTime(PickedDate.Year, PickedDate.Month, PickedDate.Day, PickedTime.Hour, PickedTime.Minute, 0));
             if(Tour == null)
             {
                 MessageBox.Show("You already have tour in that time slot.", "Acceptance failed", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.Yes);

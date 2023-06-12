@@ -78,7 +78,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels
             Guest = guest;
             Forum = forum;
             UsefulMessage = "Very Useful";
-            IsForumUseful = _forumService.IsUSeful(Forum);
+            IsForumUseful = Forum.IsUseful();
             CanGuestLeaveComment = (Forum.Status == ForumStatus.ACTIVE);
             Forum = _forumService.GetById(forum.Id);
             BackCommand = new RelayCommand(ExecutedBackCommand, CanExecute);

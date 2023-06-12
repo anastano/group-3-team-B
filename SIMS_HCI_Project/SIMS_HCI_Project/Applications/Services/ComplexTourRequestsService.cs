@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace SIMS_HCI_Project.Applications.Services
 {
@@ -26,14 +27,37 @@ namespace SIMS_HCI_Project.Applications.Services
             return _complexTourRequestRepository.GetAll();
         }
 
-        public Tour AcceptRequest(RegularTourRequest request, int guideId, DateTime departureTime)
+        public Tour AcceptRequest(RegularTourRequest request, Guide guide, DateTime departureTime)
         {
-            if (request.ComplexTourRequest.HasPart(guideId)) return null;
+            if (request.ComplexTourRequest.HasAcceptedPart(guide.Id) || 
+                guide.IsBusy(new DateRange(departureTime, 2)) || 
+                request.ComplexTourRequest.IsTimeSlotScheduled(new DateRange(departureTime, 2))) return null;
 
-            /* I hate this */
+            RegularTourRequestService regularTourRequestService = new RegularTourRequestService();
+            Tour tourFromRequest = regularTourRequestService.AcceptRequest(request, guide, departureTime);
 
-            return null;
+            if (request.ComplexTourRequest.AllPartsAccepted())
+            {
+                request.ComplexTourRequest.Accept();
+                _complexTourRequestRepository.Update(request.ComplexTourRequest);
+            }
+
+            return tourFromRequest;
         }
 
+        public List<DateTime> GeneratePossibleDepartureTimes(RegularTourRequest request, Guide guide)
+        {
+            List<DateTime> possibleDepartureTimes = new List<DateTime>();
+
+            for (DateTime possibleDepartureTime = request.DateRange.Start > DateTime.Now ? request.DateRange.Start.Date : DateTime.Now.AddDays(1).Date; possibleDepartureTime < request.DateRange.End; possibleDepartureTime = possibleDepartureTime.AddHours(2))
+            {
+                DateRange possibleTimeSlot = new DateRange(possibleDepartureTime, 2);
+                if (guide.IsBusy(possibleTimeSlot) || request.ComplexTourRequest.IsTimeSlotScheduled(possibleTimeSlot)) continue;
+
+                possibleDepartureTimes.Add(possibleDepartureTime);
+            }
+
+            return possibleDepartureTimes;
+        }
     }
 }

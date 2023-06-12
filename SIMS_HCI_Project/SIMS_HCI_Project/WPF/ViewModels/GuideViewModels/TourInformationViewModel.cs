@@ -99,7 +99,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.GuideViewModels
         private void LoadImages()
         {
             AllImages = new ObservableCollection<string>(Tour.Images);
-            MainImage = Tour.Images.First();
+            if(Tour.Images != null && Tour.Images.Count > 0)
+            {
+             MainImage = Tour.Images.First();
+            }
         }
 
         private void InitCommands()

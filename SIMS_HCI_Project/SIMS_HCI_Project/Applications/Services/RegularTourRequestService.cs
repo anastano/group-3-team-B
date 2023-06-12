@@ -68,11 +68,11 @@ namespace SIMS_HCI_Project.Applications.Services
             _regularTourRequestRepository.Update(request);
         }
 
-        public Tour AcceptRequest(RegularTourRequest request, int guideId, DateTime departureTime)
+        public Tour AcceptRequest(RegularTourRequest request, Guide guide, DateTime departureTime)
         {
-            if (_tourTimeRepository.GetAllInDateRange(guideId, new DateRange(departureTime, 2)).Count != 0) return null;
+            if (_tourTimeRepository.GetAllInDateRange(guide.Id, new DateRange(departureTime, 2)).Count != 0) return null;
 
-            Tour tourFromRequest = CreateTourFromRequest(request, guideId, departureTime);
+            Tour tourFromRequest = CreateTourFromRequest(request, guide, departureTime);
 
             TourService tourService = new TourService(); // because creation of tour is complex
             tourService.Add(tourFromRequest);
@@ -89,7 +89,7 @@ namespace SIMS_HCI_Project.Applications.Services
             return tourFromRequest;
         }
 
-        private Tour CreateTourFromRequest(RegularTourRequest request, int guideId, DateTime departureTime) // create constructor for this?
+        private Tour CreateTourFromRequest(RegularTourRequest request, Guide guide, DateTime departureTime) // create constructor for this?
         {
             Tour tourFromRequest = new Tour()
                             {
@@ -100,7 +100,8 @@ namespace SIMS_HCI_Project.Applications.Services
                                 Description = request.Description,
                                 MaxGuests = request.GuestNumber,
                                 Duration = 2,
-                                GuideId = guideId,
+                                GuideId = guide.Id,
+                                Guide = guide
                             };
             tourFromRequest.DepartureTimes.Add(new TourTime(tourFromRequest.Id, departureTime));
             tourFromRequest.KeyPoints.Add(new TourKeyPoint("Start"));

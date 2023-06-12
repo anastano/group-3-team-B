@@ -14,12 +14,12 @@
         <StackPanel>
             <Border Style="{StaticResource OwnerBorderStyle}" Margin="10 10 10 0" Padding="10" Width="350" Height="150">
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <TextBlock Text="{Binding Message}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"
+                    <TextBlock Text="{Binding NextFeatureMessage}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"
                            TextAlignment="Center" TextWrapping="Wrap" Foreground="{StaticResource OwnerMainColor}"></TextBlock>
                 </StackPanel>
             </Border>
 
-            <TextBlock Text="{Binding Message2}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 5 0 0"
+            <TextBlock Text="{Binding StopDemoMessage}" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 5 0 0"
                            TextAlignment="Center" TextWrapping="Wrap" Foreground="{StaticResource OwnerMainColor}" FontWeight="SemiBold"></TextBlock>
 
         </StackPanel>

@@ -8,6 +8,8 @@ namespace SIMS_HCI_Project.WPF.Validations
 {
     public class AccommodationValidation : ValidationBase
     {
+        #region OnPropertyChanged
+
         private string _name;
         public string Name
         {
@@ -16,7 +18,6 @@ namespace SIMS_HCI_Project.WPF.Validations
             {
                 if (value != _name)
                 {
-
                     _name = value;
                     OnPropertyChanged(nameof(Name));
                 }
@@ -31,7 +32,6 @@ namespace SIMS_HCI_Project.WPF.Validations
             {
                 if (value != _city)
                 {
-
                     _city = value;
                     OnPropertyChanged(nameof(City));
                 }
@@ -46,7 +46,6 @@ namespace SIMS_HCI_Project.WPF.Validations
             {
                 if (value != _country)
                 {
-
                     _country = value;
                     OnPropertyChanged(nameof(Country));
                 }
@@ -61,7 +60,6 @@ namespace SIMS_HCI_Project.WPF.Validations
             {
                 if (value != _maxGuests)
                 {
-
                     _maxGuests = value;
                     OnPropertyChanged(nameof(MaxGuests));
                 }
@@ -76,7 +74,6 @@ namespace SIMS_HCI_Project.WPF.Validations
             {
                 if (value != _minDays)
                 {
-
                     _minDays = value;
                     OnPropertyChanged(nameof(MinDays));
                 }
@@ -91,13 +88,13 @@ namespace SIMS_HCI_Project.WPF.Validations
             {
                 if (value != _cancellationDays)
                 {
-
                     _cancellationDays = value;
                     OnPropertyChanged(nameof(CancellationDays));
                 }
             }
         }
 
+        #endregion
 
         public AccommodationValidation() { }
 

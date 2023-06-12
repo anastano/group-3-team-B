@@ -21,10 +21,10 @@ namespace SIMS_HCI_Project.WPF.Views.OwnerViews
     /// </summary>
     public partial class MessageView : Window
     {
-        public MessageView(string message, string message2)
+        public MessageView(string nextFeatureMessage, string stopDemoMessage)
         {
             InitializeComponent();
-            this.DataContext = new MessageViewModel(this, message, message2);
+            this.DataContext = new MessageViewModel(this, nextFeatureMessage, stopDemoMessage);
         }
     }
 }

@@ -9,9 +9,9 @@
     <Window.InputBindings>
         <KeyBinding Gesture="Ctrl+R" Command="{Binding AddRenovationCommand}"/>
         <KeyBinding Gesture="Ctrl+D" Command="{Binding CancelRenovationCommand}"/>
-        <KeyBinding Gesture="Ctrl+S" Command="{Binding ShowGuestSuggestionsCommand}"/>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding ShowSuggestionsCommand}"/>
         <KeyBinding Gesture="Ctrl+F" Command="{Binding CreatePDFReportCommand}"/>
-        <KeyBinding Key="Esc" Command="{Binding CloseRenovationsViewCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseViewCommand}"/>
     </Window.InputBindings>
 
     <Grid Background="{StaticResource OwnerNeutralColor}">
@@ -31,13 +31,13 @@
                         <Button x:Name="btnCancelRenovation"  Content="    Cancel Selected &#xa;Renovation (Ctrl+D)" Command="{Binding CancelRenovationCommand}"
                             Style="{StaticResource OwnerButtonStyle}" Width="175">
                         </Button>
-                        <Button x:Name="btnGuestSuggestions"  Content="       Show Guest &#xa;Suggestions (Ctrl+S)" Command="{Binding ShowGuestSuggestionsCommand}"
+                        <Button x:Name="btnGuestSuggestions"  Content="       Show Guest &#xa;Suggestions (Ctrl+S)" Command="{Binding ShowSuggestionsCommand}"
                             Style="{StaticResource OwnerButtonStyle}" Width="175">
                         </Button>
                         <Button x:Name="btnCreatePDFReport"  Content="Create PDF Report &#xa;        (Ctrl+F)" Command="{Binding CreatePDFReportCommand}"
                             Style="{StaticResource OwnerButtonStyle}" Width="175">
                         </Button>
-                        <Button x:Name="btnClose"  Content="Close (Esc)"  Command="{Binding CloseRenovationsViewCommand}"
+                        <Button x:Name="btnClose"  Content="Close (Esc)"  Command="{Binding CloseViewCommand}"
                             Style="{StaticResource OwnerButtonStyle}" Width="175">
                         </Button>
                     </StackPanel>

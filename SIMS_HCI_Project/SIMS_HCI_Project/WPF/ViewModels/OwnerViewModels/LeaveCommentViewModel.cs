@@ -18,9 +18,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
     public class LeaveCommentViewModel : INotifyPropertyChanged
     {
         private readonly ForumCommentService _forumCommentService;
-        
         public LeaveCommentView LeaveCommentView { get; set; }
-        public SelectedForumViewModel SelectedForumVM { get; set; }
+        public ForumViewModel ForumVM { get; set; }
         
         public Owner Owner { get; set; }
         public Forum Forum { get; set; }
@@ -35,7 +34,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             {
                 if (value != _comment)
                 {
-
                     _comment = value;
                     OnPropertyChanged(nameof(Comment));
                 }
@@ -50,52 +48,42 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         #endregion
 
-        public RelayCommand SubmitCommentCommand { get; set; }
-        public RelayCommand CloseLeaveCommentViewCommand { get; set; }
+        public RelayCommand SubmitCommand { get; set; }
+        public RelayCommand CloseViewCommand { get; set; }
 
 
-        public LeaveCommentViewModel(LeaveCommentView leaveCommentView, SelectedForumViewModel selectedForumVM, Owner owner, Forum forum)
+        public LeaveCommentViewModel(LeaveCommentView leaveCommentView, ForumViewModel forumVM, Owner owner, Forum forum)
         {
             InitCommands();
 
             _forumCommentService = new ForumCommentService();
 
             LeaveCommentView = leaveCommentView;
-            SelectedForumVM = selectedForumVM;
+            ForumVM = forumVM;
             Owner = owner;
             Forum = forum;
         }
 
         #region Commands
-        public void Executed_SubmitCommentCommand(object obj)
+        public void Executed_SubmitCommand(object obj)
         {          
             ForumComment comment = new ForumComment(Owner, Forum, Comment, true);
             _forumCommentService.Add(comment);
-            SelectedForumVM.UpdateComments();
+            ForumVM.UpdateComments();
             LeaveCommentView.Close();           
         }
 
-        public bool CanExecute_SubmitCommentCommand(object obj)
-        {
-            return true;
-        }
-
-
-        public void Executed_CloseLeaveCommentViewCommand(object obj)
+        public void Executed_CloseViewCommand(object obj)
         {
             LeaveCommentView.Close();
         }
 
-        public bool CanExecute_CloseLeaveCommentViewCommand(object obj)
-        {
-            return true;
-        }
         #endregion
 
         public void InitCommands()
         {
-            SubmitCommentCommand = new RelayCommand(Executed_SubmitCommentCommand, CanExecute_SubmitCommentCommand);
-            CloseLeaveCommentViewCommand = new RelayCommand(Executed_CloseLeaveCommentViewCommand, CanExecute_CloseLeaveCommentViewCommand);
+            SubmitCommand = new RelayCommand(Executed_SubmitCommand);
+            CloseViewCommand = new RelayCommand(Executed_CloseViewCommand);
         }
     }
 }

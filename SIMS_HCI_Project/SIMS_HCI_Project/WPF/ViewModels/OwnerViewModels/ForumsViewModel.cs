@@ -19,8 +19,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public Owner Owner { get; set; }
         public ObservableCollection<Forum> Forums { get; set; }
         public Forum SelectedForum { get; set; }
-        public RelayCommand ShowSelectedForumCommand { get; set; }
-        public RelayCommand CloseForumsViewCommand { get; set; }
+        public RelayCommand ShowForumCommand { get; set; }
+        public RelayCommand CloseViewCommand { get; set; }
 
 
         public ForumsViewModel(ForumsView forumsView, Owner owner)
@@ -35,11 +35,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         }
 
         #region Commands
-        public void Executed_ShowSelectedForumCommand(object obj)
+        public void Executed_ShowForumCommand(object obj)
         {
             if (SelectedForum != null)
             {
-                Window selectForumView = new SelectedForumView(Owner, SelectedForum);
+                Window selectForumView = new ForumView(Owner, SelectedForum);
                 selectForumView.ShowDialog();
             }
             else
@@ -48,26 +48,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             }
         }
 
-        public bool CanExecute_ShowSelectedForumCommand(object obj)
-        {
-            return true;
-        }
-
-        public void Executed_CloseForumsViewCommand(object obj)
+        public void Executed_CloseViewCommand(object obj)
         {
             ForumsView.Close();
         }
 
-        public bool CanExecute_CloseForumsViewCommand(object obj)
-        {
-            return true;
-        }
         #endregion
 
         public void InitCommands()
         {
-            ShowSelectedForumCommand = new RelayCommand(Executed_ShowSelectedForumCommand, CanExecute_ShowSelectedForumCommand);
-            CloseForumsViewCommand = new RelayCommand(Executed_CloseForumsViewCommand, CanExecute_CloseForumsViewCommand);
+            ShowForumCommand = new RelayCommand(Executed_ShowForumCommand);
+            CloseViewCommand = new RelayCommand(Executed_CloseViewCommand);
         }
     }
 }

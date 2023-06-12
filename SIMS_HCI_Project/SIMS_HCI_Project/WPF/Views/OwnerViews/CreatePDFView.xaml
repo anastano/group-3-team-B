@@ -8,7 +8,7 @@
         Title="CreatePDFView" Height="300" Width="450" WindowStartupLocation="CenterScreen">
     <Window.InputBindings>
         <KeyBinding Gesture="Ctrl+S" Command="{Binding ShowPDFCommand}"/>
-        <KeyBinding Key="Esc" Command="{Binding CloseCreatePDFViewCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseViewCommand}"/>
     </Window.InputBindings>
     <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=dpStart}">
 
@@ -70,7 +70,7 @@
                         Style="{StaticResource OwnerButtonStyle}" Width="150" Height="35">
                 </Button>
 
-                <Button x:Name="btnCancel" Content="Cancel (Esc)" Command="{Binding CloseCreatePDFViewCommand}"
+                <Button x:Name="btnCancel" Content="Cancel (Esc)" Command="{Binding CloseViewCommand}"
                         Style="{StaticResource OwnerButtonStyle}" Width="150" Height="35">
                 </Button>
             </StackPanel>

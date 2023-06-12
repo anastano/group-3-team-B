@@ -7,27 +7,27 @@
         mc:Ignorable="d"
         Title="AccommodationImagesView" Height="450" Width="650" WindowStartupLocation="CenterScreen">
     <Window.InputBindings>
-        <KeyBinding Key="Left" Command="{Binding PreviousAccommodationImageCommand}"/>
-        <KeyBinding Key="Right"  Command="{Binding NextAccommodationImageCommand}"/>
-        <KeyBinding Key="Esc"  Command="{Binding CloseAccommodationImageViewCommand}"/>
+        <KeyBinding Key="Left" Command="{Binding PreviousImageCommand}"/>
+        <KeyBinding Key="Right"  Command="{Binding NextImageCommand}"/>
+        <KeyBinding Key="Esc"  Command="{Binding CloseViewCommand}"/>
         <KeyBinding Gesture="Ctrl+Q" Command="{Binding StopDemoCommand}"/>
     </Window.InputBindings>
     <Grid Background="{StaticResource OwnerNeutralColor}">
         <StackPanel Margin="10 10 10 10">
             <Border Style="{StaticResource OwnerBorderStyle}" Padding="5" Margin="5">
                 <StackPanel Orientation="Horizontal">
-                    <Button x:Name="btnPrevious" Content="&lt;&lt;" Command="{Binding PreviousAccommodationImageCommand}"
+                    <Button x:Name="btnPrevious" Content="&lt;&lt;" Command="{Binding PreviousImageCommand}"
                         Style="{StaticResource OwnerButtonStyle}" Width="50" Height="300"/>
                     
                     <Image Source="{Binding Image, UpdateSourceTrigger=PropertyChanged}" Stretch="Uniform" Width="450" Height="300"/>
 
-                    <Button x:Name="btnNext" Content="&gt;&gt;" Command="{Binding NextAccommodationImageCommand}"
-                        Style="{StaticResource OwnerButtonStyle}" Width="50" Height="300"/>
+                    <Button x:Name="btnNext" Content="&gt;&gt;" Command="{Binding NextImageCommand}"
+                        Style="{Binding NextButtonStyle, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="50" Height="300"/>
                 </StackPanel>
             </Border>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="btnClose" Content="Close (Esc)" Command="{Binding CloseAccommodationImageViewCommand}"
-                        Style="{StaticResource OwnerButtonStyle}"/>
+                <Button x:Name="btnClose" Content="Close (Esc)" Command="{Binding CloseViewCommand}"
+                        Style="{Binding CloseButtonStyle, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 
             </StackPanel>
         </StackPanel>

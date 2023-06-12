@@ -18,9 +18,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
     public class AccommodationImagesViewModel : INotifyPropertyChanged
     {
         private readonly AccommodationService _accommodationService;
-        private int _currentImageIndex = 0;
+        private int _currentImageIndex;
+        public Accommodation Accommodation { get; set; }
         public AccommodationImagesView AccommodationImagesView { get; set; }
         public AccommodationsView AccommodationsView { get; set; }
+        public Style NormalButtonStyle { get; set; }
+        public Style SelectedButtonStyle { get; set; }
 
         #region OnPropertyChanged
         public List<string> Images { get; set; }
@@ -33,9 +36,36 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             {
                 if (value != _image)
                 {
-
                     _image = value;
                     OnPropertyChanged(nameof(Image));
+                }
+            }
+        }
+
+        private Style _nextButtonStyle;
+        public Style NextButtonStyle
+        {
+            get => _nextButtonStyle;
+            set
+            {
+                if (value != _nextButtonStyle)
+                {
+                    _nextButtonStyle = value;
+                    OnPropertyChanged(nameof(NextButtonStyle));
+                }
+            }
+        }
+
+        private Style _closeButtonStyle;
+        public Style CloseButtonStyle
+        {
+            get => _closeButtonStyle;
+            set
+            {
+                if (value != _closeButtonStyle)
+                { 
+                    _closeButtonStyle = value;
+                    OnPropertyChanged(nameof(CloseButtonStyle));
                 }
             }
         }
@@ -47,24 +77,34 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         }
         #endregion
 
-        public RelayCommand PreviousAccommodationImageCommand { get; set; }
-        public RelayCommand NextAccommodationImageCommand { get; set; }
-        public RelayCommand CloseAccommodationImageViewCommand { get; set; }
+        public RelayCommand PreviousImageCommand { get; set; }
+        public RelayCommand NextImageCommand { get; set; }
+        public RelayCommand CloseViewCommand { get; set; }
         public RelayCommand StopDemoCommand { get; set; }  
 
-        public AccommodationImagesViewModel(AccommodationImagesView accommodationsImagesView, AccommodationsView accommodationsView, Accommodation accommodation)
+        public AccommodationImagesViewModel(AccommodationImagesView imagesView, AccommodationsView accommodationsView, Accommodation accommodation)
         {
             InitCommands();
 
             _accommodationService = new AccommodationService();
 
-            AccommodationImagesView = accommodationsImagesView;
+            AccommodationImagesView = imagesView;
             AccommodationsView = accommodationsView;
-            Images = _accommodationService.GetImages(accommodation.Id);
+
+            Accommodation = accommodation;
+            Images = _accommodationService.GetImages(Accommodation.Id);
+            _currentImageIndex = 0;
+
             if (Images.Count != 0)
             {
                 Image = Images[_currentImageIndex];
             }
+
+            NormalButtonStyle = Application.Current.FindResource("OwnerButtonStyle") as Style;
+            SelectedButtonStyle = Application.Current.FindResource("OwnerSelectedButtonStyle") as Style;
+            NextButtonStyle = NormalButtonStyle;
+            CloseButtonStyle = NormalButtonStyle;
+
             DemoIsOn();
         }
 
@@ -74,20 +114,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             if (OwnerMainViewModel.Demo)
             {
                 await Task.Delay(1000);
-                Style selectedButtonStyle = Application.Current.FindResource("OwnerSelectedButtonStyle") as Style;
-                AccommodationImagesView.btnNext.Style = selectedButtonStyle;
+                NextButtonStyle = SelectedButtonStyle;
                 await Task.Delay(1500);
-                Style normalButtonStyle = Application.Current.FindResource("OwnerButtonStyle") as Style;
-                AccommodationImagesView.btnNext.Style = normalButtonStyle;
+                NextButtonStyle = NormalButtonStyle;
                 _currentImageIndex++;
                 ChangeOutrangeCurrentImageIndex();
                 Image = Images[_currentImageIndex];
                 await Task.Delay(1500);
-                AccommodationImagesView.btnClose.Style = selectedButtonStyle;
+                CloseButtonStyle = SelectedButtonStyle;
                 await Task.Delay(1500);
-                AccommodationImagesView.btnClose.Style = normalButtonStyle;
+                CloseButtonStyle = NormalButtonStyle;
                 AccommodationImagesView.Close();
-
             }
         }
         #endregion
@@ -105,7 +142,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         }
 
         #region Commands
-        public void Executed_PreviousAccommodationImageCommand(object obj)
+        public void Executed_PreviousImageCommand(object obj)
         {
             _currentImageIndex--;
             ChangeOutrangeCurrentImageIndex();
@@ -115,12 +152,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             }
         }
 
-        public bool CanExecute_PreviousAccommodationImageCommand(object obj)
-        {
-            return true;
-        }
-
-        public void Executed_NextAccommodationImageCommand(object obj)
+        public void Executed_NextImageCommand(object obj)
         {
             _currentImageIndex++;
             ChangeOutrangeCurrentImageIndex();
@@ -130,19 +162,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             }
         }
 
-        public bool CanExecute_NextAccommodationImageCommand(object obj)
-        {
-            return true;
-        }
-
-        public void Executed_CloseAccommodationImageViewCommand(object obj)
+        public void Executed_CloseViewCommand(object obj)
         {
             AccommodationImagesView.Close();
-        }
-
-        public bool CanExecute_CloseAccommodationImageViewCommand(object obj)
-        {
-            return true;
         }
 
         private async Task StopDemo()
@@ -175,19 +197,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             }
         }
 
-        public bool CanExecute_StopDemoCommand(object obj)
-        {
-            return true;
-        }
-
         #endregion
 
         public void InitCommands()
         {
-            PreviousAccommodationImageCommand = new RelayCommand(Executed_PreviousAccommodationImageCommand, CanExecute_PreviousAccommodationImageCommand);
-            NextAccommodationImageCommand = new RelayCommand(Executed_NextAccommodationImageCommand, CanExecute_NextAccommodationImageCommand);
-            CloseAccommodationImageViewCommand = new RelayCommand(Executed_CloseAccommodationImageViewCommand, CanExecute_CloseAccommodationImageViewCommand);
-            StopDemoCommand = new RelayCommand(Executed_StopDemoCommand, CanExecute_StopDemoCommand);
+            PreviousImageCommand = new RelayCommand(Executed_PreviousImageCommand);
+            NextImageCommand = new RelayCommand(Executed_NextImageCommand);
+            CloseViewCommand = new RelayCommand(Executed_CloseViewCommand);
+            StopDemoCommand = new RelayCommand(Executed_StopDemoCommand);
         }
     }
 }

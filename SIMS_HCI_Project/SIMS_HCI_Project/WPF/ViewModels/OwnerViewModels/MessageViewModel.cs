@@ -12,15 +12,15 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 {
     public class MessageViewModel
     {
-        public string Message { get; set; }
-        public string Message2 { get; set; }
+        public string NextFeatureMessage { get; set; }
+        public string StopDemoMessage { get; set; }
         public MessageView MessageView { get; set; }
         public RelayCommand StopDemoCommand { get; set; }
 
-        public MessageViewModel(MessageView messageView, string message, string  message2) 
+        public MessageViewModel(MessageView messageView, string nextFeatureMessage, string  stopDemoMessage) 
         {
-            Message = message;
-            Message2 = message2;
+            NextFeatureMessage = nextFeatureMessage;
+            StopDemoMessage = stopDemoMessage;
             MessageView = messageView;
         }
 
@@ -51,16 +51,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             }
         }
 
-        public bool CanExecute_StopDemoCommand(object obj)
-        {
-            return true;
-        }
-
         #endregion
 
         public void InitCommands()
         {
-            StopDemoCommand = new RelayCommand(Executed_StopDemoCommand, CanExecute_StopDemoCommand);
+            StopDemoCommand = new RelayCommand(Executed_StopDemoCommand);
         }
     }
 }

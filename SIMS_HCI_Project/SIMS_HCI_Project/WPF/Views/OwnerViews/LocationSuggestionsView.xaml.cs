@@ -19,12 +19,12 @@ namespace SIMS_HCI_Project.WPF.Views.OwnerViews
     /// <summary>
     /// Interaction logic for AccommodationSuggestionsView.xaml
     /// </summary>
-    public partial class AccommodationSuggestionsView : Window
+    public partial class LocationSuggestionsView : Window
     {
-        public AccommodationSuggestionsView(AccommodationsView accommodationsView, Owner owner)
+        public LocationSuggestionsView(AccommodationsView accommodationsView, Owner owner)
         {
             InitializeComponent();
-            this.DataContext = new AccommodationSuggestionsViewModel(this, accommodationsView, owner);
+            this.DataContext = new LocationSuggestionsViewModel(this, accommodationsView, owner);
         }
     }
 }

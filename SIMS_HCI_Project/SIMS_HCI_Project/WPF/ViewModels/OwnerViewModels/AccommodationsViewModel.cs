@@ -189,7 +189,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
                 ShowSuggestionsButtonStyle = SelectedButtonStyle;
                 await Task.Delay(1500, CT);
                 ShowSuggestionsButtonStyle = NormalButtonStyle;
-                Window accommodationSuggestions = new AccommodationSuggestionsView(AccommodationsView, Owner);
+                Window accommodationSuggestions = new LocationSuggestionsView(AccommodationsView, Owner);
                 accommodationSuggestions.ShowDialog();
                 await Task.Delay(1500, CT);
 
@@ -225,7 +225,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         public void Executed_ShowSuggestionsCommand(object obj)
         {
-            Window accommodationSuggestionsView = new AccommodationSuggestionsView(AccommodationsView, Owner);
+            Window accommodationSuggestionsView = new LocationSuggestionsView(AccommodationsView, Owner);
             accommodationSuggestionsView.ShowDialog();
         }
 

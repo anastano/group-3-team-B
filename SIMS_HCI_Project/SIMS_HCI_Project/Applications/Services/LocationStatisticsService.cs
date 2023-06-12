@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 
 namespace SIMS_HCI_Project.Applications.Services
 {
-    public class StatisticsForSuggestionsService
+    public class LocationStatisticsService
     {
         private readonly IAccommodationReservationRepository _reservationRepository;
         private readonly ILocationRepository _locationRepository;
         private readonly IAccommodationRepository _accommodationRepository;
 
-        public StatisticsForSuggestionsService()
+        public LocationStatisticsService()
         {
             _reservationRepository = Injector.Injector.CreateInstance<IAccommodationReservationRepository>();
             _locationRepository = Injector.Injector.CreateInstance<ILocationRepository>();

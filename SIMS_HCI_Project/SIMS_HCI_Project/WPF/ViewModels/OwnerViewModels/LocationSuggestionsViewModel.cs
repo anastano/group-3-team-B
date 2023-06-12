@@ -16,10 +16,10 @@ using System.Windows;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 {
-    public class AccommodationSuggestionsViewModel : INotifyPropertyChanged
+    public class LocationSuggestionsViewModel : INotifyPropertyChanged
     {
-        private readonly StatisticsForSuggestionsService _statisticsForSuggestionsService;
-        public AccommodationSuggestionsView AccommodationSuggestionsView { get; set; }
+        private readonly LocationStatisticsService _locationStatisticsService;
+        public LocationSuggestionsView LocationSuggestionsView { get; set; }
         public AccommodationsView AccommodationsView { get; set; }
         public Owner Owner { get; set; }
         public LocationInfo BestLocation { get; set; }
@@ -59,21 +59,21 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public RelayCommand HomeViewCommand { get; set; }
         public RelayCommand StopDemoCommand { get; set; }
 
-        public AccommodationSuggestionsViewModel(AccommodationSuggestionsView suggestionsView, AccommodationsView accommodationsView, Owner owner)
+        public LocationSuggestionsViewModel(LocationSuggestionsView suggestionsView, AccommodationsView accommodationsView, Owner owner)
         {
             InitCommands();
 
-            _statisticsForSuggestionsService = new StatisticsForSuggestionsService();
+            _locationStatisticsService = new LocationStatisticsService();
 
-            AccommodationSuggestionsView = suggestionsView;
+            LocationSuggestionsView = suggestionsView;
             AccommodationsView = accommodationsView;
             Owner = owner;
 
-            BestLocation = _statisticsForSuggestionsService.FindBestLocationLastYear(Owner.Id);
+            BestLocation = _locationStatisticsService.FindBestLocationLastYear(Owner.Id);
             BestLocationOccupancyPercentage = new ChartValues<double> { Math.Round(BestLocation.OccupancyPercentageInLastYear ,2) };
             BestLocationNonOccupancyPercentage = new ChartValues<double> { Math.Round(100 - BestLocation.OccupancyPercentageInLastYear, 2)  };
 
-            WorstLocation = _statisticsForSuggestionsService.FindWorstLocationLastYear(Owner.Id);
+            WorstLocation = _locationStatisticsService.FindWorstLocationLastYear(Owner.Id);
             WorstLocationOccupancyPercentage = new ChartValues<double> { Math.Round(WorstLocation.OccupancyPercentageInLastYear, 2) };
             WorstLocationNonOccupancyPercentage = new ChartValues<double> { Math.Round(100 - WorstLocation.OccupancyPercentageInLastYear, 2) };
 
@@ -93,7 +93,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
                 CloseButtonStyle = SelectedButtonStyle;
                 await Task.Delay(1500);
                 CloseButtonStyle = NormalButtonStyle;
-                AccommodationSuggestionsView.Close();
+                LocationSuggestionsView.Close();
 
             }
         }
@@ -102,12 +102,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         #region Commands
         public void Executed_CloseViewCommand(object obj)
         {
-            AccommodationSuggestionsView.Close();
+            LocationSuggestionsView.Close();
         }
 
         public void Executed_HomeViewCommand(object obj)
         {
-            AccommodationSuggestionsView.Close();
+            LocationSuggestionsView.Close();
             AccommodationsView.Close();
         }
 
@@ -119,7 +119,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
                 OwnerMainViewModel.Demo = false;
 
                 //demo message - end
-                AccommodationSuggestionsView.Close();
+                LocationSuggestionsView.Close();
                 AccommodationsView.Close();
 
                 Window messageDemoOver = new MessageView("The demo mode is over.", "");

@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2023-06-12T10:45:29.008Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="cBAsbymJgYWDPFwZG_Tz" version="21.3.8" type="github">
+<mxfile host="app.diagrams.net" modified="2023-06-12T10:47:17.172Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36" etag="ANzFWUswrJr422iBIbDn" version="21.3.8" type="github">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
-    <mxGraphModel dx="2037" dy="1207" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="10" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1018" dy="603" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="10" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
@@ -1269,13 +1269,13 @@
         <mxCell id="8iC8YcQQulqQMkO72673-4" value="&lt;p style=&quot;margin:0px;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;AccommodationYear&lt;/b&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ year: int&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ reservationCount: int&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ cancellationCount: int&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ reschedulingCount: int&lt;br&gt;&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ recommendationCount: int&lt;br&gt;&lt;/p&gt;&lt;hr size=&quot;1&quot;&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+&amp;nbsp;AccommodationYear():&lt;/p&gt;&lt;p style=&quot;margin:0px;margin-left:4px;&quot;&gt;+ AccommodationYear(year: int, reservationCount: int, cancellationCount: int, reschedulingCount: int, recommendationCount: int):&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=12;fontFamily=Helvetica;html=1;whiteSpace=wrap;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="630" y="2412" width="420" height="162" as="geometry" />
         </mxCell>
-        <mxCell id="mCppNN9YgqaE16zxRrr4-2" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;exitX=-0.002;exitY=0.104;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0.383;entryY=1.035;entryDx=0;entryDy=0;entryPerimeter=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" source="NhX7Lcbya11qm8r15Doo-23" target="mCppNN9YgqaE16zxRrr4-8" edge="1">
+        <mxCell id="mCppNN9YgqaE16zxRrr4-2" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;entryX=0.712;entryY=0.943;entryDx=0;entryDy=0;entryPerimeter=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" target="mCppNN9YgqaE16zxRrr4-8" edge="1">
           <mxGeometry width="160" relative="1" as="geometry">
-            <mxPoint x="2980" y="3255" as="sourcePoint" />
+            <mxPoint x="3020" y="3160" as="sourcePoint" />
             <mxPoint x="2909.7599999999998" y="3171.64" as="targetPoint" />
             <Array as="points">
-              <mxPoint x="2940" y="3170" />
-              <mxPoint x="2930" y="3170" />
+              <mxPoint x="3020" y="3150" />
+              <mxPoint x="2974" y="3150" />
             </Array>
           </mxGeometry>
         </mxCell>
@@ -1309,7 +1309,7 @@
         <mxCell id="mCppNN9YgqaE16zxRrr4-8" value="+ Guest1(user: User)" style="text;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;whiteSpace=wrap;html=1;" parent="mCppNN9YgqaE16zxRrr4-5" vertex="1">
           <mxGeometry y="60" width="160" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="mCppNN9YgqaE16zxRrr4-9" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;exitX=1.002;exitY=-0.293;exitDx=0;exitDy=0;exitPerimeter=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" edge="1" source="bRCwWAFthB4PE2QuR0Db-5">
+        <mxCell id="mCppNN9YgqaE16zxRrr4-9" value="" style="endArrow=block;dashed=1;endFill=0;endSize=12;html=1;rounded=0;exitX=1.002;exitY=-0.308;exitDx=0;exitDy=0;exitPerimeter=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" edge="1" source="9bYkNKjE3x5Me1kp2MUy-447">
           <mxGeometry width="160" relative="1" as="geometry">
             <mxPoint x="3281.08" y="3260.2000000000003" as="sourcePoint" />
             <mxPoint x="3340" y="3160" as="targetPoint" />

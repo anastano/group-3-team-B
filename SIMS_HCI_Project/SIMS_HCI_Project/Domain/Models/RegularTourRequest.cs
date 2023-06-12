@@ -38,9 +38,7 @@ namespace SIMS_HCI_Project.Domain.Models
         {
             GuestId = guestId;
             Guest = guest;
-            Location.City = city;
-            Location.Country = country;
-            Language = language;
+            Location = location;
             GuestNumber = guestNumber;
             Description = description;
             DateRange = dateRange;

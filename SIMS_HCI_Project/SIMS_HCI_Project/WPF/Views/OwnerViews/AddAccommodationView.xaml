@@ -93,8 +93,8 @@
                     </StackPanel>
 
                     <StackPanel Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left">
-                        <ComboBox x:Name="txtType" 
-                              SelectedValuePath="Content" SelectedValue ="{Binding Accommodation.Type}" SelectedIndex="0"
+                        <ComboBox Style="{DynamicResource OwnerComboBoxStyle}" x:Name="txtType" 
+                              SelectedValuePath="Content" SelectedValue ="{Binding Accommodation.Type}" SelectedIndex="0" Foreground="Black"
                               Width="320" Height="30" BorderThickness="2" FontSize="16" HorizontalAlignment="Left" Margin="0 0 0 0" HorizontalContentAlignment="Center">
 
                             <ComboBoxItem Content="APARTMENT"/>

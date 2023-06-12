@@ -50,8 +50,8 @@
                            Style="{StaticResource OwnerLabelStyle}"></Label>
 
                         <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left">
-                            <ComboBox x:Name="cbAccommodations" ItemsSource="{Binding OwnerAccommodations}"  DisplayMemberPath="Name" 
-                                      SelectedItem="{Binding ValidatedRenovation.SelectedAccommodation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="320"
+                            <ComboBox Style="{DynamicResource OwnerComboBoxStyle}" x:Name="cbAccommodations" ItemsSource="{Binding OwnerAccommodations}"  DisplayMemberPath="Name" 
+                                      SelectedItem="{Binding ValidatedRenovation.SelectedAccommodation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="320" Foreground="Black"
                                       Height="30" FontSize="16" HorizontalAlignment="Left" HorizontalContentAlignment="Center" IsSynchronizedWithCurrentItem="True" SelectedIndex="0">
                             </ComboBox>
                             <TextBlock Text="{Binding ValidatedRenovation.ValidationErrors[SelectedAccommodation]}"

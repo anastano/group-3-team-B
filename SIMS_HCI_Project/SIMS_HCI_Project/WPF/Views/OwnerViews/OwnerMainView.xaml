@@ -259,7 +259,8 @@
 
                                 </StackPanel>
 
-                                <ListView x:Name="lvNotifications" ItemsSource="{Binding Notifications}" Height="190" Margin="5" Visibility="{Binding NotificationCount, Converter={StaticResource NotificationsVisibilityConverter}}">
+                                <ListView x:Name="lvNotifications" ItemsSource="{Binding Notifications}" Height="190" Margin="5" 
+                                          Visibility="{Binding NotificationCount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource NotificationsVisibilityConverter}}">
                                     <ListView.View>
                                         <GridView>
                                             <GridViewColumn Header="Id">

@@ -8,8 +8,8 @@
         mc:Ignorable="d"
         Title="StatisticsByMonth" Height="650" Width="1050" WindowStartupLocation="CenterScreen">
     <Window.InputBindings>
-        <KeyBinding Key="Esc" Command="{Binding CloseStatisticsByMonthViewCommand}"/>
-        <KeyBinding Gesture="Ctrl+Z" Command="{Binding HomeStatisticsByMonthViewCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseViewCommand}"/>
+        <KeyBinding Gesture="Ctrl+Z" Command="{Binding HomeViewCommand}"/>
     </Window.InputBindings>
     <Window.Resources>
         <converters:MultiplyCountConverter x:Key="MultiplyCountConverter"/>
@@ -156,11 +156,11 @@
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button x:Name="btnClose" Content="Close (Esc)" 
-                        Style="{StaticResource OwnerButtonStyle}" Width="200" Command="{Binding CloseStatisticsByMonthViewCommand}">
+                        Style="{StaticResource OwnerButtonStyle}" Width="200" Command="{Binding CloseViewCommand}">
                 </Button>
 
                 <Button x:Name="btnHome" Content="Home (Ctrl+Z)"    
-                        Style="{StaticResource OwnerButtonStyle}" Width="200" Command="{Binding HomeStatisticsByMonthViewCommand}">
+                        Style="{StaticResource OwnerButtonStyle}" Width="200" Command="{Binding HomeViewCommand}">
                 </Button>
             </StackPanel>
         </StackPanel>

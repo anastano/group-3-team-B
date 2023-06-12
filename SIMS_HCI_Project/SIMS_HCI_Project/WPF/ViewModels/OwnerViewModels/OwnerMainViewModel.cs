@@ -38,7 +38,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public Owner Owner { get; set; }
         public ObservableCollection<AccommodationReservation> ReservationsInProgress { get; set; }
         public List<Notification> Notifications { get; set; }
-        public int NotificationCount { get; set; }
         public Style NormalButtonStyle { get; set; }
         public Style SelectedButtonStyle { get; set; }       
 
@@ -52,12 +51,26 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             {
                 if (value != _unratedGuestsCount)
                 {
-
                     _unratedGuestsCount = value;
                     OnPropertyChanged(nameof(UnratedGuestsCount));
                 }
             }
         }
+
+        private int _notificationCount;
+        public int NotificationCount
+        {
+            get => _notificationCount;
+            set
+            {
+                if (value != _notificationCount)
+                {
+                    _notificationCount = value;
+                    OnPropertyChanged(nameof(NotificationCount));
+                }
+            }
+        }
+
 
         private Style _accommodationButtonStyle;
         public Style AccommodationsButtonStyle
@@ -67,7 +80,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             {
                 if (value != _accommodationButtonStyle)
                 {
-
                     _accommodationButtonStyle = value;
                     OnPropertyChanged(nameof(AccommodationsButtonStyle));
                 }
@@ -82,7 +94,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             {
                 if (value != _reservationsButtonStyle)
                 {
-
                     _reservationsButtonStyle = value;
                     OnPropertyChanged(nameof(ReservationsButtonStyle));
                 }
@@ -157,20 +168,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             accommodationsView.ShowDialog();
         }
 
-        public bool CanExecute_ShowAccommodationsCommand(object obj)
-        {
-            return true;
-        }
-
         public void Executed_ShowReservationsCommand(object obj)
         {
-            Window reservationsView = new GuestReservationsView(Owner);
+            Window reservationsView = new ReservationsView(Owner);
             reservationsView.ShowDialog();
-        }
-
-        public bool CanExecute_ShowReservationsCommand(object obj)
-        {
-            return true;
         }
 
         public void Executed_ShowRenovationsCommand(object obj)
@@ -179,64 +180,34 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             renovtionsView.ShowDialog();
         }
 
-        public bool CanExecute_ShowRenovationsCommand(object obj)
-        {
-            return true;
-        }
-
         public void Executed_ShowPendingRequestsCommand(object obj)
         {
-            Window requestsView = new RescheduleRequestsView(Owner);
+            Window requestsView = new RequestsView(Owner);
             requestsView.ShowDialog();
-        }
-
-        public bool CanExecute_ShowPendingRequestsCommand(object obj)
-        {
-            return true;
         }
 
         public void Executed_ShowUnratedReservationsCommand(object obj)
         {
-            Window unratedReservationsView = new UnratedReservationsView(this, Owner);
+            Window unratedReservationsView = new UnratedGuestsView(this, Owner);
             unratedReservationsView.ShowDialog();
-        }
-
-        public bool CanExecute_ShowUnratedReservationsCommand(object obj)
-        {
-            return true;
         }
 
         public void Executed_ShowGuestReviewsCommand(object obj)
         {
-            Window guestReviewsView = new GuestReviewsView(Owner);
+            Window guestReviewsView = new ReviewsView(Owner);
             guestReviewsView.ShowDialog();
-        }
-
-        public bool CanExecute_ShowGuestReviewsCommand(object obj)
-        {
-            return true;
         }
 
         public void Executed_ShowStatisticsCommand(object obj)
         {
-            Window statisticsView = new SelectAccommodationForStatisticsView(Owner);
-            statisticsView.ShowDialog();
-        }
-
-        public bool CanExecute_ShowStatisticsCommand(object obj)
-        {
-            return true;
+            Window statisticsByYearView = new StatisticsByYearView(Owner);
+            statisticsByYearView.ShowDialog();
         }
 
         public void Executed_ShowForumsCommand(object obj)
         {
             Window forumsView = new ForumsView(Owner);
             forumsView.ShowDialog();
-        }
-
-        public bool CanExecute_ShowForumsCommand(object obj)
-        {
-            return true;
         }
 
         private async Task StartDemo() 
@@ -266,7 +237,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
                 ReservationsButtonStyle = SelectedButtonStyle;
                 await Task.Delay(1500, CT);
                 ReservationsButtonStyle = NormalButtonStyle;
-                Window reservationsView = new GuestReservationsView(Owner);
+                Window reservationsView = new ReservationsView(Owner);
                 reservationsView.ShowDialog();
                 await Task.Delay(1500, CT);
 
@@ -292,11 +263,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
                 MessageBox.Show("Error!");
             }
             
-        }
-
-        public bool CanExecute_StartDemoCommand(object obj)
-        {
-            return true;
         }
 
         private async Task StopDemo()
@@ -332,11 +298,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         }
 
-        public bool CanExecute_StopDemoCommand(object obj)
-        {
-            return true;
-        }
-
         public void Executed_LogoutCommand(object obj)
         {
             
@@ -349,25 +310,21 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             OwnerMainView.Close();
         }
 
-        public bool CanExecute_LogoutCommand(object obj)
-        {
-            return true;
-        }
         #endregion
 
         public void InitCommands() 
         {
-            ShowAccommodationsCommand = new RelayCommand(Executed_ShowAccommodationsCommand, CanExecute_ShowAccommodationsCommand);
-            ShowReservationsCommand = new RelayCommand(Executed_ShowReservationsCommand, CanExecute_ShowReservationsCommand);
-            ShowRenovationsCommand = new RelayCommand(Executed_ShowRenovationsCommand, CanExecute_ShowRenovationsCommand);
-            ShowPendingRequestsCommand = new RelayCommand(Executed_ShowPendingRequestsCommand, CanExecute_ShowPendingRequestsCommand);
-            ShowUnratedReservationsCommand = new RelayCommand(Executed_ShowUnratedReservationsCommand, CanExecute_ShowUnratedReservationsCommand);
-            ShowGuestReviewsCommand = new RelayCommand(Executed_ShowGuestReviewsCommand, CanExecute_ShowGuestReviewsCommand);
-            ShowStatisticsCommand = new RelayCommand(Executed_ShowStatisticsCommand, CanExecute_ShowStatisticsCommand);
-            ShowForumsCommand = new RelayCommand(Executed_ShowForumsCommand, CanExecute_ShowForumsCommand);
-            StartDemoCommand = new RelayCommand(Executed_StartDemoCommand, CanExecute_StartDemoCommand);
-            StopDemoCommand = new RelayCommand(Executed_StopDemoCommand, CanExecute_StopDemoCommand);
-            LogoutCommand = new RelayCommand(Executed_LogoutCommand, CanExecute_LogoutCommand);
+            ShowAccommodationsCommand = new RelayCommand(Executed_ShowAccommodationsCommand);
+            ShowReservationsCommand = new RelayCommand(Executed_ShowReservationsCommand);
+            ShowRenovationsCommand = new RelayCommand(Executed_ShowRenovationsCommand);
+            ShowPendingRequestsCommand = new RelayCommand(Executed_ShowPendingRequestsCommand);
+            ShowUnratedReservationsCommand = new RelayCommand(Executed_ShowUnratedReservationsCommand);
+            ShowGuestReviewsCommand = new RelayCommand(Executed_ShowGuestReviewsCommand);
+            ShowStatisticsCommand = new RelayCommand(Executed_ShowStatisticsCommand);
+            ShowForumsCommand = new RelayCommand(Executed_ShowForumsCommand);
+            StartDemoCommand = new RelayCommand(Executed_StartDemoCommand);
+            StopDemoCommand = new RelayCommand(Executed_StopDemoCommand);
+            LogoutCommand = new RelayCommand(Executed_LogoutCommand);
         }
 
     }

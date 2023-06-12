@@ -23,11 +23,11 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public AccommodationsView AccommodationsView { get; set; }
         public Owner Owner { get; set; }
         public LocationInfo BestLocation { get; set; }
-        public ChartValues<double> OccupancyPercentageForBestLocation { get; set; }
-        public ChartValues<double> NonOccupancyPercentageForBestLocation { get; set; }
+        public ChartValues<double> BestLocationOccupancyPercentage { get; set; }
+        public ChartValues<double> BestLocationNonOccupancyPercentage { get; set; }
         public LocationInfo WorstLocation { get; set; }
-        public ChartValues<double> OccupancyPercentageForWorstLocation { get; set; }
-        public ChartValues<double> NonOccupancyPercentageForWorstLocation { get; set; }
+        public ChartValues<double> WorstLocationOccupancyPercentage { get; set; }
+        public ChartValues<double> WorstLocationNonOccupancyPercentage { get; set; }
         public Style NormalButtonStyle { get; set; }
         public Style SelectedButtonStyle { get; set; }
 
@@ -41,7 +41,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             {
                 if (value != _closeButtonStyle)
                 {
-
                     _closeButtonStyle = value;
                     OnPropertyChanged(nameof(CloseButtonStyle));
                 }
@@ -56,27 +55,27 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         #endregion
 
-        public RelayCommand CloseAccommodationSuggestionsViewCommand { get; set; }
-        public RelayCommand HomeAccommodationSuggestionsViewCommand { get; set; }
+        public RelayCommand CloseViewCommand { get; set; }
+        public RelayCommand HomeViewCommand { get; set; }
         public RelayCommand StopDemoCommand { get; set; }
 
-        public AccommodationSuggestionsViewModel(AccommodationSuggestionsView accommodationSuggestionsView, AccommodationsView accommodationsView, Owner owner)
+        public AccommodationSuggestionsViewModel(AccommodationSuggestionsView suggestionsView, AccommodationsView accommodationsView, Owner owner)
         {
             InitCommands();
 
             _statisticsForSuggestionsService = new StatisticsForSuggestionsService();
 
-            AccommodationSuggestionsView = accommodationSuggestionsView;
+            AccommodationSuggestionsView = suggestionsView;
             AccommodationsView = accommodationsView;
             Owner = owner;
 
             BestLocation = _statisticsForSuggestionsService.FindBestLocationLastYear(Owner.Id);
-            OccupancyPercentageForBestLocation = new ChartValues<double> { Math.Round(BestLocation.OccupancyPercentageInLastYear ,2) };
-            NonOccupancyPercentageForBestLocation = new ChartValues<double> { Math.Round(100 - BestLocation.OccupancyPercentageInLastYear, 2)  };
+            BestLocationOccupancyPercentage = new ChartValues<double> { Math.Round(BestLocation.OccupancyPercentageInLastYear ,2) };
+            BestLocationNonOccupancyPercentage = new ChartValues<double> { Math.Round(100 - BestLocation.OccupancyPercentageInLastYear, 2)  };
 
             WorstLocation = _statisticsForSuggestionsService.FindWorstLocationLastYear(Owner.Id);
-            OccupancyPercentageForWorstLocation = new ChartValues<double> { Math.Round(WorstLocation.OccupancyPercentageInLastYear, 2) };
-            NonOccupancyPercentageForWorstLocation = new ChartValues<double> { Math.Round(100 - WorstLocation.OccupancyPercentageInLastYear, 2) };
+            WorstLocationOccupancyPercentage = new ChartValues<double> { Math.Round(WorstLocation.OccupancyPercentageInLastYear, 2) };
+            WorstLocationNonOccupancyPercentage = new ChartValues<double> { Math.Round(100 - WorstLocation.OccupancyPercentageInLastYear, 2) };
 
             NormalButtonStyle = Application.Current.FindResource("OwnerButtonStyle") as Style;
             SelectedButtonStyle = Application.Current.FindResource("OwnerSelectedButtonStyle") as Style;
@@ -88,14 +87,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         #region DemoIsOn
         private async Task DemoIsOn()
         {
-            Style selectedButtonStyle = Application.Current.FindResource("OwnerSelectedButtonStyle") as Style;
-            Style normalButtonStyle = Application.Current.FindResource("OwnerButtonStyle") as Style;
             if (OwnerMainViewModel.Demo)
             {
                 await Task.Delay(2000);
-                CloseButtonStyle = selectedButtonStyle;
+                CloseButtonStyle = SelectedButtonStyle;
                 await Task.Delay(1500);
-                CloseButtonStyle = normalButtonStyle;
+                CloseButtonStyle = NormalButtonStyle;
                 AccommodationSuggestionsView.Close();
 
             }
@@ -103,25 +100,15 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         #endregion
 
         #region Commands
-        public void Executed_CloseAccommodationSuggestionsViewCommand(object obj)
+        public void Executed_CloseViewCommand(object obj)
         {
             AccommodationSuggestionsView.Close();
         }
 
-        public bool CanExecute_CloseAccommodationSuggestionsViewCommand(object obj)
-        {
-            return true;
-        }
-
-        public void Executed_HomeAccommodationSuggestionsViewCommand(object obj)
+        public void Executed_HomeViewCommand(object obj)
         {
             AccommodationSuggestionsView.Close();
             AccommodationsView.Close();
-        }
-
-        public bool CanExecute_HomeAccommodationSuggestionsViewCommand(object obj)
-        {
-            return true;
         }
 
         private async Task StopDemo()
@@ -154,18 +141,13 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             }
         }
 
-        public bool CanExecute_StopDemoCommand(object obj)
-        {
-            return true;
-        }
         #endregion
 
         public void InitCommands()
         {
-            CloseAccommodationSuggestionsViewCommand = new RelayCommand(Executed_CloseAccommodationSuggestionsViewCommand, CanExecute_CloseAccommodationSuggestionsViewCommand);
-            HomeAccommodationSuggestionsViewCommand = new RelayCommand(Executed_HomeAccommodationSuggestionsViewCommand, CanExecute_HomeAccommodationSuggestionsViewCommand);
-
-            StopDemoCommand = new RelayCommand(Executed_StopDemoCommand, CanExecute_StopDemoCommand);
+            CloseViewCommand = new RelayCommand(Executed_CloseViewCommand);
+            HomeViewCommand = new RelayCommand(Executed_HomeViewCommand);
+            StopDemoCommand = new RelayCommand(Executed_StopDemoCommand);
         }
     }
 }

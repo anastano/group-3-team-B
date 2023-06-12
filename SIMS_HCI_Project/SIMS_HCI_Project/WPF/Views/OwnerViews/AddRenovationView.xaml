@@ -8,11 +8,11 @@
         mc:Ignorable="d"
         Title="AddRenovationView" Height="670" Width="700" WindowStartupLocation="CenterScreen">
     <Window.InputBindings>
-        <KeyBinding Gesture="Ctrl+S" Command="{Binding AddNewRenovationCommand}"/>
-        <KeyBinding Gesture="Ctrl+F" Command="{Binding SearchAvailableRenovationsCommand}"/>
-        <KeyBinding Key="Esc" Command="{Binding CloseAddRenovationViewCommand}"/>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding AddRenovationCommand}"/>
+        <KeyBinding Gesture="Ctrl+F" Command="{Binding FindDatesCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseViewCommand}"/>
     </Window.InputBindings>
-    <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=txtDescription}">
+    <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=cbAccommodations}">
         <!-- MAIN STACK PANEL-->
         <StackPanel Margin="0 10 0 0">
 
@@ -29,9 +29,9 @@
                             <ColumnDefinition Width="2.5*"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="2.3*" />
-                            <RowDefinition Height="1.2*" />
+                            <RowDefinition Height="1.4*" />
+                            <RowDefinition Height="2.5*" />
+                            <RowDefinition Height="1.4*" />
                             <RowDefinition Height="1.1*" />
                             <RowDefinition Height="1.1*" />
                             <RowDefinition Height="1.2*" />
@@ -48,37 +48,41 @@
                            Style="{StaticResource OwnerLabelStyle}"></Label>
                         <Label Content="End: " Grid.Row="4" Grid.Column="0" VerticalAlignment="Top"
                            Style="{StaticResource OwnerLabelStyle}"></Label>
+
+                        <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left">
+                            <ComboBox x:Name="cbAccommodations" ItemsSource="{Binding OwnerAccommodations}"  DisplayMemberPath="Name" 
+                                      SelectedItem="{Binding ValidatedRenovation.SelectedAccommodation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="320"
+                                      Height="30" FontSize="16" HorizontalAlignment="Left" HorizontalContentAlignment="Center" IsSynchronizedWithCurrentItem="True" SelectedIndex="0">
+                            </ComboBox>
+                            <TextBlock Text="{Binding ValidatedRenovation.ValidationErrors[SelectedAccommodation]}"
+                               Foreground="Red" FontSize="12" HorizontalAlignment="Center">
+                            </TextBlock>
+                        </StackPanel>
+                        
                         
 
-                        <!-- TEXTBOX-->
-                        <TextBlock x:Name="tblAccommodationName" Grid.Row="0" Grid.Column="1" TextWrapping="Wrap"
-                                 Text="{Binding Path = Accommodation.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                 FontSize="16" HorizontalAlignment="Left" Margin="0 5 0 0" Height="30"
-                                 Style="{StaticResource OwnerTitleStyle}">
-                        </TextBlock>
-
                         <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left">
-                            <TextBox x:Name="txtDescription"  TextWrapping="Wrap"
-                             Text="{Binding Path = Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                             Style="{StaticResource OwnerTextBoxStyle}" Width="300" Height="80" Margin="0">
+                            <TextBox  TextWrapping="Wrap"
+                             Text="{Binding ValidatedRenovation.Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                             Style="{StaticResource OwnerTextBoxStyle}" Width="320" Height="70">
                             </TextBox>
-                            <TextBlock Text="{Binding ValidatedAccommodation.ValidationErrors[City]}"
+                            <TextBlock Text="{Binding ValidatedRenovation.ValidationErrors[Description]}"
                                Foreground="Red" FontSize="12" HorizontalAlignment="Center">
                             </TextBlock>
                         </StackPanel>
 
                         <StackPanel Grid.Row="2" Grid.Column="1" >
                             <TextBox x:Name="txtDaysNumber"  TextWrapping="Wrap"
-                             Text="{Binding Path = ValidatedRenovationDate.DaysNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                             Text="{Binding ValidatedRenovation.DaysNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                              Style="{StaticResource OwnerTextBoxStyle}" Width="150">
                             </TextBox>
-                            <TextBlock Text="{Binding ValidatedRenovationDate.ValidationErrors[DaysNumber]}"
+                            <TextBlock Text="{Binding ValidatedRenovation.ValidationErrors[DaysNumber]}"
                                Foreground="Red" FontSize="12">
                             </TextBlock>
                         </StackPanel>
 
                         <StackPanel Grid.Row="3" Grid.Column="1" >
-                            <DatePicker SelectedDate="{Binding ValidatedRenovationDate.EnteredStart, StringFormat='{}{0:MM/dd/yyyy}', Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            <DatePicker SelectedDate="{Binding ValidatedRenovation.EnteredStart, StringFormat='{}{0:MM/dd/yyyy}', Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                             SelectedDateFormat="Short" Height="25" Width="150" HorizontalAlignment="Left">
                                 <DatePicker.Resources>
                                     <Style TargetType="DatePickerTextBox">
@@ -86,13 +90,13 @@
                                     </Style>
                                 </DatePicker.Resources>
                             </DatePicker>
-                            <TextBlock Text="{Binding ValidatedRenovationDate.ValidationErrors[EnteredStart]}"
+                            <TextBlock Text="{Binding ValidatedRenovation.ValidationErrors[EnteredStart]}"
                                Foreground="Red" FontSize="12">
                             </TextBlock>
                         </StackPanel>
 
                         <StackPanel Grid.Row="4" Grid.Column="1"  >
-                            <DatePicker  SelectedDate="{Binding ValidatedRenovationDate.EnteredEnd, StringFormat='{}{0:MM/dd/yyyy}', Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                            <DatePicker  SelectedDate="{Binding ValidatedRenovation.EnteredEnd, StringFormat='{}{0:MM/dd/yyyy}', Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                     SelectedDateFormat="Short" Height="25" Width="150" HorizontalAlignment="Left">
                                 <DatePicker.Resources>
                                     <Style TargetType="DatePickerTextBox">
@@ -100,13 +104,13 @@
                                     </Style>
                                 </DatePicker.Resources>
                             </DatePicker>
-                            <TextBlock Text="{Binding ValidatedRenovationDate.ValidationErrors[EnteredEnd]}"
+                            <TextBlock Text="{Binding ValidatedRenovation.ValidationErrors[EnteredEnd]}"
                                Foreground="Red" FontSize="12">
                             </TextBlock>
                         </StackPanel>
 
                         <StackPanel Grid.Row="5" Grid.Column="1" Orientation="Horizontal">
-                            <Button x:Name="btnSearch" Content="Find dates (Ctrl+F)"   Command="{Binding SearchAvailableRenovationsCommand}"
+                            <Button x:Name="btnSearch" Content="Find dates (Ctrl+F)"   Command="{Binding FindDatesCommand}"
                                 Style ="{StaticResource OwnerButtonStyle}" Width="150" Height="30" HorizontalAlignment="Left" Margin="0">
                             </Button>
 
@@ -154,10 +158,10 @@
             </Border>
             <!-- Buttons STACK PANEL-->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="btnSubmit" Content="Submit (Ctrl+S)" Command="{Binding AddNewRenovationCommand}"
+                <Button x:Name="btnSubmit" Content="Submit (Ctrl+S)" Command="{Binding AddRenovationCommand}"
                     Style ="{StaticResource OwnerButtonStyle}" >
                 </Button>
-                <Button x:Name="btnCancel" Content="Cancel (Esc)" Command="{Binding CloseAddRenovationViewCommand}"
+                <Button x:Name="btnCancel" Content="Cancel (Esc)" Command="{Binding CloseViewCommand}"
                     Style ="{StaticResource OwnerButtonStyle}">
                 </Button>
             </StackPanel>

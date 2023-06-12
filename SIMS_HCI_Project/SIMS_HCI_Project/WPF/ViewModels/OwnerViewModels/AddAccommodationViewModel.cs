@@ -43,7 +43,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             {
                 if (value != _validatedimageURL)
                 {
-
                     _validatedimageURL = value;
                     OnPropertyChanged(nameof(ValidatedImageURL));
                 }
@@ -58,7 +57,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             {
                 if (value != _validatedAccommodation)
                 {
-
                     _validatedAccommodation = value;
                     OnPropertyChanged(nameof(ValidatedAccommodation));
                 }
@@ -73,7 +71,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             {
                 if (value != _images)
                 {
-
                     _images = value;
                     OnPropertyChanged(nameof(Images));
                 }
@@ -88,7 +85,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             {
                 if (value != _addImageButtonStyle)
                 {
-
                     _addImageButtonStyle = value;
                     OnPropertyChanged(nameof(AddImageButtonStyle));
                 }
@@ -103,7 +99,6 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             {
                 if (value != _registerButtonStyle)
                 {
-
                     _registerButtonStyle = value;
                     OnPropertyChanged(nameof(RegisterButtonStyle));
                 }
@@ -117,10 +112,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         }
         #endregion
 
-        public RelayCommand AddAccommodationImageCommand { get; set; }
-        public RelayCommand RemoveAccommodationImageCommand { get; set; }
-        public RelayCommand RegisterNewAccommodationCommand { get; set; }
-        public RelayCommand CloseAddAccommodationViewCommand { get; set; }
+        public RelayCommand AddImageCommand { get; set; }
+        public RelayCommand RemoveImageCommand { get; set; }
+        public RelayCommand RegisterAccommodationCommand { get; set; }
+        public RelayCommand CloseViewCommand { get; set; }
         public RelayCommand StopDemoCommand { get; set; }
 
         public AddAccommodationViewModel(AddAccommodationView addAccommodationView, AccommodationsViewModel accommodationsVM, Owner owner)
@@ -189,7 +184,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         #endregion
 
         #region Commands
-        public void Executed_AddAccommodationImageCommand(object obj)
+        public void Executed_AddImageCommand(object obj)
         {
             ValidatedImageURL.Validate();
             if (ValidatedImageURL.IsValid)
@@ -199,12 +194,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             }
         }
 
-        public bool CanExecute_AddAccommodationImageCommand(object obj)
-        {
-            return true;
-        }
-
-        public void Executed_RemoveAccommodationImageCommand(object obj)
+        public void Executed_RemoveImageCommand(object obj)
         {
             if (SelectedImage != null)
             {
@@ -216,57 +206,32 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             }
         }
 
-        public bool CanExecute_RemoveAccommodationImageCommand(object obj)
-        {
-            return true;
-        }
-
-        private MessageBoxResult ConfirmRegisterNewAccommodation()
-        {
-            string sMessageBoxText = $"Are you sure you want to register this accommodation?";
-            string sCaption = "Add Accommodation Confirmation";
-
-            MessageBoxButton btnMessageBox = MessageBoxButton.YesNo;
-            MessageBoxImage icnMessageBox = MessageBoxImage.Warning;
-
-            MessageBoxResult result = MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox, icnMessageBox);
-            return result;
-        }
-
-        public void Executed_RegisterNewAccommodationCommand(object obj)
+        public void Executed_RegisterAccommodationCommand(object obj)
         {
             ValidatedAccommodation.Validate();
             if (ValidatedAccommodation.IsValid)
             {
-                if (ConfirmRegisterNewAccommodation() == MessageBoxResult.Yes)
-                {
-                    Location.City = ValidatedAccommodation.City;
-                    Location.Country = ValidatedAccommodation.Country;
+                Location.City = ValidatedAccommodation.City;
+                Location.Country = ValidatedAccommodation.Country;
 
-                    Accommodation.OwnerId = Owner.Id;
-                    Accommodation.Name = ValidatedAccommodation.Name;
-                    Accommodation.MaxGuests = ValidatedAccommodation.MaxGuests ?? 0;
-                    Accommodation.MinimumReservationDays = ValidatedAccommodation.MinDays ?? 0;
-                    Accommodation.CancellationDeadlineInDays = ValidatedAccommodation.CancellationDays ?? 0;
+                Accommodation.OwnerId = Owner.Id;
+                Accommodation.Name = ValidatedAccommodation.Name;
+                Accommodation.MaxGuests = ValidatedAccommodation.MaxGuests ?? 0;
+                Accommodation.MinimumReservationDays = ValidatedAccommodation.MinDays ?? 0;
+                Accommodation.CancellationDeadlineInDays = ValidatedAccommodation.CancellationDays ?? 0;
 
-                    Accommodation.Images = new List<string>(Images);
+                Accommodation.Images = new List<string>(Images);
 
-                    _accommodationService.Add(Accommodation, Location);
+                _accommodationService.Add(Accommodation, Location);
 
-                    AddAccommodationView.Close();
-                    AccommodationsVM.UpdateAccommodations();
-                }
+                AddAccommodationView.Close();
+                AccommodationsVM.UpdateAccommodations();
             }
             else
             {
                 MessageBox.Show("Not all fields are filled in correctly.");
             }
             
-        }
-
-        public bool CanExecute_RegisterNewAccommodationCommand(object obj)
-        {
-            return true;
         }
 
         private async Task StopDemo()
@@ -299,29 +264,20 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             }
         }
 
-        public bool CanExecute_StopDemoCommand(object obj)
-        {
-            return true;
-        }
-
-        public void Executed_CloseAddAccommodationViewCommand(object obj)
+        public void Executed_CloseViewCommand(object obj)
         {
             AddAccommodationView.Close();
         }
 
-        public bool CanExecute_CloseAddAccommodationViewCommand(object obj)
-        {
-            return true;
-        }
         #endregion
 
         public void InitCommands()
         {
-            AddAccommodationImageCommand = new RelayCommand(Executed_AddAccommodationImageCommand, CanExecute_AddAccommodationImageCommand);
-            RemoveAccommodationImageCommand = new RelayCommand(Executed_RemoveAccommodationImageCommand, CanExecute_RemoveAccommodationImageCommand);
-            RegisterNewAccommodationCommand = new RelayCommand(Executed_RegisterNewAccommodationCommand, CanExecute_RegisterNewAccommodationCommand);
-            CloseAddAccommodationViewCommand = new RelayCommand(Executed_CloseAddAccommodationViewCommand, CanExecute_CloseAddAccommodationViewCommand);
-            StopDemoCommand = new RelayCommand(Executed_StopDemoCommand, CanExecute_StopDemoCommand);
+            AddImageCommand = new RelayCommand(Executed_AddImageCommand);
+            RemoveImageCommand = new RelayCommand(Executed_RemoveImageCommand);
+            RegisterAccommodationCommand = new RelayCommand(Executed_RegisterAccommodationCommand);
+            CloseViewCommand = new RelayCommand(Executed_CloseViewCommand);
+            StopDemoCommand = new RelayCommand(Executed_StopDemoCommand);
         }      
 
     }

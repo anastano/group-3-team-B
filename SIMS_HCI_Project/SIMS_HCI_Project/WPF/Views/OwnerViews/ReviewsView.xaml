@@ -1,0 +1,107 @@
+﻿<Window x:Class="SIMS_HCI_Project.WPF.Views.OwnerViews.ReviewsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
+        mc:Ignorable="d"
+        Title="ReviewsView" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding ShowReviewCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseViewCommand}"/>
+    </Window.InputBindings>
+
+    <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=dgGuestReviews}">
+        <!-- MAIN STACK PANEL-->
+        <StackPanel Orientation="Vertical" Margin="10 5 10 5">
+            <!-- TOP STACK PANEL - Options-->
+            <StackPanel Margin="5 5 5 5">
+                <TextBlock x:Name="tblOptions" Text="Options" 
+                       Style="{StaticResource OwnerTitleStyle}">
+                </TextBlock>
+                <Border Style="{StaticResource OwnerBorderStyle}">
+                    <!-- Buttons STACK PANEL-->
+                    <StackPanel  Margin="5 0 5 5" Orientation="Horizontal">
+                        <Button x:Name="btnShowSelectedRating"  Content="Show Selected Review (Ctrl+S)"  Command="{Binding ShowReviewCommand}"
+                            Style="{StaticResource OwnerButtonStyle}" Width="350">
+                        </Button>
+                        <Button x:Name="btnClose"  Content="Close (Esc)" Command="{Binding CloseViewCommand}"
+                            Style="{StaticResource OwnerButtonStyle}" Width="350">
+                        </Button>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+            <!-- MIDDLE STACK PANEL-->
+            <StackPanel Margin="5 0 5 0">
+
+                <TextBlock x:Name="tblGuestReviews" Text="Guest Reviews" 
+                           Style="{StaticResource OwnerTitleStyle}">
+                </TextBlock>
+                <Border Style="{StaticResource OwnerBorderStyle}">
+                    <!-- DataGrid STACKPANEL-->
+                    <StackPanel Margin="0 0 0 0">
+                        <DataGrid x:Name = "dgGuestReviews" AutoGenerateColumns="False" ItemsSource="{Binding Reviews, UpdateSourceTrigger=PropertyChanged}" 
+                                      SelectedItem="{Binding Path=SelectedReview, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Focusable="True"
+                                      Background="{StaticResource OwnerNeutralColor}" Width="930" Height="400" Margin="10 10 10 10" CanUserSortColumns="True" SelectionMode="Single" IsTabStop="False"
+                                        Style="{StaticResource OwnerDatagridStyle}" CellStyle="{StaticResource OwnerDatagridCellStyle}"
+                                        ColumnHeaderStyle="{StaticResource OwnerDataGridColumnHeaderStyle}">
+
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Width="*" Header="Guest Name">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Reservation.Guest.Name}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Guest Surname">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Reservation.Guest.Surname}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="0.8*" Header="Reservation Id">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding ReservationId}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="2*" Header="Accommodation Name">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Reservation.Accommodation.Name}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="0.6*" Header="Cleanliness">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Cleanliness}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="0.6*" Header="Correctness">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Correctness}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                            </DataGrid.Columns>
+
+                        </DataGrid>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+        </StackPanel>
+    </Grid>
+</Window>

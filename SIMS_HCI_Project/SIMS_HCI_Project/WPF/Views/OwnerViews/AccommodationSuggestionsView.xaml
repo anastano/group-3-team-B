@@ -8,8 +8,8 @@
         mc:Ignorable="d"
         Title="AccommodationSuggestionsView" Height="690" Width="620" WindowStartupLocation="CenterScreen">
     <Window.InputBindings>
-        <KeyBinding Key="Esc"  Command="{Binding CloseAccommodationSuggestionsViewCommand}"/>
-        <KeyBinding Gesture="Ctrl+Z"  Command="{Binding HomeAccommodationSuggestionsViewCommand}"/>
+        <KeyBinding Key="Esc"  Command="{Binding CloseViewCommand}"/>
+        <KeyBinding Gesture="Ctrl+Z"  Command="{Binding HomeViewCommand}"/>
         <KeyBinding Gesture="Ctrl+Q" Command="{Binding StopDemoCommand}"/>
     </Window.InputBindings>
     <Grid Background="{StaticResource OwnerNeutralColor}">
@@ -66,8 +66,8 @@
                             <StackPanel Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 30 0">
                                 <lvc:PieChart Width="150" Height="150" Hoverable="True" InnerRadius="0">
                                     <lvc:PieChart.Series>
-                                        <lvc:PieSeries FontSize="18" Foreground="black"  DataLabels="True" Values="{Binding OccupancyPercentageForBestLocation}" Fill="#008080" ></lvc:PieSeries>
-                                        <lvc:PieSeries FontSize="18" Foreground="black"  DataLabels="True" Values="{Binding NonOccupancyPercentageForBestLocation}" Fill="#968E85"></lvc:PieSeries>
+                                        <lvc:PieSeries FontSize="18" Foreground="black"  DataLabels="True" Values="{Binding BestLocationOccupancyPercentage}" Fill="#008080" ></lvc:PieSeries>
+                                        <lvc:PieSeries FontSize="18" Foreground="black"  DataLabels="True" Values="{Binding BestLocationNonOccupancyPercentage}" Fill="#968E85"></lvc:PieSeries>
                                     </lvc:PieChart.Series>
                                     <lvc:PieChart.DataTooltip>
                                         <lvc:DefaultTooltip BulletSize="30"/>
@@ -118,8 +118,8 @@
                             <StackPanel Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 30 0">
                                 <lvc:PieChart Width="150" Height="150" Hoverable="True" InnerRadius="0">
                                     <lvc:PieChart.Series>
-                                        <lvc:PieSeries FontSize="18" Foreground="black"  DataLabels="True" Values="{Binding OccupancyPercentageForWorstLocation}" Fill="#008080" ></lvc:PieSeries>
-                                        <lvc:PieSeries FontSize="18" Foreground="black"  DataLabels="True" Values="{Binding NonOccupancyPercentageForWorstLocation}" Fill="#968E85"></lvc:PieSeries>
+                                        <lvc:PieSeries FontSize="18" Foreground="black"  DataLabels="True" Values="{Binding WorstLocationOccupancyPercentage}" Fill="#008080" ></lvc:PieSeries>
+                                        <lvc:PieSeries FontSize="18" Foreground="black"  DataLabels="True" Values="{Binding WorstLocationNonOccupancyPercentage}" Fill="#968E85"></lvc:PieSeries>
                                     </lvc:PieChart.Series>
                                     <lvc:PieChart.DataTooltip>
                                         <lvc:DefaultTooltip BulletSize="30"/>
@@ -138,11 +138,11 @@
 
             <!-- Buttons STACK PANEL-->
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="btnClose" Content="Close (Esc)" Command="{Binding CloseAccommodationSuggestionsViewCommand}"
+                <Button x:Name="btnClose" Content="Close (Esc)" Command="{Binding CloseViewCommand}"
                     Style ="{Binding CloseButtonStyle, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" >
                 </Button>
                 <Button x:Name="btnHome" Content="Home (Ctrl+Z)"
-                    Style ="{StaticResource OwnerButtonStyle}" Command="{Binding HomeAccommodationSuggestionsViewCommand}">
+                    Style ="{StaticResource OwnerButtonStyle}" Command="{Binding HomeViewCommand}">
                 </Button>
             </StackPanel>
         </StackPanel>

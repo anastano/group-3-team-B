@@ -139,7 +139,7 @@ namespace SIMS_HCI_Project.Repositories
             DateTime currentDate = DateTime.Now;
             DateTime oneYearAgo = currentDate.AddYears(-1);
 
-            int attendancesCount = _guestTourAttendances.Count(a => a.Status == AttendanceStatus.PRESENT && a.TourReservation.TourTime.DepartureTime >= oneYearAgo && a.TourReservation.TourTime.DepartureTime <= currentDate);
+            int attendancesCount = _guestTourAttendances.Count(a => a.TourReservation.GuestId == guestId && a.Status == AttendanceStatus.PRESENT && a.TourReservation.TourTime.DepartureTime >= oneYearAgo && a.TourReservation.TourTime.DepartureTime <= currentDate);
             return attendancesCount;
         }
         

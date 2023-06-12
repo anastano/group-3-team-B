@@ -93,11 +93,13 @@ namespace SIMS_HCI_Project.Applications.Services
         private void CheckStartDateRange(ComplexTourRequest complexRequest)
         {
             foreach (var regularRequest in complexRequest.TourRequests)
+            {
                 if (DateTime.Now > regularRequest.DateRange.Start.AddHours(-48) && complexRequest.Status == TourRequestStatus.PENDING)
                 {
                     complexRequest.Invalidate();
                     _complexTourRequestRepository.Update(complexRequest);
                 }
+            }
         }
     }
 }

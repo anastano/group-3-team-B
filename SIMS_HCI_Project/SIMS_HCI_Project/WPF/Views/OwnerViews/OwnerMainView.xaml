@@ -1,0 +1,286 @@
+﻿<Window x:Class="SIMS_HCI_Project.WPF.Views.OwnerViews.OwnerMainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
+        xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
+        mc:Ignorable="d"
+        Title="OwnerMainView" Height="680" Width="1280" WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <converters:NotificationsVisibilityConverter x:Key="NotificationsVisibilityConverter"/>
+        <converters:OwnerSuperFlagVisibilityConverter x:Key="OwnerSuperFlagVisibilityConverter"/>
+
+        <Style TargetType="ListView">
+            <Setter Property="Background" Value="{StaticResource OwnerNeutralColor}"/>
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="BorderBrush" Value="{StaticResource OwnerNeutralColor}"/>
+        </Style>
+
+        <Style TargetType="GridViewColumnHeader">
+            <Setter Property="Visibility" Value="Collapsed" />
+        </Style>
+    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Key="D1" Command="{Binding ShowAccommodationsCommand}"/>
+        <KeyBinding Key="D2" Command="{Binding ShowReservationsCommand}"/>
+        <KeyBinding Key="D3" Command="{Binding ShowRenovationsCommand}"/>
+        <KeyBinding Key="D4" Command="{Binding ShowPendingRequestsCommand}"/>
+        <KeyBinding Key="D5" Command="{Binding ShowGuestReviewsCommand}"/>
+        <KeyBinding Key="D6" Command="{Binding ShowUnratedReservationsCommand}"/>
+        <KeyBinding Key="D7" Command="{Binding ShowStatisticsCommand}"/>
+        <KeyBinding Key="D8" Command="{Binding ShowForumsCommand}"/>
+        <KeyBinding Gesture="Ctrl+D" Command="{Binding StartDemoCommand}"/>
+        <KeyBinding Gesture="Ctrl+Q" Command="{Binding StopDemoCommand}"/>
+        <KeyBinding Gesture="Ctrl+X" Command="{Binding LogoutCommand}"/>
+    </Window.InputBindings>
+
+    <Grid Background="{StaticResource OwnerNeutralColor}">
+
+        <!-- MAIN STACK PANEL-->
+        <StackPanel Orientation="Horizontal" Height="680">
+            <!-- MAIN LEFT STACK PANEL - My Options-->
+            <StackPanel Margin="10 10 0 10" Width="280" HorizontalAlignment="Left">
+                <TextBlock x:Name="tblMyOptions" Text="My Options" 
+                       Style="{StaticResource OwnerTitleStyle}">
+                </TextBlock>
+
+                <Border Style="{StaticResource OwnerBorderStyle}">
+                    <StackPanel Margin="10 10 10 17" VerticalAlignment="Center" HorizontalAlignment="Center">
+
+                        <Button x:Name="btnAccommodations" Content="My Accommodations         (1)" Command="{Binding ShowAccommodationsCommand}"
+                        Style="{Binding AccommodationsButtonStyle, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="50">
+                        </Button>
+
+                        <Button x:Name="btnReservations" Content="Guest Reservations            (2)" Command="{Binding ShowReservationsCommand}"
+                        Style="{Binding ReservationsButtonStyle, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="50">
+                        </Button>
+
+                        <Button x:Name="btnRenovations" Content="Renovations                       (3)" Command="{Binding ShowRenovationsCommand}"
+                        Style="{StaticResource OwnerButtonStyle}" Height="50">
+                        </Button>
+
+                        <Button x:Name="btnGuestRequests" Content="Guest Requests                 (4)" Command="{Binding ShowPendingRequestsCommand}"
+                        Style="{StaticResource OwnerButtonStyle}" Height="50">
+                        </Button>
+
+                        <Button x:Name="btnGuestReviews" Content="Guest Reviews                  (5)" Command="{Binding ShowGuestReviewsCommand}"
+                        Style="{StaticResource OwnerButtonStyle}" Height="50">
+                        </Button>
+
+                        <Button x:Name="btnRateGuests" Content="Rate Guests                     (6)"   Command="{Binding ShowUnratedReservationsCommand}"
+                        Style="{StaticResource OwnerButtonStyle}" Height="50">
+                        </Button>
+
+                        <Button x:Name="btnStatistics" Content="Statistics                         (7)" Command="{Binding ShowStatisticsCommand}"
+                       Style="{StaticResource OwnerButtonStyle}" Height="50">
+                        </Button>
+
+                        <Button x:Name="btnForums" Content="Forums                           (8)"  Command="{Binding ShowForumsCommand}"
+                       Style="{StaticResource OwnerButtonStyle}" Height="50">
+                        </Button>
+
+                        <Button x:Name="btnDemo" Content="Start Demo Mode    (Ctrl+D)" Command="{Binding StartDemoCommand}"
+                       Style="{StaticResource OwnerButtonStyle}" Height="50" >
+                        </Button>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <!-- MAIN RIGHT STACK PANEL-->
+            <StackPanel Margin="0 10 0 0" Width="980" HorizontalAlignment="Right" Orientation="Vertical">
+                <!-- RIGHT TOP STACK PANEL - Reservations In Progress-->
+                <StackPanel Margin="0 0 0 0">
+                    <TextBlock x:Name="tblreservationsInProgress" Text="Reservations In Progress" 
+                           Style="{StaticResource OwnerTitleStyle}">
+                    </TextBlock>
+                    <Border Style="{StaticResource OwnerBorderStyle}">
+                        <!-- DataGrid STACKPANEL-->
+                        <StackPanel>
+
+                            <DataGrid x:Name = "dgReservations" AutoGenerateColumns="False" ItemsSource="{Binding Path=ReservationsInProgress, UpdateSourceTrigger=PropertyChanged}" 
+                                      IsReadOnly="True" Focusable="False" Width="930" Height="290" Margin="10 10 10 10" IsTabStop="False"
+                                      Style="{StaticResource OwnerDatagridStyle}" ColumnHeaderStyle="{StaticResource OwnerDataGridColumnHeaderStyle}">
+                                
+                                <DataGrid.CellStyle>
+                                    <Style TargetType="DataGridCell" >
+                                        <Setter Property="Focusable" Value="False"/>
+                                        <Setter Property="Height" Value="30"/>
+                                        <Setter Property="Background" Value="{StaticResource OwnerNeutralColor}"/>
+                                    </Style>
+                                </DataGrid.CellStyle>
+                                
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Width="0.3*" Header="Id">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Id}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+
+                                    <DataGridTemplateColumn Width="2*" Header="Accommodation Name">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Accommodation.Name}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Width="*" Header="Guest Name">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Guest.Name}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Width="*" Header="Guest Surname">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Guest.Surname}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Width="*" Header="Start">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Width="*" Header="End">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding End , StringFormat='{}{0:MM/dd/yyyy}'}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Width="*" Header="Guest Number">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding GuestNumber}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Width="*" Header="Status">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Status}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                </DataGrid.Columns>
+
+                            </DataGrid>
+                            
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+
+                <!-- RIGHT BOTTOM STACK PANEL-->
+                <StackPanel Width="960" Orientation="Horizontal">
+                    <!-- My Profile STACK PANEL-->
+                    <StackPanel Width="480">
+                        <TextBlock x:Name="tblMyProfile" Text="My Profile" 
+                           Style="{StaticResource OwnerTitleStyle}">
+                        </TextBlock>
+                        <Border Style="{StaticResource OwnerBorderStyle}">
+                            <StackPanel Width="460" Height="210" Orientation="Horizontal">
+                                <Border Style="{StaticResource OwnerBorderStyle}" Margin="10">
+                                    <Grid>
+                                        <Image Source="../../../Resources/Images/profil.png"  Width="150" Height="170" Margin="15 15 20 0"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                                        <Image x:Name="imgSuperFlag" Source="../../../Resources/Images/goldenHouse.png"  Width="70" Height="70" HorizontalAlignment="Right" VerticalAlignment="Top"
+                                               Visibility="{Binding Owner, Converter={StaticResource OwnerSuperFlagVisibilityConverter}}"/>
+                                    </Grid>
+                                </Border>
+                                <StackPanel Orientation="Vertical" Width="210" Margin="10">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Name:  " FontSize="20" HorizontalAlignment="Left" Margin="0 10 0 0"
+                                        Style="{StaticResource OwnerTitleStyle}">
+                                        </TextBlock>
+                                        <TextBlock  Text="{Binding Path = Owner.Name, UpdateSourceTrigger = PropertyChanged}" 
+                                                    FontSize="20" HorizontalAlignment="Left" Margin="0 10 0 0"
+                                                    Style="{StaticResource OwnerTitleStyle}">
+                                        </TextBlock>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Surname:  " FontSize="20" HorizontalAlignment="Left" Margin="0 0 0 0"
+                                        Style="{StaticResource OwnerTitleStyle}">
+                                        </TextBlock>
+                                        <TextBlock  Text="{Binding Path = Owner.Surname, UpdateSourceTrigger = PropertyChanged}" 
+                                                    FontSize="20" HorizontalAlignment="Left" Margin="0 0 0 0"
+                                                    Style="{StaticResource OwnerTitleStyle}">
+                                        </TextBlock>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Rating:  " FontSize="20" HorizontalAlignment="Left" Margin="0 0 0 0"
+                                        Style="{StaticResource OwnerTitleStyle}">
+                                        </TextBlock>
+                                        <TextBlock  Text="{Binding Owner.AverageRating, StringFormat=N2}" 
+                                                    FontSize="25" FontWeight="Bold" HorizontalAlignment="Left" Margin="0 -5 0 0"
+                                                    Style="{StaticResource OwnerTitleStyle}">
+                                        </TextBlock>
+
+                                    </StackPanel>
+
+                                    <Button x:Name="btnLogout" Content="Log out (Ctrl+X)" 
+                                            HorizontalAlignment="Left" Margin="10 10 10 10" Command="{Binding LogoutCommand}"
+                                            Width="180" Style="{StaticResource OwnerButtonStyle}">
+                                    </Button>
+
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                    <!-- Notifications STACK PANEL-->
+                    <StackPanel Width="480">
+                        <TextBlock x:Name="tblNotifications" Text="Notifications" 
+                           Style="{StaticResource OwnerTitleStyle}">
+                        </TextBlock>
+                        <Border Style="{StaticResource OwnerBorderStyle}">
+                            <StackPanel Width="460" Height="210" Orientation="Vertical">
+                                
+                                <StackPanel x:Name="spNotifications">
+                                    
+                                    <TextBox Text="You have unrated guests, please rate them." Style="{StaticResource OwnerNotificationsStyle}" Margin="0 5 0 0" 
+                                             Visibility="{Binding UnratedGuestsCount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource NotificationsVisibilityConverter}}">
+                                    </TextBox>
+
+                                </StackPanel>
+
+                                <ListView x:Name="lvNotifications" ItemsSource="{Binding Notifications}" Height="190" Margin="5" 
+                                          Visibility="{Binding NotificationCount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource NotificationsVisibilityConverter}}">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Id">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBox Text="{Binding Message}"
+                                                        Style="{StaticResource OwnerNotificationsStyle}" HorizontalAlignment="Center">
+                                                        </TextBox>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                    </ListView>
+                                
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

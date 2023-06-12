@@ -1,0 +1,33 @@
+﻿<Window x:Class="SIMS_HCI_Project.WPF.Views.GuideViews.TourStatisticsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.GuideViews"
+        mc:Ignorable="d"
+        Title="TourStatisticsView" Height="550" Width="450"  WindowStartupLocation="CenterScreen" FontSize="20">
+    <Window.Background>
+        <ImageBrush ImageSource="pack://application:,,,/WPF/Images/guideBackground.png"></ImageBrush>
+    </Window.Background>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/GuideStyles.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <DataGrid ItemsSource="{Binding TourStatistics.GuestNumbersByAge}" Margin="58,23,49,326" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Min Age" Binding="{Binding Key.MinAge}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Max Age" Binding="{Binding Key.MaxAge}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Guest Number" Binding="{Binding Value}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBlock Text="{Binding TourStatistics.WithVoucherPercentage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=With Voucher: {0}%}" Height="50" Margin="58,195,49,189"/>
+        <TextBlock Text="{Binding TourStatistics.WithoutVoucherPercentage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat=Without Voucher: {0}%}" Height="50" Margin="58,247,49,137"/>
+
+        <Button Content="See All Tour Statistics" HorizontalAlignment="Left" Margin="10,436,0,0" VerticalAlignment="Top" Width="198" Height="33" Command="{Binding SeeAllToursStats}"/>
+
+    </Grid>
+</Window>

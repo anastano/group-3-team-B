@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="SIMS_HCI_Project.WPF.Views.Guest1Views.ForumCreateView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local1="clr-namespace:SIMS_HCI_Project.WPF.Converters"
+             xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest1Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="702" d:DesignWidth="969">
+    <UserControl.Background>
+        <ImageBrush ImageSource="../../../Resources/Images/wallpaper.jpg"/>
+    </UserControl.Background>
+    <UserControl.Resources>
+        <local1:ErrorVisibilityConverter x:Key="ErrorVisibilityConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <Label Content="User" Style="{StaticResource GuestLabelStyle}" HorizontalAlignment="Center" Margin="0 110 0 0" Width="280"></Label>
+            <TextBox Text="{Binding Path = User, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
+             Style="{StaticResource GuestTextBoxStyle}" Margin="0 0 0 20" Width="280" IsReadOnly="True">
+            </TextBox>
+            <Label Content="Country*:" Style="{StaticResource GuestLabelStyle}" HorizontalAlignment="Center" Width="280"></Label>
+            <ComboBox ItemsSource="{Binding Countries}" Style="{StaticResource ComboBoxFlatStyle}" IsTextSearchEnabled="True" IsEditable="True"
+                      SelectedItem="{Binding SelectedCountry, UpdateSourceTrigger = PropertyChanged}" HorizontalAlignment="Center"
+                      Margin="0 0 0 20" Width="280">
+            </ComboBox>
+            <Label Content="City*:" Style="{StaticResource GuestLabelStyle}" HorizontalAlignment="Center" Width="280"></Label>
+            <ComboBox HorizontalAlignment="Center" ItemsSource="{Binding Cities}" IsEditable="True" IsTextSearchEnabled="True"
+                      Style="{StaticResource ComboBoxFlatStyle}"
+                      SelectedItem="{Binding SelectedCity, UpdateSourceTrigger = PropertyChanged}"
+                      Margin="0 0 0 20" Width="280">
+            </ComboBox>
+            <Label Content="First comment:" Style="{StaticResource GuestLabelStyle}" HorizontalAlignment="Center" Width="280"></Label>
+            <TextBox Text="{Binding Path = Comment, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Width="280"
+             Style="{StaticResource GuestTextBoxStyle}" Height="130" Margin="0 0 0 20">
+            </TextBox>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="280" Visibility="{Binding IsErrorVisible, Converter={StaticResource ErrorVisibilityConverter}}">
+                <Image Source="../../../Resources/Images/warning.png" Width="18" Height="18" Margin="0, 0, 10, 0"  />
+                <Label Content="{Binding Path = ErrorMessage, UpdateSourceTrigger=PropertyChanged}" Foreground="Red"
+                   Style="{StaticResource GuestLabelStyle}" Width="251"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 15 0 0" HorizontalAlignment="Center">
+                <Button Grid.Column="1" Grid.Row="5" Content="Create" Command="{Binding DataContext.CreateForumCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                     Style="{StaticResource GuestButtonStyle}" Margin="0 0 150 0"/>
+                <Button Content="Cancel" Command="{Binding DataContext.CancelCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                     Style="{StaticResource GuestButtonStyle}" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </StackPanel>
+
+    </Grid>
+</UserControl>

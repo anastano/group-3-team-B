@@ -1,0 +1,128 @@
+﻿<Page x:Class="SIMS_HCI_Project.WPF.Views.Guest2Views.Wizard2View"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest2Views"
+      xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
+
+      mc:Ignorable="d" 
+      Height="518" Width="1080"
+      Title="Wizard2View">
+
+    <Page.Resources>
+        <Style x:Key="HoverButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#501f3a"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Background" Value="#cb2d6f"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!--textblock-->
+        <Style x:Key="Guest2TextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Margin" Value="0 0 0 0"/>
+        </Style>
+        <converters:FullNameConverter x:Key="FullNameConverter" />
+
+    </Page.Resources>
+    <Grid>
+
+
+
+        <Image Source="../../../Resources/Images/searchSC.png" Stretch="Fill" HorizontalAlignment="Left" Height="329" Margin="186,143,0,0" VerticalAlignment="Top" Width="675"/>
+
+
+
+        <Grid Margin="39,10,39,401">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Ellipse Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Height="50" Stroke="White" Fill="#501f3a"  VerticalAlignment="Center" Width="50"/>
+            <Ellipse Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" Height="50"  Stroke="White" Fill="#cb2d6f"  VerticalAlignment="Center" Width="50"/>
+            <Ellipse Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" Height="50"  Stroke="White" Fill="#cb2d6f"  VerticalAlignment="Center" Width="50"/>
+            <Ellipse Grid.Row="0" Grid.Column="3" HorizontalAlignment="Center" Height="50"  Stroke="White" Fill="#cb2d6f"  VerticalAlignment="Center" Width="50"/>
+
+            <Label Grid.Column="0" Content="1" Foreground="White" FontSize="27" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Label Grid.Column="1" Content="2" Foreground="White" FontSize="27" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Label Grid.Column="2" Content="3" Foreground="White" FontSize="27" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Label Grid.Column="3" Content="3" Foreground="White" FontSize="27" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+            <Label Grid.Row="1" Content="Select tour" Foreground="White" FontSize="18" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Height="57" Width="126"/>
+            <TextBlock Grid.Column="1" Grid.Row="1" TextWrapping="Wrap" Text="Choose departure time and party size, then submit form." Foreground="White" FontSize="18" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Height="57" Width="312"/>
+            <Label Grid.Column="2" Grid.Row="1" Content="Submit reservation" Foreground="White" FontSize="20" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Top" Height="98" Margin="0,10,0,0"/>
+            <Label Grid.Column="3" Grid.Row="1" Content="Complete" Foreground="White" FontSize="18" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Top" Height="33" Margin="0,2,0,0"/>
+        </Grid>
+
+        <Button Content="EXIT" FontWeight="Medium" HorizontalAlignment="Right" Margin="0,476,10,0" VerticalAlignment="Top" RenderTransformOrigin="0.278,0.553" Command="{Binding ExitCommand}" Width="114" Height="32" FontSize="14" Style="{StaticResource HoverButtonStyle}"/>
+        <Button Content="NEXT" FontWeight="Medium" HorizontalAlignment="Right" Margin="0,476,145,0" VerticalAlignment="Top" RenderTransformOrigin="0.278,0.553" Command="{Binding NextCommand}" Width="114" Height="32" FontSize="14" Style="{StaticResource HoverButtonStyle}"/>
+        <Button Content="BACK" FontWeight="Medium" HorizontalAlignment="Right" Margin="0,476,286,0" VerticalAlignment="Top" RenderTransformOrigin="0.278,0.553" Command="{Binding PreviousCommand}" Width="114" Height="32" FontSize="14" Style="{StaticResource HoverButtonStyle}"/>
+
+        <DataGrid x:Name="dgTours" 
+                  ItemsSource="{Binding Tours, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding SelectedTour, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False"  Margin="199,213,359,58" 
+                   >
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="id" Binding="{Binding Id}" Width="30"/>
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="110"/>
+                <DataGridTextColumn Header="Country" Binding="{Binding Location.Country}" Width="110"/>
+                <DataGridTextColumn Header="City" Binding="{Binding Location.City}" Width="110"/>
+                <DataGridTextColumn Header="Language" Binding="{Binding Language}" Width="105"/>
+                <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" Width="60"/>
+                <DataGridTextColumn Header="Capacity" Binding="{Binding MaxGuests}" Width="60"/>
+                <DataGridTextColumn Header="Guide" Width="*">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding Converter="{StaticResource FullNameConverter}">
+                            <Binding Path="Guide.Name" />
+                            <Binding Path="Guide.Surname" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+
+                <DataGridTemplateColumn Header="RESERVE" Width="150">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="RESERVE" Style="{StaticResource HoverButtonStyle}" Command="{Binding DataContext.SeeDetailsAndReserveCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}"/>
+                            <!--Style="{StaticResource Guest2BtnGradientOrange}" bilo iznad-->
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBlock Style="{StaticResource Guest2TextBlockStyle}" FontSize="18" HorizontalAlignment="Left" Margin="324,117,0,0" TextWrapping="Wrap" FontWeight="Medium" Foreground="#cb2d6f" Text="Select the tour by click on RESERVE button." VerticalAlignment="Top" Height="42" Width="388" RenderTransformOrigin="0.5,0.5">
+            <TextBlock.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleX="0"/>
+                    <RotateTransform/>
+                    <TranslateTransform X="0"/>
+                </TransformGroup>
+            </TextBlock.RenderTransform>
+        </TextBlock>
+    </Grid>
+</Page>

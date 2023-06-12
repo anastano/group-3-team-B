@@ -1,0 +1,149 @@
+﻿<Window x:Class="SIMS_HCI_Project.WPF.Views.OwnerViews.AccommodationsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
+        xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
+        mc:Ignorable="d"
+        Title="AccommodationsView" Height="650" Width="1000" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <converters:ImageUrlConverter x:Key="ImageUrlConverter"/>
+    </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Gesture="Ctrl+R" Command="{Binding AddAccommodationCommand}"/>
+        <KeyBinding Gesture="Ctrl+D" Command="{Binding ShowImagesCommand}"/>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding ShowSuggestionsCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseViewCommand}"/>
+        <KeyBinding Gesture="Ctrl+Q" Command="{Binding StopDemoCommand}"/>
+    </Window.InputBindings>
+    
+    <Grid Background="{StaticResource OwnerNeutralColor}">
+        <!-- MAIN STACK PANEL-->
+        <StackPanel Orientation="Vertical" Margin="10 5 10 5">
+            <!-- TOP STACK PANEL - Options-->
+            <StackPanel Margin="5 5 5 5">
+                <TextBlock x:Name="tblOptions" Text="Options" 
+                       Style="{StaticResource OwnerTitleStyle}">
+                </TextBlock>
+                <Border Style="{StaticResource OwnerBorderStyle}">
+                    <!-- Buttons STACK PANEL-->
+                    <StackPanel  Margin="5 0 5 5" Orientation="Horizontal">
+                        <Button x:Name="btnAddAccommodation"  Content="         Register New &#xa;Accommodation (Ctrl+R)" Command="{Binding AddAccommodationCommand}"
+                            Style="{Binding AddAccommodationButtonStyle, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="220">
+                        </Button>
+                        <Button x:Name="btnShowImages"  Content="Display Images (Ctrl+D)" Command="{Binding ShowImagesCommand}"
+                            Style="{Binding ShowImageButtonStyle, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="220">
+                        </Button>
+                        <Button x:Name="btnSuggestions"  Content="Show Suggestions (Ctrl+S)" Command="{Binding ShowSuggestionsCommand}"
+                            Style="{Binding ShowSuggestionsButtonStyle, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="220">
+                        </Button>
+                        <Button x:Name="btnClose"  Content="Close (Esc)" Command="{Binding CloseViewCommand}"
+                            Style="{Binding CloseButtonStyle, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="220">
+                        </Button>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+            <!-- MIDDLE STACK PANEL-->
+            <StackPanel Margin="5 0 5 0">
+
+                <TextBlock x:Name="tblAccommodations" Text="My accommodations" 
+                           Style="{StaticResource OwnerTitleStyle}">
+                </TextBlock>
+                <Border Style="{StaticResource OwnerBorderStyle}">
+                    <!-- DataGrid STACKPANEL-->
+                    <StackPanel Margin="0 0 0 0">
+                        <DataGrid x:Name = "dgAccommodation" AutoGenerateColumns="False" ItemsSource="{Binding Path=Accommodations, UpdateSourceTrigger=PropertyChanged}" 
+                                      SelectedItem="{Binding Path=SelectedAccommodation, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" Focusable="True"
+                                      Width="930" Height="400" Margin="10 10 10 10" CanUserSortColumns="True" SelectionMode="Single" IsTabStop="False"
+                                      Style="{StaticResource OwnerDatagridStyle}" ColumnHeaderStyle="{StaticResource OwnerDataGridColumnHeaderStyle}" RowStyle="{Binding RowStyle}">
+
+                            <DataGrid.CellStyle>
+                                <Style TargetType="DataGridCell" >
+                                    <Setter Property="Height" Value="100"/>
+                                    <Setter Property="Background" Value="{StaticResource OwnerNeutralColor}"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Foreground" Value="Black" />
+                                            <Setter Property="Background" Value="LightGray"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGrid.CellStyle>
+
+                            <DataGrid.Columns>
+
+                                <DataGridTemplateColumn Width="1.3*">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Image Source="{Binding Images, Converter={StaticResource ImageUrlConverter}}" Height="100" Width="150"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="1.5*" Header="Name">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="City">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Location.City}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Country">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Location.Country}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Type">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Type}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="0.7*" Header="Max guests">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding MaxGuests}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="0.6*" Header="Min days">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding MinimumReservationDays}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                                <DataGridTemplateColumn Width="*" Header="Cancellation days">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding CancellationDeadlineInDays}" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"></TextBlock>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+
+                            </DataGrid.Columns>
+
+                        </DataGrid>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+        </StackPanel>
+    </Grid>
+</Window>

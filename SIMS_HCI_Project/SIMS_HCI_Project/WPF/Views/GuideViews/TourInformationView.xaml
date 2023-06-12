@@ -1,0 +1,199 @@
+﻿<Window x:Class="SIMS_HCI_Project.WPF.Views.GuideViews.TourInformationView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.GuideViews"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        mc:Ignorable="d"
+        Title="TourInformation" Height="720" Width="1280" WindowStartupLocation="CenterScreen" FontSize="18">
+    <Window.Background>
+        <ImageBrush ImageSource="pack://application:,,,/WPF/Images/guideBackground.png"></ImageBrush>
+    </Window.Background>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/GuideStyles.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="CancelButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding SelectedTourTime.IsCancellable}" Value="True">
+                        <Setter Property="IsEnabled" Value="True"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding SelectedTourTime.IsCancellable}" Value="False">
+                        <Setter Property="IsEnabled" Value="False"></Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="StartButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding SelectedTourTime.IsStartable}" Value="True">
+                        <Setter Property="IsEnabled" Value="True"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding SelectedTourTime.IsStartable}" Value="False">
+                        <Setter Property="IsEnabled" Value="False"></Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="FinishedButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding SelectedTourTime.IsFinished}" Value="True">
+                        <Setter Property="IsEnabled" Value="True"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding SelectedTourTime.IsFinished}" Value="False">
+                        <Setter Property="IsEnabled" Value="False"></Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="HistoryButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding SelectedTourTime.Status}" Value="COMPLETED">
+                        <Setter Property="IsEnabled" Value="True"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding SelectedTourTime.Status}" Value="IN_PROGRESS">
+                        <Setter Property="IsEnabled" Value="True"></Setter>
+                        <Setter Property="Content" Value="See Progress"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding SelectedTourTime.Status}" Value="NOT_STARTED">
+                        <Setter Property="IsEnabled" Value="False"></Setter>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding SelectedTourTime.Status}" Value="CANCELLED">
+                        <Setter Property="IsEnabled" Value="False"></Setter>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <StackPanel>
+            <Grid HorizontalAlignment="Center">
+                <local:NavigationMenu></local:NavigationMenu>
+            </Grid>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                        <ColumnDefinition Width="1.5*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="1" Orientation="Vertical" Margin="0,20,20,0">
+                        <TextBlock FontSize="20"  Text="{Binding Tour.Title}" Margin="0,0,0,0"></TextBlock>
+                        <TextBlock Margin="0,0,0,50" FontSize="16">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} ({1})">
+                                    <Binding Path="Tour.Location.City"></Binding>
+                                    <Binding Path="Tour.Location.Country"></Binding>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                        <TextBlock Text="{Binding Tour.Description}" Margin="0,0,0,40" TextWrapping="Wrap"></TextBlock>
+                        <TextBlock FontSize="16"  Text="{Binding Tour.Language, StringFormat=Language: {0}}"></TextBlock>
+                        <TextBlock FontSize="16"  Text="{Binding Tour.Duration, StringFormat=Duration: {0}}"></TextBlock>
+                        <TextBlock FontSize="16"  Text="{Binding Tour.MaxGuests, StringFormat=Max Guests: {0}}" Margin="0,0,0,30"></TextBlock>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="See Reviews" Style="{StaticResource FinishedButton}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToReviews}" CommandParameter="{Binding SelectedTourTime}"/>
+                                        <i:InvokeCommandAction Command="{Binding NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
+                                              RelativeSource Mode=FindAncestor,
+                                              AncestorType={x:Type Window}}}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Margin="00,0,0,0">
+                            <Label Content="Departure Times" FontSize="16" Margin="0,0,0,0"></Label>
+                            <DataGrid HorizontalAlignment="Left" FontSize="15" ItemsSource="{Binding Tour.DepartureTimes}" SelectedItem="{Binding SelectedTourTime}" AutoGenerateColumns="False" IsReadOnly="True" Height="155" Width="500" Margin="0,0,0,30">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Departure Time" Binding="{Binding DepartureTime}" Width="5*"></DataGridTextColumn>
+                                    <DataGridTextColumn Header="Status"  Binding="{Binding Status}" Width="4*"></DataGridTextColumn>
+                                    <DataGridCheckBoxColumn Header="IsCancellable" Binding="{Binding IsCancellable, Mode=OneWay}" Width="3*"></DataGridCheckBoxColumn>
+                                    <DataGridCheckBoxColumn Header="IsStartable" Binding="{Binding IsStartable, Mode=OneWay}" Width="3*"></DataGridCheckBoxColumn>
+                                    <DataGridCheckBoxColumn Header="IsFinished" Binding="{Binding IsFinished, Mode=OneWay}" Width="3*"></DataGridCheckBoxColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Cancel" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="0,0,20,0" Command="{Binding CancelTour}" Style="{StaticResource CancelButton}"></Button>
+                            <Button Content="See History" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="0,0,42,0" Style="{StaticResource HistoryButton}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourProgress}" CommandParameter="{Binding SelectedTourTime}" />
+                                        <i:InvokeCommandAction Command="{Binding NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
+                                                      RelativeSource Mode=FindAncestor,
+                                                      AncestorType={x:Type Window}}}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                            <Button Content="Start Tour" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="40,0,0,0" Style="{StaticResource StartButton}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding StartTour}" />
+                                        <i:InvokeCommandAction Command="{Binding NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
+                                                      RelativeSource Mode=FindAncestor,
+                                                      AncestorType={x:Type Window}}}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Grid.Column="0">
+                        <Viewbox Stretch="Uniform" Height="300" Width="300">
+                            <Image Margin="0,0,0,0" Height="300" Width="300" Source="{Binding MainImage}"/>
+                        </Viewbox>
+                        <ListBox ItemsSource="{Binding AllImages}" Margin="20,0,0,0" Background="Transparent" BorderThickness="0" Height="100">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Image Width="90" Height="90"  Source="{Binding}"></Image>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Margin="0,30,0,0">
+                        <StackPanel Margin="0,0,0,0">
+                            <TextBlock Text="Number of guests by age" Margin="0,0,0,10"></TextBlock>
+                            <DataGrid HorizontalAlignment="Left" FontSize="16"  AutoGenerateColumns="False" IsReadOnly="True" Height="150" Width="250" ItemsSource="{Binding AllTimeTopTourStatistics.GuestNumbersByAge}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Age group" Width="1*">
+                                        <DataGridTextColumn.Binding>
+                                            <MultiBinding StringFormat="{}{0} - {1}">
+                                                <Binding Path="Key.MinAge"></Binding>
+                                                <Binding Path="Key.MaxAge"></Binding>
+                                            </MultiBinding>
+                                        </DataGridTextColumn.Binding>
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn Header="Guest number" Binding="{Binding Value}" Width="1.2*"></DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="0,40,0,0">
+                            <lvc:PieChart Height="150" Width="150" x:Name="pieChart">
+                                <lvc:PieChart.Series>
+                                    <lvc:PieSeries x:Name="with" Title="with voucher" DataLabels="True" Values="40" Fill="DimGray" ></lvc:PieSeries>
+                                    <lvc:PieSeries x:Name="without" Title="without voucher" DataLabels="True" Values="60" Fill="DarkSlateGray"></lvc:PieSeries>
+                                </lvc:PieChart.Series>
+                            </lvc:PieChart>
+                            <StackPanel>
+                                <TextBlock  FontSize="16" Text="guest with voucher ░" Margin="0,10,0,0"></TextBlock>
+                                <TextBlock  FontSize="16" Text="guest without voucher ▒"></TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </StackPanel>
+        <Border Grid.Row="1" Background="White" Opacity="0.5" CornerRadius="20" Panel.ZIndex="-10"  Margin="20,40,20,20">
+        </Border>
+    </Grid>
+</Window>

@@ -1,0 +1,16 @@
+﻿<Page x:Class="SIMS_HCI_Project.WPF.Views.Guest2Views.Help.TourRatingHelp"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest2Views.Help"
+      mc:Ignorable="d" 
+      d:DesignHeight="425" d:DesignWidth="1080"
+      Title="TourRatingHelp">
+
+    <Grid>
+        <Image Source="../../../../Resources/Images/rateSC.png" Margin="10,-2,345,-4"/>
+        <TextBlock Foreground="White" Margin="767,136,34,0" TextWrapping="Wrap" Text="You can see all your visited tours. By clicking on RATE button, form will be shown and you will be able to rate tour and guide. Images must be in form of url. Do not forget to press + to add image to list, otherwise it wont be saved." VerticalAlignment="Top" Height="116"/>
+
+    </Grid>
+</Page>

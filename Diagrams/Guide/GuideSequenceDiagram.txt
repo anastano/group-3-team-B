@@ -1,0 +1,86 @@
+@startuml
+actor Guide
+
+participant RegularTourRequestService as rtrs
+participant IRegularTourRequestRepository as irtrr
+participant NotificationService as ns
+participant INotificationRepository as inr
+participant TourService as ts
+participant ITourRepository as itr
+participant ITourTimeRepository as ittr
+participant ITourKeyPointRepository as itkpr
+participant ILocationRepository as ilr
+
+loop
+Guide -> rtrs : GetValidByParams(location, guestNumber, language, dateRange)
+activate rtrs
+rtrs -> irtrr : GetValidByParams(location, guestNumber, language, dateRange)
+activate irtrr
+irtrr --> rtrs : tourRequests
+deactivate irtrr
+rtrs --> Guide : tourRequests
+deactivate rtrs
+end
+
+Guide -> rtrs : AcceptRequest(selectedTourRequest, guideId, departureTime)
+activate rtrs
+
+rtrs -> ittr : GetAllInDateRange(guideId, dateRange)
+activate ittr
+ittr --> rtrs : toursInDateRange
+deactivate ittr
+alt toursInDateRange.Count != 0
+ rtrs -> Guide : null
+else toursInDateRange.Count == 0
+
+note over rtrs
+ Change status to accepted for request
+end note
+rtrs -> irtrr : Update(request);
+activate irtrr
+deactivate irtrr
+
+rtrs -> rtrs : CreateTourFromRequest(request, guideId, departureTime)
+activate rtrs
+return tourFromRequest
+
+rtrs -> ts **: <<create>>
+activate ts
+rtrs -> ts: Add(tourFromRequest)
+ts -> ilr : GetOrAdd(tour.Location)
+activate ilr 
+ilr --> ts : location
+deactivate ilr
+ts -> itkpr: AddBulk(tour.KeyPoints)
+activate itkpr
+deactivate itkpr
+ts -> itr : Add(tour)
+activate itr
+deactivate itr
+ts -> ittr: AddBulk(tour.DepartureTimes) 
+activate ittr
+deactivate ittr
+ts -> ns **: <<create>>
+activate ns
+ts-> ns: NotifyGuestsWithSimilarRequests(tour)
+deactivate ts
+ns -> irtrr: GetInvalidByParams(tour.LocationId, tour.Language)
+activate irtrr
+irtrr --> ns: similarRequests
+deactivate irtrr
+loop regularTourRequest in similarRequests
+ns -> inr: Add(notification)
+activate inr
+deactivate inr
+end
+deactivate ns
+destroy ns
+rtrs-> inr: Add(notification)
+activate inr
+deactivate inr
+rtrs --> Guide : tourFromRequest
+deactivate rtrs 
+
+destroy ts
+end
+@enduml

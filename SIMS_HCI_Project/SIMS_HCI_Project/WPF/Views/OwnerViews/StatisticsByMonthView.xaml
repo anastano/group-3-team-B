@@ -1,0 +1,168 @@
+﻿<Window x:Class="SIMS_HCI_Project.WPF.Views.OwnerViews.StatisticsByMonthView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
+        xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
+        mc:Ignorable="d"
+        Title="StatisticsByMonth" Height="650" Width="1050" WindowStartupLocation="CenterScreen">
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding CloseViewCommand}"/>
+        <KeyBinding Gesture="Ctrl+Z" Command="{Binding HomeViewCommand}"/>
+    </Window.InputBindings>
+    <Window.Resources>
+        <converters:MultiplyCountConverter x:Key="MultiplyCountConverter"/>
+    </Window.Resources>
+    <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=btnClose}">
+        <!-- MIDDLE STACK PANEL-->
+        <StackPanel Margin="5 0 5 0">
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="{Binding Accommodation.Name}" 
+                           Style="{StaticResource OwnerTitleStyle}">
+                </TextBlock>
+                <TextBlock Text=" (" 
+                           Style="{StaticResource OwnerTitleStyle}">
+                </TextBlock>
+                <TextBlock Text="{Binding AccommodationYear.Year}" 
+                           Style="{StaticResource OwnerTitleStyle}">
+                </TextBlock>
+                <TextBlock Text=")" 
+                           Style="{StaticResource OwnerTitleStyle}">
+                </TextBlock>
+            </StackPanel>
+
+            <Border Style="{StaticResource OwnerBorderStyle}">
+                <!-- DataGrid STACKPANEL-->
+
+                <StackPanel Margin="0 0 0 0">
+
+                    <StackPanel Width="650" Margin="0 10 0 0" Orientation="Horizontal">
+
+                        <Border Style="{StaticResource OwnerBorderStyle}" Margin="170 0 0 0" Padding="0 5 10 0">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <TextBlock Text="  The Best Month: " 
+                                        Style="{StaticResource OwnerTitleStyle}" FontSize="22" Margin="5">
+                                </TextBlock>
+
+                                <TextBlock Text="{Binding BestMonth}" 
+                                        Style="{StaticResource OwnerTitleStyle}" FontSize="22" Margin="5">
+                                </TextBlock>
+                            </StackPanel>
+                        </Border>                       
+
+                        <Grid HorizontalAlignment="Right" Margin="50 0 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Rectangle Grid.Row="0" Grid.Column="0" Height="17" Width="15" Fill="#9FE2BF"/>
+                            <Rectangle Grid.Row="1" Grid.Column="0" Height="17" Width="15" Fill="#008080"/>
+                            <Rectangle Grid.Row="2" Grid.Column="0" Height="17" Width="15" Fill="#968E85"/>
+                            <Rectangle Grid.Row="3" Grid.Column="0" Height="17" Width="15" Fill="Coral"/>
+
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text=" reservations" Margin="0" TextAlignment="Left"
+                                        Style="{StaticResource OwnerTitleStyle}" FontSize="14" Width="130" Height="18">
+                            </TextBlock>
+
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text=" cancellations" Margin="0" TextAlignment="Left"
+                                        Style="{StaticResource OwnerTitleStyle}" FontSize="14" Width="130" Height="18">
+                            </TextBlock>
+
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text=" reshedulings" Margin="0" TextAlignment="Left"
+                                        Style="{StaticResource OwnerTitleStyle}" FontSize="14" Width="130" Height="18">
+                            </TextBlock>
+
+                            <TextBlock Grid.Row="3" Grid.Column="1" Text=" recommendations" Margin="0" TextAlignment="Left"
+                                                Style="{StaticResource OwnerTitleStyle}" FontSize="14" Width="130" Height="18">
+                            </TextBlock>
+                        </Grid>
+
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+
+                        <StackPanel>
+                            <ListBox FontSize="20" ItemsSource="{Binding AccommodationMonths}" Height="395" Width="965" Margin="10">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        
+                                            <StackPanel Orientation="Vertical">
+                                            <Border BorderThickness="1" BorderBrush="Black" CornerRadius="10">
+                                                <StackPanel Orientation="Horizontal" Height="200">
+
+                                                    <StackPanel VerticalAlignment="Bottom">
+                                                        <Border BorderThickness="0 0 0 2" BorderBrush="Black">
+                                                            <Rectangle Height="{Binding ReservationCount, Converter ={StaticResource MultiplyCountConverter}}" Width="15" Fill="#9FE2BF"  VerticalAlignment="Bottom" Margin="1"/>
+                                                        </Border>
+                                                        <TextBlock Text="{Binding ReservationCount}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3"/>
+                                                    </StackPanel>
+
+                                                    <StackPanel VerticalAlignment="Bottom">
+                                                        <Border BorderThickness="0 0 0 2" BorderBrush="Black">
+                                                            <Rectangle Height="{Binding CancellationCount, Converter ={StaticResource MultiplyCountConverter}}" Width="15" Fill="#008080"  VerticalAlignment="Bottom" Margin="1"/>
+                                                        </Border>
+                                                        <TextBlock Text="{Binding CancellationCount}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3"/>
+                                                    </StackPanel>
+
+                                                    <StackPanel VerticalAlignment="Bottom">
+                                                        <Border BorderThickness="0 0 0 2" BorderBrush="Black">
+                                                            <Rectangle Height="{Binding ReschedulingCount, Converter ={StaticResource MultiplyCountConverter}}" Width="15" Fill="#968E85"  VerticalAlignment="Bottom" Margin="1"/>
+                                                        </Border>
+                                                        <TextBlock Text="{Binding ReschedulingCount}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="3"/>
+                                                    </StackPanel>
+
+                                                    <StackPanel VerticalAlignment="Bottom">
+                                                        <Border BorderThickness="0 0 0 2" BorderBrush="Black">
+                                                            <Rectangle Height="{Binding RecommendationCount, Converter ={StaticResource MultiplyCountConverter}}" Width="15" Fill="Coral"  VerticalAlignment="Bottom" Margin="1"/>
+                                                        </Border>
+                                                        <TextBlock Text="{Binding RecommendationCount}" Margin="3" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Border>
+
+                                            <Label Content="{Binding Name}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Width="110" FontFamily="16">
+                                                    <Label.LayoutTransform>
+                                                        <TransformGroup>
+                                                            <RotateTransform Angle="100" />
+                                                            <ScaleTransform ScaleX="-1" ScaleY="-1"/>
+                                                        </TransformGroup>
+                                                    </Label.LayoutTransform>
+                                                </Label>
+                                            </StackPanel>
+                                        
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+
+                            </ListBox>
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button x:Name="btnClose" Content="Close (Esc)" 
+                        Style="{StaticResource OwnerButtonStyle}" Width="200" Command="{Binding CloseViewCommand}">
+                </Button>
+
+                <Button x:Name="btnHome" Content="Home (Ctrl+Z)"    
+                        Style="{StaticResource OwnerButtonStyle}" Width="200" Command="{Binding HomeViewCommand}">
+                </Button>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>

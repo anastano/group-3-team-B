@@ -1,0 +1,89 @@
+﻿<Page x:Class="SIMS_HCI_Project.WPF.Views.Guest2Views.ProfileNotificationsView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest2Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="518" d:DesignWidth="912"
+      Title="ProfileNotificationsView">
+
+    <Page.Resources>
+        <!--<ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/Guest2Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>-->
+        <Style x:Key="ListBoxItemStyle" TargetType="ListBoxItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Red"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <!--back button-->
+        <Style x:Key="Guest2BackBtn" TargetType="Button">
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="ToolTip" Value="Back"/>
+        </Style>
+        <!--label-->
+        <Style x:Key="Guest2LabelStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Margin" Value="0 0 0 0"/>
+        </Style>
+        <!-- Animation Storyboard -->
+        <Storyboard x:Key="PlaneAnimation">
+            <DoubleAnimation From="798" To="218" Duration="0:0:3" RepeatBehavior="Forever" Storyboard.TargetName="myImage" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"/>
+            <DoubleAnimation From="392" To="0" Duration="0:0:3" RepeatBehavior="Forever" Storyboard.TargetName="myImage" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)"/>
+        </Storyboard>
+    </Page.Resources>
+    <Page.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF312F42"/>
+            <GradientStop Color="#FF5B5875" Offset="1"/>
+        </LinearGradientBrush>
+    </Page.Background>
+
+    <Grid>
+        <!--<Image Source="../../../Resources/Images/travel.jpg" Stretch="Fill" Opacity="0.2"/>-->
+
+
+
+        <Button Style="{StaticResource Guest2BackBtn}" Command="{Binding BackCommand}">
+            <Image x:Name="back" Source="../../../Resources/Images/back.png"/>
+        </Button>
+        <Label Style="{StaticResource Guest2LabelStyle}" Foreground="#FF22B5B2" FontWeight="Medium" Content="NOTIFICATIONS" FontSize="16"  Margin="52,52,564,431" />
+
+        <ListBox ItemsSource="{Binding Notifications}" SelectedItem="{Binding SelectedNotification}" Margin="52,92,65,73">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Message}" Height="45" TextWrapping="Wrap" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <!--Image Source="../../../Resources/Images/profil.png" Stretch="Fill" Height="133" Margin="598,92,181,0" VerticalAlignment="Top"/-->
+        <Image x:Name="myImage" Source="../../../Resources/Images/paperplane.png" Stretch="Fill" Height="101" Margin="170,309,651,0" VerticalAlignment="Top">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform X="798" Y="0"/>
+                </TransformGroup>
+            </Image.RenderTransform>
+            <Image.Triggers>
+                <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                    <BeginStoryboard Storyboard="{StaticResource PlaneAnimation}"/>
+                </EventTrigger>
+            </Image.Triggers>
+        </Image>
+
+
+    </Grid>
+</Page>

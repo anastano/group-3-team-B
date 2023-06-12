@@ -1,0 +1,204 @@
+﻿<UserControl x:Class="SIMS_HCI_Project.WPF.Views.Guest1Views.ReservationsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:views="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest1Views"
+             xmlns:viewmodels="clr-namespace:SIMS_HCI_Project.WPF.ViewModels.Guest1ViewModels"
+             xmlns:local1="clr-namespace:SIMS_HCI_Project.Wpf.Converters"
+             xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+             xmlns:charting="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=DotNetProjects.DataVisualization.Toolkit"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="702" d:DesignWidth="969" Background="#f5f5f5">
+    <UserControl.Resources>
+        <converters:ImageUrlConverter x:Key="ImageUrlConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <TabControl Margin="25" SelectedIndex="{Binding SelectedTabIndex}" Style="{StaticResource TabControlStyle}">
+            <TabControl.Resources>
+                <Style TargetType="{x:Type TabItem}">
+                    <Setter Property="HeaderTemplate">
+                        <Setter.Value>
+                            <DataTemplate>
+                                <TextBlock Text="{TemplateBinding Content}" FontSize="25"  HorizontalAlignment="Center"/>
+                            </DataTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+                <Style TargetType="{x:Type TabControl}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type TabControl}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <TabPanel Grid.Row="0" Panel.ZIndex="1" Margin="0,0,4,-1" IsItemsHost="True" Background="Transparent" />
+                                    <Border Grid.Row="1" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                                        <ContentPresenter Content="{TemplateBinding SelectedContent}" ContentTemplate="{TemplateBinding SelectedContentTemplate}" ContentStringFormat="{TemplateBinding SelectedContentStringFormat}" />
+                                    </Border>
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+                <Style TargetType="{x:Type TabPanel}">
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                </Style>
+            </TabControl.Resources>
+            <TabItem Header="Active" Style="{StaticResource CustomTabItemStyle}">
+                <DataGrid ItemsSource="{Binding Path=ActiveReservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="25" AutoGenerateColumns="False" IsReadOnly="True"
+                      SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}"  
+                          GridLinesVisibility="Horizontal" ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}"
+                          Style="{StaticResource GuestDatagridStyle}" RowStyle="{StaticResource DataGridRowStyle}"
+                          CellStyle="{StaticResource GuestDatagridCellStyle}">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Header="Images">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Command="{Binding DataContext.ShowImagesCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Width="100" Height="100"
+                                    Background="White">
+                                        <Image Source="{Binding Accommodation.Images, Converter={StaticResource ImageUrlConverter}}" Width="100" Height="100"/>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="Accommodation Name" Binding="{Binding Accommodation.Name}" Width="150"
+                                            ElementStyle="{StaticResource CustomTextBlockStyle}">
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Start" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="100"
+                                            ElementStyle="{StaticResource CustomTextBlockStyle}">
+                          
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="End" Binding="{Binding End, StringFormat='{}{0:MM/dd/yyyy}'}" Width="100"
+                                            ElementStyle="{StaticResource CustomTextBlockStyle}">
+                            
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Guests" Binding="{Binding GuestNumber}" Width="SizeToHeader"
+                                            ElementStyle="{StaticResource CustomTextBlockStyle}">
+                            
+                        </DataGridTextColumn>
+                        <DataGridTemplateColumn Header="Cancellation" Width="*">
+                           
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Cancellation" Command="{Binding DataContext.CancelReservationCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                            Margin="0, 0, 0, 0" Style="{StaticResource GuestButtonStyle}">
+                                        <Button.Visibility>
+                                            <MultiBinding Converter="{local1:CancellationButtonVisibilityConverter}">
+                                                <Binding Path="Accommodation.CancellationDeadlineInDays" />
+                                                <Binding Path="Start" />
+                                            </MultiBinding>
+                                        </Button.Visibility>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Reschedule" Width="*">
+                            
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Reschedule" Command="{Binding DataContext.RescheduleReservationCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                        Visibility ="{Binding Start, Converter={local1:RescheduleButtonVisibilityConverter}}" Margin="0, 0, 0, 0"
+                                            Style="{StaticResource GuestButtonStyle}" >
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="Past" Style="{StaticResource CustomTabItemStyle}" >
+                <DataGrid ItemsSource="{Binding Path=PastReservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="25" AutoGenerateColumns="False" IsReadOnly="True"
+                          SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}" GridLinesVisibility="Horizontal" RowHeight="100" 
+                          ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}" Style="{StaticResource GuestDatagridStyle}"
+                          RowStyle="{StaticResource DataGridRowStyle}" CellStyle="{StaticResource GuestDatagridCellStyle}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Accommodation Name" Binding="{Binding Accommodation.Name}" Width="2*"
+                                            ElementStyle="{StaticResource CustomTextBlockStyle}">
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Start" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="2*"
+                                            ElementStyle="{StaticResource CustomTextBlockStyle}">
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="End" Binding="{Binding End, StringFormat='{}{0:MM/dd/yyyy}'}" Width="2*"
+                                            ElementStyle="{StaticResource CustomTextBlockStyle}">
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Guests" Binding="{Binding GuestNumber}" Width="SizeToHeader"
+                                            ElementStyle="{StaticResource CustomTextBlockStyle}">
+                        </DataGridTextColumn>
+                        <DataGridTemplateColumn Header="Rate" Width="120" >
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="Rate"  Command="{Binding DataContext.RateCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"
+                                            Margin="0, 25, 0, 25" Style="{StaticResource GuestButtonStyle}" >
+                                        <Button.Visibility>
+                                            <MultiBinding Converter="{local1:RateButtonVisibilityConverter}">
+                                                <Binding Path="End" />
+                                                <Binding Path="IsRated" />
+                                            </MultiBinding>
+                                        </Button.Visibility>
+                                    </Button>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+
+            <TabItem Header="Canceled" Style="{StaticResource CustomTabItemStyle}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2.5*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid Grid.Column="0" ItemsSource="{Binding Path=CanceledReservations, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="25" AutoGenerateColumns="False" IsReadOnly="True"
+                      SelectedItem="{Binding Path=SelectedReservation, UpdateSourceTrigger=PropertyChanged}" GridLinesVisibility="Horizontal" RowHeight="100"
+                              ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}" Style="{StaticResource GuestDatagridStyle}" RowStyle="{StaticResource DataGridRowStyle}"
+                              CellStyle="{StaticResource GuestDatagridCellStyle}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Accommodation Name" Binding="{Binding Accommodation.Name}" Width="2*"
+                                                 ElementStyle="{StaticResource CustomTextBlockStyle}">
+                               
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Start" Binding="{Binding Start , StringFormat='{}{0:MM/dd/yyyy}'}" Width="2*"
+                                                 ElementStyle="{StaticResource CustomTextBlockStyle}">
+                               
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="End" Binding="{Binding End, StringFormat='{}{0:MM/dd/yyyy}'}" Width="2*"
+                                                 ElementStyle="{StaticResource CustomTextBlockStyle}">
+                               
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Guests" Binding="{Binding GuestNumber}" Width="SizeToHeader"
+                                                 ElementStyle="{StaticResource CustomTextBlockStyle}">
+                               
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100"
+                                                 ElementStyle="{StaticResource CustomTextBlockStyle}">
+                                
+                            </DataGridTextColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <lvc:PieChart Width="250" Height="250" Hoverable="True" InnerRadius="0">
+                            <lvc:PieChart.Series>
+                                <lvc:PieSeries Title="Cancelled reservations" FontSize="18" Foreground="black"  DataLabels="True" Values="{Binding CancelledCount}" Fill="#D754E8">
+                                </lvc:PieSeries>
+                                <lvc:PieSeries Title="Other reservations" FontSize="18" Foreground="black"  DataLabels="True" Values="{Binding ReservationsCount}" Fill="#Fff5a8"></lvc:PieSeries>
+                            </lvc:PieChart.Series>
+                            <lvc:PieChart.DataTooltip>
+                                <lvc:DefaultTooltip BulletSize="30"/>
+                            </lvc:PieChart.DataTooltip>
+                        </lvc:PieChart>
+                        <TextBlock x:Name="tblNotifications" Text="The percetange of canceled reservations in relation to the total number of reservations" 
+                           Style="{StaticResource CustomTextBlockStyle }" FontSize="18" Margin="0 50 0 0" Foreground="Black">
+                        </TextBlock>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</UserControl>

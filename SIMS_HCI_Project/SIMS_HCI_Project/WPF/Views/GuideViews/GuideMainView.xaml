@@ -1,0 +1,259 @@
+﻿<Window x:Class="SIMS_HCI_Project.WPF.Views.GuideViews.GuideMainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.GuideViews"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        mc:Ignorable="d"
+        Title="Home" Height="720" Width="1280" MinHeight="450" MinWidth="800" WindowStartupLocation="CenterScreen" FontSize="18">
+    <Window.Background>
+        <ImageBrush ImageSource="pack://application:,,,/WPF/Images/guideBackground.png"></ImageBrush>
+    </Window.Background>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/GuideStyles.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <StackPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.85*"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+                <Border BorderBrush="Black" BorderThickness="0" Grid.Column="1" Grid.Row="0" Margin="10,10,10,10" CornerRadius="5,5,5,5">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="10*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="6*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock FontSize="24"  Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4"  Text="Tour in progress" HorizontalAlignment="Left" Margin="30,10,0,0" VerticalAlignment="Stretch" Style="{StaticResource H1}"/>
+                        <StackPanel  Grid.Column="0" Grid.Row="1" >
+                            <Image Margin="10,0,0,0" Height="180" Width="180" Source="{Binding TourInProgressImage}"/>
+                            <Button FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="10,0,0,0"  Style="{StaticResource LinkButton}" Content="See tour progress details">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourProgress}" CommandParameter="{Binding TourInProgress}"/>
+                                        <i:InvokeCommandAction Command="{Binding NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
+                                              RelativeSource Mode=FindAncestor,
+                                              AncestorType={x:Type Window}}}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                        </StackPanel>
+                        <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,20,0,0">
+                            <TextBlock TextWrapping="Wrap" FontSize="20"  Text="{Binding Path=TourInProgress.Tour.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            <TextBlock TextWrapping="Wrap" FontSize="16">
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0}, {1}">
+                                        <Binding Path="TourInProgress.Tour.Location.City"></Binding>
+                                        <Binding Path="TourInProgress.Tour.Location.Country"></Binding>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <TextBlock Text="{Binding Path=TourInProgress.CurrentKeyPoint.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,StringFormat=Current Key Point: {0}}" FontSize="18" Margin="0,45,0,0"></TextBlock>
+                            <Button HorizontalAlignment="Stretch" Margin="0,10,0,0">
+                                <TextBlock TextWrapping="Wrap" Text="Go to next"/>
+                            </Button>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" Grid.Row="1" Orientation="Vertical">
+                            <DataGrid ItemsSource="{Binding Path=TourInProgress.GuestAttendances, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding Path=SelectedGuest}" AutoGenerateColumns="False" IsReadOnly="True" Height="210" Margin="0,0,20,30">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Guest" Width="1.9*" FontSize="18">
+                                        <DataGridTextColumn.Binding>
+                                            <MultiBinding StringFormat="{}{0} {1}">
+                                                <Binding Path="TourReservation.Guest.Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"></Binding>
+                                                <Binding Path="TourReservation.Guest.Surname" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"></Binding>
+                                            </MultiBinding>
+                                        </DataGridTextColumn.Binding>
+                                    </DataGridTextColumn>
+                                    <DataGridTextColumn FontSize="16" Header="Status" Binding="{Binding Status, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="1.7*"></DataGridTextColumn>
+                                    <DataGridTemplateColumn Width="2*">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Content="Mark as Present" 
+                                    Command="{Binding RelativeSource={
+                                              RelativeSource Mode=FindAncestor,
+                                              AncestorType={x:Type Window}},
+                                              Path=DataContext.MarkGuestPresent}">
+                                                    <Button.Style>
+                                                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                                                            <Setter Property="IsEnabled" Value="True"/>
+                                                            <Setter Property="FontSize" Value="18"></Setter>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Status}" Value="PRESENT">
+                                                                    <Setter Property="Visibility" Value="Hidden"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Button.Style>
+                                                </Button>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <Border Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1" BorderBrush="CadetBlue" BorderThickness="3" Height="3" VerticalAlignment="Top" Width="870"  Margin="150,21,0,0"/>
+                <StackPanel Grid.Column="1" Grid.Row="1" Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <Label FontSize="22" Content="Tours" HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top" VerticalContentAlignment="Top"/>
+                        <Button Content="See All" HorizontalAlignment="Center" Margin="10,2,0,0" VerticalAlignment="Center" VerticalContentAlignment="Top" Style="{StaticResource LinkButton}" FontSize="16">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToAllTours}" />
+                                    <i:InvokeCommandAction Command="{Binding NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
+                                              RelativeSource Mode=FindAncestor,
+                                              AncestorType={x:Type Window}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                    </StackPanel>
+                    <Label Content="Todays Tours" HorizontalAlignment="Center" Margin="0,0,0,0" FontSize="18"/>
+                    <DataGrid ItemsSource="{Binding Path=TodaysTours, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedTour}" Margin="10,5,10,10" Height="290" AutoGenerateColumns="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="  Title" Binding="{Binding Tour.Title}" Width="4*"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Location" Width="4*">
+                                <DataGridTextColumn.Binding>
+                                    <MultiBinding StringFormat="{}{0}, {1}">
+                                        <Binding Path="Tour.Location.City"></Binding>
+                                        <Binding Path="Tour.Location.Country"></Binding>
+                                    </MultiBinding>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Duration" Binding="{Binding Tour.Duration, StringFormat={}{0}h}" Width="3*"></DataGridTextColumn>
+                            <DataGridTextColumn Header="Start Time" Binding="{Binding DepartureTime,StringFormat=HH:mm}" Width="3*"></DataGridTextColumn>
+                            <DataGridTemplateColumn Header="More" Width="2*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="INFO">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{Binding RelativeSource={
+                                                          RelativeSource Mode=FindAncestor,
+                                                          AncestorType={x:Type Window}},
+                                                          Path=DataContext.NavigationCommands.NavigateToTourInformation}" CommandParameter="{Binding RelativeSource={
+                                                          RelativeSource Mode=FindAncestor,
+                                                          AncestorType={x:Type DataGrid}},
+                                                          Path=SelectedItem.Tour}" />
+                                                    <i:InvokeCommandAction Command="{Binding RelativeSource={
+                                                          RelativeSource Mode=FindAncestor,
+                                                          AncestorType={x:Type Window}},
+                                                          Path=DataContext.NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
+                                                          RelativeSource Mode=FindAncestor,
+                                                          AncestorType={x:Type Window}}}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Action" Width="2*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="START" 
+                                    Command="{Binding RelativeSource={
+                                              RelativeSource Mode=FindAncestor,
+                                              AncestorType={x:Type Window}},
+                                              Path=DataContext.StartTour}">
+                                            <Button.Style>
+                                                <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                                                    <Setter Property="IsEnabled" Value="True"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding TourInProgress}" Value="{x:Null}">
+                                                            <Setter Property="IsEnabled" Value="False"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+                
+                <Border BorderBrush="Black" BorderThickness="0" CornerRadius="5,5,5,5" Margin="30,20,30,20">
+                    <StackPanel>
+                        <Viewbox Stretch="Uniform" Height="110" Width="110">
+                            <Image Height="40" Width="40" Margin="0,0,0,0" VerticalAlignment="Top" Source="pack://application:,,,/WPF/Images/avatar.png"/>
+                        </Viewbox>
+                        <StackPanel Margin="10,0,10,10">
+                            <Label FontSize="18" Content="Ana Smith" Padding="0,0,0,0"/>
+                            <Button FontSize="16" Content="My Profile" Padding="0,0,0,0" Style="{StaticResource LinkButton}" HorizontalAlignment="Left">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToProfileInformation}" />
+                                        <i:InvokeCommandAction Command="{Binding NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
+                                              RelativeSource Mode=FindAncestor,
+                                              AncestorType={x:Type Window}}}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                            <Button FontSize="16" Content="Tour Requests" Padding="0,0,0,0" Style="{StaticResource LinkButton}" HorizontalAlignment="Left">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourRequests}" />
+                                        <i:InvokeCommandAction Command="{Binding NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
+                                              RelativeSource Mode=FindAncestor,
+                                              AncestorType={x:Type Window}}}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                            <Button FontSize="16" Content="Tour Statistics" HorizontalAlignment="Left" Style="{StaticResource LinkButton}">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Click">
+                                        <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToStatistics}" />
+                                        <i:InvokeCommandAction Command="{Binding NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
+                                              RelativeSource Mode=FindAncestor,
+                                              AncestorType={x:Type Window}}}"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                            <Button FontSize="16" Content="Sign out" Padding="0,0,0,0" Command="{Binding NavigationCommands.SignOut}" Style="{StaticResource LinkButton}" HorizontalAlignment="Left"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Row="1" BorderBrush="Black" BorderThickness="0" CornerRadius="5,5,5,5" Margin="30,20,30,20">
+                    <StackPanel>
+                        <Viewbox Stretch="Uniform" Height="60" Width="60" Margin="10,30,10,10">
+                            <Image Height="40" Width="40" Margin="0,0,0,0" VerticalAlignment="Top" Source="pack://application:,,,/WPF/Images/question-mark.png"/>
+                        </Viewbox>
+                        <StackPanel Margin="10,10,10,10">
+                            <Label FontSize="18" Content="Need help?" Padding="0,0,0,0"/>
+                            <TextBlock FontSize="18" Text="Check out the" Padding="0,0,0,0" TextWrapping="Wrap"/>
+                            <Button Style="{StaticResource LinkButton}" Content="tutorials" HorizontalAlignment="Left"></Button>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <Border Background="White" Opacity="0.5" CornerRadius="20" Panel.ZIndex="-10" Margin="20,15,20,20">
+                </Border>
+
+                <Border Grid.Column="1" Background="White" Opacity="0.5" CornerRadius="20" Panel.ZIndex="-10" Margin="10,15,20,20">
+                </Border>
+
+                <Border Grid.Row="1" Background="White" Opacity="0.5" CornerRadius="20" Panel.ZIndex="-10"  Margin="20,20,20,150">
+                </Border>
+            </Grid>
+        </StackPanel>
+
+
+        
+    </Grid>
+</Window>

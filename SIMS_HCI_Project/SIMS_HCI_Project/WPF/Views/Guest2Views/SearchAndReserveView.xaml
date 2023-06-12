@@ -1,0 +1,29 @@
+﻿<Page x:Class="SIMS_HCI_Project.WPF.Views.Guest2Views.SearchAndReserveView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.ViewModels.Guest2ViewModels"
+      mc:Ignorable="d" 
+      Height="518" Width="1080"
+      Title="SearchAndReserveView">
+    <Page.Resources>
+        <ResourceDictionary >
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/Guest2Styles.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="350"/>
+            <RowDefinition Height="168"/>
+        </Grid.RowDefinitions>
+        <Button Style="{StaticResource Guest2BackBtn}" Command="{Binding BackCommand}">
+            <Image x:Name="back" Source="../../../Resources/Images/back.png"/>
+        </Button>
+        
+        <Frame x:Name="TopFrame" Grid.Row="0" Width="1080" Margin="0,38,0,0"/>
+        <Frame x:Name="BottomFrame" Grid.Row="1" Width="1080" Height="168"/>
+    </Grid>
+</Page>

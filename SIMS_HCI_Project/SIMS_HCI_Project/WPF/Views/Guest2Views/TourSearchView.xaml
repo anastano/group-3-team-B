@@ -1,0 +1,187 @@
+﻿<Page x:Class="SIMS_HCI_Project.WPF.Views.Guest2Views.TourSearchView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
+
+        xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest2Views"
+        mc:Ignorable="d"
+        Title="TourSearchView" Height="518" Width="1080">
+
+
+    <Page.Resources>
+        <converters:FullNameConverter x:Key="FullNameConverter" />
+
+        <!--data grid-->
+        <Style x:Key="Guest2DatagridStyle" TargetType="DataGrid" >
+            <Setter Property="ColumnHeaderHeight" Value="30"/>
+            <Setter Property="FontSize" Value="12"/>
+
+        </Style>
+
+        <Style x:Key="Guest2DatagridCellStyle" TargetType="DataGridCell">
+            <Setter Property="Height" Value="30"/>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="Black" />
+                    <Setter Property="Background" Value="#FFA5A4A2"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <!--textblock-->
+        <Style x:Key="Guest2TextBlockStyle" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Margin" Value="0 0 0 0"/>
+        </Style>
+        <!--help button-->
+        <Style x:Key="Guest2HelpBtn" TargetType="Button">
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Width" Value="35"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="ToolTip" Value="Help"/>
+            <!--Image Source="../../../Resources/Images/help.png" /-->
+        </Style>
+        <!--header 1-->
+        <Style x:Key="Guest2Header1Style" TargetType="Label">
+            <Setter Property="Foreground" Value="#FF22B5B2"/>
+            <Setter Property="FontSize" Value="22"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="FontWeight" Value="Heavy"/>
+
+        </Style>
+        <Style x:Key="HoverButtonStyle" TargetType="Button">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#501f3a"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="False">
+                                <Setter Property="Background" Value="#cb2d6f"/>
+                                <Setter Property="Foreground" Value="White"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ResourceDictionary x:Key="Guest2Styles" >
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/Guest2Styles.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+    <Grid >
+        <!--Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="Tomato" Offset="0"/>
+                <GradientStop Color="Orange" Offset="0.5"/>
+                <GradientStop Color="#FFE0E21D" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background-->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="0*"/>
+        </Grid.ColumnDefinitions>
+
+
+
+
+        <DataGrid x:Name="dgTours" 
+                  ItemsSource="{Binding Path=Tours, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding Path=SelectedTour, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" AutoGenerateColumns="False"  Margin="10,69,217,10" 
+                  Style="{StaticResource Guest2DatagridStyle}" CellStyle="{StaticResource Guest2DatagridCellStyle}" >
+            
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="id" Binding="{Binding Id}" Width="30"></DataGridTextColumn>
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}" Width="110"></DataGridTextColumn>
+                <DataGridTextColumn Header="Country" Binding="{Binding Location.Country}" Width="110"></DataGridTextColumn>
+                <DataGridTextColumn Header="City" Binding="{Binding Location.City}" Width="110"></DataGridTextColumn>
+                <DataGridTextColumn Header="Language" Binding="{Binding Language}" Width="80"></DataGridTextColumn>
+                <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" Width="60"></DataGridTextColumn>
+                <DataGridTextColumn Header="Capacity" Binding="{Binding MaxGuests}" Width="60"></DataGridTextColumn>
+                <DataGridTextColumn Header="Guide" Width="*">
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding Converter="{StaticResource FullNameConverter}">
+                            <Binding Path="Guide.Name" />
+                            <Binding Path="Guide.Surname" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Super Guide" Width="80">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock Text="&#x2605;" FontSize="18" Foreground="Gold" />
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Guide.HasSuperFlag}" Value="False">
+                                    <Setter Property="ContentTemplate">
+                                        <Setter.Value>
+                                            <DataTemplate>
+                                                <TextBlock Text="" />
+                                            </DataTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+
+                <DataGridTemplateColumn Header="RESERVE" Width="70">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="RESERVE" Style="{StaticResource HoverButtonStyle}" Command="{Binding DataContext.SeeDetailsAndReserveCommand, RelativeSource={RelativeSource AncestorType={x:Type Page}}}" ToolTip="See details and reserve"/>
+                            <!--Style="{StaticResource Guest2BtnGradientOrange}" bilo iznad-->
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid>
+            <TextBox x:Name="txtCountry" 
+                Text="{Binding Path=Country, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}"
+                     HorizontalAlignment="Right" Margin="0,96,1,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="206" />
+            <TextBox x:Name="txtCity" Text="{Binding Path=City, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right"   Margin="0,162,1,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="206"/>
+            <TextBox x:Name="txtDuration" Text="{Binding Path=Duration, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Margin="0,236,1,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="206"/>
+            <TextBox x:Name="txtLanguage" Text="{Binding Path=Language, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Margin="0,304,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="206"/>
+            <TextBox x:Name="txtGuestNumber" Text="{Binding Path=GuestNumber, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Margin="0,384,-2,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" Width="206" RenderTransformOrigin="0.49,2.714"/>
+
+
+            <Button Content="SEARCH" FontWeight="Medium" HorizontalAlignment="Right" Margin="0,428,22,0" VerticalAlignment="Top" RenderTransformOrigin="0.278,0.553" Command="{Binding SearchCommand}" Width="166" Height="32" FontSize="14" Style="{StaticResource HoverButtonStyle}" ToolTip="Search by paremeters">
+            </Button>
+
+            <TextBlock  Text="Country:" Style="{StaticResource Guest2TextBlockStyle}" Margin="874,79,120,404" />
+            <TextBlock HorizontalAlignment="Right" Margin="0,146,118,0" TextWrapping="Wrap" Text="City:" Foreground="Beige" VerticalAlignment="Top" Height="32" Width="88"/>
+            <TextBlock HorizontalAlignment="Right" Margin="0,219,53,0" TextWrapping="Wrap" Text="Maximal duration:" Foreground="Beige" VerticalAlignment="Top" Height="35" Width="154"/>
+            <TextBlock HorizontalAlignment="Right" Margin="0,285,116,0" TextWrapping="Wrap" Text="Language:" Foreground="Beige" VerticalAlignment="Top" Height="34" Width="88"/>
+            <TextBlock HorizontalAlignment="Right" Margin="0,363,53,0" TextWrapping="Wrap" Text="Minimal guest number:" Foreground="Beige" VerticalAlignment="Top" Height="43" Width="151"/>
+
+            
+            <!--<Button Style="{StaticResource Guest2HelpBtn}" Command="{Binding HelpCommand}">
+                <Image x:Name="help" Source="../../../Resources/Images/help.png"/>
+            </Button>-->
+            <Label Content="SEARCH AND RESERVE" Style="{StaticResource Guest2Header1Style}" />
+            <Button Content="RESET" Style="{StaticResource HoverButtonStyle}" Command="{Binding ResetSearchCommand}" HorizontalAlignment="Left" Margin="892,475,0,0" VerticalAlignment="Top" Height="32" Width="166" FontSize="14" FontWeight="Medium" ToolTip="Reset search"/>
+        </Grid>
+
+    </Grid>
+</Page>

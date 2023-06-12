@@ -1,0 +1,195 @@
+﻿<Window x:Class="SIMS_HCI_Project.WPF.Views.GuideViews.TourRequestsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.GuideViews"
+        xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+        mc:Ignorable="d"
+        Title="TourRequestsView" Height="720" Width="1280" WindowStartupLocation="CenterScreen" FontSize="18">
+    <Window.Background>
+        <ImageBrush ImageSource="pack://application:,,,/WPF/Images/guideBackground.png"></ImageBrush>
+    </Window.Background>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../../Styles/GuideStyles.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="59*"/>
+            <RowDefinition Height="29*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.RowSpan="2">
+            <Grid HorizontalAlignment="Center">
+                <local:NavigationMenu></local:NavigationMenu>
+            </Grid>
+            <Grid>
+                <StackPanel Margin="20,30,20,20">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,0" VerticalAlignment="Center">
+                        <StackPanel Margin="20,0,25,0" Width="220">
+                            <TextBlock Text="Location" Margin="0,2,0,0" FontSize="16"></TextBlock>
+                            <ComboBox ItemsSource="{Binding AvailableLocations}" SelectedItem="{Binding Location}">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock>
+                                            <TextBlock.Text>
+                                                <MultiBinding StringFormat="{}{0}, {1}">
+                                                    <Binding Path="City"/>
+                                                    <Binding Path="Country"/>
+                                                </MultiBinding>
+                                            </TextBlock.Text>
+                                        </TextBlock>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Margin="0,0,0,0">
+                            <TextBlock Text="Guest Number"  Margin="0,4,0,0" FontSize="16"></TextBlock>
+                            <TextBox Text="{Binding GuestNumber}"></TextBox>
+                        </StackPanel>
+                        <StackPanel Margin="30,0,20,0" Width="220">
+                            <TextBlock Text="Language" Margin="0,2,0,0" FontSize="16"></TextBlock>
+                            <ComboBox ItemsSource="{Binding AvailableLanguages}" SelectedItem="{Binding Language}"></ComboBox>
+                        </StackPanel>
+                        <StackPanel Margin="10,0,10,0">
+                            <TextBlock Text="Date Range" FontSize="16"></TextBlock>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="From " VerticalAlignment="Center" FontSize="16"></TextBlock>
+                                <DatePicker SelectedDate="{Binding DateRange.Start}" Width="140"></DatePicker>
+                                <TextBlock Text="To " VerticalAlignment="Center" FontSize="16" Margin="10,0,0,0"></TextBlock>
+                                <DatePicker SelectedDate="{Binding DateRange.End}" Width="140"></DatePicker>
+                            </StackPanel>
+                        </StackPanel>
+                        <Button Margin="0,20,10,0" Command="{Binding FilterRequests}" >
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="pack://application:,,,/WPF/Images/filter.png" Width="20"></Image>
+                                <TextBlock Text="Filter"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                        <Button Margin="0,20,0,0" Command="{Binding ResetFilter}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="pack://application:,,,/WPF/Images/remove-filter.png" Width="20"></Image>
+                                <TextBlock Text="Clear"></TextBlock>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                    <DataGrid AutoGenerateColumns="False" IsReadOnly="True" Height="300" ItemsSource="{Binding TourRequests}" SelectedItem="{Binding SelectedTourRequest}" Margin="20,0,20,0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Location" Width="1.8*" >
+                                <DataGridTextColumn.Binding>
+                                    <MultiBinding StringFormat="{}{0}, {1}">
+                                        <Binding Path="Location.City"></Binding>
+                                        <Binding Path="Location.Country"></Binding>
+                                    </MultiBinding>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Guest Number" Width="1.3*" Binding="{Binding GuestNumber}"/>
+                            <DataGridTextColumn Header="Language" Width="1.9*" Binding="{Binding Language}"/>
+                            <DataGridTextColumn Header="DateRange" Width="2.1*">
+                                <DataGridTextColumn.Binding>
+                                    <MultiBinding StringFormat="{}{0} - {1}">
+                                        <Binding Path="DateRange.Start.Date"></Binding>
+                                        <Binding Path="DateRange.End.Date"></Binding>
+                                    </MultiBinding>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+                            <DataGridTemplateColumn Header="Action" Width="2*">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Accept Request">
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="Click">
+                                                    <i:InvokeCommandAction Command="{Binding DataContext.AcceptRequest, RelativeSource={RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}}"/>
+                                                    <i:InvokeCommandAction Command="{Binding DataContext.NavigationCommands.NavigateToRequestDatePicker, RelativeSource={RelativeSource AncestorType={x:Type Window}, Mode=FindAncestor}}" CommandParameter="{Binding RelativeSource={
+                                              RelativeSource Mode=FindAncestor,
+                                              AncestorType={x:Type Window}},Path=DataContext}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <DockPanel>
+                        <Button HorizontalAlignment="Right" DockPanel.Dock="Right" Margin="0,40,20,0">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="pack://application:,,,/WPF/Images/stats.png" Width="20"></Image>
+                                <TextBlock Text="See statistics" Margin="5,0,0,0"></TextBlock>
+                            </StackPanel>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourRequestsStatistics}" />
+                                    <i:InvokeCommandAction Command="{Binding NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
+                                                  RelativeSource Mode=FindAncestor,
+                                                  AncestorType={x:Type Window}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                        <Button HorizontalAlignment="Left" Margin="20,40,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="See complex" Margin="5,0,0,0"></TextBlock>
+                            </StackPanel>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Click">
+                                    <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToComplexTourRequests}" />
+                                    <i:InvokeCommandAction Command="{Binding NavigationCommands.CloseCurrentWindow}" CommandParameter="{Binding RelativeSource={
+                                                  RelativeSource Mode=FindAncestor,
+                                                  AncestorType={x:Type Window}}}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </Button>
+                    </DockPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Border BorderBrush="Black" BorderThickness="0" Margin="20,20,20,20">
+                            <StackPanel Margin="10,10,10,10">
+                                <Image Width="30" Height="30" Source="pack://application:,,,/WPF/Images/star.png" HorizontalAlignment="Left"></Image>
+                                <TextBlock Text="Most Requested Location" HorizontalAlignment="Center" Margin="0,0,0,5"></TextBlock>
+                                <TextBlock HorizontalAlignment="Center">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0}, {1}">
+                                            <Binding Path="TopLocation.City"></Binding>
+                                            <Binding Path="TopLocation.Country"></Binding>
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
+                                <Button Content="Create tour for this location" Margin="0,10,0,0">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding CreateTourFromTopLocation}" />
+                                            <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourInput}" CommandParameter="{Binding TourFromStatistics}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+                            </StackPanel>
+                        </Border>
+                        <Border BorderBrush="Black" BorderThickness="0" Margin="20,20,20,20">
+                            <StackPanel Margin="10,10,10,10">
+                                <Image Width="30" Height="30" Source="pack://application:,,,/WPF/Images/star.png" HorizontalAlignment="Left"></Image>
+                                <TextBlock Text="Most Requested Language" HorizontalAlignment="Center" Margin="0,0,0,5"></TextBlock>
+                                <TextBlock Text="{Binding TopLanguage}" HorizontalAlignment="Center"></TextBlock>
+                                <Button Content="Create tour for this location" Margin="0,10,0,0">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="Click">
+                                            <i:InvokeCommandAction Command="{Binding CreateTourFromTopLanguage}" />
+                                            <i:InvokeCommandAction Command="{Binding NavigationCommands.NavigateToTourInput}" CommandParameter="{Binding TourFromStatistics}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Button>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </StackPanel>
+                <Border Background="White" Opacity="0.5" CornerRadius="20" Panel.ZIndex="-10" Margin="-270,15,20,40" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="160" Width="280">
+                </Border>
+                <Border Background="White" Opacity="0.5" CornerRadius="20" Panel.ZIndex="-10" Margin="310,15,20,40" HorizontalAlignment="Center" VerticalAlignment="Bottom" Height="160" Width="280">
+                </Border>
+                <Border Grid.Row="1" Background="White" Opacity="0.5" CornerRadius="20" Panel.ZIndex="-10"  Margin="20,20,20,270">
+                </Border>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>

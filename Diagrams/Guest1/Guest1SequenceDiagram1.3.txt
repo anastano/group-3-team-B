@@ -1,0 +1,60 @@
+@startuml
+actor Guest
+participant SuperGuestTitleService as SGTS
+participant SuperGuestTitleRepository as SGTR
+participant AccommodationReservationService as ARS
+participant AccommodationReservationRepository as ARR
+
+group Make new title or update points
+Guest -> SGTS: UpdateSuperGuestTitle(AccommodationReservationService reservationService, Guest1 guest)
+activate SGTS
+SGTS -> SGTS : HasSuperGuestTitle(AccommodationReservationService reservationService, Guest1 guest)
+activate SGTS
+SGTS -> SGTR: GetGuestActiveTitle(int guestId)
+activate SGTR
+return title
+opt title != null
+SGTS --> SGTS: hasSuperGuestTitle[True]
+end
+SGTS --> SGTS: hasSuperGuestTitle[False]
+SGTS --> SGTS --: hasSuperGuestTitle
+
+alt hasSuperGuestTitile
+SGTS -> SGTS ++:
+SGTS -> SGTR ++: UpdateAvailablePoints(int guestId);
+
+SGTR -> SGTR: GetGuestActiveTitle(int guestId)
+activate SGTR
+return title
+opt title.AvailablePoint > 0
+note right of SGTR: substract 1 from availablePoints
+end
+deactivate SGTR
+deactivate SGTS
+
+else
+SGTS -> SGTS: IsSuperGuestConditionFulfilled(AccommodationReservationService accommodationReservationService, Guest1 guest)
+activate SGTS
+SGTS -> ARS:  GetReservationsWithinOneYear(int guestId)
+activate ARS
+ARS -> ARR:  GetReservationsWithinOneYear(int guestId)
+activate ARR
+return reservations
+return reservations
+
+opt reservations.Count >= 10
+SGTS  --> SGTS: isFulfilled[True]
+end
+SGTS  --> SGTS: isFulfilled[False]
+SGTS  --> SGTS --: isFulfilled
+
+opt isFulfilled
+SGTS -> SGTR: Add(SuperGuestTitle title)
+activate SGTR
+deactivate SGTR
+end
+deactivate SGTS
+end
+end
+
+@enduml

@@ -1,0 +1,116 @@
+﻿<UserControl x:Class="SIMS_HCI_Project.WPF.Views.Guest1Views.ForumView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.Guest1Views"
+             xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="702" d:DesignWidth="969"
+             Background="#f5f5f5">
+    <UserControl.Resources>
+        <converters:FullNameConverter x:Key="FullNameConverter" />
+        <converters:ErrorVisibilityConverter x:Key="ErrorVisibilityConverter" />
+        <converters:ForumUsefulConverter x:Key="ForumUsefulConverter" />
+    </UserControl.Resources>
+
+    <Grid Margin="30 30 30 30">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.8*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="6*" />
+        </Grid.RowDefinitions>
+        <Button Content="Back" Grid.Row="0" Command="{Binding DataContext.BackCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" HorizontalAlignment="Left" Style="{StaticResource GuestButtonStyle}"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="1">
+            <Label Content="Country:" Style="{StaticResource GuestLabelStyle}" HorizontalAlignment="Center" Width="130"></Label>
+            <TextBox Text="{Binding Path = Forum.Location.Country, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
+             Style="{StaticResource GuestTextBoxStyle}" IsReadOnly="True" Margin="0 0 234 0">
+            </TextBox>
+            <Label Content="City:" Style="{StaticResource GuestLabelStyle}" HorizontalAlignment="Center" Width="130"></Label>
+            <TextBox Text="{Binding Path = Forum.Location.City, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"
+             Style="{StaticResource GuestTextBoxStyle}" IsReadOnly="True">
+            </TextBox>
+        </StackPanel>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Orientation="Horizontal" Visibility="{Binding IsForumUseful, Converter={StaticResource ErrorVisibilityConverter}}"
+                          Width="761">
+                <Label Content="{Binding Path = UsefulMessage, UpdateSourceTrigger=PropertyChanged}" FontSize="25" Height="60" VerticalContentAlignment="Center"
+                   Style="{StaticResource GuestLabelStyle}" Width="150"/>
+                <Image Source="../../../Resources/Images/checked.png" Width="50" Height="50"  />
+            </StackPanel>
+            <Button Content="Add comment" Grid.Column="1" Visibility="{Binding CanGuestLeaveComment, Converter={StaticResource ErrorVisibilityConverter}}"
+                        Style="{StaticResource GuestButtonStyle}" HorizontalAlignment="Center" Width="130" Margin="35 0 0 0"
+                Command="{Binding DataContext.AddCommentCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}">
+                
+            </Button>
+        </Grid>
+        
+        <DataGrid  Grid.Row="4" RowHeight="100"
+                   ItemsSource="{Binding Path=Forum.Comments, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False" IsReadOnly="True"
+                   ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}" HorizontalScrollBarVisibility="Hidden" GridLinesVisibility="Horizontal"
+                   Style="{StaticResource GuestDatagridStyle}" RowStyle="{StaticResource DataGridRowStyle}"
+                   CellStyle="{StaticResource GuestDatagridCellStyle}">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="User" Width="100" 
+                                   ElementStyle="{StaticResource CustomTextBlockStyle}" >
+                    <DataGridTextColumn.Binding>
+                        <MultiBinding Converter="{StaticResource FullNameConverter}">
+                            <Binding Path="User.Name" />
+                            <Binding Path="User.Surname" />
+                        </MultiBinding>
+                    </DataGridTextColumn.Binding>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="Role" Binding="{Binding User.Role}" Width="100"
+                                    ElementStyle="{StaticResource CustomTextBlockStyle}"></DataGridTextColumn>
+                <DataGridTemplateColumn Header="Useful" CanUserSort="True" Width="*">
+                    <DataGridTemplateColumn.HeaderStyle>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="FontSize" Value="14"/>
+                            <Setter Property="Height" Value="45"></Setter>
+                            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+                            <Setter Property="Background" Value="#cad9c4"></Setter>
+                            <Setter Property="TextBlock.FontWeight" Value="DemiBold"></Setter>
+                            <Setter Property="ContentTemplate">
+                                <Setter.Value>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding }" TextWrapping="Wrap" TextAlignment="Center"/>
+                                    </DataTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTemplateColumn.HeaderStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="../../../Resources/Images/thumbs-up.png"
+                                   Width="40" Height="40" HorizontalAlignment="Center">
+                                <Image.Style>
+                                    <Style TargetType="{x:Type Image}">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=IsUseful}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="Comments" Binding="{Binding Content}" Width="5*"
+                                    ElementStyle="{StaticResource CustomTextBlockStyle}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Reports" Binding="{Binding ReportCounter}" Width="80"
+                                    ElementStyle="{StaticResource CustomTextBlockStyle}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+</UserControl>

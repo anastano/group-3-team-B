@@ -59,16 +59,15 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             }
         }
 
-        #endregion
-
-        public RelayCommand GeneratePDFCommand { get; set; }
-        public RelayCommand ClosePDFReportViewCommand { get; set; }
-
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion
+
+        public RelayCommand GeneratePDFCommand { get; set; }
+        public RelayCommand CloseViewCommand { get; set; }
 
         public PDFReportViewModel(PDFReportView pDFReportView, CreatePDFView createPDFView, Owner owner, DateRange dateRange)
         {
@@ -129,25 +128,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             CreatePDFView.Close();
         }
 
-        public bool CanExecute_GeneratePDFCommand(object obj)
-        {
-            return true;
-        }
-        public void Executed_ClosePDFReportViewCommand(object obj)
+        public void Executed_CloseViewCommand(object obj)
         {
             PDFReportView.Close();
         }
 
-        public bool CanExecute_ClosePDFReportViewCommand(object obj)
-        {
-            return true;
-        }
         #endregion
 
         public void InitCommands()
         {
-            GeneratePDFCommand = new RelayCommand(Executed_GeneratePDFCommand, CanExecute_GeneratePDFCommand);
-            ClosePDFReportViewCommand = new RelayCommand(Executed_ClosePDFReportViewCommand, CanExecute_ClosePDFReportViewCommand);
+            GeneratePDFCommand = new RelayCommand(Executed_GeneratePDFCommand);
+            CloseViewCommand = new RelayCommand(Executed_CloseViewCommand);
         }
     }
 }

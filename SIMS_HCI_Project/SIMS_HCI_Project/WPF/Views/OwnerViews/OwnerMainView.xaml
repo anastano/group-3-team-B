@@ -4,10 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
+        xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
         mc:Ignorable="d"
         Title="OwnerMainView" Height="680" Width="1280" WindowStartupLocation="CenterScreen">
+
     <Window.Resources>
-        
+        <converters:NotificationsVisibilityConverter x:Key="NotificationsVisibilityConverter"/>
+        <converters:OwnerSuperFlagVisibilityConverter x:Key="OwnerSuperFlagVisibilityConverter"/>
+
         <Style TargetType="ListView">
             <Setter Property="Background" Value="{StaticResource OwnerNeutralColor}"/>
             <Setter Property="BorderThickness" Value="2"/>
@@ -46,11 +50,11 @@
                     <StackPanel Margin="10 10 10 17" VerticalAlignment="Center" HorizontalAlignment="Center">
 
                         <Button x:Name="btnAccommodations" Content="My Accommodations         (1)" Command="{Binding ShowAccommodationsCommand}"
-                        Style="{StaticResource OwnerButtonStyle}" Height="50">
+                        Style="{Binding AccommodationsButtonStyle, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="50">
                         </Button>
 
                         <Button x:Name="btnReservations" Content="Guest Reservations            (2)" Command="{Binding ShowReservationsCommand}"
-                        Style="{StaticResource OwnerButtonStyle}" Height="50">
+                        Style="{Binding ReservationsButtonStyle, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="50">
                         </Button>
 
                         <Button x:Name="btnRenovations" Content="Renovations                       (3)" Command="{Binding ShowRenovationsCommand}"
@@ -194,7 +198,8 @@
                                 <Border Style="{StaticResource OwnerBorderStyle}" Margin="10">
                                     <Grid>
                                         <Image Source="../../../Resources/Images/profil.png"  Width="150" Height="170" Margin="15 15 20 0"  VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                                        <Image x:Name="imgSuperFlag" Source="../../../Resources/Images/goldenHouse.png"  Width="70" Height="70" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                                        <Image x:Name="imgSuperFlag" Source="../../../Resources/Images/goldenHouse.png"  Width="70" Height="70" HorizontalAlignment="Right" VerticalAlignment="Top"
+                                               Visibility="{Binding Owner, Converter={StaticResource OwnerSuperFlagVisibilityConverter}}"/>
                                     </Grid>
                                 </Border>
                                 <StackPanel Orientation="Vertical" Width="210" Margin="10">
@@ -247,18 +252,15 @@
                             <StackPanel Width="460" Height="210" Orientation="Vertical">
                                 
                                 <StackPanel x:Name="spNotifications">
-                                   <!-- 
-                                    <TextBox x:Name ="txtUnratedGuestsNotifications" Text="You have unrated guests, please rate them."
-                                           Style="{StaticResource OwnerNotificationsStyle}" Margin="0 5 0 0">
-                                    </TextBox>
                                     
-                                    <TextBox x:Name ="txtGuestsRequestsNotifications" Text="You have new guest requests, check them out."
-                                           Style="{StaticResource OwnerNotificationsColor}">
+                                    <TextBox Text="You have unrated guests, please rate them." Style="{StaticResource OwnerNotificationsStyle}" Margin="0 5 0 0" 
+                                             Visibility="{Binding UnratedGuestsCount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource NotificationsVisibilityConverter}}">
                                     </TextBox>
-                                    -->                                   
+
                                 </StackPanel>
 
-                                    <ListView x:Name="lvNotifications" ItemsSource="{Binding Notifications}" Height="190" Margin="5">
+                                <ListView x:Name="lvNotifications" ItemsSource="{Binding Notifications}" Height="190" Margin="5" 
+                                          Visibility="{Binding NotificationCount, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource NotificationsVisibilityConverter}}">
                                     <ListView.View>
                                         <GridView>
                                             <GridViewColumn Header="Id">

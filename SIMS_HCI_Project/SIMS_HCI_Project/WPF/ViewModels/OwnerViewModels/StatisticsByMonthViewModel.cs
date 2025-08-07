@@ -16,16 +16,14 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         private readonly AccommodationMonthStatisticsService _monthStatisticsService;
         public StatisticsByMonthView StatisticsByMonthView { get; set; }
         public StatisticsByYearView StatisticsByYearView { get; set; }
-        public SelectAccommodationForStatisticsView SelectAccommodationForStatisticsView { get; set; }
         public Accommodation Accommodation { get; set; }
         public AccommodationYear AccommodationYear { get; set; }
         public string BestMonth { get; set; }
         public List<AccommodationMonth> AccommodationMonths { get; set; }
-        public RelayCommand CloseStatisticsByMonthViewCommand { get; set; }
-        public RelayCommand HomeStatisticsByMonthViewCommand { get; set; }
+        public RelayCommand CloseViewCommand { get; set; }
+        public RelayCommand HomeViewCommand { get; set; }
 
-        public StatisticsByMonthViewModel(StatisticsByMonthView statisticsByMonthView, StatisticsByYearView statisticsByYearView, 
-            SelectAccommodationForStatisticsView selectAccommodationView, Accommodation selectedAccommodation, AccommodationYear accommodationYear)
+        public StatisticsByMonthViewModel(StatisticsByMonthView statisticsByMonthView, StatisticsByYearView statisticsByYearView,  Accommodation accommodation, AccommodationYear year)
         {
             InitCommands();
 
@@ -33,43 +31,31 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
             StatisticsByMonthView = statisticsByMonthView;
             StatisticsByYearView = statisticsByYearView;
-            SelectAccommodationForStatisticsView = selectAccommodationView;
 
-            Accommodation = selectedAccommodation;
-            AccommodationYear = accommodationYear;
+            Accommodation = accommodation;
+            AccommodationYear = year;
             BestMonth = _monthStatisticsService.FindBestMonthInYear(AccommodationYear.Year, Accommodation.Id);
             AccommodationMonths = _monthStatisticsService.GetMonthsByAccommodationIdAndYear(Accommodation.Id, AccommodationYear.Year);
         }
 
         #region Commands
-        public void Executed_CloseStatisticsByMonthViewCommand(object obj)
+        public void Executed_CloseViewCommand(object obj)
         {
             StatisticsByMonthView.Close();
         }
 
-        public bool CanExecute_CloseStatisticsByMonthViewCommand(object obj)
-        {
-            return true;
-        }
-
-        public void Executed_HomeStatisticsByMonthViewCommand(object obj)
+        public void Executed_HomeViewCommand(object obj)
         {
             StatisticsByMonthView.Close();
             StatisticsByYearView.Close();
-            SelectAccommodationForStatisticsView.Close();
-        }
-
-        public bool CanExecute_HomeStatisticsByMonthViewCommand(object obj)
-        {
-            return true;
         }
 
         #endregion
 
         public void InitCommands()
         {
-            CloseStatisticsByMonthViewCommand = new RelayCommand(Executed_CloseStatisticsByMonthViewCommand, CanExecute_CloseStatisticsByMonthViewCommand);
-            HomeStatisticsByMonthViewCommand = new RelayCommand(Executed_HomeStatisticsByMonthViewCommand, CanExecute_HomeStatisticsByMonthViewCommand);
+            CloseViewCommand = new RelayCommand(Executed_CloseViewCommand);
+            HomeViewCommand = new RelayCommand(Executed_HomeViewCommand);
         }
     }
 }

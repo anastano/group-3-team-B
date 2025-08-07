@@ -6,23 +6,25 @@
         xmlns:local="clr-namespace:SIMS_HCI_Project.WPF.Views.OwnerViews"
         xmlns:converters="clr-namespace:SIMS_HCI_Project.WPF.Converters"
         mc:Ignorable="d"
-        Title="StatisticsByYear" Height="670" Width="700" WindowStartupLocation="CenterScreen">
+        Title="StatisticsByYear" Height="680" Width="700" WindowStartupLocation="CenterScreen"
+    xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
     <Window.InputBindings>
-        <KeyBinding Gesture="Ctrl+S" Command="{Binding SelectYearForStatisticsCommand}"/>
-        <KeyBinding Key="Esc" Command="{Binding CloseStatisticsByYearViewCommand}"/>
-        <KeyBinding Gesture="Ctrl+Z" Command="{Binding HomeStatisticsByYearViewCommand}"/>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding ShowMonthsCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseViewCommand}"/>
+        <KeyBinding Gesture="Ctrl+Z" Command="{Binding HomeViewCommand}"/>
     </Window.InputBindings>
     <Window.Resources>
         <converters:MultiplyCountConverter x:Key="MultiplyCountConverter"/>
     </Window.Resources>
-    <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=listAccommodationYears}">
+    <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=cbAccommodations}">
         <!-- MIDDLE STACK PANEL-->
         <StackPanel Margin="5 0 5 0">
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <TextBlock Text="{Binding Accommodation.Name}" 
-                           Style="{StaticResource OwnerTitleStyle}">
-                </TextBlock>
+                <ComboBox Style="{DynamicResource OwnerComboBoxStyle}" x:Name="cbAccommodations" ItemsSource="{Binding OwnerAccommodations}"  DisplayMemberPath="Name" 
+                          SelectedItem="{Binding SelectedAccommodation, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"          
+                          Width="610" Margin="10" Height="50" FontSize="30" HorizontalAlignment="Left" HorizontalContentAlignment="Center" IsSynchronizedWithCurrentItem="True" SelectedIndex="0">
+                </ComboBox>
             </StackPanel>
 
             <Border Style="{StaticResource OwnerBorderStyle}" Width="650">
@@ -36,7 +38,7 @@
                                         Style="{StaticResource OwnerTitleStyle}" FontSize="22" Margin="5">
                                 </TextBlock>
 
-                                <TextBlock Text="{Binding BestYear}" 
+                                <TextBlock Text="{Binding BestYear, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
                                         Style="{StaticResource OwnerTitleStyle}" FontSize="22" Margin="5">
                                 </TextBlock>
                             </StackPanel>
@@ -80,7 +82,8 @@
                     </StackPanel>
                     
                     <StackPanel>
-                        <ListBox x:Name="listAccommodationYears" FontSize="20" ItemsSource="{Binding AccommodationYears}" Height="395" Width="Auto" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        <ListBox x:Name="listAccommodationYears" FontSize="20" ItemsSource="{Binding AccommodationYears, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" 
+                                 Height="395" Width="Auto" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center"
                                  SelectedItem="{Binding SelectedYear}">
 
                             <ListBox.ItemsPanel>
@@ -146,15 +149,15 @@
             </Border>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="btnSelectYear" Content="Statistics For Selected &#xa;        Year (Ctrl+S)" Command="{Binding SelectYearForStatisticsCommand}"
+                <Button x:Name="btnSelectYear" Content="Statistics For Selected &#xa;        Year (Ctrl+S)" Command="{Binding ShowMonthsCommand}"
                         Style="{StaticResource OwnerButtonStyle}" Width="200">
                 </Button>
 
-                <Button x:Name="btnCancel" Content="Close (Esc)" Command="{Binding CloseStatisticsByYearViewCommand}"
+                <Button x:Name="btnCancel" Content="Close (Esc)" Command="{Binding CloseViewCommand}"
                         Style="{StaticResource OwnerButtonStyle}" Width="200">
                 </Button>
 
-                <Button x:Name="btnHome" Content="Home (Ctrl+Z)" Command="{Binding HomeStatisticsByYearViewCommand}"
+                <Button x:Name="btnHome" Content="Home (Ctrl+Z)" Command="{Binding HomeViewCommand}"
                         Style="{StaticResource OwnerButtonStyle}" Width="200">
                 </Button>
             </StackPanel>

@@ -21,10 +21,10 @@ namespace SIMS_HCI_Project.WPF.Views.OwnerViews
     /// </summary>
     public partial class LeaveCommentView : Window
     {
-        public LeaveCommentView(SelectedForumViewModel SelectedForumVM, Owner owner, Forum forum)
+        public LeaveCommentView(ForumViewModel forumVM, Owner owner, Forum forum)
         {
             InitializeComponent();
-            this.DataContext = new LeaveCommentViewModel(this, SelectedForumVM, owner, forum);
+            this.DataContext = new LeaveCommentViewModel(this, forumVM, owner, forum);
         }
     }
 }

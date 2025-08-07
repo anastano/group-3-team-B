@@ -20,6 +20,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public Owner Owner { get; set; }
 
         #region OnPropertyChanged
+
         private DateTime _enteredStart;
         public DateTime EnteredStart
         {
@@ -56,7 +57,7 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         #endregion
 
         public RelayCommand ShowPDFCommand { get; set; }
-        public RelayCommand CloseCreatePDFViewCommand { get; set; }
+        public RelayCommand CloseViewCommand { get; set; }
 
         public CreatePDFViewModel(CreatePDFView createPDFView, Owner owner) 
         {
@@ -77,25 +78,17 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             pdfReportView.ShowDialog();
         }
 
-        public bool CanExecute_ShowPDFCommand(object obj)
-        {
-            return true;
-        }
-        public void Executed_CloseCreatePDFViewCommand(object obj)
+        public void Executed_CloseViewCommand(object obj)
         {
             CreatePDFView.Close();
         }
 
-        public bool CanExecute_CloseCreatePDFViewCommand(object obj)
-        {
-            return true;
-        }
         #endregion
 
         public void InitCommands()
         {
-            ShowPDFCommand = new RelayCommand(Executed_ShowPDFCommand, CanExecute_ShowPDFCommand);
-            CloseCreatePDFViewCommand = new RelayCommand(Executed_CloseCreatePDFViewCommand, CanExecute_CloseCreatePDFViewCommand);
+            ShowPDFCommand = new RelayCommand(Executed_ShowPDFCommand);
+            CloseViewCommand = new RelayCommand(Executed_CloseViewCommand);
         }
     }
 }

@@ -8,7 +8,7 @@
         Title="PDFReportView" Height="690" Width="610" WindowStartupLocation="CenterScreen">
     <Window.InputBindings>
         <KeyBinding Gesture="Ctrl+S" Command="{Binding GeneratePDFCommand}"/>
-        <KeyBinding Key="Esc" Command="{Binding ClosePDFReportViewCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseViewCommand}"/>
     </Window.InputBindings>
     <Grid Background="{StaticResource OwnerNeutralColor}"> 
         <StackPanel>
@@ -85,7 +85,7 @@
                         Style="{StaticResource OwnerButtonStyle}" Width="150" Height="35">
                 </Button>
 
-                <Button x:Name="btnCancel" Content="Cancel (Esc)" Command="{Binding ClosePDFReportViewCommand}"
+                <Button x:Name="btnCancel" Content="Cancel (Esc)" Command="{Binding CloseViewCommand}"
                         Style="{StaticResource OwnerButtonStyle}" Width="150" Height="35">
                 </Button>
             </StackPanel>

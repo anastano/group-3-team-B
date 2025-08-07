@@ -16,31 +16,17 @@ using System.Windows;
 
 namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 {
-    public class AddRenovationViewModel: INotifyPropertyChanged
+    public class AddRenovationViewModel : INotifyPropertyChanged
     {
-        private RenovationService _renovationService;
-        public Accommodation Accommodation { get; set; }
+        private readonly RenovationService _renovationService;
+        private readonly AccommodationService _accommodationService;
+        public Owner Owner { get; set; }
+        public List<Accommodation> OwnerAccommodations { get; set; }
         public Renovation SelectedRenovation { get; set; }
         public AddRenovationView AddRenovationView { get; set; }
-        public SelectAccommodationForRenovationView SelectAccommodationForRenovationView { get; set; }
-        public RenovationsViewModel RenovationsVM { get; set; }
-        
+        public RenovationsViewModel RenovationsVM { get; set; } 
 
         #region OnPropertyChanged
-
-        private string _description;
-        public string Description
-        {
-            get => _description;
-            set
-            {
-                if (value != _description)
-                {
-                    _description = value;
-                    OnPropertyChanged(nameof(Description));
-                }
-            }
-        }
 
         private List<Renovation> _availableRenovations;
         public List<Renovation> AvailableRenovations
@@ -50,23 +36,22 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             {
                 if (value != _availableRenovations)
                 {
-
                     _availableRenovations = value;
                     OnPropertyChanged(nameof(AvailableRenovations));
                 }
             }
         }
 
-        private RenvationDateValidation _validatedRenovationDate;
-        public RenvationDateValidation ValidatedRenovationDate
+        private RenvationValidation _validatedRenovation;
+        public RenvationValidation ValidatedRenovation
         {
-            get => _validatedRenovationDate;
+            get => _validatedRenovation;
             set
             {
-                if (value != _validatedRenovationDate)
+                if (value != _validatedRenovation)
                 {
-                    _validatedRenovationDate = value;
-                    OnPropertyChanged(nameof(ValidatedRenovationDate));
+                    _validatedRenovation = value;
+                    OnPropertyChanged(nameof(ValidatedRenovation));
                 }
             }
         }
@@ -93,22 +78,23 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         #endregion
 
-        public RelayCommand AddNewRenovationCommand { get; set; }
-        public RelayCommand CloseAddRenovationViewCommand { get; set; }
-        public RelayCommand SearchAvailableRenovationsCommand { get; set; }
-        
-        public AddRenovationViewModel(AddRenovationView addRenovationView, SelectAccommodationForRenovationView selectAccommodationView, RenovationsViewModel renovationsVM, Accommodation selectedAccommodation)
+        public RelayCommand AddRenovationCommand { get; set; }
+        public RelayCommand FindDatesCommand { get; set; }
+        public RelayCommand CloseViewCommand { get; set; }
+    
+        public AddRenovationViewModel(AddRenovationView addRenovationView, RenovationsViewModel renovationsVM, Owner owner)
         {
             InitCommands();
 
             _renovationService = new RenovationService();
+            _accommodationService = new AccommodationService();
 
+            Owner = owner;
             AddRenovationView = addRenovationView;
-            SelectAccommodationForRenovationView = selectAccommodationView;
             RenovationsVM = renovationsVM;
 
-            ValidatedRenovationDate = new RenvationDateValidation();
-            Accommodation = selectedAccommodation;
+            ValidatedRenovation = new RenvationValidation();
+            OwnerAccommodations = _accommodationService.GetByOwnerId(Owner.Id);
 
             AvailableRenovations = new List<Renovation>();
             AvailableDatesText = "";
@@ -116,12 +102,12 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
 
         #region Commands
 
-        public void Executed_SearchAvailableRenovationsCommand(object obj)
+        public void Executed_FindDatesCommand(object obj)
         {
-            ValidatedRenovationDate.Validate();
-            if (ValidatedRenovationDate.IsValid)
+            ValidatedRenovation.Validate();
+            if (ValidatedRenovation.IsValid)
             {
-                AvailableRenovations = _renovationService.GetAvailableRenovations(Accommodation, ValidatedRenovationDate.EnteredStart, ValidatedRenovationDate.EnteredEnd, ValidatedRenovationDate.DaysNumber ?? 1);
+                AvailableRenovations = _renovationService.GetAvailableRenovations(ValidatedRenovation.SelectedAccommodation, ValidatedRenovation.EnteredStart, ValidatedRenovation.EnteredEnd, ValidatedRenovation.DaysNumber ?? 1);
                 if (AvailableRenovations.Count() == 0)
                 {
                     AvailableDatesText = "There are not any available dates on those days.";
@@ -137,37 +123,16 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             }
         }
 
-        public bool CanExecute_SearchAvailableRenovationsCommand(object obj)
-        {
-            return true;
-        }
-
-        private MessageBoxResult ConfirmAddNewRenovation()
-        {
-            string sMessageBoxText = $"Are you sure you want to add this renovation?";
-            string sCaption = "Add Renovation Confirmation";
-
-            MessageBoxButton btnMessageBox = MessageBoxButton.YesNo;
-            MessageBoxImage icnMessageBox = MessageBoxImage.Warning;
-
-            MessageBoxResult result = MessageBox.Show(sMessageBoxText, sCaption, btnMessageBox, icnMessageBox);
-            return result;
-        }
-
-        public void Executed_AddNewRenovationCommand(object obj)
+        public void Executed_AddRenovationCommand(object obj)
         {
             if (SelectedRenovation != null)
-            {
-                if (ConfirmAddNewRenovation() == MessageBoxResult.Yes)
-                {
-                    SelectedRenovation.Description = Description;
-                    SelectedRenovation.AccommodationId = Accommodation.Id;
-                    SelectedRenovation.Accommodation = Accommodation;
-                    _renovationService.Add(SelectedRenovation);
-                    AddRenovationView.Close();
-                    SelectAccommodationForRenovationView.Close();
-                    RenovationsVM.UpdateRenovations();
-                }
+            {           
+                 SelectedRenovation.Description = ValidatedRenovation.Description;
+                 SelectedRenovation.AccommodationId = ValidatedRenovation.SelectedAccommodation.Id;
+                 SelectedRenovation.Accommodation = ValidatedRenovation.SelectedAccommodation;
+                 _renovationService.Add(SelectedRenovation);
+                 AddRenovationView.Close();
+                 RenovationsVM.UpdateRenovations();            
             }
             else 
             {
@@ -175,27 +140,19 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             }
         }
 
-        public bool CanExecute_AddNewRenovationCommand(object obj)
-        {
-            return true;
-        }
-
-        public void Executed_CloseAddRenovationViewCommand(object obj)
+        public void Executed_CloseViewCommand(object obj)
         {
             AddRenovationView.Close();
         }
 
-        public bool CanExecute_CloseAddRenovationViewCommand(object obj)
-        {
-            return true;
-        }
         #endregion
 
         public void InitCommands()
         {
-            AddNewRenovationCommand = new RelayCommand(Executed_AddNewRenovationCommand, CanExecute_AddNewRenovationCommand);
-            CloseAddRenovationViewCommand = new RelayCommand(Executed_CloseAddRenovationViewCommand, CanExecute_CloseAddRenovationViewCommand);
-            SearchAvailableRenovationsCommand = new RelayCommand(Executed_SearchAvailableRenovationsCommand, CanExecute_SearchAvailableRenovationsCommand);
+            AddRenovationCommand = new RelayCommand(Executed_AddRenovationCommand);
+            FindDatesCommand = new RelayCommand(Executed_FindDatesCommand);
+            CloseViewCommand = new RelayCommand(Executed_CloseViewCommand);
+
         }
 
     }

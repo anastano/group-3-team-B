@@ -8,8 +8,8 @@
         Title="LeaveCommentView" Height="300" Width="500" WindowStartupLocation="CenterScreen">
 
     <Window.InputBindings>
-        <KeyBinding Gesture="Ctrl+S" Command="{Binding SubmitCommentCommand}"/>
-        <KeyBinding Key="Esc" Command="{Binding CloseLeaveCommentViewCommand}"/>
+        <KeyBinding Gesture="Ctrl+S" Command="{Binding SubmitCommand}"/>
+        <KeyBinding Key="Esc" Command="{Binding CloseViewCommand}"/>
     </Window.InputBindings>
 
     <Grid Background="{StaticResource OwnerNeutralColor}" FocusManager.FocusedElement="{Binding ElementName=txtComment}">
@@ -22,7 +22,7 @@
                 <StackPanel Orientation="Vertical" Height="130" Width="300" Margin="10 10 10 10">
 
                     <TextBox x:Name="txtComment" Grid.Row="0" Grid.Column="1"
-                             Text="{Binding Path = Comment, UpdateSourceTrigger = PropertyChanged, Mode=TwoWay}" TextWrapping="Wrap"
+                             Text="{Binding Comment, UpdateSourceTrigger = PropertyChanged, Mode=TwoWay}" TextWrapping="Wrap"
                              Style="{StaticResource OwnerTextBoxStyle}" Width="300" Height="120">
                     </TextBox>
 
@@ -30,11 +30,11 @@
             </Border>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button x:Name="btnSubmit" Content="Submit (Ctrl+S)" Command="{Binding SubmitCommentCommand}"
+                <Button x:Name="btnSubmit" Content="Submit (Ctrl+S)" Command="{Binding SubmitCommand}"
                         Style="{StaticResource OwnerButtonStyle}" Width="150" Height="35">
                 </Button>
 
-                <Button x:Name="btnCancel" Content="Cancel (Esc)" Command="{Binding CloseLeaveCommentViewCommand}"
+                <Button x:Name="btnCancel" Content="Cancel (Esc)" Command="{Binding CloseViewCommand}"
                         Style="{StaticResource OwnerButtonStyle}" Width="150" Height="35">
                 </Button>
             </StackPanel>

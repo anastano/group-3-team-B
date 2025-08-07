@@ -22,10 +22,10 @@ namespace SIMS_HCI_Project.WPF.Views.OwnerViews
     /// </summary>
     public partial class StatisticsByYearView : Window
     {
-        public StatisticsByYearView(SelectAccommodationForStatisticsView selectAccommodationView, Accommodation accommodation)
+        public StatisticsByYearView(Owner owner)
         {
             InitializeComponent();
-            this.DataContext = new StatisticsByYearViewModel(this, selectAccommodationView, accommodation);
+            this.DataContext = new StatisticsByYearViewModel(this, owner);
         }
     }
 }

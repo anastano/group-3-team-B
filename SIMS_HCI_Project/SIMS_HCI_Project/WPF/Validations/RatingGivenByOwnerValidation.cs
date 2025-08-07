@@ -11,6 +11,7 @@ namespace SIMS_HCI_Project.WPF.Validations
 {
     public class RatingGivenByOwnerValidation: ValidationBase
     {
+        #region OnPropertyChanged
 
         private int? _cleanliness;
         public int? Cleanliness
@@ -20,7 +21,6 @@ namespace SIMS_HCI_Project.WPF.Validations
             {
                 if (value != _cleanliness)
                 {
-
                     _cleanliness = value;
                     OnPropertyChanged(nameof(Cleanliness));
                 }
@@ -35,12 +35,13 @@ namespace SIMS_HCI_Project.WPF.Validations
             {
                 if (value != _ruleCompliance)
                 {
-
                     _ruleCompliance = value;
                     OnPropertyChanged(nameof(RuleCompliance));
                 }
             }
         }
+
+        #endregion
 
         public RatingGivenByOwnerValidation(){ }
 

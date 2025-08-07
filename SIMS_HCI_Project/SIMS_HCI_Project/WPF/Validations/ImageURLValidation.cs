@@ -9,6 +9,8 @@ namespace SIMS_HCI_Project.WPF.Validations
 {
     public class ImageURLValidation : ValidationBase
     {
+        #region OnPropertyChanged
+
         private string _imageURL;
         public string ImageURL
         {
@@ -17,12 +19,13 @@ namespace SIMS_HCI_Project.WPF.Validations
             {
                 if (value != _imageURL)
                 {
-
                     _imageURL = value;
                     OnPropertyChanged(nameof(ImageURL));
                 }
             }
         }
+
+        #endregion
 
         public ImageURLValidation() { }
 

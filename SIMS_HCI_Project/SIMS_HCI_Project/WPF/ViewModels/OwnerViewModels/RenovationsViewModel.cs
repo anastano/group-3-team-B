@@ -21,9 +21,9 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         public Renovation SelectedRenovation { get; set; } 
         public RelayCommand AddRenovationCommand { get; set; }
         public RelayCommand CancelRenovationCommand { get; set; }
-        public RelayCommand ShowGuestSuggestionsCommand { get; set; }
+        public RelayCommand ShowSuggestionsCommand { get; set; }
         public RelayCommand CreatePDFReportCommand { get; set; }
-        public RelayCommand CloseRenovationsViewCommand { get; set; }
+        public RelayCommand CloseViewCommand { get; set; }
 
         public RenovationsViewModel(RenovationsView renovationsView, Owner owner)
         {
@@ -39,8 +39,8 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
         #region Commands
         public void Executed_AddRenovationCommand(object obj)
         {
-            Window selectAccommodationForRenovation = new SelectAccommodationForRenovationView(this, Owner);
-            selectAccommodationForRenovation.ShowDialog();
+            Window addRenovationView = new AddRenovationView(this, Owner);
+            addRenovationView.ShowDialog();
         }
 
         public bool CanExecute_AddRenovationCommand(object obj)
@@ -86,20 +86,10 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             }
         }
 
-        public bool CanExecute_CancelRenovationCommand(object obj)
+        public void Executed_ShowSuggestionsCommand(object obj)
         {
-            return true;
-        }
-
-        public void Executed_ShowGuestSuggestionsCommand(object obj)
-        {
-            Window suggestionsForRenovation = new SuggestionsForRenovationView(Owner);
+            Window suggestionsForRenovation = new RenovationSuggestionsView(Owner);
             suggestionsForRenovation.ShowDialog();
-        }
-
-        public bool CanExecute_ShowGuestSuggestionsCommand(object obj)
-        {
-            return true;
         }
 
         public void Executed_CreatePDFReportCommand(object obj)
@@ -108,29 +98,20 @@ namespace SIMS_HCI_Project.WPF.ViewModels.OwnerViewModels
             createPDFView.ShowDialog();
         }
 
-        public bool CanExecute_CreatePDFReportCommand(object obj)
-        {
-            return true;
-        }
-
-        public void Executed_CloseRenovationsViewCommand(object obj)
+        public void Executed_CloseViewCommand(object obj)
         {
             RenovationsView.Close();
         }
 
-        public bool CanExecute_CloseRenovationsViewCommand(object obj)
-        {
-            return true;
-        }
         #endregion
 
         public void InitCommands()
         {
-            AddRenovationCommand = new RelayCommand(Executed_AddRenovationCommand, CanExecute_AddRenovationCommand);
-            CancelRenovationCommand = new RelayCommand(Executed_CancelRenovationCommand, CanExecute_CancelRenovationCommand);
-            ShowGuestSuggestionsCommand = new RelayCommand(Executed_ShowGuestSuggestionsCommand, CanExecute_ShowGuestSuggestionsCommand);
-            CreatePDFReportCommand = new RelayCommand(Executed_CreatePDFReportCommand, CanExecute_CreatePDFReportCommand);
-            CloseRenovationsViewCommand = new RelayCommand(Executed_CloseRenovationsViewCommand, CanExecute_CloseRenovationsViewCommand);
+            AddRenovationCommand = new RelayCommand(Executed_AddRenovationCommand);
+            CancelRenovationCommand = new RelayCommand(Executed_CancelRenovationCommand);
+            ShowSuggestionsCommand = new RelayCommand(Executed_ShowSuggestionsCommand);
+            CreatePDFReportCommand = new RelayCommand(Executed_CreatePDFReportCommand);
+            CloseViewCommand = new RelayCommand(Executed_CloseViewCommand);
         }
 
         public void UpdateRenovations()

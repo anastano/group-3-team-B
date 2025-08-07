@@ -34,3 +34,10 @@
 34|Created new tour which fulfills some of your requirements from your unfulfilled requests. Tour is created with id: [35]. Click to see details|4|False|NEW_TOUR
 35|NEW VOUCHER - You won voucher for loyalty, which can be used for any tour. It expires in 6 months.|4|False|DEFAULT
 36|Your request number for tour was accepted. Departure time: 6/15/2023. Created tour number: [39].|4|False|TOUR_REQUEST_ACCEPTED
+37|NEW TOUR - click to view details and book a tour. Tour's id: [40]|4|False|NEW_TOUR
+38|NEW TOUR - click to view details and book a tour. Tour's id: [40]|4|False|NEW_TOUR
+39|NEW TOUR - click to view details and book a tour. Tour's id: [40]|4|False|NEW_TOUR
+40|Your request number for tour was accepted. Departure time: 7/20/2023. Created tour number: [40].|4|False|TOUR_REQUEST_ACCEPTED
+41|A new forum for Banja Luka, Bosnia and Herzegovina has been created, please check it|1|False|DEFAULT
+42|Reservation for Hotel Aleksandar with id: 26 has been cancelled|1|False|DEFAULT
+43|Reservation for Mountain Lodge with id: 33 has been cancelled|2|False|DEFAULT
